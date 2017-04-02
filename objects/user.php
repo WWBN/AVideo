@@ -1,7 +1,4 @@
 <?php
-if (class_exists('User')) {
-    return false;
-}
 if(empty($global['systemRootPath'])){
     $global['systemRootPath'] = "../";
 }
