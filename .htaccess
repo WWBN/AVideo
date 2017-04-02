@@ -1,0 +1,61 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    RewriteRule    ^$ view/    [NC,L]
+    RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]
+    RewriteRule    ^js/(.+)$ view/js/$1 [NC,L]
+    RewriteRule    ^css/(.+)$ view/css/$1 [NC,L]
+    RewriteRule    ^img/(.+)$ view/img/$1 [NC,L]
+    RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [NC,L]
+
+
+    RewriteRule    ^about$ view/about.php    [NC,L]
+    RewriteRule    ^contact$ view/contact.php    [NC,L]
+    RewriteRule    ^sendEmail$ objects/sendEmail.json.php    [NC,L]
+    RewriteRule    ^captcha$ objects/getCaptcha.php    [NC,L]
+
+    #for the category name
+    RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L]
+    #for the video name
+    RewriteRule    ^video/([A-Za-z0-9-_.]+)/?$ view/?videoName=$1    [NC,L]
+    #for the embeded video name
+    RewriteRule    ^videoEmbeded/([A-Za-z0-9-_.]+)/?$ view/videoEmbeded.php?videoName=$1    [NC,L]
+
+    RewriteRule    ^upload$ view/mini-upload-form/    [NC,L]
+    RewriteRule    ^fileUpload$ view/mini-upload-form/upload.php    [NC,L]
+    RewriteRule    ^uploadStatus view/mini-upload-form/videoConversionStatus.php    [NC,L]
+
+    #edit your own user
+    RewriteRule    ^user$ view/user.php    [NC,L]
+
+    #manager user
+    RewriteRule    ^users$ view/managerUsers.php    [NC,L]
+    RewriteRule    ^users.json$ objects/users.json.php    [NC,L]
+    RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
+    RewriteRule    ^addNewUser$ objects/userAddNew.json.php    [NC,L]
+    RewriteRule    ^deleteUser$ objects/userDelete.json.php    [NC,L]
+
+    #manager category
+    RewriteRule    ^categories$ view/managerCategories.php    [NC,L]
+    RewriteRule    ^categories.json$ objects/categories.json.php    [NC,L]
+    RewriteRule    ^addNewCategory$ objects/categoryAddNew.json.php    [NC,L]
+    RewriteRule    ^deleteCategory$ objects/categoryDelete.json.php    [NC,L]
+
+    #manager videos
+    RewriteRule    ^mvideos$ view/managerVideos.php    [NC,L]
+    RewriteRule    ^videos.json$ objects/videos.json.php    [NC,L]
+    RewriteRule    ^deleteVideo$ objects/videoDelete.json.php    [NC,L]
+    RewriteRule    ^addNewVideo$ objects/videoAddNew.json.php    [NC,L]
+    RewriteRule    ^refreshVideo$ objects/videoRefresh.json.php    [NC,L]
+    RewriteRule    ^setStatusVideo$ objects/videoStatus.json.php    [NC,L]
+    RewriteRule    ^reencodeVideo$ objects/videoReencode.json.php    [NC,L]
+    RewriteRule    ^addViewCountVideo$ objects/videoAddViewCount.json.php    [NC,L]
+
+    #comment
+    RewriteRule    ^saveComment$ objects/commentAddNew.json.php    [NC,L]
+    RewriteRule    ^comments.json/([0-9]+)$ objects/comments.json.php?video_id=$1    [NC,L]
+
+    RewriteRule    ^login$ objects/login.json.php    [NC,L]
+    RewriteRule    ^logoff$ objects/logoff.php    [NC,L]
+
+</IfModule>
