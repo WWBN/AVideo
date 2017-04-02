@@ -1,5 +1,4 @@
 <?php
-namespace Objects\User;
 if(empty($global['systemRootPath'])){
     $global['systemRootPath'] = "../";
 }
