@@ -35,7 +35,7 @@ $categories = Category::getAllCategories();
                         <th data-column-id="category" ><?php echo __("Category"); ?></th>
                         <th data-column-id="duration" ><?php echo __("Duration"); ?></th>
                         <th data-column-id="created" data-order="desc"><?php echo __("Created"); ?></th>
-                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="250px"></th>
+                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="300px"></th>
                     </tr>
                 </thead>
             </table>
