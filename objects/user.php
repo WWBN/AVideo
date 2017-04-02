@@ -1,10 +1,12 @@
 <?php
+if (class_exists('User')) {
+    return false;
+}
 if(empty($global['systemRootPath'])){
     $global['systemRootPath'] = "../";
 }
 require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'].'objects/bootGrid.php';
-error_log(print_r(debug_backtrace(), TRUE));
 class User{
     private $id;
     private $user;
