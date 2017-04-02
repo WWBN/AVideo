@@ -1,10 +1,10 @@
 <?php
+namespace Objects\User;
 if(empty($global['systemRootPath'])){
     $global['systemRootPath'] = "../";
 }
 require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'].'objects/bootGrid.php';
-namespace Objects\User;
 class User{
     private $id;
     private $user;
