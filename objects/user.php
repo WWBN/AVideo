@@ -4,6 +4,7 @@ if(empty($global['systemRootPath'])){
 }
 require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'].'objects/bootGrid.php';
+error_log(print_r(debug_backtrace(), TRUE));
 class User{
     private $id;
     private $user;
