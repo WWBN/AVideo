@@ -1,6 +1,17 @@
 <?php
 require_once '../objects/functions.php';
 
+function checkVideosDir(){
+    $dir = "../videos";
+    if (file_exists($dir)) {
+        if(is_writable($dir)){
+            return false;
+        }
+    } else {
+        return mkdir($dir);
+    }
+}
+
 function isApache() {
     if (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false)
         return true;
@@ -218,7 +229,7 @@ function check_memory_limit() {
 
 
                         <?php
-                        if (is_writable("../videos")) {
+                        if (checkVideosDir()) {
                             ?>
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
@@ -231,7 +242,11 @@ function check_memory_limit() {
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your videos directory must be writable</strong>
                                 <details>
-                                    you can set the permissions.
+                                    If the video directory does not exists create it!
+                                    <br>
+                                    <code>sudo mkdir /var/www/[YouPHPTube Dir]/videos</code>
+                                    <br>
+                                    Then you can set the permissions.
                                     <br>
                                     <code>sudo chmod -R 777 /var/www/[YouPHPTube Dir]/videos</code>
                                 </details>
