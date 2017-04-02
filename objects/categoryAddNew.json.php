@@ -1,7 +1,12 @@
 <?php
 
 header('Content-Type: application/json');
-require_once 'user.php';
+if(empty($global['systemRootPath'])){
+    $global['systemRootPath'] = "../";
+}
+require_once $global['systemRootPath'].'videos/configuration.php';
+require_once $global['systemRootPath'].'locale/function.php';
+require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
