@@ -43,6 +43,28 @@ h4{
     font-size: 14px;
 }
 
+footer {
+    color: white;
+    padding: 25px;
+    background-color: #000;
+    text-align: center;
+    margin: 0;
+}
+.btn-outline:hover,
+.btn-outline:focus,
+.btn-outline:active{
+    color: #000;
+    background: white;
+    border: solid 2px white;
+}
+.btn-outline {
+    color: white;
+    border: solid 2px white;
+    background: transparent;
+    transition: all 0.3s ease-in-out;
+    margin: 0 5px;
+}
+
 /* for main video */
 video {
     flex:0 1 100%;
@@ -130,4 +152,20 @@ video {
     }
 }
 
-
+/* Comments */
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:0.9em;
+}
+.commenterName {
+    width:150px;
+    margin-right:5px;
+    height:100%;
+    float:left;
+    text-align: right;
+}
+.commentText {
+    margin:0 0 0 160px;
+}
+/* End Comments */

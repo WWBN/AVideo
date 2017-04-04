@@ -121,11 +121,13 @@ require_once $global['systemRootPath'] . 'objects/user.php';
                 </script>
                 <?php
             }
-            include 'include/footer.php';
             ?>
 
         </div><!--/.container-->
 
+            <?php
+            include 'include/footer.php';
+            ?>
 
     </body>
 </html>

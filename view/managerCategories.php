@@ -64,11 +64,11 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
+        </div><!--/.container-->
+
             <?php
             include 'include/footer.php';
             ?>
-
-        </div><!--/.container-->
         <script>
             $(document).ready(function () {
                 var grid = $("#grid").bootgrid({

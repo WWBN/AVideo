@@ -93,11 +93,11 @@ require_once '../videos/configuration.php';
             </form>
         </div>
 
+    </div><!--/.container-->
+
         <?php
         include 'include/footer.php';
         ?>
-
-    </div><!--/.container-->
 
     <script>
         $(document).ready(function () {

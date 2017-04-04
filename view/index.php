@@ -90,16 +90,30 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </div>
                             <div class="row bgWhite">
                                 <div class="input-group">
-                                    <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment"></textarea>     
+                                    <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200"></textarea>     
                                     <span class="input-group-addon btn btn-success" id="saveCommentBtn"><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
+
                                 </div>
+
+                                <div class="pull-right" id="count_message"></div>
+                                <script>
+                                    $(document).ready(function () {
+                                        var text_max = 200;
+                                        $('#count_message').html(text_max + ' <?php echo __("remaining"); ?>');
+
+                                        $('#comment').keyup(function () {
+                                            var text_length = $(this).val().length;
+                                            var text_remaining = text_max - text_length;
+
+                                            $('#count_message').html(text_remaining + ' <?php echo __("remaining"); ?>');
+                                        });
+                                    });
+                                </script>
                                 <h4><?php echo __("Comments"); ?>:</h4>
                                 <table id="grid" class="table table-condensed table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th data-column-id="user"  data-width="150px"><?php echo __("User"); ?></th>
                                             <th data-column-id="comment" ><?php echo __("Comment"); ?></th>
-                                            <th data-column-id="created" data-order="desc" data-width="150px"><?php echo __("Created"); ?></th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -109,6 +123,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                         var grid = $("#grid").bootgrid({
                                             ajax: true,
                                             url: "<?php echo $global['webSiteRootURL'] . "comments.json/" . $video['id']; ?>",
+                                            sorting: false,
                                             templates: {
                                                 header: ""
                                             }
@@ -141,109 +156,157 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </div>
                             <div class="row bgWhite">
                                 <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
-                                <div class="highlight"><pre><code><?php
-                                            $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
-                                            echo htmlentities($code);
-                                            ?></code></pre></div>  
-                                            </div>
-                                            
+                                <div class="highlight">
+                                    <form>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   value="<?php
+                                                   $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+                                                   echo htmlentities($code);
+                                                   ?>" placeholder="<?php echo __("Share Video"); ?>" id="copy-input">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" id="copy-button"
+                                                        data-toggle="tooltip" data-placement="button"
+                                                        title="<?php echo __("Copy to Clipboard"); ?>">
+                                                    <span class="glyphicon glyphicon-copy"></span>    <?php echo __("Copy"); ?>
+                                                </button>
+                                                <script>
+                                                    $(document).ready(function () {
+                                                        // Initialize the tooltip.
+                                                        $('#copy-button').tooltip();
+
+        // When the copy button is clicked, select the value of the text box, attempt
+        // to execute the copy command, and trigger event to update tooltip message
+        // to indicate whether the text was successfully copied.
+                                                        $('#copy-button').bind('click', function () {
+                                                            var input = document.querySelector('#copy-input');
+                                                            input.setSelectionRange(0, input.value.length + 1);
+                                                            try {
+                                                                var success = document.execCommand('copy');
+                                                                if (success) {
+                                                                    $('#copy-button').trigger('copied', ['Copied!']);
+                                                                } else {
+                                                                    $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
+                                                                }
+                                                            } catch (err) {
+                                                                $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
+                                                            }
+                                                        });
+
+        // Handler for updating the tooltip message.
+                                                        $('#copy-button').bind('copied', function (event, message) {
+                                                            $(this).attr('title', message)
+                                                                    .tooltip('fixTitle')
+                                                                    .tooltip('show')
+                                                                    .attr('title', "Copy to Clipboard")
+                                                                    .tooltip('fixTitle');
+                                                        });
+
+                                                    });
+                                                </script>
+                                            </span>
                                         </div>
-                                        <div class="col-xs-12 col-sm-12 col-lg-3 bgWhite">
+                                    </form>
+                                </div>  
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-lg-3 bgWhite">
                             <?php
                             foreach ($videos as $value) {
                                 ?>
-                                                        <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border">
-                                                            <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                                                <div class="col-lg-5 col-sm-5 col-xs-5">
-                                                                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
-                                                                </div>
-                                                                <div class="col-lg-7 col-sm-7 col-xs-7">
-                                                                    <div class="text-uppercase"><strong><?php echo $value['title']; ?></strong></div>
-                                                                    <div class="">
-                                                                        <span class="glyphicon glyphicon-play-circle"></span>
-                                                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                                                        <div>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border">
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                        <div class="col-lg-5 col-sm-5 col-xs-5">
+                                            <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
+                                        </div>
+                                        <div class="col-lg-7 col-sm-7 col-xs-7">
+                                            <div class="text-uppercase"><strong><?php echo $value['title']; ?></strong></div>
+                                            <div class="">
+                                                <span class="glyphicon glyphicon-play-circle"></span>
+                                                <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                                <div>
                                                     <?php echo __("Category"); ?>: <?php echo $value['category']; ?>
-                                                                        </div>
-                                                                        <div><?php echo __("Created"); ?>: <?php echo $value['created']; ?></div>
-                                                                        <div><?php echo __("Views"); ?>: <?php echo $value['views_count']; ?></div>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                        </div>
+                                                </div>
+                                                <div><?php echo __("Created"); ?>: <?php echo $value['created']; ?></div>
+                                                <div><?php echo __("Views"); ?>: <?php echo $value['views_count']; ?></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                                 <?php
                             }
                             ?> 
-                                            <ul class="pages">
-                                            </ul>
-                                            <script>
-                                                $(document).ready(function () {
-                                                    // Total Itens <?php echo $total; ?>
+                            <ul class="pages">
+                            </ul>
+                            <script>
+                                $(document).ready(function () {
+                                    // Total Itens <?php echo $total; ?>
 
-                                                    $('.pages').bootpag({
-                                                        total: <?php echo $totalPages; ?>,
-                                                        page: <?php echo $_GET['page']; ?>,
-                                                        maxVisible: 10
-                                                    }).on('page', function (event, num) {
-                                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
-                                                    });
-                                                });
-                    </script>
-                                        </div>
+                                    $('.pages').bootpag({
+                                        total: <?php echo $totalPages; ?>,
+                                        page: <?php echo $_GET['page']; ?>,
+                                        maxVisible: 10
+                                    }).on('page', function (event, num) {
+                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
+                                    });
+                                });
+                            </script>
+                        </div>
 
-                                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                                    </div>
+                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
+                    </div>
                     <?php
                 } else {
                     ?>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                                        <div class="col-xs-12 col-sm-12 col-lg-10">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
+                        <div class="col-xs-12 col-sm-12 col-lg-10">
                             <?php
                             foreach ($videos as $value) {
                                 ?>
-                                                        <div class="col-lg-3 col-sm-12 col-xs-12">
-                                                            <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                                                <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
-                                                                <h2><?php echo $value['title']; ?></h2>
-                                                                <span class="glyphicon glyphicon-play-circle"></span>
-                                                                <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                                            </a>
-                                                        </div>
+                                <div class="col-lg-3 col-sm-12 col-xs-12">
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
+                                        <h2><?php echo $value['title']; ?></h2>
+                                        <span class="glyphicon glyphicon-play-circle"></span>
+                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                    </a>
+                                </div>
                                 <?php
                             }
                             ?> 
-                                            <ul class="pages">
-                                            </ul>
-                                            <script>
-                                                $(document).ready(function () {
-                                                    // Total Itens <?php echo $total; ?>
+                            <ul class="pages">
+                            </ul>
+                            <script>
+                                $(document).ready(function () {
+                                    // Total Itens <?php echo $total; ?>
 
-                                                    $('.pages').bootpag({
-                                                        total: <?php echo $totalPages; ?>,
-                                                        page: <?php echo $_GET['page']; ?>,
-                                                        maxVisible: 10
-                                                    }).on('page', function (event, num) {
-                                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
-                                                    });
-                                                });
-                    </script>
-                                        </div>
+                                    $('.pages').bootpag({
+                                        total: <?php echo $totalPages; ?>,
+                                        page: <?php echo $_GET['page']; ?>,
+                                        maxVisible: 10
+                                    }).on('page', function (event, num) {
+                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
+                                    });
+                                });
+                            </script>
+                        </div>
 
-                                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                                    </div>
+                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
+                    </div>
                     <?php
                 }
             } else {
                 ?>
-                        <div class="alert alert-warning">
-                            <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("Video not found"); ?>.
-                        </div>
+                <div class="alert alert-warning">
+                    <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("Video not found"); ?>.
+                </div>
             <?php } ?>  
 
+        </div>
             <?php
             include 'include/footer.php';
             ?>
-        </div>
     </body>
 </html>

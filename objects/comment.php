@@ -38,6 +38,7 @@ class Comment{
             header('Content-Type: application/json');
             die('{"error":"'.__("Permission denied").'"}');
         }
+        $this->comment = htmlentities($this->comment);
         if(!empty($this->id)){
             $sql = "UPDATE comments SET comment = '{$this->comment}', modified = now() WHERE id = {$this->id}";
         }else{

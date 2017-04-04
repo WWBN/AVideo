@@ -74,11 +74,11 @@ if (!User::isAdmin()) {
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
+        </div><!--/.container-->
+
             <?php
             include 'include/footer.php';
             ?>
-
-        </div><!--/.container-->
 
         <script>
             $(document).ready(function () {

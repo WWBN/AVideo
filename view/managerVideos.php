@@ -74,12 +74,12 @@ $categories = Category::getAllCategories();
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
-            <?php
-            include 'include/footer.php';
-            ?>
 
         </div><!--/.container-->
 
+            <?php
+            include 'include/footer.php';
+            ?>
         <script>
             function checkProgressVideo(filename, id, refresh) {
                 $.ajax({

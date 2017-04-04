@@ -60,12 +60,12 @@ if (!User::isLogged()) {
             </div>
 
 
+        </div><!--/.container-->
 
             <?php
             include '../include/footer.php';
             ?>
 
-        </div><!--/.container-->
         
         <!-- JavaScript Includes -->
         <script src="view/mini-upload-form/assets/js/jquery.knob.js"></script>
