@@ -246,15 +246,26 @@ function check_memory_limit() {
                                 <strong>Your videos directory must be writable</strong>
                                 <details>
                                     If the video directory does not exists create it!
+                                    <?php
+                                    $dir = getPathToApplication()."videos";
+                                    if(!file_exists($dir)){
+                                    ?>
                                     <br>
-                                    <pre><code>sudo mkdir <?php echo getPathToApplication(); ?>videos</code></pre>
+                                    <pre><code>sudo mkdir <?php echo $dir; ?></code></pre>
+                                    <?php
+                                    }
+                                    ?>
                                     <br>
                                     Then you can set the permissions.
                                     <br>
-                                    <pre><code>sudo chmod -R 777 <?php echo getPathToApplication(); ?>videos</code></pre>
+                                    <pre><code>sudo chmod -R 777 <?php echo $dir; ?></code></pre>
                                 </details>
                             </div>                  
                             <?php
+                        }
+                        $pathToPHPini= php_ini_loaded_file();
+                        if(empty($pathToPHPini)){
+                            $pathToPHPini = "/etc/php/7.0/cli/php.ini";
                         }
                         ?>
 
@@ -272,6 +283,12 @@ function check_memory_limit() {
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your max_execution_time is <?php echo ini_get('max_execution_time'); ?>, it must be at least 7200</strong>
+                                
+                                <details>
+                                    Edit the <code>php.ini</code> file 
+                                    <br>
+                                    <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
+                                </details>
                             </div>                  
                             <?php
                         }
@@ -290,6 +307,12 @@ function check_memory_limit() {
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?>, it must be at least 100M</strong>
+                                
+                                <details>
+                                    Edit the <code>php.ini</code> file 
+                                    <br>
+                                    <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
+                                </details>
                             </div>                  
                             <?php
                         }
@@ -308,6 +331,12 @@ function check_memory_limit() {
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?>, it must be at least 100M</strong>
+                                
+                                <details>
+                                    Edit the <code>php.ini</code> file 
+                                    <br>
+                                    <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
+                                </details>
                             </div>                   
                             <?php
                         }
@@ -326,6 +355,12 @@ function check_memory_limit() {
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?>, it must be at least 100M</strong>
+                                
+                                <details>
+                                    Edit the <code>php.ini</code> file 
+                                    <br>
+                                    <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
+                                </details>
                             </div>                   
                             <?php
                         }
