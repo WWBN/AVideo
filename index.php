@@ -41,8 +41,8 @@
                 overflow: hidden;
             }
             #block_error{
-                width: 845px;
-                height: 500px;
+                width: 1000px;
+                height: 700px;
                 border: 1px solid #cccccc;
                 margin: 72px auto 0;
                 -moz-border-radius: 4px;
@@ -51,7 +51,7 @@
                 background: #fff url(http://www.ebpaidrev.com/systemerror/block.gif) no-repeat 0 51px;
             }
             #block_error div{
-                padding: 100px 40px 0 186px;
+                padding: 10px 40px 0 186px;
             }
             #block_error div h2{
                 color: #218bdc;
@@ -62,29 +62,50 @@
                 margin-bottom: 12px;
                 font-weight: normal;
             }
+            img{
+                max-height: 50px;
+                margin: 10px 0 0 5px;
+            }
         </style>
     </head>
     <body marginwidth="0" marginheight="0">
+        
         <div id="block_error">
+            <img src="view/img/logo.png" class="img img-responsive center-block"/>
             <div>
-                <h2>Error. &nbspOops you've have encountered an error</h2>
+                <h2>Error. Oops you've have encountered an error</h2>
                 <p>
                     It apperrs that Either something went wrong or the mod rewrite configration is not correct.<br />
                 </p>
+                <p>We need to allow Apache to read .htaccess files located under the <?php echo getcwd(); ?> directory.
+
+                You can do this by editing apache configuration file:</p>
+                
+                <p>
+                    Find the section <code><?php echo htmlentities("<directory /var/www/html>"); ?></code>  and change <b>AllowOverride None</b> to <b>AllowOverride All</b>
+                </p>
+                <p><pre><code>sudo nano /etc/apache2/apache2.conf</code></pre></p>
+                
+                <p>
+                    After edit the above file your code should be like this
+                </p>
+                <p><pre><code><?php echo htmlentities("<Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>"); ?></code></pre></p>
+                
                 <p>In order to use mod_rewrite you can type the following command in the terminal: </p>
-                <p><code>a2enmod rewrite</code></p>
+                <p><pre><code>sudo a2enmod rewrite</code></pre></p>
 
                 <p>Restart apache2 after </p>
 
-                <p><code>/etc/init.d/apache2 restart</code></p>
+                <p><pre><code>/etc/init.d/apache2 restart</code></pre></p>
 
                 <p>or </p>
 
-                <p><code>service apache2 restart</code></p>
+                <p><pre><code>service apache2 restart</code></pre></p>                
 
-                <p> If it does not work check the file permition for htaccess</p>
-                
-                <p><code>sudo chown -R www-data:www-data <?php echo getcwd();?></code></p>
             </div>
         </div>
     </body>

@@ -175,9 +175,9 @@ function check_memory_limit() {
                                 <strong>Mod Rewrite is not enabled</strong>
                                 <details>
                                     In order to use mod_rewrite you can type the following command in the terminal:<br>
-                                    <code>a2enmod rewrite</code><br>
+                                    <pre><code>a2enmod rewrite</code></pre><br>
                                     Restart apache2 after<br>
-                                    <code>/etc/init.d/apache2 restart</code>
+                                    <pre><code>/etc/init.d/apache2 restart</code></pre>
                                 </details>
                             </div>                  
                             <?php
@@ -200,7 +200,9 @@ function check_memory_limit() {
                                 <details>
                                     FFmpeg has been removed from Ubuntu 14.04 and was replaced by Libav. This decision has been reversed so that FFmpeg is available now in Ubuntu 15.04 again, but there is still no official package for 14.04. In this tutorial, I will show you how to install FFmpeg from mc3man ppa. Add the mc3man ppa:
                                     <br>
-                                    <code>sudo add-apt-repository ppa:mc3man/trusty-media</code>
+                                    If you are not using Ubuntu 14.x go to step 2 
+                                    <h2>Step 1</h2>
+                                    <pre><code>sudo add-apt-repository ppa:mc3man/trusty-media</code></pre>
                                     <br>
                                     And confirm the following message by pressing &lt;enter&gt;:
                                     <br>
@@ -212,14 +214,15 @@ function check_memory_limit() {
                                     <br>
                                     Update the package list.
                                     <br>
-                                    <code>
+                                    <pre><code>
                                         sudo apt-get update
                                         sudo apt-get dist-upgrade
-                                    </code>
+                                    </code></pre>
                                     <br>
                                     Now FFmpeg is available to be installed with apt:
                                     <br>
-                                    <code>sudo apt-get install ffmpeg</code>
+                                    <h2>Step 2</h2>
+                                    <pre><code>sudo apt-get install ffmpeg</code></pre>
 
                                 </details>
                             </div>                  
@@ -244,11 +247,11 @@ function check_memory_limit() {
                                 <details>
                                     If the video directory does not exists create it!
                                     <br>
-                                    <code>sudo mkdir /var/www/[YouPHPTube Dir]/videos</code>
+                                    <pre><code>sudo mkdir <?php echo getPathToApplication(); ?>videos</code></pre>
                                     <br>
                                     Then you can set the permissions.
                                     <br>
-                                    <code>sudo chmod -R 777 /var/www/[YouPHPTube Dir]/videos</code>
+                                    <pre><code>sudo chmod -R 777 <?php echo getPathToApplication(); ?>videos</code></pre>
                                 </details>
                             </div>                  
                             <?php
