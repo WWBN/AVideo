@@ -5,6 +5,8 @@ function checkVideosDir(){
     $dir = "../videos";
     if (file_exists($dir)) {
         if(is_writable($dir)){
+            return true;
+        }else{
             return false;
         }
     } else {
@@ -245,11 +247,11 @@ function check_memory_limit() {
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your videos directory must be writable</strong>
                                 <details>
-                                    If the video directory does not exists create it!
                                     <?php
                                     $dir = getPathToApplication()."videos";
                                     if(!file_exists($dir)){
                                     ?>
+                                    The video directory does not exists, YouPHPTube had no permition to create it, you must create it manualy!
                                     <br>
                                     <pre><code>sudo mkdir <?php echo $dir; ?></code></pre>
                                     <?php
