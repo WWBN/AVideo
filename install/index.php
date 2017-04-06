@@ -81,7 +81,7 @@ function check_upload_max_filesize() {
 //memory_limit = 100M
 function check_memory_limit() {
     $max_size = parse_size(ini_get('memory_limit'));
-    $recomended_size = parse_size('100M');
+    $recomended_size = parse_size('256M');
     if ($recomended_size > $max_size) {
         return false;
     } else {
@@ -354,7 +354,7 @@ function check_memory_limit() {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
-                                <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?>, it must be at least 100M</strong>
+                                <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?>, it must be at least 256M</strong>
                                 
                                 <details>
                                     Edit the <code>php.ini</code> file 
