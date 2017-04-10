@@ -59,6 +59,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
             <?php
             if (!empty($video)) {
                 if (empty($_GET['search'])) {
+                    if(empty($video['type'])){
+                        $video['type'] = "video";
+                    }
                     ?>
                     <?php
                     require "{$global['systemRootPath']}view/include/{$video['type']}.php";
