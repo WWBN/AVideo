@@ -20,7 +20,7 @@ if(!empty($_GET['type'])){
     }else if($_GET['type']=='video'){
         $_SESSION['type'] = 'video';
     }else{
-        $_SESSION['type'] == "";
+        $_SESSION['type'] = "";
         unset($_SESSION['type']);
     }
 }

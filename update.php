@@ -1,6 +1,6 @@
 <?php
 //check if there is a update
-if (!User::isAdmin() || !file_exists('updateDb.sql')) {
+if (!User::isAdmin() || !file_exists($global['systemRootPath'].'updateDb.sql')) {
     return false;
 }
 ?>
@@ -17,7 +17,7 @@ if (!User::isAdmin() || !file_exists('updateDb.sql')) {
         include 'include/navbar.php';
         ?><div class="container-fluid">
             <?php
-        if (!file_exists('updateDb.sql')) {
+        if (!file_exists($global['systemRootPath'].'updateDb.sql')) {
             ?>
                 <div class="alert alert-danger">
                     <?php echo __("Sorry, no update is available right now."); ?><br>
