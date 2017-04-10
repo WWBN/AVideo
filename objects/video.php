@@ -19,6 +19,8 @@ class Video {
     private $duration;
     private $users_id;
     private $categories_id;
+    private $type;
+    static $types = array('webm', 'mp4', 'mp3', 'ogg');
 
     function __construct($title = "", $filename = "", $id = 0) {
         global $global;
@@ -66,6 +68,7 @@ class Video {
         $this->users_id = $video['users_id'];
         $this->categories_id = $video['categories_id'];
         $this->filename = $video['filename'];
+        $this->type = $video['type'];
     }
 
     function save() {
@@ -84,9 +87,9 @@ class Video {
         // TODO Check if the cleantitle already exists
 
         if (!empty($this->id)) {
-            $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}', categories_id = '{$this->categories_id}', status = '{$this->status}', description = '{$this->description}', duration = '{$this->duration}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}', categories_id = '{$this->categories_id}', status = '{$this->status}', description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO videos (title,clean_title, filename, users_id, categories_id, status, description, duration, created, modified) values ('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, 'e', '{$this->description}', '{$this->duration}', now(), now())";
+            $sql = "INSERT INTO videos (title,clean_title, filename, users_id, categories_id, status, description, duration,type, created, modified) values ('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, 'e', '{$this->description}', '{$this->duration}', '{$this->type}', now(), now())";
         }
 
         $insert_row = $global['mysqli']->query($sql);
@@ -117,7 +120,12 @@ class Video {
         if (!$global['mysqli']->query($sql)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+        
         $this->status = $status;
+    }
+
+    function setType($type) {
+        $this->type = $type;
     }
 
     static function getVideo($id = "", $status = "a") {
@@ -127,6 +135,10 @@ class Video {
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " WHERE 1=1 ";
 
+        if(!empty($_SESSION['type'])){
+            $sql .= " AND v.type = '{$_SESSION['type']}' ";
+        }
+        
         if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
@@ -158,6 +170,11 @@ class Video {
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " WHERE 1=1 ";
 
+        
+        if(!empty($_SESSION['type'])){
+            $sql .= " AND v.type = '{$_SESSION['type']}' ";
+        }
+        
         if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
@@ -215,64 +232,73 @@ class Video {
         if (!User::isLogged()) {
             die("Only logged users can upload");
         }
-        
+
         $object = new stdClass();
-        $content = @file_get_contents("{$global['systemRootPath']}videos/{$filename}_progress_mp4.txt");
-        if (!empty($content)) {
-            $object->mp4 = self::parseProgress($content);
+
+        foreach (self::$types as $value) {
+            $progressFilename = "{$global['systemRootPath']}videos/{$filename}_progress_{$value}.txt";
+            $content = @file_get_contents($progressFilename);
+            $object->$value = new stdClass();
+            if (!empty($content)) {
+                $object->$value = self::parseProgress($content);
+            }
+            $object->$value->filename = $progressFilename;
         }
-        $content = @file_get_contents("{$global['systemRootPath']}videos/{$filename}_progress_webm.txt");
-        if (!empty($content)) {
-            $object->webm = self::parseProgress($content);
-        }
-        
+
         return $object;
     }
 
     static private function parseProgress($content) {
         //get duration of source
-        preg_match("/Duration: (.*?), start:/", $content, $matches);
-
-        $rawDuration = $matches[1];
-
-        //rawDuration is in 00:00:00.00 format. This converts it to seconds.
-        $ar = array_reverse(explode(":", $rawDuration));
-        $duration = floatval($ar[0]);
-        if (!empty($ar[1])) {
-            $duration += intval($ar[1]) * 60;
-        }
-        if (!empty($ar[2])) {
-            $duration += intval($ar[2]) * 60 * 60;
-        }
-
-        //get the time in the file that is already encoded
-        preg_match_all("/time=(.*?) bitrate/", $content, $matches);
-
-        $rawTime = array_pop($matches);
-
-        //this is needed if there is more than one match
-        if (is_array($rawTime)) {
-            $rawTime = array_pop($rawTime);
-        }
-
-        //rawTime is in 00:00:00.00 format. This converts it to seconds.
-        $ar = array_reverse(explode(":", $rawTime));
-        $time = floatval($ar[0]);
-        if (!empty($ar[1])) {
-            $time += intval($ar[1]) * 60;
-        }
-        if (!empty($ar[2])) {
-            $time += intval($ar[2]) * 60 * 60;
-        }
-
-        //calculate the progress
-        $progress = round(($time / $duration) * 100);
 
         $obj = new stdClass();
-        $obj->duration = $duration;
-        $obj->currentTime = $time;
-        $obj->progress = $progress;
 
+        $obj->duration = 0;
+        $obj->currentTime = 0;
+        $obj->progress = 0;
+        //var_dump($content);exit;
+        preg_match("/Duration: (.*?), start:/", $content, $matches);
+        if (!empty($matches[1])) {
+
+            $rawDuration = $matches[1];
+
+            //rawDuration is in 00:00:00.00 format. This converts it to seconds.
+            $ar = array_reverse(explode(":", $rawDuration));
+            $duration = floatval($ar[0]);
+            if (!empty($ar[1])) {
+                $duration += intval($ar[1]) * 60;
+            }
+            if (!empty($ar[2])) {
+                $duration += intval($ar[2]) * 60 * 60;
+            }
+
+            //get the time in the file that is already encoded
+            preg_match_all("/time=(.*?) bitrate/", $content, $matches);
+
+            $rawTime = array_pop($matches);
+
+            //this is needed if there is more than one match
+            if (is_array($rawTime)) {
+                $rawTime = array_pop($rawTime);
+            }
+
+            //rawTime is in 00:00:00.00 format. This converts it to seconds.
+            $ar = array_reverse(explode(":", $rawTime));
+            $time = floatval($ar[0]);
+            if (!empty($ar[1])) {
+                $time += intval($ar[1]) * 60;
+            }
+            if (!empty($ar[2])) {
+                $time += intval($ar[2]) * 60 * 60;
+            }
+
+            //calculate the progress
+            $progress = round(($time / $duration) * 100);
+
+            $obj->duration = $duration;
+            $obj->currentTime = $time;
+            $obj->progress = $progress;
+        }
         return $obj;
     }
 
@@ -292,18 +318,14 @@ class Video {
         if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
-            $cmd = "rm -f {$global['systemRootPath']}videos/original_{$video['filename']}";
-            exec($cmd);
-            $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}";
-            exec($cmd);
-            $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}.ogv";
-            exec($cmd);
-            $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}.webm";
-            exec($cmd);
-            $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}.jpg";
-            exec($cmd);
-            $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}_progress.txt";
-            exec($cmd);
+            foreach (self::$types as $value) {
+                $cmd = "rm -f {$global['systemRootPath']}videos/original_{$video['filename']}.{$value}";
+                exec($cmd);
+                $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}.{$value}";
+                exec($cmd);
+                $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
+                exec($cmd);
+            }
         }
         return $resp;
     }

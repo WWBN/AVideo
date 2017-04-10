@@ -2,11 +2,29 @@
 if (!file_exists('../videos/configuration.php')) {
     if (!file_exists('../install/index.php')) {
         die("No Configuration and no Installation");
-    }
+    }    
     header("Location: install/index.php");
 }
 
 require_once '../videos/configuration.php';
+
+require_once $global['systemRootPath'] . 'objects/user.php';
+if (User::isAdmin()) {
+    require_once '../update.php';
+}
+
+
+if(!empty($_GET['type'])){
+    if($_GET['type']=='audio'){
+        $_SESSION['type'] = 'audio';
+    }else if($_GET['type']=='video'){
+        $_SESSION['type'] = 'video';
+    }else{
+        $_SESSION['type'] == "";
+        unset($_SESSION['type']);
+    }
+}
+
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo();
 
@@ -42,40 +60,22 @@ $totalPages = ceil($total / $_POST['rowCount']);
             if (!empty($video)) {
                 if (empty($_GET['search'])) {
                     ?>
-                    <div class="row main-video">
-                        <div class="col-xs-12 col-sm-12 col-lg-2"></div>
-                        <div class="col-xs-12 col-sm-12 col-lg-8">
-                            <div align="center" class="embed-responsive embed-responsive-16by9">
-                                <video poster="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.jpg" controls crossorigin class="embed-responsive-item" id="mainVideo">
-                                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp4" type="video/mp4">
-                                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.webm" type="video/webm">
-                                    <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
-                                </video>
-                            </div>
-                            <script>
-                                var playCount = 0;
-                                $('#mainVideo').bind('play', function (e) {
-                                    playCount++;
-                                    if (playCount == 1) {
-                                        $.ajax({
-                                            url: '<?php echo $global['webSiteRootURL']; ?>addViewCountVideo',
-                                            method: 'post',
-                                            data: {'id': "<?php echo $video['id']; ?>"}
-                                        });
-
-                                    }
-                                });
-                            </script>
-                        </div> 
-
-                        <div class="col-xs-12 col-sm-12 col-lg-2"></div>
-                    </div><!--/row-->
+                    <?php
+                    require "{$global['systemRootPath']}view/include/{$video['type']}.php";
+                    ?>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                         <div class="col-xs-12 col-sm-12 col-lg-7 ">
                             <div class="row bgWhite">
                                 <div class="col-xs-4 col-sm-4 col-lg-4">
-                                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.jpg" alt="<?php echo $video['title']; ?>" class="img-responsive" height="130px" />        
+                                    <?php
+                                        if($video['type']!=="audio"){
+                                            $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+                                        }else{
+                                            $img = "{$global['webSiteRootURL']}view/img/mp3.png";
+                                        }
+                                    ?>
+                                    <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img-responsive" height="130px" />        
                                 </div>
                                 <div class="col-xs-8 col-sm-8 col-lg-8">
                                     <h1>
@@ -218,7 +218,14 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <div class="col-lg-5 col-sm-5 col-xs-5">
-                                            <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
+                                            <?php
+                                                if($value['type']!=="audio"){
+                                                    $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
+                                                }else{
+                                                    $img = "{$global['webSiteRootURL']}view/img/mp3.png";
+                                                }
+                                            ?>
+                                            <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
                                         </div>
                                         <div class="col-lg-7 col-sm-7 col-xs-7">
                                             <div class="text-uppercase"><strong><?php echo $value['title']; ?></strong></div>
@@ -300,7 +307,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
             } else {
                 ?>
                 <div class="alert alert-warning">
-                    <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("Video not found"); ?>.
+                    <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
                 </div>
             <?php } ?>  
 

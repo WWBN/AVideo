@@ -1,5 +1,7 @@
 <?php
 require_once '../videos/configuration.php';
+require_once '../objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -22,6 +24,7 @@ require_once '../videos/configuration.php';
                 <h1><?php echo __("About YouPHPTube!"); ?></h1>
                 <?php echo __("<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>"); ?>
                 </div>
+                <div class="alert alert-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></div>
             </div>
 
         </div><!--/.container-->

@@ -33,6 +33,7 @@ $categories = Category::getAllCategories();
                         <th data-column-id="title" ><?php echo __("Title"); ?></th>
                         <th data-column-id="status" data-formatter="status" ><?php echo __("Status"); ?></th>
                         <th data-column-id="category" ><?php echo __("Category"); ?></th>
+                        <th data-column-id="type" ><?php echo __("Type"); ?></th>
                         <th data-column-id="duration" ><?php echo __("Duration"); ?></th>
                         <th data-column-id="created" data-order="desc"><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="300px"></th>
@@ -77,55 +78,49 @@ $categories = Category::getAllCategories();
 
         </div><!--/.container-->
 
-            <?php
-            include 'include/footer.php';
-            ?>
+        <?php
+        include 'include/footer.php';
+        ?>
         <script>
             function checkProgressVideo(filename, id, refresh) {
                 $.ajax({
                     url: 'uploadStatus?filename=' + filename,
                     success: function (response) {
                         console.log(response);
-                        if (response) {
-                            if (response.mp4 && response.mp4.progress) {
-                                txt = "MP4: " + response.mp4.progress + "%";
-                                $('#encodingmp4' + id).html(txt);
+                        var types = <?php echo json_encode(Video::$types); ?>;
+                        types.forEach(function (entry) {
+                            console.log(entry);
+                            var responseType;
+                            if (response) {
+                                //eval("if(!response."+entry + "){ continue;}");
+                                eval("responseType = response."+entry+";");
+                                if (responseType && responseType.progress) {
+                                    var txt = entry.toUpperCase() + ": " + responseType.progress + "%";
+                                    $('#encoding' + entry + id).html(txt);
+                                }
                             }
-                            if (response.webm && response.webm.progress) {
-                                txt = "WEBM: " + response.webm.progress + "%";
-                                $('#encodingwebm' + id).html(txt);
+                            if (responseType && responseType.progress < 100 && refresh) {
+                                if (responseType.progress > 0) {
+                                    $('#encoding' + entry + id).removeClass('label-danger');
+                                    $('#encoding' + entry + id).addClass('label-warning');
+                                }
+
+                                setTimeout(function () {
+                                    checkProgressVideo(filename, id, true);
+                                }, 2000);
+
+                            } else if (responseType && responseType.progress === 100) {
+                                //$("#grid").bootgrid("reload");
                             }
-                            $('#encoding' + id).html(txt);
-                        }
-                        if ((!response || response.mp4.progress < 100 || response.webm.progress < 100) && refresh) {
-                            if (response.mp4.progress > 0) {
-                                $('#encodingmp4' + id).removeClass('label-danger');
-                                $('#encodingmp4' + id).addClass('label-warning');
-                            }
-                            if (response.webm.progress > 0) {
-                                $('#encodingwebm' + id).removeClass('label-danger');
-                                $('#encodingwebm' + id).addClass('label-warning');
+                            if (responseType && responseType.progress === 100) {
+                                $('#encoding' + entry + id).removeClass('label-warning');
+                                $('#encoding' + entry + id).removeClass('label-danger');
+                                $('#encoding' + entry + id).addClass('label-success');
+                                $('#encoding' + entry + id).html(entry.toUpperCase() + ': 100%');
                             }
 
-                            setTimeout(function () {
-                                checkProgressVideo(filename, id, true);
-                            }, 2000);
+                        });
 
-                        } else  if (response && response.mp4.progress === 100 && response.webm.progress === 100) {
-                            $("#grid").bootgrid("reload");
-                        }
-                        if (response && response.mp4.progress === 100) {
-                            $('#encodingmp4' + id).removeClass('label-warning');
-                            $('#encodingmp4' + id).removeClass('label-danger');
-                            $('#encodingmp4' + id).addClass('label-success');
-                            $('#encodingmp4' + id).html('MP4: 100%');
-                        } 
-                        if (response && response.webm.progress === 100) {
-                            $('#encodingwebm' + id).removeClass('label-warning');
-                            $('#encodingwebm' + id).removeClass('label-danger');
-                            $('#encodingwebm' + id).addClass('label-success');
-                            $('#encodingwebm' + id).html('WEBM: 100%');
-                        }
                     }
                 });
             }
@@ -142,10 +137,16 @@ $categories = Category::getAllCategories();
                             var reloadBtn = '<button type="button" class="btn btn-default btn-xs command-refresh"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Refresh"); ?>""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>';
                             var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Inactivate"); ?>""><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
                             var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Activate"); ?>""><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
-                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Video"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
+                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp4"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Video"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
                             var reencodeWEBMBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="webm"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Video"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> WEBM</button>';
                             var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Image"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
-                            var reencodeBtn = reencodeMP4Btn+reencodeWEBMBtn+reencodeImageBtn;
+                            var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Audio"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
+                            var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Audio"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
+                            var reencodeAudio = reencodeMp3 + reencodeOGG;
+                            var reencodeBtn = reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
+                            if (row.type == "audio") {
+                                reencodeBtn = reencodeAudio;
+                            }
                             var status;
                             if (row.status == "i") {
                                 status = activeBtn;
@@ -154,17 +155,20 @@ $categories = Category::getAllCategories();
                             } else if (row.status == "x") {
                                 return editBtn + deleteBtn + reloadBtn + reencodeBtn;
                             } else {
-                                return editBtn + reencodeBtn;
+                                return editBtn + deleteBtn + reencodeBtn;
                             }
                             return editBtn + deleteBtn + reloadBtn + status + reencodeBtn;
                         },
-                        "status": function (column, row)
-                        {
+                        "status": function (column, row){
                             if (row.status == 'e') {
                                 setTimeout(function () {
                                     checkProgressVideo(row.filename, row.id, true);
                                 }, 1000);
-                                return "<span class='label label-danger' id='encodingmp4" + row.id + "'>MP4: 0%</span><span class='label label-danger' id='encodingwebm" + row.id + "'>WEBM: 0%</span>";
+                                if (row.type == "audio") {
+                                    return "<span class='label label-danger' id='encodingmp3" + row.id + "'>MP3: 0%</span><br><span class='label label-danger' id='encodingogg" + row.id + "'>OGG: 0%</span>";
+                                } else {
+                                    return "<span class='label label-danger' id='encodingmp4" + row.id + "'>MP4: 0%</span><br><span class='label label-danger' id='encodingwebm" + row.id + "'>WEBM: 0%</span>";
+                                }
                             } else if (row.status == 'a') {
                                 return "<span class='label label-success'><?php echo __("Active"); ?></span>";
                             } else if (row.status == 'i') {
@@ -173,7 +177,13 @@ $categories = Category::getAllCategories();
                                 setTimeout(function () {
                                     checkProgressVideo(row.filename, row.id, false);
                                 }, 1000);
-                                return "<a href='<?php echo $global['webSiteRootURL'];?>videos/"+row.filename+"_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "'>MP4: 0%</a><a href='<?php echo $global['webSiteRootURL'];?>videos/"+row.filename+"_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "'>WEBM: 0%</a>";
+                                
+                                if (row.type == "audio") {
+                                    return "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp3.txt' target='_blank' class='label label-danger' id='encodingmp3" + row.id + "'>MP3: 0%</a><br><a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_ogg.txt' target='_blank' class='label label-danger' id='encodingogg" + row.id + "'>OGG: 0%</a>";
+                                } else {
+                                    return "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "'>MP4: 0%</a><br><a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "'>WEBM: 0%</a>";
+                                }
+                                
                             }
 
                         }

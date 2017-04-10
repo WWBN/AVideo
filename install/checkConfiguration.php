@@ -93,6 +93,20 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+$sql = "DELETE FROM configurations WHERE id = 1 ";
+if ($mysqli->query($sql) !== TRUE) {
+    $obj->error = "Error deleting user: " . $mysqli->error;
+    echo json_encode($obj);
+    exit;
+}
+
+$sql = "INSERT INTO configurations (id, video_resolution, users_id, version,  created, modified) VALUES (1, '426:240', 1,'1.0', now(), now())";
+if ($mysqli->query($sql) !== TRUE) {
+    $obj->error = "Error creating admin user: " . $mysqli->error;
+    echo json_encode($obj);
+    exit;
+}
+
 $mysqli->close();
 
 $content = "<?php

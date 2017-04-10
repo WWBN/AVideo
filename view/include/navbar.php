@@ -10,13 +10,20 @@ if (empty($_SESSION['language'])) {
 }
 ?>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-96597943-1', 'auto');
-  ga('send', 'pageview');
+    ga('create', 'UA-96597943-1', 'auto');
+    ga('send', 'pageview');
 
 </script>
 <nav class="navbar navbar-fixed-top ">
@@ -139,11 +146,34 @@ if (empty($_SESSION['language'])) {
             </li>
 
             <li class="<?php echo empty($_GET['catName']) ? "active" : ""; ?>"><a href="<?php echo $global['webSiteRootURL']; ?>"><span class="glyphicon glyphicon-align-justify"></span> <?php echo __("All categories"); ?></a></li>
-                <?php
-                foreach ($categories as $value) {
-                    echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '"><a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" ><span class="glyphicon glyphicon-minus"></span>  ' . $value['name'] . '</a></li>';
-                }
-                ?>
+            <?php
+            foreach ($categories as $value) {
+                echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '"><a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" ><span class="glyphicon glyphicon-minus"></span>  ' . $value['name'] . '</a></li>';
+            }
+            ?>
         </ul>
     </div>
 </nav>
+<div class="tabbable-panel">
+    <div class="tabbable-line">
+    <ul class="nav nav-tabs">
+        <li class="nav-item <?php echo empty($_SESSION['type'])?"active":""; ?>">
+            <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
+                    <span class="glyphicon glyphicon-star"></span> 
+                    <?php echo __("Audios and Videos"); ?>
+            </a>
+        </li>
+        <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type']=='video')?"active":""; ?>">
+            <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
+                    <span class="glyphicon glyphicon-facetime-video"></span> 
+                    <?php echo __("Videos"); ?>
+            </a>
+        </li>
+        <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type']=='audio')?"active":""; ?>">
+            <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
+                    <span class="glyphicon glyphicon-headphones"></span> 
+                    <?php echo __("Audios"); ?>
+            </a>
+        </li>
+    </ul></div>
+</div>

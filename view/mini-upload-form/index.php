@@ -7,6 +7,9 @@ if (!User::isLogged()) {
     header("location: {$global['webSiteRootURL']}user");
     exit;
 }
+
+require_once '../../objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +43,7 @@ if (!User::isLogged()) {
                         <?php echo __("Your maximum file size is:"), " ", "".get_max_file_size().""; ?>
                         </h1>
                     </div>
+                    <div class="alert alert-success"><?php printf(__("Your encode video resolution is set to %s !"), $config->getVideo_resolution()); ?></div>
                 </div>
                 <div class="col-xs-9 col-sm-9 col-lg-9">
                     <form id="upload" method="post" action="fileUpload" enctype="multipart/form-data">
