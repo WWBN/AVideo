@@ -43,8 +43,6 @@ DEFAULT CHARACTER SET = utf8;
 
 ALTER TABLE `comments` 
 DROP FOREIGN KEY `fk_comments_videos1`;
-ALTER TABLE `comments` 
-DROP INDEX `fk_comments_videos1` ;
 
 ALTER TABLE `comments` ADD CONSTRAINT `fk_comments_videos1`
   FOREIGN KEY (`videos_id`)
