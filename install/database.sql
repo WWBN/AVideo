@@ -4,6 +4,9 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+-- -----------------------------------------------------
+-- Schema youPHPTube
+-- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Table `users`
@@ -50,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `modified` DATETIME NOT NULL,
   `users_id` INT NOT NULL,
   `categories_id` INT NOT NULL,
-  `filename` VARCHAR(100) NOT NULL,
+  `filename` VARCHAR(255) NOT NULL,
   `duration` VARCHAR(15) NOT NULL,
   `type` ENUM('audio', 'video') NOT NULL DEFAULT 'video',
   PRIMARY KEY (`id`),
@@ -104,8 +107,11 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `video_resolution` VARCHAR(12) NOT NULL,
   `users_id` INT NOT NULL,
   `version` VARCHAR(10) NOT NULL,
-  `created` DATETIME NOT NULL DEFAULT now(),
+  `webSiteTitle` VARCHAR(45) NOT NULL DEFAULT 'YouPHPTube',
+  `language` VARCHAR(6) NOT NULL DEFAULT 'en',
+  `contactEmail` VARCHAR(45) NOT NULL,
   `modified` DATETIME NOT NULL DEFAULT now(),
+  `created` DATETIME NOT NULL DEFAULT now(),
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
