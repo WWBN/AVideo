@@ -15,10 +15,6 @@ CHANGE COLUMN `description` `description` VARCHAR(255) NULL DEFAULT NULL ,
 CHANGE COLUMN `filename` `filename` VARCHAR(255) NOT NULL ,
 CHANGE COLUMN `duration` `duration` VARCHAR(15) NOT NULL ;
 
-ALTER TABLE `comments` 
-CHANGE COLUMN `comment` `comment` VARCHAR(255) NOT NULL ,
-ADD INDEX `fk_comments_videos1_idx` (`videos_id` ASC);
-
 ALTER TABLE `categories` 
 CHANGE COLUMN `name` `name` VARCHAR(45) NOT NULL ,
 CHANGE COLUMN `clean_name` `clean_name` VARCHAR(45) NOT NULL ,
