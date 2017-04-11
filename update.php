@@ -107,7 +107,7 @@ $config = new Configuration();
                     }
                 }
 
-                $renamed = rename("{$global['systemRootPath']}updateDb.sql", "{$global['systemRootPath']}updateDb.sql.old");
+                //$renamed = rename("{$global['systemRootPath']}updateDb.sql", "{$global['systemRootPath']}updateDb.sql.old");
                 ?>
                 <div class="alert alert-success">
                     <?php
