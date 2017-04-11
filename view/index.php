@@ -9,10 +9,6 @@ if (!file_exists('../videos/configuration.php')) {
 require_once '../videos/configuration.php';
 
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (User::isAdmin()) {
-    require_once '../update.php';
-}
-
 
 if(!empty($_GET['type'])){
     if($_GET['type']=='audio'){
@@ -164,7 +160,11 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                         <div class="input-group">
                                             <input type="text" class="form-control"
                                                    value="<?php
-                                                   $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+                                                   if($video['type']=='video'){
+                                                       $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+                                                   }else{
+                                                       $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+                                                   }
                                                    echo htmlentities($code);
                                                    ?>" placeholder="<?php echo __("Share Video"); ?>" id="copy-input">
                                             <span class="input-group-btn">
@@ -178,9 +178,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                         // Initialize the tooltip.
                                                         $('#copy-button').tooltip();
 
-        // When the copy button is clicked, select the value of the text box, attempt
-        // to execute the copy command, and trigger event to update tooltip message
-        // to indicate whether the text was successfully copied.
+                                                        // When the copy button is clicked, select the value of the text box, attempt
+                                                        // to execute the copy command, and trigger event to update tooltip message
+                                                        // to indicate whether the text was successfully copied.
                                                         $('#copy-button').bind('click', function () {
                                                             var input = document.querySelector('#copy-input');
                                                             input.setSelectionRange(0, input.value.length + 1);
@@ -196,7 +196,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                             }
                                                         });
 
-        // Handler for updating the tooltip message.
+                                                        // Handler for updating the tooltip message.
                                                         $('#copy-button').bind('copied', function (event, message) {
                                                             $(this).attr('title', message)
                                                                     .tooltip('fixTitle')

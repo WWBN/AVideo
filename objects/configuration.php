@@ -62,9 +62,21 @@ class Configuration {
     }
 
     function getVersion() {
+        if(empty($this->version)){
+            return " 0.1";
+        }
         return $this->version;
     }
-
+    
+    function currentVersionLowerThen($version){
+        return version_compare($version, $this->getVersion())>0;
+    }    
+    function currentVersionGreaterThen($version){
+        return version_compare($version, $this->getVersion())<0;
+    }
+    function currentVersionEqual($version){
+        return version_compare($version, $this->getVersion())==0;
+    }
 
 
 

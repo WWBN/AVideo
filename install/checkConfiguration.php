@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 
 $obj = new stdClass();
@@ -56,8 +57,8 @@ foreach ($lines as $line) {
 // If it has a semicolon at the end, it's the end of the query
     if (substr(trim($line), -1, 1) == ';') {
         // Perform the query
-        if(!$mysqli->query($templine)){
-            $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error. '<br /><br />');
+        if (!$mysqli->query($templine)) {
+            $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error . '<br /><br />');
         }
         // Reset temp variable to empty
         $templine = '';
@@ -72,7 +73,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
-$sql = "INSERT INTO users (id, user, password, created, modified, isAdmin) VALUES (1, 'admin', '".md5($_POST['systemAdminPass'])."', now(), now(), true)";
+$sql = "INSERT INTO users (id, user, password, created, modified, isAdmin) VALUES (1, 'admin', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating admin user: " . $mysqli->error;
     echo json_encode($obj);
@@ -107,14 +108,25 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+$sql = "DELETE FROM configurations WHERE id = 1 ";
+if ($mysqli->query($sql) !== TRUE) {
+    $obj->error = "Error deleting configuration: " . $global['mysqli']->error;
+    echo json_encode($obj);
+    exit;
+}
+
+$sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail,  created, modified) VALUES (1, '426:240', 1,'1.1', '{$_POST['webSiteTitle']}', '{$_POST['language']}', '{$_POST['contactEmail']}', now(), now())";
+if ($mysqli->query($sql) !== TRUE) {
+    $obj->error = "Error creating configuration: " . $global['mysqli']->error;
+    echo json_encode($obj);
+    exit;
+}
+
 $mysqli->close();
 
 $content = "<?php
 \$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
-\$global['webSiteTitle'] = '{$_POST['webSiteTitle']}';
-\$global['language'] = '{$_POST['mainLanguage']}';
-\$global['contactEmail'] = '{$_POST['contactEmail']}';
 
 
 \$mysqlHost = '{$_POST['databaseHost']}';
@@ -131,8 +143,8 @@ session_start();
 require_once \$global['systemRootPath'].'locale/function.php';
 ";
 
-$fp = fopen($_POST['systemRootPath'] . "videos/configuration.php","wb");
-fwrite($fp,$content);
+$fp = fopen($_POST['systemRootPath'] . "videos/configuration.php", "wb");
+fwrite($fp, $content);
 fclose($fp);
 
 $obj->success = true;

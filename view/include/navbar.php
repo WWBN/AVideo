@@ -74,9 +74,9 @@ if (empty($_SESSION['language'])) {
     </div>
     <div class="navbar-collapse collapse  col-xs-12 col-sm-12 col-lg-2">
         <div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 5px;">
-            <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-lg col-xs-12 col-sm-12 col-lg-12">
-                <span class="glyphicon glyphicon-upload"></span> 
-                <?php echo __("Video Upload"); ?>
+            <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-lg btn-block">
+                <span class="glyphicon glyphicon-upload" style="font-size: 1em;"></span> 
+                <?php echo __("Video and Audio Upload"); ?>
             </a>
         </div>
         <ul class="nav navbar-nav col-xs-12 col-sm-12 col-lg-12">
@@ -89,19 +89,25 @@ if (empty($_SESSION['language'])) {
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>users">
                             <span class="glyphicon glyphicon-user"></span> 
-                            <?php echo __("Users"); ?>
+                            <?php echo __("Manager Users"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>categories">
                             <span class="glyphicon glyphicon-list"></span> 
-                            <?php echo __("Categories"); ?>
+                            <?php echo __("Manager Categories"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos">
                             <span class="glyphicon glyphicon-facetime-video"></span> 
-                            <?php echo __("Videos"); ?>
+                            <?php echo __("Manager Audios and Videos"); ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>update">
+                            <span class="glyphicon glyphicon-refresh"></span> 
+                            <?php echo __("Update version"); ?>
                         </a>
                     </li>
                     <?php
