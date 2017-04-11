@@ -7,6 +7,9 @@ ALTER TABLE `users`
 CHARACTER SET = utf8 , COLLATE = utf8_general_ci ;
 
 ALTER TABLE `videos` 
+DROP COLUMN `type`;
+
+ALTER TABLE `videos` 
 CHARACTER SET = utf8 , COLLATE = utf8_general_ci ,
 CHANGE COLUMN `status` `status` ENUM('a', 'i', 'e', 'x') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error' ,
 ADD COLUMN `type` ENUM('audio', 'video') NOT NULL DEFAULT 'video' AFTER `duration`;
@@ -18,6 +21,8 @@ ALTER TABLE `categories`
 CHARACTER SET = utf8 , COLLATE = utf8_general_ci ,
 CHANGE COLUMN `created` `created` DATETIME NOT NULL DEFAULT now() ,
 CHANGE COLUMN `modified` `modified` DATETIME NOT NULL DEFAULT now() ;
+
+DROP TABLE `configurations`;
 
 CREATE TABLE IF NOT EXISTS `configurations` (
   `id` INT(11) NOT NULL,
@@ -35,6 +40,11 @@ CREATE TABLE IF NOT EXISTS `configurations` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+ALTER TABLE `comments` 
+DROP FOREIGN KEY `fk_comments_videos1`;
+ALTER TABLE `comments` 
+DROP INDEX `fk_comments_videos1` ;
 
 ALTER TABLE `comments` ADD CONSTRAINT `fk_comments_videos1`
   FOREIGN KEY (`videos_id`)
