@@ -11,9 +11,9 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $global['webSiteTitle']; ?> :: <?php echo $video['title']; ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -82,7 +82,6 @@ $config = new Configuration();
                     }
                 }
                 // insert configuration if is version 1.0
-                $config = new Configuration();
                 if ($config->currentVersionLowerThen('1.0')) {
                     $sql = "DELETE FROM configurations WHERE id = 1 ";
                     if ($global['mysqli']->query($sql) !== TRUE) {

@@ -6,12 +6,13 @@ if (!User::isAdmin()) {
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-
-        <title><?php echo $global['webSiteTitle']; ?> :: <?php echo __("Category"); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo __("Category"); ?></title>
         
         <?php
         include $global['systemRootPath'].'view/include/head.php';

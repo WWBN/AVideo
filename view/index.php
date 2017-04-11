@@ -35,12 +35,13 @@ $_POST['sort']['created'] = 'desc';
 $videos = Video::getAllVideos();
 $total = Video::getTotalVideos();
 $totalPages = ceil($total / $_POST['rowCount']);
-//var_dump($video);exit;
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $global['webSiteTitle']; ?> :: <?php echo $video['title']; ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo $video['title']; ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

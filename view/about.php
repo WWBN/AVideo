@@ -1,13 +1,12 @@
 <?php
 require_once '../videos/configuration.php';
-require_once '../objects/configuration.php';
+require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-
-        <title><?php echo $global['webSiteTitle']; ?> :: <?php echo __("About"); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("About"); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

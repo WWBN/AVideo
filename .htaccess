@@ -9,7 +9,6 @@
     RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [NC,L]
     RewriteRule    ^videoOnly/?$ view/?type=video    [NC,L]
     RewriteRule    ^audioOnly/?$ view/?type=audio    [NC,L]
-    RewriteRule    ^update/?$ update.php    [NC,L]
 
 
     RewriteRule    ^about$ view/about.php    [NC,L]
@@ -60,5 +59,12 @@
 
     RewriteRule    ^login$ objects/login.json.php    [NC,L]
     RewriteRule    ^logoff$ objects/logoff.php    [NC,L]
+
+
+    #manager configuration
+
+    RewriteRule    ^update/?$ update.php    [NC,L]
+    RewriteRule    ^siteConfigurations$ view/configurations.php    [NC,L]
+    RewriteRule    ^updateConfig$ objects/configurationUpdate.json.php    [NC,L]
 
 </IfModule>

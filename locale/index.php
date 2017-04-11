@@ -34,12 +34,13 @@ function listAll($dir) {
 listAll($global['systemRootPath']);
 sort($vars);
 
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $global['webSiteTitle']; ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'].'view/include/head.php';
         ?>
@@ -88,6 +89,9 @@ sort($vars);
              var lines = $(this).val().split('\n');
              var str = "";
                 for(var i = 0;i < lines.length;i++){
+                    if(typeof arrayLocale[i] == "undefined"){
+                        break;
+                    }
                     var key = arrayLocale[i].replace(/'/g, "\\'");
                     str += "$t['"+key+"'] = \""+lines[i]+"\";\n";
                 }

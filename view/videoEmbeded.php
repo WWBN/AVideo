@@ -2,8 +2,8 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo();
-
-//var_dump($video);exit;
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -12,7 +12,7 @@ $video = Video::getVideo();
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="img/favicon.ico">
-        <title><?php echo $global['webSiteTitle']; ?> :: <?php echo $video['title']; ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
         <style>

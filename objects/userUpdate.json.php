@@ -13,3 +13,4 @@ $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
 echo '{"status":"'.$user->save().'"}';
+User::updateSessionInfo();

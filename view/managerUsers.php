@@ -5,11 +5,13 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=".__("You can not manager users"));
     exit;
 }
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $global['webSiteTitle']; ?> :: <?php echo __("Users"); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Users"); ?></title>
         <?php
         include $global['systemRootPath'].'view/include/head.php';
         ?>

@@ -33,7 +33,7 @@ class User{
     }
     
     private function load($id){
-        $user = $this->getUserDb($id);
+        $user = self::getUserDb($id);
         $this->id = $user['id'];
         $this->user = $user['user'];
         $this->name = $user['name'];
@@ -51,6 +51,13 @@ class User{
             return $_SESSION['user']['id'];
         }else{
             return false;
+        }
+    }
+    
+    static function updateSessionInfo(){
+        if(self::isLogged()){
+            $user = self::getUserDb($_SESSION['user']['id']);
+            $_SESSION['user'] = $user;
         }
     }
 
@@ -141,7 +148,7 @@ class User{
         return $user;
     }
 
-    private function getUserDb($id) {
+    static private function getUserDb($id) {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM users WHERE  id = $id LIMIT 1";

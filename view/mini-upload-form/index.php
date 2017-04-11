@@ -10,11 +10,13 @@ if (!User::isLogged()) {
 
 require_once '../../objects/configuration.php';
 $config = new Configuration();
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $global['webSiteTitle']; ?> :: User</title>
+        <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo __("Upload your file"); ?></title>
 
         <?php
         include $global['systemRootPath'].'view/include/head.php';

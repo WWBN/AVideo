@@ -8,6 +8,8 @@ if (empty($_SESSION['language'])) {
 } else {
     $lang = $_SESSION['language'];
 }
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
 <script>
     (function (i, s, o, g, r, a, m) {
@@ -39,7 +41,7 @@ if (empty($_SESSION['language'])) {
                 </div>
                 <div class="col-xs-9 col-sm-9 col-lg-9 ">
                     <a class="brand" href="<?php echo $global['webSiteRootURL']; ?>" >
-                        <img src="<?php echo $global['webSiteRootURL']; ?>view/img/logo.png" alt="<?php echo $global['webSiteTitle']; ?>" class="img-responsive">
+                        <img src="<?php echo $global['webSiteRootURL']; ?>view/img/logo.png" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive">
                     </a>
                 </div>
             </div>
@@ -110,14 +112,19 @@ if (empty($_SESSION['language'])) {
                             <?php echo __("Update version"); ?>
                         </a>
                     </li>
+                    <li>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">
+                            <span class="glyphicon glyphicon-cog"></span> 
+                            <?php echo __("Site Configurations"); ?>
+                        </a>
+                    </li>
                     <?php
                 }
                 ?>
                 <li>
                     <a href="<?php echo $global['webSiteRootURL']; ?>user">
-                        <span class="glyphicon glyphicon-cog"></span> 
-                        <?php echo __("Welcome"); ?> 
-                        <?php echo User::getName(); ?>
+                        <span class="glyphicon glyphicon-user"></span> 
+                        <?php printf(__("Welcome %s, update your informations"), User::getName()); ?> 
                     </a>
                 </li>
                 <li>

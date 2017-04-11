@@ -10,6 +10,9 @@ class Configuration {
 
     private $id;
     private $video_resolution;
+    private $webSiteTitle;
+    private $language;
+    private $contactEmail;
     private $users_id;
     private $version;
 
@@ -37,12 +40,13 @@ class Configuration {
     }
 
     function save() {
+        global $global;
         if (!User::isAdmin()) {
             header('Content-Type: application/json');
             die('{"error":"' . __("Permission denied") . '"}');
         }
         $this->users_id = User::getId();
-        $sql = "UPDATE configurations SET video_resolution = '{$this->video_resolution}',users_id = '{$this->users_id}'  WHERE id = 1";
+        $sql = "UPDATE configurations SET video_resolution = '{$this->video_resolution}',webSiteTitle = '{$this->webSiteTitle}',language = '{$this->language}',contactEmail = '{$this->contactEmail}',users_id = '{$this->users_id}'  WHERE id = 1";
 
         $insert_row = $global['mysqli']->query($sql);
 
@@ -68,6 +72,34 @@ class Configuration {
         return $this->version;
     }
     
+    function getWebSiteTitle() {
+        return $this->webSiteTitle;
+    }
+
+    function getLanguage() {
+        return $this->language;
+    }
+
+    function getContactEmail() {
+        return $this->contactEmail;
+    }
+
+    function setVideo_resolution($video_resolution) {
+        $this->video_resolution = $video_resolution;
+    }
+
+    function setWebSiteTitle($webSiteTitle) {
+        $this->webSiteTitle = $webSiteTitle;
+    }
+
+    function setLanguage($language) {
+        $this->language = $language;
+    }
+
+    function setContactEmail($contactEmail) {
+        $this->contactEmail = $contactEmail;
+    }        
+        
     function currentVersionLowerThen($version){
         return version_compare($version, $this->getVersion())>0;
     }    

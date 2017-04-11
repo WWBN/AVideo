@@ -1,11 +1,13 @@
 <?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $global['webSiteTitle']; ?> :: <?php echo __("User"); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("User"); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -28,18 +30,65 @@ require_once $global['systemRootPath'] . 'objects/user.php';
                         <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
                             <fieldset>
                                 <legend><?php echo __("Update your user"); ?></legend>
-                                <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
-                                <input type="text" id="inputName" class="form-control first" placeholder="<?php echo __("Name"); ?>"  value="<?php echo $user->getName(); ?>" required autofocus>
-                                <label for="inputUser" class="sr-only"><?php echo __("User"); ?></label>
-                                <input type="text" id="inputUser" class="form-control" placeholder="<?php echo __("User"); ?>" value="<?php echo $user->getUser(); ?>" required>
-                                <label for="inputEmail" class="sr-only"><?php echo __("E-mail"); ?></label>
-                                <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>"  value="<?php echo $user->getEmail(); ?>" required>
-                                <label for="inputPassword" class="sr-only"><?php echo __("New Password"); ?></label>
-                                <input type="password" id="inputPassword" class="form-control" value="" placeholder="<?php echo __("New Password"); ?>" required>
-                                <label for="inputPasswordConfirm" class="sr-only"><?php echo __("Confirm New Password"); ?></label>
-                                <input type="password" id="inputPasswordConfirm" class="form-control last" value="" placeholder="<?php echo __("Confirm New Password"); ?>" required>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                            <input  id="inputName" placeholder="<?php echo __("Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getName(); ?>" required >
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("User"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="text" value="<?php echo $user->getUser(); ?>" required >
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                            <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="<?php echo $user->getEmail(); ?>" required >
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <input  id="inputPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value="" >
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <input  id="inputPasswordConfirm" placeholder="<?php echo __("Confirm New Password"); ?>" class="form-control"  type="password" value="" >
+                                        </div>
+                                    </div>
+                                </div>
+                                
 
-                                <button class="btn btn-lg btn-primary btn-block"><?php echo __("Save"); ?></button>
+                                <!-- Button -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"></label>
+                                    <div class="col-md-8">
+                                        <button type="submit" class="btn btn-primary" ><?php echo __("Save"); ?> <span class="glyphicon glyphicon-save"></span></button>
+                                    </div>
+                                </div>
                             </fieldset>
                         </form>
 

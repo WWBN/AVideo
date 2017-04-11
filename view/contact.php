@@ -1,11 +1,12 @@
 <?php
 require_once '../videos/configuration.php';
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-
-        <title><?php echo $global['webSiteTitle']; ?> :: <?php echo __("Contact"); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Contact"); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -85,7 +86,7 @@ require_once '../videos/configuration.php';
                     <div class="form-group">
                         <label class="col-md-4 control-label"></label>
                         <div class="col-md-4">
-                            <button type="submit" class="btn btn-primary" >Send <span class="glyphicon glyphicon-send"></span></button>
+                            <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
                         </div>
                     </div>
 
