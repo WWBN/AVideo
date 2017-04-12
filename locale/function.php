@@ -18,3 +18,37 @@ function __($str){
     }
     
 }
+
+function getAllFlags(){
+    global $global;
+    $dir = "{$global['systemRootPath']}view/css/flag-icon-css-master/flags/4x3";
+    $flags = array();
+    if ($handle = opendir($dir)) {        
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                $flags[] = str_replace(".svg", "", $entry);
+            }
+        }
+        closedir($handle);
+    }
+    sort($flags);
+    return $flags;
+    
+}
+
+function getEnabledLangs(){
+    global $global;
+    $dir = "{$global['systemRootPath']}locale";
+    $flags = array('us');
+    if ($handle = opendir($dir)) {        
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != ".." && $entry != "index.php" && $entry != "function.php" && $entry != "save.php") {
+                $flags[] = str_replace(".php", "", $entry);
+            }
+        }
+        closedir($handle);
+    }
+    sort($flags);
+    return $flags;
+    
+}

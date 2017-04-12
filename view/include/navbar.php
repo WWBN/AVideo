@@ -54,16 +54,22 @@ $config = new Configuration();
                 </form>
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-2" style="padding-top: 8px;" >
-                <select class="selectpicker" data-width="fit">
-                    <option data-content='<span class="flag-icon flag-icon-us"></span> <?php echo __("English"); ?>' <?php if ($lang == "en") { ?>selected="selected" <?php } ?> value="en"><?php echo __("English"); ?></option>
-                    <option  data-content='<span class="flag-icon flag-icon-es"></span> <?php echo __("Spanish"); ?>' <?php if ($lang == "es") { ?>selected="selected" <?php } ?> value="es"><?php echo __("Spanish"); ?></option>
-                    <option  data-content='<span class="flag-icon flag-icon-fr"></span> <?php echo __("French"); ?>' <?php if ($lang == "fr") { ?>selected="selected" <?php } ?> value="fr"><?php echo __("French"); ?></option>
-                    <option  data-content='<span class="flag-icon flag-icon-br"></span> <?php echo __("Brazilian Portuguese"); ?>' <?php if ($lang == "pt_BR") { ?>selected="selected" <?php } ?> value="pt_BR"><?php echo __("Brazilian Portuguese"); ?></option>
+                <select class="selectpicker" id="navBarFlag" data-width="fit">
+                        <?php
+                        $flags = getEnabledLangs();
+                        foreach ($flags as $value) {
+                            $selected = "";
+                            if($lang == $value){
+                                $selected = 'selected="selected"';
+                            }
+                            echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span>' value=\"{$value}\" {$selected}>{$value}</option>";
+                        }
+                        ?>
                 </select>
                 <script>
                     $(function () {
-                        $('.selectpicker').selectpicker();
-                        $('.selectpicker').on('change', function () {
+                        $('#navBarFlag').selectpicker();
+                        $('#navBarFlag').on('change', function () {
                             var selected = $(this).find("option:selected").val();
                             window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + selected;
                         });
