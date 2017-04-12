@@ -116,7 +116,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
-$sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail,  created, modified) VALUES (1, '426:240', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['language']}', '{$_POST['contactEmail']}', now(), now())";
+$sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail,  created, modified) VALUES (1, '426:240', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['mainLanguage']}', '{$_POST['contactEmail']}', now(), now())";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating configuration: " . $global['mysqli']->error;
     echo json_encode($obj);
