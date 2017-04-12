@@ -85,26 +85,28 @@ $config = new Configuration();
                                 <?php echo __("Recommended resolutions"); ?>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
-                                352:240 (240p)
-                                <span class="badge badge-default badge-pill">(SD)</span>
+                                352:240
+                                <span class="badge badge-default badge-pill">(240p)(SD)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
-                                480:360 (360p)
+                                480:360 
+                                <span class="badge badge-default badge-pill">(360p)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
-                                858:480 (480p)
+                                858:480 
+                                <span class="badge badge-default badge-pill">(480p)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
-                                1280:720 (720p)
-                                <span class="badge badge-default badge-pill">(Half HD)</span>
+                                1280:720 
+                                <span class="badge badge-default badge-pill">(720p)(Half HD)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
-                                1920:1080 (1080p)
-                                <span class="badge badge-default badge-pill">(Full HD)</span>
+                                1920:1080 
+                                <span class="badge badge-default badge-pill">(1080p)(Full HD)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
-                                3860:2160 (2160p)
-                                <span class="badge badge-default badge-pill">(Ultra-HD) (4K)</span>
+                                3860:2160 
+                                <span class="badge badge-default badge-pill">(2160p)(Ultra-HD)(4K)</span>
                             </li>
                         </ul>
                     </div>
