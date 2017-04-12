@@ -81,11 +81,17 @@ $config = new Configuration();
                                     <h1>
                                         <?php echo $video['title']; ?>
                                     </h1>
-                                    <h3>
-                                        <?php echo __("Category"); ?>: <?php echo $video['category']; ?>
-                                    </h3>
-                                    <div class="col-xs-12 col-sm-12 col-lg-6"><?php echo __("Created"); ?>: <?php echo $video['created']; ?></div>
-                                    <div class="col-xs-12 col-sm-12 col-lg-6" style="text-align: right;"><?php echo __("Views"); ?>: <?php echo $video['views_count']; ?></div>
+                                    <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
+                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['category']; ?></div>
+                                    
+                                    <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Views"); ?>:</strong></div>
+                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['views_count']; ?></div>
+                                    
+                                    <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Created"); ?>:</strong></div>
+                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['created']; ?></div>
+                                    
+                                    <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
+                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo nl2br($video['description']); ?></div>
                                 </div>                                
                             </div>
                             <div class="row bgWhite">

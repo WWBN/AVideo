@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `clean_title` VARCHAR(255) NOT NULL,
-  `description` VARCHAR(255) NULL,
+  `description` TEXT NULL,
   `views_count` INT NOT NULL DEFAULT 0,
   `status` ENUM('a', 'i', 'e', 'x') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error',
   `created` DATETIME NOT NULL,

@@ -124,6 +124,12 @@ $config = new Configuration();
                             <?php echo __("Site Configurations"); ?>
                         </a>
                     </li>
+                    <li>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>locale">
+                            <span class="glyphicon glyphicon-flag"></span> 
+                            <?php echo __("Create more translations"); ?>
+                        </a>
+                    </li>
                     <?php
                 }
                 ?>

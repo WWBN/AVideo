@@ -57,7 +57,7 @@ $config = new Configuration();
                                 <label for="inputCleanTitle" class="sr-only"><?php echo __("Clean Title"); ?></label>
                                 <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
                                 <label for="inputDescription" class="sr-only"><?php echo __("Description"); ?></label>
-                                <input type="text" id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required>
+                                <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
                                 <label for="inputCategory" class="sr-only"><?php echo __("Category"); ?></label>
                                 <select class="form-control last" id="inputCategory" required>
                                     <?php
