@@ -3,7 +3,7 @@ YouPHPTube! is an video-sharing website, The service was created by Daniel Neto 
 
 <div align="center">
 <img src="http://www.youphptube.com/img/prints/prints1.png">
-<a href="http://demo.youphptube.com/">View Demo</a>
+<a href="http://demo.youphptube.com/" target="_blank">View Demo</a>
 </div>
 </br>
 
@@ -15,3 +15,10 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - PHP 5.3+
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
+
+Take a look at our <a href="http://tutorials.youphptube.com" target="_blank">video tutorials site</a>, you will find several useful information like:
+How to Install YouPHPTube in a fresh Unbutu Server
+How to Upload a Video File
+How to update your YouPHPTube version
+How to translate YouPHPTube to another language
+And more
