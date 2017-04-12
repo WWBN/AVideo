@@ -8,7 +8,7 @@ if(!User::isLogged()){
 header('Content-Type: application/json');
 
 // A list of permitted file extensions
-$allowed = array('mp4', 'avi', 'mov', 'flv', 'mp3', 'wav');
+$allowed = array('mp4', 'avi', 'mov','mkv', 'flv', 'mp3', 'wav');
 
 if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
 
