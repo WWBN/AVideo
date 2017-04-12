@@ -6,7 +6,7 @@ if(empty($_SESSION['language'])){
     $_SESSION['language'] = $config->getLanguage();
 }
 if(!empty($_GET['lang'])){
-    $_SESSION['language'] = $config->getLanguage() = $_GET['lang'];
+    $_SESSION['language'] = $_GET['lang'];
 }
 @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 function __($str){
