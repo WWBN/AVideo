@@ -135,6 +135,9 @@ $config = new Configuration();
                                         });
 
                                         $('#saveCommentBtn').click(function () {
+                                            if($(this).is(':disabled')){
+                                                return false;
+                                            }
                                             if ($('#comment').val().length > 5) {
                                                 modal.showPleaseWait();
                                                 $.ajax({
