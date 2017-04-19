@@ -98,9 +98,8 @@ $config = new Configuration();
                                 <div class="input-group">
                                     <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php if(!User::canComment()){ echo "disabled"; } ?>></textarea>     
                                     <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php if(!User::canComment()){ echo "disabled"; } ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
-                                    <?php if(!User::canComment()){ ?><small><?php echo __("You can not comment videos"); ?></small><?php } ?>
                                 </div>
-
+                                <?php if(!User::canComment()){ ?><small><?php echo __("You can not comment videos"); ?></small><?php } ?>
                                 <div class="pull-right" id="count_message"></div>
                                 <script>
                                     $(document).ready(function () {
