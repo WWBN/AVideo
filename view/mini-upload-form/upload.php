@@ -64,5 +64,5 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
         exit;
 }
 
-echo '{"status":"error", "msg":'.json_encode($_FILES).'}';
+echo '{"status":"error", "msg":'.json_encode($_FILES).', "type":"$_FILES Error"}';
 exit;
