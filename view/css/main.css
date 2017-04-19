@@ -20,10 +20,15 @@ body {
     overflow: hidden;
 }
 
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
 .bottom-border{
     border-bottom: 1px solid #F2F2F2;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+    margin: 0;
+    padding: 5px;
 }
 
 h1,h2,h3,h4{

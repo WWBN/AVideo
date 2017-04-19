@@ -227,7 +227,7 @@ $config = new Configuration();
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                        <div class="col-lg-5 col-sm-5 col-xs-5">
+                                        <div class="col-lg-5 col-sm-5 col-xs-5  nopadding">
                                             <?php
                                                 if($value['type']!=="audio"){
                                                     $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
@@ -237,7 +237,7 @@ $config = new Configuration();
                                             ?>
                                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
                                         </div>
-                                        <div class="col-lg-7 col-sm-7 col-xs-7">
+                                        <div class="col-lg-7 col-sm-7 col-xs-7  nopadding">
                                             <div class="text-uppercase"><strong><?php echo $value['title']; ?></strong></div>
                                             <div class="">
                                                 <span class="glyphicon glyphicon-play-circle"></span>
