@@ -54,9 +54,6 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
         echo "{'error':'" . __("You do not have an e-mail") . "'}";
     }
 } else {
-    if($user->getRecoverPass() != $_GET['recoverpass']){
-        die(__("The recover pass does not match!"));
-    }
     ?>
     <!DOCTYPE html>
     <html lang="<?php echo $_SESSION['language']; ?>">
@@ -73,6 +70,14 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
             ?>
 
             <div class="container">
+                <?php
+                
+    if($user->getRecoverPass() != $_GET['recoverpass']){
+        ?>
+                <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
+        <?php
+    }else{
+                ?>
                 <form class="well form-horizontal" action=" " method="post"  id="recoverPassForm">
                     <fieldset>
 
@@ -129,6 +134,9 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
                     </fieldset>
                 </form>
+                <?php
+    }
+                ?>
             </div>
 
         </div><!--/.container-->
