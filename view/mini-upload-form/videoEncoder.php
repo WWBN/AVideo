@@ -33,7 +33,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
         // convert video
         echo "\n\n--Converting audio {$key} \n";
         $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && ffmpeg -i {$global['systemRootPath']}videos/{$original_filename} {$value} {$global['systemRootPath']}videos/{$filename}.{$key}";
-        echo $cmd . "\n";
+        echo "** executing command {$cmd}\n";
         exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
         if ($return_val !== 0) {
             echo "\\n **AUDIO ERROR**\n", print_r($output, true);
@@ -50,7 +50,7 @@ if (empty($type) || $type == 'img') {
     //capture image
     echo "\n\n--Capture Image \n";
     $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.jpg && ffmpeg -ss 5 -i {$global['systemRootPath']}videos/{$original_filename} -qscale:v 2 -vframes 1 -y {$global['systemRootPath']}videos/{$filename}.jpg";
-    echo $cmd . "\n";
+    echo "** executing command {$cmd}\n";
     exec($cmd . " 2>&1", $output, $return_val);
     if ($return_val !== 0) {
         echo "\\n**IMG ERROR**\n", print_r($output, true);
@@ -69,7 +69,7 @@ foreach ($videoConverter as $key => $value) {
     // convert video
     echo "\n\n--Converting video {$key} \n";
     $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && ffmpeg -i {$global['systemRootPath']}videos/{$original_filename} {$value} {$global['systemRootPath']}videos/{$filename}.{$key}";
-    echo $cmd . "\n";
+    echo "** executing command {$cmd}\n";
     exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
     if ($return_val !== 0) {
         echo "\\n **VIDEO ERROR**\n", print_r($output, true);
