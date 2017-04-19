@@ -3,9 +3,11 @@ require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
+
 function isYoutubeDl() {
     return trim(shell_exec('which youtube-dl'));
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -23,22 +25,22 @@ function isYoutubeDl() {
 
         <div class="container">
             <?php
-            if(!isYoutubeDl()){
-            ?>
-            <div class="alert alert-danger">
-                <h1><?php echo __("You need to install"); ?> youtube-dl</h1>
-                <?php echo __("We use youtube-dl to download videos from youtube.com or other video platforms"); ?><br>
-                <?php echo __("To installations instructions try this link: "); ?><a href="https://github.com/rg3/youtube-dl/blob/master/README.md#installation">Youtube-dl</a><br><br>
-                <?php echo __("To install it right away for all UNIX users (Linux, OS X, etc.), type: "); ?>
-                <pre><code>sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
-                <br>
-                <?php echo __("If you do not have curl, you can alternatively use a recent wget: "); ?>
-                <pre><code>sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
-sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
+            if (!isYoutubeDl()) {
+                ?>
+                <div class="alert alert-danger">
+                    <h1><?php echo __("You need to install"); ?> youtube-dl</h1>
+                    <?php echo __("We use youtube-dl to download videos from youtube.com or other video platforms"); ?><br>
+                    <?php echo __("To installations instructions try this link: "); ?><a href="https://github.com/rg3/youtube-dl/blob/master/README.md#installation">Youtube-dl</a><br><br>
+                    <?php echo __("To install it right away for all UNIX users (Linux, OS X, etc.), type: "); ?>
+                    <pre><code>sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+            sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
+                    <br>
+                    <?php echo __("If you do not have curl, you can alternatively use a recent wget: "); ?>
+                    <pre><code>sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+            sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
 
-            </div>
-            <?php
+                </div>
+                <?php
             }
             ?>
             <div class="row">
@@ -81,37 +83,53 @@ sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-lg-3"></div>
             </div>
+            <div class="progress progress-striped active">
+                <div id="downloadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div>
+            </div>
             <script>
                 $(document).ready(function () {
                     $('#updateUserForm').submit(function (evt) {
                         evt.preventDefault();
-                        //modal.showPleaseWait();
+                        modal.showPleaseWait();
                         $.ajax({
                             url: 'downloadNow',
                             data: {"videoURL": $('#inputVideoURL').val(), "audioOnly": $('#inputAudioOnly').is(":checked")},
                             type: 'post',
                             success: function (response) {
-                                if (response.status > 0) {
-                                    swal({
-                                        title: "<?php echo __("Congratulations!"); ?>",
-                                        text: "<?php echo __("Your user has been created!"); ?>",
-                                        type: "success"
-                                    },
-                                            function () {
-                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>user';
-                                            });
-                                } else {
-                                    if (response.error) {
-                                        swal("<?php echo __("Sorry!"); ?>", response.error, "error");
-                                    } else {
-                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been created!"); ?>", "error");
-                                    }
-                                }
+                                swal({
+                                    title: response.title,
+                                    text: response.text,
+                                    type: response.type
+                                });
                                 modal.hidePleaseWait();
+                                if(response.filename){
+                                    checkProgress(response.filename)
+                                }
                             }
                         });
                     });
                 });
+                function checkProgress(filename){
+                    console.log(filename);
+                    $.ajax({
+                        url: 'getDownloadProgress',
+                        data: {"filename": filename},
+                        type: 'post',
+                        success: function (response) {
+                            $("#downloadProgress").css({'width': response.progress+'%'});
+                            if(response.progress<100){
+                              setTimeout(function(){ checkProgress(filename); }, 1000);  
+                            }else if(response.progress == 100){
+                                $("#downloadProgress").css({'width': '100%'});
+                                swal({
+                                    title: "<?php echo __("Congratulations!"); ?>",
+                                    text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
+                                    type: "success"
+                                });
+                            }
+                        }
+                    });
+                }
             </script>
         </div><!--/.container-->
 
