@@ -41,7 +41,7 @@ body {
     left: 50%;
     margin: -25px 0 0 -25px;
     position: absolute;
-    color: rgba(255,255, 255, 0.2)!important;
+    color: rgba(255,255, 255, 0.3)!important;
     font-size: 50px;
 }
 
@@ -52,11 +52,11 @@ body {
 }
 .videoLink div.details, .videoLink div.details div{
     color: #777;
-    font-size: 0.5em;
+    font-size: 0.9em;
 }
 
 .videoLink:hover .glyphicon-play-circle{
-    color: rgba(255,255, 255, 0.8)!important;
+    color: rgba(255,255, 255, 0.6)!important;
 }
 .videoLink:hover div{
     color: #167ac6;
