@@ -35,6 +35,16 @@ body {
     right: 5px;
     font-size: 0.9em;
 }
+.videoLink .glyphicon-play-circle{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    color: rgba(255,255, 255, 0.6)!important;
+    font-size: 2em;
+}
 
 .videoLink div{
     color: #000;    

@@ -241,12 +241,12 @@ $config = new Configuration();
                                                 }
                                             ?>
                                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
+                                            <span class="glyphicon glyphicon-play-circle"></span>
                                             <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                         </div>
                                         <div class="col-lg-7 col-sm-7 col-xs-7">
                                             <div class="text-uppercase"><strong><?php echo $value['title']; ?></strong></div>
                                             <div class="details">
-                                                <span class="glyphicon glyphicon-play-circle"></span>
                                                 <div>
                                                     <?php echo __("Category"); ?>: <?php echo $value['category']; ?>
                                                 </div>
