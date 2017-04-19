@@ -282,3 +282,8 @@ video {
     color: #080 !important;
     font-size: 1.2em;
 }
+
+.progressText{
+    background: rgba(0,0, 0, 0.6)!important;
+    color: #FFF;
+}
