@@ -84,9 +84,6 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'i';
         }
-        if (empty($this->categories_id)) {
-            $this->categories_id = 1;
-        }
         // TODO Check if the cleantitle already exists
 
         if (!empty($this->id)) {
@@ -244,6 +241,8 @@ class Video {
             $object->$value = new stdClass();
             if (!empty($content)) {
                 $object->$value = self::parseProgress($content);
+            }else{
+                
             }
             $object->$value->filename = $progressFilename;
         }
