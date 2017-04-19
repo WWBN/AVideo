@@ -100,28 +100,25 @@ $config = new Configuration();
                                     $('#encoding' + entry + id).html(txt);
                                 }
                             }
-                            if (responseType && responseType.progress < 100 && refresh) {
+                            if (responseType && responseType.progress < 100) {
                                 if (responseType.progress > 0) {
                                     $('#encoding' + entry + id).removeClass('label-danger');
                                     $('#encoding' + entry + id).addClass('label-warning');
                                 }
-
-                                setTimeout(function () {
-                                    checkProgressVideo(filename, id, true);
-                                }, 2000);
-
-                            } else if (responseType && responseType.progress === 100) {
-                                //$("#grid").bootgrid("reload");
                             }
                             if (responseType && responseType.progress === 100) {
                                 $('#encoding' + entry + id).removeClass('label-warning');
                                 $('#encoding' + entry + id).removeClass('label-danger');
                                 $('#encoding' + entry + id).addClass('label-success');
                                 $('#encoding' + entry + id).html(entry.toUpperCase() + ': 100%');
+                                refresh = false;
                             }
-
                         });
-
+                        if(refresh){
+                            setTimeout(function () {
+                                checkProgressVideo(filename, id, refresh);
+                            }, 1000);
+                        }
                     }
                 });
             }
