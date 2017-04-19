@@ -43,13 +43,14 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
         $mainName = preg_replace("/[^A-Za-z0-9]/", "",$path_parts['filename']);
         $filename = uniqid($mainName."_", true);
                 
-        $video = new Video($_FILES['upl']['name'], $filename);
+        $video = new Video($_FILES['upl']['name'], $filename, @$_FILES['upl']['videoId']);
         $video->setDuration($duration);
         if($type=='audio'){
             $video->setType($type);
         }else{
             $video->setType("video");
         }
+        $video->setStatus('e');
         $id = $video->save();
         /**
          * This is when is using in a non uploaded movie

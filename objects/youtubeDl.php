@@ -38,6 +38,12 @@ if ($return_val !== 0) {
     $_FILES['upl']['name'] = $filename;
     $_FILES['upl']['tmp_name'] = "{$dir}{$filename}";
     $_FILES['upl']['dontMoveUploadedFile'] = true;
+    
+    $video = new Video($filename.__(" (Do not change the title yet, wait to finish download)"), $filename);
+    $video->setType("video");
+    $video->setStatus('d');
+    $_FILES['upl']['videoId'] = $video->save();
+    
     $user = new User($userId);
     $user->login(true);
     echo "Success: We got the video, calling the upload action ".print_r($_FILES, true)."\n";

@@ -94,7 +94,7 @@ $config = new Configuration();
                             var responseType;
                             if (response) {
                                 //eval("if(!response."+entry + "){ continue;}");
-                                eval("responseType = response."+entry+";");
+                                eval("responseType = response." + entry + ";");
                                 if (responseType && responseType.progress) {
                                     var txt = entry.toUpperCase() + ": " + responseType.progress + "%";
                                     $('#encoding' + entry + id).html(txt);
@@ -122,6 +122,29 @@ $config = new Configuration();
 
                         });
 
+                    }
+                });
+            }
+            function checkProgressDownload(filename, id) {
+                $.ajax({
+                    url: 'getDownloadProgress',
+                    data: {"filename": filename},
+                    type: 'post',
+                    success: function (response) {
+                        $("#downloadProgress"+id).css({'width': response.progress + '%'});
+                        if (response.progress < 100) {
+                            setTimeout(function () {
+                                checkProgress(filename);
+                            }, 1000);
+                        } else if (response.progress == 100) {
+                            $("#downloadProgress"+id).css({'width': '100%'});
+                            swal({
+                                title: "<?php echo __("Congratulations!"); ?>",
+                                text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
+                                type: "success"
+                            });
+                            $("#grid").bootgrid("reload");
+                        }
                     }
                 });
             }
@@ -160,7 +183,7 @@ $config = new Configuration();
                             }
                             return editBtn + deleteBtn + reloadBtn + status + reencodeBtn;
                         },
-                        "status": function (column, row){
+                        "status": function (column, row) {
                             if (row.status == 'e') {
                                 setTimeout(function () {
                                     checkProgressVideo(row.filename, row.id, true);
@@ -178,13 +201,20 @@ $config = new Configuration();
                                 setTimeout(function () {
                                     checkProgressVideo(row.filename, row.id, false);
                                 }, 1000);
-                                
+
                                 if (row.type == "audio") {
                                     return "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp3.txt' target='_blank' class='label label-danger' id='encodingmp3" + row.id + "'>MP3: 0%</a><br><a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_ogg.txt' target='_blank' class='label label-danger' id='encodingogg" + row.id + "'>OGG: 0%</a>";
                                 } else {
                                     return "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "'>MP4: 0%</a><br><a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "'>WEBM: 0%</a>";
                                 }
-                                
+
+                            } else if (row.status == 'd') {
+                                setTimeout(function () {
+                                    checkProgressDownload(row.filename, row.id);
+                                }, 1000);
+
+                                return '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
+
                             }
 
                         }

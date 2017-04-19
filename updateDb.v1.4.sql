@@ -13,7 +13,7 @@ CHANGE COLUMN `password` `password` VARCHAR(45) NOT NULL ;
 ALTER TABLE `videos` 
 CHANGE COLUMN `title` `title` VARCHAR(255) NOT NULL ,
 CHANGE COLUMN `clean_title` `clean_title` VARCHAR(255) NOT NULL ,
-CHANGE COLUMN `status` `status` ENUM('a', 'i', 'e', 'x') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error' ,
+CHANGE COLUMN `status` `status` ENUM('a', 'i', 'e', 'x', 'd') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading' ,
 CHANGE COLUMN `duration` `duration` VARCHAR(15) NOT NULL ,
 CHANGE COLUMN `type` `type` ENUM('audio', 'video') NOT NULL DEFAULT 'video' ;
 
