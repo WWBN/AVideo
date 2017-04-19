@@ -19,16 +19,18 @@ if ($return_val !== 0) {
     $obj->command = $cmd;
     die(json_encode($obj));
 } else {
-    $filename = preg_replace("/[^A-Za-z0-9]/", "", $output[0]);
+    $title = end($output);
+    $filename = preg_replace("/[^A-Za-z0-9]/", "", $title);
     $filename = uniqid("{$filename}_", true).".mp4";
     $userId = User::getId();
     $cmd = "/usr/bin/php -f youtubeDl.php {$filename} {$_POST['videoURL']} {$userId} > /dev/null 2>/dev/null &";
     exec($cmd);
     $obj->type = "success";
     $obj->title = __("Congratulations!");
-    $obj->text = sprintf(__("Your video (%s) is downloading"), $output[0]);
+    $obj->text = sprintf(__("Your video (%s) is downloading"), $title);
     $obj->command = $cmd;
     $obj->filename = $filename;
+    $obj->response = print_r($output, true);
     die(json_encode($obj));
 }
 
