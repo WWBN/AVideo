@@ -30,7 +30,7 @@ class Video {
         if (!empty($title)) {
             $this->title = $global['mysqli']->real_escape_string($title);
         }
-        if ($filename) {
+        if (!empty($filename)) {
             $this->filename = $filename;
         }
     }
@@ -87,7 +87,7 @@ class Video {
         // TODO Check if the cleantitle already exists
 
         if (!empty($this->id)) {
-            $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}', categories_id = '{$this->categories_id}', status = '{$this->status}', description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}', filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}', description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', modified = now() WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos (title,clean_title, filename, users_id, categories_id, status, description, duration,type, created, modified) values ('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, 'e', '{$this->description}', '{$this->duration}', '{$this->type}', now(), now())";
         }
