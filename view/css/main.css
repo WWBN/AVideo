@@ -26,6 +26,14 @@ body {
    margin: 0 !important;
 }
 
+.videoLink .duration{
+    position: absolute;
+    background-color: #000;
+    color: #FFF;
+    bottom: 5px;
+    right: 5px;
+}
+
 .videoLink div{
     color: #000;    
     font-size: 1em;
