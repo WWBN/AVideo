@@ -3,6 +3,9 @@ require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
+function isYoutubeDl() {
+    return trim(shell_exec('which youtube-dl'));
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -19,6 +22,9 @@ $config = new Configuration();
         ?>
 
         <div class="container">
+            <?php
+            if(!isYoutubeDl()){
+            ?>
             <div class="alert alert-danger">
                 <h1><?php echo __("You need to install"); ?> youtube-dl</h1>
                 <?php echo __("We use youtube-dl to download videos from youtube.com or other video platforms"); ?><br>
@@ -32,6 +38,9 @@ sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
 sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
 
             </div>
+            <?php
+            }
+            ?>
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-lg-3"></div>
                 <div class="col-xs-6 col-sm-4 col-lg-6">
