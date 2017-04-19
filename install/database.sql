@@ -5,10 +5,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema youPHPTube
--- -----------------------------------------------------
-
--- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
@@ -20,6 +16,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `isAdmin` TINYINT(1) NOT NULL DEFAULT 0,
+  `status` ENUM('a', 'i') NOT NULL DEFAULT 'a',
+  `photoURL` VARCHAR(255) NULL,
+  `lastLogin` DATETIME NULL,
+  `recoverPass` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `clean_title` VARCHAR(255) NOT NULL,
   `description` TEXT NULL,
   `views_count` INT NOT NULL DEFAULT 0,
-  `status` ENUM('a', 'i', 'e', 'x') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error',
+  `status` ENUM('a', 'i', 'e', 'x', 'd') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading',
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `users_id` INT NOT NULL,
@@ -112,6 +112,14 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `contactEmail` VARCHAR(45) NOT NULL,
   `modified` DATETIME NOT NULL DEFAULT now(),
   `created` DATETIME NOT NULL DEFAULT now(),
+  `authGoogle_id` VARCHAR(255) NULL,
+  `authGoogle_key` VARCHAR(255) NULL,
+  `authGoogle_enabled` TINYINT(1) NOT NULL DEFAULT 0,
+  `authFacebook_id` VARCHAR(255) NULL,
+  `authFacebook_key` VARCHAR(255) NULL,
+  `authFacebook_enabled` TINYINT(1) NOT NULL DEFAULT 0,
+  `authCanUploadVideos` TINYINT(1) NOT NULL DEFAULT 0,
+  `authCanComment` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`

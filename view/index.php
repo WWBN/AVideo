@@ -67,7 +67,7 @@ $config = new Configuration();
                         <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                         <div class="col-xs-12 col-sm-12 col-lg-6 ">
                             <div class="row bgWhite">
-                                <div class="col-xs-4 col-sm-4 col-lg-4">
+                                <div class="col-xs-4 col-sm-4 col-lg-4 nopadding">
                                     <?php
                                         if($video['type']!=="audio"){
                                             $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
