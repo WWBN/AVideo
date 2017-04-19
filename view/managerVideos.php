@@ -89,6 +89,7 @@ $config = new Configuration();
                     success: function (response) {
                         console.log(response);
                         var types = <?php echo json_encode(Video::$types); ?>;
+                        var allComplete = true;
                         types.forEach(function (entry) {
                             console.log(entry);
                             var responseType;
@@ -105,16 +106,16 @@ $config = new Configuration();
                                     $('#encoding' + entry + id).removeClass('label-danger');
                                     $('#encoding' + entry + id).addClass('label-warning');
                                 }
+                                allComplete = false;
                             }
                             if (responseType && responseType.progress === 100) {
                                 $('#encoding' + entry + id).removeClass('label-warning');
                                 $('#encoding' + entry + id).removeClass('label-danger');
                                 $('#encoding' + entry + id).addClass('label-success');
                                 $('#encoding' + entry + id).html(entry.toUpperCase() + ': 100%');
-                                refresh = false;
                             }
                         });
-                        if(refresh){
+                        if(refresh && !allComplete){
                             setTimeout(function () {
                                 checkProgressVideo(filename, id, refresh);
                             }, 1000);
