@@ -2,11 +2,17 @@
 
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+$userId = User::getId();
+$obj = new stdClass();
+if(empty($userId)){
+    $obj->type = "error";
+    $obj->title = __("Sorry!");
+    $obj->text = sprintf(__("Your user is invalid"));
+    die(json_encode($obj));
+}
 
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
-
-$obj = new stdClass();
 
 header('Content-Type: application/json');
 $cmd = "youtube-dl -e {$_POST['videoURL']}";
@@ -22,7 +28,6 @@ if ($return_val !== 0) {
     $title = end($output);
     $filename = preg_replace("/[^A-Za-z0-9]/", "", $title);
     $filename = uniqid("{$filename}_", true).".mp4";
-    $userId = User::getId();
     $cmd = "/usr/bin/php -f youtubeDl.php {$filename} {$_POST['videoURL']} {$userId} > /dev/null 2>/dev/null &";
     exec($cmd);
     $obj->type = "success";
