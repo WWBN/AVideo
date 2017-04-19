@@ -223,11 +223,9 @@ $config = new Configuration();
                         </div>
                         <div class="col-xs-12 col-sm-12 col-lg-4 bgWhite">
                             <?php
-                            $videoCount = 0;
                             foreach ($videos as $value) {
-                                $videoCount++;
-                                if($videoCount==1){
-                                    continue; // skip first video
+                                if($video['id']==$value['id']){
+                                    continue; // skip video
                                 }
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border">
