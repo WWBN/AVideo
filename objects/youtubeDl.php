@@ -32,6 +32,9 @@ exec($cmd . "  1> {$dir}{$filename}_downloadProgress.txt  2>&1", $output, $retur
 if ($return_val !== 0) {
     echo "{$cmd}\\n **youtube-dl get video ERROR**\n", print_r($output, true);
 } else {
+    
+    $user = new User($userId);
+    $user->login(true);
     // save and encode video
     $_FILES['upl'] = array();
     $_FILES['upl']['error'] = 0;
@@ -47,8 +50,6 @@ if ($return_val !== 0) {
     echo "Save the Video".  print_r($video, true)."\n";
     $_FILES['upl']['videoId'] = $video->save();
     
-    $user = new User($userId);
-    $user->login(true);
     echo "Success: We got the video, calling the upload action ".print_r($_FILES, true)."\n";
     require "{$global['systemRootPath']}view/mini-upload-form/upload.php";
 }
