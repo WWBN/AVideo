@@ -33,7 +33,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                 //Set the subject line
                 $mail->Subject = 'Recover Pass from ' . $config->getWebSiteTitle();
 
-                $msg = __("You asked for a recover link, click on the provided link") . "<a href='{$global['webSiteRootURL']}recoverPass?user={$_POST['user']}&recoverpass={$recoverPass}'>" . __("Reset password") . "</a>";
+                $msg = __("You asked for a recover link, click on the provided link") . " <a href='{$global['webSiteRootURL']}recoverPass?user={$_POST['user']}&recoverpass={$recoverPass}'>" . __("Reset password") . "</a>";
 
                 $mail->msgHTML($msg);
 

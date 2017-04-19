@@ -76,7 +76,8 @@ if (!empty($_GET['type'])) {
         header("Location: {$global['webSiteRootURL']}");
         
     } catch (\Exception $e) {
-        echo $e->getMessage();
+        header("Location: {$global['webSiteRootURL']}user?error=".urlencode($e->getMessage()));
+        //echo $e->getMessage();
     }
     return;
 }
