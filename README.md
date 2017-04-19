@@ -24,3 +24,8 @@ Take a look at our <a href="http://tutorials.youphptube.com/video/how-to-install
 - How to update your YouPHPTube version
 - How to translate YouPHPTube to another language
 - And more
+
+# Last Updates
+- Change Comments Layout (Show user Picture now)
+- You can donload and encode videos from other web sites (Youtube, Vimeo, etc), to share on yours
+- You can enable Facebook or Google login on configuration menu, also set up what logged users can do (Comment and Upload/Download videos).
