@@ -223,10 +223,15 @@ $config = new Configuration();
                         </div>
                         <div class="col-xs-12 col-sm-12 col-lg-4 bgWhite">
                             <?php
+                            $videoCount = 0;
                             foreach ($videos as $value) {
+                                $videoCount++;
+                                if($videoCount==1){
+                                    continue; // skip first video
+                                }
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="videoLink">
                                         <div class="col-lg-5 col-sm-5 col-xs-5  nopadding">
                                             <?php
                                                 if($value['type']!=="audio"){
@@ -237,9 +242,9 @@ $config = new Configuration();
                                             ?>
                                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
                                         </div>
-                                        <div class="col-lg-7 col-sm-7 col-xs-7  nopadding">
+                                        <div class="col-lg-7 col-sm-7 col-xs-7  nopadding" style="padding-left: 5px;">
                                             <div class="text-uppercase"><strong><?php echo $value['title']; ?></strong></div>
-                                            <div class="">
+                                            <div class="details">
                                                 <span class="glyphicon glyphicon-play-circle"></span>
                                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                                 <div>
