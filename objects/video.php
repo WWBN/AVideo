@@ -117,12 +117,13 @@ class Video {
     }
 
     function setStatus($status) {
-        global $global;
-        $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
-        if (!$global['mysqli']->query($sql)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        if(!empty($this->id)){
+            global $global;
+            $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
+            if (!$global['mysqli']->query($sql)) {
+                die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
         }
-        
         $this->status = $status;
     }
 
