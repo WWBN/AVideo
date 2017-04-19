@@ -1,6 +1,7 @@
 <?php
 require_once 'comment.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
 $categories = Comment::getAllComments($_GET['video_id']);
 $total = Comment::getTotalComments($_GET['video_id']);
