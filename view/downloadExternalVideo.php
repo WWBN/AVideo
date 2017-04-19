@@ -79,12 +79,11 @@ function isYoutubeDl() {
                             </div>
                         </fieldset>
                     </form>
-
+                    <div class="progress progress-striped active">
+                        <div id="downloadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"><?php echo __("Download progress: "); ?><span> 0%</span></div>
+                    </div>
                 </div>
                 <div class="col-xs-6 col-sm-4 col-lg-3"></div>
-            </div>
-            <div class="progress progress-striped active">
-                <div id="downloadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div>
             </div>
             <script>
                 $(document).ready(function () {
@@ -117,6 +116,7 @@ function isYoutubeDl() {
                         type: 'post',
                         success: function (response) {
                             $("#downloadProgress").css({'width': response.progress+'%'});
+                            $("#downloadProgress span").html(response.progress+'%');
                             if(response.progress<100){
                               setTimeout(function(){ checkProgress(filename); }, 1000);  
                             }else if(response.progress == 100){
