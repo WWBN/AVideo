@@ -94,9 +94,6 @@ class Video {
         } else {
             $sql = "INSERT INTO videos (title,clean_title, filename, users_id, categories_id, status, description, duration,type, created, modified) values ('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, 'e', '{$this->description}', '{$this->duration}', '{$this->type}', now(), now())";
         }
-        if(empty($sql)){
-            die("SQL Empty");
-        }
         $insert_row = $global['mysqli']->query($sql);
 
         if ($insert_row) {

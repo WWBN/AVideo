@@ -40,9 +40,11 @@ if ($return_val !== 0) {
     $_FILES['upl']['dontMoveUploadedFile'] = true;
     
     require_once $global['systemRootPath'] . 'objects/video.php';
+    echo "Construct a Video\n";
     $video = new Video($filename.__(" (Do not change the title yet, wait to finish download)"), $filename);
     $video->setType("video");
     $video->setStatus('d');
+    echo "Save the Video".  print_r($video, true)."\n";
     $_FILES['upl']['videoId'] = $video->save();
     
     $user = new User($userId);
