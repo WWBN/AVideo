@@ -12,6 +12,7 @@ if (empty($_POST['filename'])) {
 $progressFilename = "{$global['systemRootPath']}videos/downloaded/{$_POST['filename']}_downloadProgress.txt";
 if (!file_exists($progressFilename)) {
     $obj->error = __("Progress File does not exists") . " [{$progressFilename}]";
+    $obj->progress = 0;
     echo json_encode($obj);
     exit;
 }
