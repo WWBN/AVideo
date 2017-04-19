@@ -38,6 +38,7 @@ $config = new Configuration();
                         <th data-column-id="created" ><?php echo __("Created"); ?></th>
                         <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
                         <th data-column-id="isAdmin" ><?php echo __("Is Admin"); ?></th>
+                        <th data-column-id="status" ><?php echo __("Status"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
                     </tr>
                 </thead>
@@ -64,6 +65,11 @@ $config = new Configuration();
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" value="isAdmin" id="isAdmin"> <?php echo __("is Admin"); ?>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="status" id="status"> <?php echo __("is Active"); ?>
                                     </label>
                                 </div>
                             </form>
@@ -94,8 +100,9 @@ $config = new Configuration();
                         "commands": function (column, row)
                         {
                             var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
-                            return editBtn + deleteBtn;
+                            //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
+                            //return editBtn + deleteBtn;
+                            return editBtn;
                         }
                     }
                 }).on("loaded.rs.jquery.bootgrid", function ()
@@ -111,10 +118,12 @@ $config = new Configuration();
                         $('#inputPassword').val('');
                         $('#inputEmail').val(row.email);
                         $('#inputName').val(row.name);
-                        $('#isAdmin').attr('checked', (row.isAdmin === "1" ? true : false));
+                        $('#isAdmin').prop('checked', (row.isAdmin === "1" ? true : false));
+                        $('#status').prop('checked', (row.status === "a" ? true : false));
 
                         $('#userFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
+                        /*
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         console.log(row);
@@ -145,6 +154,7 @@ $config = new Configuration();
                                         }
                                     });
                                 });
+                                */
                     });
                 });
 
@@ -156,7 +166,8 @@ $config = new Configuration();
                     $('#inputPassword').val('');
                     $('#inputEmail').val('');
                     $('#inputName').val('');
-                    $('#isAdmin').attr('checked', false);
+                    $('#isAdmin').prop('checked', false);
+                    $('#status').prop('checked', true);
 
                     $('#userFormModal').modal();
                 });
@@ -170,10 +181,18 @@ $config = new Configuration();
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'addNewUser',
-                        data: {"id": $('#inputUserId').val(), "user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "email": $('#inputEmail').val(), "name": $('#inputName').val(), "isAdmin": $('#isAdmin').is(':checked')},
+                        data: {
+                            "id": $('#inputUserId').val(), 
+                            "user": $('#inputUser').val(), 
+                            "pass": $('#inputPassword').val(), 
+                            "email": $('#inputEmail').val(), 
+                            "name": $('#inputName').val(), 
+                            "isAdmin": $('#isAdmin').is(':checked'), 
+                            "status": $('#status').is(':checked')?'a':'i'
+                        },
                         type: 'post',
                         success: function (response) {
-                            if (response.status === "1") {
+                            if (response.status > "0") {
                                 $('#userFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
                                 swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been saved!"); ?>", "success");

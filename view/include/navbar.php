@@ -55,16 +55,16 @@ $config = new Configuration();
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-2" style="padding-top: 8px;" >
                 <select class="selectpicker" id="navBarFlag" data-width="fit">
-                        <?php
-                        $flags = getEnabledLangs();
-                        foreach ($flags as $value) {
-                            $selected = "";
-                            if($lang == $value){
-                                $selected = 'selected="selected"';
-                            }
-                            echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span>' value=\"{$value}\" {$selected}>{$value}</option>";
+                    <?php
+                    $flags = getEnabledLangs();
+                    foreach ($flags as $value) {
+                        $selected = "";
+                        if ($lang == $value) {
+                            $selected = 'selected="selected"';
                         }
-                        ?>
+                        echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span>' value=\"{$value}\" {$selected}>{$value}</option>";
+                    }
+                    ?>
                 </select>
                 <script>
                     $(function () {
@@ -81,16 +81,36 @@ $config = new Configuration();
 
     </div>
     <div class="navbar-collapse collapse  col-xs-12 col-sm-12 col-lg-2">
-        <div class="col-xs-12 col-sm-12 col-lg-12" style="padding: 5px;">
+        <div class="" style="padding: 5px;">
             <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-lg btn-block">
                 <span class="glyphicon glyphicon-upload" style="font-size: 1em;"></span> 
                 <?php echo __("Video and Audio Upload"); ?>
+            </a>
+        </div>
+        <div class="" style="padding: 5px;">
+            <a href="<?php echo $global['webSiteRootURL']; ?>download" class="btn btn-danger btn-lg btn-block">
+                <span class="fa fa-youtube" style="font-size: 1em;"></span> 
+                <?php echo __("Import Youtube Videos"); ?>
             </a>
         </div>
         <ul class="nav navbar-nav col-xs-12 col-sm-12 col-lg-12">
             <?php
             if (User::isLogged()) {
                 ?>
+                <li style="height: 60px;">
+                    <div class="pull-left" style="margin-left: 10px;"><img src="<?php echo User::getPhoto(); ?>" style="max-width: 55px;"  class="img img-thumbnail img-responsive img-circle"/></div>
+                    <div  style="margin-left: 70px;">
+                        <?php echo User::getName(); ?>
+                        <div><small><?php echo User::getMail(); ?></small></div>
+                        <div>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-xs"><?php echo __("My Account"); ?></a>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-log-out"></span> 
+                                <?php echo __("Logoff"); ?>
+                            </a>
+                        </div>
+                    </div>
+                </li>
                 <?php
                 if (User::isAdmin()) {
                     ?>
@@ -133,22 +153,10 @@ $config = new Configuration();
                     <?php
                 }
                 ?>
-                <li>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>user">
-                        <span class="glyphicon glyphicon-user"></span> 
-                        <?php printf(__("Welcome %s, update your informations"), User::getName()); ?> 
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>logoff">
-                        <span class="glyphicon glyphicon-log-out"></span> 
-                        <?php echo __("Logoff"); ?>
-                    </a>
-                </li>
                 <?php
             } else {
                 ?>
-                <li>
+                <li class="liLogin">
                     <a href="<?php echo $global['webSiteRootURL']; ?>user">
                         <span class="glyphicon glyphicon-log-in"></span> 
                         <?php echo __("Login"); ?>
@@ -181,24 +189,24 @@ $config = new Configuration();
 </nav>
 <div class="tabbable-panel">
     <div class="tabbable-line">
-    <ul class="nav nav-tabs">
-        <li class="nav-item <?php echo empty($_SESSION['type'])?"active":""; ?>">
-            <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
+        <ul class="nav nav-tabs">
+            <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
+                <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
                     <span class="glyphicon glyphicon-star"></span> 
                     <?php echo __("Audios and Videos"); ?>
-            </a>
-        </li>
-        <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type']=='video')?"active":""; ?>">
-            <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
+                </a>
+            </li>
+            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video') ? "active" : ""; ?>">
+                <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
                     <span class="glyphicon glyphicon-facetime-video"></span> 
                     <?php echo __("Videos"); ?>
-            </a>
-        </li>
-        <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type']=='audio')?"active":""; ?>">
-            <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
+                </a>
+            </li>
+            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio') ? "active" : ""; ?>">
+                <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
                     <span class="glyphicon glyphicon-headphones"></span> 
                     <?php echo __("Audios"); ?>
-            </a>
-        </li>
-    </ul></div>
+                </a>
+            </li>
+        </ul></div>
 </div>

@@ -15,4 +15,5 @@ $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
 $user->setIsAdmin($_POST['isAdmin']);
+$user->setStatus($_POST['status']);
 echo '{"status":"'.$user->save().'"}';

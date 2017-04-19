@@ -9,6 +9,8 @@
     RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [NC,L]
     RewriteRule    ^videoOnly/?$ view/?type=video    [NC,L]
     RewriteRule    ^audioOnly/?$ view/?type=audio    [NC,L]
+    RewriteRule    ^download$ view/downloadExternalVideo.php    [NC,L]
+    RewriteRule    ^downloadNow$ objects/downloadVideo.php    [NC,L]
 
 
     RewriteRule    ^about$ view/about.php    [NC,L]
@@ -36,6 +38,9 @@
     RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
     RewriteRule    ^addNewUser$ objects/userAddNew.json.php    [NC,L]
     RewriteRule    ^deleteUser$ objects/userDelete.json.php    [NC,L]
+    RewriteRule    ^recoverPass$ objects/userRecoverPass.json.php    [NC,L]
+    RewriteRule    ^signUp$ view/signUp.php    [NC,L]
+    RewriteRule    ^createUser$ objects/userCreate.json.php    [NC,L]
 
     #manager category
     RewriteRule    ^categories$ view/managerCategories.php    [NC,L]

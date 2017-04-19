@@ -94,9 +94,12 @@ video {
 .navbar-nav {
     height: 100%;
     background-color: #f8f8f8;
+    border: 1px solid #DDD;
+    border-width: 0 1px 1px 1px;
 }
 .navbar-collapse{
     background-color: #f8f8f8;
+    border: 1px solid #DDD;
 }
 .navbar-collapse.collapse {
     display: none !important;
@@ -230,3 +233,8 @@ video {
   padding-bottom: 0;
 }
 /* END Tabs panel */
+
+.liLogin a{
+    color: #080 !important;
+    font-size: 1.2em;
+}

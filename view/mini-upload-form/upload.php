@@ -1,6 +1,10 @@
 <?php
-require_once '../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/user.php';
+$configFile = '../../videos/configuration.php';
+if (!file_exists($configFile)) {
+    $configFile = '../videos/configuration.php';
+}
+require_once $configFile;
+
 if(!User::isLogged()){
     die('{"status":"error", "msg":"Only logged users can upload"}');
 }
@@ -15,7 +19,7 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
 	$extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
 
 	if(!in_array(strtolower($extension), $allowed)){
-		echo '{"status":"error", "msg":"File extension error, we allow only ('. implode(",", $allowed).')"}';
+		echo '{"status":"error", "msg":"File extension error ['.$_FILES['upl']['name'].'], we allow only ('. implode(",", $allowed).')"}';
 		exit;
 	}
         
@@ -47,7 +51,9 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
             // convert video
             $cmd = "/usr/bin/php -f videoEncoder.php {$filename} {$id} {$type} > /dev/null 2>/dev/null &";
             exec($cmd);
-	}
+	}else{
+            die("Error on move_uploaded_file(".$_FILES['upl']['tmp_name'].", "."{$global['systemRootPath']}videos/original_".$filename.")");
+        }
         
         
         //exec("/usr/bin/php -f videoEncoder.php {$_FILES['upl']['tmp_name']} {$filename}  1> {$global['systemRootPath']}videos/{$filename}_progress.txt  2>&1", $output, $return_val);

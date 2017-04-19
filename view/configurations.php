@@ -3,6 +3,7 @@ require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
+//var_dump($config);exit;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
@@ -55,7 +56,7 @@ $config = new Configuration();
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
                                             <input  id="inputLanguage" placeholder="<?php echo __("Language"); ?>" class="form-control"  type="text"  value="<?php echo $config->getLanguage(); ?>" >
                                         </div>
-                                        <small id="inputLanguage" class="form-text text-muted"><?php echo __("This value must match with the language files on"); ?><code><?php echo $global['systemRootPath']; ?>locale</code></small>
+                                        <small class="form-text text-muted"><?php echo __("This value must match with the language files on"); ?><code><?php echo $global['systemRootPath']; ?>locale</code></small>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -65,7 +66,95 @@ $config = new Configuration();
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                             <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email"  value="<?php echo $config->getContactEmail(); ?>" >
                                         </div>
-                                        <small id="inputEmail" class="form-text text-muted"><?php echo __("This e-mail will be used for this web site notifications"); ?></small>
+                                        <small class="form-text text-muted"><?php echo __("This e-mail will be used for this web site notifications"); ?></small>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Authenticated users can upload videos"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-cloud-upload"></i></span>                                            
+                                            <select class="form-control" id="authCanUploadVideos" >
+                                                <option value="1" <?php echo ($config->getAuthCanUploadVideos()==1)?"selected":""; ?>><?php echo __("Yes"); ?></option>
+                                                <option value="0" <?php echo ($config->getAuthCanUploadVideos()==0)?"selected":""; ?>><?php echo __("No"); ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Authenticated users can comment videos"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-commenting"></i></span>
+                                            
+                                            <select class="form-control" id="authCanComment"  >
+                                                <option value="1" <?php echo ($config->getAuthCanComment()==1)?"selected":""; ?>><?php echo __("Yes"); ?></option>
+                                                <option value="0" <?php echo ($config->getAuthCanComment()==0)?"selected":""; ?>><?php echo __("No"); ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Enable Facebook Login"); ?></label>  
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
+                                            <select class="form-control" id="authFacebook_enabled"  >
+                                                <option value="1" <?php echo ($config->getAuthFacebook_enabled()==1)?"selected":""; ?>><?php echo __("Yes"); ?></option>
+                                                <option value="0" <?php echo ($config->getAuthFacebook_enabled()==0)?"selected":""; ?>><?php echo __("No"); ?></option>
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    <label class="col-md-4 control-label"><?php echo __("Facebook ID"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                            <input  id="authFacebook_id" placeholder="<?php echo __("Facebook ID"); ?>" class="form-control"  type="text"  value="<?php echo $config->getAuthFacebook_id() ?>" >
+                                        </div>
+                                    </div>
+                                    <label class="col-md-4 control-label"><?php echo __("Facebook Key"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                            <input  id="authFacebook_key" placeholder="<?php echo __("Facebook Key"); ?>" class="form-control"  type="text"  value="<?php echo $config->getAuthFacebook_key() ?>" >
+                                        </div>
+                                        <small class="form-text text-muted"><a href="https://developers.facebook.com/apps"  target="_blank"><?php echo __("Get Facebook ID and Key"); ?></a></small>
+                                        <small class="form-text text-muted"><?php echo __("Valid OAuth redirect URIs:"); ?> <code> <?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Facebook</code></small>
+                                    </div>
+                                </div>
+                                
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Enable Google Login"); ?></label>  
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-google"></i></span>
+                                            <select class="form-control" id="authGoogle_enabled"  >
+                                                <option value="1" <?php echo ($config->getAuthGoogle_enabled()==1)?"selected":""; ?>><?php echo __("Yes"); ?></option>
+                                                <option value="0" <?php echo ($config->getAuthGoogle_enabled()==0)?"selected":""; ?>><?php echo __("No"); ?></option>
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    <label class="col-md-4 control-label"><?php echo __("Google ID"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                            <input  id="authGoogle_id" placeholder="<?php echo __("Google ID"); ?>" class="form-control"  type="text"  value="<?php echo $config->getAuthGoogle_id() ?>" >
+                                        </div>
+                                    </div>
+                                    <label class="col-md-4 control-label"><?php echo __("Google Key"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                            <input  id="authGoogle_key" placeholder="<?php echo __("Google Key"); ?>" class="form-control"  type="text"  value="<?php echo $config->getAuthGoogle_key() ?>" >
+                                        </div>
+                                        <small class="form-text text-muted"><a href="https://console.developers.google.com/apis/credentials" target="_blank"><?php echo __("Get Google ID and Key"); ?></a></small>
+                                        <small class="form-text text-muted"><?php echo __("Valid OAuth redirect URIs:"); ?> <code> <?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Google</code></small>
                                     </div>
                                 </div>
                                 <!-- Button -->
@@ -118,7 +207,20 @@ $config = new Configuration();
                             modal.showPleaseWait();
                             $.ajax({
                                 url: 'updateConfig',
-                                data: {"video_resolution": $('#inputVideoResolution').val(), "webSiteTitle": $('#inputWebSiteTitle').val(), "language": $('#inputLanguage').val(), "contactEmail": $('#inputEmail').val()},
+                                data: {
+                                    "video_resolution": $('#inputVideoResolution').val(), 
+                                    "webSiteTitle": $('#inputWebSiteTitle').val(), 
+                                    "language": $('#inputLanguage').val(), 
+                                    "contactEmail": $('#inputEmail').val(), 
+                                    "authCanUploadVideos": $('#authCanUploadVideos').val(), 
+                                    "authCanComment": $('#authCanComment').val(), 
+                                    "authFacebook_enabled": $('#authFacebook_enabled').val(), 
+                                    "authFacebook_id": $('#authFacebook_id').val(), 
+                                    "authFacebook_key": $('#authFacebook_key').val(), 
+                                    "authGoogle_enabled": $('#authGoogle_enabled').val(), 
+                                    "authGoogle_id": $('#authGoogle_id').val(), 
+                                    "authGoogle_key": $('#authGoogle_key').val()
+                                },
                                 type: 'post',
                                 success: function (response) {
                                     if (response.status === "1") {

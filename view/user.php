@@ -30,7 +30,7 @@ $config = new Configuration();
                         <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
                             <fieldset>
                                 <legend><?php echo __("Update your user"); ?></legend>
-                                
+
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>  
                                     <div class="col-md-8 inputGroupContainer">
@@ -40,7 +40,7 @@ $config = new Configuration();
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("User"); ?></label>  
                                     <div class="col-md-8 inputGroupContainer">
@@ -50,7 +50,7 @@ $config = new Configuration();
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>  
                                     <div class="col-md-8 inputGroupContainer">
@@ -60,7 +60,7 @@ $config = new Configuration();
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>  
                                     <div class="col-md-8 inputGroupContainer">
@@ -70,7 +70,7 @@ $config = new Configuration();
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>  
                                     <div class="col-md-8 inputGroupContainer">
@@ -80,7 +80,7 @@ $config = new Configuration();
                                         </div>
                                     </div>
                                 </div>
-                                
+
 
                                 <!-- Button -->
                                 <div class="form-group">
@@ -135,12 +135,63 @@ $config = new Configuration();
                         <form class="form-compact well form-horizontal"  id="loginForm">
                             <fieldset>
                                 <legend><?php echo __("Please sign in"); ?></legend>
-                            <label for="inputEmail" class="sr-only"><?php echo __("User"); ?></label>
-                            <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" required autofocus>
-                            <label for="inputPassword" class="sr-only"><?php echo __("Password"); ?></label>
-                            <input type="password" id="inputPassword" class="form-control last" placeholder="<?php echo __("Password"); ?>" required>
-                            <button class="btn btn-lg btn-primary btn-block"><?php echo __("Sign in"); ?></button>
+
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("User"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="text" value="" required >
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Password"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <input  id="inputPassword" placeholder="<?php echo __("Password"); ?>" class="form-control"  type="password" value="" >
+                                        </div>
+                                        <small><a href="#" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
+                                    </div>
+                                </div>
+                                <!-- Button -->
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fa fa-sign-in"></span> <?php echo __("Sign in"); ?></button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <a href="signUp" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <?php
+                                        if($config->getAuthFacebook_enabled()){
+                                        ?>
+                                            <a href="login?type=Facebook" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-facebook-square"></span> Facebook</a>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php
+                                        if($config->getAuthGoogle_enabled()){
+                                        ?>
+                                        <a href="login?type=Google" class="btn btn-danger btn-block" id="googleButton" ><span class="fa fa-google"></span> Google</a>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
                             </fieldset>
+
                         </form>
 
                     </div>
@@ -148,6 +199,7 @@ $config = new Configuration();
                 </div>
                 <script>
                     $(document).ready(function () {
+
                         $('#loginForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
@@ -165,6 +217,41 @@ $config = new Configuration();
                                 }
                             });
                         });
+                        $('#forgotPassword').click(function () {
+                            var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">';
+                            swal({
+                                title: $('#inputUser').val()+", <?php echo __("Are you sure?"); ?>",
+                                text: "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha,
+                                type: "warning",
+                                html: true,
+                                showCancelButton: true,
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Yes, send it!",
+                                closeOnConfirm: false
+                            },
+                                    function () {
+                                        modal.showPleaseWait();
+                                        $.ajax({
+                                            url: 'recoverPass',
+                                            data: {"user": $('#inputUser').val(),"captcha": $('#captchaText').val()},
+                                            type: 'post',
+                                            success: function (response) {
+                                                if(response.error){
+                                                    swal("<?php echo __("Error"); ?>", response.error, "error");
+                                                }else{
+                                                    swal("<?php echo __("E-mail sent"); ?>", "<?php echo __("We sent you an e-mail with instructions"); ?>", "success");
+                                                }
+                                                modal.hidePleaseWait();
+                                            }
+                                        });
+
+                                    });
+
+                            $('#btnReloadCapcha').click(function () {
+                                $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
+                                $('#captchaText').val('');
+                            });
+                        });
                     });
 
                 </script>
@@ -174,9 +261,9 @@ $config = new Configuration();
 
         </div><!--/.container-->
 
-            <?php
-            include 'include/footer.php';
-            ?>
+        <?php
+        include 'include/footer.php';
+        ?>
 
     </body>
 </html>
