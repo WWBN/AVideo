@@ -18,6 +18,7 @@ body {
     box-sizing: border-box;
     padding: 10px;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .nopadding {
@@ -29,7 +30,7 @@ body {
     color: #000;    
     font-size: 1em;
 }
-.videoLink div.details{
+.videoLink div.details, .videoLink div.details div{
     color: #777;
     font-size: 0.9em;
 }
