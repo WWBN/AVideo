@@ -43,3 +43,24 @@ function humanFileSize($size, $unit = "") {
 function get_max_file_size(){
     return humanFileSize(file_upload_max_size());
 }
+
+function humanTiming ($time){
+    $time = time() - $time; // to get the time since that moment
+    $time = ($time<1)? 1 : $time;
+    $tokens = array (
+        31536000 => __('year'),
+        2592000 => __('month'),
+        604800 => __('week'),
+        86400 => __('day'),
+        3600 => __('hour'),
+        60 => __('minute'),
+        1 => __('second')
+    );
+
+    foreach ($tokens as $unit => $text) {
+        if ($time < $unit) continue;
+        $numberOfUnits = floor($time / $unit);
+        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+    }
+
+}

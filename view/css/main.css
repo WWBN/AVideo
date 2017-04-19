@@ -200,20 +200,19 @@ video {
 }
 
 /* Comments */
-.sub-text {
+.commenterName small {
     color:#aaa;
     font-family:verdana;
     font-size:0.9em;
 }
 .commenterName {
-    width:150px;
     margin-right:5px;
-    height:100%;
-    float:left;
-    text-align: right;
 }
 .commentText {
-    margin:0 0 0 160px;
+    clear: both;
+}
+.commentDetails {
+    margin:0 0 0 60px;
 }
 /* End Comments */
 

@@ -87,9 +87,14 @@ class User{
         }
     }
     
-    static function getPhoto() {
+    static function getPhoto($id="") {
         global $global;
-        if(self::isLogged()){
+        if(!empty($id)){
+            $user = self::findById($id);
+            if(!empty($user)){
+                 $photo = $user['photoURL'];
+            }
+        }else if(self::isLogged()){
             $photo = $_SESSION['user']['photoURL'];
         }
         if(empty($photo)){
@@ -203,6 +208,20 @@ class User{
             $sql .= " AND password = '$pass' ";
         }
         $sql .= " LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        
+        if($res){
+            $user = $res->fetch_assoc();
+        }else{
+            $user = false;
+        }
+        return $user;
+    }
+    
+    static private function findById($id){
+        global $global;
+        
+        $sql = "SELECT * FROM users WHERE id = '$id'  LIMIT 1";
         $res = $global['mysqli']->query($sql);
         
         if($res){
