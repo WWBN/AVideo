@@ -39,6 +39,7 @@ if ($return_val !== 0) {
     $_FILES['upl']['error'] = 0;
     $_FILES['upl']['name'] = $filename.".mp4";
     $_FILES['upl']['tmp_name'] = "{$dir}{$filenameTemp}";
+    $_FILES['upl']['dontMoveUploadedFile'] = true;
     $user = new User($userId);
     $user->login(true);
     echo "Success: We got the video, calling the upload action ".print_r($_FILES, true)."\n";

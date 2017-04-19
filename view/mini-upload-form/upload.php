@@ -51,8 +51,12 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
             $video->setType("video");
         }
         $id = $video->save();
-        
-        if(move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_".$filename)){
+        /**
+         * This is when is using in a non uploaded movie
+         */
+        if(!empty($_FILES['upl']['dontMoveUploadedFile'])){
+            rename($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_".$filename);
+        }else if(move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_".$filename)){
             // convert video
             $cmd = "/usr/bin/php -f videoEncoder.php {$filename} {$id} {$type} > /dev/null 2>/dev/null &";
             echo "** executing command {$cmd}\n";
