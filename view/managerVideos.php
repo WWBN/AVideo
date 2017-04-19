@@ -134,7 +134,7 @@ $config = new Configuration();
                         $("#downloadProgress"+id).css({'width': response.progress + '%'});
                         if (response.progress < 100) {
                             setTimeout(function () {
-                                checkProgress(filename);
+                                checkProgressDownload(filename, id);
                             }, 1000);
                         } else if (response.progress == 100) {
                             $("#downloadProgress"+id).css({'width': '100%'});
