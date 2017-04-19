@@ -26,7 +26,7 @@ if ($return_val !== 0) {
     die(json_encode($obj));
 } else {
     $title = end($output);
-    $filename = preg_replace("/[^A-Za-z0-9]/", "", $title);
+    $filename = preg_replace("/[^A-Za-z0-9]/", "_", $title);
     $filename = uniqid("{$filename}_", true).".mp4";
     $cmd = "/usr/bin/php -f youtubeDl.php {$filename} {$_POST['videoURL']} {$userId} > /dev/null 2>/dev/null &";
     exec($cmd);

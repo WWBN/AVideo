@@ -28,7 +28,7 @@ body {
 
 .videoLink .duration{
     position: absolute;
-    background: rgba(0,0, 0, 0.8)!important;
+    background: rgba(0,0, 0, 0.6)!important;
     padding: 2px;
     color: #FFF;
     bottom: 5px;
