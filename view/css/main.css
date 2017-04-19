@@ -36,26 +36,30 @@ body {
     font-size: 0.9em;
 }
 .videoLink .glyphicon-play-circle{
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -25px;
     position: absolute;
     color: rgba(255,255, 255, 0.6)!important;
-    font-size: 2em;
+    font-size: 50px;
 }
 
 .videoLink div{
+    transition: all 0.3s ease-in-out;
     color: #000;    
     font-size: 1em;
 }
 .videoLink div.details, .videoLink div.details div{
     color: #777;
     font-size: 0.9em;
+}
+
+.videoLink:hover .glyphicon-play-circle{
+    color: rgba(255,255, 255, 0.8)!important;
+}
+.videoLink:hover div{
+    color: #167ac6;
 }
 
 
