@@ -62,7 +62,7 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
             die("Error on move_uploaded_file(".$_FILES['upl']['tmp_name'].", "."{$global['systemRootPath']}videos/original_".$filename.")");
         }
         
-        $cmd = "/usr/bin/php -f videoEncoder.php {$filename} {$id} {$type} > /dev/null 2>/dev/null &";
+        $cmd = "/usr/bin/php -f {$global['systemRootPath']}view/mini-upload-form/videoEncoder.php {$filename} {$id} {$type} > /dev/null 2>/dev/null &";
         echo "** executing command {$cmd}\n";
         exec($cmd);
         
