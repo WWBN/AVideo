@@ -28,10 +28,12 @@ body {
 
 .videoLink .duration{
     position: absolute;
-    background-color: #000;
+    background: rgba(0,0, 0, 0.8)!important;
+    padding: 2px;
     color: #FFF;
     bottom: 5px;
     right: 5px;
+    font-size: 0.9em;
 }
 
 .videoLink div{
