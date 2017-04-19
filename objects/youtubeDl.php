@@ -38,7 +38,7 @@ if ($return_val !== 0) {
     // save and encode video
     $_FILES['upl'] = array();
     $_FILES['upl']['error'] = 0;
-    $_FILES['upl']['name'] = $filename.".mp4";
+    $_FILES['upl']['name'] = $filename;
     $_FILES['upl']['tmp_name'] = "{$dir}{$filename}";
     $_FILES['upl']['dontMoveUploadedFile'] = true;
     
