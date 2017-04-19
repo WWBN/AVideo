@@ -39,7 +39,8 @@
     RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
     RewriteRule    ^addNewUser$ objects/userAddNew.json.php    [NC,L]
     RewriteRule    ^deleteUser$ objects/userDelete.json.php    [NC,L]
-    RewriteRule    ^recoverPass$ objects/userRecoverPass.json.php    [NC,L]
+    RewriteRule    ^recoverPass$ objects/userRecoverPass.php    [NC,L]
+    RewriteRule    ^saveRecoverPassword$ objects/userRecoverPassSave.json.php    [NC,L]
     RewriteRule    ^signUp$ view/signUp.php    [NC,L]
     RewriteRule    ^createUser$ objects/userCreate.json.php    [NC,L]
 
