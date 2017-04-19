@@ -119,6 +119,8 @@ $config = new Configuration();
                             setTimeout(function () {
                                 checkProgressVideo(filename, id, refresh);
                             }, 1000);
+                        }else if(refresh && allComplete){
+                            $("#grid").bootgrid("reload");
                         }
                     }
                 });
