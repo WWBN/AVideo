@@ -89,8 +89,9 @@ $config = new Configuration();
         </div>
         <div class="" style="padding: 5px;">
             <a href="<?php echo $global['webSiteRootURL']; ?>download" class="btn btn-danger btn-lg btn-block">
-                <span class="fa fa-youtube" style="font-size: 1em;"></span> 
-                <?php echo __("Import Youtube Videos"); ?>
+                <span class="fa fa-youtube-play" style="font-size: 1em;"></span> 
+                <?php echo __("Import Videos from Sites"); ?><br>
+                <small><small><?php echo __("YouTube, DailyMotion, Vimeo and more"); ?></small></small>
             </a>
         </div>
         <ul class="nav navbar-nav col-xs-12 col-sm-12 col-lg-12">

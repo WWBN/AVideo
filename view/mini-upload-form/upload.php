@@ -6,7 +6,7 @@ if (!file_exists($configFile)) {
 }
 require_once $configFile;
 
-if (!User::isLogged()) {
+if (!User::canUpload()) {
     die('{"status":"error", "msg":"Only logged users can upload"}');
 }
 echo "Success: login OK\n";

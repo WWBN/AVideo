@@ -358,5 +358,24 @@ class User{
         $this->recoverPass = $recoverPass;
     }
 
+    static function canUpload(){
+        global $global;        
+        require_once $global['systemRootPath'] . 'objects/configuration.php';
+        $config = new Configuration();
+        if($config->getAuthCanUploadVideos()){
+            return self::isLogged();
+        }
+        return self::isAdmin();
+    }
+    
+    static function canComment(){
+        global $global;        
+        require_once $global['systemRootPath'] . 'objects/configuration.php';
+        $config = new Configuration();
+        if($config->getAuthCanComment()){
+            return self::isLogged();
+        }
+        return self::isAdmin();
+    }
 
 }

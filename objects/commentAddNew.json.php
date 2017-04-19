@@ -6,7 +6,7 @@ if(empty($global['systemRootPath'])){
 require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (!User::isLogged()) {
+if (!User::canComment()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 

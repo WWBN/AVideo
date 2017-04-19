@@ -3,7 +3,7 @@ require_once '../../videos/configuration.php';
 require_once '../../objects/functions.php';
 
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (!User::isLogged()) {
+if (!User::canUpload()) {
     header("location: {$global['webSiteRootURL']}user");
     exit;
 }

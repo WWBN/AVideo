@@ -1,6 +1,10 @@
 <?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+if (!User::canUpload()) {
+    header("location: {$global['webSiteRootURL']}user");
+    exit;
+}
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 
@@ -28,20 +32,18 @@ function isYoutubeDl() {
             if (!isYoutubeDl()) {
                 ?>
                 <div class="alert alert-danger">
-                    <h1><?php echo __("You need to install"); ?> youtube-dl</h1>
+                    <h1><?php echo __("Sorry you not able to download videos right now!"); ?></h1>
+                    <h2><?php echo __("You need to install"); ?> youtube-dl</h2>
                     <?php echo __("We use youtube-dl to download videos from youtube.com or other video platforms"); ?><br>
                     <?php echo __("To installations instructions try this link: "); ?><a href="https://github.com/rg3/youtube-dl/blob/master/README.md#installation">Youtube-dl</a><br><br>
                     <?php echo __("To install it right away for all UNIX users (Linux, OS X, etc.), type: "); ?>
-                    <pre><code>sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-            sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
+                    <pre><code>sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
                     <br>
                     <?php echo __("If you do not have curl, you can alternatively use a recent wget: "); ?>
-                    <pre><code>sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
-            sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
-
+                    <pre><code>sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl && sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
                 </div>
                 <?php
-            }
+            }else{
             ?>
             <div class="row">
                 <div class="col-xs-6 col-sm-4 col-lg-3"></div>
@@ -59,8 +61,8 @@ function isYoutubeDl() {
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="form-group">
+                            <!-- TODO audio only -->
+                            <div class="form-group" style="display: none">
                                 <label class="col-md-4 control-label"><?php echo __("Audio only"); ?></label>  
                                 <div class="col-md-8 inputGroupContainer">
                                     <div class="input-group">
@@ -130,6 +132,9 @@ function isYoutubeDl() {
                     });
                 }
             </script>
+            <?php
+            }
+            ?>
         </div><!--/.container-->
 
         <?php
