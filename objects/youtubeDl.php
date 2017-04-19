@@ -39,6 +39,7 @@ if ($return_val !== 0) {
     $_FILES['upl']['tmp_name'] = "{$dir}{$filename}";
     $_FILES['upl']['dontMoveUploadedFile'] = true;
     
+    require_once $global['systemRootPath'] . 'objects/video.php';
     $video = new Video($filename.__(" (Do not change the title yet, wait to finish download)"), $filename);
     $video->setType("video");
     $video->setStatus('d');
