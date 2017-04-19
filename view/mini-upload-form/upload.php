@@ -44,7 +44,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", $path_parts['filename']);
     $filename = uniqid($mainName . "_", true);
 
-    $video = new Video(preg_replace("/_/", " ", $_FILES['upl']['name']), $filename, @$_FILES['upl']['videoId']);
+    $video = new Video(str_replace("/_/", " ", $_FILES['upl']['name']), $filename, @$_FILES['upl']['videoId']);
     $video->setDuration($duration);
     if ($type == 'audio') {
         $video->setType($type);
