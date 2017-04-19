@@ -178,6 +178,8 @@ $config = new Configuration();
                                 status = inactiveBtn;
                             } else if (row.status == "x") {
                                 return editBtn + deleteBtn + reloadBtn + reencodeBtn;
+                            }  else if (row.status == "d") {
+                                return deleteBtn;
                             } else {
                                 return editBtn + deleteBtn + reencodeBtn;
                             }
