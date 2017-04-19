@@ -65,7 +65,7 @@ $config = new Configuration();
                     ?>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                        <div class="col-xs-12 col-sm-12 col-lg-7 ">
+                        <div class="col-xs-12 col-sm-12 col-lg-6 ">
                             <div class="row bgWhite">
                                 <div class="col-xs-4 col-sm-4 col-lg-4">
                                     <?php
@@ -221,7 +221,7 @@ $config = new Configuration();
                             </div>
 
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-lg-3 bgWhite">
+                        <div class="col-xs-12 col-sm-12 col-lg-4 bgWhite">
                             <?php
                             foreach ($videos as $value) {
                                 ?>
