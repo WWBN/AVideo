@@ -359,7 +359,7 @@ class Video {
     static function getDurationFromFile($file) {
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($file)) {
-            echo '{"status":"error", "msg":"File (' . $file . ') Not Found"}';
+            echo '{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}';
             exit;
         }
         $cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';

@@ -8,6 +8,7 @@ require_once $configFile;
 if(!User::isLogged()){
     die('{"status":"error", "msg":"Only logged users can upload"}');
 }
+echo "Success: login OK\n";
 
 header('Content-Type: application/json');
 
@@ -16,6 +17,7 @@ $allowed = array('mp4', 'avi', 'mov','mkv', 'flv', 'mp3', 'wav');
 
 if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
 
+    echo "Success: \$_FILES OK\n";
 	$extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
 
 	if(!in_array(strtolower($extension), $allowed)){
@@ -23,6 +25,7 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
 		exit;
 	}
         
+    echo "Success: file extension OK\n";
         
         //chack if is an audio
         $type = "";
@@ -32,6 +35,8 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
         //var_dump($extension, $type);exit;
         
         require_once $global['systemRootPath'] . 'objects/video.php';
+        
+        echo "Starting Get Duration\n";
         $duration = Video::getDurationFromFile($_FILES['upl']['tmp_name']);
                 
         $path_parts = pathinfo( $_FILES['upl']['name']);        

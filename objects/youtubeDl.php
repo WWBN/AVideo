@@ -26,7 +26,9 @@ if (!file_exists($dir)) {
 }else{
     echo "Success: Directory ({$dir}) Found\n";
 }
-$cmd = "youtube-dl -o {$dir}{$filenameTemp} {$videoURL} -k";
+//$cmd = "youtube-dl -o {$dir}{$filenameTemp} {$videoURL} -k";
+$cmd = "youtube-dl -o {$dir}{$filenameTemp} -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' {$videoURL}";
+
 echo "** executing command {$cmd}\n";
 exec($cmd . "  1> {$dir}{$filenameTemp}_downloadProgress.txt  2>&1", $output, $return_val);
 if ($return_val !== 0) {
