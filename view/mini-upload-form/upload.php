@@ -58,7 +58,7 @@ if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
             if(!rename($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_".$filename)){
                 die("Error on rename file(".$_FILES['upl']['tmp_name'].", "."{$global['systemRootPath']}videos/original_".$filename.")");
             }
-        }else if(!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_".$filename))
+        }else if(!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_".$filename)){
             die("Error on move_uploaded_file(".$_FILES['upl']['tmp_name'].", "."{$global['systemRootPath']}videos/original_".$filename.")");
         }
         
