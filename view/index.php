@@ -97,7 +97,7 @@ $config = new Configuration();
                             <div class="row bgWhite">
                                 <div class="input-group">
                                     <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php if(!User::canComment()){ echo "disabled"; } ?>></textarea>     
-                                    <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php if(!User::canComment()){ echo "disabled='true'"; } ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
+                                    <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php if(!User::canComment()){ echo "disabled='disabled'"; } ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
                                 </div>
                                 <?php if(!User::canComment()){ ?><small><?php echo __("You can not comment videos"); ?></small><?php } ?>
                                 <div class="pull-right" id="count_message"></div>
@@ -135,7 +135,7 @@ $config = new Configuration();
                                         });
 
                                         $('#saveCommentBtn').click(function () {
-                                            if($(this).attr('disabled')=='true'){
+                                            if($(this).attr('disabled')==='disabled'){
                                                 return false;
                                             }
                                             if ($('#comment').val().length > 5) {
