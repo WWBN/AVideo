@@ -39,6 +39,7 @@ echo "Construct a Video\n";
 $video = new Video($filename.__(" (Do not change the title yet, wait to finish download)"), $filename);
 $video->setType("video");
 $video->setStatus('d');
+$video->setDuration("Downloading");
 echo "Save the Video ".  print_r($video, true)."\n";
 $_FILES['upl']['videoId'] = $video->save();
 
