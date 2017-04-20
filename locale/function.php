@@ -51,14 +51,7 @@ function getEnabledLangs() {
     return $flags;
 }
 
-function textToLink($text) {
-    $reg_exUrl = "/((http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3})([\s.,;\?\!]|$)/";
-    if (preg_match_all($reg_exUrl, $text, $matches)) {
-        foreach ($matches[0] as $i => $match) {
-            $text = str_replace(
-                    $match, '<a href="' . $matches[1][$i] . '" rel="nofollow">' . $matches[1][$i] . '</a>' . $matches[3][$i], $text
-            );
-        }
-    }
-    return $text;
+function textToLink($string) {
+    return preg_replace(
+            "~[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]~", "<a href=\"\\0\">\\0</a>", $string);
 }
