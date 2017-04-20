@@ -114,7 +114,7 @@ $config = new Configuration();
                                     });
                                 </script>
                                 <h4><?php echo __("Comments"); ?>:</h4>
-                                <table id="grid" class="table table-condensed table-hover table-striped">
+                                <table id="grid" class="table table-condensed table-hover table-striped nowrapCell">
                                     <thead>
                                         <tr>
                                             <th data-column-id="comment" ><?php echo __("Comment"); ?></th>

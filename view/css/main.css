@@ -281,3 +281,7 @@ video {
     color: #080 !important;
     font-size: 1.2em;
 }
+
+.nowrapCell.bootgrid-table td {
+    white-space: normal;
+}
