@@ -32,7 +32,7 @@ if (empty($_GET['page'])) {
 }
 $_POST['rowCount'] = 10;
 $_POST['current'] = $_GET['page'];
-$_POST['sort']['created'] = 'desc';
+$_POST['sort']['c.created'] = 'desc';
 $videos = Video::getAllVideos();
 $total = Video::getTotalVideos();
 $totalPages = ceil($total / $_POST['rowCount']);
