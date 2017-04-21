@@ -5,7 +5,6 @@ YouPHPTube! is an video-sharing website, The service was created by Daniel Neto 
 <img src="http://www.youphptube.com/img/prints/prints1.png">
 <a href="http://demo.youphptube.com/" target="_blank">View Demo</a>
 </div>
-</br>
 
 # Server Requirements
 
