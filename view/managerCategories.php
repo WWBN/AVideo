@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=".__("You can not manager categories"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager categories"));
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
@@ -13,10 +13,12 @@ $config = new Configuration();
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo __("Category"); ?></title>
-        
+
         <?php
-        include $global['systemRootPath'].'view/include/head.php';
+        include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <script src="<?php echo $global['webSiteRootURL']; ?>css/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>css/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
@@ -34,8 +36,9 @@ $config = new Configuration();
                 <thead>
                     <tr>
                         <th data-column-id="id" data-type="numeric" data-identifier="true"><?php echo __("ID"); ?></th>
+                        <th data-column-id="iconHtml" data-sortable="false"><?php echo __("Icon"); ?></th>
                         <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                        <th data-column-id="clean_name" data-order="desc"><?php echo __("Clean Name"); ?></th>
+                        <th data-column-id="clean_name"><?php echo __("Clean Name"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
                     </tr>
                 </thead>
@@ -55,6 +58,14 @@ $config = new Configuration();
                                 <input type="text" id="inputName" class="form-control first" placeholder="<?php echo __("Name"); ?>" required autofocus>
                                 <label for="inputCleanName" class="sr-only"><?php echo __("Clean Name"); ?></label>
                                 <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
+
+                                <div class="btn-group">
+                                    <button data-selected="graduation-cap" type="button" class="icp iconCat btn btn-default dropdown-toggle iconpicker-component" data-toggle="dropdown">
+                                        <?php echo __("Select an icon for the category"); ?>  <i class="fa fa-fw"></i>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu"></div>
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -64,14 +75,23 @@ $config = new Configuration();
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
         </div><!--/.container-->
-
-            <?php
-            include 'include/footer.php';
-            ?>
+        <?php
+        include 'include/footer.php';
+        ?>
         <script>
             $(document).ready(function () {
+
+
+                $('.iconCat').iconpicker({
+                    //searchInFooter: true, // If true, the search will be added to the footer instead of the title
+                    //inputSearch:true,
+                    //showFooter:true
+                });
+
+
+
+
                 var grid = $("#grid").bootgrid({
                     ajax: true,
                     url: "<?php echo $global['webSiteRootURL'] . "categories.json"; ?>",
@@ -83,7 +103,7 @@ $config = new Configuration();
                             return editBtn + deleteBtn;
                         }
                     }
-                }).on("loaded.rs.jquery.bootgrid", function (){
+                }).on("loaded.rs.jquery.bootgrid", function () {
                     /* Executes after data is loaded and rendered */
                     grid.find(".command-edit").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();
@@ -93,6 +113,7 @@ $config = new Configuration();
                         $('#inputCategoryId').val(row.id);
                         $('#inputName').val(row.name);
                         $('#inputCleanName').val(row.clean_name);
+                        $(".iconCat i").attr("class", row.iconClass);
 
                         $('#categoryFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
@@ -133,8 +154,8 @@ $config = new Configuration();
 
                 $('#inputCleanName').keyup(function (evt) {
                     $('#inputCleanName').val(clean_name($('#inputCleanName').val()));
-                });                
-                
+                });
+
                 $('#inputName').keyup(function (evt) {
                     $('#inputCleanName').val(clean_name($('#inputName').val()));
                 });
@@ -156,7 +177,7 @@ $config = new Configuration();
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'addNewCategory',
-                        data: {"id": $('#inputCategoryId').val(),  "name": $('#inputName').val(),  "clean_name": $('#inputCleanName').val()},
+                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "iconClass": $(".iconCat i").attr("class")},
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {

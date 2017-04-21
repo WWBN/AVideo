@@ -9,6 +9,7 @@ class Category{
     private $id;
     private $name;
     private $clean_name;
+    private $iconClass;
     
     function setName($name) {
         $this->name = $name;
@@ -48,9 +49,9 @@ class Category{
             $this->isAdmin = "false";
         }
         if(!empty($this->id)){
-            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
         }else{
-            $sql = "INSERT INTO categories ( name,clean_name, created, modified) VALUES ('{$this->name}', '{$this->clean_name}',now(), now())";            
+            $sql = "INSERT INTO categories ( name,clean_name,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}', '{$this->getIconClass()}',now(), now())";            
         }
         $resp = $global['mysqli']->query($sql);
         if(empty($resp)){
@@ -123,6 +124,19 @@ class Category{
         
         return $res->num_rows;
     }
+    
+    function getIconClass() {
+        if(empty($this->iconClass)){
+            return "fa fa-folder";
+        }
+        return $this->iconClass;
+    }
+
+    function setIconClass($iconClass) {
+        $this->iconClass = $iconClass;
+    }
+
+
     
 
 }

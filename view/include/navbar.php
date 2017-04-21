@@ -111,19 +111,23 @@ $config = new Configuration();
                             <?php
                             if (User::canUpload()) {
                                 ?>
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs">
-                                        <span class="glyphicon glyphicon-film"></span> 
-                                        <span class="glyphicon glyphicon-headphones"></span> 
-                                        <?php echo __("My videos"); ?>
-                                    </a>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs">
+                                    <span class="glyphicon glyphicon-film"></span> 
+                                    <span class="glyphicon glyphicon-headphones"></span> 
+                                    <?php echo __("My videos"); ?>
+                                </a>
                                 <?php
                             }
                             ?>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-danger btn-xs">
-                                <span class="glyphicon glyphicon-log-out"></span> 
-                                <?php echo __("Logoff"); ?>
-                            </a>
                         </div>
+                    </div>
+                </li>
+                <li style="padding: 5px;">
+                    <div>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-danger btn-xs btn-block">
+                            <span class="glyphicon glyphicon-log-out"></span> 
+                            <?php echo __("Logoff"); ?>
+                        </a>
                     </div>
                 </li>
                 <?php
@@ -186,14 +190,14 @@ $config = new Configuration();
                     <?php echo __("Contact"); ?>
                 </a>
             </li>
-
-            <li class="<?php echo empty($_GET['catName']) ? "active" : ""; ?>"><a href="<?php echo $global['webSiteRootURL']; ?>"><span class="glyphicon glyphicon-align-justify"></span> <?php echo __("All categories"); ?></a></li>
-            <?php
-            foreach ($categories as $value) {
-                echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '"><a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" ><span class="glyphicon glyphicon-minus"></span>  ' . $value['name'] . '</a></li>';
-            }
-            ?>
         </ul>
+        
+        <div class="" style="padding: 5px;">
+            <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-lg btn-block">
+                <span class="glyphicon glyphicon-upload" style="font-size: 1em;"></span> 
+                <?php echo __("Video and Audio Upload"); ?>
+            </a>
+        </div>
     </div>
 </nav>
 <div class="tabbable-panel">
@@ -217,5 +221,11 @@ $config = new Configuration();
                     <?php echo __("Audios"); ?>
                 </a>
             </li>
+            
+             <?php
+                foreach ($categories as $value) {
+                    echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '"><a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" ><span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
+                }
+                ?>
         </ul></div>
 </div>
