@@ -2,13 +2,13 @@
 
 class BootGrid {
 
-    static function getSqlFromPost($searchFieldsNames = array()) {
+    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "") {
         $sql = self::getSqlSearchFromPost($searchFieldsNames);
         
         if(!empty($_POST['sort'])){
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
-                $orderBy[] = " {$key} {$value} ";
+                $orderBy[] = " {$keyPrefix}{$key} {$value} ";
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
         }else{

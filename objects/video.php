@@ -192,7 +192,7 @@ class Video {
             $_POST['searchPhrase'] = $_GET['search'];
         }
 
-        $sql .= BootGrid::getSqlFromPost(array('title', 'description'));
+        $sql .= BootGrid::getSqlFromPost(array('title', 'description'), "v.");
 
 
         $res = $global['mysqli']->query($sql);
