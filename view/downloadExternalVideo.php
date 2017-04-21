@@ -103,8 +103,21 @@ function isYoutubeDl() {
                                     type: response.type
                                 });
                                 modal.hidePleaseWait();
+                                
+                                swal({
+                                    title: "<?php echo __("Congratulations!"); ?>",
+                                    text: "<?php echo __("Your video is downloading now"); ?>",
+                                    type: "success",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "<?php echo __("Go to manager videos page!"); ?>",
+                                    closeOnConfirm: false
+                                },
+                                        function () {
+                                            window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
+                                        });
                                 if(response.filename){
-                                    checkProgress(response.filename)
+                                    checkProgress(response.filename);
                                 }
                             }
                         });
