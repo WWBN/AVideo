@@ -24,6 +24,10 @@ if(!empty($_GET['type'])){
 
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo();
+if (!empty($video)) {
+    $name = empty($video['name'])?substr($video['user'], 0,5)."...":$video['name'];
+    $video['creator'] = '<div class="pull-left"><img src="'.User::getPhoto($video['users_id']).'" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>'.$name.'</strong> <small>'.humanTiming(strtotime($video['videoCreation'])).'</small></div></div>';
+}
 
 if (empty($_GET['page'])) {
     $_GET['page'] = 1;
@@ -34,6 +38,10 @@ $_POST['rowCount'] = 10;
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
 $videos = Video::getAllVideos();
+foreach ($videos as $key => $value) {
+    $name = empty($value['name'])?substr($value['user'], 0,5)."...":$value['name'];
+    $videos[$key]['creator'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="" class="img img-responsive img-circle" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName"><strong>'.$name.'</strong> <small>'.humanTiming(strtotime($value['videoCreation'])).'</small></div></div>';
+}
 $total = Video::getTotalVideos();
 $totalPages = ceil($total / $_POST['rowCount']);
 require_once $global['systemRootPath'] . 'objects/configuration.php';
@@ -82,17 +90,15 @@ $config = new Configuration();
                                     <h1>
                                         <?php echo $video['title']; ?>
                                     </h1>
+                                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                                    
                                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
                                     <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['category']; ?></div>
                                     
-                                    <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Views"); ?>:</strong></div>
-                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['views_count']; ?></div>
+                                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['views_count']; ?> <?php echo __("Views"); ?></div>
                                     
-                                    <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Created"); ?>:</strong></div>
-                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo humanTiming(strtotime($video['videoCreation'])); ?></div>
-                                    
-                                    <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
-                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo nl2br($video['description']); ?></div>
+                                    <div class="col-xs-12 col-sm-12 col-lg-12"><strong><?php echo __("Description"); ?>:</strong></div>
+                                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo nl2br($video['description']); ?></div>
                                 </div>                                
                             </div>
                             <div class="row bgWhite">
@@ -250,8 +256,8 @@ $config = new Configuration();
                                                 <div>
                                                     <?php echo __("Category"); ?>: <?php echo $value['category']; ?>
                                                 </div>
-                                                <div><?php echo __("Created"); ?>: <?php echo $value['creator']; ?></div>
                                                 <div><?php echo $value['views_count']; ?> <?php echo __("Views"); ?></div>
+                                                <div><?php echo $value['creator']; ?></div>
                                             </div>
                                         </div>
                                     </a>
