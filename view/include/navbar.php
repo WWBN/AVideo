@@ -109,20 +109,20 @@ $config = new Configuration();
                                 <span class="glyphicon glyphicon-log-out"></span> 
                                 <?php echo __("Logoff"); ?>
                             </a>
+                            <?php
+                            if (User::canUpload()) {
+                                ?>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs">
+                                        <span class="glyphicon glyphicon-facetime-video"></span> 
+                                        <?php echo __("Manager Audios and Videos"); ?>
+                                    </a>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </li>
                 <?php
-                if (User::canUpload()) {
-                    ?>
-                    <li>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos">
-                            <span class="glyphicon glyphicon-facetime-video"></span> 
-                            <?php echo __("Manager Audios and Videos"); ?>
-                        </a>
-                    </li>
-                    <?php
-                }
                 if (User::isAdmin()) {
                     ?>
                     <li>
