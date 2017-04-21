@@ -191,13 +191,6 @@ $config = new Configuration();
                 </a>
             </li>
         </ul>
-        
-        <div class="" style="padding: 5px;">
-            <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-lg btn-block">
-                <span class="glyphicon glyphicon-upload" style="font-size: 1em;"></span> 
-                <?php echo __("Video and Audio Upload"); ?>
-            </a>
-        </div>
     </div>
 </nav>
 <div class="tabbable-panel">
