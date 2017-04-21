@@ -18,6 +18,8 @@ ALTER TABLE `configurations`
 CHANGE COLUMN `modified` `modified` DATETIME NOT NULL DEFAULT now() ,
 CHANGE COLUMN `created` `created` DATETIME NOT NULL DEFAULT now() ;
 
+UPDATE configurations SET  version = '1.5', modified = now() WHERE id = 1;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
