@@ -152,7 +152,7 @@ class Video {
         } else if (!empty($id)) {
             $sql .= " AND v.id = $id ";
         } else {
-            $sql .= " ORDER BY Created DESC ";
+            $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
         //echo $sql;exit;
