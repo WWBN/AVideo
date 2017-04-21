@@ -113,8 +113,9 @@ $config = new Configuration();
                             if (User::canUpload()) {
                                 ?>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs">
-                                        <span class="glyphicon glyphicon-facetime-video"></span> 
-                                        <?php echo __("Manager Audios and Videos"); ?>
+                                        <span class="glyphicon glyphicon-film"></span> 
+                                        <span class="glyphicon glyphicon-headphones"></span> 
+                                        <?php echo __("Manager"); ?>
                                     </a>
                                 <?php
                             }
