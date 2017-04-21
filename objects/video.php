@@ -180,7 +180,7 @@ class Video {
         if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
-        if ($showOnlyLoggedUserVideos) {
+        if ($showOnlyLoggedUserVideos && !User::isAdmin()) {
             $sql .= " AND v.users_id = '".User::getId()."'";
         }
 
