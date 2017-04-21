@@ -104,10 +104,9 @@ $config = new Configuration();
                         <?php echo User::getName(); ?>
                         <div><small><?php echo User::getMail(); ?></small></div>
                         <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-xs"><?php echo __("My Account"); ?></a>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-danger btn-xs">
-                                <span class="glyphicon glyphicon-log-out"></span> 
-                                <?php echo __("Logoff"); ?>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-xs">
+                                <span class="fa fa-user-circle"></span> 
+                                <?php echo __("My Account"); ?>
                             </a>
                             <?php
                             if (User::canUpload()) {
@@ -115,11 +114,15 @@ $config = new Configuration();
                                     <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs">
                                         <span class="glyphicon glyphicon-film"></span> 
                                         <span class="glyphicon glyphicon-headphones"></span> 
-                                        <?php echo __("Manager"); ?>
+                                        <?php echo __("My videos"); ?>
                                     </a>
                                 <?php
                             }
                             ?>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-log-out"></span> 
+                                <?php echo __("Logoff"); ?>
+                            </a>
                         </div>
                     </div>
                 </li>
