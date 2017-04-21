@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `clean_name` VARCHAR(45) NOT NULL,
   `created` DATETIME NOT NULL DEFAULT now(),
   `modified` DATETIME NOT NULL DEFAULT now(),
+  `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC))
 ENGINE = InnoDB;

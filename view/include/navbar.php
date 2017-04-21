@@ -202,13 +202,13 @@ $config = new Configuration();
                     <?php echo __("Audios and Videos"); ?>
                 </a>
             </li>
-            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video') ? "active" : ""; ?>">
+            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_GET['catName'])) ? "active" : ""; ?>">
                 <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
                     <span class="glyphicon glyphicon-facetime-video"></span> 
                     <?php echo __("Videos"); ?>
                 </a>
             </li>
-            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio') ? "active" : ""; ?>">
+            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_GET['catName'])) ? "active" : ""; ?>">
                 <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
                     <span class="glyphicon glyphicon-headphones"></span> 
                     <?php echo __("Audios"); ?>
