@@ -113,6 +113,16 @@ $config = new Configuration();
                     </div>
                 </li>
                 <?php
+                if (User::canUpload()) {
+                    ?>
+                    <li>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos">
+                            <span class="glyphicon glyphicon-facetime-video"></span> 
+                            <?php echo __("Manager Audios and Videos"); ?>
+                        </a>
+                    </li>
+                    <?php
+                }
                 if (User::isAdmin()) {
                     ?>
                     <li>
@@ -125,12 +135,6 @@ $config = new Configuration();
                         <a href="<?php echo $global['webSiteRootURL']; ?>categories">
                             <span class="glyphicon glyphicon-list"></span> 
                             <?php echo __("Manager Categories"); ?>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos">
-                            <span class="glyphicon glyphicon-facetime-video"></span> 
-                            <?php echo __("Manager Audios and Videos"); ?>
                         </a>
                     </li>
                     <li>

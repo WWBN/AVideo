@@ -164,7 +164,7 @@ class Video {
         return $video;
     }
 
-    static function getAllVideos($status = "a") {
+    static function getAllVideos($status = "a", $showOnlyLoggedUserVideos=false) {
         global $global;
         $sql = "SELECT v.*, c.name as category FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
@@ -177,6 +177,9 @@ class Video {
         
         if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
+        }
+        if ($showOnlyLoggedUserVideos) {
+            $sql .= " AND v.users_id = '".User::getId()."'";
         }
 
         if (!empty($_GET['catName'])) {
@@ -201,7 +204,7 @@ class Video {
         return $videos;
     }
 
-    static function getTotalVideos($status = "a") {
+    static function getTotalVideos($status = "a", $showOnlyLoggedUserVideos=false) {
         global $global;
         $sql = "SELECT v.id FROM videos v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
@@ -209,6 +212,9 @@ class Video {
 
         if (!empty($status)) {
             $sql .= " AND status = '{$status}'";
+        }
+        if ($showOnlyLoggedUserVideos) {
+            $sql .= " AND v.users_id = '".User::getId()."'";
         }
 
         if (!empty($_GET['catName'])) {
