@@ -131,8 +131,9 @@ class Video {
     static function getVideo($id = "", $status = "a") {
         global $global;
         $id = intval($id);
-        $sql = "SELECT v.*, c.name as category FROM videos as v "
+        $sql = "SELECT u.*, v.*, c.name as category FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
+                . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
 
         if(!empty($_SESSION['type'])){
@@ -166,8 +167,9 @@ class Video {
 
     static function getAllVideos($status = "a", $showOnlyLoggedUserVideos=false) {
         global $global;
-        $sql = "SELECT v.*, c.name as category FROM videos as v "
+        $sql = "SELECT u.*, v.*, c.name as category FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
+                . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
 
         

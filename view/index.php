@@ -9,6 +9,7 @@ if (!file_exists('../videos/configuration.php')) {
 require_once '../videos/configuration.php';
 
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/functions.php';
 
 if(!empty($_GET['type'])){
     if($_GET['type']=='audio'){
@@ -88,7 +89,7 @@ $config = new Configuration();
                                     <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['views_count']; ?></div>
                                     
                                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Created"); ?>:</strong></div>
-                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['created']; ?></div>
+                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo humanTiming(strtotime($video['creator'])); ?></div>
                                     
                                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                                     <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo nl2br($video['description']); ?></div>
@@ -249,7 +250,7 @@ $config = new Configuration();
                                                 <div>
                                                     <?php echo __("Category"); ?>: <?php echo $value['category']; ?>
                                                 </div>
-                                                <div><?php echo __("Created"); ?>: <?php echo $value['created']; ?></div>
+                                                <div><?php echo __("Created"); ?>: <?php echo $value['creator']; ?></div>
                                                 <div><?php echo $value['views_count']; ?> <?php echo __("Views"); ?></div>
                                             </div>
                                         </div>
