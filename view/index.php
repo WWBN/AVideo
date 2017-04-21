@@ -104,7 +104,11 @@ $config = new Configuration();
                             <div class="row bgWhite">
                                 <div class="input-group">
                                     <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php if(!User::canComment()){ echo "disabled"; } ?>><?php if(!User::canComment()){ echo __("You can not comment videos"); } ?></textarea>     
+                                    <?php if(User::canComment()){ ?>
                                     <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php if(!User::canComment()){ echo "disabled='disabled'"; } ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
+                                    <?php }else{ ?>
+                                    <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You must login to be able to comment on videos"); ?></a>
+                                    <?php } ?>
                                 </div>
                                 <div class="pull-right" id="count_message"></div>
                                 <script>
