@@ -126,7 +126,10 @@ function isYoutubeDl() {
                                     title: "<?php echo __("Congratulations!"); ?>",
                                     text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
                                     type: "success"
-                                });
+                                },
+                                        function () {
+                                            window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
+                                        });
                             }
                         }
                     });
