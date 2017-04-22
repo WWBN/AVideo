@@ -39,7 +39,7 @@ $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
 $videos = Video::getAllVideos();
 foreach ($videos as $key => $value) {
-    $name = empty($value['name'])?substr($value['user'], 0,5)."...":$value['name'];
+    $name = empty($value['name'])?$value['user']:$value['name'];
     $videos[$key]['creator'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="" class="img img-responsive img-circle" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName"><strong>'.$name.'</strong> <small>'.humanTiming(strtotime($value['videoCreation'])).'</small></div></div>';
 }
 $total = Video::getTotalVideos();
