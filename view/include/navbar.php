@@ -41,7 +41,7 @@ $config = new Configuration();
                 </div>
                 <div class="col-xs-9 col-sm-9 col-lg-9 ">
                     <a class="brand" href="<?php echo $global['webSiteRootURL']; ?>" >
-                        <img src="<?php echo $global['webSiteRootURL']; ?>view/img/logo.png" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive">
+                        <img src="<?php echo $global['webSiteRootURL']; ?>view/img/logo138x30.png" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive">
                     </a>
                 </div>
             </div>
