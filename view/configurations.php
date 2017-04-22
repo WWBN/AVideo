@@ -24,8 +24,8 @@ $config = new Configuration();
             if (User::isAdmin()) {
                 ?>
                 <div class="row">
-                    <div class="col-xs-6 col-sm-4 col-lg-3"></div>
-                    <div class="col-xs-6 col-sm-4 col-lg-6">
+                    <div class="col-xs-1 col-sm-1 col-lg-2"></div>
+                    <div class="col-xs-7 col-sm-7 col-lg-6">
                         <form class="form-compact well form-horizontal"  id="updateConfigForm" onsubmit="">
                             <fieldset>
                                 <legend><?php echo __("Update the site configuration"); ?></legend>
@@ -168,7 +168,7 @@ $config = new Configuration();
                         </form>
 
                     </div>
-                    <div class="col-xs-6 col-sm-4 col-lg-3">
+                    <div class="col-xs-4 col-sm-4 col-lg-4">
                         <ul class="list-group">
                             <li class="list-group-item active">
                                 <?php echo __("Recommended resolutions"); ?>
