@@ -130,8 +130,8 @@ $config = new Configuration();
             } else {
                 ?>
                 <div class="row">
-                    <div class="col-xs-6 col-sm-4"></div>
-                    <div class="col-xs-6 col-sm-4">
+                    <div class="col-xs-1 col-sm-4"></div>
+                    <div class="col-xs-10 col-sm-4">
                         <form class="form-compact well form-horizontal"  id="loginForm">
                             <fieldset>
                                 <legend><?php echo __("Please sign in"); ?></legend>
@@ -195,7 +195,7 @@ $config = new Configuration();
                         </form>
 
                     </div>
-                    <div class="col-xs-6 col-sm-4"></div>
+                    <div class="col-xs-1 col-sm-4"></div>
                 </div>
                 <script>
                     $(document).ready(function () {
