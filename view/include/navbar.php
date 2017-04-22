@@ -31,7 +31,7 @@ $config = new Configuration();
 <nav class="navbar navbar-fixed-top ">
     <div class="navbar-header  navbar-default">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-lg-2" >
+            <div class="col-xs-5 col-sm-4 col-lg-2" >
                 <div class="col-xs-3 col-sm-3 col-lg-3 ">
                     <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
@@ -45,7 +45,7 @@ $config = new Configuration();
                     </a>
                 </div>
             </div>
-            <div class="col-xs-6 col-sm-6 col-lg-8 " >
+            <div class="col-xs-4 col-sm-5 col-lg-8" >
                 <form class="navbar-form  " action="<?php echo $global['webSiteRootURL']; ?>" >
                     <div class="input-group"  style="width: 100%;">
                         <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
@@ -53,7 +53,7 @@ $config = new Configuration();
                     </div>
                 </form>
             </div>
-            <div class="col-xs-6 col-sm-6 col-lg-2" style="padding-top: 8px;" >
+            <div class="col-xs-3 col-sm-3 col-lg-2" style="padding-top: 8px;" >
                 <select class="selectpicker" id="navBarFlag" data-width="fit">
                     <?php
                     $flags = getEnabledLangs();
