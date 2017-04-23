@@ -403,6 +403,15 @@ function check_memory_limit() {
                                 <input type="text" class="form-control" id="databaseName" placeholder="Enter Database Name" value="youPHPTube" required="required">
                             </div>
                             <div class="form-group">
+                                <label for="createTables">Do you want to create database and tables?</label>
+
+                                <select class="" id="createTables">
+                                    <option value="2">Create database and tables</option>
+                                    <option value="1">Create only tables (Do not create database)</option>
+                                    <option value="0">Do not create any, I will import the script manually</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="mainLanguage">Select the main Language</label>
 
                                 <select class="selectpicker" data-width="fit" id="mainLanguage">
@@ -462,6 +471,7 @@ function check_memory_limit() {
                     var databaseName = $('#databaseName').val();
                     var mainLanguage = $('#mainLanguage').val();
                     var contactEmail = $('#contactEmail').val();
+                    var createTables = $('#createTables').val();
                     $.ajax({
                         url: webSiteRootURL + 'install/checkConfiguration.php',
                         data: {
@@ -474,7 +484,8 @@ function check_memory_limit() {
                             databaseName: databaseName,
                             mainLanguage: mainLanguage,
                             systemAdminPass: systemAdminPass,
-                            contactEmail: contactEmail
+                            contactEmail: contactEmail,
+                            createTables: createTables
                         },
                         type: 'post',
                         success: function (response) {

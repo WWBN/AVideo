@@ -1,4 +1,5 @@
 <?php
+
 $installationVersion = "1.5";
 
 header('Content-Type: application/json');
@@ -24,11 +25,13 @@ if ($mysqli->connect_error) {
     exit;
 }
 
-$sql = "CREATE DATABASE IF NOT EXISTS {$_POST['databaseName']}";
-if ($mysqli->query($sql) !== TRUE) {
-    $obj->error = "Error creating database: " . $mysqli->error;
-    echo json_encode($obj);
-    exit;
+if ($_POST['createTables'] == 2) {
+    $sql = "CREATE DATABASE IF NOT EXISTS {$_POST['databaseName']}";
+    if ($mysqli->query($sql) !== TRUE) {
+        $obj->error = "Error creating database: " . $mysqli->error;
+        echo json_encode($obj);
+        exit;
+    }
 }
 $mysqli->select_db($_POST['databaseName']);
 
@@ -41,28 +44,29 @@ $mysqli->select_db($_POST['databaseName']);
   exit;
   }
  */
-
+if ($_POST['createTables'] > 0) {
 // Temporary variable, used to store current query
-$templine = '';
+    $templine = '';
 // Read in entire file
-$lines = file("{$_POST['systemRootPath']}install/database.sql");
+    $lines = file("{$_POST['systemRootPath']}install/database.sql");
 // Loop through each line
-$obj->error = "";
-foreach ($lines as $line) {
+    $obj->error = "";
+    foreach ($lines as $line) {
 // Skip it if it's a comment
-    if (substr($line, 0, 2) == '--' || $line == '')
-        continue;
+        if (substr($line, 0, 2) == '--' || $line == '')
+            continue;
 
 // Add this line to the current segment
-    $templine .= $line;
+        $templine .= $line;
 // If it has a semicolon at the end, it's the end of the query
-    if (substr(trim($line), -1, 1) == ';') {
-        // Perform the query
-        if (!$mysqli->query($templine)) {
-            $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error . '<br /><br />');
+        if (substr(trim($line), -1, 1) == ';') {
+            // Perform the query
+            if (!$mysqli->query($templine)) {
+                $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error . '<br /><br />');
+            }
+            // Reset temp variable to empty
+            $templine = '';
         }
-        // Reset temp variable to empty
-        $templine = '';
     }
 }
 

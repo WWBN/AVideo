@@ -1,6 +1,6 @@
 <hr>
 <footer>
-    <p>Copyright <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary" target="_blank">YouPHPTube</a> &copy; 2017, All rights reserved</p>
+    <p>Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary" target="_blank">YouPHPTube</a> &copy; 2017, All rights reserved</p>
 </footer>
 <script>
 $(function() {
