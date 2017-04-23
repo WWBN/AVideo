@@ -95,9 +95,12 @@ class Comment{
         $sql .= BootGrid::getSqlFromPost(array('name'));
         
         $res = $global['mysqli']->query($sql);
-        
+        $comment = array();
         if ($res) {
-            $comment = $res->fetch_all(MYSQLI_ASSOC);
+            while ($row = $res->fetch_assoc()) {
+                $comment[] = $row;
+            }
+            //$comment = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $comment = false;
             die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);

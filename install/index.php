@@ -91,6 +91,10 @@ function check_memory_limit() {
     }
 }
 
+function check_mysqlnd() {
+    return function_exists('mysqli_fetch_all');
+}
+
 //var_dump($_SERVER);exit;
 ?>
 <!DOCTYPE html>
@@ -180,6 +184,28 @@ function check_memory_limit() {
                                     <pre><code>a2enmod rewrite</code></pre><br>
                                     Restart apache2 after<br>
                                     <pre><code>/etc/init.d/apache2 restart</code></pre>
+                                </details>
+                            </div>                  
+                            <?php
+                        }
+                        ?>
+                        
+                        
+                        <?php
+                        if (check_mysqlnd()) {
+                            ?>
+                            <div class="alert alert-success">
+                                <span class="glyphicon glyphicon-check"></span>
+                                <strong>This server is using MySQLnd as the driver</strong>
+                            </div>                  
+                            <?php
+                        } else {
+                            ?>
+                            <div class="alert alert-danger">
+                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <strong>This server is not using MySQLnd as the driver</strong><details>
+                                    mysqli_result::fetch_all() requires MySQL Native Driver (mysqlnd).
+                                    <pre><code>sudo apt-get install php5-mysqlnd</code></pre>
                                 </details>
                             </div>                  
                             <?php

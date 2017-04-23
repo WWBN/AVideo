@@ -196,9 +196,12 @@ class Video {
 
 
         $res = $global['mysqli']->query($sql);
-
+        $videos = array();
         if ($res) {
-            $videos = $res->fetch_all(MYSQLI_ASSOC);
+            while ($row = $res->fetch_assoc()) {
+                $videos[] = $row;
+            }
+            //$videos = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $videos = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);

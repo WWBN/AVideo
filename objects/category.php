@@ -1,87 +1,86 @@
 <?php
-if(empty($global['systemRootPath'])){
+
+if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
-require_once $global['systemRootPath'].'objects/bootGrid.php';
-require_once $global['systemRootPath'].'objects/user.php';
-class Category{
+require_once $global['systemRootPath'] . 'videos/configuration.php';
+require_once $global['systemRootPath'] . 'objects/bootGrid.php';
+require_once $global['systemRootPath'] . 'objects/user.php';
+
+class Category {
+
     private $id;
     private $name;
     private $clean_name;
     private $iconClass;
-    
+
     function setName($name) {
         $this->name = $name;
     }
-    
+
     function setClean_name($clean_name) {
         preg_replace('/\W+/', '-', strtolower($clean_name));
         $this->clean_name = $clean_name;
     }
 
-    
-        
-    function __construct($id, $name="") {
-        if(empty($id)){
+    function __construct($id, $name = "") {
+        if (empty($id)) {
             // get the category data from category and pass
             $this->name = $name;
-        }else{
+        } else {
             // get data from id
             $this->load($id);
         }
-        
     }
-    
-    private function load($id){
+
+    private function load($id) {
         $category = $this->getCategory($id);
         $this->id = $category['id'];
         $this->name = $category['name'];
     }
 
-    function loadSelfCategory(){
+    function loadSelfCategory() {
         $this->load($this->getId());
     }
 
-    function save(){
+    function save() {
         global $global;
-        if(empty($this->isAdmin)){
+        if (empty($this->isAdmin)) {
             $this->isAdmin = "false";
         }
-        if(!empty($this->id)){
+        if (!empty($this->id)) {
             $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
-        }else{
-            $sql = "INSERT INTO categories ( name,clean_name,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}', '{$this->getIconClass()}',now(), now())";            
+        } else {
+            $sql = "INSERT INTO categories ( name,clean_name,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}', '{$this->getIconClass()}',now(), now())";
         }
         $resp = $global['mysqli']->query($sql);
-        if(empty($resp)){
+        if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $resp;
     }
-    
-    
-    function delete(){
-        if(!User::isAdmin()){
+
+    function delete() {
+        if (!User::isAdmin()) {
             return false;
         }
         // cannot delete default category
-        if($this->id == 1){
+        if ($this->id == 1) {
             return false;
         }
-        
+
         global $global;
-        if(!empty($this->id)){
+        if (!empty($this->id)) {
             $sql = "DELETE FROM categories WHERE id = {$this->id}";
-        }else{
+        } else {
             return false;
         }
         $resp = $global['mysqli']->query($sql);
-        if(empty($resp)){
+        if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $resp;
-    }    
+    }
 
     private function getCategory($id) {
         global $global;
@@ -95,38 +94,41 @@ class Category{
         }
         return $category;
     }
-    
-    static function getAllCategories(){
+
+    static function getAllCategories() {
         global $global;
         $sql = "SELECT * FROM categories WHERE 1=1 ";
-        
+
         $sql .= BootGrid::getSqlFromPost(array('name'));
-        
+
         $res = $global['mysqli']->query($sql);
-        
+        $category = array();
         if ($res) {
-            $category = $res->fetch_all(MYSQLI_ASSOC);
+            while ($row = $res->fetch_assoc()) {
+                $category[] = $row;
+            }
+            //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $category = false;
-            die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $category;
     }
-    
-    static function getTotalCategories(){
+
+    static function getTotalCategories() {
         global $global;
         $sql = "SELECT id FROM categories WHERE 1=1  ";
-        
+
         $sql .= BootGrid::getSqlSearchFromPost(array('name'));
-        
+
         $res = $global['mysqli']->query($sql);
-        
-        
+
+
         return $res->num_rows;
     }
-    
+
     function getIconClass() {
-        if(empty($this->iconClass)){
+        if (empty($this->iconClass)) {
             return "fa fa-folder";
         }
         return $this->iconClass;
@@ -135,8 +137,5 @@ class Category{
     function setIconClass($iconClass) {
         $this->iconClass = $iconClass;
     }
-
-
-    
 
 }
