@@ -54,6 +54,8 @@ $config = new Configuration();
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        
     </head>
 
     <body>
@@ -340,5 +342,7 @@ $config = new Configuration();
         <?php
         include 'include/footer.php';
         ?>
+        
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.min.js" type="text/javascript"></script>
     </body>
 </html>

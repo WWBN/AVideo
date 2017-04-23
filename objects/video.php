@@ -379,7 +379,8 @@ class Video {
         exec($cmd . ' 2>&1', $output, $return_val);
         if ($return_val !== 0) {
             echo '{"status":"error", "msg":' . json_encode($output) . '}';
-            exit;
+            // fix ffprobe
+            $duration = "EE:EE:EE";
         } else {
             $duration = $output[0];
         }
