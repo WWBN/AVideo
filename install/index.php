@@ -192,6 +192,7 @@ function check_mysqlnd() {
                         
                         
                         <?php
+                        /*
                         if (check_mysqlnd()) {
                             ?>
                             <div class="alert alert-success">
@@ -210,6 +211,8 @@ function check_mysqlnd() {
                             </div>                  
                             <?php
                         }
+                         * 
+                         */
                         ?>
 
                         <?php
