@@ -76,7 +76,7 @@ $config = new Configuration();
                         if (!$global['mysqli']->query($templine)) {
                             $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
                             echo json_encode($obj);
-                            exit;
+                            //exit;
                         }
                         $templine = '';
                     }
