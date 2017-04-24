@@ -73,7 +73,7 @@
         <div id="block_error">
             <img src="view/img/logo.png" class="img img-responsive center-block"/>
             <div>
-                <h2>Error. Oops you've have encountered an error</h2>
+                <h2>Error. Oops you've encountered an error</h2>
                 <p>
                     It apperrs that Either something went wrong or the mod rewrite configration is not correct.<br />
                 </p>
