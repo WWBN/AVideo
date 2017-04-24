@@ -4,6 +4,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
@@ -58,10 +59,12 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `duration` VARCHAR(15) NOT NULL,
   `type` ENUM('audio', 'video') NOT NULL DEFAULT 'video',
   `videoDownloadedLink` VARCHAR(255) NULL,
+  `order` INT UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
+  INDEX `index5` (`order` ASC),
   CONSTRAINT `fk_videos_users`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
@@ -127,6 +130,31 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   CONSTRAINT `fk_configurations_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `videos_statistics`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `videos_statistics` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `when` DATETIME NOT NULL,
+  `ip` VARCHAR(45) NULL,
+  `users_id` INT NULL,
+  `videos_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
+  INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),
+  CONSTRAINT `fk_videos_statistics_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_videos_statistics_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
