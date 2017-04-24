@@ -50,7 +50,7 @@ $config = new Configuration();
                                 }
                                 ?>
                             </select>
-                            <?php printf(__("We detected a total of %d pending updates, if you want to do it now click (Update Now) button"), count($updateFiles)); ?>
+                            <?php printf(__("We detected a total of %d pending updates, if you want to do it now click (Update Now) button"), "<strong class='badge'>".count($updateFiles)."</strong>"); ?>
                             <hr>
                             <button type="submit" class="btn btn-warning btn-lg center-block " href="?update=1" > <span class="glyphicon glyphicon-refresh"></span> <?php echo __("Update Now"); ?> </button>
                         </fieldset>
