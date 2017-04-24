@@ -1,5 +1,5 @@
 .video-js .vjs-control-bar {
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .video-js .vjs-play-progress {
