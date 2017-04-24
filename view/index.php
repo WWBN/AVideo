@@ -27,6 +27,9 @@ $video = Video::getVideo();
 if (!empty($video)) {
     $name = empty($video['name']) ? substr($video['user'], 0, 5) . "..." : $video['name'];
     $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
+    $obj = new Video("", "", $video['id']);
+    $resp = $obj->addView();
+    
 }
 
 if (empty($_GET['page'])) {

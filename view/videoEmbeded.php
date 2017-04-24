@@ -2,6 +2,11 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo();
+if(empty($video)){
+    die(__("Video not found"));
+}
+$obj = new Video("", "", $video['id']);
+$resp = $obj->addView();
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 ?>
@@ -15,16 +20,20 @@ $config = new Configuration();
         <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
+        <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.2.0.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <style>
         </style>
     </head>
 
     <body>
-        <div align="center" class="embed-responsive embed-responsive-16by9">
+        <div align="center" class="embed-responsive embed-responsive-16by9 ">
             <?php
             if ($video['type'] == "audio") {
                 ?>
-                <audio controls class="center-block"  id="mainAudio">
+                <audio controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true}'>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
@@ -33,7 +42,8 @@ $config = new Configuration();
             } else {
                 ?>
 
-                <video poster="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.jpg" controls crossorigin class="img img-responsive" id="mainVideo">
+                <video poster="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.jpg" controls crossorigin  width="auto" height="auto" 
+                       class="video-js vjs-default-skin vjs-big-play-centered" id="mainVideo"  data-setup='{"fluid": true }'>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp4" type="video/mp4">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.webm" type="video/webm">
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
@@ -42,20 +52,5 @@ $config = new Configuration();
             }
             ?>
         </div>
-
-        <script>
-            var playCount = 0;
-            $('#mainAudio').bind('play', function (e) {
-                playCount++;
-                if (playCount == 1) {
-                    $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>addViewCountVideo',
-                        method: 'post',
-                        data: {'id': "<?php echo $video['id']; ?>"}
-                    });
-
-                }
-            });
-        </script>  
     </body>
 </html>
