@@ -76,7 +76,7 @@ $(function () {
                 data.context.addClass('error');
                 data.context.find('p.action').text("Error");
             } else {
-                data.context.find('p.action').text("Encoding...");
+                data.context.find('p.action').html("Encoding... <a href='mvideos'>video manager</a>");
                 data.context.addClass('working');
                 checkProgress(data);
             }

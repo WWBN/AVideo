@@ -9,7 +9,7 @@ require_once $configFile;
 if (!User::canUpload()) {
     die('{"status":"error", "msg":"Only logged users can upload"}');
 }
-echo "Success: login OK\n";
+//echo "Success: login OK\n";
 
 header('Content-Type: application/json');
 
@@ -18,7 +18,7 @@ $allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav');
 
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
-    echo "Success: \$_FILES OK\n";
+    //echo "Success: \$_FILES OK\n";
     $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
 
     if (!in_array(strtolower($extension), $allowed)) {
@@ -26,7 +26,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         exit;
     }
 
-    echo "Success: file extension OK\n";
+    //echo "Success: file extension OK\n";
 
     //chack if is an audio
     $type = "";
@@ -37,7 +37,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     require_once $global['systemRootPath'] . 'objects/video.php';
 
-    echo "Starting Get Duration\n";
+    //echo "Starting Get Duration\n";
     $duration = Video::getDurationFromFile($_FILES['upl']['tmp_name']);
 
     $path_parts = pathinfo($_FILES['upl']['name']);
@@ -65,7 +65,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
 
     $cmd = "/usr/bin/php -f {$global['systemRootPath']}view/mini-upload-form/videoEncoder.php {$filename} {$id} {$type} > /dev/null 2>/dev/null &";
-    echo "** executing command {$cmd}\n";
+    //echo "** executing command {$cmd}\n";
     exec($cmd);
 
     //exec("/usr/bin/php -f videoEncoder.php {$_FILES['upl']['tmp_name']} {$filename}  1> {$global['systemRootPath']}videos/{$filename}_progress.txt  2>&1", $output, $return_val);

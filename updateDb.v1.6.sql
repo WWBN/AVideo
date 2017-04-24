@@ -15,12 +15,13 @@ ADD COLUMN `videoDownloadedLink` VARCHAR(255) NULL DEFAULT NULL AFTER `type`;
 
 ALTER TABLE `categories` 
 CHANGE COLUMN `created` `created` DATETIME NOT NULL ,
-CHANGE COLUMN `modified` `modified` DATETIME NOT NULL ,
-ADD COLUMN `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder' AFTER `modified`;
+CHANGE COLUMN `modified` `modified` DATETIME NOT NULL;
 
 ALTER TABLE `configurations` 
 CHANGE COLUMN `modified` `modified` DATETIME NOT NULL ,
 CHANGE COLUMN `created` `created` DATETIME NOT NULL ;
+
+UPDATE configurations SET  version = '1.6', modified = now() WHERE id = 1;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
