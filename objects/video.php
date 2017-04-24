@@ -128,7 +128,7 @@ class Video {
         $this->type = $type;
     }
 
-    static function getVideo($id = "", $status = "a") {
+    static function getVideo($id = "", $status = "viewable") {
         global $global;
         $id = intval($id);
         $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation FROM videos as v "
@@ -140,7 +140,10 @@ class Video {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
         
-        if (!empty($status)) {
+        
+        if($status == "viewable"){
+            $sql .= " AND v.status IN ('". implode("','", Video::getViewableStatus())."')";
+        }else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
 
@@ -165,7 +168,7 @@ class Video {
         return $video;
     }
 
-    static function getAllVideos($status = "a", $showOnlyLoggedUserVideos=false) {
+    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos=false) {
         global $global;
         $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
@@ -177,7 +180,9 @@ class Video {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
         
-        if (!empty($status)) {
+        if($status == "viewable"){
+            $sql .= " AND v.status IN ('". implode("','", Video::getViewableStatus())."')";
+        }else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
         if ($showOnlyLoggedUserVideos && !User::isAdmin()) {
@@ -209,13 +214,15 @@ class Video {
         return $videos;
     }
 
-    static function getTotalVideos($status = "a", $showOnlyLoggedUserVideos=false) {
+    static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos=false) {
         global $global;
         $sql = "SELECT v.id FROM videos v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " WHERE 1=1  ";
 
-        if (!empty($status)) {
+        if($status == "viewable"){
+            $sql .= " AND v.status IN ('". implode("','", Video::getViewableStatus())."')";
+        }else if (!empty($status)) {
             $sql .= " AND status = '{$status}'";
         }
         if ($showOnlyLoggedUserVideos) {
@@ -235,6 +242,21 @@ class Video {
         }
 
         return $res->num_rows;
+    }
+    
+    static private function getViewableStatus(){
+        /**
+            a = active
+            i = inactive
+            e = encoding
+            x = encoding error
+            d = downloading
+            xmp4 = encoding mp4 error 
+            xwebm = encoding webm error 
+            xmp3 = encoding mp3 error 
+            xogg = encoding ogg error 
+         */
+        return array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
     }
 
     static function getVideoConversionStatus($filename) {
