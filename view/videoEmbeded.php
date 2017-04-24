@@ -5,6 +5,9 @@ $video = Video::getVideo();
 if(empty($video)){
     die(__("Video not found"));
 }
+
+require_once $global['systemRootPath'] . 'objects/video_statistic.php';
+VideoStatistic::save($video['id']);
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
 require_once $global['systemRootPath'] . 'objects/configuration.php';
