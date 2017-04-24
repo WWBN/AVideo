@@ -20,6 +20,7 @@ class Video {
     private $users_id;
     private $categories_id;
     private $type;
+    private $videoDownloadedLink;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
 
     function __construct($title = "", $filename = "", $id = 0) {
@@ -87,9 +88,14 @@ class Video {
         // TODO Check if the cleantitle already exists
 
         if (!empty($this->id)) {
-            $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}', filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}', description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
+            . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
+            . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', modified = now()"
+            . " WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO videos (title,clean_title, filename, users_id, categories_id, status, description, duration,type, created, modified) values ('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', now(), now())";
+            $sql = "INSERT INTO videos "
+                    . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, created, modified) values "
+                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', now(), now())";
         }
         $insert_row = $global['mysqli']->query($sql);
 
@@ -420,5 +426,15 @@ class Video {
     function getId() {
         return $this->id;
     }
+    
+    function getVideoDownloadedLink() {
+        return $this->videoDownloadedLink;
+    }
+
+    function setVideoDownloadedLink($videoDownloadedLink) {
+        $this->videoDownloadedLink = $videoDownloadedLink;
+    }
+
+
 
 }

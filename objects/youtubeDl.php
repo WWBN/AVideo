@@ -40,6 +40,7 @@ $video = new Video($filename.__(" (Do not change the title yet, wait to finish d
 $video->setType("video");
 $video->setStatus('d');
 $video->setDuration("Downloading");
+$video->setVideoDownloadedLink($videoURL);
 echo "Save the Video ".  print_r($video, true)."\n";
 $_FILES['upl']['videoId'] = $video->save();
 

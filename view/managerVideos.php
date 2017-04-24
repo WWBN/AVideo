@@ -186,22 +186,13 @@ $config = new Configuration();
                             return editBtn + deleteBtn + reloadBtn + status + reencodeBtn;
                         },
                         "status": function (column, row) {
-                            if (row.status == 'e') {
-                                setTimeout(function () {
-                                    checkProgressVideo(row.filename, row.id, true);
-                                }, 1000);
-                                if (row.type == "audio") {
-                                    return "<span class='label label-danger' id='encodingmp3" + row.id + "'>MP3: 0%</span><br><span class='label label-danger' id='encodingogg" + row.id + "'>OGG: 0%</span>";
-                                } else {
-                                    return "<span class='label label-danger' id='encodingmp4" + row.id + "'>MP4: 0%</span><br><span class='label label-danger' id='encodingwebm" + row.id + "'>WEBM: 0%</span>";
-                                }
-                            } else if (row.status == 'a') {
+                            if (row.status == 'a') {
                                 return "<span class='label label-success'><?php echo __("Active"); ?></span>";
                             } else if (row.status == 'i') {
                                 return "<span class='label label-danger'><?php echo __("Inactive"); ?></span>";
-                            } else if (row.status == 'x') {
+                            } else if (/^x.*$/gi.test(row.status) || row.status == 'e') {
                                 setTimeout(function () {
-                                    checkProgressVideo(row.filename, row.id, false);
+                                    checkProgressVideo(row.filename, row.id, row.status == 'e');
                                 }, 1000);
 
                                 if (row.type == "audio") {
