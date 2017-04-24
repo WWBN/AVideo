@@ -37,7 +37,7 @@
 
 .video-js .vjs-mouse-display:after, .video-js .vjs-play-progress:after, .video-js .vjs-time-tooltip{
 
-    background: rgba(0,0, 0, 0.6)!important;
+    background: rgba(255, 255, 255, 0.6)!important;
     padding: 2px;
     color: #FFF;
     font-size: 12px !important;
