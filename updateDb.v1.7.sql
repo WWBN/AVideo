@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+UPDATE configurations SET  version = '1.7', modified = now() WHERE id = 1;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
