@@ -93,7 +93,7 @@ $config = new Configuration();
                                             $img = "{$global['webSiteRootURL']}view/img/mp3.png";
                                         }
                                         ?>
-                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img-responsive" height="130px" />        
+                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" />        
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-lg-8">
                                         <h1>
