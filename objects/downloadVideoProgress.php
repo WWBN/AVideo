@@ -20,6 +20,7 @@ $content = file_get_contents($progressFilename);
 preg_match_all('/\[download\] +([0-9.]+)% of/', $content, $matches, PREG_SET_ORDER);
 //$m = end($matches);
 //$obj->progress = empty($m[1]) ? 0 : intval($m[1]);
+$obj->progress = 0;
 foreach ($matches as $m) {
     $obj->progress = empty($m[1]) ? 0 : intval($m[1]);
     if($obj->progress==100){
