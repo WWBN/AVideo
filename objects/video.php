@@ -406,7 +406,7 @@ class Video {
         $cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';
         exec($cmd . ' 2>&1', $output, $return_val);
         if ($return_val !== 0) {
-            echo '{"status":"error", "msg":' . json_encode($output) . '}';
+            //echo '{"status":"error", "msg":' . json_encode($output) . '}';
             // fix ffprobe
             $duration = "EE:EE:EE";
         } else {
