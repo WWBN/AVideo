@@ -85,7 +85,17 @@ $config = new Configuration();
                         <div class="col-xs-12 col-sm-12 col-lg-6 ">
                             <div class="row bgWhite">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                                    <div class="col-xs-4 col-sm-4 col-lg-4">
+                                        <?php
+                                        if ($video['type'] !== "audio") {
+                                            $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+                                        } else {
+                                            $img = "{$global['webSiteRootURL']}view/img/mp3.png";
+                                        }
+                                        ?>
+                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img-responsive" height="130px" />        
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-lg-8">
                                         <h1>
                                             <?php echo $video['title']; ?>
                                         </h1>
