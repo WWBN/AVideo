@@ -101,14 +101,14 @@ if ($mysqli->query($sql) !== TRUE) {
 
 $sql = "DELETE FROM configurations WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
-    $obj->error = "Error deleting configuration: " . $global['mysqli']->error;
+    $obj->error = "Error deleting configuration: " . $mysqli->error;
     echo json_encode($obj);
     exit;
 }
 
 $sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail,  created, modified) VALUES (1, '858:480', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['mainLanguage']}', '{$_POST['contactEmail']}', now(), now())";
 if ($mysqli->query($sql) !== TRUE) {
-    $obj->error = "Error creating configuration: " . $global['mysqli']->error;
+    $obj->error = "Error creating configuration: " . $mysqli->error;
     echo json_encode($obj);
     exit;
 }

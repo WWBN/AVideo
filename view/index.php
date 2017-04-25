@@ -134,7 +134,6 @@ $config = new Configuration();
                                                 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
                                                 $twitterURL = "http://twitter.com/home?status={$title}+{$url}";
                                                 $googleURL = "https://plus.google.com/share?url={$url}";
-
                                                 ?>
                                                 <ul class="social-network social-circle">
                                                     <li><a href="<?php echo $facebookURL; ?>" target="_blank" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
