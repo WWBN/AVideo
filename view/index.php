@@ -61,6 +61,7 @@ $config = new Configuration();
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>/css/social.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
@@ -83,45 +84,204 @@ $config = new Configuration();
                         <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                         <div class="col-xs-12 col-sm-12 col-lg-6 ">
                             <div class="row bgWhite">
-                                <div class="col-xs-4 col-sm-4 col-lg-4 nopadding">
-                                    <?php
-                                    if ($video['type'] !== "audio") {
-                                        $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
-                                    } else {
-                                        $img = "{$global['webSiteRootURL']}view/img/mp3.png";
-                                    }
-                                    ?>
-                                    <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img-responsive" height="130px" />        
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                                        <h1>
+                                            <?php echo $video['title']; ?>
+                                        </h1>
+                                        <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                                        <span class="watch-view-count pull-right"><?php echo $video['views_count']; ?> <?php echo __("Views"); ?></span>
+                                    </div> 
                                 </div>
-                                <div class="col-xs-8 col-sm-8 col-lg-8">
-                                    <h1>
-                                        <?php echo $video['title']; ?>
-                                    </h1>
-                                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
 
-                                    <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
-                                    <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['category']; ?></div>
-
-                                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['views_count']; ?> <?php echo __("Views"); ?></div>
-
-                                    <div class="col-xs-12 col-sm-12 col-lg-12"><strong><?php echo __("Description"); ?>:</strong></div>
-                                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo nl2br($video['description']); ?></div>
-                                </div>                                
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12 watch8-action-buttons">
+                                        <a href="#" class="btn btn-default no-outline" id="shareBtn">
+                                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                                        </a>			
+                                    </div>
+                                </div>
                             </div>
+                            
+                            <div class="row bgWhite" id="shareDiv">
+                                <div class="tabbable-panel">
+                                    <div class="tabbable-line">
+                                        <ul class="nav nav-tabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link " href="#tabShare" data-toggle="tab">
+                                                    <span class="fa fa-share"></span> 
+                                                    <?php echo __("Share"); ?>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link " href="#tabEmbeded" data-toggle="tab">
+                                                    <span class="fa fa-code"></span> 
+                                                    <?php echo __("Embeded"); ?>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#tabEmail" data-toggle="tab">
+                                                    <span class="fa fa-envelope"></span> 
+                                                    <?php echo __("Email"); ?>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content clearfix">
+                                            <div class="tab-pane active" id="tabShare">
+                                                <?php
+                                                $url=  urlencode($global['webSiteRootURL']."video/".$video['clean_title']);
+                                                $title = urlencode($config->getWebSiteTitle()." :: ".$video['title']);
+                                                $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
+                                                $twitterURL = "http://twitter.com/home?status={$title}+{$url}";
+                                                $googleURL = "https://plus.google.com/share?url={$url}";
+
+                                                ?>
+                                                <ul class="social-network social-circle">
+                                                    <li><a href="<?php echo $facebookURL; ?>" target="_blank" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                                                    <li><a href="<?php echo $twitterURL; ?>" target="_blank"  class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                                                    <li><a href="<?php echo $googleURL; ?>" target="_blank"  class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="tab-pane" id="tabEmbeded">
+                                                <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
+
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control"
+                                                           value="<?php
+                                                           if ($video['type'] == 'video') {
+                                                               $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                           } else {
+                                                               $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                           }
+                                                           echo htmlentities($code);
+                                                           ?>" placeholder="<?php echo __("Share Video"); ?>" id="code-input">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="button" id="code-button"
+                                                                data-toggle="tooltip" data-placement="button"
+                                                                title="<?php echo __("Preview"); ?>">
+                                                            <span class="fa fa-eye"></span>    <?php echo __("Preview"); ?>
+                                                        </button>
+                                                    </span>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            $("#showMore").slideUp();
+                                                            $("#code-button").click(function () {
+                                                                $("#showMore").slideToggle();
+                                                                return false;
+                                                            });
+                                                        });
+                                                    </script>
+                                                </div>
+                                                <div class="row" id="showMore">
+                                                    <?php echo $code; ?>
+                                                </div> 
+                                            </div>
+                                            <div class="tab-pane" id="tabEmail">
+                                                <?php
+                                                if (!User::isLogged()) {
+                                                    ?>
+                                                    <strong>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>user"><?php echo __("Sign in now!"); ?></a>
+                                                    </strong>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+                                                        <fieldset>
+                                                            <!-- Text input-->
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>  
+                                                                <div class="col-md-8 inputGroupContainer">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                                        <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control"  type="text">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Text area -->
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label"><?php echo __("Message"); ?></label>
+                                                                <div class="col-md-8 inputGroupContainer">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                                        <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>  
+                                                                <div class="col-md-8 inputGroupContainer">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
+                                                                        <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                                                                        <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Button -->
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label"></label>
+                                                                <div class="col-md-8">
+                                                                    <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                                                                </div>
+                                                            </div>
+
+                                                        </fieldset>
+                                                    </form>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="row bgWhite">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                                        <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
+                                        <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['category']; ?></div>
+
+
+                                        <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
+                                        <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo nl2br($video['description']); ?></div>
+                                    </div> 
+                                </div>
+
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $("#shareDiv").slideUp();
+                                    $("#shareBtn").click(function () {
+                                        $("#shareDiv").slideToggle();
+                                        return false;
+                                    });
+                                });
+                            </script>
                             <div class="row bgWhite">
                                 <div class="input-group">
-                                    <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php if (!User::canComment()) {
-                                    echo "disabled";
-                                } ?>><?php if (!User::canComment()) {
-                                    echo __("You can not comment videos");
-                                } ?></textarea>     
+                                    <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php
+                                    if (!User::canComment()) {
+                                        echo "disabled";
+                                    }
+                                    ?>><?php
+                                                  if (!User::canComment()) {
+                                                      echo __("You can not comment videos");
+                                                  }
+                                                  ?></textarea>     
                                     <?php if (User::canComment()) { ?>
-                                        <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php if (!User::canComment()) {
-                                echo "disabled='disabled'";
-                            } ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
-        <?php } else { ?>
+                                        <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php
+                                        if (!User::canComment()) {
+                                            echo "disabled='disabled'";
+                                        }
+                                        ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
+                                          <?php } else { ?>
                                         <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You must login to be able to comment on videos"); ?></a>
-        <?php } ?>
+                                    <?php } ?>
                                 </div>
                                 <div class="pull-right" id="count_message"></div>
                                 <script>
@@ -185,74 +345,15 @@ $config = new Configuration();
                                     });
                                 </script>
                             </div>
-                            <div class="row bgWhite">
-                                <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
-                                <div class="highlight">
-                                    <form>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control"
-                                                   value="<?php
-                                                   if ($video['type'] == 'video') {
-                                                       $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
-                                                   } else {
-                                                       $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
-                                                   }
-                                                   echo htmlentities($code);
-                                                   ?>" placeholder="<?php echo __("Share Video"); ?>" id="copy-input">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button" id="copy-button"
-                                                        data-toggle="tooltip" data-placement="button"
-                                                        title="<?php echo __("Copy to Clipboard"); ?>">
-                                                    <span class="glyphicon glyphicon-copy"></span>    <?php echo __("Copy"); ?>
-                                                </button>
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        // Initialize the tooltip.
-                                                        $('#copy-button').tooltip();
-
-                                                        // When the copy button is clicked, select the value of the text box, attempt
-                                                        // to execute the copy command, and trigger event to update tooltip message
-                                                        // to indicate whether the text was successfully copied.
-                                                        $('#copy-button').bind('click', function () {
-                                                            var input = document.querySelector('#copy-input');
-                                                            input.setSelectionRange(0, input.value.length + 1);
-                                                            try {
-                                                                var success = document.execCommand('copy');
-                                                                if (success) {
-                                                                    $('#copy-button').trigger('copied', ['Copied!']);
-                                                                } else {
-                                                                    $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
-                                                                }
-                                                            } catch (err) {
-                                                                $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
-                                                            }
-                                                        });
-
-                                                        // Handler for updating the tooltip message.
-                                                        $('#copy-button').bind('copied', function (event, message) {
-                                                            $(this).attr('title', message)
-                                                                    .tooltip('fixTitle')
-                                                                    .tooltip('show')
-                                                                    .attr('title', "Copy to Clipboard")
-                                                                    .tooltip('fixTitle');
-                                                        });
-
-                                                    });
-                                                </script>
-                                            </span>
-                                        </div>
-                                    </form>
-                                </div>  
-                            </div>
 
                         </div>
                         <div class="col-xs-12 col-sm-12 col-lg-4 bgWhite">
-        <?php
-        foreach ($videos as $value) {
-            if ($video['id'] == $value['id']) {
-                continue; // skip video
-            }
-            ?>
+                            <?php
+                            foreach ($videos as $value) {
+                                if ($video['id'] == $value['id']) {
+                                    continue; // skip video
+                                }
+                                ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="videoLink">
                                         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
@@ -271,7 +372,7 @@ $config = new Configuration();
                                             <div class="text-uppercase"><strong><?php echo $value['title']; ?></strong></div>
                                             <div class="details">
                                                 <div>
-            <?php echo __("Category"); ?>: <?php echo $value['category']; ?>
+                                                    <?php echo __("Category"); ?>: <?php echo $value['category']; ?>
                                                 </div>
                                                 <div><?php echo $value['views_count']; ?> <?php echo __("Views"); ?></div>
                                                 <div><?php echo $value['creator']; ?></div>
@@ -279,9 +380,9 @@ $config = new Configuration();
                                         </div>
                                     </a>
                                 </div>
-            <?php
-        }
-        ?> 
+                                <?php
+                            }
+                            ?> 
                             <ul class="pages">
                             </ul>
                             <script>
@@ -301,15 +402,15 @@ $config = new Configuration();
 
                         <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                     </div>
-                            <?php
-                        } else {
-                            ?>
+                    <?php
+                } else {
+                    ?>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                         <div class="col-xs-12 col-sm-12 col-lg-10">
-        <?php
-        foreach ($videos as $value) {
-            ?>
+                            <?php
+                            foreach ($videos as $value) {
+                                ?>
                                 <div class="col-lg-3 col-sm-12 col-xs-12">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
@@ -318,9 +419,9 @@ $config = new Configuration();
                                         <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                     </a>
                                 </div>
-            <?php
-        }
-        ?> 
+                                <?php
+                            }
+                            ?> 
                             <ul class="pages">
                             </ul>
                             <script>
@@ -347,12 +448,12 @@ $config = new Configuration();
                 <div class="alert alert-warning">
                     <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
                 </div>
-<?php } ?>  
+            <?php } ?>  
 
         </div>
-<?php
-include 'include/footer.php';
-?>
+        <?php
+        include 'include/footer.php';
+        ?>
 
 
     </body>

@@ -9,17 +9,6 @@ body {
     background-color: #f8f8f8;
 }
 
-.bgWhite{
-    margin: 0 0 10px;
-    border: 0;
-    background: #fff;
-    box-shadow: 0 1px 2px rgba(0,0,0,.1);
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 .nopadding {
    padding: 0 !important;
@@ -292,4 +281,52 @@ video {
 
 .nowrapCell td {
     white-space: normal !important;
+}
+
+.watch8-action-buttons{
+    padding: 5px 10px 0 10px;
+    margin: 5px 0 0 0;    
+    border-top: 2px solid #F2F2F2;
+}
+
+.bgWhite{
+    margin: 0 0 10px;
+    border: 0;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.no-outline{
+    border: 0;
+}
+
+.no-outline:focus, 
+.no-outline:active, 
+.no-outline:hover{
+    background-color: transparent;
+    color: #000;
+}
+
+#showMore{
+    padding: 20px;
+    margin: 10px;    
+    border-top: 2px solid #F2F2F2;
+}
+
+.watch-view-count {
+    line-height: 24px;
+    max-height: 24px;
+    text-align: right;
+    font-size: 19px;
+    color: #666;
+    white-space: nowrap;
+    margin: -5px;
+    padding: -5px;
+    border-bottom: 2px solid #167ac6;
+    z-index: 9999999 !important;
 }
