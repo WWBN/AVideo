@@ -140,7 +140,7 @@ $config = new Configuration();
                                             <div class="tab-pane active" id="tabShare">
                                                 <?php
                                                 $url=  urlencode($global['webSiteRootURL']."video/".$video['clean_title']);
-                                                $title = urlencode($config->getWebSiteTitle()." :: ".$video['title']);
+                                                $title = urlencode($video['title']);
                                                 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
                                                 $twitterURL = "http://twitter.com/home?status={$title}+{$url}";
                                                 $googleURL = "https://plus.google.com/share?url={$url}";
