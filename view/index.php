@@ -108,11 +108,68 @@ $config = new Configuration();
                                     <div class="col-md-12 col-lg-12 watch8-action-buttons">
                                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                             <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                                        </a>
+                                        <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote']==-1)?"myVote":"" ?>" id="dislikeBtn"  
+                                        <?php
+                                        if (!User::isLogged()) {
+                                            ?>
+                                               data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>"
+                                           <?php } ?>>
+                                            <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
                                         </a>			
+                                        <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote']==1)?"myVote":"" ?>" id="likeBtn"  
+                                        <?php
+                                        if (!User::isLogged()) {
+                                            ?>
+                                               data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>"
+                                           <?php } ?>>
+                                            <span class="fa fa-thumbs-up"></span> <small><?php echo $video['likes']; ?></small>
+                                        </a>
+                                        <script>
+                                            $(document).ready(function () {
+
+        <?php
+        if (User::isLogged()) {
+            ?>
+                                                    $("#dislikeBtn, #likeBtn").click(function () {
+                                                        $.ajax({
+                                                            url: '<?php echo $global['webSiteRootURL']; ?>'+($(this).attr("id")=="dislikeBtn"?"dislike":"like"),
+                                                            method: 'POST',
+                                                            data: {'videos_id': <?php echo $video['id']; ?>},
+                                                            success: function (response) {
+                                                                $("#likeBtn, #dislikeBtn").removeClass("myVote");
+                                                                if(response.myVote==1){
+                                                                    $("#likeBtn").addClass("myVote");
+                                                                }else if(response.myVote==-1){
+                                                                    $("#dislikeBtn").addClass("myVote");
+                                                                }
+                                                                $("#likeBtn small").text(response.likes);
+                                                                $("#dislikeBtn small").text(response.dislikes);
+                                                                
+                                                            }
+                                                        });
+
+                                                        return false;
+                                                    });
+            <?php
+        } else {
+            ?>
+                                                    $("#dislikeBtn, #likeBtn").click(function () {
+
+                                                        $(this).tooltip("show");
+                                                        return false;
+                                                    });
+                                                    $("#dislikeBtn, #likeBtn").tooltip();
+            <?php
+        }
+        ?>
+
+                                            });
+                                        </script>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row bgWhite" id="shareDiv">
                                 <div class="tabbable-panel">
                                     <div class="tabbable-line">
@@ -139,7 +196,7 @@ $config = new Configuration();
                                         <div class="tab-content clearfix">
                                             <div class="tab-pane active" id="tabShare">
                                                 <?php
-                                                $url=  urlencode($global['webSiteRootURL']."video/".$video['clean_title']);
+                                                $url = urlencode($global['webSiteRootURL'] . "video/" . $video['clean_title']);
                                                 $title = urlencode($video['title']);
                                                 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
                                                 $twitterURL = "http://twitter.com/home?status={$title}+{$url}";

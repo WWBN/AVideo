@@ -24,8 +24,7 @@ $config = new Configuration();
             if (User::isAdmin()) {
                 ?>
                 <div class="row">
-                    <div class="col-xs-1 col-sm-1 col-lg-2"></div>
-                    <div class="col-xs-7 col-sm-7 col-lg-6">
+                    <div class="col-xs-9 col-sm-9 col-lg-9">
                         <form class="form-compact well form-horizontal"  id="updateConfigForm" onsubmit="">
                             <fieldset>
                                 <legend><?php echo __("Update the site configuration"); ?></legend>
@@ -165,10 +164,62 @@ $config = new Configuration();
                                     </div>
                                 </div>
                             </fieldset>
+                            <fieldset>
+                                <legend><?php echo __("Advanced configuration"); ?></legend>
+
+                                <div class="form-group">
+                                    <label class="col-md-2"><?php echo __("FFPROBE Duration"); ?></label>  
+                                    <div class="col-md-10">
+                                        <input id="ffprobeDuration" class="form-control"  type="text" value="<?php echo $config->getFfprobeDuration(); ?>" >       
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2"><?php echo __("FFMPEG Image"); ?></label>  
+                                    <div class="col-md-10">
+                                            <input id="ffmpegImage" class="form-control"  type="text" value="<?php echo $config->getFfmpegImage(); ?>" >  
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2"><?php echo __("FFMPEG MP4"); ?></label>  
+                                    <div class="col-md-10">
+                                            <input id="ffmpegMp4" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4(); ?>" > 
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2"><?php echo __("FFMPEG Webm"); ?></label>  
+                                    <div class="col-md-10">
+                                            <input id="ffmpegWebm" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebm(); ?>" >   
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2"><?php echo __("FFMPEG MP3"); ?></label>  
+                                    <div class="col-md-10">
+                                            <input id="ffmpegMp3" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp3(); ?>" >  
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2"><?php echo __("FFMPEG Ogg"); ?></label>  
+                                    <div class="col-md-10">
+                                            <input id="ffmpegOgg" class="form-control"  type="text" value="<?php echo $config->getFfmpegOgg(); ?>" >  
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2"><?php echo __("Youtube-dl"); ?></label>  
+                                    <div class="col-md-10">
+                                            <input id="youtubeDl" class="form-control"  type="text" value="<?php echo $config->getYoutubedl(); ?>" >     
+                                    </div>
+                                </div>
+                            </fieldset>
                         </form>
 
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-lg-4">
+                    <div class="col-xs-3 col-sm-3 col-lg-3">
                         <ul class="list-group">
                             <li class="list-group-item active">
                                 <?php echo __("Recommended resolutions"); ?>
@@ -219,7 +270,14 @@ $config = new Configuration();
                                     "authFacebook_key": $('#authFacebook_key').val(), 
                                     "authGoogle_enabled": $('#authGoogle_enabled').val(), 
                                     "authGoogle_id": $('#authGoogle_id').val(), 
-                                    "authGoogle_key": $('#authGoogle_key').val()
+                                    "authGoogle_key": $('#authGoogle_key').val(), 
+                                    "ffprobeDuration": $('#ffprobeDuration').val(), 
+                                    "ffmpegImage": $('#ffmpegImage').val(), 
+                                    "ffmpegMp4": $('#ffmpegMp4').val(), 
+                                    "ffmpegWebm": $('#ffmpegWebm').val(), 
+                                    "ffmpegMp3": $('#ffmpegMp3').val(), 
+                                    "ffmpegOgg": $('#ffmpegOgg').val(), 
+                                    "youtubeDl": $('#youtubeDl').val()
                                 },
                                 type: 'post',
                                 success: function (response) {

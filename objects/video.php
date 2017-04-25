@@ -89,9 +89,9 @@ class Video {
 
         if (!empty($this->id)) {
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
-            . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-            . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', modified = now()"
-            . " WHERE id = {$this->id}";
+                    . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
+                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', modified = now()"
+                    . " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos "
                     . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, created, modified) values "
@@ -120,7 +120,7 @@ class Video {
     }
 
     function setStatus($status) {
-        if(!empty($this->id)){
+        if (!empty($this->id)) {
             global $global;
             $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
             if (!$global['mysqli']->query($sql)) {
@@ -137,19 +137,27 @@ class Video {
     static function getVideo($id = "", $status = "viewable") {
         global $global;
         $id = intval($id);
-        $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation FROM videos as v "
+        $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation, "
+                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
+                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
+        if (User::isLogged()) {
+            $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = " . User::getId() . " ) as myVote ";
+        } else {
+            $sql .= ", 0 as myVote ";
+        }
+        $sql .= " FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
 
-        if(!empty($_SESSION['type'])){
+        if (!empty($_SESSION['type'])) {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
-        
-        
-        if($status == "viewable"){
-            $sql .= " AND v.status IN ('". implode("','", Video::getViewableStatus())."')";
-        }else if (!empty($status)) {
+
+
+        if ($status == "viewable") {
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+        } else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
 
@@ -174,25 +182,25 @@ class Video {
         return $video;
     }
 
-    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos=false) {
+    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false) {
         global $global;
         $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
 
-        
-        if(!empty($_SESSION['type'])){
+
+        if (!empty($_SESSION['type'])) {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
-        
-        if($status == "viewable"){
-            $sql .= " AND v.status IN ('". implode("','", Video::getViewableStatus())."')";
-        }else if (!empty($status)) {
+
+        if ($status == "viewable") {
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+        } else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
         if ($showOnlyLoggedUserVideos && !User::isAdmin()) {
-            $sql .= " AND v.users_id = '".User::getId()."'";
+            $sql .= " AND v.users_id = '" . User::getId() . "'";
         }
 
         if (!empty($_GET['catName'])) {
@@ -220,19 +228,19 @@ class Video {
         return $videos;
     }
 
-    static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos=false) {
+    static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false) {
         global $global;
         $sql = "SELECT v.id FROM videos v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " WHERE 1=1  ";
 
-        if($status == "viewable"){
-            $sql .= " AND v.status IN ('". implode("','", Video::getViewableStatus())."')";
-        }else if (!empty($status)) {
+        if ($status == "viewable") {
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+        } else if (!empty($status)) {
             $sql .= " AND status = '{$status}'";
         }
         if ($showOnlyLoggedUserVideos) {
-            $sql .= " AND v.users_id = '".User::getId()."'";
+            $sql .= " AND v.users_id = '" . User::getId() . "'";
         }
 
         if (!empty($_GET['catName'])) {
@@ -249,18 +257,18 @@ class Video {
 
         return $res->num_rows;
     }
-    
-    static private function getViewableStatus(){
+
+    static private function getViewableStatus() {
         /**
-            a = active
-            i = inactive
-            e = encoding
-            x = encoding error
-            d = downloading
-            xmp4 = encoding mp4 error 
-            xwebm = encoding webm error 
-            xmp3 = encoding mp3 error 
-            xogg = encoding ogg error 
+          a = active
+          i = inactive
+          e = encoding
+          x = encoding error
+          d = downloading
+          xmp4 = encoding mp4 error
+          xwebm = encoding webm error
+          xmp3 = encoding mp3 error
+          xogg = encoding ogg error
          */
         return array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
     }
@@ -280,7 +288,7 @@ class Video {
             $object->$value = new stdClass();
             if (!empty($content)) {
                 $object->$value = self::parseProgress($content);
-            }else{
+            } else {
                 
             }
             $object->$value->filename = $progressFilename;
@@ -403,7 +411,9 @@ class Video {
             echo '{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}';
             exit;
         }
-        $cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';
+        $config = new Configuration();
+        //$cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';
+        eval('$cmd="' . $config->getFfprobeDuration() . '";');
         exec($cmd . ' 2>&1', $output, $return_val);
         if ($return_val !== 0) {
             //echo '{"status":"error", "msg":' . json_encode($output) . '}';
@@ -426,7 +436,7 @@ class Video {
     function getId() {
         return $this->id;
     }
-    
+
     function getVideoDownloadedLink() {
         return $this->videoDownloadedLink;
     }
@@ -434,7 +444,5 @@ class Video {
     function setVideoDownloadedLink($videoDownloadedLink) {
         $this->videoDownloadedLink = $videoDownloadedLink;
     }
-
-
 
 }

@@ -288,6 +288,9 @@ video {
     margin: 5px 0 0 0;    
     border-top: 2px solid #F2F2F2;
 }
+.watch8-action-buttons a{
+    color: #777;
+}
 
 .bgWhite{
     margin: 0 0 10px;
@@ -329,4 +332,11 @@ video {
     padding: -5px;
     border-bottom: 2px solid #167ac6;
     z-index: 9999999 !important;
+}
+
+#likeBtn.myVote span, #likeBtn.myVote small {
+    color: #167ac6;
+}
+#dislikeBtn.myVote span, #dislikeBtn.myVote small {
+    color: #444;
 }

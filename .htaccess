@@ -67,10 +67,13 @@
     RewriteRule    ^login$ objects/login.json.php    [NC,L]
     RewriteRule    ^logoff$ objects/logoff.php    [NC,L]
 
+    RewriteRule    ^like$ objects/like.json.php?like=1    [NC,L]
+    RewriteRule    ^dislike$ objects/like.json.php?like=-1    [NC,L]
+
 
     #manager configuration
 
-    RewriteRule    ^update/?$ update.php    [NC,L]
+    RewriteRule    ^update/?$ update/update.php    [NC,L]
     RewriteRule    ^siteConfigurations$ view/configurations.php    [NC,L]
     RewriteRule    ^updateConfig$ objects/configurationUpdate.json.php    [NC,L]
 

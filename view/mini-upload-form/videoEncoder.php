@@ -12,12 +12,16 @@ $videoResolution = $config->getVideo_resolution();
 
 header('Content-Type: application/json');
 $videoConverter = array();
-$videoConverter['mp4'] = ' -vf scale=' . $videoResolution . ' -vcodec h264 -acodec aac -strict -2 -y ';
-$videoConverter['webm'] = '-vf scale=' . $videoResolution . ' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y';
+//$videoConverter['mp4'] = ' -vf scale=' . $videoResolution . ' -vcodec h264 -acodec aac -strict -2 -y ';
+//$videoConverter['webm'] = '-vf scale=' . $videoResolution . ' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y';
+$videoConverter['mp4'] = $config->getFfmpegMp4();
+$videoConverter['webm'] = $config->getFfmpegWebm();
 
 $audioConverter = array();
-$audioConverter['mp3'] = ' -acodec libmp3lame -y ';
-$audioConverter['ogg'] = ' -acodec libvorbis -y ';
+//$audioConverter['mp3'] = ' -acodec libmp3lame -y ';
+//$audioConverter['ogg'] = ' -acodec libvorbis -y ';
+$audioConverter['mp3'] = $config->getFfmpegMp3();
+$audioConverter['ogg'] = $config->getFfmpegOgg();
 
 $filename = $argv[1];
 $original_filename = "original_{$filename}";
@@ -32,7 +36,10 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
         }
         // convert video
         echo "\n\n--Converting audio {$key} \n";
-        $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && ffmpeg -i {$global['systemRootPath']}videos/{$original_filename} {$value} {$global['systemRootPath']}videos/{$filename}.{$key}";
+        $pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
+        $destinationFile = "{$global['systemRootPath']}videos/{$filename}.{$key}";
+        eval('$ffmpeg ="'.$value.'";');
+        $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
         echo "** executing command {$cmd}\n";
         exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
         if ($return_val !== 0) {
@@ -52,7 +59,12 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
 if (empty($type) || $type == 'img') {
     //capture image
     echo "\n\n--Capture Image \n";
-    $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.jpg && ffmpeg -ss 5 -i {$global['systemRootPath']}videos/{$original_filename} -qscale:v 2 -vframes 1 -y {$global['systemRootPath']}videos/{$filename}.jpg";
+    
+    $pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
+    $destinationFile = "{$global['systemRootPath']}videos/{$filename}.jpg";
+    eval('$ffmpeg ="'.$config->getFfmpegImage().'";');
+    
+    $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.jpg && {$ffmpeg}";
     echo "** executing command {$cmd}\n";
     exec($cmd . " 2>&1", $output, $return_val);
     if ($return_val !== 0) {
@@ -77,7 +89,10 @@ foreach ($videoConverter as $key => $value) {
     }
     // convert video
     echo "\n\n--Converting video {$key} \n";
-    $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && ffmpeg -i {$global['systemRootPath']}videos/{$original_filename} {$value} {$global['systemRootPath']}videos/{$filename}.{$key}";
+    $pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
+    $destinationFile = "{$global['systemRootPath']}videos/{$filename}.{$key}";
+    eval('$ffmpeg ="'.$value.'";');
+    $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
     echo "** executing command {$cmd}\n";
     exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
     if ($return_val !== 0) {

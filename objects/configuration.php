@@ -24,6 +24,15 @@ class Configuration {
     private $authCanUploadVideos;
     private $authCanComment;
 
+    private $ffprobeDuration;
+    private $ffmpegImage;
+    private $ffmpegMp4;
+    private $ffmpegWebm;
+    private $ffmpegMp3;
+    private $ffmpegOgg;
+    private $youtubedl;
+    
+    
     function __construct($video_resolution="") {
         $this->load();
         if(!empty($video_resolution)){
@@ -54,6 +63,9 @@ class Configuration {
             die('{"error":"' . __("Permission denied") . '"}');
         }
         $this->users_id = User::getId();
+        
+        
+        
         $sql = "UPDATE configurations SET "
                 . "video_resolution = '{$this->video_resolution}',"
                 . "webSiteTitle = '{$this->webSiteTitle}',"
@@ -67,7 +79,14 @@ class Configuration {
                 . "authFacebook_key = '{$this->authFacebook_key}',"
                 . "authFacebook_enabled = '{$this->authFacebook_enabled}',"
                 . "authCanUploadVideos = '{$this->authCanUploadVideos}',"
-                . "authCanComment = '{$this->authCanComment}'"
+                . "authCanComment = '{$this->authCanComment}',"
+                . "ffmpegImage = '{$global['mysqli']->real_escape_string($this->getFfmpegImage())}',"
+                . "ffmpegMp3 = '{$global['mysqli']->real_escape_string($this->getFfmpegMp3())}',"
+                . "ffmpegMp4 = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4())}',"
+                . "ffmpegOgg = '{$global['mysqli']->real_escape_string($this->getFfmpegOgg())}',"
+                . "ffmpegWebm = '{$global['mysqli']->real_escape_string($this->getFfmpegWebm())}',"
+                . "ffprobeDuration = '{$global['mysqli']->real_escape_string($this->getFfprobeDuration())}',"
+                . "youtubedl = '{$global['mysqli']->real_escape_string($this->getYoutubedl())}'"
                 . "WHERE id = 1";
 
         $insert_row = $global['mysqli']->query($sql);
@@ -196,6 +215,84 @@ class Configuration {
     function setAuthCanComment($authCanComment) {
         $this->authCanComment = $authCanComment;
     }
+
+    function getFfprobeDuration() {
+        if(empty($this->ffprobeDuration)){
+            return 'ffprobe -i {$file} -sexagesimal -show_entries  format=duration -v quiet -of csv=\'p=0\'';
+        }
+        return $this->ffprobeDuration;
+    }
+
+    function getFfmpegImage() {
+        if(empty($this->ffprobeDuration)){
+            return 'ffmpeg -ss 5 -i {$pathFileName} -qscale:v 2 -vframes 1 -y {$destinationFile}';
+        }
+        return $this->ffmpegImage;
+    }
+
+    function getFfmpegMp4() {
+        if(empty($this->ffmpegMp4)){
+            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
+        }
+        return $this->ffmpegMp4;
+    }
+
+    function getFfmpegWebm() {
+        if(empty($this->ffmpegWebm)){
+            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
+        }
+        return $this->ffmpegWebm;
+    }
+
+    function getFfmpegMp3() {
+        if(empty($this->ffmpegMp3)){
+            return 'ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
+        }
+        return $this->ffmpegMp3;
+    }
+
+    function getFfmpegOgg() {
+        if(empty($this->ffmpegOgg)){
+            return 'ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
+        }
+        return $this->ffmpegOgg;
+    }
+
+    function getYoutubedl() {
+        if(empty($this->youtubedl)){
+            return ' youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
+        }
+        return $this->youtubedl;
+    }
+
+    function setFfprobeDuration($ffprobeDuration) {
+        $this->ffprobeDuration = $ffprobeDuration;
+    }
+
+    function setFfmpegImage($ffmpegImage) {
+        $this->ffmpegImage = $ffmpegImage;
+    }
+
+    function setFfmpegMp4($ffmpegMp4) {
+        $this->ffmpegMp4 = $ffmpegMp4;
+    }
+
+    function setFfmpegWebm($ffmpegWebm) {
+        $this->ffmpegWebm = $ffmpegWebm;
+    }
+
+    function setFfmpegMp3($ffmpegMp3) {
+        $this->ffmpegMp3 = $ffmpegMp3;
+    }
+
+    function setFfmpegOgg($ffmpegOgg) {
+        $this->ffmpegOgg = $ffmpegOgg;
+    }
+
+    function setYoutubedl($youtubedl) {
+        $this->youtubedl = $youtubedl;
+    }
+
 
 
 

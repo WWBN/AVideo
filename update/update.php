@@ -1,5 +1,5 @@
 <?php
-require_once 'videos/configuration.php';
+require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 //check if there is a update
 if (!User::isAdmin()) {
@@ -26,7 +26,7 @@ $config = new Configuration();
             <div class="alert alert-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></div>
             <?php
             if (empty($_POST['updateFile'])) {
-                $files1 = scandir($global['systemRootPath']);
+                $files1 = scandir($global['systemRootPath']."update");
                 $updateFiles = array();
                 foreach ($files1 as $value) {
                     preg_match("/updateDb.v([0-9.]*).sql/", $value, $match);
@@ -73,7 +73,7 @@ $config = new Configuration();
             } else {
                 $obj = new stdClass();
                 $templine = '';
-                $lines = file("{$global['systemRootPath']}{$_POST['updateFile']}");
+                $lines = file("{$global['systemRootPath']}update/{$_POST['updateFile']}");
                 $obj->error = "";
                 foreach ($lines as $line) {
                     if (substr($line, 0, 2) == '--' || $line == '')
