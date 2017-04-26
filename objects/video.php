@@ -137,6 +137,13 @@ class Video {
     static function getVideo($id = "", $status = "viewable") {
         global $global;
         $id = intval($id);
+        
+        $result = $global['mysqli']->query("SHOW TABLES LIKE 'likes'");
+        if (empty($result->num_rows)) {
+            echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.0</a></div>";
+            return false;
+        }
+        
         $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
@@ -416,11 +423,11 @@ class Video {
         eval('$cmd="' . $config->getFfprobeDuration() . '";');
         exec($cmd . ' 2>&1', $output, $return_val);
         if ($return_val !== 0) {
-            //echo '{"status":"error", "msg":' . json_encode($output) . '}';
+            //echo '{"status":"error", "msg":' . json_encode($output) . ' ,"return_val":' . json_encode($return_val) . ', "where":"getDuration", "cmd":"'.$cmd.'"}';exit;
             // fix ffprobe
             $duration = "EE:EE:EE";
         } else {
-            $duration = $output[0];
+            $duration = preg_replace("/[^0-9:]/", "", $output[0]);
         }
         return $duration;
     }

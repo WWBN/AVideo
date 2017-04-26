@@ -26,134 +26,211 @@ $config = new Configuration();
                 <div class="row">
                     <div class="col-xs-9 col-sm-9 col-lg-9">
                         <form class="form-compact well form-horizontal"  id="updateConfigForm" onsubmit="">
-                            <fieldset>
-                                <legend><?php echo __("Update the site configuration"); ?></legend>
 
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Video Resolution"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
-                                            <input aria-describedby="resolutionHelp"   id="inputVideoResolution" placeholder="<?php echo __("Video Resolution"); ?>" class="form-control"  type="text" value="<?php echo $config->getVideo_resolution(); ?>" >                                            
+                            <div class="tabbable-panel">
+                                <div class="tabbable-line">
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="#tabRegular" data-toggle="tab">
+                                                <span class="fa fa-cog"></span> 
+                                                <?php echo __("Regular Configuration"); ?>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="#tabAdvanced" data-toggle="tab">
+                                                <span class="fa fa-cogs"></span> 
+                                                <?php echo __("Advanced Configuration"); ?>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content clearfix">
+                                        <div class="tab-pane active" id="tabRegular">
+                                            <fieldset>
+                                                <legend><?php echo __("Update the site configuration"); ?></legend>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("Video Resolution"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                                                            <input aria-describedby="resolutionHelp"   id="inputVideoResolution" placeholder="<?php echo __("Video Resolution"); ?>" class="form-control"  type="text" value="<?php echo $config->getVideo_resolution(); ?>" >                                            
+                                                        </div>
+                                                        <small id="resolutionHelp" class="form-text text-muted"><?php echo __("Use one of the recommended resolutions"); ?></small>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("Web site title"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                                            <input  id="inputWebSiteTitle" placeholder="<?php echo __("Web site title"); ?>" class="form-control"  type="text"  value="<?php echo $config->getWebSiteTitle(); ?>" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("Language"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
+                                                            <input  id="inputLanguage" placeholder="<?php echo __("Language"); ?>" class="form-control"  type="text"  value="<?php echo $config->getLanguage(); ?>" >
+                                                        </div>
+                                                        <small class="form-text text-muted"><?php echo __("This value must match with the language files on"); ?><code><?php echo $global['systemRootPath']; ?>locale</code></small>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                            <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email"  value="<?php echo $config->getContactEmail(); ?>" >
+                                                        </div>
+                                                        <small class="form-text text-muted"><?php echo __("This e-mail will be used for this web site notifications"); ?></small>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("Authenticated users can upload videos"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-cloud-upload"></i></span>                                            
+                                                            <select class="form-control" id="authCanUploadVideos" >
+                                                                <option value="1" <?php echo ($config->getAuthCanUploadVideos() == 1) ? "selected" : ""; ?>><?php echo __("Yes"); ?></option>
+                                                                <option value="0" <?php echo ($config->getAuthCanUploadVideos() == 0) ? "selected" : ""; ?>><?php echo __("No"); ?></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("Authenticated users can comment videos"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-commenting"></i></span>
+
+                                                            <select class="form-control" id="authCanComment"  >
+                                                                <option value="1" <?php echo ($config->getAuthCanComment() == 1) ? "selected" : ""; ?>><?php echo __("Yes"); ?></option>
+                                                                <option value="0" <?php echo ($config->getAuthCanComment() == 0) ? "selected" : ""; ?>><?php echo __("No"); ?></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("Enable Facebook Login"); ?></label>  
+                                                    <div class="col-md-8">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
+                                                            <select class="form-control" id="authFacebook_enabled"  >
+                                                                <option value="1" <?php echo ($config->getAuthFacebook_enabled() == 1) ? "selected" : ""; ?>><?php echo __("Yes"); ?></option>
+                                                                <option value="0" <?php echo ($config->getAuthFacebook_enabled() == 0) ? "selected" : ""; ?>><?php echo __("No"); ?></option>
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-md-4 control-label"><?php echo __("Facebook ID"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                                            <input  id="authFacebook_id" placeholder="<?php echo __("Facebook ID"); ?>" class="form-control"  type="text"  value="<?php echo $config->getAuthFacebook_id() ?>" >
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-md-4 control-label"><?php echo __("Facebook Key"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                                            <input  id="authFacebook_key" placeholder="<?php echo __("Facebook Key"); ?>" class="form-control"  type="password"  value="<?php echo $config->getAuthFacebook_key() ?>" >
+                                                        </div>
+                                                        <small class="form-text text-muted"><a href="https://developers.facebook.com/apps"  target="_blank"><?php echo __("Get Facebook ID and Key"); ?></a></small>
+                                                        <small class="form-text text-muted"><?php echo __("Valid OAuth redirect URIs:"); ?> <code> <?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Facebook</code></small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("Enable Google Login"); ?></label>  
+                                                    <div class="col-md-8">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-google"></i></span>
+                                                            <select class="form-control" id="authGoogle_enabled"  >
+                                                                <option value="1" <?php echo ($config->getAuthGoogle_enabled() == 1) ? "selected" : ""; ?>><?php echo __("Yes"); ?></option>
+                                                                <option value="0" <?php echo ($config->getAuthGoogle_enabled() == 0) ? "selected" : ""; ?>><?php echo __("No"); ?></option>
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-md-4 control-label"><?php echo __("Google ID"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                                            <input  id="authGoogle_id" placeholder="<?php echo __("Google ID"); ?>" class="form-control"  type="text"  value="<?php echo $config->getAuthGoogle_id() ?>" >
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-md-4 control-label"><?php echo __("Google Key"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                                            <input  id="authGoogle_key" placeholder="<?php echo __("Google Key"); ?>" class="form-control"  type="password"  value="<?php echo $config->getAuthGoogle_key() ?>" >
+                                                        </div>
+                                                        <small class="form-text text-muted"><a href="https://console.developers.google.com/apis/credentials" target="_blank"><?php echo __("Get Google ID and Key"); ?></a></small>
+                                                        <small class="form-text text-muted"><?php echo __("Valid OAuth redirect URIs:"); ?> <code> <?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Google</code></small>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
                                         </div>
-                                        <small id="resolutionHelp" class="form-text text-muted"><?php echo __("Use one of the recommended resolutions"); ?></small>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Web site title"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-                                            <input  id="inputWebSiteTitle" placeholder="<?php echo __("Web site title"); ?>" class="form-control"  type="text"  value="<?php echo $config->getWebSiteTitle(); ?>" >
+                                        <div class="tab-pane" id="tabAdvanced">
+                                            <fieldset>
+                                                <legend><?php echo __("Advanced configuration"); ?></legend>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFPROBE Duration"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffprobeDuration" class="form-control"  type="text" value="<?php echo $config->getFfprobeDuration(); ?>" >       
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFMPEG Image"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegImage" class="form-control"  type="text" value="<?php echo $config->getFfmpegImage(); ?>" >  
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFMPEG MP4"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegMp4" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4(); ?>" > 
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFMPEG Webm"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegWebm" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebm(); ?>" >   
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFMPEG MP3"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegMp3" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp3(); ?>" >  
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFMPEG Ogg"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegOgg" class="form-control"  type="text" value="<?php echo $config->getFfmpegOgg(); ?>" >  
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Youtube-dl"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="youtubeDl" class="form-control"  type="text" value="<?php echo $config->getYoutubedl(); ?>" >     
+                                                    </div>
+                                                </div>
+                                            </fieldset>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Language"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                                            <input  id="inputLanguage" placeholder="<?php echo __("Language"); ?>" class="form-control"  type="text"  value="<?php echo $config->getLanguage(); ?>" >
-                                        </div>
-                                        <small class="form-text text-muted"><?php echo __("This value must match with the language files on"); ?><code><?php echo $global['systemRootPath']; ?>locale</code></small>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                            <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email"  value="<?php echo $config->getContactEmail(); ?>" >
-                                        </div>
-                                        <small class="form-text text-muted"><?php echo __("This e-mail will be used for this web site notifications"); ?></small>
-                                    </div>
-                                </div>
-                                
-                                
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Authenticated users can upload videos"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-cloud-upload"></i></span>                                            
-                                            <select class="form-control" id="authCanUploadVideos" >
-                                                <option value="1" <?php echo ($config->getAuthCanUploadVideos()==1)?"selected":""; ?>><?php echo __("Yes"); ?></option>
-                                                <option value="0" <?php echo ($config->getAuthCanUploadVideos()==0)?"selected":""; ?>><?php echo __("No"); ?></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Authenticated users can comment videos"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-commenting"></i></span>
-                                            
-                                            <select class="form-control" id="authCanComment"  >
-                                                <option value="1" <?php echo ($config->getAuthCanComment()==1)?"selected":""; ?>><?php echo __("Yes"); ?></option>
-                                                <option value="0" <?php echo ($config->getAuthCanComment()==0)?"selected":""; ?>><?php echo __("No"); ?></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Enable Facebook Login"); ?></label>  
-                                    <div class="col-md-8">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
-                                            <select class="form-control" id="authFacebook_enabled"  >
-                                                <option value="1" <?php echo ($config->getAuthFacebook_enabled()==1)?"selected":""; ?>><?php echo __("Yes"); ?></option>
-                                                <option value="0" <?php echo ($config->getAuthFacebook_enabled()==0)?"selected":""; ?>><?php echo __("No"); ?></option>
-                                            </select>
-                                            
-                                        </div>
-                                    </div>
-                                    <label class="col-md-4 control-label"><?php echo __("Facebook ID"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-                                            <input  id="authFacebook_id" placeholder="<?php echo __("Facebook ID"); ?>" class="form-control"  type="text"  value="<?php echo $config->getAuthFacebook_id() ?>" >
-                                        </div>
-                                    </div>
-                                    <label class="col-md-4 control-label"><?php echo __("Facebook Key"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                            <input  id="authFacebook_key" placeholder="<?php echo __("Facebook Key"); ?>" class="form-control"  type="password"  value="<?php echo $config->getAuthFacebook_key() ?>" >
-                                        </div>
-                                        <small class="form-text text-muted"><a href="https://developers.facebook.com/apps"  target="_blank"><?php echo __("Get Facebook ID and Key"); ?></a></small>
-                                        <small class="form-text text-muted"><?php echo __("Valid OAuth redirect URIs:"); ?> <code> <?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Facebook</code></small>
-                                    </div>
-                                </div>
-                                
-                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Enable Google Login"); ?></label>  
-                                    <div class="col-md-8">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-google"></i></span>
-                                            <select class="form-control" id="authGoogle_enabled"  >
-                                                <option value="1" <?php echo ($config->getAuthGoogle_enabled()==1)?"selected":""; ?>><?php echo __("Yes"); ?></option>
-                                                <option value="0" <?php echo ($config->getAuthGoogle_enabled()==0)?"selected":""; ?>><?php echo __("No"); ?></option>
-                                            </select>
-                                            
-                                        </div>
-                                    </div>
-                                    <label class="col-md-4 control-label"><?php echo __("Google ID"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-                                            <input  id="authGoogle_id" placeholder="<?php echo __("Google ID"); ?>" class="form-control"  type="text"  value="<?php echo $config->getAuthGoogle_id() ?>" >
-                                        </div>
-                                    </div>
-                                    <label class="col-md-4 control-label"><?php echo __("Google Key"); ?></label>  
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                            <input  id="authGoogle_key" placeholder="<?php echo __("Google Key"); ?>" class="form-control"  type="password"  value="<?php echo $config->getAuthGoogle_key() ?>" >
-                                        </div>
-                                        <small class="form-text text-muted"><a href="https://console.developers.google.com/apis/credentials" target="_blank"><?php echo __("Get Google ID and Key"); ?></a></small>
-                                        <small class="form-text text-muted"><?php echo __("Valid OAuth redirect URIs:"); ?> <code> <?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Google</code></small>
                                     </div>
                                 </div>
                                 <!-- Button -->
@@ -163,59 +240,10 @@ $config = new Configuration();
                                         <button type="submit" class="btn btn-primary" ><?php echo __("Save"); ?> <span class="glyphicon glyphicon-save"></span></button>
                                     </div>
                                 </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend><?php echo __("Advanced configuration"); ?></legend>
+                            </div>
 
-                                <div class="form-group">
-                                    <label class="col-md-2"><?php echo __("FFPROBE Duration"); ?></label>  
-                                    <div class="col-md-10">
-                                        <input id="ffprobeDuration" class="form-control"  type="text" value="<?php echo $config->getFfprobeDuration(); ?>" >       
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label class="col-md-2"><?php echo __("FFMPEG Image"); ?></label>  
-                                    <div class="col-md-10">
-                                            <input id="ffmpegImage" class="form-control"  type="text" value="<?php echo $config->getFfmpegImage(); ?>" >  
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label class="col-md-2"><?php echo __("FFMPEG MP4"); ?></label>  
-                                    <div class="col-md-10">
-                                            <input id="ffmpegMp4" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4(); ?>" > 
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-2"><?php echo __("FFMPEG Webm"); ?></label>  
-                                    <div class="col-md-10">
-                                            <input id="ffmpegWebm" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebm(); ?>" >   
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-2"><?php echo __("FFMPEG MP3"); ?></label>  
-                                    <div class="col-md-10">
-                                            <input id="ffmpegMp3" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp3(); ?>" >  
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-2"><?php echo __("FFMPEG Ogg"); ?></label>  
-                                    <div class="col-md-10">
-                                            <input id="ffmpegOgg" class="form-control"  type="text" value="<?php echo $config->getFfmpegOgg(); ?>" >  
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-2"><?php echo __("Youtube-dl"); ?></label>  
-                                    <div class="col-md-10">
-                                            <input id="youtubeDl" class="form-control"  type="text" value="<?php echo $config->getYoutubedl(); ?>" >     
-                                    </div>
-                                </div>
-                            </fieldset>
                         </form>
 
                     </div>
@@ -259,24 +287,24 @@ $config = new Configuration();
                             $.ajax({
                                 url: 'updateConfig',
                                 data: {
-                                    "video_resolution": $('#inputVideoResolution').val(), 
-                                    "webSiteTitle": $('#inputWebSiteTitle').val(), 
-                                    "language": $('#inputLanguage').val(), 
-                                    "contactEmail": $('#inputEmail').val(), 
-                                    "authCanUploadVideos": $('#authCanUploadVideos').val(), 
-                                    "authCanComment": $('#authCanComment').val(), 
-                                    "authFacebook_enabled": $('#authFacebook_enabled').val(), 
-                                    "authFacebook_id": $('#authFacebook_id').val(), 
-                                    "authFacebook_key": $('#authFacebook_key').val(), 
-                                    "authGoogle_enabled": $('#authGoogle_enabled').val(), 
-                                    "authGoogle_id": $('#authGoogle_id').val(), 
-                                    "authGoogle_key": $('#authGoogle_key').val(), 
-                                    "ffprobeDuration": $('#ffprobeDuration').val(), 
-                                    "ffmpegImage": $('#ffmpegImage').val(), 
-                                    "ffmpegMp4": $('#ffmpegMp4').val(), 
-                                    "ffmpegWebm": $('#ffmpegWebm').val(), 
-                                    "ffmpegMp3": $('#ffmpegMp3').val(), 
-                                    "ffmpegOgg": $('#ffmpegOgg').val(), 
+                                    "video_resolution": $('#inputVideoResolution').val(),
+                                    "webSiteTitle": $('#inputWebSiteTitle').val(),
+                                    "language": $('#inputLanguage').val(),
+                                    "contactEmail": $('#inputEmail').val(),
+                                    "authCanUploadVideos": $('#authCanUploadVideos').val(),
+                                    "authCanComment": $('#authCanComment').val(),
+                                    "authFacebook_enabled": $('#authFacebook_enabled').val(),
+                                    "authFacebook_id": $('#authFacebook_id').val(),
+                                    "authFacebook_key": $('#authFacebook_key').val(),
+                                    "authGoogle_enabled": $('#authGoogle_enabled').val(),
+                                    "authGoogle_id": $('#authGoogle_id').val(),
+                                    "authGoogle_key": $('#authGoogle_key').val(),
+                                    "ffprobeDuration": $('#ffprobeDuration').val(),
+                                    "ffmpegImage": $('#ffmpegImage').val(),
+                                    "ffmpegMp4": $('#ffmpegMp4').val(),
+                                    "ffmpegWebm": $('#ffmpegWebm').val(),
+                                    "ffmpegMp3": $('#ffmpegMp3').val(),
+                                    "ffmpegOgg": $('#ffmpegOgg').val(),
                                     "youtubeDl": $('#youtubeDl').val()
                                 },
                                 type: 'post',
