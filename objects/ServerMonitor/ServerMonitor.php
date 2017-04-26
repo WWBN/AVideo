@@ -72,7 +72,7 @@ class ServerMonitor {
                     break;
                 }
             }
-            $obj->title = "{$obj->percent}%";
+            $obj->title = "Usage of {$obj->percent}%";
             $obj->success = 1;
             $obj->output = $output;
             $obj->command = $cmd;

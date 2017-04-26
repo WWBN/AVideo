@@ -54,7 +54,7 @@ $config = new Configuration();
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo $video['title']; ?></title>
+        <title><?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
