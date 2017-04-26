@@ -98,8 +98,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
   CONSTRAINT `fk_comments_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
