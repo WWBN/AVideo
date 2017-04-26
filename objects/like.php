@@ -69,7 +69,7 @@ class Like{
         }else{
             $sql = "INSERT INTO likes ( `like`,users_id, videos_id, created, modified) VALUES ('{$this->like}', {$this->users_id}, {$this->videos_id}, now(), now())";            
         }
-        echo $sql;exit;
+        //echo $sql;exit;
         $resp = $global['mysqli']->query($sql);
         if(empty($resp)){
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
