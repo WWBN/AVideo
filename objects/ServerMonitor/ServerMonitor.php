@@ -43,9 +43,9 @@ class ServerMonitor {
             $obj->memUsedBytes = 0;
             $obj->memFreeBytes = 0;
             if (preg_match("/Mem: *([0-9]+) *([0-9]+) *([0-9]+) */i", $output[1], $match)) {
-                $obj->memTotalBytes = $match[1];
-                $obj->memUsedBytes = $match[2];
-                $obj->memFreeBytes = $match[3];
+                $obj->memTotalBytes = $match[1]*1024;
+                $obj->memUsedBytes = $match[2]*1024;
+                $obj->memFreeBytes = $match[3]*1024;
                 $onePc = $obj->memTotalBytes / 100;
                 $obj->memTotal = self::humanFileSize($obj->memTotalBytes);
                 $obj->memUsed = self::humanFileSize($obj->memUsedBytes);
