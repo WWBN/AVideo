@@ -1,6 +1,10 @@
+<?php
+require_once $global['systemRootPath'] . 'objects/configuration.php';
+$config = new Configuration();
+?>
 <hr>
 <footer>
-    <p>Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary" target="_blank">YouPHPTube</a> &copy; 2017, All rights reserved</p>
+    <p>Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary" target="_blank">YouPHPTube v<?php echo $config->getVersion(); ?></a> &copy; 2017, All rights reserved</p>
 </footer>
 <script>
 $(function() {
