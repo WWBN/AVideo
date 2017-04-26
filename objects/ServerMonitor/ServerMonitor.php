@@ -15,7 +15,7 @@ class ServerMonitor {
             $obj->output = $output;
             $obj->command = $cmd;
             $obj->percent = 0;
-            $obj->percent = self::getServerLoad();
+            $obj->percent = intval(self::getServerLoad());
             // find model name
             foreach ($output as $value) {
                 if (preg_match("/model name.+:(.*)/i", $value, $match)) {
@@ -50,7 +50,7 @@ class ServerMonitor {
                 $obj->memTotal = self::humanFileSize($obj->memTotalBytes);
                 $obj->memUsed = self::humanFileSize($obj->memUsedBytes);
                 $obj->memFree = self::humanFileSize($obj->memFreeBytes);
-                $obj->percent = $obj->memUsedBytes / $onePc;
+                $obj->percent = intval($obj->memUsedBytes / $onePc);
                 $obj->title = "Total: {$obj->memTotal} | Free: {$obj->memFree} | Used: {$obj->memUsed}";
             }
         }
@@ -68,7 +68,7 @@ class ServerMonitor {
             $obj->percent = 0;
             foreach ($output as $value) {
                 if (preg_match("/([0-9]+)% \/$/i", $value, $match)) {
-                    $obj->percent = $match[1];
+                    $obj->percent = intval($match[1]);
                     break;
                 }
             }
