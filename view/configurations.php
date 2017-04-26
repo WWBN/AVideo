@@ -50,7 +50,7 @@ $config = new Configuration();
                                         </li>
                                     </ul>
                                     <div class="tab-content clearfix">
-                                        
+
                                         <div class="tab-pane active" id="tabRegular">
                                             <fieldset>
                                                 <legend><?php echo __("Update the site configuration"); ?></legend>
@@ -285,11 +285,20 @@ $config = new Configuration();
                                             <script type="text/javascript">
                                                 $(document).ready(function () {
                                                     // Example with grater loading time - loads longer
-                                                    $('.pie_progress_cpu, .pie_progress_mem, .pie_progress_disk').asPieProgress({
-                                                    });
-                                                    getCpu();
-                                                    getMem();
-                                                    getDisk();
+                                                    setTimeout(function () {
+                                                        $('.pie_progress_cpu').asPieProgress({});
+                                                        getCpu();
+
+                                                    }, 1000);
+                                                    setTimeout(function () {
+                                                        $('.pie_progress_mem').asPieProgress({});
+                                                        getMem();
+
+                                                    }, 2000);
+                                                    setTimeout(function () {
+                                                        $('.pie_progress_disk').asPieProgress({});
+                                                        getDisk();
+                                                    }, 3000);
                                                 });
 
                                                 function getCpu() {
