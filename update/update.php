@@ -46,7 +46,7 @@ $config = new Configuration();
                                 <select class="selectpicker" data-width="fit" name="updateFile" id="updateFile" required autofocus>
                                     <?php
                                     foreach ($updateFiles as $value) {
-                                        echo "<option value=\"{$value['filename']}\">Version {$value[version]}</option>";
+                                        echo "<option value=\"{$value['filename']}\">Version {$value['version']}</option>";
                                     }
                                     ?>
                                 </select>
