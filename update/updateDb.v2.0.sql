@@ -21,16 +21,39 @@ CREATE TABLE IF NOT EXISTS `likes` (
   INDEX `fk_likes_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_likes_videos1`
     FOREIGN KEY (`videos_id`)
-    REFERENCES `youphptube`.`videos` (`id`)
+    REFERENCES `videos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_likes_users1`
     FOREIGN KEY (`users_id`)
-    REFERENCES `youphptube`.`users` (`id`)
+    REFERENCES `users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+ALTER TABLE `likes` 
+DROP FOREIGN KEY `fk_likes_users1`;
+
+ALTER TABLE `likes` 
+ADD INDEX `fk_likes_videos1_idx` (`videos_id` ASC),
+ADD INDEX `fk_likes_users1_idx` (`users_id` ASC),
+DROP INDEX `fk_likes_users1_idx` ,
+DROP INDEX `fk_likes_videos1_idx` ;
+
+ALTER TABLE `likes` 
+DROP FOREIGN KEY `fk_likes_videos1`;
+
+ALTER TABLE `likes` ADD CONSTRAINT `fk_likes_videos1`
+  FOREIGN KEY (`videos_id`)
+  REFERENCES `videos` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_likes_users1`
+  FOREIGN KEY (`users_id`)
+  REFERENCES `users` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

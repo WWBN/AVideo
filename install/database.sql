@@ -4,7 +4,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
@@ -125,6 +124,13 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `authFacebook_enabled` TINYINT(1) NOT NULL DEFAULT 0,
   `authCanUploadVideos` TINYINT(1) NOT NULL DEFAULT 0,
   `authCanComment` TINYINT(1) NOT NULL DEFAULT 1,
+  `ffprobeDuration` VARCHAR(255) NULL,
+  `ffmpegImage` VARCHAR(255) NULL,
+  `ffmpegMp4` VARCHAR(255) NULL,
+  `ffmpegWebm` VARCHAR(255) NULL,
+  `ffmpegMp3` VARCHAR(255) NULL,
+  `ffmpegOgg` VARCHAR(255) NULL,
+  `youtubeDl` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
@@ -155,6 +161,32 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   CONSTRAINT `fk_videos_statistics_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `likes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `likes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `like` INT(1) NOT NULL DEFAULT 0 COMMENT '1 = Like\n0 = Does not metter\n-1 = Dislike',
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `videos_id` INT NOT NULL,
+  `users_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_likes_videos1_idx` (`videos_id` ASC),
+  INDEX `fk_likes_users1_idx` (`users_id` ASC),
+  CONSTRAINT `fk_likes_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_likes_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
