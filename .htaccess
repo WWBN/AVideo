@@ -18,6 +18,7 @@
     RewriteRule    ^contact$ view/contact.php    [NC,L]
     RewriteRule    ^sendEmail$ objects/sendEmail.json.php    [NC,L]
     RewriteRule    ^captcha$ objects/getCaptcha.php    [NC,L]
+    RewriteRule    ^monitor/(.+)$ objects/ServerMonitor/$1    [NC,L]
 
     #for the category name
     RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L]

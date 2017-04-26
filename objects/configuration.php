@@ -5,6 +5,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/functions.php';
 
 class Configuration {
 
@@ -292,8 +293,6 @@ class Configuration {
     function setYoutubedl($youtubedl) {
         $this->youtubedl = $youtubedl;
     }
-
-
 
 
 }

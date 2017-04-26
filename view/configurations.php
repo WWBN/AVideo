@@ -30,7 +30,7 @@ $config = new Configuration();
                             <div class="tabbable-panel">
                                 <div class="tabbable-line">
                                     <ul class="nav nav-tabs">
-                                        <li class="nav-item">
+                                        <li class="nav-item  active">
                                             <a class="nav-link " href="#tabRegular" data-toggle="tab">
                                                 <span class="fa fa-cog"></span> 
                                                 <?php echo __("Regular Configuration"); ?>
@@ -42,8 +42,15 @@ $config = new Configuration();
                                                 <?php echo __("Advanced Configuration"); ?>
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="#tabServerInfo" data-toggle="tab">
+                                                <span class="fa fa-info-circle"></span> 
+                                                <?php echo __("Server Info"); ?>
+                                            </a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content clearfix">
+                                        
                                         <div class="tab-pane active" id="tabRegular">
                                             <fieldset>
                                                 <legend><?php echo __("Update the site configuration"); ?></legend>
@@ -230,6 +237,110 @@ $config = new Configuration();
                                                     </div>
                                                 </div>
                                             </fieldset>
+                                        </div>
+                                        <div class="tab-pane" id="tabServerInfo">
+                                            <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>monitor/gauge/css/asPieProgress.css">
+                                            <style>
+                                                .pie_progress {
+                                                    width: 160px;
+                                                    margin: 10px auto;
+                                                }
+                                                @media all and (max-width: 768px) {
+                                                    .pie_progress {
+                                                        width: 80%;
+                                                        max-width: 300px;
+                                                    }
+                                                }
+                                            </style>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-lg-4" id="cpuDiv">                        
+                                                    <div class="pie_progress_cpu" role="progressbar" data-goal="33">
+                                                        <div class="pie_progress__number">0%</div>
+                                                        <div class="pie_progress__label">CPU</div>
+                                                    </div>
+                                                    <h1>Cpu</h1>
+                                                    <h2></h2>
+                                                    <pre></pre>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-lg-4" id="memDiv">
+                                                    <div class="pie_progress_mem" role="progressbar" data-goal="33">
+                                                        <div class="pie_progress__number">0%</div>
+                                                        <div class="pie_progress__label">Memory</div>
+                                                    </div>
+                                                    <h1>Memory</h1>
+                                                    <h2></h2>
+                                                    <pre></pre>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-lg-4" id="diskDiv">
+                                                    <div class="pie_progress_disk" role="progressbar" data-goal="33">
+                                                        <div class="pie_progress__number">0%</div>
+                                                        <div class="pie_progress__label">Disk</div>
+                                                    </div>
+                                                    <h1>Disk</h1>
+                                                    <h2></h2>
+                                                    <pre></pre>
+                                                </div>
+                                            </div>
+                                            <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>monitor/gauge/jquery-asPieProgress.js"></script>
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    // Example with grater loading time - loads longer
+                                                    $('.pie_progress_cpu, .pie_progress_mem, .pie_progress_disk').asPieProgress({
+                                                        namespace: 'pie_progress',
+                                                        goal: 100,
+                                                        min: 0,
+                                                        max: 100,
+                                                        speed: 50,
+                                                        easing: 'linear'
+                                                    });
+                                                    getCpu();
+                                                    getMem();
+                                                    getDisk();
+                                                });
+
+                                                function getCpu() {
+                                                    $.ajax({
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>monitor/cpu.json.php',
+                                                        success: function (response) {
+                                                            update('cpu', response);
+                                                            setTimeout(function () {
+                                                                getCpu();
+                                                            }, 1000);
+                                                        }
+                                                    });
+                                                }
+
+                                                function getMem() {
+                                                    $.ajax({
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>monitor/memory.json.php',
+                                                        success: function (response) {
+                                                            update('mem', response);
+
+                                                            setTimeout(function () {
+                                                                getMem();
+                                                            }, 1000);
+                                                        }
+                                                    });
+                                                }
+
+                                                function getDisk() {
+                                                    $.ajax({
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>monitor/disk.json.php',
+                                                        success: function (response) {
+                                                            update('disk', response);
+                                                            setTimeout(function () {
+                                                                getDisk();
+                                                            }, 1000);
+                                                        }
+                                                    });
+                                                }
+
+                                                function update(name, response) {
+                                                    $('.pie_progress_' + name).asPieProgress('go', response.percent);
+                                                    $("#" + name + "Div h2").text(response.title);
+                                                    $("#" + name + "Div pre").text(response.output.join('\n'));
+                                                }
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
