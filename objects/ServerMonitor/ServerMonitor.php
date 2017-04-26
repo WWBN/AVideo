@@ -78,8 +78,12 @@ class ServerMonitor {
             $obj->error = "Get Disk ERROR** " . print_r($output, true);
             $obj->command = $cmd;
         } else {
-            if (preg_match("/([0-9]+)%/i", end($output), $match)) {
-                $obj->percent = $match[1];
+            $obj->percent = 0;
+            foreach ($output as $value) {
+                if (preg_match("/([0-9]+)% \/$/i", $value, $match)) {
+                    $obj->percent = $match[1];
+                    break;
+                }
             }
             $obj->title = "{$obj->percent}%";
             $obj->success = 1;
