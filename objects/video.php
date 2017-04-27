@@ -483,7 +483,7 @@ class Video {
                 }
                 
             }
-            if($rotation==90){
+            if($rotation==0){
                 if($w>$h){
                     $resp = true;
                 }else{
