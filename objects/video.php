@@ -428,7 +428,8 @@ class Video {
             // fix ffprobe
             $duration = "EE:EE:EE";
         } else {
-            $duration = preg_replace("/[^0-9:]/", "", $output[0]);
+            preg_match("/([0-9]+:[0-9]+:[0-9]{2})/", $output[0], $match);
+            $duration = $match[1];
         }
         return $duration;
     }
@@ -451,6 +452,38 @@ class Video {
 
     function setVideoDownloadedLink($videoDownloadedLink) {
         $this->videoDownloadedLink = $videoDownloadedLink;
+    }
+    
+    static function isLandscape($pathFileName){
+        // get movie duration HOURS:MM:SS.MICROSECONDS
+        if (!file_exists($pathFileName)) {
+            echo '{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $pathFileName . ') Not Found"}';
+            exit;
+        }
+        $config = new Configuration();
+        eval('$cmd="' . $config->getExiftool() . '";');
+        $resp = true; // is landscape by default
+        exec($cmd . ' 2>&1', $output, $return_val);
+        if ($return_val !== 0) {
+            $resp = true;
+        } else {
+            foreach ($output as $value) {
+                preg_match("/Image Size.*:[^0-9]*([0-9]+x[0-9]+)/i", $value, $match);
+                if(!empty($match)){
+                    $parts = explode("x", $match[1]);
+                    $w = $parts[0];
+                    $h = $parts[1];
+                    if($w>$h){
+                        $resp = true;
+                    }else{
+                        $resp = false;
+                    }
+                    break;
+                }
+                
+            }
+        }
+        return $resp;
     }
 
 }

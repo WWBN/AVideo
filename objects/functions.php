@@ -64,3 +64,100 @@ function humanTiming ($time){
     }
 
 }
+
+function checkVideosDir(){
+    $dir = "../videos";
+    if (file_exists($dir)) {
+        if(is_writable($dir)){
+            return true;
+        }else{
+            return false;
+        }
+    } else {
+        return mkdir($dir);
+    }
+}
+
+function isApache() {
+    if (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false)
+        return true;
+    else
+        return false;
+}
+
+function isPHP($version = "'7.0.0'") {
+    if (version_compare(PHP_VERSION, $version) >= 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function modRewriteEnabled() {
+    return in_array('mod_rewrite', apache_get_modules());
+}
+
+function isFFMPEG() {
+    return trim(shell_exec('which ffmpeg'));
+}
+function isExifToo() {
+    return trim(shell_exec('which exiftool'));
+}
+
+function getPathToApplication() {
+    return str_replace("install/index.php", "", $_SERVER["SCRIPT_FILENAME"]);
+}
+
+function getURLToApplication() {
+    $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $url = str_replace("install/index.php", "", $url);
+    return $url;
+}
+
+//max_execution_time = 7200
+function check_max_execution_time() {
+    $max_size = ini_get('max_execution_time');
+    $recomended_size = 7200;
+    if ($recomended_size > $max_size) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+//post_max_size = 100M
+function check_post_max_size() {
+    $max_size = parse_size(ini_get('post_max_size'));
+    $recomended_size = parse_size('100M');
+    if ($recomended_size > $max_size) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+//upload_max_filesize = 100M
+function check_upload_max_filesize() {
+    $max_size = parse_size(ini_get('upload_max_filesize'));
+    $recomended_size = parse_size('100M');
+    if ($recomended_size > $max_size) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+//memory_limit = 100M
+function check_memory_limit() {
+    $max_size = parse_size(ini_get('memory_limit'));
+    $recomended_size = parse_size('512M');
+    if ($recomended_size > $max_size) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function check_mysqlnd() {
+    return function_exists('mysqli_fetch_all');
+}

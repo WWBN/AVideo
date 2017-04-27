@@ -2,6 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
+require_once $global['systemRootPath'] . 'objects/functions.php';
 $config = new Configuration();
 //var_dump($config);exit;
 ?>
@@ -31,6 +32,12 @@ $config = new Configuration();
                                 <div class="tabbable-line">
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item  active">
+                                            <a class="nav-link " href="#tabCompatibility" data-toggle="tab">
+                                                <span class="fa fa-cog"></span> 
+                                                <?php echo __("Compatibility Check"); ?>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link " href="#tabRegular" data-toggle="tab">
                                                 <span class="fa fa-cog"></span> 
                                                 <?php echo __("Regular Configuration"); ?>
@@ -50,8 +57,273 @@ $config = new Configuration();
                                         </li>
                                     </ul>
                                     <div class="tab-content clearfix">
+                                        <div class="tab-pane active" id="tabCompatibility">
+                                            <?php
+                                            if (isApache()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?> is Present</strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Your server is <?php echo $_SERVER['SERVER_SOFTWARE']; ?>, you must install Apache</strong>
+                                                </div>                  
+                                                <?php
+                                            }
+                                            ?>
 
-                                        <div class="tab-pane active" id="tabRegular">
+
+                                            <?php
+                                            if (isPHP("5.6")) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>PHP <?php echo PHP_VERSION; ?> is Present</strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Your PHP version is <?php echo PHP_VERSION; ?>, you must install PHP 5.6.x or greater</strong>
+                                                </div>                  
+                                                <?php
+                                            }
+                                            ?>
+
+
+                                            <?php
+                                            if (modRewriteEnabled()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>Mod Rewrite module is Present</strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Mod Rewrite is not enabled</strong>
+                                                    <details>
+                                                        In order to use mod_rewrite you can type the following command in the terminal:<br>
+                                                        <pre><code>a2enmod rewrite</code></pre><br>
+                                                        Restart apache2 after<br>
+                                                        <pre><code>/etc/init.d/apache2 restart</code></pre>
+                                                    </details>
+                                                </div>                  
+                                                <?php
+                                            }
+                                            ?>
+
+                                            <?php
+                                            if ($exifTool = isExifToo()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>Exiftool [<?php echo $exifTool; ?>] is Present</strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Since YouPHPTube 2.1 we use exiftool to determine if an video is landscape or portrait</strong>
+                                                    <details>
+                                                        In order to install exiftool type the following command in the terminal:<br>
+                                                        <pre><code>sudo apt install libimage-exiftool-perl</code></pre>
+                                                    </details>
+                                                </div>                  
+                                                <?php
+                                            }
+                                            ?>
+                                            <?php
+                                            if ($ffmpeg = isFFMPEG()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>FFMPEG <?php echo $ffmpeg; ?> is Present</strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>FFmpeg is not enabled</strong>
+                                                    <details>
+                                                        FFmpeg has been removed from Ubuntu 14.04 and was replaced by Libav. This decision has been reversed so that FFmpeg is available now in Ubuntu 15.04 again, but there is still no official package for 14.04. In this tutorial, I will show you how to install FFmpeg from mc3man ppa. Add the mc3man ppa:
+                                                        <br>
+                                                        If you are not using Ubuntu 14.x go to step 2 
+                                                        <h2>Step 1</h2>
+                                                        <pre><code>sudo add-apt-repository ppa:mc3man/trusty-media</code></pre>
+                                                        <br>
+                                                        And confirm the following message by pressing &lt;enter&gt;:
+                                                        <br>
+                                                        <code>
+                                                            Also note that with apt-get a sudo apt-get dist-upgrade is needed for initial setup & with some package upgrades
+                                                            More info: https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media
+                                                            Press [ENTER] to continue or ctrl-c to cancel adding it
+                                                        </code>
+                                                        <br>
+                                                        Update the package list.
+                                                        <br>
+                                                        <pre><code>
+                                                sudo apt-get update
+                                                sudo apt-get dist-upgrade
+                                            </code></pre>
+                                                        <br>
+                                                        Now FFmpeg is available to be installed with apt:
+                                                        <br>
+                                                        <h2>Step 2</h2>
+                                                        <pre><code>sudo apt-get install ffmpeg</code></pre>
+
+                                                    </details>
+                                                </div>                  
+                                                <?php
+                                            }
+                                            ?>
+
+
+                                            <?php
+                                            if (checkVideosDir()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>Your videos directory is writable</strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Your videos directory must be writable</strong>
+                                                    <details>
+                                                        <?php
+                                                        $dir = getPathToApplication() . "videos";
+                                                        if (!file_exists($dir)) {
+                                                            ?>
+                                                            The video directory does not exists, YouPHPTube had no permition to create it, you must create it manualy!
+                                                            <br>
+                                                            <pre><code>sudo mkdir <?php echo $dir; ?></code></pre>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        <br>
+                                                        Then you can set the permissions.
+                                                        <br>
+                                                        <pre><code>sudo chmod -R 777 <?php echo $dir; ?></code></pre>
+                                                    </details>
+                                                </div>                  
+                                                <?php
+                                            }
+                                            $pathToPHPini = php_ini_loaded_file();
+                                            if (empty($pathToPHPini)) {
+                                                $pathToPHPini = "/etc/php/7.0/cli/php.ini";
+                                            }
+                                            ?>
+
+
+                                            <?php
+                                            if (check_max_execution_time()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>Your max_execution_time is <?php echo ini_get('max_execution_time'); ?></strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Your max_execution_time is <?php echo ini_get('max_execution_time'); ?>, it must be at least 7200</strong>
+
+                                                    <details>
+                                                        Edit the <code>php.ini</code> file 
+                                                        <br>
+                                                        <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
+                                                    </details>
+                                                </div>                  
+                                                <?php
+                                            }
+                                            ?>
+
+                                            <?php
+                                            if (check_post_max_size()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?></strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?>, it must be at least 100M</strong>
+
+                                                    <details>
+                                                        Edit the <code>php.ini</code> file 
+                                                        <br>
+                                                        <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
+                                                    </details>
+                                                </div>                  
+                                                <?php
+                                            }
+                                            ?>
+
+                                            <?php
+                                            if (check_upload_max_filesize()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?></strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?>, it must be at least 100M</strong>
+
+                                                    <details>
+                                                        Edit the <code>php.ini</code> file 
+                                                        <br>
+                                                        <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
+                                                    </details>
+                                                </div>                   
+                                                <?php
+                                            }
+                                            ?>
+
+                                            <?php
+                                            if (check_memory_limit()) {
+                                                ?>
+                                                <div class="alert alert-success">
+                                                    <span class="glyphicon glyphicon-check"></span>
+                                                    <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?></strong>
+                                                </div>                  
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="alert alert-danger">
+                                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                                    <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?>, it must be at least 512M</strong>
+
+                                                    <details>
+                                                        Edit the <code>php.ini</code> file 
+                                                        <br>
+                                                        <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
+                                                    </details>
+                                                </div>                   
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="tab-pane" id="tabRegular">
                                             <fieldset>
                                                 <legend><?php echo __("Update the site configuration"); ?></legend>
 
@@ -202,7 +474,21 @@ $config = new Configuration();
                                                         <small>Leave blank for native youtube-dl</small>
                                                     </div>
                                                 </div>
-                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Path to exiftool"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="youtubeDlPath" class="form-control"  type="text" value="<?php echo $config->getExiftoolPath(); ?>" >
+                                                        <small>Leave blank for native Exiftool</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Exiftool"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="exiftool" class="form-control"  type="text" value="<?php echo $config->getExiftool(); ?>" >       
+                                                    </div>
+                                                </div>
+
                                                 <div class="form-group">
                                                     <label class="col-md-2"><?php echo __("FFPROBE Duration"); ?></label>  
                                                     <div class="col-md-10">
@@ -223,11 +509,24 @@ $config = new Configuration();
                                                         <input id="ffmpegMp4" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4(); ?>" > 
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFMPEG MP4 Portrail"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegMp4Portrail" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4Portrail(); ?>" > 
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group">
                                                     <label class="col-md-2"><?php echo __("FFMPEG Webm"); ?></label>  
                                                     <div class="col-md-10">
                                                         <input id="ffmpegWebm" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebm(); ?>" >   
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFMPEG Webm Portrail"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegWebmPortrail" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebmPortrail(); ?>" >   
                                                     </div>
                                                 </div>
 
@@ -439,6 +738,8 @@ $config = new Configuration();
                                     "ffmpegImage": $('#ffmpegImage').val(),
                                     "ffmpegMp4": $('#ffmpegMp4').val(),
                                     "ffmpegWebm": $('#ffmpegWebm').val(),
+                                    "ffmpegMp4Portrail": $('#ffmpegMp4Portrail').val(),
+                                    "ffmpegWebmPortrail": $('#ffmpegWebmPortrail').val(),
                                     "ffmpegMp3": $('#ffmpegMp3').val(),
                                     "ffmpegOgg": $('#ffmpegOgg').val(),
                                     "youtubeDl": $('#youtubeDl').val(),

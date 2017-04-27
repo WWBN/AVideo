@@ -29,12 +29,17 @@ class Configuration {
     private $ffmpegImage;
     private $ffmpegMp4;
     private $ffmpegWebm;
+    private $ffmpegMp4Portrail;
+    private $ffmpegWebmPortrail;
     private $ffmpegMp3;
     private $ffmpegOgg;
     private $youtubedl;
     
     private $ffmpegPath;
     private $youtubeDlPath;
+    
+    private $exiftool;
+    private $exiftoolPath;
     
     
     function __construct($video_resolution="") {
@@ -89,6 +94,8 @@ class Configuration {
                 . "ffmpegMp4 = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4())}',"
                 . "ffmpegOgg = '{$global['mysqli']->real_escape_string($this->getFfmpegOgg())}',"
                 . "ffmpegWebm = '{$global['mysqli']->real_escape_string($this->getFfmpegWebm())}',"
+                . "ffmpegMp4Portrail = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4Portrail())}',"
+                . "ffmpegWebmPortrail = '{$global['mysqli']->real_escape_string($this->getFfmpegWebmPortrail())}',"
                 . "ffprobeDuration = '{$global['mysqli']->real_escape_string($this->getFfprobeDuration())}',"
                 . "youtubedl = '{$global['mysqli']->real_escape_string($this->getYoutubedl())}',"
                 . "youtubedlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
@@ -224,49 +231,63 @@ class Configuration {
 
     function getFfprobeDuration() {
         if(empty($this->ffprobeDuration)){
-            return $this->getFfmpegPath().'ffprobe -i {$file} -sexagesimal -show_entries  format=duration -v quiet -of csv=\'p=0\'';
+            return 'ffprobe -i {$file} -sexagesimal -show_entries  format=duration -v quiet -of csv=\'p=0\'';
         }
         return $this->ffprobeDuration;
     }
 
     function getFfmpegImage() {
         if(empty($this->ffprobeDuration)){
-            return $this->getFfmpegPath().'ffmpeg -ss 5 -i {$pathFileName} -qscale:v 2 -vframes 1 -y {$destinationFile}';
+            return 'ffmpeg -ss 5 -i {$pathFileName} -qscale:v 2 -vframes 1 -y {$destinationFile}';
         }
         return $this->ffmpegImage;
     }
 
     function getFfmpegMp4() {
         if(empty($this->ffmpegMp4)){
-            return $this->getFfmpegPath().'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
+            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
         }
         return $this->ffmpegMp4;
     }
 
     function getFfmpegWebm() {
         if(empty($this->ffmpegWebm)){
-            return $this->getFfmpegPath().'/ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
+            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegWebm;
+    }
+    
+    function getFfmpegMp4Portrail() {
+        if(empty($this->ffmpegMp4Portrail)){
+            return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
+        }
+        return $this->ffmpegMp4Portrail;
+    }
+
+    function getFfmpegWebmPortrail() {
+        if(empty($this->ffmpegWebmPortrail)){
+            return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
+        }
+        return $this->ffmpegWebmPortrail;
     }
 
     function getFfmpegMp3() {
         if(empty($this->ffmpegMp3)){
-            return $this->getFfmpegPath().'ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
+            return 'ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
         }
         return $this->ffmpegMp3;
     }
 
     function getFfmpegOgg() {
         if(empty($this->ffmpegOgg)){
-            return $this->getFfmpegPath().'ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
+            return 'ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegOgg;
     }
 
     function getYoutubedl() {
         if(empty($this->youtubedl)){
-            return $this->youtubeDlPath.'youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
+            return 'youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
         }
         return $this->youtubedl;
     }
@@ -324,6 +345,34 @@ class Configuration {
         }
         return $this->youtubeDlPath;
     }
+
+    function getExiftool() {
+        if(empty($this->exiftool)){
+            return 'exiftool {$pathFileName}';
+        }
+        return $this->exiftool;
+    }
+
+    function getExiftoolPath() {
+        return $this->exiftoolPath;
+    }
+
+    function setExiftool($exiftool) {
+        $this->exiftool = $exiftool;
+    }
+
+    function setExiftoolPath($exiftoolPath) {
+        $this->exiftoolPath = $exiftoolPath;
+    }
+
+    function setFfmpegMp4Portrail($ffmpegMp4Portrail) {
+        $this->ffmpegMp4Portrail = $ffmpegMp4Portrail;
+    }
+
+    function setFfmpegWebmPortrail($ffmpegWebmPortrail) {
+        $this->ffmpegWebmPortrail = $ffmpegWebmPortrail;
+    }
+
 
 
 
