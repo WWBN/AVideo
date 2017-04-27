@@ -142,7 +142,7 @@ class Video {
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'likes'");
         if (empty($result->num_rows)) {
             echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.0</a></div>";
-            return false;
+            return false; 
         }
         
         $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation, "
