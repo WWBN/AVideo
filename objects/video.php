@@ -467,20 +467,34 @@ class Video {
         if ($return_val !== 0) {
             $resp = true;
         } else {
+            $w = 1;
+            $h = 0;
+            $rotation = 0;
             foreach ($output as $value) {
                 preg_match("/Image Size.*:[^0-9]*([0-9]+x[0-9]+)/i", $value, $match);
                 if(!empty($match)){
                     $parts = explode("x", $match[1]);
                     $w = $parts[0];
-                    $h = $parts[1];
-                    if($w>$h){
-                        $resp = true;
-                    }else{
-                        $resp = false;
-                    }
-                    break;
+                    $h = $parts[1];                    
+                }
+                preg_match("/Rotaion.*:[^0-9]*([0-9]+)/i", $value, $match);
+                if(!empty($match)){
+                    $rotation = $match[1];                    
                 }
                 
+            }
+            if($rotation==90){
+                if($w>$h){
+                    $resp = true;
+                }else{
+                    $resp = false;
+                }
+            }else{                
+                if($w<$h){
+                    $resp = true;
+                }else{
+                    $resp = false;
+                }
             }
         }
         return $resp;

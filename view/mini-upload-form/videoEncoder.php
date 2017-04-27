@@ -65,9 +65,9 @@ foreach ($videoConverter as $key => $value) {
     // convert video
     echo "\n\n--Converting video {$key} \n";
     $pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
-    // check if is portrail video
+    // check if is portrait video
     if (!Video::isLandscape($pathFileName)) {
-        eval('$value = $config->getFfmpeg' . ucfirst($key) . 'Portrail();');
+        eval('$value = $config->getFfmpeg' . ucfirst($key) . 'Portrait();');
     }
 
     $destinationFile = "{$global['systemRootPath']}videos/{$filename}.{$key}";

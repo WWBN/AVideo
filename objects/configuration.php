@@ -29,8 +29,8 @@ class Configuration {
     private $ffmpegImage;
     private $ffmpegMp4;
     private $ffmpegWebm;
-    private $ffmpegMp4Portrail;
-    private $ffmpegWebmPortrail;
+    private $ffmpegMp4Portrait;
+    private $ffmpegWebmPortrait;
     private $ffmpegMp3;
     private $ffmpegOgg;
     private $youtubedl;
@@ -94,8 +94,8 @@ class Configuration {
                 . "ffmpegMp4 = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4())}',"
                 . "ffmpegOgg = '{$global['mysqli']->real_escape_string($this->getFfmpegOgg())}',"
                 . "ffmpegWebm = '{$global['mysqli']->real_escape_string($this->getFfmpegWebm())}',"
-                . "ffmpegMp4Portrail = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4Portrail())}',"
-                . "ffmpegWebmPortrail = '{$global['mysqli']->real_escape_string($this->getFfmpegWebmPortrail())}',"
+                . "ffmpegMp4Portrait = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4Portrait())}',"
+                . "ffmpegWebmPortrait = '{$global['mysqli']->real_escape_string($this->getFfmpegWebmPortrait())}',"
                 . "ffprobeDuration = '{$global['mysqli']->real_escape_string($this->getFfprobeDuration())}',"
                 . "youtubedl = '{$global['mysqli']->real_escape_string($this->getYoutubedl())}',"
                 . "youtubedlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
@@ -257,18 +257,18 @@ class Configuration {
         return $this->ffmpegWebm;
     }
     
-    function getFfmpegMp4Portrail() {
-        if(empty($this->ffmpegMp4Portrail)){
+    function getFfmpegMp4Portrait() {
+        if(empty($this->ffmpegMp4Portrait)){
             return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
         }
-        return $this->ffmpegMp4Portrail;
+        return $this->ffmpegMp4Portrait;
     }
 
-    function getFfmpegWebmPortrail() {
-        if(empty($this->ffmpegWebmPortrail)){
+    function getFfmpegWebmPortrait() {
+        if(empty($this->ffmpegWebmPortrait)){
             return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
         }
-        return $this->ffmpegWebmPortrail;
+        return $this->ffmpegWebmPortrait;
     }
 
     function getFfmpegMp3() {
@@ -365,12 +365,12 @@ class Configuration {
         $this->exiftoolPath = $exiftoolPath;
     }
 
-    function setFfmpegMp4Portrail($ffmpegMp4Portrail) {
-        $this->ffmpegMp4Portrail = $ffmpegMp4Portrail;
+    function setFfmpegMp4Portrait($ffmpegMp4Portrait) {
+        $this->ffmpegMp4Portrait = $ffmpegMp4Portrait;
     }
 
-    function setFfmpegWebmPortrail($ffmpegWebmPortrail) {
-        $this->ffmpegWebmPortrail = $ffmpegWebmPortrail;
+    function setFfmpegWebmPortrait($ffmpegWebmPortrait) {
+        $this->ffmpegWebmPortrait = $ffmpegWebmPortrait;
     }
 
 

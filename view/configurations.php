@@ -510,9 +510,9 @@ $config = new Configuration();
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG MP4 Portrail"); ?></label>  
+                                                    <label class="col-md-2"><?php echo __("FFMPEG MP4 Portrait"); ?></label>  
                                                     <div class="col-md-10">
-                                                        <input id="ffmpegMp4Portrail" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4Portrail(); ?>" > 
+                                                        <input id="ffmpegMp4Portrait" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4Portrait(); ?>" > 
                                                     </div>
                                                 </div>
 
@@ -524,9 +524,9 @@ $config = new Configuration();
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG Webm Portrail"); ?></label>  
+                                                    <label class="col-md-2"><?php echo __("FFMPEG Webm Portrait"); ?></label>  
                                                     <div class="col-md-10">
-                                                        <input id="ffmpegWebmPortrail" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebmPortrail(); ?>" >   
+                                                        <input id="ffmpegWebmPortrait" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebmPortrait(); ?>" >   
                                                     </div>
                                                 </div>
 
@@ -738,8 +738,8 @@ $config = new Configuration();
                                     "ffmpegImage": $('#ffmpegImage').val(),
                                     "ffmpegMp4": $('#ffmpegMp4').val(),
                                     "ffmpegWebm": $('#ffmpegWebm').val(),
-                                    "ffmpegMp4Portrail": $('#ffmpegMp4Portrail').val(),
-                                    "ffmpegWebmPortrail": $('#ffmpegWebmPortrail').val(),
+                                    "ffmpegMp4Portrait": $('#ffmpegMp4Portrait').val(),
+                                    "ffmpegWebmPortrait": $('#ffmpegWebmPortrait').val(),
                                     "ffmpegMp3": $('#ffmpegMp3').val(),
                                     "ffmpegOgg": $('#ffmpegOgg').val(),
                                     "youtubeDl": $('#youtubeDl').val(),
