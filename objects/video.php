@@ -497,7 +497,7 @@ class Video {
                 }
             }
         }
-        var_dump($cmd, $w, $h, $rotation, $resp);exit;
+        //var_dump($cmd, $w, $h, $rotation, $resp);exit;
         return $resp;
     }
 
