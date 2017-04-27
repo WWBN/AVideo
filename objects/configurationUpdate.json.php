@@ -30,4 +30,6 @@ $config->setFfmpegWebm($_POST['ffmpegWebm']);
 $config->setFfmpegMp3($_POST['ffmpegMp3']);
 $config->setFfmpegOgg($_POST['ffmpegOgg']);
 $config->setYoutubedl($_POST['youtubeDl']);
+$config->setYoutubeDlPath($_POST['youtubeDlPath']);
+$config->setFfmpegPath($_POST['ffmpegPath']);
 echo '{"status":"'.$config->save().'"}';

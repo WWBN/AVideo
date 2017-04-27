@@ -191,8 +191,15 @@ $config = new Configuration();
                                                 <div class="form-group">
                                                     <label class="col-md-2"><?php echo __("Path to FFMPEG"); ?></label>  
                                                     <div class="col-md-10">
-                                                        <input id="ffmpegPath" class="form-control"  type="text" value="" >
+                                                        <input id="ffmpegPath" class="form-control"  type="text" value="<?php echo $config->getFfmpegPath(); ?>" >
                                                         <small>Leave blank for native ffmpeg</small>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Path to Youtube-Dl"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="youtubeDlPath" class="form-control"  type="text" value="<?php echo $config->getYoutubeDlPath(); ?>" >
+                                                        <small>Leave blank for native youtube-dl</small>
                                                     </div>
                                                 </div>
                                                 
@@ -434,7 +441,9 @@ $config = new Configuration();
                                     "ffmpegWebm": $('#ffmpegWebm').val(),
                                     "ffmpegMp3": $('#ffmpegMp3').val(),
                                     "ffmpegOgg": $('#ffmpegOgg').val(),
-                                    "youtubeDl": $('#youtubeDl').val()
+                                    "youtubeDl": $('#youtubeDl').val(),
+                                    "youtubeDlPath": $('#youtubeDlPath').val(),
+                                    "ffmpegPath": $('#ffmpegPath').val()
                                 },
                                 type: 'post',
                                 success: function (response) {

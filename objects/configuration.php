@@ -33,6 +33,9 @@ class Configuration {
     private $ffmpegOgg;
     private $youtubedl;
     
+    private $ffmpegPath;
+    private $youtubeDlPath;
+    
     
     function __construct($video_resolution="") {
         $this->load();
@@ -87,7 +90,9 @@ class Configuration {
                 . "ffmpegOgg = '{$global['mysqli']->real_escape_string($this->getFfmpegOgg())}',"
                 . "ffmpegWebm = '{$global['mysqli']->real_escape_string($this->getFfmpegWebm())}',"
                 . "ffprobeDuration = '{$global['mysqli']->real_escape_string($this->getFfprobeDuration())}',"
-                . "youtubedl = '{$global['mysqli']->real_escape_string($this->getYoutubedl())}'"
+                . "youtubedl = '{$global['mysqli']->real_escape_string($this->getYoutubedl())}',"
+                . "youtubedlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
+                . "ffmpegPath = '{$global['mysqli']->real_escape_string($this->ffmpegPath)}'"
                 . "WHERE id = 1";
 
         $insert_row = $global['mysqli']->query($sql);
@@ -219,49 +224,49 @@ class Configuration {
 
     function getFfprobeDuration() {
         if(empty($this->ffprobeDuration)){
-            return 'ffprobe -i {$file} -sexagesimal -show_entries  format=duration -v quiet -of csv=\'p=0\'';
+            return $this->getFfmpegPath().'ffprobe -i {$file} -sexagesimal -show_entries  format=duration -v quiet -of csv=\'p=0\'';
         }
         return $this->ffprobeDuration;
     }
 
     function getFfmpegImage() {
         if(empty($this->ffprobeDuration)){
-            return 'ffmpeg -ss 5 -i {$pathFileName} -qscale:v 2 -vframes 1 -y {$destinationFile}';
+            return $this->getFfmpegPath().'ffmpeg -ss 5 -i {$pathFileName} -qscale:v 2 -vframes 1 -y {$destinationFile}';
         }
         return $this->ffmpegImage;
     }
 
     function getFfmpegMp4() {
         if(empty($this->ffmpegMp4)){
-            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
+            return $this->getFfmpegPath().'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
         }
         return $this->ffmpegMp4;
     }
 
     function getFfmpegWebm() {
         if(empty($this->ffmpegWebm)){
-            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
+            return $this->getFfmpegPath().'/ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegWebm;
     }
 
     function getFfmpegMp3() {
         if(empty($this->ffmpegMp3)){
-            return 'ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
+            return $this->getFfmpegPath().'ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
         }
         return $this->ffmpegMp3;
     }
 
     function getFfmpegOgg() {
         if(empty($this->ffmpegOgg)){
-            return 'ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
+            return $this->getFfmpegPath().'ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegOgg;
     }
 
     function getYoutubedl() {
         if(empty($this->youtubedl)){
-            return ' youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
+            return $this->youtubeDlPath.'youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
         }
         return $this->youtubedl;
     }
@@ -293,6 +298,33 @@ class Configuration {
     function setYoutubedl($youtubedl) {
         $this->youtubedl = $youtubedl;
     }
+    
+    function setFfmpegPath($ffmpegPath) {
+        $this->ffmpegPath = $ffmpegPath;
+    }
+
+    function setYoutubeDlPath($youtubeDlPath) {
+        $this->youtubeDlPath = $youtubeDlPath;
+    }
+    
+    function getFfmpegPath() {
+        if(!empty($this->ffmpegPath)){
+            if(substr($this->ffmpegPath, -1)!=="/"){
+                $this->ffmpegPath .= "/";
+            }
+        }
+        return $this->ffmpegPath;
+    }
+
+    function getYoutubeDlPath() {
+        if(!empty($this->youtubeDlPath)){
+            if(substr($this->youtubeDlPath, -1)!=="/"){
+                $this->youtubeDlPath .= "/";
+            }
+        }
+        return $this->youtubeDlPath;
+    }
+
 
 
 }
