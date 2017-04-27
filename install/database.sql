@@ -4,7 +4,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
@@ -128,12 +127,16 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `ffprobeDuration` VARCHAR(255) NULL,
   `ffmpegImage` VARCHAR(255) NULL,
   `ffmpegMp4` VARCHAR(255) NULL,
+  `ffmpegMp4Portrail` VARCHAR(255) NULL,
   `ffmpegWebm` VARCHAR(255) NULL,
+  `ffmpegWebmPortrail` VARCHAR(255) NULL,
   `ffmpegMp3` VARCHAR(255) NULL,
   `ffmpegOgg` VARCHAR(255) NULL,
   `youtubeDl` VARCHAR(255) NULL,
   `ffmpegPath` VARCHAR(255) NULL,
   `youtubeDlPath` VARCHAR(255) NULL,
+  `exiftool` VARCHAR(255) NULL,
+  `exiftoolPath` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
