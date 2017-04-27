@@ -477,7 +477,7 @@ class Video {
                     $w = $parts[0];
                     $h = $parts[1];                    
                 }
-                preg_match("/Rotaion.*:[^0-9]*([0-9]+)/i", $value, $match);
+                preg_match("/Rotation.*:[^0-9]*([0-9]+)/i", $value, $match);
                 if(!empty($match)){
                     $rotation = $match[1];                    
                 }
@@ -497,6 +497,7 @@ class Video {
                 }
             }
         }
+        var_dump($cmd, $w, $h, $rotation, $resp);exit;
         return $resp;
     }
 
