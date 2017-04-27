@@ -189,6 +189,14 @@ $config = new Configuration();
                                                 <legend><?php echo __("Advanced configuration"); ?></legend>
 
                                                 <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Path to FFMPEG"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegPath" class="form-control"  type="text" value="" >
+                                                        <small>Leave blank for native ffmpeg</small>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group">
                                                     <label class="col-md-2"><?php echo __("FFPROBE Duration"); ?></label>  
                                                     <div class="col-md-10">
                                                         <input id="ffprobeDuration" class="form-control"  type="text" value="<?php echo $config->getFfprobeDuration(); ?>" >       
@@ -251,15 +259,22 @@ $config = new Configuration();
                                                         max-width: 300px;
                                                     }
                                                 }
+                                                .serverInfo pre{
+                                                    height: 250px;
+                                                    overflow: scroll;
+                                                }
+                                                .serverInfo .title{
+                                                    height: 50px;
+                                                }
                                             </style>
-                                            <div class="row">
+                                            <div class="row serverInfo">
                                                 <div class="col-xs-12 col-sm-12 col-lg-4" id="cpuDiv">                        
                                                     <div class="pie_progress_cpu" role="progressbar" data-goal="33">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">CPU</div>
                                                     </div>
                                                     <h1>Cpu</h1>
-                                                    <h2></h2>
+                                                    <div class='title'></div>
                                                     <pre></pre>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-lg-4" id="memDiv">
@@ -268,7 +283,7 @@ $config = new Configuration();
                                                         <div class="pie_progress__label">Memory</div>
                                                     </div>
                                                     <h1>Memory</h1>
-                                                    <h2></h2>
+                                                    <div class='title'></div>
                                                     <pre></pre>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-lg-4" id="diskDiv">
@@ -277,7 +292,7 @@ $config = new Configuration();
                                                         <div class="pie_progress__label">Disk</div>
                                                     </div>
                                                     <h1>Disk</h1>
-                                                    <h2></h2>
+                                                    <div class='title'></div>
                                                     <pre></pre>
                                                 </div>
                                             </div>
@@ -340,7 +355,7 @@ $config = new Configuration();
 
                                                 function update(name, response) {
                                                     $('.pie_progress_' + name).asPieProgress('go', response.percent);
-                                                    $("#" + name + "Div h2").text(response.title);
+                                                    $("#" + name + "Div div.title").text(response.title);
                                                     $("#" + name + "Div pre").text(response.output.join('\n'));
                                                 }
                                             </script>

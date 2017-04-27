@@ -44,6 +44,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
         exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
         if ($return_val !== 0) {
             echo "\\n **AUDIO ERROR**\n", print_r($output, true);
+            error_log($cmd."\n". print_r($output, true));
             if($status == 'a'){
                 $status = 'x'.$key;
             }else{
@@ -69,6 +70,7 @@ if (empty($type) || $type == 'img') {
     exec($cmd . " 2>&1", $output, $return_val);
     if ($return_val !== 0) {
         echo "\\n**IMG ERROR**\n", print_r($output, true);
+        error_log($cmd."\n". print_r($output, true));
         /*
         if($status == 'a'){
             $status = 'ximg';
@@ -97,6 +99,7 @@ foreach ($videoConverter as $key => $value) {
     exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
     if ($return_val !== 0) {
         echo "\\n **VIDEO ERROR**\n", print_r($output, true);
+        error_log($cmd."\n". print_r($output, true));
         if($status == 'a'){
             $status = 'x'.$key;
         }else{

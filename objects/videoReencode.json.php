@@ -27,11 +27,13 @@ if(file_exists($fileName)){
     exec($cmd . " 2>&1", $output, $return_val);
     if ($return_val !== 0) {
         echo '{"error":"'.print_r($output, true).'"}';
+        error_log($cmd."\n". print_r($output, true));
     }else{
         $obj = new stdClass();
         $obj->status = true;
         $obj->message = __("Video re-encoding!");
         $obj->command = $cmd;
+        $obj->output = $output;
         echo json_encode($obj);
     }
 }else{

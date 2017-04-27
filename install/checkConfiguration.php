@@ -1,6 +1,6 @@
 <?php
 
-$installationVersion = "2.0";
+$installationVersion = "2.1";
 
 header('Content-Type: application/json');
 
@@ -132,6 +132,7 @@ session_start();
 
 \$global['mysqli'] = new mysqli(\$mysqlHost, \$mysqlUser,\$mysqlPass,\$mysqlDatabase);
 require_once \$global['systemRootPath'].'locale/function.php';
+require_once \$global['systemRootPath'].'objects/include_config.php';
 ";
 
 $fp = fopen($_POST['systemRootPath'] . "videos/configuration.php", "wb");

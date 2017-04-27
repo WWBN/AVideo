@@ -30,14 +30,12 @@ $config = new Configuration();
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                        <th data-column-id="id" data-type="numeric" data-identifier="true" data-width="50px"><?php echo __("ID"); ?></th>
                         <th data-column-id="title" ><?php echo __("Title"); ?></th>
-                        <th data-column-id="status" data-formatter="status" ><?php echo __("Status"); ?></th>
-                        <th data-column-id="category" ><?php echo __("Category"); ?></th>
-                        <th data-column-id="type" ><?php echo __("Type"); ?></th>
-                        <th data-column-id="duration" ><?php echo __("Duration"); ?></th>
-                        <th data-column-id="created" data-order="desc"><?php echo __("Created"); ?></th>
-                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="300px"></th>
+                        <th data-column-id="status" data-formatter="status" data-width="100px"><?php echo __("Status"); ?></th>
+                        <th data-column-id="type" data-width="60px"><?php echo __("Type"); ?></th>
+                        <th data-column-id="duration" data-width="100px"><?php echo __("Duration"); ?></th>
+                        <th data-column-id="created" data-order="desc" data-width="100px"><?php echo __("Created"); ?></th>
+                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="350px"></th>
                     </tr>
                 </thead>
             </table>
@@ -156,6 +154,7 @@ $config = new Configuration();
                     formatters: {
                         "commands": function (column, row)
                         {
+                            var originalBtn = '<a href="<?php echo $global['webSiteRootURL']; ?>/videos/original_' + row.filename + '" target="_blank" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="left" title="<?php echo __("Download Original"); ?>"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>'
                             var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __("Edit"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                             var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Delete"); ?>""><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
                             var reloadBtn = '<button type="button" class="btn btn-default btn-xs command-refresh"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Refresh"); ?>""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>';
@@ -169,21 +168,21 @@ $config = new Configuration();
                             var reencodeAudio = reencodeMp3 + reencodeOGG;
                             var reencodeBtn = reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
                             if (row.type == "audio") {
-                                reencodeBtn = reencodeAudio;
+                                reencodeBtn = reencodeAudio+originalBtn;
                             }
                             var status;
                             if (row.status == "i") {
                                 status = activeBtn;
                             } else if (row.status == "a") {
-                                status = inactiveBtn;
+                                status = inactiveBtn+originalBtn;
                             } else if (row.status == "x") {
-                                return editBtn + deleteBtn + reloadBtn + reencodeBtn;
+                                return editBtn + deleteBtn + reloadBtn + reencodeBtn+originalBtn;
                             }  else if (row.status == "d") {
                                 return deleteBtn;
                             } else {
-                                return editBtn + deleteBtn + reencodeBtn;
+                                return editBtn + deleteBtn + reencodeBtn+originalBtn;
                             }
-                            return editBtn + deleteBtn + reloadBtn + status + reencodeBtn;
+                            return editBtn + deleteBtn + reloadBtn + status + reencodeBtn+originalBtn;
                         },
                         "status": function (column, row) {
                             if (row.status == 'a') {
