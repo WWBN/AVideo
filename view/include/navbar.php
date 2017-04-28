@@ -2,9 +2,8 @@
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 $categories = Category::getAllCategories();
-
 if (empty($_SESSION['language'])) {
-    $lang = 'en';
+    $lang = 'us';
 } else {
     $lang = $_SESSION['language'];
 }
@@ -59,6 +58,9 @@ $config = new Configuration();
                     $flags = getEnabledLangs();
                     foreach ($flags as $value) {
                         $selected = "";
+                        if($value == 'en'){
+                            $value = 'us';
+                        }
                         if ($lang == $value) {
                             $selected = 'selected="selected"';
                         }

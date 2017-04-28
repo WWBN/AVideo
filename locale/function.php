@@ -38,7 +38,10 @@ function getAllFlags() {
 function getEnabledLangs() {
     global $global;
     $dir = "{$global['systemRootPath']}locale";
-    $flags = array('us');
+    $flags = array();
+    if(empty($global['dont_show_us_flag'])){
+        $flags[] = 'us';
+    }
     if ($handle = opendir($dir)) {
         while (false !== ($entry = readdir($handle))) {
             if ($entry != "." && $entry != ".." && $entry != "index.php" && $entry != "function.php" && $entry != "save.php") {

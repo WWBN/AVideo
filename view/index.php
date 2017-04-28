@@ -1,5 +1,5 @@
 <?php
-if (!file_exists('../videos/configuration.php')) {
+if (!file_exists('../videos/configuration.php')) { 
     if (!file_exists('../install/index.php')) {
         die("No Configuration and no Installation");
     }
