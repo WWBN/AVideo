@@ -58,7 +58,7 @@ $config = new Configuration();
                     $flags = getEnabledLangs();
                     foreach ($flags as $value) {
                         $selected = "";
-                        if($value == 'en'){
+                        if ($value == 'en') {
                             $value = 'us';
                         }
                         if ($lang == $value) {
@@ -83,19 +83,15 @@ $config = new Configuration();
 
     </div>
     <div class="navbar-collapse collapse  col-xs-12 col-sm-12 col-lg-2">
-        <div class="" style="padding: 5px;">
-            <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-lg btn-block">
-                <span class="glyphicon glyphicon-upload" style="font-size: 1em;"></span> 
-                <?php echo __("Video and Audio Upload"); ?>
-            </a>
-        </div>
-        <div class="" style="padding: 5px;">
-            <a href="<?php echo $global['webSiteRootURL']; ?>download" class="btn btn-danger btn-lg btn-block">
-                <span class="fa fa-youtube-play" style="font-size: 1em;"></span> 
-                <?php echo __("Import Videos from Sites"); ?><br>
-                <small><small><?php echo __("YouTube, DailyMotion, Vimeo and more"); ?></small></small>
-            </a>
-        </div>
+        <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-block navbar-btn">
+            <span class="glyphicon glyphicon-upload" style="font-size: 1em;"></span> 
+            <?php echo __("Video and Audio Upload"); ?>
+        </a>
+        <a href="<?php echo $global['webSiteRootURL']; ?>download" class="btn btn-danger btn-block navbar-btn">
+            <span class="fa fa-youtube-play" style="font-size: 1em;"></span> 
+            <?php echo __("Import Videos from Sites"); ?><br>
+            <small><small><?php echo __("YouTube, DailyMotion, Vimeo and more"); ?></small></small>
+        </a>
         <ul class="nav navbar-nav col-xs-12 col-sm-12 col-lg-12">
             <?php
             if (User::isLogged()) {
@@ -216,11 +212,11 @@ $config = new Configuration();
                     <?php echo __("Audios"); ?>
                 </a>
             </li>
-            
-             <?php
-                foreach ($categories as $value) {
-                    echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '"><a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" ><span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
-                }
-                ?>
+
+            <?php
+            foreach ($categories as $value) {
+                echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '"><a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" ><span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
+            }
+            ?>
         </ul></div>
 </div>
