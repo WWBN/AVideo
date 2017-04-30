@@ -199,6 +199,11 @@ video {
         height: 40px;
         margin-left: 30px;
     }
+    a.brand img:before{
+        content:url(../img/logo64.png);
+        height: 40px;
+        margin-left: 30px;
+    }
 }
 
 /* Comments */
