@@ -194,15 +194,21 @@ video {
     }
 }
 @media (max-width: 550px) {
+    /*
     a.brand img{
         content:url(../img/logo64.png);
         height: 40px;
         margin-left: 30px;
     }
-    a.brand img:before{
-        content:url(../img/logo64.png);
-        height: 40px;
-        margin-left: 30px;
+    */
+    a.brand img{
+        display: none;
+    }
+    a.brand{
+        background: no-repeat url(../img/logo32.png);
+        width: 32px;
+        height: 32px;
+        margin-left: 20px;
     }
 }
 
