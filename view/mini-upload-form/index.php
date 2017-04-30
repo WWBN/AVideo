@@ -38,16 +38,7 @@ $config = new Configuration();
 
         <div class="container">
             <div class="row">
-                <div class="col-xs-3 col-sm-3 col-lg-3">
-                    <div class="alert alert-info">
-                        <h1>
-                        <span class="glyphicon glyphicon-info-sign" style="font-size:1em;"></span>
-                        <?php echo __("Your maximum file size is:"), " ", "".get_max_file_size().""; ?>
-                        </h1>
-                    </div>
-                    <div class="alert alert-success"><?php printf(__("Your encode video resolution is set to %s !"), $config->getVideo_resolution()); ?></div>
-                </div>
-                <div class="col-xs-9 col-sm-9 col-lg-9">
+                <div class="col-xs-12 col-sm-12 col-lg-9">
                     <form id="upload" method="post" action="fileUpload" enctype="multipart/form-data">
                         <div id="drop">
                             <?php echo __("Drop Here"); ?>
@@ -62,6 +53,15 @@ $config = new Configuration();
 
                     </form>
 
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-3">
+                    <div class="alert alert-info">
+                        <h1>
+                        <span class="glyphicon glyphicon-info-sign" style="font-size:1em;"></span>
+                        <?php echo __("Your maximum file size is:"), " ", "".get_max_file_size().""; ?>
+                        </h1>
+                    </div>
+                    <div class="alert alert-success"><?php printf(__("Your encode video resolution is set to %s !"), $config->getVideo_resolution()); ?></div>
                 </div>
             </div>
 
