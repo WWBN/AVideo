@@ -122,7 +122,7 @@ $config = new Configuration();
                 </li>
                 <li style="padding: 5px;">
                     <div>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-danger btn-xs btn-block">
+                        <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-danger btn-xs btn-block navbar-btn">
                             <span class="glyphicon glyphicon-log-out"></span> 
                             <?php echo __("Logoff"); ?>
                         </a>

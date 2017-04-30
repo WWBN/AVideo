@@ -137,12 +137,13 @@ video {
 .navbar-collapse.collapse {
     display: none !important;
 }
-.navbar-collapse.collapse.in {
-    display: block !important;
-}
-.navbar-header .collapse, .navbar-toggle {
+.navbar-collapse.collapse.in, .navbar-header .collapse, .navbar-toggle {
     display:block !important;
 }
+.navbar-collapse.collapse.in{
+    max-height: 800px;
+}  
+
 .navbar-header {
     float:none;
 }
