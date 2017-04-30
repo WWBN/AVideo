@@ -39,6 +39,7 @@ class Comment{
             die('{"error":"'.__("Permission denied").'"}');
         }
         $this->comment = htmlentities($this->comment);
+        $this->comment = $global['mysqli']->real_escape_string($this->comment);
         if(!empty($this->id)){
             $sql = "UPDATE comments SET comment = '{$this->comment}', modified = now() WHERE id = {$this->id}";
         }else{
