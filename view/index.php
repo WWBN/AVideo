@@ -1,5 +1,5 @@
 <?php
-if (!file_exists('../videos/configuration.php')) { 
+if (!file_exists('../videos/configuration.php')) {
     if (!file_exists('../install/index.php')) {
         die("No Configuration and no Installation");
     }
@@ -93,7 +93,12 @@ $config = new Configuration();
                                             $img = "{$global['webSiteRootURL']}view/img/mp3.png";
                                         }
                                         ?>
-                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" />        
+                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" />     
+
+                                        <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
+                                        <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "embeded/", $video['clean_title']; ?>" />
+                                        
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-lg-8">
                                         <h1 itemprop="name">
@@ -109,7 +114,7 @@ $config = new Configuration();
                                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                             <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                         </a>
-                                        <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote']==-1)?"myVote":"" ?>" id="dislikeBtn"  
+                                        <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn"  
                                         <?php
                                         if (!User::isLogged()) {
                                             ?>
@@ -117,7 +122,7 @@ $config = new Configuration();
                                            <?php } ?>>
                                             <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
                                         </a>			
-                                        <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote']==1)?"myVote":"" ?>" id="likeBtn"  
+                                        <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn"  
                                         <?php
                                         if (!User::isLogged()) {
                                             ?>
@@ -133,19 +138,19 @@ $config = new Configuration();
             ?>
                                                     $("#dislikeBtn, #likeBtn").click(function () {
                                                         $.ajax({
-                                                            url: '<?php echo $global['webSiteRootURL']; ?>'+($(this).attr("id")=="dislikeBtn"?"dislike":"like"),
+                                                            url: '<?php echo $global['webSiteRootURL']; ?>' + ($(this).attr("id") == "dislikeBtn" ? "dislike" : "like"),
                                                             method: 'POST',
                                                             data: {'videos_id': <?php echo $video['id']; ?>},
                                                             success: function (response) {
                                                                 $("#likeBtn, #dislikeBtn").removeClass("myVote");
-                                                                if(response.myVote==1){
+                                                                if (response.myVote == 1) {
                                                                     $("#likeBtn").addClass("myVote");
-                                                                }else if(response.myVote==-1){
+                                                                } else if (response.myVote == -1) {
                                                                     $("#dislikeBtn").addClass("myVote");
                                                                 }
                                                                 $("#likeBtn small").text(response.likes);
                                                                 $("#dislikeBtn small").text(response.dislikes);
-                                                                
+
                                                             }
                                                         });
 
@@ -431,6 +436,11 @@ $config = new Configuration();
                                             }
                                             ?>
                                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
+                                            
+                                            <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                                            <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $value['clean_title']; ?>" />
+                                            <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "embeded/", $value['clean_title']; ?>" />
+
                                             <span class="glyphicon glyphicon-play-circle"></span>
                                             <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                         </div>
