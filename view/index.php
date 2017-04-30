@@ -314,7 +314,7 @@ $config = new Configuration();
 
 
                                         <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
-                                        <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo nl2br($video['description']); ?></div>
+                                        <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo nl2br(textToLink($video['description'])); ?></div>
                                     </div> 
                                 </div>
 
