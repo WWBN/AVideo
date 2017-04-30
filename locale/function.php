@@ -56,5 +56,5 @@ function getEnabledLangs() {
 
 function textToLink($string) {
     return preg_replace(
-            "~[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]~", "<a href=\"\\0\">\\0</a>", $string);
+            "~[[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~", "<a href=\"\\0\">\\0</a>", $string);
 }
