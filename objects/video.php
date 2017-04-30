@@ -89,6 +89,10 @@ class Video {
         // TODO Check if the cleantitle already exists
 
         if (!empty($this->id)) {
+            if (!$this->userCanManageVideo()) {
+                header('Content-Type: application/json');
+                die('{"error":"' . __("Permission denied") . '"}');
+            }
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                     . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
                     . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', modified = now()"
@@ -360,7 +364,7 @@ class Video {
     }
 
     function delete() {
-        if (!User::isAdmin()) {
+        if (!$this->userCanManageVideo()) {
             return false;
         }
 
@@ -499,6 +503,17 @@ class Video {
         }
         //var_dump($cmd, $w, $h, $rotation, $resp);exit;
         return $resp;
+    }
+    
+    function userCanManageVideo(){
+        if(empty($this->users_id) || !User::canUpload()){
+            return false;
+        }
+        // if you not admin you can only manager yours video
+        if(!User::isAdmin() && $this->users_id != User::getId()){
+            return false;
+        }
+        return true;
     }
 
 }
