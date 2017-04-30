@@ -98,6 +98,8 @@ $config = new Configuration();
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "embeded/", $video['clean_title']; ?>" />
+                                        <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
+                                            
                                         
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-lg-8">
@@ -440,7 +442,8 @@ $config = new Configuration();
                                             <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                             <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $value['clean_title']; ?>" />
                                             <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "embeded/", $value['clean_title']; ?>" />
-
+                                            <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
+                                            
                                             <span class="glyphicon glyphicon-play-circle"></span>
                                             <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                         </div>
