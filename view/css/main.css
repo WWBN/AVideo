@@ -188,6 +188,9 @@ video {
     .navbar-form {
         padding: 0;
     }
+    .navbar-collapse{
+        border: 0;
+    }
 }
 @media (max-width: 550px) {
     a.brand img{
