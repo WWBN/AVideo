@@ -25,7 +25,7 @@ $config = new Configuration();
             if (User::isAdmin()) {
                 ?>
                 <div class="row">
-                    <div class="col-xs-9 col-sm-9 col-lg-9">
+                    <div class="col-xs-12 col-sm-12 col-lg-9">
                         <form class="form-compact well form-horizontal"  id="updateConfigForm" onsubmit="">
 
                             <div class="tabbable-panel">
@@ -682,7 +682,7 @@ $config = new Configuration();
                         </form>
 
                     </div>
-                    <div class="col-xs-3 col-sm-3 col-lg-3">
+                    <div class="col-xs-12 col-sm-12 col-lg-3">
                         <ul class="list-group">
                             <li class="list-group-item active">
                                 <?php echo __("Recommended resolutions"); ?>
