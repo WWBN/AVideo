@@ -21,9 +21,9 @@ if ($return_val !== 0) {
     $obj->error = "youtube-dl get title ERROR** ". print_r($output, true);
     $obj->type = "warning";
     $obj->title = __("Sorry!");
-    $obj->text = sprintf(__("We could not get the title of your video (%s)"), $output[0]);
+    $obj->text = sprintf(__("We could not get the title of your video (%s) go to %s to fix it"), $output[0], "<a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/youdtube-dl-failed-to-extract-signature'>https://github.com/DanielnetoDotCom/YouPHPTube/wiki/youdtube-dl-failed-to-extract-signature</a>");
     $obj->command = $cmd;
-    $output[] = "Update Youtube-dl";
+    $output[] = "youdtube-dl failed to extract signature";
     //die(json_encode($obj));
 }else{
     $obj->type = "success";
