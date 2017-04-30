@@ -129,6 +129,7 @@ video {
     background-color: #f8f8f8;
     border: 1px solid #DDD;
     border-width: 0 1px 1px 1px;
+    margin: 0
 }
 .navbar-collapse{
     background-color: #f8f8f8;
@@ -188,7 +189,7 @@ video {
     .navbar-form {
         padding: 0;
     }
-    .navbar-collapse{
+    .navbar-nav{
         border: 0;
     }
 }

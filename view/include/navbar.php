@@ -92,7 +92,7 @@ $config = new Configuration();
             <?php echo __("Import Videos from Sites"); ?><br>
             <small><small><?php echo __("YouTube, DailyMotion, Vimeo and more"); ?></small></small>
         </a>
-        <ul class="nav navbar-nav col-xs-12 col-sm-12 col-lg-12">
+        <ul class="nav navbar-nav">
             <?php
             if (User::isLogged()) {
                 ?>
@@ -120,7 +120,7 @@ $config = new Configuration();
                         </div>
                     </div>
                 </li>
-                <li style="padding: 5px;">
+                <li>
                     <div>
                         <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-danger btn-xs btn-block navbar-btn">
                             <span class="glyphicon glyphicon-log-out"></span> 
