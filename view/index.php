@@ -68,7 +68,7 @@ $config = new Configuration();
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="container-fluid">
+        <div class="container-fluid" itemscope itemtype="http://schema.org/VideoObject">
 
             <?php
             if (!empty($video)) {
@@ -93,14 +93,14 @@ $config = new Configuration();
                                             $img = "{$global['webSiteRootURL']}view/img/mp3.png";
                                         }
                                         ?>
-                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" />        
+                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" />        
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-lg-8">
-                                        <h1>
+                                        <h1 itemprop="name">
                                             <?php echo $video['title']; ?>
                                         </h1>
                                         <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                                        <span class="watch-view-count pull-right"><?php echo $video['views_count']; ?> <?php echo __("Views"); ?></span>
+                                        <span class="watch-view-count pull-right" itemprop="interactionCount"><?php echo $video['views_count']; ?> <?php echo __("Views"); ?></span>
                                     </div> 
                                 </div>
 
@@ -314,7 +314,7 @@ $config = new Configuration();
 
 
                                         <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
-                                        <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo nl2br(textToLink($video['description'])); ?></div>
+                                        <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo nl2br(textToLink($video['description'])); ?></div>
                                     </div> 
                                 </div>
 
@@ -420,7 +420,7 @@ $config = new Configuration();
                                     continue; // skip video
                                 }
                                 ?>
-                                <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="videoLink">
                                         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
                                             <?php
@@ -430,13 +430,13 @@ $config = new Configuration();
                                                 $img = "{$global['webSiteRootURL']}view/img/mp3.png";
                                             }
                                             ?>
-                                            <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
+                                            <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
                                             <span class="glyphicon glyphicon-play-circle"></span>
-                                            <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                            <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                         </div>
                                         <div class="col-lg-7 col-sm-7 col-xs-7">
-                                            <div class="text-uppercase"><strong><?php echo $value['title']; ?></strong></div>
-                                            <div class="details">
+                                            <div class="text-uppercase"><strong itemprop="name"><?php echo $value['title']; ?></strong></div>
+                                            <div class="details" itemprop="description">
                                                 <div>
                                                     <?php echo __("Category"); ?>: <?php echo $value['category']; ?>
                                                 </div>
