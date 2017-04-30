@@ -97,7 +97,7 @@ $config = new Configuration();
 
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
-                                        <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "embeded/", $video['clean_title']; ?>" />
+                                        <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
                                             
                                         
@@ -441,7 +441,7 @@ $config = new Configuration();
                                             
                                             <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                             <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $value['clean_title']; ?>" />
-                                            <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "embeded/", $value['clean_title']; ?>" />
+                                            <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
                                             <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
                                             
                                             <span class="glyphicon glyphicon-play-circle"></span>
