@@ -138,6 +138,12 @@ $config = new Configuration();
                         </a>
                     </li>
                     <li>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups">
+                            <span class="fa fa-users"></span> 
+                            <?php echo __("Manager Users Groups"); ?>
+                        </a>
+                    </li>
+                    <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>categories">
                             <span class="glyphicon glyphicon-list"></span> 
                             <?php echo __("Manager Categories"); ?>
