@@ -380,12 +380,31 @@ class Video {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
             foreach (self::$types as $value) {
+                /*
                 $cmd = "rm -f {$global['systemRootPath']}videos/original_{$video['filename']}.{$value}";
                 exec($cmd);
                 $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}.{$value}";
                 exec($cmd);
                 $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
                 exec($cmd);
+                 * 
+                 */
+                $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
+                if(file_exists($file)){
+                    unlink($file);
+                }
+                $file = "{$global['systemRootPath']}videos/{$video['filename']}.{$value}";
+                if(file_exists($file)){
+                    unlink($file);
+                }
+                $file = "{$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
+                if(file_exists($file)){
+                    unlink($file);
+                }
+                $file = "{$global['systemRootPath']}videos/{$video['filename']}.jpg";
+                if(file_exists($file)){
+                    unlink($file);
+                }
             }
         }
         return $resp;

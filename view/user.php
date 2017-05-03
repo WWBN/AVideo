@@ -11,6 +11,8 @@ $config = new Configuration();
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -81,6 +83,17 @@ $config = new Configuration();
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">
+                                        <?php echo __("Your Photo"); ?>
+                                    </label>  
+                                    <div class="col-md-8 ">
+                                        <div id="croppie"></div>
+                                        <a id="upload-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Upload a Photo"); ?></a>
+                                    </div>
+                                    <input type="file" id="upload" value="Choose a file" accept="image/*" style="display: none;" />
+                                </div>
+
 
                                 <!-- Button -->
                                 <div class="form-group">
@@ -96,7 +109,74 @@ $config = new Configuration();
                     <div class="col-xs-1 col-sm-1 col-lg-2"></div>
                 </div>
                 <script>
+                    var uploadCrop;
+                    function readFile(input) {
+                        console.log(input);
+                        console.log($(input)[0]);
+                        console.log($(input)[0].files);
+                        if ($(input)[0].files && $(input)[0].files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                uploadCrop.croppie('bind', {
+                                    url: e.target.result
+                                }).then(function () {
+                                    console.log('jQuery bind complete');
+                                });
+
+                            }
+
+                            reader.readAsDataURL($(input)[0].files[0]);
+                        } else {
+                            swal("Sorry - you're browser doesn't support the FileReader API");
+                        }
+                    }
                     $(document).ready(function () {
+                        $('#upload').on('change', function () {
+                            readFile(this);
+                        });
+                        $('#upload-btn').on('click', function (ev) {
+                            $('#upload').trigger("click");
+                        });
+                        $('#upload-result-btn').on('click', function (ev) {
+                            uploadCrop.croppie('result', {
+                                type: 'canvas',
+                                size: 'viewport'
+                            }).then(function (resp) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "savePhoto",
+                                    data: {
+                                        imgBase64: resp
+                                    }
+                                }).done(function (result) {                                    
+                                    uploadCrop.croppie('bind', {
+                                        url: result.url+"?rand="+Math.random()
+                                    }).then(function () {
+                                        console.log('jQuery bind complete');
+                                    });
+                                    // If you want the file to be visible in the browser 
+                                    // - please modify the callback in javascript. All you
+                                    // need is to return the url to the file, you just saved 
+                                    // and than put the image in your browser.
+                                });
+                                //console.log(resp);
+                            });
+                        });
+
+                        uploadCrop = $('#croppie').croppie({
+                            url: '<?php echo $user->getPhoto(); ?>',
+                            enableExif: true,
+
+                            viewport: {
+                                width: 150,
+                                height: 150
+                            },
+                            boundary: {
+                                width: 300,
+                                height: 300
+                            }
+                        });
                         $('#updateUserForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
@@ -114,11 +194,25 @@ $config = new Configuration();
                                     type: 'post',
                                     success: function (response) {
                                         if (response.status === "1") {
-                                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been updated!"); ?>", "success");
+                                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been updated! Saving Photo now"); ?>", "success");
+                                            uploadCrop.croppie('result', {
+                                                type: 'canvas',
+                                                size: 'viewport'
+                                            }).then(function (resp) {
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "savePhoto",
+                                                    data: {
+                                                        imgBase64: resp
+                                                    }
+                                                }).done(function (o) {
+                                                    modal.hidePleaseWait();
+                                                });
+                                            });
                                         } else {
                                             swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
+                                            modal.hidePleaseWait();
                                         }
-                                        modal.hidePleaseWait();
                                     }
                                 });
                                 return false;
@@ -173,19 +267,19 @@ $config = new Configuration();
                                 <div class="form-group">
                                     <div class="col-md-6">
                                         <?php
-                                        if($config->getAuthFacebook_enabled()){
-                                        ?>
+                                        if ($config->getAuthFacebook_enabled()) {
+                                            ?>
                                             <a href="login?type=Facebook" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-facebook-square"></span> Facebook</a>
-                                        <?php
+                                            <?php
                                         }
                                         ?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php
-                                        if($config->getAuthGoogle_enabled()){
-                                        ?>
-                                        <a href="login?type=Google" class="btn btn-danger btn-block" id="googleButton" ><span class="fa fa-google"></span> Google</a>
-                                        <?php
+                                        if ($config->getAuthGoogle_enabled()) {
+                                            ?>
+                                            <a href="login?type=Google" class="btn btn-danger btn-block" id="googleButton" ><span class="fa fa-google"></span> Google</a>
+                                            <?php
                                         }
                                         ?>
                                     </div>
@@ -220,7 +314,7 @@ $config = new Configuration();
                         $('#forgotPassword').click(function () {
                             var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">';
                             swal({
-                                title: $('#inputUser').val()+", <?php echo __("Are you sure?"); ?>",
+                                title: $('#inputUser').val() + ", <?php echo __("Are you sure?"); ?>",
                                 text: "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha,
                                 type: "warning",
                                 html: true,
@@ -233,12 +327,12 @@ $config = new Configuration();
                                         modal.showPleaseWait();
                                         $.ajax({
                                             url: 'recoverPass',
-                                            data: {"user": $('#inputUser').val(),"captcha": $('#captchaText').val()},
+                                            data: {"user": $('#inputUser').val(), "captcha": $('#captchaText').val()},
                                             type: 'post',
                                             success: function (response) {
-                                                if(response.error){
+                                                if (response.error) {
                                                     swal("<?php echo __("Error"); ?>", response.error, "error");
-                                                }else{
+                                                } else {
                                                     swal("<?php echo __("E-mail sent"); ?>", "<?php echo __("We sent you an e-mail with instructions"); ?>", "success");
                                                 }
                                                 modal.hidePleaseWait();
@@ -252,7 +346,8 @@ $config = new Configuration();
                                 $('#captchaText').val('');
                             });
                         });
-                    });
+                    }
+                    );
 
                 </script>
                 <?php

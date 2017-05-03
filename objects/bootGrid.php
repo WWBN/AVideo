@@ -12,7 +12,7 @@ class BootGrid {
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
         }else{
-            $sql .= " ORDER BY CREATED DESC ";
+            //$sql .= " ORDER BY CREATED DESC ";
         }
         
         if(!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount']>0){

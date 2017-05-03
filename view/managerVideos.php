@@ -27,6 +27,10 @@ $config = new Configuration();
 
         <div class="container">
 
+            <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
+            </a>
+
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>

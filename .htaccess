@@ -38,6 +38,7 @@
     RewriteRule    ^users$ view/managerUsers.php    [NC,L]
     RewriteRule    ^users.json$ objects/users.json.php    [NC,L]
     RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
+    RewriteRule    ^savePhoto$ objects/userSavePhoto.php    [NC,L]
     RewriteRule    ^addNewUser$ objects/userAddNew.json.php    [NC,L]
     RewriteRule    ^deleteUser$ objects/userDelete.json.php    [NC,L]
     RewriteRule    ^recoverPass$ objects/userRecoverPass.php    [NC,L]
@@ -52,6 +53,7 @@
     RewriteRule    ^deleteCategory$ objects/categoryDelete.json.php    [NC,L]
 
     #manager videos
+    RewriteRule    ^orphanFiles$ view/orphanFiles.php    [NC,L]
     RewriteRule    ^mvideos$ view/managerVideos.php    [NC,L]
     RewriteRule    ^videos.json$ objects/videos.json.php    [NC,L]
     RewriteRule    ^deleteVideo$ objects/videoDelete.json.php    [NC,L]
