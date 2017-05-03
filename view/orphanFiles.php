@@ -95,7 +95,7 @@ function getMainName($filename) {
                 }else{
             ?>
             <ul class="list-group">
-                <a id="deleteAll" class="list-group-item list-group-item-danger"><?php echo __("Delete All Orphans Files"); ?> <span class="badge"><?php echo count($arrayOrphan); ?></span> </a>
+                <a href="#" id="deleteAll" class="list-group-item list-group-item-danger"><?php echo __("Delete All Orphans Files"); ?> <span class="badge"><?php echo count($arrayOrphan); ?></span> </a>
                 <?php
                 foreach ($arrayOrphan as $value) {
                     echo "<li  class=\"list-group-item\">{$value->dirFilename}</li>";
