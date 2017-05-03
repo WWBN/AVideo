@@ -193,7 +193,7 @@ $config = new Configuration();
                                     data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "email": $('#inputEmail').val(), "name": $('#inputName').val()},
                                     type: 'post',
                                     success: function (response) {
-                                        if (response.status === "1") {
+                                        if (response.status > "0") {
                                             swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been updated! Saving Photo now"); ?>", "success");
                                             uploadCrop.croppie('result', {
                                                 type: 'canvas',
