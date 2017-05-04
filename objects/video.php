@@ -147,7 +147,7 @@ class Video {
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'videos_group_view'");
         if (empty($result->num_rows)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.3</a>";
-            header("Location: {$global['webSiteRootURL']}update?error={$_GET['error']}");
+            header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
             return false; 
         }
         $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
@@ -172,7 +172,7 @@ class Video {
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'likes'");
         if (empty($result->num_rows)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.0</a>";
-            header("Location: {$global['webSiteRootURL']}update?error={$_GET['error']}");
+            header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
             return false; 
         }
         
