@@ -155,8 +155,12 @@ class UserGroups {
     } 
     
     static function getUserGroups($users_id){
+        $result = $global['mysqli']->query("SHOW TABLES LIKE 'users_has_users_groups'");
+        if (empty($result->num_rows)) {
+            return array();
+        }
         if(empty($users_id)){
-            return array();;
+            return array();
         }
         global $global;
         $sql = "SELECT * FROM users_has_users_groups"
