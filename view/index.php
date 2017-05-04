@@ -317,7 +317,7 @@ $config = new Configuration();
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-12">
                                         <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
-                                        <div class="col-xs-8 col-sm-10 col-lg-10"><?php echo $video['category']; ?></div>
+                                        <div class="col-xs-8 col-sm-10 col-lg-10"><a class="btn btn-xs btn-default"  href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>"><?php echo $video['category']; ?></a></div>
 
 
                                         <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
@@ -451,10 +451,10 @@ $config = new Configuration();
                                             <div class="text-uppercase"><strong itemprop="name"><?php echo $value['title']; ?></strong></div>
                                             <div class="details" itemprop="description">
                                                 <div>
-                                                    <?php echo __("Category"); ?>: <?php echo $value['category']; ?>
+                                                    <strong><?php echo __("Category"); ?>: </strong><?php echo $value['category']; ?>
                                                 </div>
-                                                <div><?php echo $value['views_count']; ?> <?php echo __("Views"); ?></div>
-                                                <div><?php echo $value['creator']; ?></div>
+                                                <div><strong class="badge"><?php echo $value['views_count']; ?></strong> <?php echo __("Views"); ?></div>
+                                                <div><strong><?php echo $value['creator']; ?></strong></div>
                                             </div>
                                         </div>
                                     </a>

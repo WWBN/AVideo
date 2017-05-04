@@ -5,7 +5,7 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager categories"));
     exit;
 }
-require_once $global['systemRootPath'] . 'objects/category.php';
+require_once $global['systemRootPath'] . 'objects/userGroups.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 ?>
@@ -33,16 +33,15 @@ $config = new Configuration();
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                        <th data-column-id="id" data-type="numeric" data-identifier="true"><?php echo __("ID"); ?></th>
-                        <th data-column-id="iconHtml" data-sortable="false"><?php echo __("Icon"); ?></th>
-                        <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                        <th data-column-id="clean_name"><?php echo __("Clean Name"); ?></th>
+                        <th data-column-id="group_name" data-order="asc"><?php echo __("Name"); ?></th>
+                        <th data-column-id="created"><?php echo __("Created"); ?></th>
+                        <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
                     </tr>
                 </thead>
             </table>
 
-            <div id="categoryFormModal" class="modal fade" tabindex="-1" role="dialog">
+            <div id="groupFormModal" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -54,16 +53,6 @@ $config = new Configuration();
                                 <input type="hidden" id="inputUserGroupsId"  >
                                 <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
                                 <input type="text" id="inputName" class="form-control first" placeholder="<?php echo __("Name"); ?>" required autofocus>
-                                <label for="inputCleanName" class="sr-only"><?php echo __("Clean Name"); ?></label>
-                                <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
-
-                                <div class="btn-group">
-                                    <button data-selected="graduation-cap" type="button" class="icp iconCat btn btn-default dropdown-toggle iconpicker-component" data-toggle="dropdown">
-                                        <?php echo __("Select an icon for the category"); ?>  <i class="fa fa-fw"></i>
-                                        <span class="caret"></span>
-                                    </button>
-                                    <div class="dropdown-menu"></div>
-                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -99,18 +88,16 @@ $config = new Configuration();
                         console.log(row);
 
                         $('#inputUserGroupsId').val(row.id);
-                        $('#inputName').val(row.name);
-                        $('#inputCleanName').val(row.clean_name);
-                        $(".iconCat i").attr("class", row.iconClass);
+                        $('#inputName').val(row.group_name);
 
-                        $('#categoryFormModal').modal();
+                        $('#groupFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         console.log(row);
                         swal({
                             title: "<?php echo __("Are you sure?"); ?>",
-                            text: "<?php echo __("You will not be able to recover this category!"); ?>",
+                            text: "<?php echo __("You will not be able to recover this group!"); ?>",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
@@ -127,9 +114,9 @@ $config = new Configuration();
                                         success: function (response) {
                                             if (response.status === "1") {
                                                 $("#grid").bootgrid("reload");
-                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been deleted!"); ?>", "success");
+                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been deleted!"); ?>", "success");
                                             } else {
-                                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
+                                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your group has NOT been deleted!"); ?>", "error");
                                             }
                                             modal.hidePleaseWait();
                                         }
@@ -143,7 +130,7 @@ $config = new Configuration();
                     $('#inputName').val('');
                     $('#inputCleanName').val('');
 
-                    $('#categoryFormModal').modal();
+                    $('#groupFormModal').modal();
                 });
 
                 $('#saveUserGroupsBtn').click(function (evt) {
@@ -155,15 +142,15 @@ $config = new Configuration();
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'addNewUserGroups',
-                        data: {"id": $('#inputUserGroupsId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "iconClass": $(".iconCat i").attr("class")},
+                        data: {"id": $('#inputUserGroupsId').val(), "group_name": $('#inputName').val()},
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {
-                                $('#categoryFormModal').modal('hide');
+                                $('#groupFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been saved!"); ?>", "success");
+                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been saved!"); ?>", "success");
                             } else {
-                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been saved!"); ?>", "error");
+                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your group has NOT been saved!"); ?>", "error");
                             }
                             modal.hidePleaseWait();
                         }

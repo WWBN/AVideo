@@ -147,7 +147,7 @@ class UserGroups {
         foreach ($array_groups_id as $value) {
             $value = intval($value);
             $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES ({$users_id},{$value})";
-            echo $sql;
+            //echo $sql;
             $global['mysqli']->query($sql);
         }
         

@@ -141,6 +141,7 @@ class Video {
     }
     
     static private function getUserGroupsCanSeeSQL(){
+        global $global;
         if(User::isAdmin()){
             return "";
         }
@@ -169,7 +170,7 @@ class Video {
             return false; 
         }
         
-        $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation, "
+        $sql = "SELECT u.*, v.*, c.name as category, c.clean_name as clean_category, v.created as videoCreation, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
         if (User::isLogged()) {
@@ -221,7 +222,7 @@ class Video {
 
     static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup=false) {
         global $global;
-        $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation FROM videos as v "
+        $sql = "SELECT u.*, v.*, c.name as category, c.clean_name as clean_category, v.created as videoCreation FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
