@@ -198,6 +198,64 @@ CREATE TABLE IF NOT EXISTS `likes` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `users_groups`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users_groups` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_name` VARCHAR(45) NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `users_has_users_groups`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users_has_users_groups` (
+  `users_id` INT NOT NULL,
+  `users_groups_id` INT NOT NULL,
+  PRIMARY KEY (`users_id`, `users_groups_id`),
+  INDEX `fk_users_has_users_groups_users_groups1_idx` (`users_groups_id` ASC),
+  INDEX `fk_users_has_users_groups_users1_idx` (`users_id` ASC),
+  UNIQUE INDEX `index_user_groups_unique` (`users_groups_id` ASC, `users_id` ASC),
+  CONSTRAINT `fk_users_has_users_groups_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_users_has_users_groups_users_groups1`
+    FOREIGN KEY (`users_groups_id`)
+    REFERENCES `users_groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `videos_group_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `videos_group_view` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `users_groups_id` INT NOT NULL,
+  `videos_id` INT NOT NULL,
+  INDEX `fk_videos_group_view_users_groups1_idx` (`users_groups_id` ASC),
+  INDEX `fk_videos_group_view_videos1_idx` (`videos_id` ASC),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_videos_group_view_users_groups1`
+    FOREIGN KEY (`users_groups_id`)
+    REFERENCES `users_groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_videos_group_view_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
