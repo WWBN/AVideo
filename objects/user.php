@@ -102,9 +102,10 @@ class User {
             }
         } else if (self::isLogged()) {
             $photo = $_SESSION['user']['photoURL'];
-            if(preg_match("/videos\/userPhoto\/.*/", $photo)){
-                $photo = $global['webSiteRootURL'].$photo;
-            }
+            
+        }
+        if(preg_match("/videos\/userPhoto\/.*/", $photo)){
+            $photo = $global['webSiteRootURL'].$photo;
         }
         if (empty($photo)) {
             $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
