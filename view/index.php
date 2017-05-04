@@ -107,7 +107,7 @@ $config = new Configuration();
                                             <?php echo $video['title']; ?>
                                         </h1>
                                         <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                                        <span class="watch-view-count pull-right" itemprop="interactionCount"><?php echo $video['views_count']; ?> <?php echo __("Views"); ?></span>
+                                        <span class="watch-view-count pull-right" itemprop="interactionCount"><?php echo number_format($video['views_count'],0); ?> <?php echo __("Views"); ?></span>
                                     </div> 
                                 </div>
 
@@ -453,7 +453,7 @@ $config = new Configuration();
                                                 <div>
                                                     <strong><?php echo __("Category"); ?>: </strong><?php echo $value['category']; ?>
                                                 </div>
-                                                <div><strong class="badge"><?php echo $value['views_count']; ?></strong> <?php echo __("Views"); ?></div>
+                                                <div><strong class="badge"><?php echo number_format($value['views_count'],0); ?></strong> <?php echo __("Views"); ?></div>
                                                 <div><strong><?php echo $value['creator']; ?></strong></div>
                                             </div>
                                         </div>
