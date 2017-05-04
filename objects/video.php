@@ -142,6 +142,14 @@ class Video {
     
     static private function getUserGroupsCanSeeSQL(){
         global $global;
+        
+        $res = $global['mysqli']->query('select 1 from `videos_group_view` LIMIT 1');
+        if(!$res){
+            if(User::isAdmin()){
+                $_GET['error'] = "You need to Update YouPHPTube to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
+            }
+           return "";
+        }
         if(User::isAdmin()){
             return "";
         }
