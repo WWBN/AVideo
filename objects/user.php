@@ -17,6 +17,7 @@ class User {
     private $status;
     private $photoURL;
     private $recoverPass;
+    private $userGroups = array();
 
     function __construct($id, $user = "", $password = "") {
         if (empty($id)) {
@@ -48,6 +49,7 @@ class User {
         foreach ($user as $key => $value) {
             $this->$key = $value;
         }
+        return true;
     }
 
     private function loadFromUser($user) {
@@ -100,6 +102,9 @@ class User {
             }
         } else if (self::isLogged()) {
             $photo = $_SESSION['user']['photoURL'];
+            if(preg_match("/videos\/userPhoto\/.*/", $photo)){
+                $photo = $global['webSiteRootURL'].$photo;
+            }
         }
         if (empty($photo)) {
             $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
@@ -115,7 +120,7 @@ class User {
         }
     }
 
-    function save() {
+    function save($updateUserGroups = false) {
         global $global;
         if (empty($this->user) || empty($this->password)) {
             die('Error : ' . __("You need a user and passsword to register"));
@@ -132,13 +137,19 @@ class User {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
         $insert_row = $global['mysqli']->query($sql);
-
+            
         if ($insert_row) {
             if (empty($this->id)) {
-                return $global['mysqli']->insert_id;
+                $id = $global['mysqli']->insert_id;
             } else {
-                return $this->id;
+                $id = $this->id;
             }
+            if($updateUserGroups){
+                require_once './userGroups.php';
+                // update the user groups
+                UserGroups::updateUserGroups($id, $this->userGroups);
+            }
+            return $id;
         } else {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
@@ -168,9 +179,9 @@ class User {
 
     function login($noPass = false) {
         if ($noPass) {
-            $user = $this->find($this->user, false);
+            $user = $this->find($this->user, false, true);
         } else {
-            $user = $this->find($this->user, $this->password);
+            $user = $this->find($this->user, $this->password, true);
         }
         if ($user) {
             $_SESSION['user'] = $user;
@@ -201,11 +212,16 @@ class User {
         return !empty($_SESSION['user']['isAdmin']);
     }
 
-    private function find($user, $pass) {
+    private function find($user, $pass, $mustBeactive = false) {
         global $global;
 
         $user = $global['mysqli']->real_escape_string($user);
         $sql = "SELECT * FROM users WHERE user = '$user' ";
+        
+        if($mustBeactive){
+            $sql .= " AND status = 'a' ";
+        }
+        
         if ($pass !== false) {
             $pass = md5($pass);
             $sql .= " AND password = '$pass' ";
@@ -312,8 +328,11 @@ class User {
 
         $res = $global['mysqli']->query($sql);
         $user = array();
+            require_once './userGroups.php';
         if ($res) {
             while ($row = $res->fetch_assoc()) {
+                $row['groups'] = UserGroups::getUserGroups($row['id']);
+                $row['tags'] = self::getTags($row['id']);
                 $user[] = $row;
             }
             //$user = $res->fetch_all(MYSQLI_ASSOC);
@@ -399,6 +418,70 @@ class User {
             return self::isLogged();
         }
         return self::isAdmin();
+    }
+    
+    function getUserGroups() {
+        return $this->userGroups;
+    }
+
+    function setUserGroups($userGroups) {
+        if(is_array($userGroups)){
+            $this->userGroups = $userGroups;
+        }
+    }
+
+    function getIsAdmin() {
+        return $this->isAdmin;
+    }
+
+    function getStatus() {
+        return $this->status;
+    }
+
+    /**
+     * 
+     * @param type $user_id
+     * text
+     * label Default Primary Success Info Warning Danger
+     */
+    static function getTags($user_id){
+        $user = new User($user_id);
+        $tags = array();
+        if($user->getIsAdmin()){
+            $obj = new stdClass();
+            $obj->type = "info";
+            $obj->text = __("Admin");
+            $tags[] = $obj;
+        }else{            
+            $obj = new stdClass();
+            $obj->type = "default";
+            $obj->text = __("Regular User");
+            $tags[] = $obj;
+        }
+        
+        if($user->getStatus() == "a"){
+            $obj = new stdClass();
+            $obj->type = "success";
+            $obj->text = __("Active");
+            $tags[] = $obj;            
+        }else{            
+            $obj = new stdClass();
+            $obj->type = "danger";
+            $obj->text = __("Inactive");
+            $tags[] = $obj;
+        }
+        
+        require_once 'userGroups.php';
+        $groups = UserGroups::getUserGroups($user_id);
+        foreach ($groups as $value) {
+            $obj = new stdClass();
+            $obj->type = "warning";
+            $obj->text = $value['group_name'];
+            $tags[] = $obj;
+        }
+        
+        return $tags;
+        
     }
 
 }

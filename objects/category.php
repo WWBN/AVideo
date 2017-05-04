@@ -34,7 +34,7 @@ class Category {
     }
 
     private function load($id) {
-        $category = $this->getCategory($id);
+        $category = self::getCategory($id);
         $this->id = $category['id'];
         $this->name = $category['name'];
     }
@@ -82,7 +82,7 @@ class Category {
         return $resp;
     }
 
-    private function getCategory($id) {
+    static function getCategory($id) {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM categories WHERE  id = $id LIMIT 1";

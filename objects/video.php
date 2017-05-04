@@ -23,6 +23,7 @@ class Video {
     private $type;
     private $videoDownloadedLink;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
+    private $videoGroups;
 
     function __construct($title = "", $filename = "", $id = 0) {
         global $global;
@@ -59,21 +60,15 @@ class Video {
     }
 
     function load($id) {
-        $video = self::getVideo($id, "");
-        $this->id = $id;
-        $this->title = $video['title'];
-        $this->clean_title = $video['clean_title'];
-        $this->description = $video['description'];
-        $this->duration = $video['duration'];
-        $this->view_count = $video['views_count'];
-        $this->status = $video['status'];
-        $this->users_id = $video['users_id'];
-        $this->categories_id = $video['categories_id'];
-        $this->filename = $video['filename'];
-        $this->type = $video['type'];
+        $video = self::getVideo($id, "", true);
+        if (empty($video))
+            return false;
+        foreach ($video as $key => $value) {
+            $this->$key = $value;
+        }
     }
 
-    function save() {
+    function save($updateVideoGroups = false) {
         if (!User::isLogged()) {
             header('Content-Type: application/json');
             die('{"error":"' . __("Permission denied") . '"}');
@@ -104,12 +99,18 @@ class Video {
         }
         $insert_row = $global['mysqli']->query($sql);
 
-        if ($insert_row) {
+        if ($insert_row) {     
             if (empty($this->id)) {
-                return $global['mysqli']->insert_id;
+                $id = $global['mysqli']->insert_id;
             } else {
-                return $this->id;
+                $id = $this->id;
             }
+            if($updateVideoGroups){
+                require_once './userGroups.php';
+                // update the user groups
+                UserGroups::updateVideoGroups($id, $this->videoGroups);
+            }
+            return $id;
         } else {
             die($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
@@ -138,8 +139,27 @@ class Video {
     function setType($type) {
         $this->type = $type;
     }
+    
+    static private function getUserGroupsCanSeeSQL(){
+        if(User::isAdmin()){
+            return "";
+        }
+        $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
+        if(User::isLogged()){
+            require_once 'userGroups.php';
+            $userGroups = UserGroups::getUserGroups(User::getId());
+            $groups_id = array();
+            foreach ($userGroups as $value) {
+                $groups_id[] = $value['users_groups_id'];
+            }
+            if(!empty($groups_id)){
+                $sql = " (({$sql}) OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN (". implode(",", $groups_id).") ) > 0)) ";
+            }
+        }
+        return " AND ".$sql;
+    }
 
-    static function getVideo($id = "", $status = "viewable") {
+    static function getVideo($id = "", $status = "viewable", $ignoreGroup=false) {
         global $global;
         $id = intval($id);
         
@@ -161,7 +181,10 @@ class Video {
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
-
+        
+        if(!$ignoreGroup){
+            $sql .= self::getUserGroupsCanSeeSQL();
+        }
         if (!empty($_SESSION['type'])) {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
@@ -187,21 +210,25 @@ class Video {
         //echo $sql;exit;
         $res = $global['mysqli']->query($sql);
         if ($res) {
+            require_once 'userGroups.php';
             $video = $res->fetch_assoc();
+            //$video['groups'] = UserGroups::getVideoGroups($video['id']);
         } else {
             $video = false;
         }
         return $video;
     }
 
-    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false) {
+    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup=false) {
         global $global;
         $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
 
-
+        if(!$ignoreGroup){
+            $sql .= self::getUserGroupsCanSeeSQL();
+        }
         if (!empty($_SESSION['type'])) {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
@@ -229,7 +256,10 @@ class Video {
         $res = $global['mysqli']->query($sql);
         $videos = array();
         if ($res) {
+            require_once 'userGroups.php';
             while ($row = $res->fetch_assoc()) {
+                $row['groups'] = UserGroups::getVideoGroups($row['id']);
+                $row['tags'] = self::getTags($row['id']);
                 $videos[] = $row;
             }
             //$videos = $res->fetch_all(MYSQLI_ASSOC);
@@ -240,12 +270,15 @@ class Video {
         return $videos;
     }
 
-    static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false) {
+    static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup=false) {
         global $global;
         $sql = "SELECT v.id FROM videos v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " WHERE 1=1  ";
 
+        if(!$ignoreGroup){
+            $sql .= self::getUserGroupsCanSeeSQL();
+        }
         if ($status == "viewable") {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
         } else if (!empty($status)) {
@@ -515,5 +548,145 @@ class Video {
         }
         return true;
     }
+    
+    
+    function getVideoGroups() {
+        return $this->videoGroups;
+    }
+
+    function setVideoGroups($userGroups) {
+        if(is_array($userGroups)){
+            $this->videoGroups = $userGroups;
+        }
+    }
+    
+    /**
+     * 
+     * @param type $user_id
+     * text
+     * label Default Primary Success Info Warning Danger
+     */
+    static function getTags($video_id){
+        $video = new Video("", "", $video_id);
+        $tags = array();
+        /**
+        a = active
+        i = inactive
+        e = encoding
+        x = encoding error
+        d = downloading
+        xmp4 = encoding mp4 error 
+        xwebm = encoding webm error 
+        xmp3 = encoding mp3 error 
+        xogg = encoding ogg error 
+        ximg = get image error
+         */
+        $obj = new stdClass();
+        
+        $icon = "<span class='fa fa-file-video-o'></span> ";
+        if($video->getType()=="audio"){
+            $icon = "<span class='fa fa-file-audio-o'></span> ";            
+        }
+        $obj->label = __("Status");
+        switch ($video->getStatus()) {
+            case 'a':
+                $obj->type = "success";
+                $obj->text = __("Active");
+                break;
+            case 'i':
+                $obj->type = "warning";
+                $obj->text = __("Inactive");
+                break;
+            case 'e':
+                $obj->type = "info";
+                $obj->text = __("Encoding");
+                break;
+            case 'd':
+                $obj->type = "info";
+                $obj->text = __("Downloading");
+                break;
+            case 'xmp4':
+                $obj->type = "danger";
+                $obj->text = __("Encoding mp4 error");
+                break;
+            case 'xwebm':
+                $obj->type = "danger";
+                $obj->text = __("Encoding xwebm error");
+                break;
+            case 'xmp3':
+                $obj->type = "danger";
+                $obj->text = __("Encoding xmp3 error");
+                break;
+            case 'xogg':
+                $obj->type = "danger";
+                $obj->text = __("Encoding xogg error");
+                break;
+            case 'ximg':
+                $obj->type = "danger";
+                $obj->text = __("Get imgage error");
+                break;
+
+            default:
+                $obj->type = "danger";
+                $obj->text = __("Status not found");
+                break;
+        }
+        $obj->text = $icon.$obj->text;
+        $tags[] = $obj;   
+        
+        require_once 'userGroups.php';
+        $groups = UserGroups::getVideoGroups($video->getId());
+        $obj = new stdClass();
+        $obj->label = __("Group");
+        if(empty($groups)){
+            $obj->type = "success";
+            $obj->text = __("Public");
+            $tags[] = $obj;
+        }else{
+            foreach ($groups as $value) {
+                $obj->type = "warning";
+                $obj->text = $value['group_name'];
+                $tags[] = $obj;
+            }
+        }
+        
+        require_once 'category.php';
+        $category = Category::getCategory($video->getCategories_id());
+        $obj = new stdClass();
+        $obj->label = __("Category");
+        if(!empty($category)){
+            $obj->type = "default";
+            $obj->text = $category['name'];
+            $tags[] = $obj;
+        }
+        
+        $url = $video->getVideoDownloadedLink();
+        $parse = parse_url($url);
+        $obj = new stdClass();
+        $obj->label = __("Source");
+        if(!empty($parse['host'])){
+            $obj->type = "danger";
+            $obj->text = $parse['host'];
+            $tags[] = $obj;
+        }else{
+            $obj->type = "info";
+            $obj->text = __("Local File");
+            $tags[] = $obj;
+        }
+        
+        return $tags;
+        
+    }
+
+    function getCategories_id() {
+        return $this->categories_id;
+    }
+
+    function getType() {
+        return $this->type;
+    }
+
+
+
 
 }

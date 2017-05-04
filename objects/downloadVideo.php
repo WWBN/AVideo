@@ -24,19 +24,19 @@ if ($return_val !== 0) {
     $obj->text = sprintf(__("We could not get the title of your video (%s) go to %s to fix it"), $output[0], "<a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/youdtube-dl-failed-to-extract-signature'>https://github.com/DanielnetoDotCom/YouPHPTube/wiki/youdtube-dl-failed-to-extract-signature</a>");
     $obj->command = $cmd;
     $output[] = "youdtube-dl failed to extract signature";
-    //die(json_encode($obj));
+    die(json_encode($obj));
 }else{
+    $title = end($output);
     $obj->type = "success";
     $obj->title = __("Congratulations!");
     $obj->text = sprintf(__("Your video (%s) is downloading"), $title);
+    $filename = preg_replace("/[^A-Za-z0-9]+/", "_", $title);
+    $filename = uniqid("{$filename}_", true).".mp4";
+    $cmd = "/usr/bin/php -f youtubeDl.php {$filename} {$_POST['videoURL']} {$userId} > /dev/null 2>/dev/null &";
+    exec($cmd);
+    $obj->command = $cmd;
+    $obj->filename = $filename;
+    $obj->response = print_r($output, true);
+    die(json_encode($obj));
 }
-$title = end($output);
-$filename = preg_replace("/[^A-Za-z0-9]+/", "_", $title);
-$filename = uniqid("{$filename}_", true).".mp4";
-$cmd = "/usr/bin/php -f youtubeDl.php {$filename} {$_POST['videoURL']} {$userId} > /dev/null 2>/dev/null &";
-exec($cmd);
-$obj->command = $cmd;
-$obj->filename = $filename;
-$obj->response = print_r($output, true);
-die(json_encode($obj));
 

@@ -3,6 +3,12 @@ require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
+
+$tags = User::getTags(User::getId());
+$tagsStr = "";
+foreach ($tags as $value) {
+    $tagsStr .= "<span class=\"label label-{$value->type} fix-width\">{$value->text}</span>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -28,9 +34,12 @@ $config = new Configuration();
                     <div class="col-xs-1 col-sm-1 col-lg-2"></div>
                     <div class="col-xs-10 col-sm-10 col-lg-8">
                         <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
+                                <?php echo $tagsStr;?>
                             <fieldset>
-                                <legend><?php echo __("Update your user"); ?></legend>
-
+                                <legend>
+                                    <?php echo __("Update your user")?>
+                                    
+                                </legend>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>  
                                     <div class="col-md-8 inputGroupContainer">
