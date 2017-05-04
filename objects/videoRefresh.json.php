@@ -17,6 +17,12 @@ if(empty($obj)){
 }
 $file = $global['systemRootPath']."videos/original_".$obj->getFilename();
 
+if(!file_exists($file)){
+    $file = $global['systemRootPath']."videos/".$obj->getFilename().".mp4";
+    if(!file_exists($file)){
+        $file = $global['systemRootPath']."videos/".$obj->getFilename().".mp3";
+    }
+}
 if(file_exists($file)){
     $duration = Video::getDurationFromFile($file);
     $data = Video::getVideoConversionStatus($obj->getFilename());
