@@ -158,6 +158,7 @@ class UserGroups {
         global $global;
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'users_has_users_groups'");
         if (empty($result->num_rows)) {
+            $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.3</a>";
             return array();
         }
         if(empty($users_id)){
