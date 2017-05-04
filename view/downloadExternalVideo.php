@@ -11,7 +11,6 @@ $config = new Configuration();
 function isYoutubeDl() {
     return trim(shell_exec('which youtube-dl'));
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -46,112 +45,117 @@ function isYoutubeDl() {
                     <pre><code>sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl && sudo chmod a+rx /usr/local/bin/youtube-dl</code></pre>
                 </div>
                 <?php
-            }else{
-            ?>
-            <div class="row">
-                <div class="col-xs-1 col-sm-1 col-lg-2"></div>
-                <div class="col-xs-10 col-sm-10 col-lg-8">
-                    <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
-                        <fieldset>
-                            <legend><?php echo __("Download Video"); ?></legend>
+            } else {
+                ?>
+                <div class="row">
+                    <div class="col-xs-1 col-sm-1 col-lg-2"></div>
+                    <div class="col-xs-10 col-sm-10 col-lg-8">
+                        <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
+                            <fieldset>
+                                <legend><?php echo __("Download Video"); ?></legend>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><?php echo __("Video URL"); ?></label>  
-                                <div class="col-md-8 inputGroupContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
-                                        <input  id="inputVideoURL" placeholder="<?php echo __("Video URL"); ?>" class="form-control"  type="text" value="" required >
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Video URL"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                                            <input  id="inputVideoURL" placeholder="<?php echo __("Video URL"); ?>" class="form-control"  type="text" value="" required >
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- TODO audio only -->
-                            <div class="form-group" style="display: none">
-                                <label class="col-md-4 control-label"><?php echo __("Audio only"); ?></label>  
-                                <div class="col-md-8 inputGroupContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-headphones"></i></span>
-                                        <input  id="inputAudioOnly" class="form-control"  type="checkbox" value="1" >
+                                <!-- TODO audio only -->
+                                <div class="form-group" style="display: none">
+                                    <label class="col-md-4 control-label"><?php echo __("Audio only"); ?></label>  
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-headphones"></i></span>
+                                            <input  id="inputAudioOnly" class="form-control"  type="checkbox" value="1" >
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Button -->
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"></label>
-                                <div class="col-md-8">
-                                    <button type="submit" class="btn btn-primary" ><?php echo __("Download"); ?> <span class="glyphicon glyphicon-download"></span></button>
+                                <!-- Button -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"></label>
+                                    <div class="col-md-8">
+                                        <button type="submit" class="btn btn-primary" ><?php echo __("Download"); ?> <span class="glyphicon glyphicon-download"></span></button>
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                    <div class="progress progress-striped active">
-                        <div id="downloadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div>
+                            </fieldset>
+                        </form>
+                        <div class="progress progress-striped active">
+                            <div id="downloadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div>
+                        </div>
                     </div>
+                    <div class="col-xs-1 col-sm-1 col-lg-2"></div>
                 </div>
-                <div class="col-xs-1 col-sm-1 col-lg-2"></div>
-            </div>
-            <script>
-                $(document).ready(function () {
-                    $('#updateUserForm').submit(function (evt) {
-                        evt.preventDefault();
-                        modal.showPleaseWait();
+                <script>
+                    $(document).ready(function () {
+                        $('#updateUserForm').submit(function (evt) {
+                            evt.preventDefault();
+                            modal.showPleaseWait();
+                            $.ajax({
+                                url: 'downloadNow',
+                                data: {"videoURL": $('#inputVideoURL').val(), "audioOnly": $('#inputAudioOnly').is(":checked")},
+                                type: 'post',
+                                success: function (response) {
+                                    if (response.error) {
+                                        swal({
+                                            title: response.title,
+                                            text: response.text,
+                                            type: response.type,
+                                            html: true
+                                        });
+                                    } else {
+                                        swal({
+                                            title: "<?php echo __("Congratulations!"); ?>",
+                                            text: "<?php echo __("Your video is downloading now"); ?>",
+                                            type: "success",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#DD6B55",
+                                            confirmButtonText: "<?php echo __("Go to manager videos page!"); ?>",
+                                            closeOnConfirm: false
+                                        },
+                                                function () {
+                                                    window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
+                                                });
+                                        if (response.filename) {
+                                            checkProgress(response.filename);
+                                        }
+                                    }
+                                    modal.hidePleaseWait();
+                                }
+                            });
+                        });
+                    });
+                    function checkProgress(filename) {
+                        console.log(filename);
                         $.ajax({
-                            url: 'downloadNow',
-                            data: {"videoURL": $('#inputVideoURL').val(), "audioOnly": $('#inputAudioOnly').is(":checked")},
+                            url: 'getDownloadProgress',
+                            data: {"filename": filename},
                             type: 'post',
                             success: function (response) {
-                                swal({
-                                    title: response.title,
-                                    text: response.text,
-                                    type: response.type
-                                });
-                                modal.hidePleaseWait();
-                                
-                                swal({
-                                    title: "<?php echo __("Congratulations!"); ?>",
-                                    text: "<?php echo __("Your video is downloading now"); ?>",
-                                    type: "success",
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#DD6B55",
-                                    confirmButtonText: "<?php echo __("Go to manager videos page!"); ?>",
-                                    closeOnConfirm: false
-                                },
-                                        function () {
-                                            window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
-                                        });
-                                if(response.filename){
-                                    checkProgress(response.filename);
+                                $("#downloadProgress").css({'width': response.progress + '%'});
+                                if (response.progress < 100) {
+                                    setTimeout(function () {
+                                        checkProgress(filename);
+                                    }, 1000);
+                                } else if (response.progress == 100) {
+                                    $("#downloadProgress").css({'width': '100%'});
+                                    swal({
+                                        title: "<?php echo __("Congratulations!"); ?>",
+                                        text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
+                                        type: "success"
+                                    },
+                                            function () {
+                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
+                                            });
                                 }
                             }
                         });
-                    });
-                });
-                function checkProgress(filename){
-                    console.log(filename);
-                    $.ajax({
-                        url: 'getDownloadProgress',
-                        data: {"filename": filename},
-                        type: 'post',
-                        success: function (response) {
-                            $("#downloadProgress").css({'width': response.progress+'%'});
-                            if(response.progress<100){
-                              setTimeout(function(){ checkProgress(filename); }, 1000);  
-                            }else if(response.progress == 100){
-                                $("#downloadProgress").css({'width': '100%'});
-                                swal({
-                                    title: "<?php echo __("Congratulations!"); ?>",
-                                    text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
-                                    type: "success"
-                                },
-                                        function () {
-                                            window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
-                                        });
-                            }
-                        }
-                    });
-                }
-            </script>
-            <?php
+                    }
+                </script>
+                <?php
             }
             ?>
         </div><!--/.container-->

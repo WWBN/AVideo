@@ -11,7 +11,7 @@ $(function() {
     <?php 
     if(!empty($_GET['error'])){
     ?>
-    swal("Sorry!", "<?php echo $_GET['error']; ?>", "error");
+    swal({title:"Sorry!", text: "<?php echo $_GET['error']; ?>", type:"error",  html:true});
     <?php
     }
     ?>

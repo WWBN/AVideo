@@ -11,8 +11,8 @@ body {
 
 
 .nopadding {
-   padding: 0 !important;
-   margin: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .videoLink .duration{
@@ -153,7 +153,7 @@ video {
     top: 10px;
     width: 500px;
     margin-left: 5px;
-    
+
 }
 .brand img{
     height: 30px;
@@ -228,61 +228,61 @@ video {
 
 /* Tabs panel */
 .tabbable-panel {
-  border:1px solid #eee;
-  padding: 10px;
+    border:1px solid #eee;
+    padding: 10px;
 }
 
 /* Default mode */
 .tabbable-line > .nav-tabs {
-  border: none;
-  margin: 0px;
+    border: none;
+    margin: 0px;
 }
 .tabbable-line > .nav-tabs > li {
-  margin-right: 2px;
-  border-bottom: 4px solid #DDD;
+    margin-right: 2px;
+    border-bottom: 4px solid #DDD;
 }
 .tabbable-line > .nav-tabs > li > a {
-  border: 0;
-  margin-right: 0;
-  color: #737373;
+    border: 0;
+    margin-right: 0;
+    color: #737373;
 }
 .tabbable-line > .nav-tabs > li > a > i {
-  color: #a6a6a6;
+    color: #a6a6a6;
 }
 .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
-  border-bottom: 4px solid #fbcdcf;
+    border-bottom: 4px solid #fbcdcf;
 }
 .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
-  border: 0;
-  background: none !important;
-  color: #333333;
+    border: 0;
+    background: none !important;
+    color: #333333;
 }
 .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
-  color: #a6a6a6;
+    color: #a6a6a6;
 }
 .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
-  margin-top: 0px;
+    margin-top: 0px;
 }
 .tabbable-line > .nav-tabs > li.active {
-  border-bottom: 4px solid #f3565d;
-  position: relative;
+    border-bottom: 4px solid #f3565d;
+    position: relative;
 }
 .tabbable-line > .nav-tabs > li.active > a {
-  border: 0;
-  color: #333333;
-  background: none !important;
+    border: 0;
+    color: #333333;
+    background: none !important;
 }
 .tabbable-line > .nav-tabs > li.active > a > i {
-  color: #404040;
+    color: #404040;
 }
 .tabbable-line > .tab-content {
-  margin-top: -3px;
-  border: 0;
-  border-top: 1px solid #eee;
-  padding: 15px 0;
+    margin-top: -3px;
+    border: 0;
+    border-top: 1px solid #eee;
+    padding: 15px 0;
 }
 .portlet .tabbable-line > .tab-content {
-  padding-bottom: 0;
+    padding-bottom: 0;
 }
 /* END Tabs panel */
 
@@ -351,4 +351,62 @@ video {
 }
 #dislikeBtn.myVote span, #dislikeBtn.myVote small {
     color: #444;
+}
+
+/* fancy checkbox */
+.material-switch > input[type="checkbox"] {
+    display: none;   
+}
+
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative; 
+    width: 40px;  
+}
+
+.material-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+}
+.material-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: inherit;
+    left: 20px;
+}
+/* fancy checkbox  end */
+
+
+.label.fix-width {
+  min-width: 130px !important;
+  display: inline-block !important;
+  text-align: left;
+} 
+.label.fix-width.label-primary {
+  min-width: 70px !important;
+  text-align: right;
 }

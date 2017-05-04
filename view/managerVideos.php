@@ -10,6 +10,9 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 $categories = Category::getAllCategories();
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
+
+require_once $global['systemRootPath'] . 'objects/userGroups.php';
+$userGroups = UserGroups::getAllUsersGroups();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -34,9 +37,8 @@ $config = new Configuration();
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                        <th data-column-id="title" ><?php echo __("Title"); ?></th>
-                        <th data-column-id="status" data-formatter="status" data-width="100px"><?php echo __("Status"); ?></th>
-                        <th data-column-id="type" data-width="60px"><?php echo __("Type"); ?></th>
+                        <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Title"); ?></th>
+                        <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px"><?php echo __("Tags"); ?></th>
                         <th data-column-id="duration" data-width="100px"><?php echo __("Duration"); ?></th>
                         <th data-column-id="created" data-order="desc" data-width="100px"><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="350px"></th>
@@ -68,6 +70,31 @@ $config = new Configuration();
                                     }
                                     ?>
                                 </select>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <?php echo __("Public Video"); ?>
+                                        <div class="material-switch pull-right">
+                                            <input id="public" type="checkbox" value="0" class="userGroups"/>
+                                            <label for="public" class="label-success"></label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item active non-public">
+                                        <?php echo __("Groups that can see this video"); ?>
+                                    </li>
+                                    <?php
+                                    foreach ($userGroups as $value) {
+                                        ?>
+                                        <li class="list-group-item non-public">
+                                            <?php echo $value['group_name']; ?>
+                                            <div class="material-switch pull-right">
+                                                <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
+                                                <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
+                                            </div>
+                                        </li>
+                                        <?php
+                                    }
+                                    ?>
+                                </ul>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -117,11 +144,11 @@ $config = new Configuration();
                                 $('#encoding' + entry + id).html(entry.toUpperCase() + ': 100%');
                             }
                         });
-                        if(refresh && !allComplete){
+                        if (refresh && !allComplete) {
                             setTimeout(function () {
                                 checkProgressVideo(filename, id, refresh);
                             }, 1000);
-                        }else if(refresh && allComplete){
+                        } else if (refresh && allComplete) {
                             $("#grid").bootgrid("reload");
                         }
                     }
@@ -133,13 +160,13 @@ $config = new Configuration();
                     data: {"filename": filename},
                     type: 'post',
                     success: function (response) {
-                        $("#downloadProgress"+id).css({'width': response.progress + '%'});
+                        $("#downloadProgress" + id).css({'width': response.progress + '%'});
                         if (response.progress < 100) {
                             setTimeout(function () {
                                 checkProgressDownload(filename, id);
                             }, 1000);
                         } else if (response.progress == 100) {
-                            $("#downloadProgress"+id).css({'width': '100%'});
+                            $("#downloadProgress" + id).css({'width': '100%'});
                             swal({
                                 title: "<?php echo __("Congratulations!"); ?>",
                                 text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
@@ -151,6 +178,14 @@ $config = new Configuration();
                 });
             }
             $(document).ready(function () {
+                $('#public').change(function () {
+                    if ($('#public').is(':checked')) {
+                        $('.non-public').slideUp();
+                    } else {
+                        $('.non-public').slideDown();
+                    }
+                });
+
                 $('[data-toggle="tooltip"]').tooltip();
                 var grid = $("#grid").bootgrid({
                     ajax: true,
@@ -172,36 +207,44 @@ $config = new Configuration();
                             var reencodeAudio = reencodeMp3 + reencodeOGG;
                             var reencodeBtn = reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
                             if (row.type == "audio") {
-                                reencodeBtn = reencodeAudio+originalBtn;
+                                reencodeBtn = reencodeAudio + originalBtn;
                             }
                             var status;
+
                             if (row.status == "i") {
                                 status = activeBtn;
                             } else if (row.status == "a") {
-                                status = inactiveBtn+originalBtn;
+                                status = inactiveBtn + originalBtn;
                             } else if (row.status == "x") {
-                                return editBtn + deleteBtn + reloadBtn + reencodeBtn+originalBtn;
-                            }  else if (row.status == "d") {
+                                return editBtn + deleteBtn + reloadBtn + reencodeBtn + originalBtn;
+                            } else if (row.status == "d") {
                                 return deleteBtn;
                             } else {
-                                return editBtn + deleteBtn + reencodeBtn+originalBtn;
+                                return editBtn + deleteBtn + reencodeBtn + originalBtn;
                             }
-                            return editBtn + deleteBtn + reloadBtn + status + reencodeBtn+originalBtn;
+                            return editBtn + deleteBtn + reloadBtn + status + reencodeBtn + originalBtn;
                         },
-                        "status": function (column, row) {
-                            if (row.status == 'a') {
-                                return "<span class='label label-success'><?php echo __("Active"); ?></span>";
-                            } else if (row.status == 'i') {
-                                return "<span class='label label-danger'><?php echo __("Inactive"); ?></span>";
-                            } else if (/^x.*$/gi.test(row.status) || row.status == 'e') {
+                        "tags": function (column, row) {
+                            var tags = "";
+                            for (var i in row.tags) {
+                                if (typeof row.tags[i].type == "undefined") {
+                                    continue;
+                                }
+                                tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
+                            }
+                            return tags;
+                        },
+                        "titleTag": function (column, row) {
+                            var tags = "";
+                            if (/^x.*$/gi.test(row.status) || row.status == 'e') {
                                 setTimeout(function () {
                                     checkProgressVideo(row.filename, row.id, row.status == 'e');
                                 }, 1000);
 
                                 if (row.type == "audio") {
-                                    return "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp3.txt' target='_blank' class='label label-danger' id='encodingmp3" + row.id + "'>MP3: 0%</a><br><a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_ogg.txt' target='_blank' class='label label-danger' id='encodingogg" + row.id + "'>OGG: 0%</a>";
+                                    tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp3.txt' target='_blank' class='label label-danger' id='encodingmp3" + row.id + "' >MP3: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_ogg.txt' target='_blank' class='label label-danger' id='encodingogg" + row.id + "' >OGG: 0%</a>";
                                 } else {
-                                    return "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "'>MP4: 0%</a><br><a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "'>WEBM: 0%</a>";
+                                    tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "' >MP4: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "' >WEBM: 0%</a>";
                                 }
 
                             } else if (row.status == 'd') {
@@ -209,11 +252,13 @@ $config = new Configuration();
                                     checkProgressDownload(row.filename, row.id);
                                 }, 1000);
 
-                                return '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
+                                tags += '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
                             }
-
+                            return row.title+"<br>"+tags;
                         }
+
+
                     }
                 }).on("loaded.rs.jquery.bootgrid", function () {
                     /* Executes after data is loaded and rendered */
@@ -227,7 +272,16 @@ $config = new Configuration();
                         $('#inputCleanTitle').val(row.clean_title);
                         $('#inputDescription').val(row.description);
                         $('#inputCategory').val(row.categories_id);
-
+                        $('.videoGroups').prop('checked', false);
+                        if (row.groups.length === 0) {
+                            $('#public').prop('checked', true);
+                        } else {
+                            $('#public').prop('checked', false);
+                            for (var index in row.groups) {
+                                $('#videoGroup' + row.groups[index].id).prop('checked', true);
+                            }
+                        }
+                        $('#public').trigger("change");
                         $('#videoFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();
@@ -343,12 +397,35 @@ $config = new Configuration();
                     $('#updateCategoryForm').submit();
                 });
 
+
+
+
                 $('#updateCategoryForm').submit(function (evt) {
                     evt.preventDefault();
+                    var isPublic = $('#public').is(':checked');
+                    var selectedVideoGroups = [];
+                    $('.videoGroups:checked').each(function () {
+                        selectedVideoGroups.push($(this).val());
+                    });
+                    if (!isPublic && selectedVideoGroups.length === 0) {
+                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("You must make this video public or select a group to see your video!"); ?>", "error");
+                        return false;
+                    }
+                    if (isPublic) {
+                        selectedVideoGroups = [];
+                    }
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'addNewVideo',
-                        data: {"id": $('#inputVideoId').val(), "title": $('#inputTitle').val(), "clean_title": $('#inputCleanTitle').val(), "description": $('#inputDescription').val(), "categories_id": $('#inputCategory').val()},
+                        data: {
+                            "id": $('#inputVideoId').val(),
+                            "title": $('#inputTitle').val(),
+                            "clean_title": $('#inputCleanTitle').val(),
+                            "description": $('#inputDescription').val(),
+                            "categories_id": $('#inputCategory').val(),
+                            "public": isPublic,
+                            "videoGroups": selectedVideoGroups
+                        },
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {

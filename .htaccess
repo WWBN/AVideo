@@ -46,6 +46,12 @@
     RewriteRule    ^signUp$ view/signUp.php    [NC,L]
     RewriteRule    ^createUser$ objects/userCreate.json.php    [NC,L]
 
+
+    RewriteRule    ^usersGroups$ view/managerUsersGroups.php    [NC,L]
+    RewriteRule    ^usersGroups.json$ objects/usersGroups.json.php    [NC,L]
+    RewriteRule    ^addNewUserGroups$ objects/userGroupsAddNew.json.php    [NC,L]
+    RewriteRule    ^deleteUserGroups$ objects/userGroupsDelete.json.php    [NC,L]
+
     #manager category
     RewriteRule    ^categories$ view/managerCategories.php    [NC,L]
     RewriteRule    ^categories.json$ objects/categories.json.php    [NC,L]
