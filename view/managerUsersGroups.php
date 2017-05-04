@@ -27,8 +27,14 @@ $config = new Configuration();
         <div class="container">
 
             <button type="button" class="btn btn-default" id="addUserGroupsBtn">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New UserGroups"); ?>
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User Groups"); ?>
             </button>
+            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
+                <span class="fa fa-film" aria-hidden="true"></span> <?php echo __("Go to My Videos"); ?>
+            </a>
+            <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
+                <span class="fa fa-film" aria-hidden="true"></span> <?php echo __("Go to Users Manager"); ?>
+            </a>
 
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
@@ -46,7 +52,7 @@ $config = new Configuration();
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title"><?php echo __("UserGroups Form"); ?></h4>
+                            <h4 class="modal-title"><?php echo __("User Groups Form"); ?></h4>
                         </div>
                         <div class="modal-body">
                             <form class="form-compact"  id="updateUserGroupsForm" onsubmit="">

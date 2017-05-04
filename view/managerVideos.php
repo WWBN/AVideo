@@ -33,6 +33,9 @@ $userGroups = UserGroups::getAllUsersGroups();
             <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
             </a>
+            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
+            </a>
 
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
@@ -72,7 +75,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 </select>
                                 <ul class="list-group">
                                     <li class="list-group-item">
-                                        <?php echo __("Public Video"); ?>
+                                        <span class="fa fa-globe"></span> <?php echo __("Public Video"); ?>
                                         <div class="material-switch pull-right">
                                             <input id="public" type="checkbox" value="0" class="userGroups"/>
                                             <label for="public" class="label-success"></label>
@@ -80,6 +83,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     </li>
                                     <li class="list-group-item active non-public">
                                         <?php echo __("Groups that can see this video"); ?>
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                                            <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
+                                        </a>
                                     </li>
                                     <?php
                                     foreach ($userGroups as $value) {

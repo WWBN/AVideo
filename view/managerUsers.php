@@ -31,6 +31,9 @@ $userGroups = UserGroups::getAllUsersGroups();
             <button type="button" class="btn btn-default" id="addUserBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User"); ?>
             </button>
+            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
+            </a>
 
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
@@ -83,6 +86,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 <ul class="list-group">
                                     <li class="list-group-item active">
                                         <?php echo __("User Groups"); ?>
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                                            <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
+                                        </a>
                                     </li>
                                     <?php
                                     foreach ($userGroups as $value) {
