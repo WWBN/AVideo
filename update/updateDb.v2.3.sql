@@ -58,6 +58,44 @@ CREATE TABLE IF NOT EXISTS `videos_group_view` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+ALTER TABLE `users_has_users_groups` 
+DROP FOREIGN KEY `fk_users_has_users_groups_users_groups1`;
+
+ALTER TABLE `videos_group_view` 
+DROP FOREIGN KEY `fk_videos_group_view_users_groups1`,
+DROP FOREIGN KEY `fk_videos_group_view_videos1`;
+
+ALTER TABLE `users_has_users_groups` 
+ADD INDEX `fk_users_has_users_groups_users_groups1_idx` (`users_groups_id` ASC),
+ADD INDEX `fk_users_has_users_groups_users1_idx` (`users_id` ASC),
+DROP INDEX `fk_users_has_users_groups_users1_idx` ,
+DROP INDEX `fk_users_has_users_groups_users_groups1_idx` ;
+
+ALTER TABLE `videos_group_view` 
+ADD INDEX `fk_videos_group_view_users_groups1_idx` (`users_groups_id` ASC),
+ADD INDEX `fk_videos_group_view_videos1_idx` (`videos_id` ASC),
+DROP INDEX `fk_videos_group_view_videos1_idx` ,
+DROP INDEX `fk_videos_group_view_users_groups1_idx` ;
+
+ALTER TABLE `users_has_users_groups` 
+ADD CONSTRAINT `fk_users_has_users_groups_users_groups1`
+  FOREIGN KEY (`users_groups_id`)
+  REFERENCES `users_groups` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `videos_group_view` 
+ADD CONSTRAINT `fk_videos_group_view_users_groups1`
+  FOREIGN KEY (`users_groups_id`)
+  REFERENCES `users_groups` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_videos_group_view_videos1`
+  FOREIGN KEY (`videos_id`)
+  REFERENCES `videos` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
