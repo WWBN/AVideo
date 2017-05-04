@@ -155,6 +155,7 @@ class UserGroups {
     } 
     
     static function getUserGroups($users_id){
+        global $global;
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'users_has_users_groups'");
         if (empty($result->num_rows)) {
             return array();
@@ -162,7 +163,6 @@ class UserGroups {
         if(empty($users_id)){
             return array();
         }
-        global $global;
         $sql = "SELECT * FROM users_has_users_groups"
                 . " LEFT JOIN users_groups ON users_groups_id = id WHERE users_id = $users_id ";
 
