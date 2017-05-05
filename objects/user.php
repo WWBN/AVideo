@@ -107,7 +107,7 @@ class User {
         if(preg_match("/videos\/userPhoto\/.*/", $photo)){
             $photo = $global['webSiteRootURL'].$photo;
         }
-        if (empty($photo) || !file_exists($photo)) {
+        if (empty($photo)) {
             $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
         }
         return $photo;
@@ -137,6 +137,7 @@ class User {
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
+        //echo $sql;
         $insert_row = $global['mysqli']->query($sql);
             
         if ($insert_row) {

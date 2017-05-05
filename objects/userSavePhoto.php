@@ -21,7 +21,7 @@ if (!file_exists($global['systemRootPath'].$imagePath)) {
 if (!is_writable($global['systemRootPath'].$imagePath)) {
     $response = Array(
         "status" => 'error',
-        "message" => 'Can`t upload File; no write Access'
+        "message" => 'No write Access'
     );
     print json_encode($response);
     return;
@@ -33,11 +33,19 @@ $img = str_replace(' ', '+', $img);
 $fileData = base64_decode($img);
 $fileName = 'photo'. User::getId().'.png';
 $photoURL = $imagePath.$fileName;
-file_put_contents($global['systemRootPath'].$photoURL, $fileData);
-$response = array(
-    "status" => 'success',
-    "url" => $global['systemRootPath'].$photoURL
-);
+$bytes = file_put_contents($global['systemRootPath'].$photoURL, $fileData);
+if($bytes){
+    $response = array(
+        "status" => 'success',
+        "url" => $global['systemRootPath'].$photoURL
+    );
+}else{
+    $response = array(
+        "status" => 'error',
+        "msg" => 'We could not save this file',
+        "url" => $global['systemRootPath'].$photoURL
+    );
+}
 
 $user = new User(User::getId());
 $user->setPhotoURL($photoURL);
