@@ -107,7 +107,7 @@ class User {
         if(preg_match("/videos\/userPhoto\/.*/", $photo)){
             $photo = $global['webSiteRootURL'].$photo;
         }
-        if (empty($photo)) {
+        if (empty($photo) || !file_exists($photo)) {
             $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
         }
         return $photo;
