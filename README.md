@@ -24,7 +24,14 @@ Take a look at our <a href="http://tutorials.youphptube.com/video/how-to-install
 - How to translate YouPHPTube to another language
 - And more
 
-# Last Updates
+# Ver 2.0
 - Change Comments Layout (Show user Picture now)
 - You can download and encode videos from other web sites (Youtube, Vimeo, etc), to share on yours
 - You can enable Facebook or Google login on configuration menu, also set up what logged users can do (Comment and Upload/Download videos).
+
+# Ver 2.4
+- User and Videos Groups
+- Private Videos
+
+**Private videos since version 2.4** YouPHPTube allows you to determine if the videos published on the page will be public or private.
+By default all videos are public, but you can create groups and link them to videos and users, so only users in the group can view videos from the same group. And the linked video will not be public any more.
