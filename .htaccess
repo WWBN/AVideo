@@ -1,6 +1,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
 
+    #main Files
     RewriteRule    ^$ view/    [NC,L]
     RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]
     RewriteRule    ^js/(.+)$ view/js/$1 [NC,L]
