@@ -261,7 +261,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 tags += '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
                             }
-                            return row.title+"<br>"+tags;
+                            var type;
+                            if(row.type==="audio"){
+                                type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
+                            }else{
+                                type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
+                            }
+                            return type+row.title+"<br>"+tags;
                         }
 
 
