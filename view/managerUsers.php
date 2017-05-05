@@ -32,9 +32,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User"); ?>
             </button>
             <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
-                <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
+                <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
             </a>
-
+            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
+                <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
+            </a>
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -86,10 +88,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 <ul class="list-group">
                                     <li class="list-group-item active">
                                         <?php echo __("User Groups"); ?>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning ">
-                                            <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
-                                        </a>
-                                        <a href="#" class="btn btn-default pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question" aria-hidden="true"></span></a>
+                                        <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                     </li>
                                     <?php
                                     foreach ($userGroups as $value) {

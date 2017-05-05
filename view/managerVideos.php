@@ -31,12 +31,14 @@ $userGroups = UserGroups::getAllUsersGroups();
         <div class="container">
 
             <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
             </a>
             <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
-                <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
+                <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
             </a>
-
+            <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
+                <span class="fa fa-user"></span> <?php echo __("Users"); ?>
+            </a>
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -83,10 +85,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     </li>
                                     <li class="list-group-item active non-public">
                                         <?php echo __("Groups that can see this video"); ?>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
-                                            <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
-                                        </a>
-                                        <a href="#" class="btn btn-default pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question" aria-hidden="true"></span></a>
+                                        <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                     </li>
                                     <?php
                                     foreach ($userGroups as $value) {
