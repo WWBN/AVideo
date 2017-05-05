@@ -99,15 +99,29 @@ $config = new Configuration();
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
-                                            
-                                        
+
+
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-lg-8">
                                         <h1 itemprop="name">
                                             <?php echo $video['title']; ?>
+                                            <small>
+                                            <?php
+                                            $video['tags'] = Video::getTags($video['id']);
+                                            foreach ($video['tags'] as $value) {
+                                                if ($value->label === __("Group")) {
+                                                    ?>
+                                                    <span class="label label-<?php echo $value->type; ?>"><?php echo $value->text; ?></span>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </small>
                                         </h1>
+                                        
+                                        
                                         <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                                        <span class="watch-view-count pull-right" itemprop="interactionCount"><?php echo number_format($video['views_count'],0); ?> <?php echo __("Views"); ?></span>
+                                        <span class="watch-view-count pull-right" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
                                     </div> 
                                 </div>
 
@@ -438,23 +452,35 @@ $config = new Configuration();
                                             }
                                             ?>
                                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
-                                            
+
                                             <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                             <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $value['clean_title']; ?>" />
                                             <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
                                             <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
-                                            
+
                                             <span class="glyphicon glyphicon-play-circle"></span>
                                             <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                         </div>
                                         <div class="col-lg-7 col-sm-7 col-xs-7">
-                                            <div class="text-uppercase"><strong itemprop="name"><?php echo $value['title']; ?></strong></div>
-                                            <div class="details" itemprop="description">
+                                            <div class="text-uppercase row"><strong itemprop="name"><?php echo $value['title']; ?></strong></div>
+                                            <div class="details row" itemprop="description">
                                                 <div>
                                                     <strong><?php echo __("Category"); ?>: </strong><?php echo $value['category']; ?>
                                                 </div>
-                                                <div><strong class="badge"><?php echo number_format($value['views_count'],0); ?></strong> <?php echo __("Views"); ?></div>
+                                                <div><strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?></div>
                                                 <div><strong><?php echo $value['creator']; ?></strong></div>
+
+                                            </div>
+                                            <div class="row">
+                                                <?php
+                                                foreach ($value['tags'] as $value2) {
+                                                    if ($value2->label === __("Group")) {
+                                                        ?>
+                                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </a>
