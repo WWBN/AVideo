@@ -420,3 +420,7 @@ video {
 .popover-content, .popover-title, .popover{
     color:#333 !important;
 }
+
+.videosDetails{
+    padding-left: 20px;
+}

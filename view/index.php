@@ -461,7 +461,7 @@ $config = new Configuration();
                                             <span class="glyphicon glyphicon-play-circle"></span>
                                             <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                         </div>
-                                        <div class="col-lg-7 col-sm-7 col-xs-7">
+                                        <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
                                             <div class="text-uppercase row"><strong itemprop="name"><?php echo $value['title']; ?></strong></div>
                                             <div class="details row" itemprop="description">
                                                 <div>
