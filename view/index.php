@@ -358,7 +358,7 @@ $config = new Configuration();
                                     }
                                     ?>><?php
                                                   if (!User::canComment()) {
-                                                      echo __("You can not comment videos");
+                                                      echo __("You cannot comment on videos");
                                                   }
                                                   ?></textarea>     
                                     <?php if (User::canComment()) { ?>
