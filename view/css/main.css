@@ -410,3 +410,7 @@ video {
   min-width: 70px !important;
   text-align: right;
 }
+
+.popover-content, .popover-title, .popover{
+    color:#333 !important;
+}

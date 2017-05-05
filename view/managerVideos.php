@@ -86,12 +86,15 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                                             <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
                                         </a>
+                                        <a href="#" class="btn btn-default pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question" aria-hidden="true"></span></a>
                                     </li>
                                     <?php
                                     foreach ($userGroups as $value) {
                                         ?>
                                         <li class="list-group-item non-public">
+                                            <span class="fa fa-lock"></span>
                                             <?php echo $value['group_name']; ?>
+                                            <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
                                             <div class="material-switch pull-right">
                                                 <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
                                                 <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>

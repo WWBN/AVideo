@@ -86,18 +86,21 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 <ul class="list-group">
                                     <li class="list-group-item active">
                                         <?php echo __("User Groups"); ?>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning ">
                                             <span class="fa fa-plus"></span> <?php echo __("Create new Groups for Users and Videos"); ?>
                                         </a>
+                                        <a href="#" class="btn btn-default pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question" aria-hidden="true"></span></a>
                                     </li>
                                     <?php
                                     foreach ($userGroups as $value) {
                                         ?>
                                         <li class="list-group-item">
+                                            <span class="fa fa-unlock"></span>
                                             <?php echo $value['group_name']; ?>
+                                            <span class="label label-info"><?php echo $value['total_videos']; ?> Videos linked</span>
                                             <div class="material-switch pull-right">
                                                 <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups"/>
-                                                <label for="userGroup<?php echo $value['id']; ?>" class="label-success"></label>
+                                                <label for="userGroup<?php echo $value['id']; ?>" class="label-warning"></label>
                                             </div>
                                         </li>
                                         <?php

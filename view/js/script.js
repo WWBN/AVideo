@@ -26,3 +26,7 @@ function clean_name(str){
     str = str.toLowerCase();
     return str.replace(/\W+/g, "-"); 
 }
+
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover(); 
+});

@@ -35,6 +35,8 @@ $config = new Configuration();
             <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
                 <span class="fa fa-film" aria-hidden="true"></span> <?php echo __("Go to Users Manager"); ?>
             </a>
+            <a href="#" class="btn btn-default pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("This is where you can create groups and associate them with your videos and users.
+This will make your videos private. Only users who are in the same group as the videos can view them"); ?>"><span class="fa fa-question" aria-hidden="true"></span> <?php echo __("What is User Groups"); ?></a>
 
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
@@ -74,7 +76,6 @@ $config = new Configuration();
         ?>
         <script>
             $(document).ready(function () {
-
                 var grid = $("#grid").bootgrid({
                     ajax: true,
                     url: "<?php echo $global['webSiteRootURL'] . "usersGroups.json"; ?>",
