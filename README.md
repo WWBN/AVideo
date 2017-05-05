@@ -35,4 +35,4 @@ Take a look at our <a href="http://tutorials.youphptube.com/video/how-to-install
 
 **Private videos since version 2.4** YouPHPTube allows you to determine if the videos published on the page will be public or private.
 By default all videos are public, but you can create groups and link them to videos and users, so only users in the group can view videos from the same group. And the linked video will not be public any more.
-Check a video tutorial: http://tutorials.youphptube.com/video/how-to-import-videos-from-youtube
+Check a video tutorial: http://tutorials.youphptube.com/video/enable-facebook-login-and-make-videos-private
