@@ -13,11 +13,13 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - Linux (Kernel 2.6.32+)
 - PHP 5.3+
 - MySQL 5.0+
-- Apache web server 2.x (with mod_rewrite enabled
+- Apache web server 2.x (with mod_rewrite enabled)
 
-If you are not sure how to install one of these tools take a look at this <a href="http://tutorials.youphptube.com" target="_blank">video tutorial</a>.
+If you are not sure how to install one of these tools take a look on this http://tutorials.youphptube.com/video/how-to-install-youphptube-in-a-fresh-ubuntu-server
 
-Take a look at our <a href="http://tutorials.youphptube.com/video/how-to-install-youphptube-in-a-fresh-ubuntu-server" target="_blank">video tutorials site</a>, you will find several useful information like:
+If you do not have a server to host YouPHPTube, we made a video to help you set up a free server on Amazon Web Service http://tutorials.youphptube.com/video/create-a-web-server-video-sharing-for-free-in-10-minutes
+
+Take a look at our video tutorials site (http://tutorials.youphptube.com), you will find several useful information like:
 - How to Install YouPHPTube in a fresh Ubuntu Server
 - How to Upload a Video File
 - How to update your YouPHPTube version
