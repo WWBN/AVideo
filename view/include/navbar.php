@@ -218,7 +218,7 @@ $config = new Configuration();
                     <?php echo __("Audios"); ?>
                 </a>
             </li>
-
+            <!-- categories -->
             <?php
             foreach ($categories as $value) {
                 echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '"><a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" ><span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
