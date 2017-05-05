@@ -610,11 +610,6 @@ class Video {
         ximg = get image error
          */
         $obj = new stdClass();
-        
-        $icon = "<span class='fa fa-file-video-o'></span> ";
-        if($video->getType()=="audio"){
-            $icon = "<span class='fa fa-file-audio-o'></span> ";            
-        }
         $obj->label = __("Status");
         switch ($video->getStatus()) {
             case 'a':
@@ -659,7 +654,7 @@ class Video {
                 $obj->text = __("Status not found");
                 break;
         }
-        $obj->text = $icon.$obj->text;
+        $obj->text = $obj->text;
         $tags[] = $obj;   
         
         require_once 'userGroups.php';

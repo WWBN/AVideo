@@ -402,13 +402,19 @@ video {
 
 
 .label.fix-width {
-  min-width: 130px !important;
-  display: inline-block !important;
-  text-align: left;
+    min-width: 130px !important;
+    display: inline-block !important;
+    text-align: left;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 } 
 .label.fix-width.label-primary {
-  min-width: 70px !important;
-  text-align: right;
+    min-width: 70px !important;
+    text-align: right;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0.25em;;
+    border-bottom-left-radius: 0.25em;;
 }
 
 .popover-content, .popover-title, .popover{
