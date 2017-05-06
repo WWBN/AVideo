@@ -4,7 +4,7 @@ $config = new Configuration();
 ?>
 <hr>
 <footer>
-    <p>Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary" target="_blank">YouPHPTube v<?php echo $config->getVersion(); ?></a> &copy; 2017, All rights reserved</p>
+    <p>Powered by <a href="https://www.sfrancis.ca" class="external btn btn-outline btn-primary" target="_blank">Sfrancis </a> &copy; 2017</p>
 </footer>
 <script>
 $(function() {
