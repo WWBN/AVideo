@@ -102,12 +102,12 @@ $config = new Configuration();
 
     <script>
         $(document).ready(function () {
-
+            
             $('#btnReloadCapcha').click(function () {
                 $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
                 $('#captchaText').val('');
             });
-
+            
             $('#contact_form').submit(function (evt) {
                 evt.preventDefault();
                 modal.showPleaseWait();
@@ -127,9 +127,9 @@ $config = new Configuration();
                 });
                 return false;
             });
-
+            
         });
-
+        
     </script>
 </body>
 </html>
