@@ -200,22 +200,10 @@ $config = new Configuration();
 <div class="tabbable-panel">
     <div class="tabbable-line">
         <ul class="nav nav-tabs">
-            <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
-                <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
-                    <span class="glyphicon glyphicon-star"></span> 
-                    <?php echo __("Audios and Videos"); ?>
-                </a>
-            </li>
             <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_GET['catName'])) ? "active" : ""; ?>">
                 <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
                     <span class="glyphicon glyphicon-facetime-video"></span> 
                     <?php echo __("Videos"); ?>
-                </a>
-            </li>
-            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_GET['catName'])) ? "active" : ""; ?>">
-                <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
-                    <span class="glyphicon glyphicon-headphones"></span> 
-                    <?php echo __("Audios"); ?>
                 </a>
             </li>
             <!-- categories -->
