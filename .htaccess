@@ -1,24 +1,13 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+    
     RewriteCond %{HTTP_HOST} ^sfrancis\.ca [NC]
     RewriteCond %{SERVER_PORT} 80 
     RewriteRule ^(.*)$ https://www.sfrancis.ca/$1 [R,L]
-=======
-    #RewriteCond %{HTTP_HOST} ^sfrancis\.ca [NC]
-    #RewriteCond %{SERVER_PORT} 80
-    #RewriteRule ^(.*)$ https://www.sfrancis.ca/$1 [R,L]
->>>>>>> 8dca74e970f77e361d8013399b5e3bcb836817b4
-=======
     RewriteCond %{HTTP_HOST} ^sfrancis\.ca [NC]
     RewriteCond %{SERVER_PORT} 80
     RewriteRule ^(.*)$ https://www.sfrancis.ca/$1 [R,L]
->>>>>>> e1f3bce426a92ce67474be2ce5fc28a85a18c42c
 
-=======
->>>>>>> c3fd28d0a436068b94d0e4b23d58fb45772d3085
     #main Files
     RewriteRule    ^$ view/    [NC,L]
     RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]
