@@ -4,7 +4,11 @@ $config = new Configuration();
 ?>
 <hr>
 <footer>
+<<<<<<< HEAD
     <p>Powered by <a href="https://www.sfrancis.ca" class="external btn btn-outline btn-primary" target="_blank">Sfrancis.ca </a> &copy; 2017</p>
+=======
+    <p>Powered by <a href="https://www.sfrancis.ca" class="external btn btn-outline btn-primary" target="_blank">Sfrancis v<?php echo $config->getVersion(); ?></a> &copy; 2017</p>
+>>>>>>> 8dca74e970f77e361d8013399b5e3bcb836817b4
 </footer>
 <script>
 $(function() {

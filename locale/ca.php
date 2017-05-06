@@ -254,3 +254,8 @@ $t['remaining'] = "remaining";
 $t['second'] = "second";
 $t['week'] = "week";
 $t['year'] = "year";
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 8dca74e970f77e361d8013399b5e3bcb836817b4
