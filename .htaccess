@@ -1,5 +1,13 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
+    
+    RewriteCond %{HTTP_HOST} ^sfrancis\.ca [NC]
+    RewriteCond %{SERVER_PORT} 80 
+    RewriteRule ^(.*)$ https://www.sfrancis.ca/$1 [R,L]
+    RewriteCond %{HTTP_HOST} ^sfrancis\.ca [NC]
+    RewriteCond %{SERVER_PORT} 80
+    RewriteRule ^(.*)$ https://www.sfrancis.ca/$1 [R,L]
+
     #main Files
     RewriteRule    ^$ view/    [NC,L]
     RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]
