@@ -20,12 +20,10 @@ $config = new Configuration();
         <div class="container">
             <div class="bgWhite">
                 <div class="jumbotron">
-                <h1><?php echo __("About Sajiv Francis!"); ?></h1>
-                <?php echo __("<p>A result-driven business/IT professional with in depth knowledge of GAAP and exposure to IFRS with varied experience in applying ERP solutions to ensure optimal integration and efficient information availability. Expertise in applying project planning and design including vision, blue print, configuration, data migration, unit & integration testing, end-user training. Efficient in analyzing business requirements, needs, objectives and mapping them to business processes.</p>"); ?>
-                <h1><?php echo __("About Daniel Neto!"); ?></h1>
-                <?php echo __("<p>The developer behind the code that runs this site is Daniel Neto. Daniel comes from Brazil and has been developing PHP based software, one of his awesome creations include YouPHPTube. As a software  professional, his positive  traits include precise attention to detail, ensuring coding requirements exceed expectations, providing a friendly result oriented approach to projects - agile environment. Daniel's experience as a programmer would be an added value in any project setting, he is currently developing YouPHPTube and multiple other programs simultaneously.</p>"); ?>
+                <h1><?php echo __("About YouPHPTube!"); ?></h1>
+                <?php echo __("<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>"); ?>
                 </div>
-                <div class="alert alert-success"><?php printf(__("Version %s!"), $config->getVersion()); ?></div>
+                <div class="alert alert-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></div>
             </div>
 
         </div><!--/.container-->
