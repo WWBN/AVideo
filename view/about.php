@@ -20,10 +20,10 @@ $config = new Configuration();
         <div class="container">
             <div class="bgWhite">
                 <div class="jumbotron">
-                <h1><?php echo __("About YouPHPTube!"); ?></h1>
-                <?php echo __("<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>"); ?>
+                <h1><?php echo __("About Sfrancis.ca!"); ?></h1>
+                <?php echo __("<p>p This website has both a private and public collection of videos discussing the latest information technology, accounting procedures and tax regulations applicable to businesses.  Authorised users can upload, view, share and comment on videos. This website is currently on beta mode and the final version will be released shortly. Hope you enjoy the useful content on this site and feel free to give us your input and sugestions. </p>"); ?>
                 </div>
-                <div class="alert alert-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></div>
+                <div class="alert alert-success"><?php printf(__("Business - Information Technology, Accounting & Tax"), $config->getVersion()); ?></div>
             </div>
 
         </div><!--/.container-->
