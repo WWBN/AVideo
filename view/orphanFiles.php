@@ -26,7 +26,6 @@ foreach ($files as $value) {
     $obj->orphan = true;
 
     foreach ($videos as $value2) {
-        //var_dump($value2['filename'], $obj->filename);
         if ($value2['filename'] == $obj->filename) {
             $obj->orphan = false;
             break;
@@ -64,8 +63,12 @@ foreach ($files as $value) {
 }
 
 function getMainName($filename) {
-    preg_match("/(.*)\..*/", $filename, $matches);
+    preg_match("/([a-z0-9_]{1,}(\.[a-z0-9_]{5,})?)(\.[a-z0-9]{0,4})?$/i", $filename, $matches);
     $parts = explode("_progress_", $matches[1]);
+    if(preg_match("/original_.*/", $parts[0])){
+        $parts = explode("original_", $parts[0]); 
+        return $parts[1];
+    }
     return $parts[0];
 }
 ?>
