@@ -99,15 +99,7 @@ footer {
 }
 
 /* for main video */
-video {
-    flex:0 1 100%;
-    object-fit: fill; /* over-ride "object-fit: contain" only for webkit as it doesn't honour the ratio */
-}
-.flex-item {
-    padding: 1em;
-    box-sizing:border-box;
-    height:auto;
-}
+
 .video-content {
     flex:0 1 100%;
     height:50%;
