@@ -56,6 +56,7 @@ $config = new Configuration();
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?></title>
+	<meta name="generator" content="YouPHPTube - Make your own tube sitetags " />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
