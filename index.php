@@ -100,11 +100,11 @@
 
                 <p>Restart apache2 after </p>
 
-                <p><pre><code>/etc/init.d/apache2 restart</code></pre></p>
+                <p><pre><code>sudo /etc/init.d/apache2 restart</code></pre></p>
 
                 <p>or </p>
 
-                <p><pre><code>service apache2 restart</code></pre></p>                
+                <p><pre><code>sudo service apache2 restart</code></pre></p>                
 
             </div>
         </div>

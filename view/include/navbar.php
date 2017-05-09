@@ -10,23 +10,19 @@ if (empty($_SESSION['language'])) {
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 ?>
-<script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-96597943-1', 'auto');
-    ga('send', 'pageview');
-
-</script>
+<style>
+    @media (max-width: 550px) {
+        a.brand img{
+            display: none;
+        }
+        a.brand{
+            background: no-repeat url(<?php echo $global['webSiteRootURL'], $config->getLogo_small(); ?>);
+            width: 32px;
+            height: 32px;
+            margin-left: 20px;
+        }
+    }
+</style>
 <nav class="navbar navbar-fixed-top ">
     <div class="navbar-header  navbar-default">
         <div class="row">
@@ -40,7 +36,7 @@ $config = new Configuration();
                 </div>
                 <div class="col-xs-9 col-sm-9 col-lg-9 ">
                     <a class="brand" href="<?php echo $global['webSiteRootURL']; ?>" >
-                        <img src="<?php echo $global['webSiteRootURL']; ?>view/img/logo138x30.png" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive">
+                        <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive">
                     </a>
                 </div>
             </div>
@@ -224,7 +220,7 @@ $config = new Configuration();
                 echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '"><a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" ><span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
             }
             ?>
-            
+
             <!-- categories END -->
         </ul></div>
 </div>

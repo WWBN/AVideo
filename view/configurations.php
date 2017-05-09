@@ -13,6 +13,8 @@ $config = new Configuration();
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -31,13 +33,13 @@ $config = new Configuration();
                             <div class="tabbable-panel">
                                 <div class="tabbable-line">
                                     <ul class="nav nav-tabs">
-                                        <li class="nav-item  active">
+                                        <li class="nav-item">
                                             <a class="nav-link " href="#tabCompatibility" data-toggle="tab">
                                                 <span class="fa fa-cog"></span> 
                                                 <?php echo __("Compatibility Check"); ?>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item active">
                                             <a class="nav-link " href="#tabRegular" data-toggle="tab">
                                                 <span class="fa fa-cog"></span> 
                                                 <?php echo __("Regular Configuration"); ?>
@@ -50,6 +52,12 @@ $config = new Configuration();
                                             </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link " href="#tabHead" data-toggle="tab">
+                                                <span class="fa fa-code"></span> 
+                                                <?php echo __("Head Code"); ?>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link " href="#tabServerInfo" data-toggle="tab">
                                                 <span class="fa fa-info-circle"></span> 
                                                 <?php echo __("Server Info"); ?>
@@ -57,7 +65,7 @@ $config = new Configuration();
                                         </li>
                                     </ul>
                                     <div class="tab-content clearfix">
-                                        <div class="tab-pane active" id="tabCompatibility">
+                                        <div class="tab-pane" id="tabCompatibility">
                                             <?php
                                             if (isApache()) {
                                                 ?>
@@ -172,9 +180,9 @@ $config = new Configuration();
                                                         Update the package list.
                                                         <br>
                                                         <pre><code>
-                                                sudo apt-get update
-                                                sudo apt-get dist-upgrade
-                                            </code></pre>
+                                                                        sudo apt-get update
+                                                                        sudo apt-get dist-upgrade
+                                                                    </code></pre>
                                                         <br>
                                                         Now FFmpeg is available to be installed with apt:
                                                         <br>
@@ -323,9 +331,30 @@ $config = new Configuration();
                                             }
                                             ?>
                                         </div>
-                                        <div class="tab-pane" id="tabRegular">
+                                        <div class="tab-pane  active" id="tabRegular">
                                             <fieldset>
                                                 <legend><?php echo __("Update the site configuration"); ?></legend>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">
+                                                        <?php echo __("Your Logo"); ?> (138x30)
+                                                    </label>  
+                                                    <div class="col-md-8 ">
+                                                        <div id="croppieLogo"></div>
+                                                        <a id="logo-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Upload a logo"); ?></a>
+                                                    </div>
+                                                    <input type="file" id="logo" value="Choose a Logo" accept="image/*" style="display: none;" />
+                                                </div>                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">
+                                                        <?php echo __("Your Small Logo"); ?>  (32x32)
+                                                    </label>  
+                                                    <div class="col-md-8 ">
+                                                        <div id="croppieLogoSmall"></div>
+                                                        <a id="logoSmall-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Upload a small logo"); ?></a>
+                                                    </div>
+                                                    <input type="file" id="logoSmall" value="Choose a Small Logo" accept="image/*" style="display: none;" />
+                                                </div>
 
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("Video Resolution"); ?></label>  
@@ -552,6 +581,22 @@ $config = new Configuration();
                                                 </div>
                                             </fieldset>
                                         </div>
+                                        <div class="tab-pane" id="tabHead">
+                                            <fieldset>
+                                                <legend><?php echo __("Head Code"); ?></legend>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Head Code"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
+                                                        <small>For Google Analytics code: <a href='https://analytics.google.com'>https://analytics.google.com</a></small><br>
+                                                        <small>For Google AdSense code: <a href='https://www.google.com/adsense'>https://www.google.com/adsense</a></small><br>
+                                                        <small>Leave blank for native code</small>
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+                                        </div>
                                         <div class="tab-pane" id="tabServerInfo">
                                             <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>monitor/gauge/css/asPieProgress.css">
                                             <style>
@@ -715,47 +760,150 @@ $config = new Configuration();
                     </div>
                 </div>
                 <script>
+                    var logoCrop;
+                    var logoSmallCrop;
+                    function readFile(input, c) {
+                        console.log("read file");
+                        if ($(input)[0].files && $(input)[0].files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                c.croppie('bind', {
+                                    url: e.target.result
+                                }).then(function () {
+                                    console.log('jQuery bind complete');
+                                });
+
+                            }
+
+                            reader.readAsDataURL($(input)[0].files[0]);
+                        } else {
+                            swal("Sorry - you're browser doesn't support the FileReader API");
+                        }
+                    }
+
+                    var logoImgBase64;
+                    var logoSmallImgBase64;
+
                     $(document).ready(function () {
+                        // start croppie logo
+                        $('#logo').on('change', function () {
+                            readFile(this, logoCrop);
+                        });
+                        $('#logo-btn').on('click', function (ev) {
+                            $('#logo').trigger("click");
+                        });
+                        $('#logo-result-btn').on('click', function (ev) {
+                            logoCrop.croppie('result', {
+                                type: 'canvas',
+                                size: 'viewport'
+                            }).then(function (resp) {
+
+                            });
+                        });
+
+                        logoCrop = $('#croppieLogo').croppie({
+                            url: '<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>',
+                            enableExif: true,
+                            viewport: {
+                                width: 138,
+                                height: 30
+                            },
+                            boundary: {
+                                width: 208,
+                                height: 100
+                            }
+                        });
+                        // END croppie logo
+                        // start croppie logoSmall
+                        $('#logoSmall').on('change', function () {
+                            readFile(this, logoSmallCrop);
+                        });
+                        $('#logoSmall-btn').on('click', function (ev) {
+                            $('#logoSmall').trigger("click");
+                        });
+                        $('#logoSmall-result-btn').on('click', function (ev) {
+                            logoSmallCrop.croppie('result', {
+                                type: 'canvas',
+                                size: 'viewport'
+                            }).then(function (resp) {
+
+                            });
+                        });
+
+                        logoSmallCrop = $('#croppieLogoSmall').croppie({
+                            url: '<?php echo $global['webSiteRootURL'], $config->getLogo_small(); ?>',
+                            enableExif: true,
+                            viewport: {
+                                width: 32,
+                                height: 32
+                            },
+                            boundary: {
+                                width: 60,
+                                height: 60
+                            }
+                        });
+
+                        // END croppie logoSmall
+
                         $('#updateConfigForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
-                            $.ajax({
-                                url: 'updateConfig',
-                                data: {
-                                    "video_resolution": $('#inputVideoResolution').val(),
-                                    "webSiteTitle": $('#inputWebSiteTitle').val(),
-                                    "language": $('#inputLanguage').val(),
-                                    "contactEmail": $('#inputEmail').val(),
-                                    "authCanUploadVideos": $('#authCanUploadVideos').val(),
-                                    "authCanComment": $('#authCanComment').val(),
-                                    "authFacebook_enabled": $('#authFacebook_enabled').val(),
-                                    "authFacebook_id": $('#authFacebook_id').val(),
-                                    "authFacebook_key": $('#authFacebook_key').val(),
-                                    "authGoogle_enabled": $('#authGoogle_enabled').val(),
-                                    "authGoogle_id": $('#authGoogle_id').val(),
-                                    "authGoogle_key": $('#authGoogle_key').val(),
-                                    "ffprobeDuration": $('#ffprobeDuration').val(),
-                                    "ffmpegImage": $('#ffmpegImage').val(),
-                                    "ffmpegMp4": $('#ffmpegMp4').val(),
-                                    "ffmpegWebm": $('#ffmpegWebm').val(),
-                                    "ffmpegMp4Portrait": $('#ffmpegMp4Portrait').val(),
-                                    "ffmpegWebmPortrait": $('#ffmpegWebmPortrait').val(),
-                                    "ffmpegMp3": $('#ffmpegMp3').val(),
-                                    "ffmpegOgg": $('#ffmpegOgg').val(),
-                                    "youtubeDl": $('#youtubeDl').val(),
-                                    "youtubeDlPath": $('#youtubeDlPath').val(),
-                                    "ffmpegPath": $('#ffmpegPath').val()
-                                },
-                                type: 'post',
-                                success: function (response) {
-                                    if (response.status === "1") {
-                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
-                                    } else {
-                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
-                                    }
-                                    modal.hidePleaseWait();
-                                }
+                            logoSmallCrop.croppie('result', {
+                                type: 'canvas',
+                                size: 'viewport'
+                            }).then(function (resp) {
+                                logoSmallImgBase64 = resp;
+                                logoCrop.croppie('result', {
+                                    type: 'canvas',
+                                    size: 'viewport'
+                                }).then(function (resp) {
+                                    logoImgBase64 = resp;
+
+                                    $.ajax({
+                                        url: 'updateConfig',
+                                        data: {
+                                            "logoSmallImgBase64": logoSmallImgBase64,
+                                            "logoImgBase64": logoImgBase64,
+                                            "video_resolution": $('#inputVideoResolution').val(),
+                                            "webSiteTitle": $('#inputWebSiteTitle').val(),
+                                            "language": $('#inputLanguage').val(),
+                                            "contactEmail": $('#inputEmail').val(),
+                                            "authCanUploadVideos": $('#authCanUploadVideos').val(),
+                                            "authCanComment": $('#authCanComment').val(),
+                                            "authFacebook_enabled": $('#authFacebook_enabled').val(),
+                                            "authFacebook_id": $('#authFacebook_id').val(),
+                                            "authFacebook_key": $('#authFacebook_key').val(),
+                                            "authGoogle_enabled": $('#authGoogle_enabled').val(),
+                                            "authGoogle_id": $('#authGoogle_id').val(),
+                                            "authGoogle_key": $('#authGoogle_key').val(),
+                                            "ffprobeDuration": $('#ffprobeDuration').val(),
+                                            "ffmpegImage": $('#ffmpegImage').val(),
+                                            "ffmpegMp4": $('#ffmpegMp4').val(),
+                                            "ffmpegWebm": $('#ffmpegWebm').val(),
+                                            "ffmpegMp4Portrait": $('#ffmpegMp4Portrait').val(),
+                                            "ffmpegWebmPortrait": $('#ffmpegWebmPortrait').val(),
+                                            "ffmpegMp3": $('#ffmpegMp3').val(),
+                                            "ffmpegOgg": $('#ffmpegOgg').val(),
+                                            "youtubeDl": $('#youtubeDl').val(),
+                                            "youtubeDlPath": $('#youtubeDlPath').val(),
+                                            "ffmpegPath": $('#ffmpegPath').val(),
+                                            "head": $('#head').val()
+                                        },
+                                        type: 'post',
+                                        success: function (response) {
+                                            if (response.status === "1") {
+                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
+                                            } else {
+                                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
+                                            }
+                                            modal.hidePleaseWait();
+                                        }
+                                    });
+                                });
                             });
+
+
+
                         });
                     });
                 </script>

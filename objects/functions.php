@@ -161,3 +161,10 @@ function check_memory_limit() {
 function check_mysqlnd() {
     return function_exists('mysqli_fetch_all');
 }
+
+function base64DataToImage($imgBase64){
+    $img = $imgBase64;
+    $img = str_replace('data:image/png;base64,', '', $img);
+    $img = str_replace(' ', '+', $img);
+    return base64_decode($img);
+}

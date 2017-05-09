@@ -6,6 +6,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/functions.php';
 $obj = new stdClass();
 if (!User::isLogged()) {
     $obj->error = __("You must be logged");
@@ -27,10 +28,7 @@ if (!is_writable($global['systemRootPath'].$imagePath)) {
     return;
 }
 
-$img = $_POST['imgBase64'];
-$img = str_replace('data:image/png;base64,', '', $img);
-$img = str_replace(' ', '+', $img);
-$fileData = base64_decode($img);
+$fileData = base64DataToImage($_POST['imgBase64']);
 $fileName = 'photo'. User::getId().'.png';
 $photoURL = $imagePath.$fileName;
 $bytes = file_put_contents($global['systemRootPath'].$photoURL, $fileData);
