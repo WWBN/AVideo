@@ -137,6 +137,9 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `youtubeDlPath` VARCHAR(255) NULL,
   `exiftool` VARCHAR(255) NULL,
   `exiftoolPath` VARCHAR(255) NULL,
+  `head` TEXT NULL,
+  `logo` VARCHAR(255) NULL,
+  `logo_small` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
