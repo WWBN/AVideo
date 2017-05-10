@@ -894,7 +894,8 @@ $config = new Configuration();
                                             "youtubeDl": $('#youtubeDl').val(),
                                             "youtubeDlPath": $('#youtubeDlPath').val(),
                                             "ffmpegPath": $('#ffmpegPath').val(),
-                                            "head": $('#head').val()
+                                            "head": $('#head').val(),
+                                            "adsense": $('#adsense').val()
                                         },
                                         type: 'post',
                                         success: function (response) {
