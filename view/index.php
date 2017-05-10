@@ -437,6 +437,11 @@ $config = new Configuration();
 
                         </div>
                         <div class="col-xs-12 col-sm-12 col-lg-4 bgWhite">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <?php
+                                echo $config->getAdsense();
+                                ?>
+                            </div>
                             <?php
                             foreach ($videos as $value) {
                                 if ($video['id'] == $value['id']) {

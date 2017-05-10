@@ -583,13 +583,20 @@ $config = new Configuration();
                                         </div>
                                         <div class="tab-pane" id="tabHead">
                                             <fieldset>
-                                                <legend><?php echo __("Head Code"); ?></legend>
+                                                <legend><?php echo __("Script Code"); ?></legend>
 
                                                 <div class="form-group">
                                                     <label class="col-md-2"><?php echo __("Head Code"); ?></label>  
                                                     <div class="col-md-10">
                                                         <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
                                                         <small>For Google Analytics code: <a href='https://analytics.google.com'>https://analytics.google.com</a></small><br>
+                                                        <small>Leave blank for native code</small>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Google Ad Sense"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <textarea id="adsense" class="form-control" type="text" rows="20" ><?php echo $config->getAdsense(); ?></textarea>
                                                         <small>For Google AdSense code: <a href='https://www.google.com/adsense'>https://www.google.com/adsense</a></small><br>
                                                         <small>Leave blank for native code</small>
                                                     </div>

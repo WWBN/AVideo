@@ -45,6 +45,8 @@ class Configuration {
     private $logo;
     private $logo_small;
     
+    private $adsense;
+    
     function __construct($video_resolution="") {
         $this->load();
         if(!empty($video_resolution)){
@@ -104,6 +106,7 @@ class Configuration {
                 . "youtubedlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
                 . "ffmpegPath = '{$global['mysqli']->real_escape_string($this->ffmpegPath)}',"
                 . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
+                . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
                 . "logo = '{$global['mysqli']->real_escape_string($this->getLogo())}',"
                 . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}'"
                 . "WHERE id = 1";
@@ -384,8 +387,7 @@ class Configuration {
 
     function getHead() {
         if(empty($this->head)){
-            return "                
-<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>
+            return "
 <script>
     // YouPHPTube Analytics
     (function (i, s, o, g, r, a, m) {
@@ -402,12 +404,6 @@ class Configuration {
 
     ga('create', 'UA-96597943-1', 'auto');
     ga('send', 'pageview');
-
-    // YouPHPTube Adsense
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: \"ca-pub-8404441263723333\",
-    enable_page_level_ads: true
-  });
 </script>    
     ";
             
@@ -440,6 +436,32 @@ class Configuration {
     function setLogo_small($logo_small) {
         $this->logo_small = $logo_small;
     }
+    
+    function getAdsense() {
+        if(empty($this->adsense)){
+            /*
+            return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- YouPHPTube -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8404441263723333"
+     data-ad-slot="3904005408"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>';
+             * 
+             */
+            
+        }        
+        return $this->adsense;
+    }
+
+    function setAdsense($adsense) {
+        $this->adsense = $adsense;
+    }
+
+
 
 
 
