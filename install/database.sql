@@ -4,6 +4,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
@@ -140,6 +141,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `head` TEXT NULL,
   `logo` VARCHAR(255) NULL,
   `logo_small` VARCHAR(255) NULL,
+  `adsense` TEXT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
