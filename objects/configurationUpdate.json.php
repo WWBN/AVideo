@@ -59,11 +59,12 @@ if (!empty($_POST['logoImgBase64'])) {
     $fileName = 'logo.png';
     $photoURL = $imagePath . $fileName;
     $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
-    if ($bytes) {
+    if ($bytes>10) {
         $response = array(
             "status" => 'success',
             "url" => $global['systemRootPath'] . $photoURL
         );
+        $config->setLogo($photoURL);
     } else {
         $response = array(
             "status" => 'error',
@@ -71,18 +72,18 @@ if (!empty($_POST['logoImgBase64'])) {
             "url" => $global['systemRootPath'] . $photoURL
         );
     }
-    $config->setLogo($photoURL);
 }
 if (!empty($_POST['logoSmallImgBase64'])) {
     $fileData = base64DataToImage($_POST['logoSmallImgBase64']);
     $fileName = 'logoSmall.png';
     $photoURL = $imagePath . $fileName;
     $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
-    if ($bytes) {
+    if ($bytes>10) {
         $responseSmall = array(
             "status" => 'success',
             "url" => $global['systemRootPath'] . $photoURL
         );
+        $config->setLogo_small($photoURL);
     } else {
         $responseSmall = array(
             "status" => 'error',
@@ -90,6 +91,5 @@ if (!empty($_POST['logoSmallImgBase64'])) {
             "url" => $global['systemRootPath'] . $photoURL
         );
     }
-    $config->setLogo_small($photoURL);
 }
 echo '{"status":"' . $config->save() . '", "respnseLogo": ' . json_encode($response) . ', "respnseLogoSmall": ' . json_encode($responseSmall) . '}';

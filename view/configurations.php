@@ -40,7 +40,7 @@ $config = new Configuration();
                                             </a>
                                         </li>
                                         <li class="nav-item active">
-                                            <a class="nav-link " href="#tabRegular" data-toggle="tab">
+                                            <a class="nav-link " href="#tabRegular" id="tabRegularLink" data-toggle="tab">
                                                 <span class="fa fa-cog"></span> 
                                                 <?php echo __("Regular Configuration"); ?>
                                             </a>
@@ -54,7 +54,7 @@ $config = new Configuration();
                                         <li class="nav-item">
                                             <a class="nav-link " href="#tabHead" data-toggle="tab">
                                                 <span class="fa fa-code"></span> 
-                                                <?php echo __("Head Code"); ?>
+                                                <?php echo __("Script Code"); ?>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -855,6 +855,7 @@ $config = new Configuration();
                         $('#updateConfigForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
+                            $('#tabRegularLink').tab('show');
                             logoSmallCrop.croppie('result', {
                                 type: 'canvas',
                                 size: 'viewport'
