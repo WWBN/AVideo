@@ -63,7 +63,7 @@ $config = new Configuration();
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>/css/social.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
@@ -101,8 +101,6 @@ $config = new Configuration();
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
-
-
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-lg-8">
                                         <h1 itemprop="name">
@@ -120,8 +118,6 @@ $config = new Configuration();
                                             ?>
                                         </small>
                                         </h1>
-                                        
-                                        
                                         <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
                                         <span class="watch-view-count pull-right" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
                                     </div> 
