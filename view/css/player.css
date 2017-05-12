@@ -56,7 +56,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 /* Ad Elements */
 #adUrl{
   color: #DDD;
-  z-index: 9999;
   position: absolute;
   left: 0;
   top: 80%;
@@ -80,7 +79,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
   transition: all 0.4s;
   color: #FFF;
   border: 1px solid #888;
-  z-index: 9999;
   position: absolute;
   right: 0;
   top: 70%;

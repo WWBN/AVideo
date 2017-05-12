@@ -24,6 +24,7 @@ class Video {
     private $videoDownloadedLink;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
     private $videoGroups;
+    private $videoAdsCount;
 
     function __construct($title = "", $filename = "", $id = 0) {
         global $global;
@@ -90,7 +91,7 @@ class Video {
             }
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                     . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', modified = now()"
+                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', isAd = '{$this->isAd}', modified = now()"
                     . " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos "
@@ -184,10 +185,17 @@ class Video {
             header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
             return false; 
         }
+        $result = $global['mysqli']->query("SHOW TABLES LIKE 'video_ads'");
+        if (empty($result->num_rows)) {
+            $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
+            header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
+            return false; 
+        }
         
         $sql = "SELECT u.*, v.*, c.name as category,c.iconClass,  c.clean_name as clean_category, v.created as videoCreation, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
-                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
+                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes, "
+                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount ";
         if (User::isLogged()) {
             $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = " . User::getId() . " ) as myVote ";
         } else {
@@ -206,8 +214,13 @@ class Video {
         }
 
 
-        if ($status == "viewable") {
+        if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly" ) {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+            if($status == "viewableNotAd"){
+                $sql .= " having videoAdsCount = 0 ";
+            }else if($status == "viewableAd"){
+                $sql .= " having videoAdsCount > 0 ";
+            }
         } else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
@@ -237,9 +250,11 @@ class Video {
 
     static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup=false) {
         global $global;
-        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category, v.created as videoCreation FROM videos as v "
-                . "LEFT JOIN categories c ON categories_id = c.id "
-                . "LEFT JOIN users u ON v.users_id = u.id "
+        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category, v.created as videoCreation, "
+                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
+                . " FROM videos as v "
+                . " LEFT JOIN categories c ON categories_id = c.id "
+                . " LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
 
         if(!$ignoreGroup){
@@ -249,8 +264,13 @@ class Video {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
 
-        if ($status == "viewable") {
+        if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly" ) {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+            if($status == "viewableNotAd"){
+                $sql .= " having videoAdsCount = 0 ";
+            }else if($status == "viewableAd"){
+                $sql .= " having videoAdsCount > 0 ";
+            }
         } else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
@@ -288,15 +308,22 @@ class Video {
 
     static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup=false) {
         global $global;
-        $sql = "SELECT v.id FROM videos v "
+        $sql = "SELECT v.id, "
+                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
+                . "FROM videos v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " WHERE 1=1  ";
 
         if(!$ignoreGroup){
             $sql .= self::getUserGroupsCanSeeSQL();
         }
-        if ($status == "viewable") {
+        if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly" ) {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+            if($status == "viewableNotAd"){
+                $sql .= " having videoAdsCount = 0 ";
+            }else if($status == "viewableAd"){
+                $sql .= " having videoAdsCount > 0 ";
+            }
         } else if (!empty($status)) {
             $sql .= " AND status = '{$status}'";
         }
@@ -603,7 +630,22 @@ class Video {
      */
     static function getTags($video_id, $type = ""){
         $video = new Video("", "", $video_id);
-        $tags = array();
+        $tags = array();        
+        
+        if(empty($type) || $type==="ad"){
+            $obj = new stdClass();
+            $obj->label = __("Source");
+            if($video->getIsAd()){
+                $obj->type = "danger";
+                $obj->text = __("Advertisement");
+                $tags[] = $obj;
+            }else{
+                $obj->type = "default";
+                $obj->text = __("Regular video");
+                $tags[] = $obj;
+            }
+        }
+        
         /**
         a = active
         i = inactive
@@ -719,6 +761,10 @@ class Video {
 
     function getType() {
         return $this->type;
+    }
+
+    function getIsAd() {
+        return !empty($this->videoAdsCount);
     }
 
 

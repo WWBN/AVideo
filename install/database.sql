@@ -4,7 +4,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
@@ -50,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `clean_title` VARCHAR(255) NOT NULL,
   `description` TEXT NULL,
   `views_count` INT NOT NULL DEFAULT 0,
-  `status` ENUM('a', 'i', 'e', 'x', 'd', 'xmp4', 'xwebm', 'xmp3', 'xogg', 'ximg') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading\nxmp4 = encoding mp4 error \nxwebm = encoding webm error \nxmp3 = encoding mp3 error \nxogg = encoding ogg error \nximg = get image error',
+  `status` ENUM('a', 'i', 'e', 'x', 'd', 'xmp4', 'xwebm', 'xmp3', 'xogg', 'ximg') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading\nxmp4 = encoding mp4 error \nxwebm = encoding webm error \nxmp3 = encoding mp3 error \nxogg = encoding ogg error \nximg = get image error\nad = Advertising',
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `users_id` INT NOT NULL,
@@ -256,6 +255,64 @@ CREATE TABLE IF NOT EXISTS `videos_group_view` (
   CONSTRAINT `fk_videos_group_view_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `video_ads`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `video_ads` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `ad_title` VARCHAR(255) NOT NULL,
+  `starts` DATETIME NOT NULL,
+  `finish` DATETIME NULL,
+  `skip_after_seconds` INT(4) NULL,
+  `redirect` VARCHAR(300) NULL,
+  `finish_max_clicks` INT NULL,
+  `finish_max_prints` INT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `videos_id` INT NOT NULL,
+  `categories_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_video_ads_videos1_idx` (`videos_id` ASC),
+  INDEX `fk_video_ads_categories1_idx` (`categories_id` ASC),
+  CONSTRAINT `fk_video_ads_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_video_ads_categories1`
+    FOREIGN KEY (`categories_id`)
+    REFERENCES `categories` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `video_ads_logs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `video_ads_logs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `datetime` DATETIME NOT NULL,
+  `clicked` TINYINT(1) NOT NULL DEFAULT 0,
+  `ip` VARCHAR(45) NOT NULL,
+  `video_ads_id` INT NOT NULL,
+  `users_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_video_ads_logs_users1_idx` (`users_id` ASC),
+  INDEX `fk_video_ads_logs_video_ads1_idx` (`video_ads_id` ASC),
+  CONSTRAINT `fk_video_ads_logs_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_video_ads_logs_video_ads1`
+    FOREIGN KEY (`video_ads_id`)
+    REFERENCES `video_ads` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

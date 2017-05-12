@@ -23,9 +23,11 @@ if (!empty($_GET['type'])) {
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
+require_once $global['systemRootPath'] . 'objects/video_ad.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
-$video = Video::getVideo();
+$video = Video::getVideo("", "viewableNotAd");
 if (!empty($video)) {
+    $ad = Video_ad::getAdFromCategory($video['categories_id']);
     VideoStatistic::save($video['id']);
     $name = empty($video['name']) ? substr($video['user'], 0, 5) . "..." : $video['name'];
     $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
@@ -42,12 +44,12 @@ if (empty($_GET['page'])) {
 $_POST['rowCount'] = 10;
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
-$videos = Video::getAllVideos();
+$videos = Video::getAllVideos("viewableNotAd");
 foreach ($videos as $key => $value) {
     $name = empty($value['name']) ? $value['user'] : $value['name'];
     $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
 }
-$total = Video::getTotalVideos();
+$total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
@@ -86,7 +88,7 @@ $config = new Configuration();
                         <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                         <div class="col-xs-12 col-sm-12 col-lg-6 ">
                             <div class="row bgWhite">
-                                <div class="row">
+                                <div class="row divMainVideo">
                                     <div class="col-xs-4 col-sm-4 col-lg-4">
                                         <?php
                                         if ($video['type'] !== "audio") {
@@ -95,8 +97,8 @@ $config = new Configuration();
                                             $img = "{$global['webSiteRootURL']}view/img/mp3.png";
                                         }
                                         ?>
-                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" />     
-
+                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" /> 
+                                        <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
@@ -116,7 +118,7 @@ $config = new Configuration();
                                                 }
                                             }
                                             ?>
-                                        </small>
+                                            </small>
                                         </h1>
                                         <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
                                         <span class="watch-view-count pull-right" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
@@ -462,7 +464,7 @@ $config = new Configuration();
                                             <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
                                             <span class="glyphicon glyphicon-play-circle"></span>
-                                            <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                                        <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                         </div>
                                         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
                                             <div class="text-uppercase row"><strong itemprop="name"><?php echo $value['title']; ?></strong></div>
