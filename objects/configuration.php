@@ -47,6 +47,7 @@ class Configuration {
     
     private $adsense;
     
+    private $mode;
     function __construct($video_resolution="") {
         $this->load();
         if(!empty($video_resolution)){
@@ -107,6 +108,7 @@ class Configuration {
                 . "ffmpegPath = '{$global['mysqli']->real_escape_string($this->ffmpegPath)}',"
                 . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
                 . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
+                . "mode = '{$this->getMode()}',"
                 . "logo = '{$global['mysqli']->real_escape_string($this->getLogo())}',"
                 . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}'"
                 . "WHERE id = 1";
@@ -459,6 +461,17 @@ class Configuration {
 
     function setAdsense($adsense) {
         $this->adsense = $adsense;
+    }
+
+    function getMode() {
+        if(empty($this->mode)){
+            return 'Youtube';
+        }
+        return $this->mode;
+    }
+
+    function setMode($mode) {
+        $this->mode = $mode;
     }
 
 

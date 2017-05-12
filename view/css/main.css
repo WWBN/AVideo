@@ -25,7 +25,7 @@ body {
     font-size: 0.9em;
     border-radius: 5px;
 }
-.videoLink .glyphicon-play-circle{
+.gallery .glyphicon-play-circle, .videoLink .glyphicon-play-circle{
     transition: all 0.3s ease-in-out;
     top: 50%;
     left: 50%;
@@ -45,7 +45,7 @@ body {
     font-size: 0.9em;
 }
 
-.videoLink:hover .glyphicon-play-circle{
+.gallery:hover .glyphicon-play-circle, .videoLink:hover .glyphicon-play-circle{
     color: rgba(255,255, 255, 0.6)!important;
 }
 .videoLink:hover div{
@@ -409,4 +409,27 @@ footer {
     right: 25px;
     font-size: 0.9em;
     border-radius: 5px;
+}
+
+.gallery .duration{
+    position: absolute;
+    background: rgba(0,0, 0, 0.6)!important;
+    padding: 3px;
+    color: #FFF;
+    top: 5px;
+    left: 25px;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+
+.gallery h2{
+    position: absolute;
+    background: rgba(0,0, 0, 0.6)!important;
+    padding: 3px;
+    color: #FFF;
+    bottom: 5px;
+    right: 25px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    font-size: 1em;
 }

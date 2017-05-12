@@ -76,7 +76,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                                 <div class="form-group">
                                     <label for="inputAdUrlRedirect" ><?php echo __("URL"); ?></label>
-                                    <input type="url" id="inputAdUrlRedirect" class="form-control " placeholder="<?php echo __("URL"); ?>" required >
+                                    <input type="url" id="inputAdUrlRedirect" pattern="https?://.+" class="form-control " placeholder="<?php echo __("URL"); ?>" required >
                                 </div>
                                 <div class="form-group">
                                     <label for="inputAdStarts"><?php echo __("Starts on"); ?></label>                                            
@@ -119,7 +119,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
-                            <button type="button" class="btn btn-primary" id="saveCategoryBtn"><?php echo __("Save changes"); ?></button>
+                            <button type="submit" class="btn btn-primary" id="saveCategoryBtn"><?php echo __("Save changes"); ?></button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->

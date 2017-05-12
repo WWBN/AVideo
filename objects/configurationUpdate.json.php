@@ -36,6 +36,7 @@ $config->setYoutubeDlPath($_POST['youtubeDlPath']);
 $config->setFfmpegPath($_POST['ffmpegPath']);
 $config->setHead($_POST['head']);
 $config->setAdsense($_POST['adsense']);
+$config->setMode($_POST['mode']);
 
 
 $imagePath = "videos/userPhoto/";
