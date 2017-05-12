@@ -141,6 +141,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `logo` VARCHAR(255) NULL,
   `logo_small` VARCHAR(255) NULL,
   `adsense` TEXT NULL,
+  `mode` ENUM('Youtube', 'Gallery') NULL DEFAULT 'Youtube',
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
