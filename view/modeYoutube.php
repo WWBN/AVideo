@@ -498,12 +498,16 @@ $config = new Configuration();
                                             <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                         </div>
                                         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
-                                            <div class="text-uppercase row"><strong itemprop="name"><?php echo $value['title']; ?></strong></div>
+                                            <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
                                             <div class="details row" itemprop="description">
                                                 <div>
-                                                    <strong><?php echo __("Category"); ?>: </strong><span class="<?php echo $value['iconClass']; ?>"></span> <?php echo $value['category']; ?>
+                                                    <strong><?php echo __("Category"); ?>: </strong>
+                                                    <span class="<?php echo $value['iconClass']; ?>"></span> 
+                                                    <?php echo $value['category']; ?>
                                                 </div>
-                                                <div><strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?></div>
+                                                <div>
+                                                    <strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                                                </div>
                                                 <div><strong><?php echo $value['creator']; ?></strong></div>
 
                                             </div>

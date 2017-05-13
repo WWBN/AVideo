@@ -422,7 +422,7 @@ footer {
     border-radius: 5px;
 }
 
-.gallery h2, .videosDetails strong{
+.gallery h2, .videosDetails .title{
     font-size: 1em;
     margin: 0;
     padding: 0;
