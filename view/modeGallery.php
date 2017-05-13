@@ -62,8 +62,8 @@ $config = new Configuration();
             ?>
         </div>        
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
-            <div class="col-xs-12 col-sm-1 col-lg-2"></div>
-            <div class="col-xs-12 col-sm-10 col-lg-8 bgWhite">
+            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
+            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 bgWhite">
                 <?php
                 if (!empty($videos)) {
                     ?>
@@ -113,7 +113,7 @@ $config = new Configuration();
                 <?php } ?> 
             </div>
 
-            <div class="col-xs-12 col-sm-1 col-lg-2"></div>
+            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
 
 
         </div>
