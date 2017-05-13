@@ -439,3 +439,7 @@ footer {
     margin: 0;
     padding: 0;
 }
+
+.galleryVideo{
+    overflow: hidden;
+}
