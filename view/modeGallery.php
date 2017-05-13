@@ -29,7 +29,7 @@ if (empty($_GET['page'])) {
 } else {
     $_GET['page'] = intval($_GET['page']);
 }
-$_POST['rowCount'] = 10;
+$_POST['rowCount'] = 24;
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
 $videos = Video::getAllVideos("viewableNotAd");
