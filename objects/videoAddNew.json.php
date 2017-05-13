@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload() || empty($_POST['id'])) {
     die('{"error":"'.__("Permission denied").'"}');
 }
-
+$msg = "";
 require_once 'video.php';
 $obj = new Video($_POST['title'], "", $_POST['id']);
 $obj->setClean_Title($_POST['clean_title']);
@@ -20,6 +20,7 @@ $resp = $obj->save(true);
 
 // make an ad
 if ($resp && User::isAdmin() && !empty($_POST['isAd'])) {
+    $msg = "Create a ad";
     require 'video_ad.php';
     $va = new Video_ad($_POST['id'], $_POST["adElements"]["categories_id"]);
     $va->setAd_title($_POST["adElements"]["title"]);
@@ -32,4 +33,4 @@ if ($resp && User::isAdmin() && !empty($_POST['isAd'])) {
     $va->save();
 }
 
-echo '{"status":"'.!empty($resp).'"}';
+echo '{"status":"'.!empty($resp).'", "msg": "'.$msg.'"}';
