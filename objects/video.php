@@ -91,7 +91,7 @@ class Video {
             }
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                     . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', isAd = '{$this->isAd}', modified = now()"
+                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', modified = now()"
                     . " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos "
