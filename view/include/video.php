@@ -24,10 +24,11 @@ if (!empty($ad)) {
                 </p>
             </video>
             <?php if (!empty($logId)) { ?>
-            <div id="adUrl" class="adControl" ><a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php 
-                                    $url = parse_url($ad['redirect']);
-                                    echo $url['host']; ?> <i class="fa fa-external-link"></i></a></div>
-                <a id="adButton" href="#" class="adControl"><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
+                <div id="adUrl" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i> <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
+                        $url = parse_url($ad['redirect']);
+                        echo $url['host'];
+                        ?> <i class="fa fa-external-link"></i></a></div>
+                        <a id="adButton" href="#" class="adControl" <?php if(!empty($ad['skip_after_seconds'])){?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
             <?php } ?>
         </div>
     </div> 
@@ -35,23 +36,37 @@ if (!empty($ad)) {
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
 </div><!--/row-->
 <script>
-    var addSkiped = false;
+    var fullFuration = 0;
+    var isPlayingAd = false;
     $(document).ready(function () {
+        fullFuration = strToSeconds('<?php echo $ad['duration']; ?>');
         player = videojs('mainVideo').ready(function () {
-            player.on('ended', function () {
-
-                console.log("Finish Video");
 <?php if (!empty($logId)) { ?>
-                    if (!addSkiped) {
-                        addSkiped = true;
+        isPlayingAd = true;
+                this.on('ended', function () {
+                    console.log("Finish Video");
+                    if (isPlayingAd) {
+                        isPlayingAd = false;
                         $('#adButton').trigger("click");
                     }
+                });
+                this.on('timeupdate', function () {
+                    var durationLeft = fullFuration-this.currentTime();
+                    $("#adUrl .time").text(secondsToStr(durationLeft+1));
+                    <?php if(!empty($ad['skip_after_seconds'])){
+                        ?>
+                        if(isPlayingAd && this.currentTime()><?php echo intval($ad['skip_after_seconds']) ;?>){
+                            $('#adButton').fadeIn();
+                        }
+                        <?php
+                    } ?>
+                });
 <?php } ?>
-            });
         });
 <?php if (!empty($logId)) { ?>
             $('#adButton').click(function () {
                 console.log("Change Video");
+                fullFuration = strToSeconds('<?php echo $video['duration']; ?>');
                 changeVideoSrc(player, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
                             $(".ad").removeClass("ad");
                             return false;
