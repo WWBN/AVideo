@@ -423,13 +423,13 @@ footer {
 }
 
 .gallery h2{
-    font-size: 1.2em;
+    font-size: 1em;
     margin: 0;
     padding: 0;
 }
 
 .gallery .watch-view-count{
-    font-size: 1em;
+    font-size: 0.8em;
     font-weight: normal;
     border: 0;
     margin: 0;
