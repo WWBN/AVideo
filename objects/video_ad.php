@@ -281,7 +281,7 @@ class Video_ad {
                 . " LEFT JOIN videos as v on va.videos_id = v.id "
                 . "WHERE va.categories_id = {$categories_id} "
                 . " AND starts < now()"
-                . " AND (finish = '0000-00-00 00:00:00' OR finish > now()) "
+                . " AND (finish IS NULL OR finish = '0000-00-00 00:00:00' OR finish > now()) "
                 . " AND (finish_max_clicks = 0 OR finish_max_clicks > (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id AND clicked = 1 )) "
                 . " AND (finish_max_prints = 0 OR finish_max_prints > (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id)) ";
         
