@@ -423,14 +423,19 @@ footer {
 }
 
 .gallery h2{
-    position: absolute;
-    background: rgba(0,0, 0, 0.6)!important;
-    padding: 3px;
-    color: #FFF;
-    bottom: 5px;
-    right: 5px;
-    margin-left: 5px;
-    font-size: 0.9em;
-    border-radius: 5px;
+    font-size: 1.2em;
+    margin: 0;
+    padding: 0;
+}
+
+.gallery .glyphicon-play-circle{
+    top: 50px;
+}
+
+.gallery .watch-view-count{
     font-size: 1em;
+    font-weight: normal;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }

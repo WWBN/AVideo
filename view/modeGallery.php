@@ -57,36 +57,32 @@ $config = new Configuration();
         include 'include/navbar.php';
         ?>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
-
-            <?php
-            if (!empty($videos)) {
-                ?>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                    <div class="col-xs-12 col-sm-12 col-lg-10">
+            <div class="col-xs-12 col-sm-1 col-lg-2"></div>
+            <div class="col-xs-12 col-sm-10 col-lg-8 bgWhite">
+                <?php
+                if (!empty($videos)) {
+                    ?>
+                    <div class="row">
                         <?php
                         foreach ($videos as $value) {
                             ?>
-                            <div class="col-lg-3 col-sm-6 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img img-responsive img-rounded img-thumbnail" height="130px" />
-                                    <h2><?php echo $value['title']; ?></h2>
+                                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img img-responsive" height="130px" />
                                     <span class="glyphicon glyphicon-play-circle"></span>
                                     <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                 </a>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                    <h2><?php echo $value['title']; ?></h2>
+                                </a>
+                                <span class="watch-view-count" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
                             </div>
                             <?php
                         }
                         ?> 
 
                     </div>
-
-                    <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                </div>
-                <div class="row">
-
-                    <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                    <div class="col-xs-12 col-sm-12 col-lg-10">
+                    <div class="row">
 
                         <ul class="pages">
                         </ul>
@@ -104,16 +100,17 @@ $config = new Configuration();
                             });
                         </script>
                     </div>
+                    <?php
+                } else {
+                    ?>
+                    <div class="alert alert-warning">
+                        <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
+                    </div>
+                <?php } ?> 
+            </div>
 
-                    <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                </div>
-                <?php
-            } else {
-                ?>
-                <div class="alert alert-warning">
-                    <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
-                </div>
-            <?php } ?>  
+            <div class="col-xs-12 col-sm-1 col-lg-2"></div>
+
 
         </div>
         <?php
