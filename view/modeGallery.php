@@ -66,7 +66,7 @@ $config = new Configuration();
                         <?php
                         foreach ($videos as $value) {
                             ?>
-                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 galleryVideo">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                     <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img img-responsive" height="130px" />
                                     <span class="glyphicon glyphicon-play-circle"></span>
