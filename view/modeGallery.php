@@ -56,7 +56,7 @@ $config = new Configuration();
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="row">
+        <div class="row" style="padding: 10px;">
             <?php
             echo $config->getAdsense();
             ?>
