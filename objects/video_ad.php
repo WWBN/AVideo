@@ -82,7 +82,7 @@ class Video_ad {
                     . "(ad_title, starts, finish, skip_after_seconds, redirect, finish_max_clicks, finish_max_prints, videos_id,categories_id, created, modified) values "
                     . "('{$this->ad_title}','{$this->starts}', {$finish}, '{$this->getSkip_after_seconds()}',"
                     . "'{$this->redirect}', '{$this->getFinish_max_clicks()}', '{$this->getFinish_max_prints()}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
-        }
+        }echo $sql;
         $insert_row = $global['mysqli']->query($sql);
 
         if ($insert_row) {
