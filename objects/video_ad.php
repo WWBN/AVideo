@@ -69,10 +69,10 @@ class Video_ad {
                     . " ad_title = '{$this->ad_title}', "
                     . " starts = '{$this->starts}',"
                     . " finish = {$finish}, "
-                    . " skip_after_seconds = '{$this->skip_after_seconds}', "
+                    . " skip_after_seconds = '{$this->getSkip_after_seconds()}', "
                     . " redirect = '{$this->redirect}',"
-                    . " finish_max_clicks = '{$this->finish_max_clicks}', "
-                    . " finish_max_prints = '{$this->finish_max_prints}', "
+                    . " finish_max_clicks = '{$this->getFinish_max_clicks()}', "
+                    . " finish_max_prints = '{$this->getFinish_max_prints()}', "
                     . " videos_id = '{$this->videos_id}', "
                     . " categories_id = '{$this->categories_id}', "
                     . " modified = now()"
@@ -80,7 +80,8 @@ class Video_ad {
         } else {
             $sql = "INSERT INTO video_ads "
                     . "(ad_title, starts, finish, skip_after_seconds, redirect, finish_max_clicks, finish_max_prints, videos_id,categories_id, created, modified) values "
-                    . "('{$this->ad_title}','{$this->starts}', {$finish}, '{$this->skip_after_seconds}','{$this->redirect}', '{$this->finish_max_clicks}', '{$this->finish_max_prints}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
+                    . "('{$this->ad_title}','{$this->starts}', {$finish}, '{$this->getSkip_after_seconds()}',"
+                    . "'{$this->redirect}', '{$this->getFinish_max_clicks()}', '{$this->getFinish_max_prints()}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
         }
         $insert_row = $global['mysqli']->query($sql);
 
@@ -200,7 +201,7 @@ class Video_ad {
     }
 
     function getSkip_after_seconds() {
-        return $this->skip_after_seconds;
+        return intval($this->skip_after_seconds);
     }
 
     function getRedirect() {
@@ -208,11 +209,11 @@ class Video_ad {
     }
 
     function getFinish_max_clicks() {
-        return $this->finish_max_clicks;
+        return intval($this->finish_max_clicks);
     }
 
     function getFinish_max_prints() {
-        return $this->finish_max_prints;
+        return intval($this->finish_max_prints);
     }
 
     function getVideos_id() {
