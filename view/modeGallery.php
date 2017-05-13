@@ -84,21 +84,28 @@ $config = new Configuration();
                     <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                 </div>
                 <div class="row">
-                    <ul class="pages">
-                    </ul>
-                    <script>
-                        $(document).ready(function () {
-                            // Total Itens <?php echo $total; ?>
 
-                            $('.pages').bootpag({
-                                total: <?php echo $totalPages; ?>,
-                                page: <?php echo $_GET['page']; ?>,
-                                maxVisible: 10
-                            }).on('page', function (event, num) {
-                                window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
+                    <div class="col-xs-12 col-sm-12 col-lg-1"></div>
+                    <div class="col-xs-12 col-sm-12 col-lg-10">
+
+                        <ul class="pages">
+                        </ul>
+                        <script>
+                            $(document).ready(function () {
+                                // Total Itens <?php echo $total; ?>
+
+                                $('.pages').bootpag({
+                                    total: <?php echo $totalPages; ?>,
+                                    page: <?php echo $_GET['page']; ?>,
+                                    maxVisible: 10
+                                }).on('page', function (event, num) {
+                                    window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
+                                });
                             });
-                        });
-                    </script>
+                        </script>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                 </div>
                 <?php
             } else {
