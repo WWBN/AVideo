@@ -287,7 +287,7 @@ class Video_ad {
         
                 
         $sql .= " LIMIT 1";
-        echo $sql;exit;
+        //echo $sql;exit;
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $ad = $res->fetch_assoc();
