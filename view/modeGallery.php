@@ -60,44 +60,47 @@ $config = new Configuration();
 
             <?php
             if (!empty($videos)) {
-                    ?>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                        <div class="col-xs-12 col-sm-12 col-lg-10">
+                ?>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-lg-1"></div>
+                    <div class="col-xs-12 col-sm-12 col-lg-10">
+                        <?php
+                        foreach ($videos as $value) {
+                            ?>
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img img-responsive img-rounded img-thumbnail" height="130px" />
+                                    <h2><?php echo $value['title']; ?></h2>
+                                    <span class="glyphicon glyphicon-play-circle"></span>
+                                    <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                </a>
+                            </div>
                             <?php
-                            foreach ($videos as $value) {
-                                ?>
-                                <div class="col-lg-3 col-sm-6 col-xs-12">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img img-responsive img-rounded img-thumbnail" height="130px" />
-                                        <h2><?php echo $value['title']; ?></h2>
-                                        <span class="glyphicon glyphicon-play-circle"></span>
-                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                    </a>
-                                </div>
-                                <?php
-                            }
-                            ?> 
-                            <ul class="pages">
-                            </ul>
-                            <script>
-                                $(document).ready(function () {
-                                    // Total Itens <?php echo $total; ?>
+                        }
+                        ?> 
 
-                                    $('.pages').bootpag({
-                                        total: <?php echo $totalPages; ?>,
-                                        page: <?php echo $_GET['page']; ?>,
-                                        maxVisible: 10
-                                    }).on('page', function (event, num) {
-                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
-                                    });
-                                });
-                            </script>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
                     </div>
-                    <?php
+
+                    <div class="col-xs-12 col-sm-12 col-lg-1"></div>
+                </div>
+                <div class="row">
+                    <ul class="pages">
+                    </ul>
+                    <script>
+                        $(document).ready(function () {
+                            // Total Itens <?php echo $total; ?>
+
+                            $('.pages').bootpag({
+                                total: <?php echo $totalPages; ?>,
+                                page: <?php echo $_GET['page']; ?>,
+                                maxVisible: 10
+                            }).on('page', function (event, num) {
+                                window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
+                            });
+                        });
+                    </script>
+                </div>
+                <?php
             } else {
                 ?>
                 <div class="alert alert-warning">
