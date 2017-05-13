@@ -56,6 +56,11 @@ $config = new Configuration();
         <?php
         include 'include/navbar.php';
         ?>
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <?php
+            echo $config->getAdsense();
+            ?>
+        </div>        
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
             <div class="col-xs-12 col-sm-1 col-lg-2"></div>
             <div class="col-xs-12 col-sm-10 col-lg-8 bgWhite">
@@ -69,7 +74,6 @@ $config = new Configuration();
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                     <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img img-responsive" height="130px" />
-                                    <span class="glyphicon glyphicon-play-circle"></span>
                                     <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                 </a>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">

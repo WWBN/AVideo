@@ -25,7 +25,7 @@ body {
     font-size: 0.9em;
     border-radius: 5px;
 }
-.gallery .glyphicon-play-circle, .videoLink .glyphicon-play-circle{
+.videoLink .glyphicon-play-circle{
     transition: all 0.3s ease-in-out;
     top: 50%;
     left: 50%;
@@ -426,10 +426,6 @@ footer {
     font-size: 1.2em;
     margin: 0;
     padding: 0;
-}
-
-.gallery .glyphicon-play-circle{
-    top: 50px;
 }
 
 .gallery .watch-view-count{
