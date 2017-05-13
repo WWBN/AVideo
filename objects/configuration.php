@@ -389,6 +389,7 @@ class Configuration {
 
     function getHead() {
         if(empty($this->head)){
+            /*
             return "
 <script>
     // YouPHPTube Analytics
@@ -408,7 +409,7 @@ class Configuration {
     ga('send', 'pageview');
 </script>    
     ";
-            
+            */
         }        
         return $this->head;
     }

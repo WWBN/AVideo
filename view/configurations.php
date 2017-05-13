@@ -360,7 +360,7 @@ $config = new Configuration();
                                                     <label class="col-md-4 control-label"><?php echo __("First Page Mode"); ?></label>  
                                                     <div class="col-md-8 inputGroupContainer">
                                                         <div class="input-group">
-                                                            <span class="input-group-addon"><i class="fa fa-cloud-upload"></i></span>                                            
+                                                            <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>                                            
                                                             <select class="form-control" id="mode" >
                                                                 <option value="Youtube" <?php echo ($config->getMode() == "Youtube") ? "selected" : ""; ?>><?php echo __("Youtube"); ?></option>
                                                                 <option value="Gallery" <?php echo ($config->getMode() == "Gallery") ? "selected" : ""; ?>><?php echo __("Gallery"); ?></option>
