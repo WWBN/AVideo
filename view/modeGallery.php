@@ -73,7 +73,7 @@ $config = new Configuration();
                             ?>
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img img-responsive" height="130px" />
+                                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img img-responsive embed-responsive-16by9" height="130px" />
                                     <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                 </a>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
