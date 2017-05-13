@@ -57,13 +57,18 @@ class Video_ad {
         if (empty($this->ad_title) || empty($this->starts)) {
             return false;
         }
-
+        if(empty($this->finish)){
+            $finish = "NULL";
+        }else{
+            $finish = "'{$this->finish}'";
+        }
+        
         global $global;
         if (!empty($this->id)) {
             $sql = "UPDATE video_ads SET "
                     . " ad_title = '{$this->ad_title}', "
                     . " starts = '{$this->starts}',"
-                    . " finish = '{$this->finish}', "
+                    . " finish = {$finish}, "
                     . " skip_after_seconds = '{$this->skip_after_seconds}', "
                     . " redirect = '{$this->redirect}',"
                     . " finish_max_clicks = '{$this->finish_max_clicks}', "
@@ -75,7 +80,7 @@ class Video_ad {
         } else {
             $sql = "INSERT INTO video_ads "
                     . "(ad_title, starts, finish, skip_after_seconds, redirect, finish_max_clicks, finish_max_prints, videos_id,categories_id, created, modified) values "
-                    . "('{$this->ad_title}','{$this->starts}', '{$this->finish}', '{$this->skip_after_seconds}','{$this->redirect}', '{$this->finish_max_clicks}', '{$this->finish_max_prints}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
+                    . "('{$this->ad_title}','{$this->starts}', {$finish}, '{$this->skip_after_seconds}','{$this->redirect}', '{$this->finish_max_clicks}', '{$this->finish_max_prints}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
         }
         $insert_row = $global['mysqli']->query($sql);
 
