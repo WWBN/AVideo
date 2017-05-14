@@ -13,7 +13,7 @@ if (!empty($ad)) {
             echo "ad";
         }
         ?>">
-            <video poster="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.jpg" controls crossorigin autoplay
+            <video poster="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.jpg" controls crossorigin
                    class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo"  data-setup='{ aspectRatio: "16:9" }'>
                 <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
                 <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
@@ -41,6 +41,7 @@ if (!empty($ad)) {
     $(document).ready(function () {
         fullFuration = strToSeconds('<?php echo $ad['duration']; ?>');
         player = videojs('mainVideo').ready(function () {
+            this.play();
 <?php if (!empty($logId)) { ?>
         isPlayingAd = true;
                 this.on('ended', function () {
