@@ -295,14 +295,14 @@ $userGroups = UserGroups::getAllUsersGroups();
                             var reencodeAudio = reencodeMp3 + reencodeOGG;
                             var reencodeBtn = reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
                             if (row.type == "audio") {
-                                reencodeBtn = reencodeAudio + originalBtn;
+                                reencodeBtn = reencodeAudio ;
                             }
                             var status;
 
                             if (row.status == "i") {
                                 status = activeBtn;
                             } else if (row.status == "a") {
-                                status = inactiveBtn + originalBtn;
+                                status = inactiveBtn;
                             } else if (row.status == "x") {
                                 return editBtn + deleteBtn + reloadBtn + reencodeBtn + originalBtn;
                             } else if (row.status == "d") {
