@@ -634,14 +634,14 @@ class Video {
         
         if(empty($type) || $type==="ad"){
             $obj = new stdClass();
-            $obj->label = __("Source");
+            $obj->label = __("Is Advertisement");
             if($video->getIsAd()){
-                $obj->type = "danger";
-                $obj->text = __("Advertisement");
+                $obj->type = "success";
+                $obj->text = __("Yes");
                 $tags[] = $obj;
             }else{
-                $obj->type = "default";
-                $obj->text = __("Regular video");
+                $obj->type = "danger";
+                $obj->text = __("No");
                 $tags[] = $obj;
             }
         }
