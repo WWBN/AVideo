@@ -95,4 +95,6 @@
     RewriteRule    ^siteConfigurations$ view/configurations.php    [NC,L]
     RewriteRule    ^updateConfig$ objects/configurationUpdate.json.php    [NC,L]
 
+    RewriteRule    ^charts$ view/charts.php    [NC,L]
+
 </IfModule>
