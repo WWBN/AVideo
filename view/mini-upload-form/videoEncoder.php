@@ -82,7 +82,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
                             $status = 'x';
                         }
                     } else {
-                        echo "\n {$key} Ok\n";
+                        echo "FFMPEG Spectrum WEBM Success\n";
                     }
                 }
             }
