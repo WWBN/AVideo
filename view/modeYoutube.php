@@ -53,6 +53,12 @@ $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
+
+if ($video['type'] !== "audio") {
+    $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+} else {
+    $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -90,14 +96,7 @@ $config = new Configuration();
                             <div class="row bgWhite">
                                 <div class="row divMainVideo">
                                     <div class="col-xs-4 col-sm-4 col-lg-4">
-                                        <?php
-                                        if ($video['type'] !== "audio") {
-                                            $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
-                                        } else {
-                                            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                                        }
-                                        ?>
-                                        <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" /> 
+                                        <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" /> 
                                         <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
