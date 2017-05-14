@@ -38,6 +38,7 @@ function changeVideoSrc(vid_obj, fileName) {
         {type: "video/webm", src: fileName + ".webm"}
     ]);
     vid_obj.load();
+    vid_obj.play();
 }
 
 /**
