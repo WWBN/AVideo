@@ -130,19 +130,25 @@ $config = new Configuration();
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>users">
                             <span class="glyphicon glyphicon-user"></span> 
-                            <?php echo __("Manager Users"); ?>
+                            <?php echo __("Users"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups">
                             <span class="fa fa-users"></span> 
-                            <?php echo __("Manager Users Groups"); ?>
+                            <?php echo __("Users Groups"); ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>ads">
+                            <span class="fa fa-money"></span> 
+                            <?php echo __("Video Advertising"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>categories">
                             <span class="glyphicon glyphicon-list"></span> 
-                            <?php echo __("Manager Categories"); ?>
+                            <?php echo __("Categories"); ?>
                         </a>
                     </li>
                     <li>

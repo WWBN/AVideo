@@ -757,7 +757,7 @@ $config = new Configuration();
                                 <span class="badge badge-default badge-pill">(240p)(SD)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
-                                480:360 
+                                640:360 
                                 <span class="badge badge-default badge-pill">(360p)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
