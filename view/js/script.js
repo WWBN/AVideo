@@ -57,9 +57,10 @@ function strToSeconds(str){
 /**
  * 
  * @param {int} seconds
+ * @param {int} level 3 = 00:00:00 2 = 00:00 1 = 00
  * @returns {String} 00:00:00
  */
-function secondsToStr(seconds){
+function secondsToStr(seconds, level){
     var hours = parseInt(seconds/(60*60));
     var minutes = parseInt(seconds/(60));
     seconds = parseInt(seconds%(60));
@@ -67,6 +68,18 @@ function secondsToStr(seconds){
     hours = hours>9?hours:"0"+hours;
     minutes = minutes>9?minutes:"0"+minutes;
     seconds = seconds>9?seconds:"0"+seconds;
-    
-    return hours+":"+minutes+":"+seconds;
+    switch (level){
+        case 3:
+            return hours+":"+minutes+":"+seconds;
+            break;
+        case 2:
+            return minutes+":"+seconds;
+            break;
+        case 1:
+            return seconds;
+            break;
+        default:
+            return hours+":"+minutes+":"+seconds;
+            
+    }
 }
