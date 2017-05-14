@@ -634,7 +634,7 @@ class Video {
         
         if(empty($type) || $type==="ad"){
             $obj = new stdClass();
-            $obj->label = __("Is Advertisement");
+            $obj->label = __("Is a video Ad");
             if($video->getIsAd()){
                 $obj->type = "success";
                 $obj->text = __("Yes");
