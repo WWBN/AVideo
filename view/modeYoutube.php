@@ -94,7 +94,7 @@ $config = new Configuration();
                                         if ($video['type'] !== "audio") {
                                             $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
                                         } else {
-                                            $img = "{$global['webSiteRootURL']}view/img/mp3.png";
+                                            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
                                         }
                                         ?>
                                         <img src="<?php echo $img; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" /> 
@@ -484,7 +484,7 @@ $config = new Configuration();
                                             if ($value['type'] !== "audio") {
                                                 $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
                                             } else {
-                                                $img = "{$global['webSiteRootURL']}view/img/mp3.png";
+                                                $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
                                             }
                                             ?>
                                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
