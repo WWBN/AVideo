@@ -331,7 +331,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                                 if (row.type == "audio") {
                                     tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp3.txt' target='_blank' class='label label-danger' id='encodingmp3" + row.id + "' >MP3: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_ogg.txt' target='_blank' class='label label-danger' id='encodingogg" + row.id + "' >OGG: 0%</a>";
-                                    tags += "<br>Spectrum<hr>";
+                                    tags += "<br><span class='label label-info'>Audio Spectrum</span>";
                                     tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "' >MP4: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "' >WEBM: 0%</a>";
                                 } else {
                                     tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "' >MP4: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "' >WEBM: 0%</a>";
