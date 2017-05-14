@@ -77,7 +77,7 @@ $config = new Configuration();
             <?php
             if (!empty($video)) {
                 if (empty($_GET['search'])) {
-                    if (empty($video['type'])) {
+                    if (empty($video['type']) || file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                         $video['type'] = "video";
                     }
                     ?>
@@ -91,7 +91,7 @@ $config = new Configuration();
                                 <div class="row divMainVideo">
                                     <div class="col-xs-4 col-sm-4 col-lg-4">
                                         <?php
-                                        if ($video['type'] !== "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+                                        if ($video['type'] !== "audio") {
                                             $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
                                         } else {
                                             $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
