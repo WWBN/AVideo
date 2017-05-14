@@ -54,15 +54,36 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
             }
         } else {
             echo "\n {$key} Ok\n";
-            if ($type == 'mp3') {
+            if ($key == 'mp3') {
                 echo "Try FFMPEG Spectrum\n";
-                $cmd = "ffmpeg -i {$pathFileName} -filter_complex \"[0:a]showwaves=s=1920x1080:mode=line,format=yuv420p[v]\" -map \"[v]\" -map 0:a -c:v libx264 -c:a copy {$pathFileName}_spectrum.mp4";
+                $destinationFile = "{$global['systemRootPath']}videos/{$filename}.mp4";
+                $ffmpeg = "ffmpeg -i {$pathFileName} -filter_complex \"[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\" -map \"[v]\" -map 0:a -c:v libx264 -c:a copy {$destinationFile}";
+                $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt && {$ffmpeg}";
+                echo "** executing command {$cmd}\n";
                 exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_spectrum.txt  2>&1", $output, $return_val);
                 if ($return_val !== 0) {
                     echo "\\n **Spectrum ERROR**\n", print_r($output, true);
                     error_log($cmd . "\n" . print_r($output, true));
                 } else {
-                    echo "FFMPEG Spectrum Success\n";
+                    echo "FFMPEG Spectrum MP4 Success\n";
+                    echo "FFMPEG Spectrum WEBM Start\n";
+                    $pathFileName = $destinationFile;
+                    $destinationFile = "{$global['systemRootPath']}videos/{$filename}.webm";
+                    eval('$ffmpeg ="' . $videoConverter['webm'] . '";');
+                    $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_webm.txt && {$ffmpeg}";
+                    echo "** executing command {$cmd}\n";
+                    exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
+                    if ($return_val !== 0) {
+                        echo "\\n **VIDEO ERROR**\n", print_r($output, true);
+                        error_log($cmd . "\n" . print_r($output, true));
+                        if ($status == 'a') {
+                            $status = 'x' . $key;
+                        } else {
+                            $status = 'x';
+                        }
+                    } else {
+                        echo "\n {$key} Ok\n";
+                    }
                 }
             }
         }
