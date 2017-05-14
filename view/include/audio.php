@@ -16,8 +16,8 @@
             controls: true,
             autoplay: true,
             loop: false,
-            width: 400,
-            height: 225,
+            width: 300,
+            height: 169,
             plugins: {
                 wavesurfer: {
                     src: '<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3',
