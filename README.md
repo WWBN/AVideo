@@ -41,3 +41,7 @@ We have made a video to help you: http://tutorials.youphptube.com/video/enable-f
 
 # Ver 2.6
 **We will help you make money with google AdSense** watch this video http://tutorials.youphptube.com/video/make-money-with-youphptube-enable-google-adsense
+
+# Ver 2.7
+- Independent Video Advertising System to Avoid Meddling by Google (Thanks for the idea Simon Christopher)
+- Choose the fist style, Youtube video Play or Gallery
