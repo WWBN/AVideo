@@ -446,3 +446,8 @@ footer {
 .galleryVideo{
     overflow: hidden;
 }
+
+.galleryVideo .group {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

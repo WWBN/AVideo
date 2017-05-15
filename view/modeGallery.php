@@ -92,7 +92,7 @@ $config = new Configuration();
                                     foreach ($value['tags'] as $value2) {
                                         if ($value2->label === __("Group")) {
                                             ?>
-                                            <span class="label label-<?php echo $value2->type; ?> col-lg-6"><?php echo $value2->text; ?></span>
+                                            <span class="label label-<?php echo $value2->type; ?> col-lg-6 group"><?php echo $value2->text; ?></span>
                                             <?php
                                         }
                                     }
