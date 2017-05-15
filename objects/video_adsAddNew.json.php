@@ -18,5 +18,6 @@ $va->setRedirect($_POST["redirect"]);
 $va->setSkip_after_seconds($_POST["skipSeconds"]);
 $va->setFinish_max_clicks($_POST["clicks"]);
 $va->setFinish_max_prints($_POST["prints"]);
+$va->setCategories_id($_POST["categories_id"]);
 $resp = $va->save();
 echo '{"status":"'.!empty($resp).'"}';
