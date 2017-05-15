@@ -87,6 +87,16 @@ $config = new Configuration();
                                     <h2><?php echo $value['title']; ?></h2>
                                 </a>
                                 <span class="watch-view-count" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
+                                <?php
+                                    $value['tags'] = Video::getTags($value['id']);
+                                    foreach ($value['tags'] as $value2) {
+                                        if ($value2->label === __("Group")) {
+                                            ?>
+                                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                             </div>
                             <?php
                         }
