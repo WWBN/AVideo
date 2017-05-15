@@ -86,13 +86,13 @@ $config = new Configuration();
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                     <h2><?php echo $value['title']; ?></h2>
                                 </a>
-                                <span class="watch-view-count" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
+                                <span class="watch-view-count col-lg-6" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
                                 <?php
                                     $value['tags'] = Video::getTags($value['id']);
                                     foreach ($value['tags'] as $value2) {
                                         if ($value2->label === __("Group")) {
                                             ?>
-                                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                            <span class="label label-<?php echo $value2->type; ?> col-lg-6"><?php echo $value2->text; ?></span>
                                             <?php
                                         }
                                     }

@@ -311,7 +311,6 @@ footer {
 .watch-view-count {
     line-height: 24px;
     max-height: 24px;
-    text-align: right;
     font-size: 19px;
     color: #666;
     white-space: nowrap;
