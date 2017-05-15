@@ -30,10 +30,11 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <div class="container">
-
+<!--
             <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
             </a>
+-->
             <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                 <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
             </a>
