@@ -45,3 +45,4 @@ We have made a video to help you: http://tutorials.youphptube.com/video/enable-f
 # Ver 2.7
 - Independent Video Advertising System to Avoid Meddling by Google (Thanks for the idea Simon Christopher)
 - Choose the fist style, Youtube video Play or Gallery
+- Now MP3 files create a spectrum video, audio now will play like a video, watch an sample: http://demo.youphptube.com/video/mark-ronson-uptown-funk-ft-bruno-mars
