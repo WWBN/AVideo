@@ -357,7 +357,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
                             } else {
                                 type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
-                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>videos/img/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
                             
                             return img+type + row.title + "<br>" + tags + "<br>" ;
