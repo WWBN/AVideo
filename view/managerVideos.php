@@ -202,18 +202,23 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 //eval("if(!response."+entry + "){ continue;}");
                                 eval("responseType = response." + entry + ";");
                                 if (responseType && responseType.progress) {
-                                    var txt = entry.toUpperCase() + ": " + responseType.progress + "%";
+                                    var txt
+                                    if(!isNaN(responseType.progress)){
+                                        txt = entry.toUpperCase() + ": " + responseType.progress + "%";
+                                    }else{
+                                        txt = entry.toUpperCase() + ": " + responseType.progress;
+                                    }
                                     $('#encoding' + entry + id).html(txt);
                                 }
                             }
-                            if (responseType && responseType.progress < 100) {
-                                if (responseType.progress > 0) {
+                            if (responseType &&  !(responseType.progress >= 100)) {
+                                if (responseType.progress > 0 || (responseType.progress && isNaN(responseType.progress))) {
                                     $('#encoding' + entry + id).removeClass('label-danger');
                                     $('#encoding' + entry + id).addClass('label-warning');
                                 }
                                 allComplete = false;
                             }
-                            if (responseType && responseType.progress === 100) {
+                            if (responseType && (responseType.progress === 100 || responseType.progress === 'active')){
                                 $('#encoding' + entry + id).removeClass('label-warning');
                                 $('#encoding' + entry + id).removeClass('label-danger');
                                 $('#encoding' + entry + id).addClass('label-success');
@@ -346,13 +351,16 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 tags += '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
                             }
-                            var type;
+                            var type, img;
                             if (row.type === "audio") {
                                 type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
                             } else {
                                 type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>view/img/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            return type + row.title + "<br>" + tags;
+                            
+                            return img+type + row.title + "<br>" + tags + "<br>" ;
                         }
 
 

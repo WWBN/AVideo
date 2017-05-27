@@ -1,11 +1,6 @@
 <?php
-
-$configFile = '../../videos/configuration.php';
-if (!file_exists($configFile)) {
-    $configFile = '../videos/configuration.php';
-}
+$configFile = dirname(__FILE__).'/../../videos/configuration.php';
 require_once $configFile;
-
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 $config = new Configuration();
@@ -29,6 +24,8 @@ $original_filename = "original_{$filename}";
 $videoId = $argv[2];
 $type = @$argv[3];
 $status = 'a';
+
+$video = new Video(null, null, $videoId);
 
 if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
     foreach ($audioConverter as $key => $value) {
@@ -117,6 +114,9 @@ foreach ($videoConverter as $key => $value) {
             $status = 'x';
         }
     } else {
+        // update duration again
+        echo "Updating Duration .{$key}";
+        $video->updateDurationIfNeed(".{$key}");
         echo "\n {$key} Ok\n";
     }
 }
@@ -150,8 +150,7 @@ if (empty($type) || $type == 'img') {
 //echo "Remove Original File\n";
 //$cmd = "rm -f {$global['systemRootPath']}videos/{$original_filename}";
 //exec($cmd);
-// save status
 echo "\n\n--Save Status\n";
-require_once $global['systemRootPath'] . 'objects/video.php';
-$video = new Video(null, null, $videoId);
+
+// save status
 $id = $video->setStatus($status);

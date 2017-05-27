@@ -1,11 +1,12 @@
 <?php
+if(empty($global['systemRootPath'])){
+    $configFile = '../../videos/configuration.php';
+    if (!file_exists($configFile)) {
+        $configFile = '../videos/configuration.php';
+    }
 
-$configFile = '../../videos/configuration.php';
-if (!file_exists($configFile)) {
-    $configFile = '../videos/configuration.php';
+    require_once $configFile;
 }
-require_once $configFile;
-
 if (!User::canUpload()) {
     die('{"status":"error", "msg":"Only logged users can upload"}');
 }

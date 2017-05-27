@@ -36,4 +36,5 @@ if(file_exists($file)){
     $obj->setDuration('0:00:00.000000');
 }
 $resp = $obj->save();
+$obj->updateDurationIfNeed();
 echo '{"status":"'.!empty($resp).'"}';
