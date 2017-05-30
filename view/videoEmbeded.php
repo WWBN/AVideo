@@ -47,7 +47,7 @@ $config = new Configuration();
                 ?>
 
                 <video poster="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.jpg" controls crossorigin  width="auto" height="auto" 
-                       class="video-js vjs-default-skin vjs-big-play-centered" id="mainVideo"  data-setup='{"fluid": true }'>
+                       class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo"  data-setup='{"fluid": true }'>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp4" type="video/mp4">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.webm" type="video/webm">
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>

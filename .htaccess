@@ -55,6 +55,13 @@
     RewriteRule    ^addNewUserGroups$ objects/userGroupsAddNew.json.php    [NC,L]
     RewriteRule    ^deleteUserGroups$ objects/userGroupsDelete.json.php    [NC,L]
 
+    # Ads
+    RewriteRule    ^ads$ view/managerAds.php    [NC,L]
+    RewriteRule    ^addNewAd$ objects/video_adsAddNew.json.php    [NC,L]
+    RewriteRule    ^ads.json$ objects/video_ads.json.php    [NC,L]
+    RewriteRule    ^deleteVideoAd$ objects/video_adDelete.json.php    [NC,L]
+    RewriteRule    ^adClickLog objects/video_adClickLog.php    [NC,L]
+
     #manager category
     RewriteRule    ^categories$ view/managerCategories.php    [NC,L]
     RewriteRule    ^categories.json$ objects/categories.json.php    [NC,L]
@@ -72,6 +79,7 @@
     RewriteRule    ^reencodeVideo$ objects/videoReencode.json.php    [NC,L]
     RewriteRule    ^addViewCountVideo$ objects/videoAddViewCount.json.php    [NC,L]
 
+
     #comment
     RewriteRule    ^saveComment$ objects/commentAddNew.json.php    [NC,L]
     RewriteRule    ^comments.json/([0-9]+)$ objects/comments.json.php?video_id=$1    [NC,L]
@@ -88,5 +96,7 @@
     RewriteRule    ^update/?$ update/update.php    [NC,L]
     RewriteRule    ^siteConfigurations$ view/configurations.php    [NC,L]
     RewriteRule    ^updateConfig$ objects/configurationUpdate.json.php    [NC,L]
+
+    RewriteRule    ^charts$ view/charts.php    [NC,L]
 
 </IfModule>

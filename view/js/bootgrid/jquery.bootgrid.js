@@ -1910,7 +1910,7 @@
             return result;
         };
     }
-
+/* if is conflicted with wavesurfer video.js
     if (!Array.prototype.first)
     {
         Array.prototype.first = function (condition)
@@ -1984,7 +1984,7 @@
             return result;
         };
     }
-
+*/
     // GRID PLUGIN DEFINITION
     // =====================
 

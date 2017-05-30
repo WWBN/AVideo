@@ -21,6 +21,7 @@ $userGroups = UserGroups::getAllUsersGroups();
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
@@ -29,16 +30,28 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <div class="container">
-
+<!--
             <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
             </a>
+-->
             <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                 <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
             </a>
             <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
                 <span class="fa fa-user"></span> <?php echo __("Users"); ?>
             </a>
+            
+            <?php
+            if(User::isAdmin()){
+                ?>
+                <a href="<?php echo $global['webSiteRootURL']; ?>ads" class="btn btn-danger">
+                    <span class="fa fa-money"></span> <?php echo __("Advertising Manager"); ?>
+                </a>
+                <?php
+            }
+            ?>
+            
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -103,6 +116,60 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     }
                                     ?>
                                 </ul>
+
+                                <?php
+                                if (User::isAdmin()) {
+                                    ?>
+
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <a href="#" class="btn btn-info btn-xs" data-toggle="popover" title="<?php echo __("What is this"); ?>" data-placement="bottom"  data-content="<?php echo __("This video will work as an advertising and will no longer appear on videos list"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
+                                             <?php echo __("Create an Advertising"); ?>
+                                            <div class="material-switch pull-right">
+                                                <input id="videoIsAd" type="checkbox" value="0" class="userGroups"/>
+                                                <label for="videoIsAd" class="label-success"></label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item videoIsAdContent" style="display: none">
+                                            <label for="inputAdTitle" class="sr-only"><?php echo __("Advertising Title"); ?></label>
+                                            <input type="text" id="inputAdTitle" class="form-control first" placeholder="<?php echo __("Advertising Title"); ?>" required autofocus>
+                                            <label for="inputAdUrlRedirect" class="sr-only"><?php echo __("URL"); ?></label>
+                                            <input type="url" id="inputAdUrlRedirect" class="form-control last" placeholder="<?php echo __("URL"); ?>" required autofocus>
+                                            
+                                            <label for="inputAdStarts" class="sr-only"><?php echo __("Starts on"); ?></label>                                            
+                                            <input type="text" id="inputAdStarts" class="form-control datepicker" placeholder="<?php echo __("Starts on"); ?>" required autofocus>
+                                            <small>Leave Blank for Right Now</small>
+                                            <label for="inputAdFinish" class="sr-only"><?php echo __("Finish on"); ?></label>
+                                            <input type="text" id="inputAdFinish" class="form-control datepicker" placeholder="<?php echo __("Finish on"); ?>" required autofocus>
+                                            <small>Leave Blank for Never</small>
+
+                                            <label for="inputAdSkip" class="sr-only"><?php echo __("Skip Button appears after (X) seconds"); ?></label>
+                                            <input type="number" id="inputAdSkip" class="form-control " placeholder="<?php echo __("Skip Button appears after (X) seconds"); ?>" required autofocus>
+                                            <small>Leave blank for since begin or put a number of seconds bigger the the ad for never</small>
+
+
+                                            <label for="inputAdClick" class="sr-only"><?php echo __("Stop ad after (X) clicks"); ?></label>
+                                            <input type="number" id="inputAdClick" class="form-control " placeholder="<?php echo __("Stop ad after (X) clicks"); ?>" required autofocus>
+                                            <small>Leave Blank for Never</small>
+
+                                            <label for="inputAdPrints" class="sr-only"><?php echo __("Stop ad after (X) prints"); ?></label>
+                                            <input type="number" id="inputAdPrints" class="form-control " placeholder="<?php echo __("Stop ad after (X) prints"); ?>" required autofocus>
+                                            <small>Leave Blank for Never</small>
+
+                                            <label for="inputAdCategory" class="sr-only"><?php echo __("Category to display this Ad"); ?></label>                                
+                                            <select class="form-control last" id="inputAdCategory" required>
+                                                <?php
+                                                foreach ($categories as $value) {
+                                                    echo "<option value='{$value['id']}'>{$value['name']}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </li>
+                                    </ul>
+
+                                    <?php
+                                }
+                                ?>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -119,6 +186,7 @@ $userGroups = UserGroups::getAllUsersGroups();
         <?php
         include 'include/footer.php';
         ?>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
         <script>
             function checkProgressVideo(filename, id, refresh) {
                 $.ajax({
@@ -134,18 +202,23 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 //eval("if(!response."+entry + "){ continue;}");
                                 eval("responseType = response." + entry + ";");
                                 if (responseType && responseType.progress) {
-                                    var txt = entry.toUpperCase() + ": " + responseType.progress + "%";
+                                    var txt
+                                    if(!isNaN(responseType.progress)){
+                                        txt = entry.toUpperCase() + ": " + responseType.progress + "%";
+                                    }else{
+                                        txt = entry.toUpperCase() + ": " + responseType.progress;
+                                    }
                                     $('#encoding' + entry + id).html(txt);
                                 }
                             }
-                            if (responseType && responseType.progress < 100) {
-                                if (responseType.progress > 0) {
+                            if (responseType &&  !(responseType.progress >= 100)) {
+                                if (responseType.progress > 0 || (responseType.progress && isNaN(responseType.progress))) {
                                     $('#encoding' + entry + id).removeClass('label-danger');
                                     $('#encoding' + entry + id).addClass('label-warning');
                                 }
                                 allComplete = false;
                             }
-                            if (responseType && responseType.progress === 100) {
+                            if (responseType && (responseType.progress === 100 || responseType.progress === 'active')){
                                 $('#encoding' + entry + id).removeClass('label-warning');
                                 $('#encoding' + entry + id).removeClass('label-danger');
                                 $('#encoding' + entry + id).addClass('label-success');
@@ -186,11 +259,24 @@ $userGroups = UserGroups::getAllUsersGroups();
                 });
             }
             $(document).ready(function () {
+
+                $('.datepicker').datetimepicker({
+                    format: 'yyyy-mm-dd hh:ii',
+                    autoclose:true
+                });
                 $('#public').change(function () {
                     if ($('#public').is(':checked')) {
                         $('.non-public').slideUp();
                     } else {
                         $('.non-public').slideDown();
+                    }
+                });
+
+                $('#videoIsAd').change(function () {
+                    if (!$('#videoIsAd').is(':checked')) {
+                        $('.videoIsAdContent').slideUp();
+                    } else {
+                        $('.videoIsAdContent').slideDown();
                     }
                 });
 
@@ -202,27 +288,27 @@ $userGroups = UserGroups::getAllUsersGroups();
                         "commands": function (column, row)
                         {
                             var originalBtn = '<a href="<?php echo $global['webSiteRootURL']; ?>/videos/original_' + row.filename + '" target="_blank" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="left" title="<?php echo __("Download Original"); ?>"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>'
-                            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __("Edit"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Delete"); ?>""><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
-                            var reloadBtn = '<button type="button" class="btn btn-default btn-xs command-refresh"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Refresh"); ?>""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>';
-                            var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Inactivate"); ?>""><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-                            var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Activate"); ?>""><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
-                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp4"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Video"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
-                            var reencodeWEBMBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="webm"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Video"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> WEBM</button>';
-                            var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Image"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
-                            var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Audio"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
-                            var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Re-encode Audio"); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
+                            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Delete")); ?>""><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+                            var reloadBtn = '<button type="button" class="btn btn-default btn-xs command-refresh"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Refresh")); ?>""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>';
+                            var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Inactivate")); ?>""><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+                            var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Activate")); ?>""><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
+                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp4"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Video")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
+                            var reencodeWEBMBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="webm"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Video")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> WEBM</button>';
+                            var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Image")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
+                            var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
+                            var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
                             var reencodeAudio = reencodeMp3 + reencodeOGG;
                             var reencodeBtn = reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
                             if (row.type == "audio") {
-                                reencodeBtn = reencodeAudio + originalBtn;
+                                reencodeBtn = reencodeAudio ;
                             }
                             var status;
 
                             if (row.status == "i") {
                                 status = activeBtn;
                             } else if (row.status == "a") {
-                                status = inactiveBtn + originalBtn;
+                                status = inactiveBtn;
                             } else if (row.status == "x") {
                                 return editBtn + deleteBtn + reloadBtn + reencodeBtn + originalBtn;
                             } else if (row.status == "d") {
@@ -251,6 +337,8 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                                 if (row.type == "audio") {
                                     tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp3.txt' target='_blank' class='label label-danger' id='encodingmp3" + row.id + "' >MP3: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_ogg.txt' target='_blank' class='label label-danger' id='encodingogg" + row.id + "' >OGG: 0%</a>";
+                                    tags += "<br><span class='label label-info'>Audio Spectrum</span>";
+                                    tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "' >MP4: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "' >WEBM: 0%</a>";
                                 } else {
                                     tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "' >MP4: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "' >WEBM: 0%</a>";
                                 }
@@ -263,13 +351,16 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 tags += '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
                             }
-                            var type;
-                            if(row.type==="audio"){
+                            var type, img;
+                            if (row.type === "audio") {
                                 type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
-                            }else{
+                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
+                            } else {
                                 type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            return type+row.title+"<br>"+tags;
+                            
+                            return img+type + row.title + "<br>" + tags + "<br>" ;
                         }
 
 
@@ -296,6 +387,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                             }
                         }
                         $('#public').trigger("change");
+                        
+                        $('#videoIsAd').prop('checked', false);
+                        $('#videoIsAd').trigger("change");
                         $('#videoFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();
@@ -418,6 +512,20 @@ $userGroups = UserGroups::getAllUsersGroups();
                     evt.preventDefault();
                     var isPublic = $('#public').is(':checked');
                     var selectedVideoGroups = [];
+                    var isAd = $('#videoIsAd').is(':checked');
+                    var adElements = {};
+                    if(isAd){
+                        adElements = {
+                            title: $('#inputAdTitle').val(),
+                            starts: $('#inputAdStarts').val(),
+                            finish: $('#inputAdFinish').val(),
+                            skipSeconds: $('#inputAdSkip').val(),
+                            clicks: $('#inputAdClick').val(),
+                            prints: $('#inputAdPrints').val(),
+                            categories_id: $('#inputAdCategory').val(),
+                            redirect: $('#inputAdUrlRedirect').val()
+                        }
+                    }
                     $('.videoGroups:checked').each(function () {
                         selectedVideoGroups.push($(this).val());
                     });
@@ -438,7 +546,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                             "description": $('#inputDescription').val(),
                             "categories_id": $('#inputCategory').val(),
                             "public": isPublic,
-                            "videoGroups": selectedVideoGroups
+                            "videoGroups": selectedVideoGroups,
+                            "isAd": isAd,
+                            "adElements": adElements
                         },
                         type: 'post',
                         success: function (response) {

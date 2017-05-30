@@ -38,3 +38,11 @@ Take a look at our video tutorials site (http://tutorials.youphptube.com), you w
 **Private videos since version 2.4** YouPHPTube allows you to determine if the videos published on the page will be public or private.
 By default all videos are public, but you can create groups and link them to videos and users, so only users in the group can view videos from the same group. And the linked video will not be public any more.
 We have made a video to help you: http://tutorials.youphptube.com/video/enable-facebook-login-and-making-a-video-private
+
+# Ver 2.6
+**We will help you make money with google AdSense** watch this video http://tutorials.youphptube.com/video/make-money-with-youphptube-enable-google-adsense
+
+# Ver 2.7
+- Independent Video Advertising System to Avoid Meddling by Google (Thanks for the idea Simon Christopher)
+- Choose the fist style, Youtube video Play or Gallery
+- Now MP3 files create a spectrum video, audio now will play like a video, watch an sample: http://demo.youphptube.com/video/mark-ronson-uptown-funk-ft-bruno-mars

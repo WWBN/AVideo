@@ -41,7 +41,13 @@ class Configuration {
     private $exiftool;
     private $exiftoolPath;
     
+    private $head;
+    private $logo;
+    private $logo_small;
     
+    private $adsense;
+    
+    private $mode;
     function __construct($video_resolution="") {
         $this->load();
         if(!empty($video_resolution)){
@@ -99,7 +105,12 @@ class Configuration {
                 . "ffprobeDuration = '{$global['mysqli']->real_escape_string($this->getFfprobeDuration())}',"
                 . "youtubedl = '{$global['mysqli']->real_escape_string($this->getYoutubedl())}',"
                 . "youtubedlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
-                . "ffmpegPath = '{$global['mysqli']->real_escape_string($this->ffmpegPath)}'"
+                . "ffmpegPath = '{$global['mysqli']->real_escape_string($this->ffmpegPath)}',"
+                . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
+                . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
+                . "mode = '{$this->getMode()}',"
+                . "logo = '{$global['mysqli']->real_escape_string($this->getLogo())}',"
+                . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}'"
                 . "WHERE id = 1";
 
         $insert_row = $global['mysqli']->query($sql);
@@ -375,6 +386,95 @@ class Configuration {
     function setFfmpegWebmPortrait($ffmpegWebmPortrait) {
         $this->ffmpegWebmPortrait = $ffmpegWebmPortrait;
     }
+
+    function getHead() {
+        if(empty($this->head)){
+            /*
+            return "
+<script>
+    // YouPHPTube Analytics
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-96597943-1', 'auto');
+    ga('send', 'pageview');
+</script>    
+    ";
+            */
+        }        
+        return $this->head;
+    }
+
+    function getLogo() {
+        if(empty($this->logo)){
+            return "view/img/logo138x30.png";
+        }
+        return $this->logo;
+    }
+
+    function setHead($head) {
+        $this->head = $head;
+    }
+
+    function setLogo($logo) {
+        $this->logo = $logo;
+    }
+
+    function getLogo_small() {
+        if(empty($this->logo_small)){
+            return "view/img/logo32.png";
+        }
+        return $this->logo_small;
+    }
+
+    function setLogo_small($logo_small) {
+        $this->logo_small = $logo_small;
+    }
+    
+    function getAdsense() {
+        if(empty($this->adsense)){
+            /*
+            return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- YouPHPTube -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8404441263723333"
+     data-ad-slot="3904005408"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>';
+             * 
+             */
+            
+        }        
+        return $this->adsense;
+    }
+
+    function setAdsense($adsense) {
+        $this->adsense = $adsense;
+    }
+
+    function getMode() {
+        if(empty($this->mode)){
+            return 'Youtube';
+        }
+        return $this->mode;
+    }
+
+    function setMode($mode) {
+        $this->mode = $mode;
+    }
+
 
 
 

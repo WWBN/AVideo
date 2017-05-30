@@ -1,11 +1,6 @@
 <?php
-
-$configFile = '../../videos/configuration.php';
-if (!file_exists($configFile)) {
-    $configFile = '../videos/configuration.php';
-}
+$configFile = dirname(__FILE__).'/../../videos/configuration.php';
 require_once $configFile;
-
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 $config = new Configuration();
@@ -30,11 +25,14 @@ $videoId = $argv[2];
 $type = @$argv[3];
 $status = 'a';
 
+$video = new Video(null, null, $videoId);
+
 if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
     foreach ($audioConverter as $key => $value) {
         if ($type !== 'audio' && $type != $key) {
             continue;
         }
+
         // convert video
         echo "\n\n--Converting audio {$key} \n";
         $pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
@@ -53,6 +51,38 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
             }
         } else {
             echo "\n {$key} Ok\n";
+            if ($key == 'mp3') {
+                echo "Try FFMPEG Spectrum\n";
+                $destinationFile = "{$global['systemRootPath']}videos/{$filename}.mp4";
+                $ffmpeg = "ffmpeg -i {$pathFileName} -filter_complex \"[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\" -map \"[v]\" -map 0:a -c:v libx264 -c:a copy {$destinationFile}";
+                $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt && {$ffmpeg}";
+                echo "** executing command {$cmd}\n";
+                exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt  2>&1", $output, $return_val);
+                if ($return_val !== 0) {
+                    echo "\\n **Spectrum ERROR**\n", print_r($output, true);
+                    error_log($cmd . "\n" . print_r($output, true));
+                } else {
+                    echo "FFMPEG Spectrum MP4 Success\n";
+                    echo "FFMPEG Spectrum WEBM Start\n";
+                    $pathFileName = $destinationFile;
+                    $destinationFile = "{$global['systemRootPath']}videos/{$filename}.webm";
+                    eval('$ffmpeg ="' . $videoConverter['webm'] . '";');
+                    $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_webm.txt && {$ffmpeg}";
+                    echo "** executing command {$cmd}\n";
+                    exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_webm.txt  2>&1", $output, $return_val);
+                    if ($return_val !== 0) {
+                        echo "\\n **VIDEO ERROR**\n", print_r($output, true);
+                        error_log($cmd . "\n" . print_r($output, true));
+                        if ($status == 'a') {
+                            $status = 'x' . $key;
+                        } else {
+                            $status = 'x';
+                        }
+                    } else {
+                        echo "FFMPEG Spectrum WEBM Success\n";
+                    }
+                }
+            }
         }
     }
 }
@@ -84,6 +114,9 @@ foreach ($videoConverter as $key => $value) {
             $status = 'x';
         }
     } else {
+        // update duration again
+        echo "Updating Duration .{$key}";
+        $video->updateDurationIfNeed(".{$key}");
         echo "\n {$key} Ok\n";
     }
 }
@@ -117,8 +150,7 @@ if (empty($type) || $type == 'img') {
 //echo "Remove Original File\n";
 //$cmd = "rm -f {$global['systemRootPath']}videos/{$original_filename}";
 //exec($cmd);
-// save status
 echo "\n\n--Save Status\n";
-require_once $global['systemRootPath'] . 'objects/video.php';
-$video = new Video(null, null, $videoId);
+
+// save status
 $id = $video->setStatus($status);

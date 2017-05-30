@@ -51,3 +51,59 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .video-js .vjs-slider-horizontal {
     background-color: rgba(159,159,159,.3);
 }
+
+
+/* Ad Elements */
+#adUrl{
+  color: #DDD;
+  position: absolute;
+  left: 0;
+  top: 80%;
+  padding: 10px;
+  font-size: 12px;
+  text-shadow: -1px 0 #333, 0 1px  #333, 1px 0  #333, 0 -1px  #333,  0 0 0.3em black;
+  white-space: nowrap;
+}
+#adUrl a{
+  color: #DDD;
+}
+#adUrl a:hover{
+  color: #FFF;
+  text-decoration: underline;
+}
+#adButton{
+   background-color: rgba(0, 0, 0, 0.7);
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  transition: all 0.4s;
+  color: #FFF;
+  border: 1px solid #888;
+  position: absolute;
+  right: 0;
+  top: 70%;
+  padding: 10px;
+  font-size: 16px;
+}
+#adButton:hover{
+   background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid #DDD;
+}
+
+.adControl{
+    display: none;
+}
+
+.ad .video-js .vjs-play-progress {
+    color:  #FC0;
+    background-color: #FC0;
+}
+
+.ad .vjs-progress-control *{
+    pointer-events: none !important;
+}
+
+.ad .adControl{ 
+    display: block;
+}
+/* End Ad Elements */
