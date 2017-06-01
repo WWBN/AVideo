@@ -77,7 +77,7 @@ $autoPlayVideo = Video::getRandom();
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
-        
+
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
         <meta property="og:type"               content="video" />
         <meta property="og:title"              content="<?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?>" />
@@ -494,53 +494,53 @@ $autoPlayVideo = Video::getRandom();
                                 </span>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" style="display: none;" >
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo $autoPlayVideo['title']; ?>" class="videoLink">
-                                        <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo $autoPlayVideo['title']; ?>" class="videoLink">
+                                    <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
+                                        <?php
+                                        if ($autoPlayVideo['type'] !== "audio") {
+                                            $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
+                                        } else {
+                                            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                        }
+                                        ?>
+                                        <img src="<?php echo $img; ?>" alt="<?php echo $autoPlayVideo['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
+
+                                        <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $autoPlayVideo['clean_title']; ?>" />
+                                        <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $autoPlayVideo['clean_title']; ?>" />
+                                        <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
+
+                                        <span class="glyphicon glyphicon-play-circle"></span>
+                                        <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></span>
+                                    </div>
+                                    <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
+                                        <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $autoPlayVideo['title']; ?></strong></div>
+                                        <div class="details row" itemprop="description">
+                                            <div>
+                                                <strong><?php echo __("Category"); ?>: </strong>
+                                                <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span> 
+                                                <?php echo $autoPlayVideo['category']; ?>
+                                            </div>
+                                            <div>
+                                                <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                                            </div>
+                                            <div><strong><?php echo $autoPlayVideo['creator']; ?></strong></div>
+
+                                        </div>
+                                        <div class="row">
                                             <?php
-                                            if ($autoPlayVideo['type'] !== "audio") {
-                                                $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
-                                            } else {
-                                                $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                            foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
+                                                if ($autoPlayVideo2->label === __("Group")) {
+                                                    ?>
+                                                    <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
+                                                    <?php
+                                                }
                                             }
                                             ?>
-                                            <img src="<?php echo $img; ?>" alt="<?php echo $autoPlayVideo['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
-
-                                            <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                            <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $autoPlayVideo['clean_title']; ?>" />
-                                            <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $autoPlayVideo['clean_title']; ?>" />
-                                            <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
-
-                                            <span class="glyphicon glyphicon-play-circle"></span>
-                                            <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></span>
                                         </div>
-                                        <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
-                                            <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $autoPlayVideo['title']; ?></strong></div>
-                                            <div class="details row" itemprop="description">
-                                                <div>
-                                                    <strong><?php echo __("Category"); ?>: </strong>
-                                                    <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span> 
-                                                    <?php echo $autoPlayVideo['category']; ?>
-                                                </div>
-                                                <div>
-                                                    <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
-                                                </div>
-                                                <div><strong><?php echo $autoPlayVideo['creator']; ?></strong></div>
-
-                                            </div>
-                                            <div class="row">
-                                                <?php
-                                                foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
-                                                    if ($autoPlayVideo2->label === __("Group")) {
-                                                        ?>
-                                                        <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+                                    </div>
+                                </a>
+                            </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <?php
                                 echo $config->getAdsense();
@@ -606,28 +606,35 @@ $autoPlayVideo = Video::getRandom();
                             <ul class="pages">
                             </ul>
                             <script>
-                                $(document).ready(function () {                                   
-                                    
+                                $(document).ready(function () {
+
                                     $("input.saveCookie").each(function () {
                                         var mycookie = Cookies.get($(this).attr('name'));
                                         console.log($(this).attr('name'));
                                         console.log(mycookie);
                                         if (mycookie && mycookie == "true") {
                                             $(this).prop('checked', mycookie);
-                                            $('.autoPlayVideo').slideDown();
                                         }
                                     });
                                     $("input.saveCookie").change(function () {
                                         console.log($(this).attr('name'));
                                         console.log($(this).prop('checked'));
-                                        Cookies.set($(this).attr("name"), $(this).prop('checked'), {
+                                        var auto = $(this).prop('checked');
+                                        if (auto) {
+                                            $('.autoPlayVideo').slideDown();
+                                        } else {
+                                            $('.autoPlayVideo').slideUp();
+                                        }
+                                        Cookies.set($(this).attr("name"), auto, {
                                             path: '/',
                                             expires: 365
                                         });
                                     });
-                                    
-                                    setTimeout(function(){$('.autoplay').slideDown();}, 1000);
-                                    
+
+                                    setTimeout(function () {
+                                        $('.autoplay').slideDown();
+                                    }, 1000);
+
                                     // Total Itens <?php echo $total; ?>
 
                                     $('.pages').bootpag({
@@ -667,7 +674,7 @@ $autoPlayVideo = Video::getRandom();
                             </ul>
                             <script>
                                 $(document).ready(function () {
-                                    
+
                                     // Total Itens <?php echo $total; ?>
 
                                     $('.pages').bootpag({
@@ -691,7 +698,7 @@ $autoPlayVideo = Video::getRandom();
                 <div class="alert alert-warning">
                     <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
                 </div>
-            <?php } ?>  
+        <?php } ?>  
 
         </div>
         <?php
