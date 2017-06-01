@@ -847,7 +847,7 @@ class Video {
         $res = $global['mysqli']->query($sql);
 
         if ($res && $row = $res->fetch_assoc()) {
-            return static::getVideo($row['id']);
+            return static::getVideo($row['id'], "viewableNotAd");
         }
         return false;
         

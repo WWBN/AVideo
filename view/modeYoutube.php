@@ -64,6 +64,9 @@ if ($video['type'] !== "audio") {
 }
 
 $autoPlayVideo = Video::getRandom();
+$name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
+$autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
+$autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -529,11 +532,13 @@ $autoPlayVideo = Video::getRandom();
                                         </div>
                                         <div class="row">
                                             <?php
-                                            foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
-                                                if ($autoPlayVideo2->label === __("Group")) {
-                                                    ?>
-                                                    <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
-                                                    <?php
+                                            if(!empty($autoPlayVideo['tags'])){
+                                                foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
+                                                    if ($autoPlayVideo2->label === __("Group")) {
+                                                        ?>
+                                                        <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
+                                                        <?php
+                                                    }
                                                 }
                                             }
                                             ?>
