@@ -240,10 +240,10 @@ class Video {
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
-        if (!empty($_GET['videoName'])) {
-            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
-        } else if (!empty($id)) {
+        if (!empty($id)) {
             $sql .= " AND v.id = $id ";
+        }else if (!empty($_GET['videoName'])) {
+            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
         } else {
             $sql .= " ORDER BY v.Created DESC ";
         }
