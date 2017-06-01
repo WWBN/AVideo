@@ -7,8 +7,6 @@ if (empty($_SESSION['language'])) {
 } else {
     $lang = $_SESSION['language'];
 }
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 ?>
 <style>
     @media (max-width: 550px) {

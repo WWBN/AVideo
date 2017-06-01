@@ -403,9 +403,7 @@ class User {
     }
 
     static function canUpload() {
-        global $global;
-        require_once $global['systemRootPath'] . 'objects/configuration.php';
-        $config = new Configuration();
+        global $global, $config;
         if ($config->getAuthCanUploadVideos()) {
             return self::isLogged();
         }
@@ -413,9 +411,7 @@ class User {
     }
 
     static function canComment() {
-        global $global;
-        require_once $global['systemRootPath'] . 'objects/configuration.php';
-        $config = new Configuration();
+        global $global, $config;
         if ($config->getAuthCanComment()) {
             return self::isLogged();
         }

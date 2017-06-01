@@ -97,4 +97,10 @@
 
     RewriteRule    ^charts$ view/charts.php    [NC,L]
 
+    # if image do not exists
+    RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png|ico)$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule .*$ img/static.gif [L]
+
 </IfModule>

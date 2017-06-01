@@ -5,10 +5,6 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager users"));
     exit;
 }
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
-
-
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();
 ?>

@@ -30,6 +30,7 @@ function clean_name(str) {
 
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover();
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 function changeVideoSrc(vid_obj, fileName) {

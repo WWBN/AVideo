@@ -4,6 +4,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
@@ -131,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `ffmpegWebm` VARCHAR(400) NULL,
   `ffmpegWebmPortrait` VARCHAR(400) NULL,
   `ffmpegMp3` VARCHAR(400) NULL,
+  `ffmpegSpectrum` VARCHAR(400) NULL,
   `ffmpegOgg` VARCHAR(400) NULL,
   `youtubeDl` VARCHAR(400) NULL,
   `ffmpegPath` VARCHAR(255) NULL,
@@ -142,6 +144,12 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `logo_small` VARCHAR(255) NULL,
   `adsense` TEXT NULL,
   `mode` ENUM('Youtube', 'Gallery') NULL DEFAULT 'Youtube',
+  `disable_analytics` TINYINT(1) NULL DEFAULT 0,
+  `session_timeout` INT NULL DEFAULT 3600,
+  `encode_mp4` TINYINT(1) NULL DEFAULT 1,
+  `encode_webm` TINYINT(1) NULL DEFAULT 1,
+  `encode_mp3spectrum` TINYINT(1) NULL DEFAULT 1,
+  `autoplay` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
@@ -316,6 +324,27 @@ CREATE TABLE IF NOT EXISTS `video_ads_logs` (
     REFERENCES `video_ads` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `video_documents`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `video_documents` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `doc_name` VARCHAR(255) NOT NULL,
+  `doc_description` TEXT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `blob` BLOB NOT NULL,
+  `videos_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_video_documents_videos1_idx` (`videos_id` ASC),
+  CONSTRAINT `fk_video_documents_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

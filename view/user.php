@@ -1,8 +1,6 @@
 <?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 
 $tags = User::getTags(User::getId());
 $tagsStr = "";

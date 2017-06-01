@@ -553,12 +553,12 @@ class Video {
     }
 
     static function getDurationFromFile($file) {
+        global $config;
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($file)) {
             error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
             return "EE:EE:EE";
         }
-        $config = new Configuration();
         //$cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';
         eval('$cmd="' . $config->getFfprobeDuration() . '";');
         exec($cmd . ' 2>&1', $output, $return_val);
@@ -617,12 +617,12 @@ class Video {
     }
 
     static function isLandscape($pathFileName) {
+        global $config;
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($pathFileName)) {
             echo '{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $pathFileName . ') Not Found"}';
             exit;
         }
-        $config = new Configuration();
         eval('$cmd="' . $config->getExiftool() . '";');
         $resp = true; // is landscape by default
         exec($cmd . ' 2>&1', $output, $return_val);
@@ -695,7 +695,7 @@ class Video {
 
         if (empty($type) || $type === "ad") {
             $obj = new stdClass();
-            $obj->label = __("Is a video Ad");
+            $obj->label = __("Is Ad");
             if ($video->getIsAd()) {
                 $obj->type = "success";
                 $obj->text = __("Yes");

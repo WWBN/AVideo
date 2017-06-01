@@ -51,9 +51,6 @@ foreach ($videos as $key => $value) {
 }
 $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
-
 if ($video['type'] !== "audio") {
     $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
 } else {
@@ -179,7 +176,6 @@ if ($video['type'] !== "audio") {
                                                         $(this).tooltip("show");
                                                         return false;
                                                     });
-                                                    $("#dislikeBtn, #likeBtn").tooltip();
             <?php
         }
         ?>
@@ -243,7 +239,7 @@ if ($video['type'] !== "audio") {
                                                            ?>" placeholder="<?php echo __("Share Video"); ?>" id="code-input">
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default" type="button" id="code-button"
-                                                                data-toggle="tooltip" data-placement="button"
+                                                                data-toggle="tooltip" data-placement="bottom" 
                                                                 title="<?php echo __("Preview"); ?>">
                                                             <span class="fa fa-eye"></span>    <?php echo __("Preview"); ?>
                                                         </button>
@@ -465,6 +461,24 @@ if ($video['type'] !== "audio") {
 
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite">
+                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay">
+                                <strong>
+                                    <?php
+                                    echo __("Up Next");
+                                    ?>
+                                </strong>
+                                <span class="pull-right">
+                                    <span>
+                                        <?php
+                                        echo __("Autoplay");
+                                        ?>
+                                    </span>
+                                    <span>
+                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
+                                    </span>
+                                    <input type="checkbox" data-toggle="toggle" data-size="mini" class="saveCookie" name="autoplay">
+                                </span>
+                            </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <?php
                                 echo $config->getAdsense();
@@ -530,7 +544,25 @@ if ($video['type'] !== "audio") {
                             <ul class="pages">
                             </ul>
                             <script>
-                                $(document).ready(function () {
+                                $(document).ready(function () {                                   
+                                    
+                                    $("input.saveCookie").each(function () {
+                                        var mycookie = Cookies.get($(this).attr('name'));
+                                        console.log($(this).attr('name'));
+                                        console.log(mycookie);
+                                        if (mycookie && mycookie == "true") {
+                                            $(this).prop('checked', mycookie);
+                                        }
+                                    });
+                                    $("input.saveCookie").change(function () {
+                                        console.log($(this).attr('name'));
+                                        console.log($(this).prop('checked'));
+                                        Cookies.set($(this).attr("name"), $(this).prop('checked'), {
+                                            path: '/',
+                                            expires: 365
+                                        });
+                                    });
+                                    
                                     // Total Itens <?php echo $total; ?>
 
                                     $('.pages').bootpag({
@@ -570,6 +602,7 @@ if ($video['type'] !== "audio") {
                             </ul>
                             <script>
                                 $(document).ready(function () {
+                                    
                                     // Total Itens <?php echo $total; ?>
 
                                     $('.pages').bootpag({
@@ -579,6 +612,7 @@ if ($video['type'] !== "audio") {
                                     }).on('page', function (event, num) {
                                         window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
                                     });
+
                                 });
                             </script>
                         </div>

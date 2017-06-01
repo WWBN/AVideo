@@ -8,10 +8,6 @@ if (!User::canUpload()) {
     exit;
 }
 
-require_once '../../objects/configuration.php';
-$config = new Configuration();
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

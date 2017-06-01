@@ -451,3 +451,9 @@ footer {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.autoplay span span{
+    margin: 0 5px;
+    color: #767676;
+    font-weight: bold;
+}

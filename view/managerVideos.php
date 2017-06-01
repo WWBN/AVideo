@@ -8,8 +8,6 @@ if (!User::canUpload()) {
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 $categories = Category::getAllCategories();
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();

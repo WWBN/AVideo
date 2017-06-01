@@ -38,6 +38,13 @@ $config->setHead($_POST['head']);
 $config->setAdsense($_POST['adsense']);
 $config->setMode($_POST['mode']);
 
+$config->setDisable_analytics($_POST['disable_analytics']);
+$config->setSession_timeout($_POST['session_timeout']);
+$config->setEncode_mp4($_POST['encode_mp4']);
+$config->setEncode_webm($_POST['encode_webm']);
+$config->setEncode_mp3spectrum($_POST['encode_mp3spectrum']);
+$config->setFfmpegSpectrum($_POST['ffmpegSpectrum']);
+$config->setAutoplay($_POST['autoplay']);
 
 $imagePath = "videos/userPhoto/";
 

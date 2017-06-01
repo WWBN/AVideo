@@ -6,8 +6,6 @@ if (!User::isAdmin()) {
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

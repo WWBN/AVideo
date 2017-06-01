@@ -3,9 +3,6 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
-
 $filename = $argv[1];
 $videoURL = $argv[2];
 $userId = $argv[3];

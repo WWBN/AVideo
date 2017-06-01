@@ -4,7 +4,6 @@ if(empty($global['systemRootPath'])){
     $global['systemRootPath'] = "../";
 }
 require_once $global['systemRootPath'].'videos/configuration.php';
-require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload() || empty($_POST['id'])) {
     die('{"error":"'.__("Permission denied").'"}');
@@ -19,7 +18,7 @@ $obj->setVideoGroups(empty($_POST['videoGroups'])?array():$_POST['videoGroups'])
 $resp = $obj->save(true);
 
 // make an ad
-if ($resp && User::isAdmin() && !empty($_POST['isAd'])) {
+if ($resp && User::isAdmin() && !empty($_POST['isAd']) && $_POST['isAd']!=='false') {
     $msg = "Create a ad";
     require 'video_ad.php';
     $va = new Video_ad($_POST['id'], $_POST["adElements"]["categories_id"]);

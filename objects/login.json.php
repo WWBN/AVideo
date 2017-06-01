@@ -11,8 +11,6 @@ use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
 
 if (!empty($_GET['type'])) {
-    require_once $global['systemRootPath'] . 'objects/configuration.php';
-    $config = new Configuration();
     switch ($_GET['type']) {
         case "Google":
             if(!$config->getAuthGoogle_enabled()){
@@ -85,7 +83,6 @@ if (!empty($_GET['type'])) {
 if(empty($_POST['user']) || empty($_POST['pass'])){
      die(__("User and Password can not be blank"));
 }
-require_once $global['systemRootPath'] . 'locale/function.php';
 $user = new User(0, $_POST['user'], $_POST['pass']);
 $user->login();
 $object = new stdClass();
