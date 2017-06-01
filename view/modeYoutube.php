@@ -461,7 +461,7 @@ if ($video['type'] !== "audio") {
 
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite">
-                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay">
+                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay" style="display: none;">
                                 <strong>
                                     <?php
                                     echo __("Up Next");
@@ -562,6 +562,8 @@ if ($video['type'] !== "audio") {
                                             expires: 365
                                         });
                                     });
+                                    
+                                    setTimeout(function(){$('.autoplay').slideDown();}, 1000);
                                     
                                     // Total Itens <?php echo $total; ?>
 
