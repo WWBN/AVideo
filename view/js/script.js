@@ -19,29 +19,13 @@ modal = modal || (function () {
         setText: function (text) {
             pleaseWaitDiv.find('h2').html(text);
         },
+
     };
 })();
 
-var stripAccents = (function () {
-    var in_chrs = 'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
-            out_chrs = 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY',
-            chars_rgx = new RegExp('[' + in_chrs + ']', 'g'),
-            transl = {}, i,
-            lookup = function (m) {
-                return transl[m] || m;
-            };
-
-    for (i = 0; i < in_chrs.length; i++) {
-        transl[ in_chrs[i] ] = out_chrs[i];
-    }
-
-    return function (s) {
-        return s.replace(chars_rgx, lookup);
-    }
-})();
 function clean_name(str) {
-
-    str = str.stripAccents().toLowerCase();
+    
+    str = str.toLowerCase();
     return str.replace(/\W+/g, "-");
 }
 
@@ -64,11 +48,11 @@ function changeVideoSrc(vid_obj, fileName) {
  * @param {String} str 00:00:00
  * @returns {int} int of seconds
  */
-function strToSeconds(str) {
+function strToSeconds(str){
     var partsOfStr = str.split(':');
     var seconds = parseInt(partsOfStr[2]);
-    seconds += parseInt(partsOfStr[1]) * 60;
-    seconds += parseInt(partsOfStr[0]) * 60 * 60;
+    seconds += parseInt(partsOfStr[1])*60;
+    seconds += parseInt(partsOfStr[0])*60*60;
     return seconds;
 }
 
@@ -78,26 +62,26 @@ function strToSeconds(str) {
  * @param {int} level 3 = 00:00:00 2 = 00:00 1 = 00
  * @returns {String} 00:00:00
  */
-function secondsToStr(seconds, level) {
-    var hours = parseInt(seconds / (60 * 60));
-    var minutes = parseInt(seconds / (60));
-    seconds = parseInt(seconds % (60));
-
-    hours = hours > 9 ? hours : "0" + hours;
-    minutes = minutes > 9 ? minutes : "0" + minutes;
-    seconds = seconds > 9 ? seconds : "0" + seconds;
-    switch (level) {
+function secondsToStr(seconds, level){
+    var hours = parseInt(seconds/(60*60));
+    var minutes = parseInt(seconds/(60));
+    seconds = parseInt(seconds%(60));
+    
+    hours = hours>9?hours:"0"+hours;
+    minutes = minutes>9?minutes:"0"+minutes;
+    seconds = seconds>9?seconds:"0"+seconds;
+    switch (level){
         case 3:
-            return hours + ":" + minutes + ":" + seconds;
+            return hours+":"+minutes+":"+seconds;
             break;
         case 2:
-            return minutes + ":" + seconds;
+            return minutes+":"+seconds;
             break;
         case 1:
             return seconds;
             break;
         default:
-            return hours + ":" + minutes + ":" + seconds;
-
+            return hours+":"+minutes+":"+seconds;
+            
     }
 }
