@@ -6,6 +6,9 @@ if (!file_exists('../videos/configuration.php')) {
     header("Location: install/index.php");
 }
 require_once '../videos/configuration.php';
+if(empty($config)){
+    require_once '../objects/include_config.php';
+}
 $mode = $config->getMode();
 if(!empty($_GET['videoName'])){
     $mode = "Youtube";
