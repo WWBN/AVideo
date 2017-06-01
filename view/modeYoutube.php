@@ -62,6 +62,8 @@ if ($video['type'] !== "audio") {
 } else {
     $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
 }
+
+$autoPlayVideo = Video::getRandom();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -491,6 +493,54 @@ if ($video['type'] !== "audio") {
                                     <input type="checkbox" data-toggle="toggle" data-size="mini" class="saveCookie" name="autoplay">
                                 </span>
                             </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo $autoPlayVideo['title']; ?>" class="videoLink">
+                                        <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
+                                            <?php
+                                            if ($autoPlayVideo['type'] !== "audio") {
+                                                $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
+                                            } else {
+                                                $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                            }
+                                            ?>
+                                            <img src="<?php echo $img; ?>" alt="<?php echo $autoPlayVideo['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
+
+                                            <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                                            <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $autoPlayVideo['clean_title']; ?>" />
+                                            <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $autoPlayVideo['clean_title']; ?>" />
+                                            <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
+
+                                            <span class="glyphicon glyphicon-play-circle"></span>
+                                            <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></span>
+                                        </div>
+                                        <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
+                                            <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $autoPlayVideo['title']; ?></strong></div>
+                                            <div class="details row" itemprop="description">
+                                                <div>
+                                                    <strong><?php echo __("Category"); ?>: </strong>
+                                                    <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span> 
+                                                    <?php echo $autoPlayVideo['category']; ?>
+                                                </div>
+                                                <div>
+                                                    <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                                                </div>
+                                                <div><strong><?php echo $autoPlayVideo['creator']; ?></strong></div>
+
+                                            </div>
+                                            <div class="row">
+                                                <?php
+                                                foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
+                                                    if ($autoPlayVideo2->label === __("Group")) {
+                                                        ?>
+                                                        <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <?php
                                 echo $config->getAdsense();
