@@ -130,7 +130,7 @@ class Video {
     }
 
     function setClean_title($clean_title) {
-        preg_replace('/\W+/', '-', strtolower($clean_title));
+        preg_replace('/\W+/', '-', strtolower(cleanString($clean_title)));
         $this->clean_title = $clean_title;
     }
 
