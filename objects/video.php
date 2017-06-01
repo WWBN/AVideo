@@ -838,5 +838,19 @@ class Video {
         }
         return $clean_title;
     }
+    
+    static function getRandom(){
+        
+        global $global;
+
+        $sql = "SELECT id FROM videos ORDER BY RAND() LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+
+        if ($res && $row = $res->fetch_assoc()) {
+            return static::getVideo($row['id']);
+        }
+        return false;
+        
+    }
 
 }
