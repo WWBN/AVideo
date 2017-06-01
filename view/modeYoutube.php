@@ -614,6 +614,7 @@ $autoPlayVideo = Video::getRandom();
                                         console.log(mycookie);
                                         if (mycookie && mycookie == "true") {
                                             $(this).prop('checked', mycookie);
+                                            $('.autoPlayVideo').slideDown();
                                         }
                                     });
                                     $("input.saveCookie").change(function () {
