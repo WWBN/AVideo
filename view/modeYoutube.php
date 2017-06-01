@@ -56,6 +56,12 @@ if ($video['type'] !== "audio") {
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
 }
+
+if ($video['type'] !== "audio") {
+    $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
+} else {
+    $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -69,6 +75,12 @@ if ($video['type'] !== "audio") {
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
+        
+        <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
+        <meta property="og:type"               content="video" />
+        <meta property="og:title"              content="<?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo $video['title']; ?>" />
+        <meta property="og:image"              content="<?php echo $img; ?>" />
     </head>
 
     <body>
