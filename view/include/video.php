@@ -63,10 +63,10 @@ if (!empty($ad)) {
                     }
                     <?php
                     // if autoplay play next video
-                    if(!empty($videos[0])){
+                    if(!empty($videos[1])){
                         ?>
                         else if(Cookies.get('autoplay') && Cookies.get('autoplay')!=='false'){
-                            document.location = '<?php echo $global['webSiteRootURL']; ?>video/<?php echo $videos[0]['clean_title']; ?>';
+                            document.location = '<?php echo $global['webSiteRootURL']; ?>video/<?php echo $videos[1]['clean_title']; ?>';
                         }
                         <?php
                     }
