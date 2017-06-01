@@ -493,7 +493,7 @@ $autoPlayVideo = Video::getRandom();
                                     <input type="checkbox" data-toggle="toggle" data-size="mini" class="saveCookie" name="autoplay">
                                 </span>
                             </div>
-                            <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
+                            <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" style="display: none;" >
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo $autoPlayVideo['title']; ?>" class="videoLink">
                                         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
                                             <?php
@@ -614,6 +614,7 @@ $autoPlayVideo = Video::getRandom();
                                         console.log(mycookie);
                                         if (mycookie && mycookie == "true") {
                                             $(this).prop('checked', mycookie);
+                                            $('.autoPlayVideo').slideDown();
                                         }
                                     });
                                     $("input.saveCookie").change(function () {
