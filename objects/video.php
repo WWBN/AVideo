@@ -187,7 +187,7 @@ class Video {
         return " AND " . $sql;
     }
 
-    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false) {
+    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false) {
         global $global;
         $id = intval($id);
 
@@ -244,7 +244,9 @@ class Video {
             $sql .= " AND v.id = $id ";
         }else if (!empty($_GET['videoName'])) {
             $sql .= " AND clean_title = '{$_GET['videoName']}' ";
-        } else {
+        } else if($random){            
+            $sql .= " ORDER BY RAND() ";
+        }else{
             $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
@@ -840,16 +842,7 @@ class Video {
     }
     
     static function getRandom(){
-        
-        global $global;
-
-        $sql = "SELECT id FROM videos ORDER BY RAND() LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
-        if ($res && $row = $res->fetch_assoc()) {
-            return static::getVideo($row['id'], "viewableNotAd");
-        }
-        return false;
+        return static::getVideo("", "viewable",false, true);
         
     }
 
