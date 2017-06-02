@@ -4,7 +4,6 @@ if (!empty($ad)) {
     $playNowVideo = $ad;
     $logId = Video_ad::log($ad['id']);
 }
-
 ?>
 <div class="row main-video">
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
@@ -14,7 +13,7 @@ if (!empty($ad)) {
             echo "ad";
         }
         ?>">
-            <video poster="<?php echo $poster; ?>" controls crossorigin autoplay
+            <video poster="<?php echo $poster; ?>" controls crossorigin 
                    class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo"  data-setup='{ aspectRatio: "16:9" }'>
                 <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
                 <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
@@ -32,7 +31,7 @@ if (!empty($ad)) {
                         ?> <i class="fa fa-external-link"></i>
                     </a>
                 </div>
-                        <a id="adButton" href="#" class="adControl" <?php if(!empty($ad['skip_after_seconds'])){?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
+                <a id="adButton" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
             <?php } ?>
         </div>
     </div> 
@@ -45,37 +44,76 @@ if (!empty($ad)) {
     $(document).ready(function () {
         fullFuration = strToSeconds('<?php echo $ad['duration']; ?>');
         player = videojs('mainVideo').ready(function () {
-            this.play();
+<?php
+if ($config->getAutoplay()) {
+    echo "this.play();";
+} else {
+    ?>
+                if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                    this.play();
+                }
+<?php }
+?>
 <?php if (!empty($logId)) { ?>
-        isPlayingAd = true;
+                isPlayingAd = true;
                 this.on('ended', function () {
                     console.log("Finish Video");
                     if (isPlayingAd) {
                         isPlayingAd = false;
                         $('#adButton').trigger("click");
                     }
-                });
-                this.on('timeupdate', function () {
-                    var durationLeft = fullFuration-this.currentTime();
-                    $("#adUrl .time").text(secondsToStr(durationLeft+1, 2));
-                    <?php if(!empty($ad['skip_after_seconds'])){
-                        ?>
-                        if(isPlayingAd && this.currentTime()><?php echo intval($ad['skip_after_seconds']) ;?>){
-                            $('#adButton').fadeIn();
-                        }
-                        <?php
-                    } ?>
-                });
-<?php } ?>
-        });
+    <?php
+    // if autoplay play next video
+    if (!empty($autoPlayVideo)) {
+        ?>
+                        else if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                            document.location = '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>';
+                                            }
+        <?php
+    }
+    ?>
+
+                                    });
+                                    this.on('timeupdate', function () {
+                                        var durationLeft = fullFuration - this.currentTime();
+                                        $("#adUrl .time").text(secondsToStr(durationLeft + 1, 2));
+    <?php if (!empty($ad['skip_after_seconds'])) {
+        ?>
+                                            if (isPlayingAd && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
+                                                $('#adButton').fadeIn();
+                                            }
+    <?php }
+    ?>
+                                    });
+<?php } else {
+    ?>
+                                    this.on('ended', function () {
+                                        console.log("Finish Video");
+    <?php
+    // if autoplay play next video
+    if (!empty($autoPlayVideo)) {
+        ?>
+                                            if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                                                document.location = '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>';
+                                                                }
+        <?php
+    }
+    ?>
+
+                                                        });
+<?php }
+?>
+                                                });
 <?php if (!empty($logId)) { ?>
-            $('#adButton').click(function () {
-                console.log("Change Video");
-                fullFuration = strToSeconds('<?php echo $video['duration']; ?>');
-                changeVideoSrc(player, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
-                            $(".ad").removeClass("ad");
-                            return false;
-                        });
+                                                    $('#adButton').click(function () {
+                                                        console.log("Change Video");
+                                                        fullFuration = strToSeconds('<?php echo $video['duration']; ?>');
+                                                        changeVideoSrc(player, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
+                                                                    $(".ad").removeClass("ad");
+                                                                    return false;
+                                                                });
 <?php } ?>
                 });
+</script>
+                                                        });
 </script>

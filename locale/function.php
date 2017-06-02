@@ -1,7 +1,7 @@
 <?php
-
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
+if(empty($config)){
+    return true;
+}
 if (empty($_SESSION['language'])) {
     $_SESSION['language'] = $config->getLanguage();
 }

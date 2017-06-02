@@ -1,17 +1,15 @@
 <?php
 $configFile = dirname(__FILE__).'/../../videos/configuration.php';
 require_once $configFile;
-require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-$config = new Configuration();
 $videoResolution = $config->getVideo_resolution();
 
 header('Content-Type: application/json');
 $videoConverter = array();
 //$videoConverter['mp4'] = ' -vf scale=' . $videoResolution . ' -vcodec h264 -acodec aac -strict -2 -y ';
 //$videoConverter['webm'] = '-vf scale=' . $videoResolution . ' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y';
-$videoConverter['mp4'] = $config->getFfmpegMp4();
-$videoConverter['webm'] = $config->getFfmpegWebm();
+$videoConverter['mp4'] = ($config->getEncode_mp4())?$config->getFfmpegMp4():false;
+$videoConverter['webm'] = ($config->getEncode_webm())?$config->getFfmpegWebm():false;
 
 $audioConverter = array();
 //$audioConverter['mp3'] = ' -acodec libmp3lame -y ';
@@ -51,10 +49,11 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
             }
         } else {
             echo "\n {$key} Ok\n";
-            if ($key == 'mp3') {
+            if ($key == 'mp3' && $config->getEncode_mp3spectrum()) {                
                 echo "Try FFMPEG Spectrum\n";
                 $destinationFile = "{$global['systemRootPath']}videos/{$filename}.mp4";
-                $ffmpeg = "ffmpeg -i {$pathFileName} -filter_complex \"[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\" -map \"[v]\" -map 0:a -c:v libx264 -c:a copy {$destinationFile}";
+                eval('$ffmpeg ="' . $config->getFfmpegSpectrum() . '";');
+                //$ffmpeg = "ffmpeg -i {$pathFileName} -filter_complex \"[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\" -map \"[v]\" -map 0:a -c:v libx264 -c:a copy {$destinationFile}";
                 $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt && {$ffmpeg}";
                 echo "** executing command {$cmd}\n";
                 exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt  2>&1", $output, $return_val);
@@ -89,7 +88,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
 
 
 foreach ($videoConverter as $key => $value) {
-    if (!empty($type) && $type != $key) {
+    if ((!empty($type) && $type != $key) || empty($value)) {
         continue;
     }
     // convert video

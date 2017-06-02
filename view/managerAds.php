@@ -8,8 +8,6 @@ if (!User::isAdmin()) {
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 $categories = Category::getAllCategories();
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();
@@ -46,13 +44,11 @@ $userGroups = UserGroups::getAllUsersGroups();
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                        <th data-column-id="ad_title" ><?php echo __("Ad Title"); ?></th>
                         <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Video Title"); ?></th>
-                        <th data-column-id="clicks" data-width="100px"><?php echo __("Clicks"); ?></th>
-                        <th data-column-id="prints" data-width="100px"><?php echo __("Prints"); ?></th>
+                        <th data-column-id="ad_title" ><?php echo __("Ad Title"); ?></th>
+                        <th data-column-id="clicks" data-width="80px"><?php echo __("Clicks"); ?></th>
+                        <th data-column-id="prints" data-width="80px"><?php echo __("Prints"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px"><?php echo __("Tags"); ?></th>
-                        <th data-column-id="duration" data-width="100px"><?php echo __("Duration"); ?></th>
-                        <th data-column-id="created" data-order="desc" data-width="100px"><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="100px"></th>
                     </tr>
                 </thead>
@@ -183,13 +179,15 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 tags += '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
                             }
-                            var type;
+                            var type, img;
                             if (row.type === "audio") {
                                 type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
                             } else {
                                 type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            return type + row.title + "<br>" + tags;
+                            return img+type + row.title + "<br>" + tags;
                         }
 
 

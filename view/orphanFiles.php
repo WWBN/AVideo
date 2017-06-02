@@ -5,9 +5,7 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can see orphan files"));
     exit;
 }
-require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-$config = new Configuration();
 $videos = Video::getAllVideos();
 //$localFiles
 $dir = "{$global['systemRootPath']}videos/";

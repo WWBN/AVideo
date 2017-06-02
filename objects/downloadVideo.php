@@ -11,9 +11,6 @@ if(empty($userId)){
     die(json_encode($obj));
 }
 
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
-
 header('Content-Type: application/json');
 $cmd = "youtube-dl -e {$_POST['videoURL']}";
 exec($cmd . "  2>&1", $output, $return_val);

@@ -51,13 +51,29 @@ foreach ($videos as $key => $value) {
 }
 $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
-
 if ($video['type'] !== "audio") {
     $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+}
+
+if(!empty($video)){
+    if ($video['type'] !== "audio") {
+        $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
+    } else {
+        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    }
+}
+
+$autoPlayVideo = Video::getRandom($video['id']);
+if(!empty($autoPlayVideo)){
+    $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
+    $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
+    $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
+}
+$catLink = "";
+if(!empty($_GET['catName'])){
+    $catLink = "cat/{$_GET['catName']}/";
 }
 ?>
 <!DOCTYPE html>
@@ -72,6 +88,12 @@ if ($video['type'] !== "audio") {
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
+
+        <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
+        <meta property="og:type"               content="video" />
+        <meta property="og:title"              content="<?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo $video['title']; ?>" />
+        <meta property="og:image"              content="<?php echo $img; ?>" />
     </head>
 
     <body>
@@ -99,7 +121,7 @@ if ($video['type'] !== "audio") {
                                         <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" /> 
                                         <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
+                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
                                     </div>
@@ -179,7 +201,6 @@ if ($video['type'] !== "audio") {
                                                         $(this).tooltip("show");
                                                         return false;
                                                     });
-                                                    $("#dislikeBtn, #likeBtn").tooltip();
             <?php
         }
         ?>
@@ -216,7 +237,7 @@ if ($video['type'] !== "audio") {
                                         <div class="tab-content clearfix">
                                             <div class="tab-pane active" id="tabShare">
                                                 <?php
-                                                $url = urlencode($global['webSiteRootURL'] . "video/" . $video['clean_title']);
+                                                $url = urlencode($global['webSiteRootURL'] . "{$catLink}video/" . $video['clean_title']);
                                                 $title = urlencode($video['title']);
                                                 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
                                                 $twitterURL = "http://twitter.com/home?status={$title}+{$url}";
@@ -243,7 +264,7 @@ if ($video['type'] !== "audio") {
                                                            ?>" placeholder="<?php echo __("Share Video"); ?>" id="code-input">
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default" type="button" id="code-button"
-                                                                data-toggle="tooltip" data-placement="button"
+                                                                data-toggle="tooltip" data-placement="bottom" 
                                                                 title="<?php echo __("Preview"); ?>">
                                                             <span class="fa fa-eye"></span>    <?php echo __("Preview"); ?>
                                                         </button>
@@ -292,7 +313,7 @@ if ($video['type'] !== "audio") {
                                                                 <div class="col-md-8 inputGroupContainer">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                                        <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo _("I would like to share this video with you:"); ?> <?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?></textarea>
+                                                                        <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo _("I would like to share this video with you:"); ?> <?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $video['clean_title']; ?></textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -464,7 +485,81 @@ if ($video['type'] !== "audio") {
                             </div>
 
                         </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite">
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite">                            
+                            <?php
+                            if(!empty($autoPlayVideo)){
+                            ?>
+                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay" style="display: none;">
+                                <strong>
+                                    <?php
+                                    echo __("Up Next");
+                                    ?>
+                                </strong>
+                                <span class="pull-right">
+                                    <span>
+                                        <?php
+                                        echo __("Autoplay");
+                                        ?>
+                                    </span>
+                                    <span>
+                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
+                                    </span>
+                                    <input type="checkbox" data-toggle="toggle" data-size="mini" class="saveCookie" name="autoplay">
+                                </span>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" style="display: none;" >
+                                <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo $autoPlayVideo['title']; ?>" class="videoLink">
+                                    <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
+                                        <?php
+                                        if ($autoPlayVideo['type'] !== "audio") {
+                                            $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
+                                        } else {
+                                            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                        }
+                                        ?>
+                                        <img src="<?php echo $img; ?>" alt="<?php echo $autoPlayVideo['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
+
+                                        <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $autoPlayVideo['clean_title']; ?>" />
+                                        <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $autoPlayVideo['clean_title']; ?>" />
+                                        <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
+
+                                        <span class="glyphicon glyphicon-play-circle"></span>
+                                        <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></span>
+                                    </div>
+                                    <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
+                                        <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $autoPlayVideo['title']; ?></strong></div>
+                                        <div class="details row" itemprop="description">
+                                            <div>
+                                                <strong><?php echo __("Category"); ?>: </strong>
+                                                <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span> 
+                                                <?php echo $autoPlayVideo['category']; ?>
+                                            </div>
+                                            <div>
+                                                <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                                            </div>
+                                            <div><strong><?php echo $autoPlayVideo['creator']; ?></strong></div>
+
+                                        </div>
+                                        <div class="row">
+                                            <?php
+                                            if(!empty($autoPlayVideo['tags'])){
+                                                foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
+                                                    if ($autoPlayVideo2->label === __("Group")) {
+                                                        ?>
+                                                        <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
+                                                        <?php
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <?php
+                            }
+                            ?>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <?php
                                 echo $config->getAdsense();
@@ -477,7 +572,7 @@ if ($video['type'] !== "audio") {
                                 }
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="videoLink">
+                                    <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="videoLink">
                                         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
                                             <?php
                                             if ($value['type'] !== "audio") {
@@ -489,7 +584,7 @@ if ($video['type'] !== "audio") {
                                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
 
                                             <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                            <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $value['clean_title']; ?>" />
+                                            <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $value['clean_title']; ?>" />
                                             <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
                                             <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
@@ -531,6 +626,35 @@ if ($video['type'] !== "audio") {
                             </ul>
                             <script>
                                 $(document).ready(function () {
+
+                                    $("input.saveCookie").each(function () {
+                                        var mycookie = Cookies.get($(this).attr('name'));
+                                        console.log($(this).attr('name'));
+                                        console.log(mycookie);
+                                        if (mycookie && mycookie == "true") {
+                                            $(this).prop('checked', mycookie);
+                                            $('.autoPlayVideo').slideDown();
+                                        }
+                                    });
+                                    $("input.saveCookie").change(function () {
+                                        console.log($(this).attr('name'));
+                                        console.log($(this).prop('checked'));
+                                        var auto = $(this).prop('checked');
+                                        if (auto) {
+                                            $('.autoPlayVideo').slideDown();
+                                        } else {
+                                            $('.autoPlayVideo').slideUp();
+                                        }
+                                        Cookies.set($(this).attr("name"), auto, {
+                                            path: '/',
+                                            expires: 365
+                                        });
+                                    });
+
+                                    setTimeout(function () {
+                                        $('.autoplay').slideDown();
+                                    }, 1000);
+
                                     // Total Itens <?php echo $total; ?>
 
                                     $('.pages').bootpag({
@@ -556,7 +680,7 @@ if ($video['type'] !== "audio") {
                             foreach ($videos as $value) {
                                 ?>
                                 <div class="col-lg-3 col-sm-12 col-xs-12">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                    <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
                                         <h2><?php echo $value['title']; ?></h2>
                                         <span class="glyphicon glyphicon-play-circle"></span>
@@ -570,6 +694,7 @@ if ($video['type'] !== "audio") {
                             </ul>
                             <script>
                                 $(document).ready(function () {
+
                                     // Total Itens <?php echo $total; ?>
 
                                     $('.pages').bootpag({
@@ -579,6 +704,7 @@ if ($video['type'] !== "audio") {
                                     }).on('page', function (event, num) {
                                         window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
                                     });
+
                                 });
                             </script>
                         </div>
@@ -592,7 +718,7 @@ if ($video['type'] !== "audio") {
                 <div class="alert alert-warning">
                     <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
                 </div>
-            <?php } ?>  
+        <?php } ?>  
 
         </div>
         <?php

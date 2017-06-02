@@ -1,7 +1,3 @@
-<?php
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
-?>
 <hr>
 <footer>
     <p>Powered by <a href="https://www.sfrancis.ca" class="external btn btn-outline btn-primary" target="_blank">Sfrancis </a> &copy; 2017</p>
@@ -32,3 +28,5 @@ if (!empty($_GET['error'])) {
 <script src="<?php echo $global['webSiteRootURL']; ?>js/bootgrid/jquery.bootgrid.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>js/script.js" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-toggle/bootstrap-toggle.min.js" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>js/js-cookie/js.cookie.js" type="text/javascript"></script>

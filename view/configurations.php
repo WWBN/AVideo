@@ -1,9 +1,7 @@
 <?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
-$config = new Configuration();
 //var_dump($config);exit;
 ?>
 <!DOCTYPE html>
@@ -435,7 +433,15 @@ $config = new Configuration();
                                                             </select>
                                                         </div>
                                                     </div>
+                                                </div>                                                                                             
+                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-4  control-label"><?php echo __("Autoplay Video on Load Page"); ?></label>  
+                                                    <div class="col-md-8">
+                                                        <input data-toggle="toggle" type="checkbox" name="autoplay" id="autoplay" value="1" <?php if(!empty($config->getAutoplay())){echo "checked";} ?>>    
+                                                    </div>
                                                 </div>
+                                                
 
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("Enable Facebook Login"); ?></label>  
@@ -578,6 +584,13 @@ $config = new Configuration();
                                                         <input id="ffmpegMp3" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp3(); ?>" >  
                                                     </div>
                                                 </div>
+                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("FFMPEG MP3 Spectrum"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="ffmpegSpectrum" class="form-control"  type="text" value="<?php echo $config->getFfmpegSpectrum(); ?>" >  
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group">
                                                     <label class="col-md-2"><?php echo __("FFMPEG Ogg"); ?></label>  
@@ -590,6 +603,42 @@ $config = new Configuration();
                                                     <label class="col-md-2"><?php echo __("Youtube-dl"); ?></label>  
                                                     <div class="col-md-10">
                                                         <input id="youtubeDl" class="form-control"  type="text" value="<?php echo $config->getYoutubedl(); ?>" >     
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Session Timeout in seconds"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input id="session_timeout" class="form-control"  type="number" value="<?php echo $config->getSession_timeout(); ?>" >     
+                                                    </div>
+                                                </div>
+        
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Encode video in MP4 Format"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input data-toggle="toggle" type="checkbox" name="encode_mp4" id="encode_mp4" value="1" <?php if(!empty($config->getEncode_mp4())){echo "checked";} ?>>    
+                                                    </div>
+                                                </div>
+        
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Encode video in WEBM Format"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input data-toggle="toggle" type="checkbox" name="encode_webm" id="encode_webm" value="1" <?php if(!empty($config->getEncode_webm())){echo "checked";} ?>>    
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Encode MP3 file Spectrum"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input data-toggle="toggle" type="checkbox" name="encode_mp3spectrum" id="encode_mp3spectrum" value="1" <?php if(!empty($config->getEncode_mp3spectrum())){echo "checked";} ?>>    
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-2"><?php echo __("Disable YouPHPTube Google Analytics"); ?></label>  
+                                                    <div class="col-md-10">
+                                                        <input data-toggle="toggle" type="checkbox" name="disable_analytics" id="disable_analytics" value="1" <?php if(!empty($config->getDisable_analytics())){echo "checked";} ?>  aria-describedby="disable_analyticsHelp">    
+                                                         <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -694,7 +743,7 @@ $config = new Configuration();
                                                             update('cpu', response);
                                                             setTimeout(function () {
                                                                 getCpu();
-                                                            }, 1000);
+                                                            }, 2000);
                                                         }
                                                     });
                                                 }
@@ -707,7 +756,7 @@ $config = new Configuration();
 
                                                             setTimeout(function () {
                                                                 getMem();
-                                                            }, 1000);
+                                                            }, 10000);
                                                         }
                                                     });
                                                 }
@@ -719,7 +768,7 @@ $config = new Configuration();
                                                             update('disk', response);
                                                             setTimeout(function () {
                                                                 getDisk();
-                                                            }, 1000);
+                                                            }, 30000);
                                                         }
                                                     });
                                                 }
@@ -910,7 +959,15 @@ $config = new Configuration();
                                             "ffmpegPath": $('#ffmpegPath').val(),
                                             "head": $('#head').val(),
                                             "adsense": $('#adsense').val(),
-                                            "mode": $('#mode').val()
+                                            "mode": $('#mode').val(),
+                                            "disable_analytics": $('#disable_analytics').prop("checked"),
+                                            "session_timeout": $('#session_timeout').val(),
+                                            "encode_mp4": $('#encode_mp4').prop("checked"),
+                                            "encode_webm": $('#encode_webm').prop("checked"),
+                                            "encode_mp3spectrum": $('#encode_mp3spectrum').prop("checked"),
+                                            "ffmpegSpectrum": $('#ffmpegSpectrum').val(),
+                                            "autoplay": $('#autoplay').prop("checked")                                           
+                                            
                                         },
                                         type: 'post',
                                         success: function (response) {

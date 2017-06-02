@@ -39,8 +39,6 @@ foreach ($videos as $key => $value) {
 }
 $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

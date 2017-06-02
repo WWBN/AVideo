@@ -1,7 +1,5 @@
 <?php
 require_once '../videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">

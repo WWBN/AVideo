@@ -40,14 +40,14 @@ function humanFileSize($size, $unit = "") {
     return number_format($size) . " bytes";
 }
 
-function get_max_file_size(){
+function get_max_file_size() {
     return humanFileSize(file_upload_max_size());
 }
 
-function humanTiming ($time){
+function humanTiming($time) {
     $time = time() - $time; // to get the time since that moment
-    $time = ($time<1)? 1 : $time;
-    $tokens = array (
+    $time = ($time < 1) ? 1 : $time;
+    $tokens = array(
         31536000 => __('year'),
         2592000 => __('month'),
         604800 => __('week'),
@@ -58,19 +58,19 @@ function humanTiming ($time){
     );
 
     foreach ($tokens as $unit => $text) {
-        if ($time < $unit) continue;
+        if ($time < $unit)
+            continue;
         $numberOfUnits = floor($time / $unit);
-        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+        return $numberOfUnits . ' ' . $text . (($numberOfUnits > 1) ? 's' : '');
     }
-
 }
 
-function checkVideosDir(){
+function checkVideosDir() {
     $dir = "../videos";
     if (file_exists($dir)) {
-        if(is_writable($dir)){
+        if (is_writable($dir)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     } else {
@@ -94,12 +94,21 @@ function isPHP($version = "'7.0.0'") {
 }
 
 function modRewriteEnabled() {
-    return in_array('mod_rewrite', apache_get_modules());
+    if(!function_exists('apache_get_modules')){
+        ob_start();
+        phpinfo(INFO_MODULES);
+        $contents = ob_get_contents();
+        ob_end_clean();
+        return (strpos($contents, 'mod_rewrite') !== false);
+    }else{
+        return in_array('mod_rewrite', apache_get_modules());
+    }
 }
 
 function isFFMPEG() {
     return trim(shell_exec('which ffmpeg'));
 }
+
 function isExifToo() {
     return trim(shell_exec('which exiftool'));
 }
@@ -162,7 +171,7 @@ function check_mysqlnd() {
     return function_exists('mysqli_fetch_all');
 }
 
-function base64DataToImage($imgBase64){
+function base64DataToImage($imgBase64) {
     $img = $imgBase64;
     $img = str_replace('data:image/png;base64,', '', $img);
     $img = str_replace(' ', '+', $img);
@@ -178,4 +187,28 @@ function getRealIpAddr() {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
     return $ip;
+}
+
+function cleanString($text) {
+    $utf8 = array(
+        '/[áàâãªä]/u' => 'a',
+        '/[ÁÀÂÃÄ]/u' => 'A',
+        '/[ÍÌÎÏ]/u' => 'I',
+        '/[íìîï]/u' => 'i',
+        '/[éèêë]/u' => 'e',
+        '/[ÉÈÊË]/u' => 'E',
+        '/[óòôõºö]/u' => 'o',
+        '/[ÓÒÔÕÖ]/u' => 'O',
+        '/[úùûü]/u' => 'u',
+        '/[ÚÙÛÜ]/u' => 'U',
+        '/ç/' => 'c',
+        '/Ç/' => 'C',
+        '/ñ/' => 'n',
+        '/Ñ/' => 'N',
+        '/–/' => '-', // UTF-8 hyphen to "normal" hyphen
+        '/[’‘‹›‚]/u' => ' ', // Literally a single quote
+        '/[“”«»„]/u' => ' ', // Double quote
+        '/ /' => ' ', // nonbreaking space (equiv. to 0x160)
+    );
+    return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }

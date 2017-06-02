@@ -5,8 +5,6 @@ if (!User::canUpload()) {
     header("location: {$global['webSiteRootURL']}user");
     exit;
 }
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 
 function isYoutubeDl() {
     return trim(shell_exec('which youtube-dl'));

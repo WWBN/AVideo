@@ -19,7 +19,7 @@ class Category {
     }
 
     function setClean_name($clean_name) {
-        preg_replace('/\W+/', '-', strtolower($clean_name));
+        preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
         $this->clean_name = $clean_name;
     }
 

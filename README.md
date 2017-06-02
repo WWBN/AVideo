@@ -46,3 +46,11 @@ We have made a video to help you: http://tutorials.youphptube.com/video/enable-f
 - Independent Video Advertising System to Avoid Meddling by Google (Thanks for the idea Simon Christopher)
 - Choose the fist style, Youtube video Play or Gallery
 - Now MP3 files create a spectrum video, audio now will play like a video, watch an sample: http://demo.youphptube.com/video/mark-ronson-uptown-funk-ft-bruno-mars
+
+# Ver 2.8
+- Option to enable and disable features such as: (Coding formats, MP4, WEBM and creation of Spectrum for MP3)
+- Added Thumbs from the videos to the Ads management area
+- Displays static image while the video is not encoded and the image was not generated
+- Option to specify how long the user session will expire
+- Choose if the video to start will play automatically
+- Option on the main screen for the video to continue playing the next videos

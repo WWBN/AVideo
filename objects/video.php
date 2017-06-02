@@ -130,7 +130,7 @@ class Video {
     }
 
     function setClean_title($clean_title) {
-        preg_replace('/\W+/', '-', strtolower($clean_title));
+        preg_replace('/\W+/', '-', strtolower(cleanString($clean_title)));
         $this->clean_title = $clean_title;
     }
 
@@ -187,7 +187,7 @@ class Video {
         return " AND " . $sql;
     }
 
-    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false) {
+    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false) {
         global $global;
         $id = intval($id);
 
@@ -240,15 +240,18 @@ class Video {
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
-        if (!empty($_GET['videoName'])) {
-            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
-        } else if (!empty($id)) {
+        if (!empty($id)) {
             $sql .= " AND v.id = $id ";
-        } else {
+        }else if (empty($random) && !empty($_GET['videoName'])) {
+            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
+        } else if(!empty($random)){   
+            $sql .= " AND v.id != {$random} ";
+            $sql .= " ORDER BY RAND() ";
+        }else{
             $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
-        //echo $sql;exit;
+        //if(!empty($random))echo "<hr>".$sql;
         $res = $global['mysqli']->query($sql);
         if ($res) {
             require_once 'userGroups.php';
@@ -553,12 +556,12 @@ class Video {
     }
 
     static function getDurationFromFile($file) {
+        global $config;
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($file)) {
             error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
             return "EE:EE:EE";
         }
-        $config = new Configuration();
         //$cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';
         eval('$cmd="' . $config->getFfprobeDuration() . '";');
         exec($cmd . ' 2>&1', $output, $return_val);
@@ -617,12 +620,12 @@ class Video {
     }
 
     static function isLandscape($pathFileName) {
+        global $config;
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($pathFileName)) {
             echo '{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $pathFileName . ') Not Found"}';
             exit;
         }
-        $config = new Configuration();
         eval('$cmd="' . $config->getExiftool() . '";');
         $resp = true; // is landscape by default
         exec($cmd . ' 2>&1', $output, $return_val);
@@ -695,7 +698,7 @@ class Video {
 
         if (empty($type) || $type === "ad") {
             $obj = new stdClass();
-            $obj->label = __("Is a video Ad");
+            $obj->label = __("Is Ad");
             if ($video->getIsAd()) {
                 $obj->type = "success";
                 $obj->text = __("Yes");
@@ -837,6 +840,11 @@ class Video {
             return self::fixCleanTitle($clean_title . $count, $count + 1);
         }
         return $clean_title;
+    }
+    
+    static function getRandom($excludeVideoId=false){
+        return static::getVideo("", "viewableNotAd",false, $excludeVideoId);
+        
     }
 
 }

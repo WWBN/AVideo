@@ -177,8 +177,8 @@ require_once '../objects/functions.php';
                                     Update the package list.
                                     <br>
                                     <pre><code>
-                                        sudo apt-get update
-                                        sudo apt-get dist-upgrade
+sudo apt-get update
+sudo apt-get dist-upgrade
                                     </code></pre>
                                     <br>
                                     Now FFmpeg is available to be installed with apt:

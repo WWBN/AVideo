@@ -1,6 +1,6 @@
 <?php
 
-$installationVersion = "2.7";
+$installationVersion = "2.8";
 
 header('Content-Type: application/json');
 
@@ -128,10 +128,7 @@ $content = "<?php
 /**
  * Do NOT change from here
  */
-session_start();
 
-\$global['mysqli'] = new mysqli(\$mysqlHost, \$mysqlUser,\$mysqlPass,\$mysqlDatabase);
-require_once \$global['systemRootPath'].'locale/function.php';
 require_once \$global['systemRootPath'].'objects/include_config.php';
 ";
 

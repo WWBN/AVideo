@@ -317,7 +317,6 @@ footer {
     margin: -5px;
     padding: -5px;
     border-bottom: 2px solid #167ac6;
-    z-index: 9999999 !important;
 }
 
 #likeBtn.myVote span, #likeBtn.myVote small {
@@ -450,4 +449,10 @@ footer {
 .galleryVideo .group {
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.autoplay span span{
+    margin: 0 5px;
+    color: #767676;
+    font-weight: bold;
 }

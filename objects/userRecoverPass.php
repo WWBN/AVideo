@@ -20,8 +20,6 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
             if ($valid) {
                 require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
 
-                require_once $global['systemRootPath'] . 'objects/configuration.php';
-                $config = new Configuration();
                 //Create a new PHPMailer instance
                 $mail = new PHPMailer;
                 // Set PHPMailer to use the sendmail transport

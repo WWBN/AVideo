@@ -10,8 +10,6 @@ require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 VideoStatistic::save($video['id']);
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

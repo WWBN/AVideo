@@ -47,7 +47,17 @@ class Configuration {
     
     private $adsense;
     
-    private $mode;
+    private $mode;    
+    
+    // version 2.7
+    private $disable_analytics;    
+    private $session_timeout;    
+    private $encode_mp4;    
+    private $encode_webm;    
+    private $encode_mp3spectrum;
+    private $ffmpegSpectrum;
+    private $autoplay;
+    
     function __construct($video_resolution="") {
         $this->load();
         if(!empty($video_resolution)){
@@ -110,8 +120,16 @@ class Configuration {
                 . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
                 . "mode = '{$this->getMode()}',"
                 . "logo = '{$global['mysqli']->real_escape_string($this->getLogo())}',"
-                . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}'"
+                . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}',"
+                . "disable_analytics = '{$this->getDisable_analytics()}',"
+                . "session_timeout = '{$this->getSession_timeout()}',"
+                . "encode_mp4 = '{$this->getEncode_mp4()}',"
+                . "encode_webm = '{$this->getEncode_webm()}',"
+                . "encode_mp3spectrum = '{$this->getEncode_mp3spectrum()}',"
+                . "ffmpegSpectrum = '{$global['mysqli']->real_escape_string($this->getFfmpegSpectrum())}',"
+                . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}'"
                 . "WHERE id = 1";
+                
 
         $insert_row = $global['mysqli']->query($sql);
 
@@ -475,7 +493,68 @@ class Configuration {
         $this->mode = $mode;
     }
 
+    // version 2.7
+    function getDisable_analytics() {
+        return $this->disable_analytics;
+    }
 
+    function getSession_timeout() {
+        return $this->session_timeout;
+    }
+
+    function getEncode_mp4() {
+        return $this->encode_mp4;
+    }
+
+    function getEncode_webm() {
+        return $this->encode_webm;
+    }
+
+    function getEncode_mp3spectrum() {
+        return $this->encode_mp3spectrum;
+    }
+
+    function setDisable_analytics($disable_analytics) {
+        $this->disable_analytics = $disable_analytics=='true'?1:0;
+    }
+
+    function setSession_timeout($session_timeout) {
+        $this->session_timeout = $session_timeout;
+    }
+
+    function setEncode_mp4($encode_mp4) {
+        $this->encode_mp4 = $encode_mp4=='true'?1:0;
+    }
+
+    function setEncode_webm($encode_webm) {
+        $this->encode_webm = $encode_webm=='true'?1:0;
+    }
+
+    function setEncode_mp3spectrum($encode_mp3spectrum) {
+        $this->encode_mp3spectrum = $encode_mp3spectrum=='true'?1:0;
+    }
+    
+    function getFfmpegSpectrum() {
+        if(empty($this->ffmpegSpectrum)){
+            return 'ffmpeg -i {$pathFileName} -filter_complex \'[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\' -map \'[v]\' -map 0:a -c:v libx264 -c:a copy {$destinationFile}';
+        }
+        return $this->ffmpegSpectrum;
+    }
+
+    function setFfmpegSpectrum($ffmpegSpectrum) {
+        $this->ffmpegSpectrum = $ffmpegSpectrum;
+    }
+
+    function getAutoplay() {
+        return $this->autoplay;
+    }
+
+    function setAutoplay($autoplay) {
+        $this->autoplay = $autoplay=='true'?1:0;
+    }
+
+            
+    // end version 2.7
 
 
 
