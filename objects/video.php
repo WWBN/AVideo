@@ -242,10 +242,8 @@ class Video {
         }
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
-        }else if (!empty($_GET['videoName'])) {
-            if(empty($random)){
-                $sql .= " AND clean_title = '{$_GET['videoName']}' ";
-            }
+        }else if (empty($random) && !empty($_GET['videoName'])) {
+            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
         } else if(!empty($random)){   
             $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
@@ -253,7 +251,7 @@ class Video {
             $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
-        //echo "<hr>".$sql;
+        //if(!empty($random))echo "<hr>".$sql;
         $res = $global['mysqli']->query($sql);
         if ($res) {
             require_once 'userGroups.php';
