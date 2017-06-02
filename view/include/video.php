@@ -66,7 +66,7 @@ if (!empty($ad)) {
                     if(!empty($autoPlayVideo)){
                         ?>
                         else if(Cookies.get('autoplay') && Cookies.get('autoplay')!=='false'){
-                            document.location = '<?php echo $global['webSiteRootURL']; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>';
+                            document.location = '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>';
                         }
                         <?php
                     }
