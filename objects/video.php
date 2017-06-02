@@ -238,23 +238,22 @@ class Video {
         }
 
         if (!empty($_GET['catName'])) {
-            if(empty($random)){
-                $sql .= " AND c.clean_name = '{$_GET['catName']}'";
-            }else{
-                $sql .= " AND c.clean_name != '{$_GET['catName']}'";
-            }
+            $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
         }else if (!empty($_GET['videoName'])) {
-            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
-        } else if($random){            
+            if(empty($random)){
+                $sql .= " AND clean_title = '{$_GET['videoName']}' ";
+            }
+        } else if(!empty($random)){   
+            $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
         }else{
             $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
-        //echo $sql;exit;
+        //echo "<hr>".$sql;
         $res = $global['mysqli']->query($sql);
         if ($res) {
             require_once 'userGroups.php';
@@ -845,8 +844,8 @@ class Video {
         return $clean_title;
     }
     
-    static function getRandom(){
-        return static::getVideo("", "viewable",false, true);
+    static function getRandom($excludeVideoId=false){
+        return static::getVideo("", "viewable",false, $excludeVideoId);
         
     }
 

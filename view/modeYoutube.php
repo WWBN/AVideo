@@ -65,7 +65,7 @@ if(!empty($video)){
     }
 }
 
-$autoPlayVideo = Video::getRandom();
+$autoPlayVideo = Video::getRandom($video['id']);
 if(!empty($autoPlayVideo)){
     $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
     $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
