@@ -52,3 +52,5 @@ We have made a video to help you: http://tutorials.youphptube.com/video/enable-f
 - Added Thumbs from the videos to the Ads management area
 - Displays static image while the video is not encoded and the image was not generated
 - Option to specify how long the user session will expire
+- Choose if the video to start will play automatically
+- Option on the main screen for the video to continue playing the next videos
