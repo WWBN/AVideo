@@ -485,7 +485,10 @@ if(!empty($_GET['catName'])){
                             </div>
 
                         </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite">
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite">                            
+                            <?php
+                            if(!empty($autoPlayVideo)){
+                            ?>
                             <div class="col-lg-12 col-sm-12 col-xs-12 autoplay" style="display: none;">
                                 <strong>
                                     <?php
@@ -554,6 +557,9 @@ if(!empty($_GET['catName'])){
                                     </div>
                                 </a>
                             </div>
+                            <?php
+                            }
+                            ?>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <?php
                                 echo $config->getAdsense();
