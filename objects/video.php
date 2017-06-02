@@ -843,7 +843,7 @@ class Video {
     }
     
     static function getRandom($excludeVideoId=false){
-        return static::getVideo("", "viewable",false, $excludeVideoId);
+        return static::getVideo("", "viewableNotAd",false, $excludeVideoId);
         
     }
 
