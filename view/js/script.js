@@ -23,9 +23,17 @@ modal = modal || (function () {
     };
 })();
 
+String.prototype.stripAccents = function() {
+    var translate_re = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
+    var translate = 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY';
+    return (this.replace(translate_re, function(match){
+        return translate.substr(translate_re.source.indexOf(match)-1, 1); })
+    );
+};
+
 function clean_name(str) {
     
-    str = str.toLowerCase();
+    str = str.stripAccents().toLowerCase();
     return str.replace(/\W+/g, "-");
 }
 
