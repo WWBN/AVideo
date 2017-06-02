@@ -238,7 +238,11 @@ class Video {
         }
 
         if (!empty($_GET['catName'])) {
-            $sql .= " AND c.clean_name = '{$_GET['catName']}'";
+            if(empty($random)){
+                $sql .= " AND c.clean_name = '{$_GET['catName']}'";
+            }else{
+                $sql .= " AND c.clean_name != '{$_GET['catName']}'";
+            }
         }
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
