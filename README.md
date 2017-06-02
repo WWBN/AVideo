@@ -48,10 +48,9 @@ We have made a video to help you: http://tutorials.youphptube.com/video/enable-f
 - Now MP3 files create a spectrum video, audio now will play like a video, watch an sample: http://demo.youphptube.com/video/mark-ronson-uptown-funk-ft-bruno-mars
 
 # Ver 2.8
-- Options to enable and disable functions
-- thumbs for ads manager
-- temporary thumbs when it is not done
-- session time out
-- encode mpeg and webm option
-- encode mp3 and spectrum option
-
+- Option to enable and disable features such as: (Coding formats, MP4, WEBM and creation of Spectrum for MP3)
+- Added Thumbs from the videos to the Ads management area
+- Displays static image while the video is not encoded and the image was not generated
+- Option to specify how long the user session will expire
+- Choose if the video to start will play automatically
+- Option on the main screen for the video to continue playing the next videos
