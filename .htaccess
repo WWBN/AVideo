@@ -1,3 +1,6 @@
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin: *
+</IfModule>
 <IfModule mod_rewrite.c>
     RewriteEngine on
 
@@ -25,6 +28,8 @@
     RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L]
     #for the video name
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/?$ view/?videoName=$1    [NC,L]
+    #for the video name
+    RewriteRule    ^cat/([A-Za-z0-9-]+)/video/([A-Za-z0-9-_.]+)/?$ view/?catName=$1&videoName=$2    [NC,L]
     #for the embeded video name
     RewriteRule    ^videoEmbeded/([A-Za-z0-9-_.]+)/?$ view/videoEmbeded.php?videoName=$1    [NC,L]
 

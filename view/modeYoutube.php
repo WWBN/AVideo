@@ -57,16 +57,24 @@ if ($video['type'] !== "audio") {
     $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
 }
 
-if ($video['type'] !== "audio") {
-    $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
-} else {
-    $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+if(!empty($video)){
+    if ($video['type'] !== "audio") {
+        $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
+    } else {
+        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    }
 }
 
 $autoPlayVideo = Video::getRandom();
-$name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
-$autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
-$autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
+if(!empty($autoPlayVideo)){
+    $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
+    $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
+    $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
+}
+$catLink = "";
+if(!empty($_GET['catName'])){
+    $catLink = "cat/{$_GET['catName']}/";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -81,7 +89,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
 
-        <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
+        <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
         <meta property="og:type"               content="video" />
         <meta property="og:title"              content="<?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?>" />
         <meta property="og:description"        content="<?php echo $video['title']; ?>" />
@@ -113,7 +121,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
                                         <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" /> 
                                         <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
+                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
                                     </div>
@@ -229,7 +237,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
                                         <div class="tab-content clearfix">
                                             <div class="tab-pane active" id="tabShare">
                                                 <?php
-                                                $url = urlencode($global['webSiteRootURL'] . "video/" . $video['clean_title']);
+                                                $url = urlencode($global['webSiteRootURL'] . "{$catLink}video/" . $video['clean_title']);
                                                 $title = urlencode($video['title']);
                                                 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
                                                 $twitterURL = "http://twitter.com/home?status={$title}+{$url}";
@@ -305,7 +313,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
                                                                 <div class="col-md-8 inputGroupContainer">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                                        <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo _("I would like to share this video with you:"); ?> <?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?></textarea>
+                                                                        <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo _("I would like to share this video with you:"); ?> <?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $video['clean_title']; ?></textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -497,7 +505,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
                                 </span>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" style="display: none;" >
-                                <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo $autoPlayVideo['title']; ?>" class="videoLink">
+                                <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo $autoPlayVideo['title']; ?>" class="videoLink">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
                                         <?php
                                         if ($autoPlayVideo['type'] !== "audio") {
@@ -509,7 +517,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
                                         <img src="<?php echo $img; ?>" alt="<?php echo $autoPlayVideo['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
 
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $autoPlayVideo['clean_title']; ?>" />
+                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $autoPlayVideo['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $autoPlayVideo['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
 
@@ -558,7 +566,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
                                 }
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="videoLink">
+                                    <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="videoLink">
                                         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
                                             <?php
                                             if ($value['type'] !== "audio") {
@@ -570,7 +578,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
                                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
 
                                             <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                            <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], "video/", $value['clean_title']; ?>" />
+                                            <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $value['clean_title']; ?>" />
                                             <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
                                             <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
@@ -666,7 +674,7 @@ $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
                             foreach ($videos as $value) {
                                 ?>
                                 <div class="col-lg-3 col-sm-12 col-xs-12">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                    <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
                                         <h2><?php echo $value['title']; ?></h2>
                                         <span class="glyphicon glyphicon-play-circle"></span>
