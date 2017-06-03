@@ -8,7 +8,6 @@ $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase)
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 
-require_once $global['systemRootPath'].'locale/function.php';
 
 $global['dont_show_us_flag'] = false;
 // this is for old versions
@@ -21,3 +20,5 @@ ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 session_set_cookie_params($config->getSession_timeout());
 
 session_start();
+
+require_once $global['systemRootPath'].'locale/function.php';
