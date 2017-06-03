@@ -24,7 +24,6 @@ class Configuration {
     private $authFacebook_enabled;
     private $authCanUploadVideos;
     private $authCanComment;
-
     private $ffprobeDuration;
     private $ffmpegImage;
     private $ffmpegMp4;
@@ -34,33 +33,27 @@ class Configuration {
     private $ffmpegMp3;
     private $ffmpegOgg;
     private $youtubedl;
-    
     private $ffmpegPath;
     private $youtubeDlPath;
-    
     private $exiftool;
     private $exiftoolPath;
-    
     private $head;
     private $logo;
     private $logo_small;
-    
     private $adsense;
-    
-    private $mode;    
-    
+    private $mode;
     // version 2.7
-    private $disable_analytics;    
-    private $session_timeout;    
-    private $encode_mp4;    
-    private $encode_webm;    
+    private $disable_analytics;
+    private $session_timeout;
+    private $encode_mp4;
+    private $encode_webm;
     private $encode_mp3spectrum;
     private $ffmpegSpectrum;
     private $autoplay;
-    
-    function __construct($video_resolution="") {
+
+    function __construct($video_resolution = "") {
         $this->load();
-        if(!empty($video_resolution)){
+        if (!empty($video_resolution)) {
             $this->video_resolution = $video_resolution;
         }
     }
@@ -72,13 +65,12 @@ class Configuration {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $config = $res->fetch_assoc();
-            foreach ($config as $key => $value){
+            foreach ($config as $key => $value) {
                 $this->$key = $value;
             }
         } else {
             return false;
         }
-        
     }
 
     function save() {
@@ -88,9 +80,9 @@ class Configuration {
             die('{"error":"' . __("Permission denied") . '"}');
         }
         $this->users_id = User::getId();
-        
-        
-        
+
+
+
         $sql = "UPDATE configurations SET "
                 . "video_resolution = '{$this->video_resolution}',"
                 . "webSiteTitle = '{$this->webSiteTitle}',"
@@ -129,7 +121,7 @@ class Configuration {
                 . "ffmpegSpectrum = '{$global['mysqli']->real_escape_string($this->getFfmpegSpectrum())}',"
                 . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}'"
                 . "WHERE id = 1";
-                
+
 
         $insert_row = $global['mysqli']->query($sql);
 
@@ -139,7 +131,7 @@ class Configuration {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
-    
+
     function getVideo_resolution() {
         return $this->video_resolution;
     }
@@ -149,18 +141,18 @@ class Configuration {
     }
 
     function getVersion() {
-        if(empty($this->version)){
+        if (empty($this->version)) {
             return " 0.1";
         }
         return $this->version;
     }
-    
+
     function getWebSiteTitle() {
         return $this->webSiteTitle;
     }
 
     function getLanguage() {
-        if($this->language == "en"){
+        if ($this->language == "en") {
             return "us";
         }
         return $this->language;
@@ -184,18 +176,19 @@ class Configuration {
 
     function setContactEmail($contactEmail) {
         $this->contactEmail = $contactEmail;
-    }        
-        
-    function currentVersionLowerThen($version){
-        return version_compare($version, $this->getVersion())>0;
-    }    
-    function currentVersionGreaterThen($version){
-        return version_compare($version, $this->getVersion())<0;
-    }
-    function currentVersionEqual($version){
-        return version_compare($version, $this->getVersion())==0;
     }
 
+    function currentVersionLowerThen($version) {
+        return version_compare($version, $this->getVersion()) > 0;
+    }
+
+    function currentVersionGreaterThen($version) {
+        return version_compare($version, $this->getVersion()) < 0;
+    }
+
+    function currentVersionEqual($version) {
+        return version_compare($version, $this->getVersion()) == 0;
+    }
 
     function getAuthGoogle_id() {
         return $this->authGoogle_id;
@@ -262,63 +255,63 @@ class Configuration {
     }
 
     function getFfprobeDuration() {
-        if(empty($this->ffprobeDuration)){
+        if (empty($this->ffprobeDuration)) {
             return 'ffprobe -i {$file} -sexagesimal -show_entries  format=duration -v quiet -of csv=\'p=0\'';
         }
         return $this->ffprobeDuration;
     }
 
     function getFfmpegImage() {
-        if(empty($this->ffprobeDuration)){
+        if (empty($this->ffprobeDuration)) {
             return 'ffmpeg -ss 5 -i {$pathFileName} -qscale:v 2 -vframes 1 -y {$destinationFile}';
         }
         return $this->ffmpegImage;
     }
 
     function getFfmpegMp4() {
-        if(empty($this->ffmpegMp4)){
+        if (empty($this->ffmpegMp4)) {
             return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
         }
         return $this->ffmpegMp4;
     }
 
     function getFfmpegWebm() {
-        if(empty($this->ffmpegWebm)){
+        if (empty($this->ffmpegWebm)) {
             return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegWebm;
     }
-    
+
     function getFfmpegMp4Portrait() {
-        if(empty($this->ffmpegMp4Portrait)){
+        if (empty($this->ffmpegMp4Portrait)) {
             return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
         }
         return $this->ffmpegMp4Portrait;
     }
 
     function getFfmpegWebmPortrait() {
-        if(empty($this->ffmpegWebmPortrait)){
+        if (empty($this->ffmpegWebmPortrait)) {
             return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegWebmPortrait;
     }
 
     function getFfmpegMp3() {
-        if(empty($this->ffmpegMp3)){
+        if (empty($this->ffmpegMp3)) {
             return 'ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
         }
         return $this->ffmpegMp3;
     }
 
     function getFfmpegOgg() {
-        if(empty($this->ffmpegOgg)){
+        if (empty($this->ffmpegOgg)) {
             return 'ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegOgg;
     }
 
     function getYoutubedl() {
-        if(empty($this->youtubedl)){
+        if (empty($this->youtubedl)) {
             return 'youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
         }
         return $this->youtubedl;
@@ -351,7 +344,7 @@ class Configuration {
     function setYoutubedl($youtubedl) {
         $this->youtubedl = $youtubedl;
     }
-    
+
     function setFfmpegPath($ffmpegPath) {
         $this->ffmpegPath = $ffmpegPath;
     }
@@ -359,10 +352,10 @@ class Configuration {
     function setYoutubeDlPath($youtubeDlPath) {
         $this->youtubeDlPath = $youtubeDlPath;
     }
-    
+
     function getFfmpegPath() {
-        if(!empty($this->ffmpegPath)){
-            if(substr($this->ffmpegPath, -1)!=="/"){
+        if (!empty($this->ffmpegPath)) {
+            if (substr($this->ffmpegPath, -1) !== "/") {
                 $this->ffmpegPath .= "/";
             }
         }
@@ -370,8 +363,8 @@ class Configuration {
     }
 
     function getYoutubeDlPath() {
-        if(!empty($this->youtubeDlPath)){
-            if(substr($this->youtubeDlPath, -1)!=="/"){
+        if (!empty($this->youtubeDlPath)) {
+            if (substr($this->youtubeDlPath, -1) !== "/") {
                 $this->youtubeDlPath .= "/";
             }
         }
@@ -379,7 +372,7 @@ class Configuration {
     }
 
     function getExiftool() {
-        if(empty($this->exiftool)){
+        if (empty($this->exiftool)) {
             return 'exiftool {$pathFileName}';
         }
         return $this->exiftool;
@@ -406,34 +399,34 @@ class Configuration {
     }
 
     function getHead() {
-        if(empty($this->head)){
+        if (empty($this->head)) {
             /*
-            return "
-<script>
-    // YouPHPTube Analytics
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+              return "
+              <script>
+              // YouPHPTube Analytics
+              (function (i, s, o, g, r, a, m) {
+              i['GoogleAnalyticsObject'] = r;
+              i[r] = i[r] || function () {
+              (i[r].q = i[r].q || []).push(arguments)
+              }, i[r].l = 1 * new Date();
+              a = s.createElement(o),
+              m = s.getElementsByTagName(o)[0];
+              a.async = 1;
+              a.src = g;
+              m.parentNode.insertBefore(a, m)
+              })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-96597943-1', 'auto');
-    ga('send', 'pageview');
-</script>    
-    ";
-            */
-        }        
+              ga('create', 'UA-96597943-1', 'auto');
+              ga('send', 'pageview');
+              </script>
+              ";
+             */
+        }
         return $this->head;
     }
 
     function getLogo() {
-        if(empty($this->logo)){
+        if (empty($this->logo)) {
             return "view/img/logo138x30.png";
         }
         return $this->logo;
@@ -448,7 +441,7 @@ class Configuration {
     }
 
     function getLogo_small() {
-        if(empty($this->logo_small)){
+        if (empty($this->logo_small)) {
             return "view/img/logo32.png";
         }
         return $this->logo_small;
@@ -457,24 +450,23 @@ class Configuration {
     function setLogo_small($logo_small) {
         $this->logo_small = $logo_small;
     }
-    
+
     function getAdsense() {
-        if(empty($this->adsense)){
+        if (empty($this->adsense)) {
             /*
-            return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- YouPHPTube -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8404441263723333"
-     data-ad-slot="3904005408"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>';
+              return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <!-- YouPHPTube -->
+              <ins class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-8404441263723333"
+              data-ad-slot="3904005408"
+              data-ad-format="auto"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>';
              * 
              */
-            
-        }        
+        }
         return $this->adsense;
     }
 
@@ -483,7 +475,7 @@ class Configuration {
     }
 
     function getMode() {
-        if(empty($this->mode)){
+        if (empty($this->mode)) {
             return 'Youtube';
         }
         return $this->mode;
@@ -515,7 +507,7 @@ class Configuration {
     }
 
     function setDisable_analytics($disable_analytics) {
-        $this->disable_analytics = $disable_analytics=='true'?1:0;
+        $this->disable_analytics = $disable_analytics == 'true' ? 1 : 0;
     }
 
     function setSession_timeout($session_timeout) {
@@ -523,19 +515,19 @@ class Configuration {
     }
 
     function setEncode_mp4($encode_mp4) {
-        $this->encode_mp4 = $encode_mp4=='true'?1:0;
+        $this->encode_mp4 = $encode_mp4 == 'true' ? 1 : 0;
     }
 
     function setEncode_webm($encode_webm) {
-        $this->encode_webm = $encode_webm=='true'?1:0;
+        $this->encode_webm = $encode_webm == 'true' ? 1 : 0;
     }
 
     function setEncode_mp3spectrum($encode_mp3spectrum) {
-        $this->encode_mp3spectrum = $encode_mp3spectrum=='true'?1:0;
+        $this->encode_mp3spectrum = $encode_mp3spectrum == 'true' ? 1 : 0;
     }
-    
+
     function getFfmpegSpectrum() {
-        if(empty($this->ffmpegSpectrum)){
+        if (empty($this->ffmpegSpectrum)) {
             return 'ffmpeg -i {$pathFileName} -filter_complex \'[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\' -map \'[v]\' -map 0:a -c:v libx264 -c:a copy {$destinationFile}';
         }
         return $this->ffmpegSpectrum;
@@ -550,12 +542,32 @@ class Configuration {
     }
 
     function setAutoplay($autoplay) {
-        $this->autoplay = $autoplay=='true'?1:0;
+        $this->autoplay = $autoplay == 'true' ? 1 : 0;
     }
 
-            
     // end version 2.7
 
+    static function rewriteConfigFile() {
+        global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase;
+        $content = "<?php
+\$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';
+\$global['systemRootPath'] = '{$global['systemRootPath']}';
 
+\$mysqlHost = '{$mysqlHost}';
+\$mysqlUser = '{$mysqlUser}';
+\$mysqlPass = '{$mysqlPass}';
+\$mysqlDatabase = '{$mysqlDatabase}';
+
+/**
+ * Do NOT change from here
+ */
+
+require_once \$global['systemRootPath'].'objects/include_config.php';
+";
+
+        $fp = fopen($global['systemRootPath'] . "videos/configuration.php", "wb");
+        fwrite($fp, $content);
+        fclose($fp);
+    }
 
 }
