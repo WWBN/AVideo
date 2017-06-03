@@ -101,7 +101,6 @@ if(!empty($_GET['catName'])){
         include 'include/navbar.php';
         ?>
         <div class="container-fluid" itemscope itemtype="http://schema.org/VideoObject">
-
             <?php
             if (!empty($video)) {
                 if (empty($_GET['search'])) {
@@ -124,7 +123,7 @@ if(!empty($_GET['catName'])){
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
-                                        <meta itemprop="description" content="<?php echo $video['description']; ?>" />
+                                        <meta itemprop="description" content="<?php echo $video['title']; ?> - <?php echo $video['description']; ?>" />
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-lg-8">
                                         <h1 itemprop="name">
