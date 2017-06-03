@@ -554,6 +554,12 @@ class Video {
             return $durationParts[0];
         }
     }
+    
+    static function getItemPropDuration($duration = ""){
+        $duration = static::getCleanDuration($duration);
+        $parts = explode(":", $duration);
+        return "PT".intval($parts[0])."H".intval($parts[1])."M".intval($parts[2])."S";
+    }
 
     static function getDurationFromFile($file) {
         global $config;

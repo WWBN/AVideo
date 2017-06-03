@@ -101,7 +101,6 @@ if(!empty($_GET['catName'])){
         include 'include/navbar.php';
         ?>
         <div class="container-fluid" itemscope itemtype="http://schema.org/VideoObject">
-
             <?php
             if (!empty($video)) {
                 if (empty($_GET['search'])) {
@@ -119,11 +118,12 @@ if(!empty($_GET['catName'])){
                                 <div class="row divMainVideo">
                                     <div class="col-xs-4 col-sm-4 col-lg-4">
                                         <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" /> 
-                                        <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
+                                        <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
+                                        <meta itemprop="description" content="<?php echo $video['title']; ?> - <?php echo $video['description']; ?>" />
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-lg-8">
                                         <h1 itemprop="name">
@@ -525,7 +525,7 @@ if(!empty($_GET['catName'])){
                                         <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
 
                                         <span class="glyphicon glyphicon-play-circle"></span>
-                                        <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></span>
+                                        <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($autoPlayVideo['duration']); ?>"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></time>
                                     </div>
                                     <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
                                         <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $autoPlayVideo['title']; ?></strong></div>
@@ -589,7 +589,7 @@ if(!empty($_GET['catName'])){
                                             <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
                                             <span class="glyphicon glyphicon-play-circle"></span>
-                                            <span class="duration" itemprop="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                            <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                                         </div>
                                         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
                                             <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
