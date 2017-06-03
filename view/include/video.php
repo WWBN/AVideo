@@ -104,6 +104,9 @@ if ($config->getAutoplay()) {
 <?php }
 ?>
                                                 });
+                                                player.persistvolume({
+                                                    namespace: "YouPHPTube"
+                                                });
 <?php if (!empty($logId)) { ?>
                                                     $('#adButton').click(function () {
                                                         console.log("Change Video");

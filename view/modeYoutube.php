@@ -725,6 +725,6 @@ if(!empty($_GET['catName'])){
         include 'include/footer.php';
         ?>
 
-
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
     </body>
 </html>
