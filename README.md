@@ -3,7 +3,7 @@ SFrancis - Professional Tube! is an video-sharing website.
 
 <div align="center">
 <img src="http://www.sfrancis.ca/img/logo138x30.png">
-<a href="https://www.sfrancis.ca/videos/sfrancisvideosharing_593081ac0acae6.00511554.mp4" target="_blank">Sfrancis.ca</a>
+<a href="https://www.sfrancis.ca/videos/sfrancisvideosharing_593081ac0acae6.00511554.mp4" target="_blank">Sfrancis</a>
 </div>
 
 # Server Requirements
