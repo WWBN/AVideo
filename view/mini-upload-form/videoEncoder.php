@@ -38,7 +38,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
         eval('$ffmpeg ="' . $value . '";');
         $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
         echo "** executing command {$cmd}\n";
-        exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
+        exec($cmd . "  < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
         if ($return_val !== 0) {
             echo "\\n **AUDIO ERROR**\n", print_r($output, true);
             error_log($cmd . "\n" . print_r($output, true));
@@ -56,7 +56,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
                 //$ffmpeg = "ffmpeg -i {$pathFileName} -filter_complex \"[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\" -map \"[v]\" -map 0:a -c:v libx264 -c:a copy {$destinationFile}";
                 $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt && {$ffmpeg}";
                 echo "** executing command {$cmd}\n";
-                exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt  2>&1", $output, $return_val);
+                exec($cmd . "  < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt  2>&1", $output, $return_val);
                 if ($return_val !== 0) {
                     echo "\\n **Spectrum ERROR**\n", print_r($output, true);
                     error_log($cmd . "\n" . print_r($output, true));
@@ -68,7 +68,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
                     eval('$ffmpeg ="' . $videoConverter['webm'] . '";');
                     $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_webm.txt && {$ffmpeg}";
                     echo "** executing command {$cmd}\n";
-                    exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_webm.txt  2>&1", $output, $return_val);
+                    exec($cmd . "  < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_webm.txt  2>&1", $output, $return_val);
                     if ($return_val !== 0) {
                         echo "\\n **VIDEO ERROR**\n", print_r($output, true);
                         error_log($cmd . "\n" . print_r($output, true));
@@ -103,7 +103,7 @@ foreach ($videoConverter as $key => $value) {
     eval('$ffmpeg ="' . $value . '";');
     $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
     echo "** executing command {$cmd}\n";
-    exec($cmd . "  1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
+    exec($cmd . " < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
     if ($return_val !== 0) {
         echo "\\n **VIDEO ERROR**\n", print_r($output, true);
         error_log($cmd . "\n" . print_r($output, true));
@@ -136,7 +136,7 @@ if (empty($type) || $type == 'img') {
 
     $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.jpg && {$ffmpeg}";
     echo "** executing command {$cmd}\n";
-    exec($cmd . " 2>&1", $output, $return_val);
+    exec($cmd . " < /dev/null 2>&1", $output, $return_val);
     if ($return_val !== 0) {
         echo "\\n**IMG ERROR**\n", print_r($output, true);
         error_log($cmd . "\n" . print_r($output, true));
