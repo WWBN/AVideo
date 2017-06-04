@@ -119,7 +119,7 @@ class Video {
                 $id = $this->id;
             }
             if ($updateVideoGroups) {
-                require_once './userGroups.php';
+                require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 // update the user groups
                 UserGroups::updateVideoGroups($id, $this->videoGroups);
             }
