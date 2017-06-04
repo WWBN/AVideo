@@ -115,5 +115,3 @@ if ($config->getAutoplay()) {
 <?php } ?>
                 });
 </script>
-                                                        });
-</script>
