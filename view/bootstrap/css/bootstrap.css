@@ -1124,6 +1124,9 @@ img {
   max-width: 100%;
   height: auto;
 }
+.img-portrait {
+  transform: scale(0.56) rotate(90deg);
+}
 .img-rounded {
   border-radius: 6px;
 }
@@ -5813,9 +5816,15 @@ button.list-group-item-danger.active:focus {
 .embed-responsive-16by9 {
   padding-bottom: 56.25%;
 }
+
+.embed-responsive-9by16 {
+  padding-bottom: 100%;
+}
+
 .embed-responsive-4by3 {
   padding-bottom: 75%;
 }
+
 .well {
   min-height: 20px;
   padding: 19px;

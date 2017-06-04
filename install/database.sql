@@ -58,6 +58,8 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `filename` VARCHAR(255) NOT NULL,
   `duration` VARCHAR(15) NOT NULL,
   `type` ENUM('audio', 'video') NOT NULL DEFAULT 'video',
+  `rotation` SMALLINT DEFAULT 0,
+  `zoom` SMALLINT DEFAULT 1,
   `videoDownloadedLink` VARCHAR(255) NULL,
   `order` INT UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),

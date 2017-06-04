@@ -1,5 +1,16 @@
 <?php
 $playNowVideo = $video;
+$transformation = "{rotate:" . $video['rotation'] . ", zoom: " . $video['zoom'] . "}";
+if ($video['rotation'] === "90" || $video['rotation'] === "270") {
+    $aspectRatio = "9:16";
+    $vjsClass = "vjs-9-16";
+    $embedResponsiveClass = "embed-responsive-9by16";
+} else {
+    $aspectRatio = "16:9";
+    $vjsClass = "vjs-16-9";
+    $embedResponsiveClass = "embed-responsive-16by9";
+}
+
 if (!empty($ad)) {
     $playNowVideo = $ad;
     $logId = Video_ad::log($ad['id']);
@@ -8,13 +19,14 @@ if (!empty($ad)) {
 <div class="row main-video">
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8">
-        <div align="center" class="embed-responsive embed-responsive-16by9 <?php
+    <div align="center" class="embed-responsive <?php
+        echo $embedResponsiveClass;
         if (!empty($logId)) {
-            echo "ad";
+            echo " ad";
         }
         ?>">
             <video poster="<?php echo $poster; ?>" controls crossorigin 
-                   class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo"  data-setup='{ aspectRatio: "16:9" }'>
+            class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo"  data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>" }'>
                 <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
                 <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
                 <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
@@ -43,7 +55,10 @@ if (!empty($ad)) {
     var isPlayingAd = false;
     $(document).ready(function () {
         fullFuration = strToSeconds('<?php echo $ad['duration']; ?>');
-        player = videojs('mainVideo').ready(function () {
+        player = videojs('mainVideo');
+
+        player.zoomrotate(<?php echo $transformation; ?>);
+        player.ready(function () {
 <?php
 if ($config->getAutoplay()) {
     echo "this.play();";
