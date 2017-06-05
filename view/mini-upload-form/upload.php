@@ -1,10 +1,6 @@
 <?php
 if(empty($global['systemRootPath'])){
-    $configFile = '../../videos/configuration.php';
-    if (!file_exists($configFile)) {
-        $configFile = '../videos/configuration.php';
-    }
-
+    $configFile = dirname(__FILE__).'/../../videos/configuration.php';
     require_once $configFile;
 }
 
