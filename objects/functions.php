@@ -219,6 +219,7 @@ function cleanString($text) {
  * @return boolean
  */
 function isCommandLineInterface() {
+    return false;
     return (php_sapi_name() === 'cli');
 }
 
