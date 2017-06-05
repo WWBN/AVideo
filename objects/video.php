@@ -21,6 +21,8 @@ class Video {
     private $users_id;
     private $categories_id;
     private $type;
+    private $rotation;
+    private $zoom;
     private $videoDownloadedLink;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
     private $videoGroups;
@@ -39,6 +41,8 @@ class Video {
 
     function __construct($title = "", $filename = "", $id = 0) {
         global $global;
+        $this->rotation = 0;
+        $this->zoom = 1;
         if (!empty($id)) {
             $this->load($id);
         }
@@ -151,6 +155,45 @@ class Video {
 
     function setType($type) {
         $this->type = $type;
+    }
+
+    function setRotation($rotation) {
+        $saneRotation = intval($rotation) % 360;
+
+        if (!empty($this->id)) {
+            global $global;
+            $sql = "UPDATE videos SET rotation = '{$saneRotation}', modified = now() WHERE id = {$this->id} ";
+            if (!$global['mysqli']->query($sql)) {
+                die('Error on update Rotation: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+        }
+        $this->rotation = $saneRotation;
+    }
+
+    function getRotation() {
+        return $this->rotation;
+    }
+
+    function setZoom($zoom) {
+        $saneZoom = abs(floatval($zoom));
+
+        if ($saneZoom < 0.1 || $saneZoom > 10) {
+            die('Zoom level must be between 0.1 and 10');
+        }
+
+        if (!empty($this->id)) {
+            global $global;
+            $sql = "UPDATE videos SET zoom = '{$saneZoom}', modified = now() WHERE id = {$this->id} ";
+            if (!$global['mysqli']->query($sql)) {
+                die('Error on update Zoom: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+        }
+
+        $this->zoom = $saneZoom;
+    }
+
+    function getZoom() {
+        return $this->zoom;
     }
 
     static private function getUserGroupsCanSeeSQL() {

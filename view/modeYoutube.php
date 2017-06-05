@@ -86,6 +86,7 @@ if(!empty($_GET['catName'])){
         ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
 
@@ -110,6 +111,7 @@ if(!empty($_GET['catName'])){
                     ?>
                     <?php
                     require "{$global['systemRootPath']}view/include/{$video['type']}.php";
+                    $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                     ?>
                     <div class="row">
                         <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
@@ -117,7 +119,7 @@ if(!empty($_GET['catName'])){
                             <div class="row bgWhite">
                                 <div class="row divMainVideo">
                                     <div class="col-xs-4 col-sm-4 col-lg-4">
-                                        <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive" height="130px" itemprop="thumbnail" /> 
+                                    <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130px" itemprop="thumbnail" /> 
                                         <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
@@ -513,11 +515,13 @@ if(!empty($_GET['catName'])){
                                         <?php
                                         if ($autoPlayVideo['type'] !== "audio") {
                                             $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
+                                            $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
                                         } else {
                                             $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                            $img_portrait = "";
                                         }
                                         ?>
-                                        <img src="<?php echo $img; ?>" alt="<?php echo $autoPlayVideo['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
+                                            <img src="<?php echo $img; ?>" alt="<?php echo $autoPlayVideo['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130px" itemprop="thumbnail" />
 
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $autoPlayVideo['clean_title']; ?>" />
@@ -577,11 +581,13 @@ if(!empty($_GET['catName'])){
                                             <?php
                                             if ($value['type'] !== "audio") {
                                                 $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
+                                                $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                                             } else {
                                                 $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                                $img_portrait = "";
                                             }
                                             ?>
-                                            <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" itemprop="thumbnail" />
+                                                <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130px" itemprop="thumbnail" />
 
                                             <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                             <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $value['clean_title']; ?>" />
@@ -678,10 +684,11 @@ if(!empty($_GET['catName'])){
                         <div class="col-xs-12 col-sm-12 col-lg-10">
                             <?php
                             foreach ($videos as $value) {
+                                $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                                 ?>
                                 <div class="col-lg-3 col-sm-12 col-xs-12">
                                     <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130px" />
+                                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130px" />
                                         <h2><?php echo $value['title']; ?></h2>
                                         <span class="glyphicon glyphicon-play-circle"></span>
                                         <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>

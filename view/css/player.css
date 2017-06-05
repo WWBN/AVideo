@@ -52,6 +52,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
     background-color: rgba(159,159,159,.3);
 }
 
+.vjs-rotate90 {
+    rotate: 90;
+    zoom: 1.0;
+}
 
 /* Ad Elements */
 #adUrl{
@@ -107,3 +111,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
     display: block;
 }
 /* End Ad Elements */
+
+
+.img-portrait {
+  transform: scale(0.56) rotate(90deg);
+}
+
+.embed-responsive-9by16 {
+  padding-bottom: 100%;
+}
+.video-js.vjs-9-16 {
+  padding-top: 100%; 
+}
