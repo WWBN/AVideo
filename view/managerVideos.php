@@ -246,11 +246,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                             }, 1000);
                         } else if (response.progress == 100) {
                             $("#downloadProgress" + id).css({'width': '100%'});
+                            /*
                             swal({
                                 title: "<?php echo __("Success"); ?>",
                                 text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
                                 type: "success"
                             });
+                            */                            
                             $("#grid").bootgrid("reload");
                         }
                     }
