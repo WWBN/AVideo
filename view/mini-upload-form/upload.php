@@ -30,7 +30,7 @@ if (isCommandLineInterface()) {
     if (array_key_exists('h', $options)) {
         print <<<'EOT'
 
-Use: php -f upload.php -u <user> -f <file> [-d <description>] [-g "group1[,group2]] [-c] [-h]
+Use: php upload.php -u <user> -f <file> [-d <description>] [-g "group1[,group2]] [-c] [-h]
 
     -u user     valid username
     -f file     input filename
