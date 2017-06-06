@@ -450,7 +450,7 @@ footer {
 }
 @media (max-width: 1200px) {
   .galleryVideo{
-        height: 190px;
+        height: 195px;
     }
 }
 @media (max-width: 992px) {
@@ -458,9 +458,30 @@ footer {
         height: 220px;
     }
 }
+
+@media (max-width: 850px) {
+  .galleryVideo{
+        height: 180px;
+    }
+}
 @media (max-width: 768px) {
   .galleryVideo{
-        height: 300px;
+        height: 290px;
+    }
+}
+@media (max-width: 650px) {
+  .galleryVideo{
+        height: 250px;
+    }
+}
+@media (max-width: 500px) {
+  .galleryVideo{
+        height: 200px;
+    }
+}
+@media (max-width: 400px) {
+  .galleryVideo{
+        height: 180px;
     }
 }
 .galleryVideo .group {
