@@ -444,14 +444,28 @@ footer {
 
 .galleryVideo{
     overflow: hidden;
+    height: 190px;
+    border-bottom: solid 1px #EEE;
+    margin-bottom: 10px;
 }
-
+@media (max-width: 1200px) {
+  .galleryVideo{
+        height: 190px;
+    }
+}
+@media (max-width: 992px) {
+  .galleryVideo{
+        height: 220px;
+    }
+}
+@media (max-width: 768px) {
+  .galleryVideo{
+        height: 300px;
+    }
+}
 .galleryVideo .group {
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.thumbnail_container {
 }
 
 .autoplay span span{
