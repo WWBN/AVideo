@@ -215,12 +215,11 @@ function cleanString($text) {
 
 /**
  * @brief return true if running in CLI, false otherwise
- *
+ * if is set $_GET['ignoreCommandLineInterface'] will return false
  * @return boolean
  */
 function isCommandLineInterface() {
-    return false;
-    return (php_sapi_name() === 'cli');
+    return (empty($_GET['ignoreCommandLineInterface']) && php_sapi_name() === 'cli');
 }
 
 /**
