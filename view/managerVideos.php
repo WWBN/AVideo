@@ -57,7 +57,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px"><?php echo __("Tags"); ?></th>
                         <th data-column-id="duration" data-width="100px"><?php echo __("Duration"); ?></th>
                         <th data-column-id="created" data-order="desc" data-width="100px"><?php echo __("Created"); ?></th>
-                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="350px"></th>
+                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="200px"></th>
                     </tr>
                 </thead>
             </table>
@@ -300,8 +300,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                             var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
                             var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Rotate LEFT")); ?>""><span class="fa fa-undo" aria-hidden="true"></span></button>';
                             var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Rotate RIGHT")); ?>""><span class="fa fa-repeat " aria-hidden="true"></span></button>';
-                            var reencodeAudio = reencodeMp3 + reencodeOGG;
-                            var reencodeBtn = reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
+                            var reencodeAudio = "<br>" + reencodeMp3 + reencodeOGG;
+                            var reencodeBtn = "<br>" + reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
                             var rotateBtn = "<br>" + rotateLeft + rotateRight;
                             if (row.type == "audio") {
                                 reencodeBtn = reencodeAudio ;
@@ -314,13 +314,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                             } else if (row.status == "a") {
                                 status = inactiveBtn;
                             } else if (row.status == "x") {
-                                return editBtn + deleteBtn + reloadBtn + reencodeBtn + originalBtn;
+                                return editBtn + deleteBtn + originalBtn + reloadBtn + reencodeBtn ;
                             } else if (row.status == "d") {
                                 return deleteBtn;
                             } else {
-                                return editBtn + deleteBtn + reencodeBtn + originalBtn;
+                                return editBtn + deleteBtn + originalBtn + reencodeBtn;
                             }
-                            return editBtn + deleteBtn + reloadBtn + status + reencodeBtn + originalBtn + rotateBtn;
+                            return editBtn + deleteBtn + originalBtn + reloadBtn + status + reencodeBtn + rotateBtn;
                         },
                         "tags": function (column, row) {
                             var tags = "";

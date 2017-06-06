@@ -1,8 +1,6 @@
 <?php
-if(empty($global['systemRootPath'])){
-    $configFile = dirname(__FILE__).'/../../videos/configuration.php';
-    require_once $configFile;
-}
+$configFile = dirname(__FILE__).'/../../videos/configuration.php';
+require_once $configFile;
 
 /*
  *  Run the conversion script in the background when called through the web interface (the default)
