@@ -54,7 +54,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="row" style="padding: 10px;">
+        <div class="row text-center" style="padding: 10px;">
             <?php
             echo $config->getAdsense();
             ?>
