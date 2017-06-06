@@ -72,6 +72,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
 
                             ?>
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo ">
+                                <div class="thumbnail_container">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="">
                                     <?php
                                     if ($value['type'] !== "audio") {
@@ -97,6 +98,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                         }
                                     }
                                     ?>
+                                            </div>
                             </div>
                             <?php
                         }

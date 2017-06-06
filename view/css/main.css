@@ -451,6 +451,13 @@ footer {
     text-overflow: ellipsis;
 }
 
+.thumbnail_container {
+     position: relative;
+     width: 100%;
+     padding-bottom: 100%;
+  margin-bottom:20px;
+}
+
 .autoplay span span{
     margin: 0 5px;
     color: #767676;
