@@ -1,16 +1,6 @@
 <hr>
 <footer>
-    <ul class="list-inline">
-        <li>
-            Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary" target="_blank">YouPHPTube v<?php echo $config->getVersion(); ?></a>
-        </li>
-        <li>
-            <a href="https://www.facebook.com/mediasharingtube/" class="external btn btn-outline btn-primary" target="_blank"><span class="sr-only">Facebook</span><i class="fa fa-fw fa-facebook"></i></a>
-        </li>
-        <li>
-            <a href="https://plus.google.com/u/0/113820501552689289262" class="external btn btn-outline btn-primary" target="_blank"><span class="sr-only">Google Plus</span><i class="fa fa-fw fa-google-plus"></i></a>
-        </li>
-    </ul>
+    <p>Powered by <a href="https://www.sfrancis.ca" class="external btn btn-outline btn-primary" target="_blank">Sfrancis </a> &copy; 2017</p>
 </footer>
 <script type="application/ld+json">
     {

@@ -100,12 +100,12 @@ require_once '../videos/configuration.php';
 
     <script>
         $(document).ready(function () {
-
+            
             $('#btnReloadCapcha').click(function () {
                 $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
                 $('#captchaText').val('');
             });
-
+            
             $('#contact_form').submit(function (evt) {
                 evt.preventDefault();
                 modal.showPleaseWait();
@@ -125,9 +125,9 @@ require_once '../videos/configuration.php';
                 });
                 return false;
             });
-
+            
         });
-
+        
     </script>
 </body>
 </html>

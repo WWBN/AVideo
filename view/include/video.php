@@ -131,5 +131,9 @@ if ($config->getAutoplay()) {
                                                                     return false;
                                                                 });
 <?php } ?>
+<<<<<<< HEAD
                                                         });
+=======
+                });
+>>>>>>> master
 </script>
