@@ -82,6 +82,7 @@
     RewriteRule    ^refreshVideo$ objects/videoRefresh.json.php    [NC,L]
     RewriteRule    ^setStatusVideo$ objects/videoStatus.json.php    [NC,L]
     RewriteRule    ^reencodeVideo$ objects/videoReencode.json.php    [NC,L]
+    RewriteRule    ^rotateVideo$ objects/videoRotate.json.php    [NC,L]
     RewriteRule    ^addViewCountVideo$ objects/videoAddViewCount.json.php    [NC,L]
 
 
@@ -108,6 +109,6 @@
     RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png|ico)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule .*$ img/static.gif [L]
+    RewriteRule .*$ img/image404.php [NC,L]
 
 </IfModule>

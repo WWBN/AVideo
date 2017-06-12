@@ -212,3 +212,40 @@ function cleanString($text) {
     );
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
+
+/**
+ * @brief return true if running in CLI, false otherwise
+ * if is set $_GET['ignoreCommandLineInterface'] will return false
+ * @return boolean
+ */
+function isCommandLineInterface() {
+    return (empty($_GET['ignoreCommandLineInterface']) && php_sapi_name() === 'cli');
+}
+
+/**
+ * @brief show status message as text (CLI) or JSON-encoded array (web)
+ *
+ * @param array $statusarray associative array with type/message pairs
+ * @return string
+ */
+function status($statusarray) {
+    if (isCommandLineInterface()) {
+        foreach ($statusarray as $status => $message) {
+            echo $status . ":" . $message . "\n";
+        }
+    } else {
+        echo json_encode(array_map(
+            function($text) { return nl2br($text); }
+            , $statusarray));
+    }
+}
+
+/**
+ * @brief show status message and die
+ *
+ * @param array $statusarray associative array with type/message pairs
+ */
+function croak($statusarray) {
+    status($statusarray);
+    die;
+}

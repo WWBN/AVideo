@@ -54,7 +54,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="row" style="padding: 10px;">
+        <div class="row text-center" style="padding: 10px;">
             <?php
             echo $config->getAdsense();
             ?>
@@ -68,33 +68,34 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     <div class="row">
                         <?php
                         foreach ($videos as $value) {
+                            $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                             ?>
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo ">
-                                <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="">
-                                    <?php
-                                    if ($value['type'] !== "audio") {
-                                        $poster = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
-                                    } else {
-                                        $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                                    }
-                                    ?>
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive " height="130px" />
-                                    <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                </a>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
+                                        <?php
+                                        if ($value['type'] !== "audio") {
+                                            $poster = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
+                                        } else {
+                                            $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                        }
+                                        ?>
+                                        <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
+                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                    </a>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                     <h2><?php echo $value['title']; ?></h2>
                                 </a>
                                 <span class="watch-view-count col-lg-6" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
                                 <?php
-                                    $value['tags'] = Video::getTags($value['id']);
-                                    foreach ($value['tags'] as $value2) {
-                                        if ($value2->label === __("Group")) {
-                                            ?>
-                                            <span class="label label-<?php echo $value2->type; ?> col-lg-6 group"><?php echo $value2->text; ?></span>
-                                            <?php
-                                        }
+                                $value['tags'] = Video::getTags($value['id']);
+                                foreach ($value['tags'] as $value2) {
+                                    if ($value2->label === __("Group")) {
+                                        ?>
+                                        <span class="label label-<?php echo $value2->type; ?> col-lg-6 group"><?php echo $value2->text; ?></span>
+                                        <?php
                                     }
-                                    ?>
+                                }
+                                ?>
                             </div>
                             <?php
                         }

@@ -57,7 +57,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px"><?php echo __("Tags"); ?></th>
                         <th data-column-id="duration" data-width="100px"><?php echo __("Duration"); ?></th>
                         <th data-column-id="created" data-order="desc" data-width="100px"><?php echo __("Created"); ?></th>
-                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="350px"></th>
+                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="200px"></th>
                     </tr>
                 </thead>
             </table>
@@ -246,11 +246,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                             }, 1000);
                         } else if (response.progress == 100) {
                             $("#downloadProgress" + id).css({'width': '100%'});
+                            /*
                             swal({
-                                title: "<?php echo __("Congratulations!"); ?>",
+                                title: "<?php echo __("Success"); ?>",
                                 text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
                                 type: "success"
                             });
+                            */                            
                             $("#grid").bootgrid("reload");
                         }
                     }
@@ -296,10 +298,14 @@ $userGroups = UserGroups::getAllUsersGroups();
                             var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Image")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
                             var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
                             var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
-                            var reencodeAudio = reencodeMp3 + reencodeOGG;
-                            var reencodeBtn = reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
+                            var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Rotate LEFT")); ?>""><span class="fa fa-undo" aria-hidden="true"></span></button>';
+                            var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Rotate RIGHT")); ?>""><span class="fa fa-repeat " aria-hidden="true"></span></button>';
+                            var reencodeAudio = "<br>" + reencodeMp3 + reencodeOGG;
+                            var reencodeBtn = "<br>" + reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
+                            var rotateBtn = "<br>" + rotateLeft + rotateRight;
                             if (row.type == "audio") {
                                 reencodeBtn = reencodeAudio ;
+                                rotateBtn = "";
                             }
                             var status;
 
@@ -308,13 +314,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                             } else if (row.status == "a") {
                                 status = inactiveBtn;
                             } else if (row.status == "x") {
-                                return editBtn + deleteBtn + reloadBtn + reencodeBtn + originalBtn;
+                                return editBtn + deleteBtn + originalBtn + reloadBtn + reencodeBtn ;
                             } else if (row.status == "d") {
                                 return deleteBtn;
                             } else {
-                                return editBtn + deleteBtn + reencodeBtn + originalBtn;
+                                return editBtn + deleteBtn + originalBtn + reencodeBtn;
                             }
-                            return editBtn + deleteBtn + reloadBtn + status + reencodeBtn + originalBtn;
+                            return editBtn + deleteBtn + originalBtn + reloadBtn + status + reencodeBtn + rotateBtn;
                         },
                         "tags": function (column, row) {
                             var tags = "";
@@ -349,16 +355,16 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 tags += '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
                             }
-                            var type, img;
+                            var type, img, is_portrait;
                             if (row.type === "audio") {
                                 type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
-                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left rotate"+row.rotation+"' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
                             } else {
                                 type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
-                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
+                                is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : ""; 
+                                img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate"+row.rotation+"' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            
-                            return img+type + row.title + "<br>" + tags + "<br>" ;
+                            return img + type + row.title + "<br>" + tags + "<br>" ;
                         }
 
 
@@ -412,7 +418,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         success: function (response) {
                                             if (response.status === "1") {
                                                 $("#grid").bootgrid("reload");
-                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your video has been deleted!"); ?>", "success");
+                                                swal("<?php echo __("Success"); ?>", "<?php echo __("Your video has been deleted"); ?>", "success");
                                             } else {
                                                 swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been deleted!"); ?>", "error");
                                             }
@@ -456,6 +462,20 @@ $userGroups = UserGroups::getAllUsersGroups();
                         $.ajax({
                             url: 'setStatusVideo',
                             data: {"id": row.id, "status": "i"},
+                            type: 'post',
+                            success: function (response) {
+                                $("#grid").bootgrid("reload");
+                                modal.hidePleaseWait();
+                            }
+                        });
+                    })
+                            .end().find(".command-rotate").on("click", function (e) {
+                        var row_index = $(this).closest('tr').index();
+                        var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                        modal.showPleaseWait();
+                        $.ajax({
+                            url: 'rotateVideo',
+                            data: {"id": row.id, "type": $(this).attr('data-row-id')},
                             type: 'post',
                             success: function (response) {
                                 $("#grid").bootgrid("reload");
@@ -553,7 +573,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             if (response.status === "1") {
                                 $('#videoFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your video has been saved!"); ?>", "success");
+                                swal("<?php echo __("Success"); ?>", "<?php echo __("Your video has been saved"); ?>", "success");
                             } else {
                                 swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                             }

@@ -54,3 +54,9 @@ We have made a video to help you:
 - Option to specify how long the user session will expire
 - Choose if the video to start will play automatically
 - Option on the main screen for the video to continue playing the next videos
+
+# Ver 2.9
+*Special Thanks for Frank de Lange. He is responsible for the creation of these functionalities*
+- Add video rotate command.
+- Add command line interface to upload videos. Use php -f upload.php -- -h in view/mini-upload-form for instructions.
+

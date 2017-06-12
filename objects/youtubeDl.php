@@ -49,6 +49,7 @@ if ($return_val !== 0) {
     echo "{$cmd}\\n **youtube-dl get video ERROR**\n", print_r($output, true);
 } else {    
     echo "Success: We got the video, calling the upload action ".print_r($_FILES, true)."\n";
+    $_GET['ignoreCommandLineInterface'] = true;
     require "{$global['systemRootPath']}view/mini-upload-form/upload.php";
 }
 
