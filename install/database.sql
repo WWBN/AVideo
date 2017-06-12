@@ -4,7 +4,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
@@ -21,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `photoURL` VARCHAR(255) NULL,
   `lastLogin` DATETIME NULL,
   `recoverPass` VARCHAR(255) NULL,
+  `` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
@@ -58,10 +58,10 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `filename` VARCHAR(255) NOT NULL,
   `duration` VARCHAR(15) NOT NULL,
   `type` ENUM('audio', 'video') NOT NULL DEFAULT 'video',
-  `rotation` SMALLINT DEFAULT 0,
-  `zoom` FLOAT DEFAULT 1,
   `videoDownloadedLink` VARCHAR(255) NULL,
   `order` INT UNSIGNED NOT NULL DEFAULT 1,
+  `rotation` SMALLINT NULL DEFAULT 0,
+  `zoom` FLOAT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `encode_mp4` TINYINT(1) NULL DEFAULT 1,
   `encode_webm` TINYINT(1) NULL DEFAULT 1,
   `encode_mp3spectrum` TINYINT(1) NULL DEFAULT 1,
-  `autoplay` TINYINT(1) NULL DEFAULT 1,
+  `autoplay` TINYINT(1) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
@@ -347,6 +347,21 @@ CREATE TABLE IF NOT EXISTS `video_documents` (
     REFERENCES `videos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `subscribes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `subscribes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) NOT NULL,
+  `status` ENUM('a', 'i') NOT NULL DEFAULT 'a',
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `ip` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 

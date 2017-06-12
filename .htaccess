@@ -84,6 +84,12 @@
     RewriteRule    ^addViewCountVideo$ objects/videoAddViewCount.json.php    [NC,L]
 
 
+    # Subscribes
+    RewriteRule    ^subscribes$ view/managerSubscribes.php    [NC,L]
+    RewriteRule    ^subscribes.json$ objects/subscribes.json.php    [NC,L]
+    RewriteRule    ^subscribe.json$ objects/subscribe.json.php    [NC,L]
+    RewriteRule    ^notifySubscribers.json$ objects/notifySubscribers.json.php    [NC,L]
+
     #comment
     RewriteRule    ^saveComment$ objects/commentAddNew.json.php    [NC,L]
     RewriteRule    ^comments.json/([0-9]+)$ objects/comments.json.php?video_id=$1    [NC,L]
