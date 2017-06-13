@@ -1,0 +1,24 @@
+{
+ "tags": {
+  "a": {
+   "check_attributes": {
+    "href": "url"
+   },
+   "set_attributes": {
+    "rel": "nofollow",
+    "target": "_blank"
+   }
+  },
+  "b": {},
+  "br": {},
+  "div": {},
+  "em": {},
+  "i": {},
+  "li": {},
+  "ol": {},
+  "p": {},
+  "span": {},
+  "strong": {},
+  "ul": {}
+ }
+}

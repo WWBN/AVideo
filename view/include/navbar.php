@@ -132,6 +132,12 @@ if (empty($_SESSION['language'])) {
                         </a>
                     </li>
                     <li>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>subscribes">
+                            <span class="fa fa-check"></span> 
+                            <?php echo __("Subscriptions"); ?>
+                        </a>
+                    </li>
+                    <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups">
                             <span class="fa fa-users"></span> 
                             <?php echo __("Users Groups"); ?>

@@ -517,3 +517,29 @@ img.rotate270, img.rotate-90{
     -webkit-transform:rotate(270deg); /* Safari and Chrome */
     -o-transform:rotate(270deg); /* Opera */
 }
+
+.subscribeButton{
+    background-color: #e62117;
+    color: #FFF;
+}
+.subscribeButton:hover, .subscribeButton:active, .subscribeButton:focus{
+    background-color: #CC0000;
+    color: #FFF;
+}
+
+.subscribeButton span:before {
+  content: "\f16a";
+}
+
+.subscribeButton.subscribed{
+    background-color: #DDD;
+    color: #777;
+}
+
+.subscribeButton.subscribed span:before {
+  content: "\f00c";
+}
+
+.subscribeButton.subscribed:hover span:before {
+  content: "\f057";
+}
