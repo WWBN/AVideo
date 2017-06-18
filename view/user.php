@@ -34,11 +34,11 @@ foreach ($tags as $value) {
                     <div class="col-xs-1 col-sm-1 col-lg-2"></div>
                     <div class="col-xs-10 col-sm-10 col-lg-8">
                         <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
-                                <?php echo $tagsStr;?>
+                            <?php echo $tagsStr; ?>
                             <fieldset>
                                 <legend>
-                                    <?php echo __("Update your user")?>
-                                    
+                                    <?php echo __("Update your user") ?>
+
                                 </legend>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>  
@@ -156,9 +156,9 @@ foreach ($tags as $value) {
                                     data: {
                                         imgBase64: resp
                                     }
-                                }).done(function (result) {                                    
+                                }).done(function (result) {
                                     uploadCrop.croppie('bind', {
-                                        url: result.url+"?rand="+Math.random()
+                                        url: result.url + "?rand=" + Math.random()
                                     }).then(function () {
                                         console.log('jQuery bind complete');
                                     });
@@ -174,7 +174,6 @@ foreach ($tags as $value) {
                         uploadCrop = $('#croppie').croppie({
                             url: '<?php echo $user->getPhoto(); ?>',
                             enableExif: true,
-
                             viewport: {
                                 width: 150,
                                 height: 150
@@ -319,9 +318,14 @@ foreach ($tags as $value) {
                             });
                         });
                         $('#forgotPassword').click(function () {
+                            var user = $('#inputUser').val();
+                            if (!user) {
+                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
+                                return false;
+                            }
                             var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">';
                             swal({
-                                title: $('#inputUser').val() + ", <?php echo __("Are you sure?"); ?>",
+                                title: user + ", <?php echo __("Are you sure?"); ?>",
                                 text: "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha,
                                 type: "warning",
                                 html: true,
