@@ -20,6 +20,11 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
 VideoStatistic::save($video['id']);
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
+if ($video['type'] !== "audio") {
+    $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+} else {
+    $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -43,7 +48,7 @@ $resp = $obj->addView();
     <body>
         <div align="center" class="embed-responsive <?php echo $embedResponsiveClass; ?> ">
             <?php
-            if ($video['type'] == "audio") {
+            if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                 ?>
                 <audio controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
                poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
@@ -54,8 +59,7 @@ $resp = $obj->addView();
                 <?php
             } else {
                 ?>
-
-                <video poster="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.jpg" controls crossorigin  width="auto" height="auto" 
+                <video poster="<?php echo $poster; ?>" controls crossorigin  width="auto" height="auto" 
                 class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp4" type="video/mp4">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.webm" type="video/webm">

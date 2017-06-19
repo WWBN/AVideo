@@ -60,3 +60,6 @@ We have made a video to help you:
 - Add video rotate command.
 - Add command line interface to upload videos. Use php -f upload.php -- -h in view/mini-upload-form for instructions.
 
+# Ver 3.0
+- Add the Subscription Option
+

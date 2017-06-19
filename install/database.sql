@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `photoURL` VARCHAR(255) NULL,
   `lastLogin` DATETIME NULL,
   `recoverPass` VARCHAR(255) NULL,
-  `` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
