@@ -63,4 +63,4 @@ We have made a video to help you:
 
 # Ver 3.1
 - Add Themes Support
-https://tutorials.youphptube.com/video/how-to-change-the-theme-of-youphptube-ver-3-1
+
