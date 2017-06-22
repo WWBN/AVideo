@@ -553,6 +553,7 @@ class Configuration {
     static function rewriteConfigFile() {
         global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase;
         $content = "<?php
+\$global['disableAdvancedConfigurations'] = 0;
 \$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$global['systemRootPath']}';
 
