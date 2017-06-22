@@ -15,8 +15,6 @@ In order for you to be able to run SFrancis - Professional Tube, there are certa
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
-
-
 If you do not have a server to host SFrancis - Professional Tube.
 
 Installation:
@@ -63,3 +61,6 @@ We have made a video to help you:
 # Ver 3.0
 - Add the Subscription Option
 
+# Ver 3.1
+- Add Themes Support
+https://tutorials.youphptube.com/video/how-to-change-the-theme-of-youphptube-ver-3-1

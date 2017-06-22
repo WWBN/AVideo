@@ -72,7 +72,12 @@ $(function () {
                 } else {
                     msg = data.result.msg[data.result.msg.length - 1];
                 }
-                swal("Sorry!", msg, "error");
+                swal({
+                    title: "Sorry!",
+                    text: msg,
+                    html: true,
+                    type: "error"
+                });
                 data.context.addClass('error');
                 data.context.find('p.action').text("Error");
             } else {
@@ -86,33 +91,33 @@ $(function () {
 
     function checkProgress(data) {
         $.ajax({
-            url: 'uploadStatus?filename='+data.result.filename,
+            url: 'uploadStatus?filename=' + data.result.filename,
             success: function (response) {
-                
+
                 if (response) {
-                            var txt = "";
-                            if(response.mp4){
-                                txt += "(MP4:"+response.mp4.progress+"%)";
-                            }
-                            if(response.webm){
-                                txt += "(WEBM:"+response.webm.progress+"%)";
-                            }
-                            $('#encoding' + id).html(txt);
-                        }
-                        
-                        
-                if(response){
+                    var txt = "";
+                    if (response.mp4) {
+                        txt += "(MP4:" + response.mp4.progress + "%)";
+                    }
+                    if (response.webm) {
+                        txt += "(WEBM:" + response.webm.progress + "%)";
+                    }
+                    $('#encoding' + id).html(txt);
+                }
+
+
+                if (response) {
                     var progress = 0;
                     var divide = 0;
-                    if(response.mp4){
+                    if (response.mp4) {
                         progress += response.mp4.progress;
                         divide++;
                     }
-                    if(response.webm){
+                    if (response.webm) {
                         progress += response.webm.progress;
                         divide++;
                     }
-                    progress = progress/divide;
+                    progress = progress / divide;
                     data.context.find('input').val(response.progress).change();
 
                     if (progress == 100) {
@@ -121,7 +126,9 @@ $(function () {
                     }
                 }
                 if (!response || response.mp4.progress < 100 || response.webm.progress < 100) {
-                    setTimeout(function(){ checkProgress(data); }, 2000);                    
+                    setTimeout(function () {
+                        checkProgress(data);
+                    }, 2000);
                 }
             }
         });

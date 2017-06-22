@@ -28,20 +28,20 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <div class="container">
-<!--
-            <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
-            </a>
--->
+            <!--
+                        <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
+                        </a>
+            -->
             <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                 <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
             </a>
             <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
                 <span class="fa fa-user"></span> <?php echo __("Users"); ?>
             </a>
-            
+
             <?php
-            if(User::isAdmin()){
+            if (User::isAdmin()) {
                 ?>
                 <a href="<?php echo $global['webSiteRootURL']; ?>ads" class="btn btn-danger">
                     <span class="fa fa-money"></span> <?php echo __("Advertising Manager"); ?>
@@ -49,7 +49,34 @@ $userGroups = UserGroups::getAllUsersGroups();
                 <?php
             }
             ?>
-            
+            <strong>
+                <?php
+                $secondsTotal = getSecondsTotalVideosLength();
+                $seconds = $secondsTotal % 60;
+                $minutes = ($secondsTotal - $seconds) / 60;
+                printf(__("You are hosting %d minutes and %d seconds of video"), $minutes, $seconds);
+                ?>
+            </strong>
+            <?php
+            if (!empty($global['videoStorageLimitMinutes'])) {
+                $secondsLimit = $global['videoStorageLimitMinutes'] * 60;
+                if ($secondsLimit > $secondsTotal) {
+
+                    $percent = intval($secondsTotal / $secondsLimit * 100);
+                } else {
+                    $percent = 100;
+                }
+                ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
+                         aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent; ?>%">
+                        <?php echo $percent; ?>% of your storage limit used
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -122,7 +149,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <a href="#" class="btn btn-info btn-xs" data-toggle="popover" title="<?php echo __("What is this"); ?>" data-placement="bottom"  data-content="<?php echo __("This video will work as an advertising and will no longer appear on videos list"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
-                                             <?php echo __("Create an Advertising"); ?>
+                                            <?php echo __("Create an Advertising"); ?>
                                             <div class="material-switch pull-right">
                                                 <input id="videoIsAd" type="checkbox" value="0" class="userGroups"/>
                                                 <label for="videoIsAd" class="label-success"></label>
@@ -133,8 +160,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             <input type="text" id="inputAdTitle" class="form-control first" placeholder="<?php echo __("Advertising Title"); ?>" required autofocus>
                                             <label for="inputAdUrlRedirect" class="sr-only"><?php echo __("URL"); ?></label>
                                             <input type="url" id="inputAdUrlRedirect" class="form-control last" placeholder="<?php echo __("URL"); ?>" required autofocus>
-                                            
-                                            <label for="inputAdStarts" class="sr-only"><?php echo __("Starts on"); ?></label>                                            
+
+                                            <label for="inputAdStarts" class="sr-only"><?php echo __("Starts on"); ?></label>
                                             <input type="text" id="inputAdStarts" class="form-control datepicker" placeholder="<?php echo __("Starts on"); ?>" required autofocus>
                                             <small>Leave Blank for Right Now</small>
                                             <label for="inputAdFinish" class="sr-only"><?php echo __("Finish on"); ?></label>
@@ -154,7 +181,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             <input type="number" id="inputAdPrints" class="form-control " placeholder="<?php echo __("Stop ad after (X) prints"); ?>" required autofocus>
                                             <small>Leave Blank for Never</small>
 
-                                            <label for="inputAdCategory" class="sr-only"><?php echo __("Category to display this Ad"); ?></label>                                
+                                            <label for="inputAdCategory" class="sr-only"><?php echo __("Category to display this Ad"); ?></label>
                                             <select class="form-control last" id="inputAdCategory" required>
                                                 <?php
                                                 foreach ($categories as $value) {
@@ -201,22 +228,22 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 eval("responseType = response." + entry + ";");
                                 if (responseType && responseType.progress) {
                                     var txt
-                                    if(!isNaN(responseType.progress)){
+                                    if (!isNaN(responseType.progress)) {
                                         txt = entry.toUpperCase() + ": " + responseType.progress + "%";
-                                    }else{
+                                    } else {
                                         txt = entry.toUpperCase() + ": " + responseType.progress;
                                     }
                                     $('#encoding' + entry + id).html(txt);
                                 }
                             }
-                            if (responseType &&  !(responseType.progress >= 100)) {
+                            if (responseType && !(responseType.progress >= 100)) {
                                 if (responseType.progress > 0 || (responseType.progress && isNaN(responseType.progress))) {
                                     $('#encoding' + entry + id).removeClass('label-danger');
                                     $('#encoding' + entry + id).addClass('label-warning');
                                 }
                                 allComplete = false;
                             }
-                            if (responseType && (responseType.progress === 100 || responseType.progress === 'active')){
+                            if (responseType && (responseType.progress === 100 || responseType.progress === 'active')) {
                                 $('#encoding' + entry + id).removeClass('label-warning');
                                 $('#encoding' + entry + id).removeClass('label-danger');
                                 $('#encoding' + entry + id).addClass('label-success');
@@ -247,13 +274,17 @@ $userGroups = UserGroups::getAllUsersGroups();
                         } else if (response.progress == 100) {
                             $("#downloadProgress" + id).css({'width': '100%'});
                             /*
-                            swal({
-                                title: "<?php echo __("Success"); ?>",
-                                text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
-                                type: "success"
-                            });
-                            */                            
-                            $("#grid").bootgrid("reload");
+                             swal({
+                             title: "<?php echo __("Success"); ?>",
+                             text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
+                             type: "success"
+                             });
+                             */
+                                
+                            setTimeout(function () {
+                                $("#grid").bootgrid("reload");
+                            }, 2000);
+                            
                         }
                     }
                 });
@@ -262,7 +293,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                 $('.datepicker').datetimepicker({
                     format: 'yyyy-mm-dd hh:ii',
-                    autoclose:true
+                    autoclose: true
                 });
                 $('#public').change(function () {
                     if ($('#public').is(':checked')) {
@@ -288,23 +319,23 @@ $userGroups = UserGroups::getAllUsersGroups();
                         "commands": function (column, row)
                         {
                             var originalBtn = '<a href="<?php echo $global['webSiteRootURL']; ?>/videos/original_' + row.filename + '" target="_blank" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="left" title="<?php echo __("Download Original"); ?>"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>'
-                            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Delete")); ?>""><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
-                            var reloadBtn = '<button type="button" class="btn btn-default btn-xs command-refresh"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Refresh")); ?>""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>';
-                            var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Inactivate")); ?>""><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-                            var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Activate")); ?>""><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
-                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp4"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Video")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
-                            var reencodeWEBMBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="webm"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Video")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> WEBM</button>';
-                            var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Image")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
-                            var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
-                            var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
-                            var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Rotate LEFT")); ?>""><span class="fa fa-undo" aria-hidden="true"></span></button>';
-                            var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'","\\'", __("Rotate RIGHT")); ?>""><span class="fa fa-repeat " aria-hidden="true"></span></button>';
+                            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>""><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+                            var reloadBtn = '<button type="button" class="btn btn-default btn-xs command-refresh"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Refresh")); ?>""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>';
+                            var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>""><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+                            var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Activate")); ?>""><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
+                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp4"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Video")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
+                            var reencodeWEBMBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="webm"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Video")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> WEBM</button>';
+                            var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Image")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
+                            var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
+                            var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
+                            var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>""><span class="fa fa-undo" aria-hidden="true"></span></button>';
+                            var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>""><span class="fa fa-repeat " aria-hidden="true"></span></button>';
                             var reencodeAudio = "<br>" + reencodeMp3 + reencodeOGG;
                             var reencodeBtn = "<br>" + reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
                             var rotateBtn = "<br>" + rotateLeft + rotateRight;
                             if (row.type == "audio") {
-                                reencodeBtn = reencodeAudio ;
+                                reencodeBtn = reencodeAudio;
                                 rotateBtn = "";
                             }
                             var status;
@@ -314,7 +345,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             } else if (row.status == "a") {
                                 status = inactiveBtn;
                             } else if (row.status == "x") {
-                                return editBtn + deleteBtn + originalBtn + reloadBtn + reencodeBtn ;
+                                return editBtn + deleteBtn + originalBtn + reloadBtn + reencodeBtn;
                             } else if (row.status == "d") {
                                 return deleteBtn;
                             } else {
@@ -358,13 +389,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                             var type, img, is_portrait;
                             if (row.type === "audio") {
                                 type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
-                                img = "<img class='img img-responsive img-thumbnail pull-left rotate"+row.rotation+"' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
                             } else {
                                 type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
-                                is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : ""; 
-                                img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate"+row.rotation+"' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
+                                is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
+                                img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            return img + type + row.title + "<br>" + tags + "<br>" ;
+                            return img + type + row.title + "<br>" + tags + "<br>";
                         }
 
 
@@ -391,7 +422,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             }
                         }
                         $('#public').trigger("change");
-                        
+
                         $('#videoIsAd').prop('checked', false);
                         $('#videoIsAd').trigger("change");
                         $('#videoFormModal').modal();
@@ -532,7 +563,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     var selectedVideoGroups = [];
                     var isAd = $('#videoIsAd').is(':checked');
                     var adElements = {};
-                    if(isAd){
+                    if (isAd) {
                         adElements = {
                             title: $('#inputAdTitle').val(),
                             starts: $('#inputAdStarts').val(),

@@ -92,7 +92,7 @@ class Video {
         if (empty($this->clean_title)) {
             $this->clean_title = $this->filename;
         }
-        $this->clean_title = self::fixCleanTitle($this->clean_title);
+        $this->clean_title = self::fixCleanTitle($this->clean_title, 1, $this->id);
         global $global;
 
         if (empty($this->status)) {
@@ -879,14 +879,18 @@ class Video {
         return !empty($this->videoAdsCount);
     }
 
-    static function fixCleanTitle($clean_title, $count = 1) {
+    static function fixCleanTitle($clean_title, $count, $videoId) {
         global $global;
 
-        $sql = "SELECT * FROM videos WHERE clean_title = '{$clean_title}' LIMIT 1";
+        $sql = "SELECT * FROM videos WHERE clean_title = '{$clean_title}' ";
+        if(!empty($videoId)){
+            $sql .= " AND id != {$videoId} ";
+        }
+        $sql .= " LIMIT 1";
         $res = $global['mysqli']->query($sql);
 
         if ($res && !empty($res->num_rows)) {
-            return self::fixCleanTitle($clean_title . $count, $count + 1);
+            return self::fixCleanTitle($clean_title . $count, $count + 1, $videoId);
         }
         return $clean_title;
     }

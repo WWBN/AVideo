@@ -94,13 +94,13 @@ function isPHP($version = "'7.0.0'") {
 }
 
 function modRewriteEnabled() {
-    if(!function_exists('apache_get_modules')){
+    if (!function_exists('apache_get_modules')) {
         ob_start();
         phpinfo(INFO_MODULES);
         $contents = ob_get_contents();
         ob_end_clean();
         return (strpos($contents, 'mod_rewrite') !== false);
-    }else{
+    } else {
         return in_array('mod_rewrite', apache_get_modules());
     }
 }
@@ -235,8 +235,10 @@ function status($statusarray) {
         }
     } else {
         echo json_encode(array_map(
-            function($text) { return nl2br($text); }
-            , $statusarray));
+                        function($text) {
+                    return nl2br($text);
+                }
+                        , $statusarray));
     }
 }
 
@@ -248,4 +250,29 @@ function status($statusarray) {
 function croak($statusarray) {
     status($statusarray);
     die;
+}
+
+function getSecondsTotalVideosLength() {
+    $configFile = dirname(__FILE__) . '/../videos/configuration.php';
+    require_once $configFile;
+    global $global;
+    $sql = "SELECT * FROM videos v ";
+    $res = $global['mysqli']->query($sql);
+    $seconds = 0;
+    while ($row = $res->fetch_assoc()) {
+        $seconds += parseDurationToSeconds($row['duration']);
+    }
+    return $seconds;
+}
+
+function getMinutesTotalVideosLength() {
+    $seconds = getSecondsTotalVideosLength();
+    return floor($seconds/60);
+}
+
+function parseDurationToSeconds($str){
+    $durationParts = explode(":", $str);
+    if(empty($durationParts[1]))return 0;
+    $minutes = intval(($durationParts[0])*60)+intval($durationParts[1]);
+    return intval($durationParts[2])+($minutes*60);
 }

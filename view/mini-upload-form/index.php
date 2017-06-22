@@ -7,7 +7,6 @@ if (!User::canUpload()) {
     header("location: {$global['webSiteRootURL']}user");
     exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -15,7 +14,7 @@ if (!User::canUpload()) {
         <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo __("Upload your file"); ?></title>
 
         <?php
-        include $global['systemRootPath'].'view/include/head.php';
+        include $global['systemRootPath'] . 'view/include/head.php';
         ?>
 
         <!-- Google web fonts -->
@@ -53,22 +52,30 @@ if (!User::canUpload()) {
                 <div class="col-xs-12 col-sm-12 col-lg-3">
                     <div class="alert alert-info">
                         <h1>
-                        <span class="glyphicon glyphicon-info-sign" style="font-size:1em;"></span>
-                        <?php echo __("Your maximum file size is:"), " ", "".get_max_file_size().""; ?>
+                            <span class="glyphicon glyphicon-info-sign" style="font-size:1em;"></span>
+                            <?php echo __("Your maximum file size is:"), " ", "" . get_max_file_size() . ""; ?>
                         </h1>
                     </div>
                     <div class="alert alert-success"><?php printf(__("Your encode video resolution is set to %s !"), $config->getVideo_resolution()); ?></div>
+                    <?php
+                    if (!empty($global['videoStorageLimitMinutes'])) {
+                        $secondsTotal = getMinutesTotalVideosLength();
+                        ?>
+                        <div class="alert alert-warning"><?php printf(__("You have about %s minutes left of video storage!"), ($global['videoStorageLimitMinutes']-$secondsTotal)); ?></div>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
 
 
         </div><!--/.container-->
 
-            <?php
-            include '../include/footer.php';
-            ?>
+<?php
+include '../include/footer.php';
+?>
 
-        
+
         <!-- JavaScript Includes -->
         <script src="view/mini-upload-form/assets/js/jquery.knob.js"></script>
 
@@ -79,7 +86,7 @@ if (!User::canUpload()) {
 
         <!-- Our main JS file -->
         <script src="view/mini-upload-form/assets/js/script.js"></script>
-        
+
 
     </body>
 </html>

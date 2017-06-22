@@ -1,6 +1,6 @@
 <?php
 
-$installationVersion = "3.0";
+$installationVersion = "3.1";
 
 header('Content-Type: application/json');
 
@@ -116,6 +116,8 @@ if ($mysqli->query($sql) !== TRUE) {
 $mysqli->close();
 
 $content = "<?php
+\$global['disableAdvancedConfigurations'] = 0;
+\$global['videoStorageLimitMinutes'] = 0;
 \$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
 

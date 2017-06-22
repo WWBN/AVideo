@@ -32,7 +32,7 @@ class Configuration {
     private $ffmpegWebmPortrait;
     private $ffmpegMp3;
     private $ffmpegOgg;
-    private $youtubedl;
+    private $youtubeDl;
     private $ffmpegPath;
     private $youtubeDlPath;
     private $exiftool;
@@ -50,6 +50,11 @@ class Configuration {
     private $encode_mp3spectrum;
     private $ffmpegSpectrum;
     private $autoplay;
+    
+    // version 3.1
+    private $theme;
+    private $doNotShowVideoAndAudioLinks;
+    private $doNotShowCategories;
 
     function __construct($video_resolution = "") {
         $this->load();
@@ -65,6 +70,7 @@ class Configuration {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $config = $res->fetch_assoc();
+            //var_dump($config);exit;
             foreach ($config as $key => $value) {
                 $this->$key = $value;
             }
@@ -105,8 +111,8 @@ class Configuration {
                 . "ffmpegMp4Portrait = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4Portrait())}',"
                 . "ffmpegWebmPortrait = '{$global['mysqli']->real_escape_string($this->getFfmpegWebmPortrait())}',"
                 . "ffprobeDuration = '{$global['mysqli']->real_escape_string($this->getFfprobeDuration())}',"
-                . "youtubedl = '{$global['mysqli']->real_escape_string($this->getYoutubedl())}',"
-                . "youtubedlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
+                . "youtubeDl = '{$global['mysqli']->real_escape_string($this->getYoutubeDl())}',"
+                . "youtubeDlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
                 . "ffmpegPath = '{$global['mysqli']->real_escape_string($this->ffmpegPath)}',"
                 . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
                 . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
@@ -119,8 +125,13 @@ class Configuration {
                 . "encode_webm = '{$this->getEncode_webm()}',"
                 . "encode_mp3spectrum = '{$this->getEncode_mp3spectrum()}',"
                 . "ffmpegSpectrum = '{$global['mysqli']->real_escape_string($this->getFfmpegSpectrum())}',"
-                . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}'"
-                . "WHERE id = 1";
+                . "exiftoolPath = '{$global['mysqli']->real_escape_string($this->getExiftoolPath())}',"
+                . "exiftool = '{$global['mysqli']->real_escape_string($this->getExiftool())}',"
+                . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}',"
+                . "theme = '{$global['mysqli']->real_escape_string($this->getTheme())}',"
+                . "doNotShowVideoAndAudioLinks = '{$this->getDoNotShowVideoAndAudioLinks()}',"
+                . "doNotShowCategories = '{$this->getDoNotShowCategories()}'"
+                . " WHERE id = 1";
 
 
         $insert_row = $global['mysqli']->query($sql);
@@ -310,11 +321,11 @@ class Configuration {
         return $this->ffmpegOgg;
     }
 
-    function getYoutubedl() {
-        if (empty($this->youtubedl)) {
+    function getYoutubeDl() {
+        if (empty($this->youtubeDl)) {
             return 'youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
         }
-        return $this->youtubedl;
+        return $this->youtubeDl;
     }
 
     function setFfprobeDuration($ffprobeDuration) {
@@ -341,8 +352,8 @@ class Configuration {
         $this->ffmpegOgg = $ffmpegOgg;
     }
 
-    function setYoutubedl($youtubedl) {
-        $this->youtubedl = $youtubedl;
+    function setYoutubeDl($youtubeDl) {
+        $this->youtubeDl = $youtubeDl;
     }
 
     function setFfmpegPath($ffmpegPath) {
@@ -507,7 +518,7 @@ class Configuration {
     }
 
     function setDisable_analytics($disable_analytics) {
-        $this->disable_analytics = $disable_analytics == 'true' ? 1 : 0;
+        $this->disable_analytics = ($disable_analytics == 'true' || $disable_analytics == '1') ? 1 : 0;
     }
 
     function setSession_timeout($session_timeout) {
@@ -515,15 +526,15 @@ class Configuration {
     }
 
     function setEncode_mp4($encode_mp4) {
-        $this->encode_mp4 = $encode_mp4 == 'true' ? 1 : 0;
+        $this->encode_mp4 = ($encode_mp4 == 'true' || $encode_mp4 == '1') ? 1 : 0;
     }
 
     function setEncode_webm($encode_webm) {
-        $this->encode_webm = $encode_webm == 'true' ? 1 : 0;
+        $this->encode_webm = ($encode_webm == 'true' || $encode_webm == '1') ? 1 : 0;
     }
 
     function setEncode_mp3spectrum($encode_mp3spectrum) {
-        $this->encode_mp3spectrum = $encode_mp3spectrum == 'true' ? 1 : 0;
+        $this->encode_mp3spectrum = ($encode_mp3spectrum == 'true' || $encode_mp3spectrum == '1') ? 1 : 0;
     }
 
     function getFfmpegSpectrum() {
@@ -542,7 +553,7 @@ class Configuration {
     }
 
     function setAutoplay($autoplay) {
-        $this->autoplay = $autoplay == 'true' ? 1 : 0;
+        $this->autoplay = ($autoplay == 'true' || $autoplay == '1') ? 1 : 0;
     }
 
     // end version 2.7
@@ -550,6 +561,8 @@ class Configuration {
     static function rewriteConfigFile() {
         global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase;
         $content = "<?php
+\$global['disableAdvancedConfigurations'] = 0;
+\$global['videoStorageLimitMinutes'] = 0;
 \$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$global['systemRootPath']}';
 
@@ -569,5 +582,34 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         fwrite($fp, $content);
         fclose($fp);
     }
+    
+    function getTheme() {
+        if(empty($this->theme)){
+            return "default";
+        }
+        return $this->theme;
+    }
+
+    function getDoNotShowVideoAndAudioLinks() {
+        return intval($this->doNotShowVideoAndAudioLinks);
+    }
+
+    function getDoNotShowCategories() {
+        return intval($this->doNotShowCategories);
+    }
+
+    function setTheme($theme) {
+        $this->theme = $theme;
+    }
+
+    function setDoNotShowVideoAndAudioLinks($doNotShowVideoAndAudioLinks) {
+        $this->doNotShowVideoAndAudioLinks = ($doNotShowVideoAndAudioLinks == 'true' || $doNotShowVideoAndAudioLinks == '1') ? 1 : 0;
+    }
+
+    function setDoNotShowCategories($doNotShowCategories) {
+        $this->doNotShowCategories = ($doNotShowCategories == 'true' || $doNotShowCategories == '1') ? 1 : 0;
+    }
+
+
 
 }
