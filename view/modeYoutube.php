@@ -65,7 +65,7 @@ trigger: 'manual',
         }
     }
 
-    $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name . '</strong>' . $subscribe . $popover . '<small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
+    $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong>' . $subscribe . $popover . '<small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
     $obj = new Video("", "", $video['id']);
     // dont need because have one embeded video on this page
     //$resp = $obj->addView();
@@ -82,7 +82,7 @@ $_POST['sort']['created'] = 'desc';
 $videos = Video::getAllVideos("viewableNotAd");
 foreach ($videos as $key => $value) {
     $name = empty($value['name']) ? $value['user'] : $value['name'];
-    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
+    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
 }
 $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
@@ -179,12 +179,12 @@ if (!empty($_GET['catName'])) {
                                             </small>
                                         </h1>
                                         <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                                        <span class="watch-view-count pull-right" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
+                                        <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
                                     </div> 
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-12 col-lg-12 watch8-action-buttons">
+                                    <div class="col-md-12 col-lg-12 watch8-action-buttons text-muted">
                                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                             <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                         </a>
@@ -250,7 +250,7 @@ if (!empty($_GET['catName'])) {
 
                             <div class="row bgWhite" id="shareDiv">
                                 <div class="tabbable-panel">
-                                    <div class="tabbable-line">
+                                    <div class="tabbable-line text-muted">
                                         <ul class="nav nav-tabs">
                                             <li class="nav-item">
                                                 <a class="nav-link " href="#tabShare" data-toggle="tab">
@@ -526,7 +526,7 @@ if (!empty($_GET['catName'])) {
                             <?php
                             if (!empty($autoPlayVideo)) {
                                 ?>
-                                <div class="col-lg-12 col-sm-12 col-xs-12 autoplay" style="display: none;">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="display: none;">
                                     <strong>
                                         <?php
                                         echo __("Up Next");
@@ -568,7 +568,7 @@ if (!empty($_GET['catName'])) {
                                         </div>
                                         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
                                             <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $autoPlayVideo['title']; ?></strong></div>
-                                            <div class="details row" itemprop="description">
+                                            <div class="details row text-muted" itemprop="description">
                                                 <div>
                                                     <strong><?php echo __("Category"); ?>: </strong>
                                                     <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span> 

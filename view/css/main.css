@@ -6,7 +6,6 @@ html,
 body {
     height: 100vh;
     padding-top: 30px;
-    background-color: #f8f8f8;
 }
 
 
@@ -41,7 +40,6 @@ body {
     font-size: 1em;
 }
 .videoLink div.details, .videoLink div.details div{
-    color: #777;
     font-size: 0.9em;
 }
 
@@ -185,7 +183,6 @@ footer {
 
 /* Comments */
 .commenterName small {
-    color:#aaa;
     font-family:verdana;
     font-size:0.9em;
 }
@@ -203,7 +200,6 @@ footer {
 
 /* Tabs panel */
 .tabbable-panel {
-    border:1px solid #eee;
     padding: 10px;
 }
 
@@ -219,10 +215,6 @@ footer {
 .tabbable-line > .nav-tabs > li > a {
     border: 0;
     margin-right: 0;
-    color: #737373;
-}
-.tabbable-line > .nav-tabs > li > a > i {
-    color: #a6a6a6;
 }
 .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
     border-bottom: 4px solid #fbcdcf;
@@ -230,7 +222,6 @@ footer {
 .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
     border: 0;
     background: none !important;
-    color: #333333;
 }
 .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
     color: #a6a6a6;
@@ -244,7 +235,6 @@ footer {
 }
 .tabbable-line > .nav-tabs > li.active > a {
     border: 0;
-    color: #333333;
     background: none !important;
 }
 .tabbable-line > .nav-tabs > li.active > a > i {
@@ -275,14 +265,10 @@ footer {
     margin: 5px 0 0 0;    
     border-top: 2px solid #F2F2F2;
 }
-.watch8-action-buttons a{
-    color: #777;
-}
-
 .bgWhite{
     margin: 0 0 10px;
-    border: 0;
-    background: #fff;
+    border: 0;    
+    background: rgba(255,255, 255, 0.5)!important;
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -312,7 +298,6 @@ footer {
     line-height: 24px;
     max-height: 24px;
     font-size: 19px;
-    color: #666;
     white-space: nowrap;
     margin: -5px;
     padding: -5px;
@@ -491,7 +476,6 @@ footer {
 
 .autoplay span span{
     margin: 0 5px;
-    color: #767676;
     font-weight: bold;
 }
 

@@ -50,6 +50,11 @@ class Configuration {
     private $encode_mp3spectrum;
     private $ffmpegSpectrum;
     private $autoplay;
+    
+    // version 3.1
+    private $theme;
+    private $doNotShowVideoAndAudioLinks;
+    private $doNotShowCategories;
 
     function __construct($video_resolution = "") {
         $this->load();
@@ -122,8 +127,11 @@ class Configuration {
                 . "ffmpegSpectrum = '{$global['mysqli']->real_escape_string($this->getFfmpegSpectrum())}',"
                 . "exiftoolPath = '{$global['mysqli']->real_escape_string($this->getExiftoolPath())}',"
                 . "exiftool = '{$global['mysqli']->real_escape_string($this->getExiftool())}',"
-                . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}'"
-                . "WHERE id = 1";
+                . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}',"
+                . "theme = '{$global['mysqli']->real_escape_string($this->getTheme())}',"
+                . "doNotShowVideoAndAudioLinks = '{$this->getDoNotShowVideoAndAudioLinks()}',"
+                . "doNotShowCategories = '{$this->getDoNotShowCategories()}'"
+                . " WHERE id = 1";
 
 
         $insert_row = $global['mysqli']->query($sql);
@@ -574,5 +582,34 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         fwrite($fp, $content);
         fclose($fp);
     }
+    
+    function getTheme() {
+        if(empty($this->theme)){
+            return "default";
+        }
+        return $this->theme;
+    }
+
+    function getDoNotShowVideoAndAudioLinks() {
+        return intval($this->doNotShowVideoAndAudioLinks);
+    }
+
+    function getDoNotShowCategories() {
+        return intval($this->doNotShowCategories);
+    }
+
+    function setTheme($theme) {
+        $this->theme = $theme;
+    }
+
+    function setDoNotShowVideoAndAudioLinks($doNotShowVideoAndAudioLinks) {
+        $this->doNotShowVideoAndAudioLinks = ($doNotShowVideoAndAudioLinks == 'true' || $doNotShowVideoAndAudioLinks == '1') ? 1 : 0;
+    }
+
+    function setDoNotShowCategories($doNotShowCategories) {
+        $this->doNotShowCategories = ($doNotShowCategories == 'true' || $doNotShowCategories == '1') ? 1 : 0;
+    }
+
+
 
 }

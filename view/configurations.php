@@ -13,6 +13,12 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
         ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
+        <style>
+            .img-radio {
+                opacity: 0.5;
+                margin-bottom: 5px;
+            }
+        </style>
     </head>
 
     <body>
@@ -31,6 +37,12 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                             <div class="tabbable-panel">
                                 <div class="tabbable-line">
                                     <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="#tabTheme" data-toggle="tab">
+                                                <span class="fa fa-cog"></span> 
+                                                <?php echo __("Themes"); ?>
+                                            </a>
+                                        </li>
                                         <li class="nav-item">
                                             <a class="nav-link " href="#tabCompatibility" data-toggle="tab">
                                                 <span class="fa fa-cog"></span> 
@@ -63,6 +75,45 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                         </li>
                                     </ul>
                                     <div class="tab-content clearfix">
+                                        <div class="tab-pane" id="tabTheme">
+                                            <fieldset>
+                                                <legend><?php echo __("Themes"); ?></legend>
+                                                <h1 class="alert alert-warning">
+                                                    <span class="fa fa-warning"></span> 
+                                                    <?php echo __("Do not forget to save after choose your theme"); ?>
+                                                </h1>
+                                                <div class="alert alert-info">
+                                                    <span class="fa fa-info-circle"></span> 
+                                                    <?php echo __("We would like to thanks http://bootswatch.com/"); ?>
+                                                </div>
+                                                <?php
+                                                foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
+                                                    //echo "$filename size " . filesize($filename) . "\n";
+                                                    $file = basename($filename);         // $file is set to "index.php"
+                                                    $fileEx = basename($filename, ".css"); // $file is set to "index"
+                                                    $savedTheme = $config->getTheme();
+                                                    if($fileEx == $savedTheme){
+                                                        ?>
+                                                <script>
+                                                $(document).ready(function () {
+                                                    setTimeout(function () {                                                        
+                                                        $("#btn<?php echo ($fileEx); ?>").trigger("click");
+                                                    }, 1000);
+                                                });
+                                                </script>    
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    <div class="col-xs-4" style="padding: 10px;">
+                                                        <img src="<?php echo $global['webSiteRootURL'], "view/css/custom/", $fileEx, ".png"; ?>" class="img-responsive img-radio">
+                                                        <button type="button" class="btn btn-default btn-radio btn-block btn-xs" id="btn<?php echo ($fileEx); ?>"><?php echo ucfirst($fileEx); ?></button>
+                                                        <input type="checkbox" value="<?php echo ($fileEx); ?>"  class="hidden left-item">
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </fieldset>
+                                        </div>
                                         <div class="tab-pane" id="tabCompatibility">                                            
                                             <div class="alert alert-success">
                                                 <span class="fa fa-film"></span>
@@ -74,11 +125,11 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     ?></strong>
                                                 <?php
                                                 if (!empty($global['videoStorageLimitMinutes'])) {
-                                                    $secondsLimit = $global['videoStorageLimitMinutes']*60;
-                                                    if($secondsLimit>$secondsTotal){
-                                                        
-                                                        $percent = intval($secondsTotal/$secondsLimit*100);
-                                                    }else{
+                                                    $secondsLimit = $global['videoStorageLimitMinutes'] * 60;
+                                                    if ($secondsLimit > $secondsTotal) {
+
+                                                        $percent = intval($secondsTotal / $secondsLimit * 100);
+                                                    } else {
                                                         $percent = 100;
                                                     }
                                                     ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
@@ -207,9 +258,9 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                         Update the package list.
                                                         <br>
                                                         <pre><code>
-                                                                                sudo apt-get update
-                                                                                sudo apt-get dist-upgrade
-                                                                            </code></pre>
+                                                                                                        sudo apt-get update
+                                                                                                        sudo apt-get dist-upgrade
+                                                                                                    </code></pre>
                                                         <br>
                                                         Now FFmpeg is available to be installed with apt:
                                                         <br>
@@ -467,9 +518,11 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                 <div class="form-group">
                                                     <label class="col-md-4  control-label"><?php echo __("Autoplay Video on Load Page"); ?></label>  
                                                     <div class="col-md-8">
-                                                        <input data-toggle="toggle" type="checkbox" name="autoplay" id="autoplay" value="1" <?php if (!empty($config->getAutoplay())) {
-                                                        echo "checked";
-                                                    } ?>>    
+                                                        <input data-toggle="toggle" type="checkbox" name="autoplay" id="autoplay" value="1" <?php
+                                                        if (!empty($config->getAutoplay())) {
+                                                            echo "checked";
+                                                        }
+                                                        ?>>    
                                                     </div>
                                                 </div>
 
@@ -650,47 +703,55 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Encode video in MP4 Format"); ?></label>  
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="encode_mp4" id="encode_mp4" value="1" <?php if (!empty($config->getEncode_mp4())) {
-                                                    echo "checked";
-                                                } ?>>    
+                                                            <input data-toggle="toggle" type="checkbox" name="encode_mp4" id="encode_mp4" value="1" <?php
+                                                            if (!empty($config->getEncode_mp4())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?>>    
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Encode video in WEBM Format"); ?></label>  
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="encode_webm" id="encode_webm" value="1" <?php if (!empty($config->getEncode_webm())) {
-                                                    echo "checked";
-                                                } ?>>    
+                                                            <input data-toggle="toggle" type="checkbox" name="encode_webm" id="encode_webm" value="1" <?php
+                                                            if (!empty($config->getEncode_webm())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?>>    
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Encode MP3 file Spectrum"); ?></label>  
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="encode_mp3spectrum" id="encode_mp3spectrum" value="1" <?php if (!empty($config->getEncode_mp3spectrum())) {
-                                                    echo "checked";
-                                                } ?>>    
+                                                            <input data-toggle="toggle" type="checkbox" name="encode_mp3spectrum" id="encode_mp3spectrum" value="1" <?php
+                                                            if (!empty($config->getEncode_mp3spectrum())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?>>    
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Disable YouPHPTube Google Analytics"); ?></label>  
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="disable_analytics" id="disable_analytics" value="1" <?php if (!empty($config->getDisable_analytics())) {
-                                            echo "checked";
-                                        } ?>  aria-describedby="disable_analyticsHelp">    
+                                                            <input data-toggle="toggle" type="checkbox" name="disable_analytics" id="disable_analytics" value="1" <?php
+                                                            if (!empty($config->getDisable_analytics())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?>  aria-describedby="disable_analyticsHelp">    
                                                             <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
                                                         </div>
                                                     </div>
                                                 </fieldset>
-        <?php
-    } else {
-        ?>
+                                                <?php
+                                            } else {
+                                                ?>
                                                 <h2 class="alert alert-danger"><?php echo __("Advanced configurations are disabled"); ?></h2>
-        <?php
-    }
-    ?>
+                                                <?php
+                                            }
+                                            ?>
                                         </div>
                                         <div class="tab-pane" id="tabHead">
                                             <fieldset>
@@ -848,7 +909,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                     <div class="col-xs-12 col-sm-12 col-lg-3">
                         <ul class="list-group">
                             <li class="list-group-item active">
-    <?php echo __("Recommended resolutions"); ?>
+                                <?php echo __("Recommended resolutions"); ?>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
                                 352:240
@@ -880,6 +941,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                 <script>
                     var logoCrop;
                     var logoSmallCrop;
+                    var theme;
                     function readFile(input, c) {
                         console.log("read file");
                         if ($(input)[0].files && $(input)[0].files[0]) {
@@ -1017,7 +1079,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "encode_webm": $('#encode_webm').prop("checked"),
                                             "encode_mp3spectrum": $('#encode_mp3spectrum').prop("checked"),
                                             "ffmpegSpectrum": $('#ffmpegSpectrum').val(),
-                                            "autoplay": $('#autoplay').prop("checked")
+                                            "autoplay": $('#autoplay').prop("checked"),
+                                            "theme": theme
 
                                         },
                                         type: 'post',
@@ -1036,17 +1099,31 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 
 
                         });
+
+                        $('.btn-radio').click(function (e) {
+                            $('.btn-radio').not(this).removeClass('active')
+                                    .siblings('input').prop('checked', false)
+                                    .siblings('.img-radio').css('opacity', '0.5');
+                            $(this).addClass('active')
+                                    .siblings('input').prop('checked', true)
+                                    .siblings('.img-radio').css('opacity', '1');
+                            var cssName = $(this).addClass('active').siblings('input').val();
+                            $("#theme").attr("href", "<?php echo $global['webSiteRootURL']?>css/custom/"+cssName+".css");
+                            $('.btn-radio').parent("div").removeClass('bg-success');
+                            $(this).addClass('active').parent("div").addClass("bg-success");
+                            theme = cssName;
+                        });
                     });
                 </script>
-    <?php
-}
-?>
+                <?php
+            }
+            ?>
 
         </div><!--/.container-->
 
-<?php
-include 'include/footer.php';
-?>
+        <?php
+        include 'include/footer.php';
+        ?>
 
     </body>
 </html>

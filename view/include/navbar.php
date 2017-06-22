@@ -203,7 +203,7 @@ if (empty($_SESSION['language'])) {
         </ul>
     </div>
 </nav>
-<div class="tabbable-panel">
+<div class="tabbable-panel bgWhite">
     <div class="tabbable-line">
         <ul class="nav nav-tabs">
             <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">

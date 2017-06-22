@@ -5,6 +5,10 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
+-- Schema youPHPTube
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
@@ -151,6 +155,9 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `encode_webm` TINYINT(1) NULL DEFAULT 1,
   `encode_mp3spectrum` TINYINT(1) NULL DEFAULT 1,
   `autoplay` TINYINT(1) NULL,
+  `theme` VARCHAR(45) NULL DEFAULT 'default',
+  `doNotShowVideoAndAudioLinks` TINYINT(1) NULL,
+  `doNotShowCategories` TINYINT(1) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
