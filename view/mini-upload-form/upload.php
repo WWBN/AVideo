@@ -118,7 +118,28 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     //echo "Starting Get Duration\n";
     $duration = Video::getDurationFromFile($_FILES['upl']['tmp_name']);
-
+    
+    // check if can upload video (about time limit storage)
+    if(!empty($global['videoStorageLimitMinutes'])){
+        $maxDuration = $global['videoStorageLimitMinutes']*60;
+        $currentStorageUsage = getSecondsTotalVideosLength();
+        $thisFile = parseDurationToSeconds($duration);
+        $limitAfterThisFile = $currentStorageUsage+$thisFile;
+        if($maxDuration<$limitAfterThisFile){
+            status(["status" => "error", "msg" => "Sorry, your storage limit has run out."
+                . "<br>[Max Duration: {$maxDuration} Seconds]"
+                . "<br>[Current Srotage Usage: {$currentStorageUsage} Seconds]"
+                . "<br>[This File Duration: {$thisFile} Seconds]"
+                . "<br>[Limit after this file: {$limitAfterThisFile} Seconds]", "type" => '$_FILES Limit Error']);
+            if(!empty($_FILES['upl']['videoId'])){
+                $video = new Video("", "", $_FILES['upl']['videoId']);
+                $video->delete();
+            }
+            exit;
+        }
+    }
+    
+    
     $path_parts = pathinfo($_FILES['upl']['name']);
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", $path_parts['filename']);
     $filename = uniqid($mainName . "_", true);

@@ -554,6 +554,7 @@ class Configuration {
         global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase;
         $content = "<?php
 \$global['disableAdvancedConfigurations'] = 0;
+\$global['videoStorageLimitMinutes'] = 0;
 \$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$global['systemRootPath']}';
 
