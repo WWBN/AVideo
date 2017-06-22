@@ -32,7 +32,7 @@ class Configuration {
     private $ffmpegWebmPortrait;
     private $ffmpegMp3;
     private $ffmpegOgg;
-    private $youtubedl;
+    private $youtubeDl;
     private $ffmpegPath;
     private $youtubeDlPath;
     private $exiftool;
@@ -105,8 +105,8 @@ class Configuration {
                 . "ffmpegMp4Portrait = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4Portrait())}',"
                 . "ffmpegWebmPortrait = '{$global['mysqli']->real_escape_string($this->getFfmpegWebmPortrait())}',"
                 . "ffprobeDuration = '{$global['mysqli']->real_escape_string($this->getFfprobeDuration())}',"
-                . "youtubedl = '{$global['mysqli']->real_escape_string($this->getYoutubedl())}',"
-                . "youtubedlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
+                . "youtubeDl = '{$global['mysqli']->real_escape_string($this->getYoutubeDl())}',"
+                . "youtubeDlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
                 . "ffmpegPath = '{$global['mysqli']->real_escape_string($this->ffmpegPath)}',"
                 . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
                 . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
@@ -119,6 +119,8 @@ class Configuration {
                 . "encode_webm = '{$this->getEncode_webm()}',"
                 . "encode_mp3spectrum = '{$this->getEncode_mp3spectrum()}',"
                 . "ffmpegSpectrum = '{$global['mysqli']->real_escape_string($this->getFfmpegSpectrum())}',"
+                . "exiftoolPath = '{$global['mysqli']->real_escape_string($this->getExiftoolPath())}',"
+                . "exiftool = '{$global['mysqli']->real_escape_string($this->getExiftool())}',"
                 . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}'"
                 . "WHERE id = 1";
 
@@ -310,11 +312,11 @@ class Configuration {
         return $this->ffmpegOgg;
     }
 
-    function getYoutubedl() {
-        if (empty($this->youtubedl)) {
+    function getYoutubeDl() {
+        if (empty($this->youtubeDl)) {
             return 'youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
         }
-        return $this->youtubedl;
+        return $this->youtubeDl;
     }
 
     function setFfprobeDuration($ffprobeDuration) {
@@ -341,8 +343,8 @@ class Configuration {
         $this->ffmpegOgg = $ffmpegOgg;
     }
 
-    function setYoutubedl($youtubedl) {
-        $this->youtubedl = $youtubedl;
+    function setYoutubeDl($youtubeDl) {
+        $this->youtubeDl = $youtubeDl;
     }
 
     function setFfmpegPath($ffmpegPath) {

@@ -505,6 +505,9 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             </fieldset>
                                         </div>
                                         <div class="tab-pane" id="tabAdvanced">
+                                            <?php
+                                            if(empty($global['disableAdvancedConfigurations'])){
+                                            ?>
                                             <fieldset>
                                                 <legend><?php echo __("Advanced configuration"); ?></legend>
 
@@ -525,7 +528,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                 <div class="form-group">
                                                     <label class="col-md-2"><?php echo __("Path to exiftool"); ?></label>  
                                                     <div class="col-md-10">
-                                                        <input id="youtubeDlPath" class="form-control"  type="text" value="<?php echo $config->getExiftoolPath(); ?>" >
+                                                        <input id="exiftoolPath" class="form-control"  type="text" value="<?php echo $config->getExiftoolPath(); ?>" >
                                                         <small>Leave blank for native Exiftool</small>
                                                     </div>
                                                 </div>
@@ -642,6 +645,13 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     </div>
                                                 </div>
                                             </fieldset>
+                                            <?php
+                                            }else{
+                                                ?>
+                                            <h2 class="alert alert-danger"><?php echo __("Advanced configurations are disabled");  ?></h2>
+                                                <?php
+                                            }
+                                            ?>
                                         </div>
                                         <div class="tab-pane" id="tabHead">
                                             <fieldset>
@@ -956,6 +966,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "ffmpegOgg": $('#ffmpegOgg').val(),
                                             "youtubeDl": $('#youtubeDl').val(),
                                             "youtubeDlPath": $('#youtubeDlPath').val(),
+                                            "exiftoolPath": $('#exiftoolPath').val(),
+                                            "exiftool": $('#exiftool').val(),
                                             "ffmpegPath": $('#ffmpegPath').val(),
                                             "head": $('#head').val(),
                                             "adsense": $('#adsense').val(),
