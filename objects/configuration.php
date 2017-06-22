@@ -65,6 +65,7 @@ class Configuration {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $config = $res->fetch_assoc();
+            //var_dump($config);exit;
             foreach ($config as $key => $value) {
                 $this->$key = $value;
             }
@@ -509,7 +510,7 @@ class Configuration {
     }
 
     function setDisable_analytics($disable_analytics) {
-        $this->disable_analytics = $disable_analytics == 'true' ? 1 : 0;
+        $this->disable_analytics = ($disable_analytics == 'true' || $disable_analytics == '1') ? 1 : 0;
     }
 
     function setSession_timeout($session_timeout) {
@@ -517,15 +518,15 @@ class Configuration {
     }
 
     function setEncode_mp4($encode_mp4) {
-        $this->encode_mp4 = $encode_mp4 == 'true' ? 1 : 0;
+        $this->encode_mp4 = ($encode_mp4 == 'true' || $encode_mp4 == '1') ? 1 : 0;
     }
 
     function setEncode_webm($encode_webm) {
-        $this->encode_webm = $encode_webm == 'true' ? 1 : 0;
+        $this->encode_webm = ($encode_webm == 'true' || $encode_webm == '1') ? 1 : 0;
     }
 
     function setEncode_mp3spectrum($encode_mp3spectrum) {
-        $this->encode_mp3spectrum = $encode_mp3spectrum == 'true' ? 1 : 0;
+        $this->encode_mp3spectrum = ($encode_mp3spectrum == 'true' || $encode_mp3spectrum == '1') ? 1 : 0;
     }
 
     function getFfmpegSpectrum() {
@@ -544,7 +545,7 @@ class Configuration {
     }
 
     function setAutoplay($autoplay) {
-        $this->autoplay = $autoplay == 'true' ? 1 : 0;
+        $this->autoplay = ($autoplay == 'true' || $autoplay == '1') ? 1 : 0;
     }
 
     // end version 2.7
