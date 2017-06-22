@@ -55,12 +55,12 @@ We have made a video to help you:
 
 # Ver 2.9
 *Special Thanks for Frank de Lange. He is responsible for the creation of these functionalities*
-- Add video rotate command.
-- Add command line interface to upload videos. Use php -f upload.php -- -h in view/mini-upload-form for instructions.
+- Added video rotate command.
+- Added command line interface to upload videos. Use php -f upload.php -- -h in view/mini-upload-form for instructions.
 
 # Ver 3.0
-- Add the Subscription Option
+- Added the Subscription Option
 
 # Ver 3.1
-- Add Themes Support
+- Added Themes Support
 
