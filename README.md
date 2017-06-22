@@ -17,7 +17,8 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 
 If you are not sure how to install one of these tools take a look on this http://tutorials.youphptube.com/video/how-to-install-youphptube-in-a-fresh-ubuntu-server
 
-If you do not have a server to host YouPHPTube, we made a video to help you set up a free server on Amazon Web Service http://tutorials.youphptube.com/video/create-a-web-server-video-sharing-for-free-in-10-minutes
+What about if we host YouPHPTube for you?
+We have a free plan that you will have your YouPHPTube on the World Wide Web with out spending any money https://easytube.club/
 
 Take a look at our video tutorials site (http://tutorials.youphptube.com), you will find several useful information like:
 - How to Install YouPHPTube in a fresh Ubuntu Server
