@@ -151,7 +151,7 @@ if (!empty($_GET['catName'])) {
                     <div class="row">
                         <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ">
-                            <div class="row bgWhite">
+                            <div class="row bgWhite list-group-item">
                                 <div class="row divMainVideo">
                                     <div class="col-xs-4 col-sm-4 col-lg-4">
                                         <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130px" itemprop="thumbnail" /> 
@@ -248,7 +248,7 @@ if (!empty($_GET['catName'])) {
                                 </div>
                             </div>
 
-                            <div class="row bgWhite" id="shareDiv">
+                            <div class="row bgWhite list-group-item" id="shareDiv">
                                 <div class="tabbable-panel">
                                     <div class="tabbable-line text-muted">
                                         <ul class="nav nav-tabs">
@@ -415,7 +415,7 @@ if (!empty($_GET['catName'])) {
                                     </div>
                                 </div>
                             </div>  
-                            <div class="row bgWhite">
+                            <div class="row bgWhite list-group-item">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-12">
                                         <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
@@ -437,7 +437,7 @@ if (!empty($_GET['catName'])) {
                                     });
                                 });
                             </script>
-                            <div class="row bgWhite">
+                            <div class="row bgWhite list-group-item">
                                 <div class="input-group">
                                     <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php
                                     if (!User::canComment()) {
@@ -522,7 +522,7 @@ if (!empty($_GET['catName'])) {
                             </div>
 
                         </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite">                            
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite list-group-item">                            
                             <?php
                             if (!empty($autoPlayVideo)) {
                                 ?>
