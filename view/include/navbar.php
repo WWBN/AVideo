@@ -47,6 +47,14 @@ if (empty($_SESSION['language'])) {
                 </form>
             </div>
             <div class="col-xs-3 col-sm-3 col-lg-2">
+                <?php
+                if (User::canUpload()) {
+                    ?>
+                    <a href="upload" class="btn btn-default navbar-btn hidden-xs" data-toggle="tooltip" title="<?php echo __("Video and Audio Upload"); ?>" data-placement="bottom" ><span class="fa fa-arrow-up"></span></a>
+                    <a href="download" class="btn btn-default navbar-btn hidden-xs" data-toggle="tooltip" title="<?php echo __("Import Videos from Sites"); ?>" data-placement="bottom" ><span class="fa fa-arrow-down"></span></a>
+                    <?php
+                }
+                ?>
                 <select class="selectpicker" id="navBarFlag" data-width="fit">
                     <?php
                     $flags = getEnabledLangs();
