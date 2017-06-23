@@ -46,7 +46,7 @@ if (empty($_SESSION['language'])) {
                     </div>
                 </form>
             </div>
-            <div class="col-xs-3 col-sm-3 col-lg-2" style="padding-top: 8px;" >
+            <div class="col-xs-3 col-sm-3 col-lg-2">
                 <select class="selectpicker" id="navBarFlag" data-width="fit">
                     <?php
                     $flags = getEnabledLangs();
@@ -64,7 +64,8 @@ if (empty($_SESSION['language'])) {
                 </select>
                 <script>
                     $(function () {
-                        $('#navBarFlag').selectpicker();
+                        $('#navBarFlag').selectpicker('setStyle', 'btn-default');
+                        $('#navBarFlag').selectpicker('setStyle', 'navbar-btn', 'add');
                         $('#navBarFlag').on('change', function () {
                             var selected = $(this).find("option:selected").val();
                             window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + selected;
