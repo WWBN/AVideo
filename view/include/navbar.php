@@ -77,7 +77,7 @@ if (empty($_SESSION['language'])) {
 
 
     </div>
-    <div class="navbar-collapse collapse  col-xs-12 col-sm-12 col-lg-2">
+    <div class="navbar-collapse collapse  col-xs-12 col-sm-12 col-lg-2 list-group-item">
         <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-block navbar-btn">
             <span class="glyphicon glyphicon-upload" style="font-size: 1em;"></span> 
             <?php echo __("Video and Audio Upload"); ?>

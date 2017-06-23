@@ -117,13 +117,8 @@ footer {
 }
 .navbar-nav {
     height: 100%;
-    background-color: #f8f8f8;
     margin: 0;
     border: 0;
-}
-.navbar-collapse{
-    background-color: #f8f8f8;
-    border: 1px solid #DDD;
 }
 .navbar-collapse.collapse {
     display: none !important;
