@@ -46,7 +46,15 @@ if (empty($_SESSION['language'])) {
                     </div>
                 </form>
             </div>
-            <div class="col-xs-3 col-sm-3 col-lg-2" style="padding-top: 8px;" >
+            <div class="col-xs-3 col-sm-3 col-lg-2">
+                <?php
+                if (User::canUpload()) {
+                    ?>
+                    <a href="upload" class="btn btn-default navbar-btn hidden-xs" data-toggle="tooltip" title="<?php echo __("Video and Audio Upload"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
+                    <a href="download" class="btn btn-default navbar-btn hidden-xs" data-toggle="tooltip" title="<?php echo __("Import Videos from Sites"); ?>" data-placement="bottom" ><span class="fa fa-download"></span></a>
+                    <?php
+                }
+                ?>
                 <select class="selectpicker" id="navBarFlag" data-width="fit">
                     <?php
                     $flags = getEnabledLangs();
@@ -64,7 +72,8 @@ if (empty($_SESSION['language'])) {
                 </select>
                 <script>
                     $(function () {
-                        $('#navBarFlag').selectpicker();
+                        $('#navBarFlag').selectpicker('setStyle', 'btn-default');
+                        $('#navBarFlag').selectpicker('setStyle', 'navbar-btn', 'add');
                         $('#navBarFlag').on('change', function () {
                             var selected = $(this).find("option:selected").val();
                             window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + selected;
@@ -76,7 +85,7 @@ if (empty($_SESSION['language'])) {
 
 
     </div>
-    <div class="navbar-collapse collapse  col-xs-12 col-sm-12 col-lg-2">
+    <div class="navbar-collapse collapse  col-xs-12 col-sm-12 col-lg-2 list-group-item">
         <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-danger btn-block navbar-btn">
             <span class="glyphicon glyphicon-upload" style="font-size: 1em;"></span> 
             <?php echo __("Video and Audio Upload"); ?>
@@ -99,6 +108,10 @@ if (empty($_SESSION['language'])) {
                             <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-xs">
                                 <span class="fa fa-user-circle"></span> 
                                 <?php echo __("My Account"); ?>
+                            </a>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>channel/" class="btn btn-danger btn-xs">
+                                <span class="fa fa-youtube-play"></span> 
+                                <?php echo __("My Channel"); ?>
                             </a>
                             <?php
                             if (User::canUpload()) {
@@ -203,7 +216,7 @@ if (empty($_SESSION['language'])) {
         </ul>
     </div>
 </nav>
-<div class="tabbable-panel bgWhite">
+<div class="tabbable-panel list-group-item">
     <div class="tabbable-line">
         <ul class="nav nav-tabs">
             <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_GET['catName'])) ? "active" : ""; ?>">

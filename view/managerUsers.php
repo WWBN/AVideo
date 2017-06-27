@@ -92,7 +92,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         <li class="list-group-item">
                                             <span class="fa fa-unlock"></span>
                                             <?php echo $value['group_name']; ?>
-                                            <span class="label label-info"><?php echo $value['total_videos']; ?> Videos linked</span>
+                                            <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
                                             <div class="material-switch pull-right">
                                                 <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups"/>
                                                 <label for="userGroup<?php echo $value['id']; ?>" class="label-warning"></label>

@@ -596,28 +596,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     <legend><?php echo __("Advanced configuration"); ?></legend>
 
                                                     <div class="form-group">
-                                                        <label class="col-md-2"><?php echo __("Path to FFMPEG"); ?></label>  
-                                                        <div class="col-md-10">
-                                                            <input id="ffmpegPath" class="form-control"  type="text" value="<?php echo $config->getFfmpegPath(); ?>" >
-                                                            <small>Leave blank for native ffmpeg</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-md-2"><?php echo __("Path to Youtube-Dl"); ?></label>  
-                                                        <div class="col-md-10">
-                                                            <input id="youtubeDlPath" class="form-control"  type="text" value="<?php echo $config->getYoutubeDlPath(); ?>" >
-                                                            <small>Leave blank for native youtube-dl</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-md-2"><?php echo __("Path to exiftool"); ?></label>  
-                                                        <div class="col-md-10">
-                                                            <input id="exiftoolPath" class="form-control"  type="text" value="<?php echo $config->getExiftoolPath(); ?>" >
-                                                            <small>Leave blank for native Exiftool</small>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Exiftool"); ?></label>  
                                                         <div class="col-md-10">
                                                             <input id="exiftool" class="form-control"  type="text" value="<?php echo $config->getExiftool(); ?>" >       

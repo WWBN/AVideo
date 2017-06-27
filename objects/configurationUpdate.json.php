@@ -33,9 +33,6 @@ if (empty($global['disableAdvancedConfigurations'])) {
     $config->setFfmpegMp3($_POST['ffmpegMp3']);
     $config->setFfmpegOgg($_POST['ffmpegOgg']);
     $config->setYoutubeDl($_POST['youtubeDl']);
-    $config->setYoutubeDlPath($_POST['youtubeDlPath']);
-    $config->setFfmpegPath($_POST['ffmpegPath']);
-    $config->setExiftoolPath($_POST['exiftoolPath']);
     $config->setExiftool($_POST['exiftool']);
     $config->setFfmpegMp4Portrait($_POST['ffmpegMp4Portrait']);
     $config->setFfmpegWebmPortrait($_POST['ffmpegWebmPortrait']);
@@ -45,13 +42,6 @@ if (empty($global['disableAdvancedConfigurations'])) {
     $config->setEncode_webm($_POST['encode_webm']);
     $config->setEncode_mp3spectrum($_POST['encode_mp3spectrum']);
     $config->setFfmpegSpectrum($_POST['ffmpegSpectrum']);
-}else{
-    $config->setDisable_analytics($config->getDisable_analytics());
-    $config->setSession_timeout($config->getSession_timeout());
-    $config->setEncode_mp4($config->getEncode_mp4());
-    $config->setEncode_webm($config->getEncode_webm());
-    $config->setEncode_mp3spectrum($config->getEncode_mp3spectrum());
-    $config->setFfmpegSpectrum($config->getFfmpegSpectrum());
 }
 
 $config->setHead($_POST['head']);

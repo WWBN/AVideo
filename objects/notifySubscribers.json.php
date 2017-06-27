@@ -1,13 +1,20 @@
 <?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (!User::isAdmin()) {
+
+if(!User::canUpload()){
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not notify"));
     exit;
 }
+$user_id = User::getId();
+// if admin bring all subscribers
+if(User::isAdmin()){
+    $user_id = "";
+}
+
 require_once 'subscribe.php';
 header('Content-Type: application/json');
-$Subscribes = Subscribe::getAllSubscribes();
+$Subscribes = Subscribe::getAllSubscribes($user_id);
 require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
 
 $obj = new stdClass();

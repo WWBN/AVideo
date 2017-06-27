@@ -19,20 +19,18 @@ modal = modal || (function () {
         setText: function (text) {
             pleaseWaitDiv.find('h2').html(text);
         },
-
     };
 })();
-
-String.prototype.stripAccents = function() {
+String.prototype.stripAccents = function () {
     var translate_re = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
     var translate = 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY';
-    return (this.replace(translate_re, function(match){
-        return translate.substr(translate_re.source.indexOf(match)-1, 1); })
-    );
+    return (this.replace(translate_re, function (match) {
+        return translate.substr(translate_re.source.indexOf(match) - 1, 1);
+    })
+            );
 };
-
 function clean_name(str) {
-    
+
     str = str.stripAccents().toLowerCase();
     return str.replace(/\W+/g, "-");
 }
@@ -41,7 +39,6 @@ $(document).ready(function () {
     $('[data-toggle="popover"]').popover();
     $('[data-toggle="tooltip"]').tooltip();
 });
-
 function changeVideoSrc(vid_obj, fileName) {
     vid_obj.src([
         {type: "video/mp4", src: fileName + ".mp4"},
@@ -56,11 +53,11 @@ function changeVideoSrc(vid_obj, fileName) {
  * @param {String} str 00:00:00
  * @returns {int} int of seconds
  */
-function strToSeconds(str){
+function strToSeconds(str) {
     var partsOfStr = str.split(':');
     var seconds = parseInt(partsOfStr[2]);
-    seconds += parseInt(partsOfStr[1])*60;
-    seconds += parseInt(partsOfStr[0])*60*60;
+    seconds += parseInt(partsOfStr[1]) * 60;
+    seconds += parseInt(partsOfStr[0]) * 60 * 60;
     return seconds;
 }
 
@@ -70,32 +67,52 @@ function strToSeconds(str){
  * @param {int} level 3 = 00:00:00 2 = 00:00 1 = 00
  * @returns {String} 00:00:00
  */
-function secondsToStr(seconds, level){
-    var hours = parseInt(seconds/(60*60));
-    var minutes = parseInt(seconds/(60));
-    seconds = parseInt(seconds%(60));
-    
-    hours = hours>9?hours:"0"+hours;
-    minutes = minutes>9?minutes:"0"+minutes;
-    seconds = seconds>9?seconds:"0"+seconds;
-    switch (level){
+function secondsToStr(seconds, level) {
+    var hours = parseInt(seconds / (60 * 60));
+    var minutes = parseInt(seconds / (60));
+    seconds = parseInt(seconds % (60));
+    hours = hours > 9 ? hours : "0" + hours;
+    minutes = minutes > 9 ? minutes : "0" + minutes;
+    seconds = seconds > 9 ? seconds : "0" + seconds;
+    switch (level) {
         case 3:
-            return hours+":"+minutes+":"+seconds;
+            return hours + ":" + minutes + ":" + seconds;
             break;
         case 2:
-            return minutes+":"+seconds;
+            return minutes + ":" + seconds;
             break;
         case 1:
             return seconds;
             break;
         default:
-            return hours+":"+minutes+":"+seconds;
-            
+            return hours + ":" + minutes + ":" + seconds;
     }
 }
-
 
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
+}
+
+function subscribe(email, user_id) {
+    $.ajax({
+        url: webSiteRootURL+'subscribe.json',
+        method: 'POST',
+        data: {
+            'email': email,
+            'user_id': user_id
+        },
+        success: function (response) {
+            console.log(response);
+            if (response.subscribe == "i") {
+                $('.subscribeButton').removeClass("subscribed");
+                $('.subscribeButton b').text("Subscribe");
+            } else {
+                $('.subscribeButton').addClass("subscribed");
+                $('.subscribeButton b').text("Subscribed");
+            }
+            $('#popover-content #subscribeEmail').val(email);
+            $('.subscribeButton').popover('hide');
+        }
+    });
 }

@@ -9,7 +9,11 @@ if(empty($_POST['email'])){
     $obj->error = __("Email can not be blank");
     die(json_encode($obj));
 }
-$subscribe = new Subscribe(0, $_POST['email']);
+if(empty($_POST['user_id'])){
+    $obj->error = __("User can not be blank");
+    die(json_encode($obj));
+}
+$subscribe = new Subscribe(0, $_POST['email'], $_POST['user_id']);
 $subscribe->toggle();
 $obj->subscribe = $subscribe->getStatus();
 die(json_encode($obj));

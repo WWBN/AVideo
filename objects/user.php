@@ -16,6 +16,7 @@ class User {
     private $isAdmin;
     private $status;
     private $photoURL;
+    private $backgroundURL;
     private $recoverPass;
     private $userGroups = array();
 
@@ -92,6 +93,10 @@ class User {
             return false;
         }
     }
+    
+    function _getName(){
+        return $this->name;
+    }
 
     static function getPhoto($id = "") {
         global $global;
@@ -133,7 +138,7 @@ class User {
             $this->status = 'a';
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin}, status = '{$this->status}', photoURL = '{$this->photoURL}', recoverPass = '{$this->recoverPass}' , modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}' , modified = now() WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
@@ -481,5 +486,18 @@ class User {
         return $tags;
         
     }
+    
+    function getBackgroundURL() {
+        if(empty($this->backgroundURL)){
+            $this->backgroundURL = "view/img/background.png";
+        }
+        return $this->backgroundURL;
+    }
+
+    function setBackgroundURL($backgroundURL) {
+        $this->backgroundURL = $backgroundURL;
+    }
+
+
 
 }

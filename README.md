@@ -62,5 +62,11 @@ We have made a video to help you:
 - Added the Subscription Option
 
 # Ver 3.1
+
 - Added Themes Support
+- Add Themes Support
+
+# Ver 3.2
+- Add Playlists Support
+- Add Channels Support
 

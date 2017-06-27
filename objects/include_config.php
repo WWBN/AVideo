@@ -26,4 +26,5 @@ session_set_cookie_params($config->getSession_timeout());
 
 session_start();
 
+require_once $global['systemRootPath'].'objects/Object.php';
 require_once $global['systemRootPath'].'locale/function.php';

@@ -5,10 +5,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema youPHPTube
--- -----------------------------------------------------
-
--- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
@@ -24,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `photoURL` VARCHAR(255) NULL,
   `lastLogin` DATETIME NULL,
   `recoverPass` VARCHAR(255) NULL,
+  `backgroundURL` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
@@ -53,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `clean_title` VARCHAR(255) NOT NULL,
   `description` TEXT NULL,
   `views_count` INT NOT NULL DEFAULT 0,
-  `status` ENUM('a', 'i', 'e', 'x', 'd', 'xmp4', 'xwebm', 'xmp3', 'xogg', 'ximg') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading\nxmp4 = encoding mp4 error \nxwebm = encoding webm error \nxmp3 = encoding mp3 error \nxogg = encoding ogg error \nximg = get image error\nad = Advertising',
+  `status` ENUM('a', 'i', 'e', 'x', 'd', 'xmp4', 'xwebm', 'xmp3', 'xogg', 'ximg') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading\nxmp4 = encoding mp4 error \nxwebm = encoding webm error \nxmp3 = encoding mp3 error \nxogg = encoding ogg error \nximg = get image error',
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `users_id` INT NOT NULL,
@@ -334,28 +331,6 @@ CREATE TABLE IF NOT EXISTS `video_ads_logs` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `video_documents`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `video_documents` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `doc_name` VARCHAR(255) NOT NULL,
-  `doc_description` TEXT NULL,
-  `created` DATETIME NULL,
-  `modified` DATETIME NULL,
-  `blob` BLOB NOT NULL,
-  `videos_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_video_documents_videos1_idx` (`videos_id` ASC),
-  CONSTRAINT `fk_video_documents_videos1`
-    FOREIGN KEY (`videos_id`)
-    REFERENCES `videos` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `subscribes`
 -- -----------------------------------------------------
@@ -366,8 +341,56 @@ CREATE TABLE IF NOT EXISTS `subscribes` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `ip` VARCHAR(45) NULL,
+  `users_id` INT NOT NULL DEFAULT 1 COMMENT 'subscribes to user channel',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
+  INDEX `fk_subscribes_users1_idx` (`users_id` ASC),
+  CONSTRAINT `fk_subscribes_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `playlists`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `playlists` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `users_id` INT NOT NULL,
+  `status` ENUM('public', 'private') NOT NULL DEFAULT 'public',
+  PRIMARY KEY (`id`),
+  INDEX `fk_playlists_users1_idx` (`users_id` ASC),
+  CONSTRAINT `fk_playlists_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `playlists_has_videos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `playlists_has_videos` (
+  `playlists_id` INT NOT NULL,
+  `videos_id` INT NOT NULL,
+  PRIMARY KEY (`playlists_id`, `videos_id`),
+  INDEX `fk_playlists_has_videos_videos1_idx` (`videos_id` ASC),
+  INDEX `fk_playlists_has_videos_playlists1_idx` (`playlists_id` ASC),
+  CONSTRAINT `fk_playlists_has_videos_playlists1`
+    FOREIGN KEY (`playlists_id`)
+    REFERENCES `playlists` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_playlists_has_videos_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
