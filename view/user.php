@@ -197,7 +197,6 @@ foreach ($tags as $value) {
                                     type: 'post',
                                     success: function (response) {
                                         if (response.status > "0") {
-                                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been updated! Saving Photo now"); ?>", "success");
                                             uploadCrop.croppie('result', {
                                                 type: 'canvas',
                                                 size: 'viewport'

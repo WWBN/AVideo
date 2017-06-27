@@ -109,7 +109,7 @@ if (empty($_SESSION['language'])) {
                                 <span class="fa fa-user-circle"></span> 
                                 <?php echo __("My Account"); ?>
                             </a>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>channel/" class="btn btn-danger btn-xs">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo User::getId(); ?>" class="btn btn-danger btn-xs">
                                 <span class="fa fa-youtube-play"></span> 
                                 <?php echo __("My Channel"); ?>
                             </a>
