@@ -155,6 +155,7 @@ class Subscribe {
     </div><script>
 $(document).ready(function () {
 $(\".subscribeButton\").popover({
+placement: 'bottom',
 trigger: 'manual',
     html: true, 
 	content: function() {
