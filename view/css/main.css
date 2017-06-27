@@ -424,38 +424,38 @@ footer {
     margin-bottom: 10px;
 }
 @media (max-width: 1200px) {
-  .galleryVideo{
+    .galleryVideo{
         height: 195px;
     }
 }
 @media (max-width: 992px) {
-  .galleryVideo{
+    .galleryVideo{
         height: 220px;
     }
 }
 
 @media (max-width: 850px) {
-  .galleryVideo{
+    .galleryVideo{
         height: 180px;
     }
 }
 @media (max-width: 768px) {
-  .galleryVideo{
+    .galleryVideo{
         height: 290px;
     }
 }
 @media (max-width: 650px) {
-  .galleryVideo{
+    .galleryVideo{
         height: 250px;
     }
 }
 @media (max-width: 500px) {
-  .galleryVideo{
+    .galleryVideo{
         height: 200px;
     }
 }
 @media (max-width: 400px) {
-  .galleryVideo{
+    .galleryVideo{
         height: 180px;
     }
 }
@@ -502,7 +502,7 @@ img.rotate270, img.rotate-90{
 }
 
 .subscribeButton span:before {
-  content: "\f16a";
+    content: "\f16a";
 }
 
 .subscribeButton.subscribed{
@@ -511,15 +511,19 @@ img.rotate270, img.rotate-90{
 }
 
 .subscribeButton.subscribed span:before {
-  content: "\f00c";
+    content: "\f00c";
 }
 
 .subscribeButton.subscribed:hover span:before {
-  content: "\f057";
+    content: "\f057";
 }
 
 .profileBg{
     padding: 20px;
     min-height: 200px;
     margin: 10px 0;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
