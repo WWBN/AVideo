@@ -178,7 +178,7 @@ if (!empty($_GET['catName'])) {
                                                 <div >
                                                     <hr>
                                                     <div class="form-group">
-                                                        <input id="playListName" class="form-control" placeholder="<?php echo __("Play List"); ?>"  >
+                                                        <input id="playListName" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
                                                     </div>
                                                     <div class="form-group">
                                                         <?php echo __("Make it public"); ?>
