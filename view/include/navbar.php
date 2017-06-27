@@ -50,8 +50,8 @@ if (empty($_SESSION['language'])) {
                 <?php
                 if (User::canUpload()) {
                     ?>
-                    <a href="upload" class="btn btn-default navbar-btn hidden-xs" data-toggle="tooltip" title="<?php echo __("Video and Audio Upload"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
-                    <a href="download" class="btn btn-default navbar-btn hidden-xs" data-toggle="tooltip" title="<?php echo __("Import Videos from Sites"); ?>" data-placement="bottom" ><span class="fa fa-download"></span></a>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default navbar-btn hidden-xs" data-toggle="tooltip" title="<?php echo __("Video and Audio Upload"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>download" class="btn btn-default navbar-btn hidden-xs" data-toggle="tooltip" title="<?php echo __("Import Videos from Sites"); ?>" data-placement="bottom" ><span class="fa fa-download"></span></a>
                     <?php
                 }
                 ?>
