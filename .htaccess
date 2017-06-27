@@ -45,6 +45,7 @@
     RewriteRule    ^users.json$ objects/users.json.php    [NC,L]
     RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
     RewriteRule    ^savePhoto$ objects/userSavePhoto.php    [NC,L]
+    RewriteRule    ^saveBackground$ objects/userSaveBackground.php    [NC,L]
     RewriteRule    ^addNewUser$ objects/userAddNew.json.php    [NC,L]
     RewriteRule    ^deleteUser$ objects/userDelete.json.php    [NC,L]
     RewriteRule    ^recoverPass$ objects/userRecoverPass.php    [NC,L]
@@ -70,6 +71,15 @@
     RewriteRule    ^categories.json$ objects/categories.json.php    [NC,L]
     RewriteRule    ^addNewCategory$ objects/categoryAddNew.json.php    [NC,L]
     RewriteRule    ^deleteCategory$ objects/categoryDelete.json.php    [NC,L]
+
+    #manager playList
+    #RewriteRule    ^playLists$ view/managerPlayLists.php    [NC,L]
+    RewriteRule    ^playLists.json$ objects/playlists.json.php    [NC,L]
+    #RewriteRule    ^addNewPlayList$ objects/playlistAddNew.json.php    [NC,L]
+    RewriteRule    ^addNewPlayList$ objects/playlistAddNew.json.php    [NC,L]
+    RewriteRule    ^playListAddVideo.json$ objects/playListAddVideo.json.php    [NC,L]
+    RewriteRule    ^channel/([0-9]+)/?$ view/channel.php?user_id=$1    [NC,L]
+    RewriteRule    ^channel/?$ view/channel.php    [NC,L]
 
     #manager videos
     RewriteRule    ^orphanFiles$ view/orphanFiles.php    [NC,L]

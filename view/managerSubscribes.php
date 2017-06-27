@@ -33,6 +33,7 @@ if (!User::isAdmin()) {
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
+                        <th data-column-id="name" ><?php echo __("Subscribed to user"); ?></th>
                         <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
                         <th data-column-id="created" ><?php echo __("Created"); ?></th>
                         <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
@@ -47,13 +48,13 @@ if (!User::isAdmin()) {
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
         <script>
-            function subscribe(email, id) {
+            function _subscribe(email,user_id, id) {
                 $('#subscribe' + id + ' span').addClass("fa-spinner");
                 $('#subscribe' + id + ' span').addClass("fa-spin");
                 $.ajax({
                     url: '<?php echo $global['webSiteRootURL']; ?>subscribe.json',
                     method: 'POST',
-                    data: {'email': email},
+                    data: {'email': email, 'user_id':user_id},
                     success: function (response) {
                         console.log(response);
                         $('#subscribe' + id + ' span').removeClass("fa-spinner");
@@ -110,7 +111,7 @@ if (!User::isAdmin()) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         console.log(row);
-                        subscribe(row.email, row.id);
+                        _subscribe(row.email,row.users_id, row.id);
                     });
                 });
                 $("#sendSubscribeBtn").click(function (){

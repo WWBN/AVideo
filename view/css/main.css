@@ -5,7 +5,7 @@
 html,
 body {
     height: 100vh;
-    padding-top: 30px;
+    padding-top: 20px;
 }
 
 
@@ -516,4 +516,10 @@ img.rotate270, img.rotate-90{
 
 .subscribeButton.subscribed:hover span:before {
   content: "\f057";
+}
+
+.profileBg{
+    padding: 20px;
+    min-height: 200px;
+    margin: 10px 0;
 }

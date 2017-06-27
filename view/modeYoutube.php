@@ -31,41 +31,10 @@ if (!empty($video)) {
     $ad = Video_ad::getAdFromCategory($video['categories_id']);
     VideoStatistic::save($video['id']);
     $name = empty($video['name']) ? substr($video['user'], 0, 5) . "..." : $video['name'];
-    // if is logged
-    $subscribe = "<br><button class='btn btn-xs subscribeButton'><span class='fa'></span> <b>" . __("Subscribe") . "</b></button></br>";
-    //show subscribe button with mail field
-    $popover = "<div id=\"popover-content\" class=\"hide\">
-        <div class=\"input-group\">
-          <input type=\"text\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail\">
-          <span class=\"input-group-btn\">
-          <button class=\"btn btn-primary\" id=\"subscribeButton2\">" . __("Subscribe") . "</button> 
-          </span>
-        </div>
-    </div><script>
-$(document).ready(function () {
-$(\".subscribeButton\").popover({
-trigger: 'manual',
-    html: true, 
-	content: function() {
-          return $('#popover-content').html();
-        }
-});    
-});
-</script>";
-    if (User::isLogged()) {
-        //check if the email is logged
-        $email = User::getMail();
-        if (!empty($email)) {
-            $subs = Subscribe::getSubscribeFromEmail($email);
-            $popover = "<input type=\"hidden\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail\" value=\"{$email}\">";
-            if (!empty($subs)) {
-                // show unsubscribe Button
-                $subscribe = "<br><button class='btn btn-xs subscribeButton subscribed'><span class='fa'></span> <b>" . __("Subscribed") . "</b></button></br>";
-            }
-        }
-    }
+    $name = "<a href='{$global['webSiteRootURL']}channel/{$video['users_id']}/' class='btn btn-xs btn-default'>{$name}</a>";
+    $subscribe = Subscribe::getButton($video['users_id']);
 
-    $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong>' . $subscribe . $popover . '<small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
+    $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong>' . $subscribe . '<small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
     $obj = new Video("", "", $video['id']);
     // dont need because have one embeded video on this page
     //$resp = $obj->addView();
@@ -124,7 +93,7 @@ if (!empty($_GET['catName'])) {
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
-
+        <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
         <meta property="og:type"               content="video" />
         <meta property="og:title"              content="<?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?>" />
@@ -185,6 +154,134 @@ if (!empty($_GET['catName'])) {
 
                                 <div class="row">
                                     <div class="col-md-12 col-lg-12 watch8-action-buttons text-muted">
+                                        <button href="#" class="btn btn-default no-outline" id="addBtn" data-placement="bottom">
+                                            <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
+                                        </button>
+                                        <div class="webui-popover-content">
+                                            <?php
+                                            if (User::isLogged()) {
+                                                ?>
+                                                <form role="form">
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="searchinput" type="search" placeholder="Search..." />
+                                                    </div>
+                                                    <div id="searchlist" class="list-group">
+                                                        <a class="list-group-item" href="#"><i class="fa fa-lock"></i>
+                                                            <span>aquamarine</span>
+                                                            <div class="material-switch pull-right">
+                                                                <input id="someSwitchOptionDefault" name="someSwitchOption002" type="checkbox"/>
+                                                                <label for="someSwitchOptionDefault" class="label-success"></label>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </form>
+                                                <div >
+                                                    <hr>
+                                                    <div class="form-group">
+                                                        <input id="playListName" class="form-control" placeholder="<?php echo __("Play List"); ?>"  >
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <?php echo __("Make it public"); ?>
+                                                        <div class="material-switch pull-right">
+                                                            <input id="publicPlayList" name="publicPlayList" type="checkbox" checked="checked"/>
+                                                            <label for="publicPlayList" class="label-success"></label>
+                                                        </div>
+                                                    </div>                                                
+                                                    <div class="form-group">
+                                                        <button class="btn btn-success btn-block" id="addPlayList" ><?php echo __("Create a New Play List"); ?></button>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <h5>Want to watch this again later?</h5>
+
+                                                Sign in to add this video to a playlist.
+
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-log-in"></span> 
+                                                    <?php echo __("Login"); ?>
+                                                </a>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+
+                                        <script>
+                                            function loadPlayLists() {
+                                                $.ajax({
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>playLists.json',
+                                                    success: function (response) {
+                                                        $('#searchlist').html('');
+                                                        for (var i in response) {
+                                                            if (!response[i].id) {
+                                                                continue;
+                                                            }
+                                                            console.log(response[i]);
+                                                            var icon = "lock"
+                                                            if (response[i].status == "public") {
+                                                                icon = "globe"
+                                                            }
+
+                                                            var checked = "";
+                                                            for (var x in response[i].videos) {
+                                                                if (response[i].videos[x].id ==<?php echo $video['id']; ?>) {
+                                                                    checked = "checked";
+                                                                }
+                                                            }
+
+                                                            $("#searchlist").append('<a class="list-group-item" href="#"><i class="fa fa-' + icon + '"></i> <span>' + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + response[i].id + '" class="label-success"></label></div></a>');
+                                                        }
+                                                        $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
+                                                        $('.playListsIds').change(function () {
+                                                            modal.showPleaseWait();
+                                                            $.ajax({
+                                                                url: '<?php echo $global['webSiteRootURL']; ?>playListAddVideo.json',
+                                                                method: 'POST',
+                                                                data: {
+                                                                    'videos_id': <?php echo $video['id']; ?>,
+                                                                    'add': $(this).is(":checked"),
+                                                                    'playlists_id': $(this).val()
+                                                                },
+                                                                success: function (response) {
+                                                                    console.log(response);
+                                                                    modal.hidePleaseWait();
+                                                                }
+                                                            });
+                                                            return false;
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                            $(document).ready(function () {
+                                                loadPlayLists();
+                                                $('#addBtn').webuiPopover();
+                                                $('#addPlayList').click(function () {
+                                                    modal.showPleaseWait();
+                                                    $.ajax({
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>addNewPlayList',
+                                                        method: 'POST',
+                                                        data: {
+                                                            'videos_id': <?php echo $video['id']; ?>,
+                                                            'status': $('#publicPlayList').is(":checked") ? "public" : "private",
+                                                            'name': $('#playListName').val()
+                                                        },
+                                                        success: function (response) {
+                                                            if (response.status * 1 > 0) {
+                                                                // update list
+                                                                loadPlayLists();
+                                                                $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
+                                                                $('#playListName').val("");
+                                                                $('#publicPlayList').prop('checked', true);
+                                                            }
+                                                            modal.hidePleaseWait();
+                                                        }
+                                                    });
+                                                    return false;
+                                                });
+
+                                            });
+                                        </script>
                                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                             <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                         </a>
@@ -224,10 +321,8 @@ if (!empty($_GET['catName'])) {
                                                                 }
                                                                 $("#likeBtn small").text(response.likes);
                                                                 $("#dislikeBtn small").text(response.dislikes);
-
                                                             }
                                                         });
-
                                                         return false;
                                                     });
             <?php
@@ -383,7 +478,6 @@ if (!empty($_GET['catName'])) {
                                                                 $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
                                                                 $('#captchaText').val('');
                                                             });
-
                                                             $('#contact_form').submit(function (evt) {
                                                                 evt.preventDefault();
                                                                 modal.showPleaseWait();
@@ -403,9 +497,7 @@ if (!empty($_GET['catName'])) {
                                                                 });
                                                                 return false;
                                                             });
-
                                                         });
-
                                                     </script>
                                                     <?php
                                                 }
@@ -463,11 +555,9 @@ if (!empty($_GET['catName'])) {
                                     $(document).ready(function () {
                                         var text_max = 200;
                                         $('#count_message').html(text_max + ' <?php echo __("remaining"); ?>');
-
                                         $('#comment').keyup(function () {
                                             var text_length = $(this).val().length;
                                             var text_remaining = text_max - text_length;
-
                                             $('#count_message').html(text_remaining + ' <?php echo __("remaining"); ?>');
                                         });
                                     });
@@ -491,7 +581,6 @@ if (!empty($_GET['catName'])) {
                                                 header: ""
                                             }
                                         });
-
                                         $('#saveCommentBtn').click(function () {
                                             if ($(this).attr('disabled') === 'disabled') {
                                                 return false;
@@ -691,11 +780,9 @@ if (!empty($_GET['catName'])) {
                                             expires: 365
                                         });
                                     });
-
                                     setTimeout(function () {
                                         $('.autoplay').slideDown();
                                     }, 1000);
-
                                     // Total Itens <?php echo $total; ?>
 
                                     $('.pages').bootpag({
@@ -745,7 +832,6 @@ if (!empty($_GET['catName'])) {
                                     }).on('page', function (event, num) {
                                         window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
                                     });
-
                                 });
                             </script>
                         </div>
@@ -767,40 +853,7 @@ if (!empty($_GET['catName'])) {
         ?>
 
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
-        <script>
-                                function subscribe(email) {
-                                    $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>subscribe.json',
-                                        method: 'POST',
-                                        data: {'email': email},
-                                        success: function (response) {
-                                            console.log(response);
-                                            if(response.subscribe=="i"){
-                                                $('.subscribeButton').removeClass("subscribed");
-                                                $('.subscribeButton b').text("<?php echo __("Subscribe"); ?>");
-                                            }else{                                                
-                                                $('.subscribeButton').addClass("subscribed");
-                                                $('.subscribeButton b').text("<?php echo __("Subscribed"); ?>");
-                                            }
-                                            $('#popover-content #subscribeEmail').val(email);
-                                            $('.subscribeButton').popover('hide');
-                                        }
-                                    });
-                                }
-                                $(document).ready(function () {
-                                    $(".subscribeButton").click(function () {
-                                        email = $('#subscribeEmail').val();
-                                        console.log(email);
-                                        if (validateEmail(email)) {
-                                            subscribe(email);
-                                        } else {
-                                            $('.subscribeButton').popover('show');
-                                            $("#subscribeButton2").click(function () {
-                                                $(".subscribeButton").trigger("click");
-                                            });
-                                        }
-                                    });
-                                });
-        </script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
     </body>
 </html>
