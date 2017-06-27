@@ -700,7 +700,12 @@ if (!empty($_GET['catName'])) {
                                 }
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
-                                    <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" class="videoLink">
+                                    <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title'];
+                                    if(!empty($_GET['page'])){
+                                        echo "/page/{$_GET['page']}";
+                                    }
+                                    
+                                    ?>" title="<?php echo $value['title']; ?>" class="videoLink">
                                         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding">
                                             <?php
                                             if ($value['type'] !== "audio") {
