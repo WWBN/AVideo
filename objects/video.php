@@ -362,7 +362,7 @@ class Video {
         }
         if ($showOnlyLoggedUserVideos===true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
-        }else if(is_int($showOnlyLoggedUserVideos)){
+        }else if(!empty($showOnlyLoggedUserVideos)){
             $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
         }
 
@@ -376,7 +376,7 @@ class Video {
 
         $sql .= BootGrid::getSqlFromPost(array('title', 'description'), "v.");
 
-
+        //echo $sql;
         $res = $global['mysqli']->query($sql);
         $videos = array();
         if ($res) {
