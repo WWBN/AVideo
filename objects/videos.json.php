@@ -3,8 +3,12 @@ require_once '../videos/configuration.php';
 require_once 'video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
-$videos = Video::getAllVideos("", true, true);
-$total = Video::getTotalVideos("", true);
+$showOnlyLoggedUserVideos = true;
+if(User::isAdmin()){
+    $showOnlyLoggedUserVideos = false;
+}
+$videos = Video::getAllVideos("", $showOnlyLoggedUserVideos, true);
+$total = Video::getTotalVideos("", $showOnlyLoggedUserVideos, true);
 foreach ($videos as $key => $value) {
     $name = empty($value['name'])?$value['user']:$value['name'];
     //$categories[$key]['comment'] = " <div class=\"commenterName\"><strong>{$name}</strong><div class=\"date sub-text\">{$value['created']}</div></div><div class=\"commentText\">". nl2br($value['comment'])."</div>";
