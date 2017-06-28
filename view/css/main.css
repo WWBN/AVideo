@@ -5,6 +5,8 @@
 html,
 body {
     height: 100vh;
+}
+body {
     padding-top: 55px;
 }
 
