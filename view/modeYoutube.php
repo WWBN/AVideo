@@ -701,7 +701,7 @@ if (!empty($_GET['catName'])) {
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
                                     <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title'];
-                                    if(!empty($_GET['page'])){
+                                    if(!empty($_GET['page']) && $_GET['page']>1){
                                         echo "/page/{$_GET['page']}";
                                     }
                                     
@@ -795,7 +795,7 @@ if (!empty($_GET['catName'])) {
                                         page: <?php echo $_GET['page']; ?>,
                                         maxVisible: 10
                                     }).on('page', function (event, num) {
-                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
+                                        window.location.replace("<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $video['clean_title']; ?>/page/" + num);
                                     });
                                 });
                             </script>
