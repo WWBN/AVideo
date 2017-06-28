@@ -17,4 +17,7 @@ $mode = $config->getMode();
 if(!empty($_GET['videoName'])){
     $mode = "Youtube";
 }
+if(!empty($_GET['search'])){
+    $mode = "Gallery";
+}
 require 'mode'.$mode.".php";

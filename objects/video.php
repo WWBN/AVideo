@@ -260,7 +260,7 @@ class Video {
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
-
+        $sql .= static::getVideoQueryFileter();
         if (!$ignoreGroup) {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
@@ -339,6 +339,7 @@ class Video {
                 . " LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
 
+        $sql .= static::getVideoQueryFileter();
         if(!empty($videosArrayId) && is_array($videosArrayId)){
             $sql .= " AND v.id IN ( ". implode(", ", $videosArrayId).") ";
         }
@@ -402,6 +403,7 @@ class Video {
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " WHERE 1=1  ";
 
+        $sql .= static::getVideoQueryFileter();
         if (!$ignoreGroup) {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
@@ -914,6 +916,19 @@ class Video {
     static function getRandom($excludeVideoId=false){
         return static::getVideo("", "viewableNotAd",false, $excludeVideoId);
         
+    }
+    
+    static function getVideoQueryFileter(){
+        global $global;
+        $sql = "";
+        if(!empty($_GET['playlist_id'])){
+            require_once $global['systemRootPath'] . 'objects/playlist.php';
+            $ids = PlayList::getVideosIdFromPlaylist($_GET['playlist_id']);
+            if(!empty($ids)){
+                $sql .= " AND v.id IN (". implode(",", $ids).") "; 
+            }
+        }
+        return $sql;
     }
 
 }

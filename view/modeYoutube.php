@@ -108,7 +108,6 @@ if (!empty($_GET['catName'])) {
         <div class="container-fluid" itemscope itemtype="http://schema.org/VideoObject">
             <?php
             if (!empty($video)) {
-                if (empty($_GET['search'])) {
                     if (empty($video['type']) || file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                         $video['type'] = "video";
                     }
@@ -804,47 +803,7 @@ if (!empty($_GET['catName'])) {
                         <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
                     </div>
                     <?php
-                } else {
-                    ?>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                        <div class="col-xs-12 col-sm-12 col-lg-10">
-                            <?php
-                            foreach ($videos as $value) {
-                                $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
-                                ?>
-                                <div class="col-lg-3 col-sm-12 col-xs-12">
-                                    <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130px" />
-                                        <h2><?php echo $value['title']; ?></h2>
-                                        <span class="glyphicon glyphicon-play-circle"></span>
-                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                    </a>
-                                </div>
-                                <?php
-                            }
-                            ?> 
-                            <ul class="pages">
-                            </ul>
-                            <script>
-                                $(document).ready(function () {
-                                    // Total Itens <?php echo $total; ?>
-
-                                    $('.pages').bootpag({
-                                        total: <?php echo $totalPages; ?>,
-                                        page: <?php echo $_GET['page']; ?>,
-                                        maxVisible: 10
-                                    }).on('page', function (event, num) {
-                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
-                                    });
-                                });
-                            </script>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                    </div>
-                    <?php
-                }
+                
             } else {
                 ?>
                 <div class="alert alert-warning">

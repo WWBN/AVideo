@@ -6,9 +6,9 @@ require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
 if (empty($_GET['user_id'])) {
-    if(User::isLogged()){
+    if (User::isLogged()) {
         $_GET['user_id'] = User::getId();
-    }else{
+    } else {
         return false;
     }
 }
@@ -40,13 +40,13 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
             <div class="bgWhite list-group-item gallery" >
                 <div class="row bg-info profileBg" style="background-image: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(); ?>')">
                     <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
-                </div>            
+                </div>
                 <div class="col-md-12">
-                    <h1 class="pull-left"><?php echo $user->_getName(); ?></h1> 
+                    <h1 class="pull-left"><?php echo $user->_getName(); ?></h1>
                     <span class="pull-right">
-                    <?php
-                    echo Subscribe::getButton($user_id);
-                    ?>
+                        <?php
+                        echo Subscribe::getButton($user_id);
+                        ?>
                     </span>
                 </div>
                 <div class="col-md-12">
@@ -57,8 +57,10 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                             continue;
                         }
                         $videos = Video::getAllVideos("viewable", false, false, $videosArrayId);
-                        ?>           
-                            <h1><?php echo $playlist['name']; ?></h1>
+                        ?>
+                        <div class="playList clearfix">
+                            <h1><?php echo $playlist['name']; ?> 
+                                <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist['id']; ?>" class="btn btn-xs btn-default playAll"><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a></h1>
                             <?php
                             foreach ($videos as $value) {
                                 $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
@@ -92,11 +94,12 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 </div>
                                 <?php
                             }
-                            ?>  
+                            ?>
+                        </div>
                         <?php
                     }
                     ?>
-                </div>            
+                </div>
                 <div class="col-md-12">
                     <h1>Uploads</h1>
                     <?php
@@ -132,7 +135,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                         </div>
                         <?php
                     }
-                    ?> 
+                    ?>
                 </div>
             </div>
         </div>
@@ -140,7 +143,10 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         <?php
         include 'include/footer.php';
         ?>
-
+        <script>
+            $(function () {
+            });
+        </script>
     </body>
 </html>
 
