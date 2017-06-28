@@ -963,12 +963,12 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                             url: '<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>',
                             enableExif: true,
                             viewport: {
-                                width: 138,
-                                height: 30
+                                width: 250,
+                                height: 70
                             },
                             boundary: {
-                                width: 208,
-                                height: 100
+                                width: 300,
+                                height: 120
                             }
                         });
                         // END croppie logo
