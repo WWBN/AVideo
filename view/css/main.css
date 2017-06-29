@@ -490,6 +490,39 @@ img.rotate270, img.rotate-90{
 .navbar .list-inline{
     margin: 0;
 }
+/* Play List */
+.playlistList{    
+    height: 400px;
+    overflow: hidden;
+}
+
+.playlistList .nav{    
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.playlist-nav .navbar {
+    padding: 0;
+    max-height: none;
+    margin: 0;
+}
+.playlist-nav .navbar ul {
+    float: none;
+    display: block;
+}
+.playlist-nav .navbar li {
+    float: none;
+    display: block;
+}
+.playlist-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+/* End Play List */
+
 
 @media (max-width: 1200px) {
     .galleryVideo{

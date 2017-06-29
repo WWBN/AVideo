@@ -26,7 +26,38 @@ if (!empty($_GET['type'])) {
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
+
+
+$catLink = "";
+if (!empty($_GET['catName'])) {
+    $catLink = "cat/{$_GET['catName']}/";
+}
+
 $video = Video::getVideo("", "viewableNotAd");
+if(!empty($_GET['playlist_id'])){
+    $playlist_id = $_GET['playlist_id'];
+    if(!empty($_GET['playlist_index'])){
+        $playlist_index = $_GET['playlist_index'];
+    }else{
+        $playlist_index = 0;
+    }
+    $videosPlayList = Video::getAllVideos("viewableNotAd");
+    $video = Video::getVideo($videosPlayList[$playlist_index]['id']);
+    if(!empty($videosPlayList[$playlist_index+1])){
+        $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index+1]['id']);
+        $autoPlayVideo['url'] = $global['webSiteRootURL']."playlist/{$playlist_id}/".($playlist_index+1);
+    }
+    unset($_GET['playlist_id']);
+}else{    
+    $autoPlayVideo = Video::getRandom($video['id']);
+    if (!empty($autoPlayVideo)) {
+        $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
+        $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
+        $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
+        $autoPlayVideo['url'] = $global['webSiteRootURL'].$catLink."video/".$autoPlayVideo['clean_title'];
+    }
+}
+
 if (!empty($video)) {
     $ad = Video_ad::getAdFromCategory($video['categories_id']);
     VideoStatistic::save($video['id']);
@@ -69,16 +100,6 @@ if (!empty($video)) {
     }
 }
 
-$autoPlayVideo = Video::getRandom($video['id']);
-if (!empty($autoPlayVideo)) {
-    $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
-    $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
-    $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
-}
-$catLink = "";
-if (!empty($_GET['catName'])) {
-    $catLink = "cat/{$_GET['catName']}/";
-}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -165,13 +186,7 @@ if (!empty($_GET['catName'])) {
                                                         <input class="form-control" id="searchinput" type="search" placeholder="Search..." />
                                                     </div>
                                                     <div id="searchlist" class="list-group">
-                                                        <a class="list-group-item" href="#"><i class="fa fa-lock"></i>
-                                                            <span>aquamarine</span>
-                                                            <div class="material-switch pull-right">
-                                                                <input id="someSwitchOptionDefault" name="someSwitchOption002" type="checkbox"/>
-                                                                <label for="someSwitchOptionDefault" class="label-success"></label>
-                                                            </div>
-                                                        </a>
+                                                        
                                                     </div>
                                                 </form>
                                                 <div >
@@ -229,7 +244,7 @@ if (!empty($_GET['catName'])) {
                                                                 }
                                                             }
 
-                                                            $("#searchlist").append('<a class="list-group-item" href="#"><i class="fa fa-' + icon + '"></i> <span>' + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + response[i].id + '" class="label-success"></label></div></a>');
+                                                            $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>' + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + response[i].id + '" class="label-success"></label></div></a>');
                                                         }
                                                         $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
                                                         $('.playListsIds').change(function () {
@@ -612,7 +627,20 @@ if (!empty($_GET['catName'])) {
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite list-group-item">                            
                             <?php
-                            if (!empty($autoPlayVideo)) {
+                             if(!empty($playlist_id)){
+                                include './include/playlist.php';
+                                ?>
+                            <script>
+                                $(document).ready(function () {
+                                        Cookies.set('autoplay', true, {
+                                            path: '/',
+                                            expires: 365
+                                        }); 
+                                });
+                            </script>
+                                   
+                                <?php
+                            }else if (!empty($autoPlayVideo)) {
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="display: none;">
                                     <strong>

@@ -109,7 +109,7 @@ if (empty($_SESSION['language'])) {
                     <li>
                         <hr>
                     </li>
-                    <li style="height: 60px;">
+                    <li style="min-height: 60px;">
                         <div class="pull-left" style="margin-left: 10px;">
                             <img src="<?php echo User::getPhoto(); ?>" style="max-width: 55px;"  class="img img-thumbnail img-responsive img-circle"/>
                         </div>

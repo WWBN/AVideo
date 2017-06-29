@@ -16,6 +16,7 @@
     RewriteRule    ^download$ view/downloadExternalVideo.php    [NC,L]
     RewriteRule    ^downloadNow$ objects/downloadVideo.php    [NC,L]
     RewriteRule    ^getDownloadProgress$ objects/downloadVideoProgress.php    [NC,L]
+    RewriteRule    ^playlist/([0-9]+)/([0-9]+)/?$ view/?playlist_id=$1&playlist_index=$2    [NC,L]
     RewriteRule    ^playlist/([0-9]+)/?$ view/?playlist_id=$1    [NC,L]
 
     RewriteRule    ^about$ view/about.php    [NC,L]
