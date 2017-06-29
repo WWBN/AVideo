@@ -96,6 +96,16 @@ class PlayList extends Object {
         //echo $sql;
         return $global['mysqli']->query($sql);
     }
+    
+    public function delete() {
+        if(empty($this->id)){
+            return false;
+        }
+        global $global;
+        $sql = "DELETE FROM playlists WHERE id = {$this->id} ";
+        //echo $sql;
+        return $global['mysqli']->query($sql);
+    }
 
     function getId() {
         return $this->id;

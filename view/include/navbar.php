@@ -109,6 +109,14 @@ if (empty($_SESSION['language'])) {
                     <li>
                         <hr>
                     </li>
+                    <li>
+                        <div>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-xs btn-block">
+                                <span class="glyphicon glyphicon-log-out"></span> 
+                                <?php echo __("Logoff"); ?>
+                            </a>
+                        </div>
+                    </li>
                     <li style="min-height: 60px;">
                         <div class="pull-left" style="margin-left: 10px;">
                             <img src="<?php echo User::getPhoto(); ?>" style="max-width: 55px;"  class="img img-thumbnail img-responsive img-circle"/>
@@ -153,17 +161,17 @@ if (empty($_SESSION['language'])) {
                             </a>
                         </div>
                     </li>
+                        <li>
+                        <div>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-xs btn-block">
+                                <span class="fa fa-check"></span> 
+                                <?php echo __("Subscriptions"); ?>
+                            </a>
+                        </div>
+                        </li>
                             <?php
                         }
                         ?>
-                    <li>
-                        <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-xs btn-block">
-                                <span class="glyphicon glyphicon-log-out"></span> 
-                                <?php echo __("Logoff"); ?>
-                            </a>
-                        </div>
-                    </li>
                     <?php
                     if (User::isAdmin()) {
                         ?>
@@ -176,12 +184,6 @@ if (empty($_SESSION['language'])) {
                             <a href="<?php echo $global['webSiteRootURL']; ?>users">
                                 <span class="glyphicon glyphicon-user"></span> 
                                 <?php echo __("Users"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>subscribes">
-                                <span class="fa fa-check"></span> 
-                                <?php echo __("Subscriptions"); ?>
                             </a>
                         </li>
                         <li>
