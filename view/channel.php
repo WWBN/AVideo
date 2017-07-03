@@ -16,7 +16,7 @@ $user_id = $_GET['user_id'];
 
 
 $isMyChannel = false;
-if (User::isLogged() && $user_id = User::getId()) {
+if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
 }
 
