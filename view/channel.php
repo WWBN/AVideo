@@ -35,6 +35,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <!-- users_id = <?php echo $user_id; ?> -->
     </head>
 
     <body>
