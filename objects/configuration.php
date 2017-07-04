@@ -627,11 +627,11 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function getSmtp() {
-        return $this->smtp;
+        return intval($this->smtp);
     }
 
     function getSmtpAuth() {
-        return $this->smtpAuth;
+        return intval($this->smtpAuth);
     }
 
     function getSmtpSecure() {
