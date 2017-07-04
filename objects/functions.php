@@ -289,6 +289,7 @@ function setSiteSendMessage(&$mail){
     $config = new Configuration();
     
     if($config->getSmtp()){
+        $mail->IsSMTP(); // enable SMTP
         $mail->SMTPAuth = true; // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
         $mail->Host = $config->getSmtpHost();
