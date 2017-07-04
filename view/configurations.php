@@ -722,6 +722,68 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
                                                         </div>
                                                     </div>
+                                                    
+                                                    
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Enable SMTP"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="enableSmtp" id="enableSmtp" value="1" <?php
+                                                            if (!empty($config->getSmtp())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?> >    
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Enable SMTP Auth"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="enableSmtpAuth" id="enableSmtpAuth" value="1" <?php
+                                                            if (!empty($config->getSmtpAuth())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?> >    
+                                                        </div>
+                                                    </div>               
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Secure"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpSecure" class="form-control"  type="text" value="<?php echo $config->getSmtpSecure(); ?>" placeholder="tls OR ssl" aria-describedby="smtpSecureHelp"    >  
+                                                            <small id="smtpSecureHelp" class="form-text text-muted"><?php echo __("Use tls OR ssl"); ?></small>
+                                                        </div>
+                                                    </div>      
+                                                    
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Port"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpPort" class="form-control"  type="number" value="<?php echo $config->getSmtpPort(); ?>" placeholder="465 OR 587" aria-describedby="smtpPortHelp"    >  
+                                                            <small id="smtpPortHelp" class="form-text text-muted"><?php echo __("465 OR 587"); ?></small>
+                                                        </div>
+                                                    </div>         
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Host"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpHost" class="form-control"  type="text" value="<?php echo $config->getSmtpHost(); ?>" placeholder="smtp.gmail.com" >                                                              
+                                                        </div>
+                                                    </div>
+  
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Username"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpUsername" class="form-control"  type="text" value="<?php echo $config->getSmtpUsername(); ?>" placeholder="email@gmail.com" >                                                              
+                                                        </div>
+                                                    </div>  
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Password"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpPassword" class="form-control"  type="password" value="<?php echo $config->getSmtpPassword(); ?>" >                                                              
+                                                        </div>
+                                                    </div>
+
+                                                    
                                                 </fieldset>
                                                 <?php
                                             } else {
@@ -963,12 +1025,12 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                             url: '<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>',
                             enableExif: true,
                             viewport: {
-                                width: 138,
-                                height: 30
+                                width: 250,
+                                height: 70
                             },
                             boundary: {
-                                width: 208,
-                                height: 100
+                                width: 300,
+                                height: 120
                             }
                         });
                         // END croppie logo
@@ -1058,7 +1120,14 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "encode_mp3spectrum": $('#encode_mp3spectrum').prop("checked"),
                                             "ffmpegSpectrum": $('#ffmpegSpectrum').val(),
                                             "autoplay": $('#autoplay').prop("checked"),
-                                            "theme": theme
+                                            "theme": theme,
+                                            "smtp": $('#enableSmtp').prop("checked"),
+                                            "smtpAuth": $('#enableSmtpAuth').prop("checked"),
+                                            "smtpSecure": $('#smtpSecure').val(),
+                                            "smtpHost": $('#smtpHost').val(),
+                                            "smtpUsername": $('#smtpUsername').val(),
+                                            "smtpPassword": $('#smtpPassword').val(),
+                                            "smtpPort": $('#smtpPort').val(),
 
                                         },
                                         type: 'post',

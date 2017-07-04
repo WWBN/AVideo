@@ -24,7 +24,7 @@ foreach ($tags as $value) {
         include 'include/navbar.php';
         ?>
 
-        <div class="container">
+        <div class="container-fluid">
             <?php
             if (User::isLogged()) {
                 $user = new User("");

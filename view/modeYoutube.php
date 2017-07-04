@@ -26,7 +26,38 @@ if (!empty($_GET['type'])) {
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
+
+
+$catLink = "";
+if (!empty($_GET['catName'])) {
+    $catLink = "cat/{$_GET['catName']}/";
+}
+
 $video = Video::getVideo("", "viewableNotAd");
+if(!empty($_GET['playlist_id'])){
+    $playlist_id = $_GET['playlist_id'];
+    if(!empty($_GET['playlist_index'])){
+        $playlist_index = $_GET['playlist_index'];
+    }else{
+        $playlist_index = 0;
+    }
+    $videosPlayList = Video::getAllVideos("viewableNotAd");
+    $video = Video::getVideo($videosPlayList[$playlist_index]['id']);
+    if(!empty($videosPlayList[$playlist_index+1])){
+        $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index+1]['id']);
+        $autoPlayVideo['url'] = $global['webSiteRootURL']."playlist/{$playlist_id}/".($playlist_index+1);
+    }
+    unset($_GET['playlist_id']);
+}else{    
+    $autoPlayVideo = Video::getRandom($video['id']);
+    if (!empty($autoPlayVideo)) {
+        $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
+        $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
+        $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
+        $autoPlayVideo['url'] = $global['webSiteRootURL'].$catLink."video/".$autoPlayVideo['clean_title'];
+    }
+}
+
 if (!empty($video)) {
     $ad = Video_ad::getAdFromCategory($video['categories_id']);
     VideoStatistic::save($video['id']);
@@ -69,16 +100,6 @@ if (!empty($video)) {
     }
 }
 
-$autoPlayVideo = Video::getRandom($video['id']);
-if (!empty($autoPlayVideo)) {
-    $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
-    $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
-    $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
-}
-$catLink = "";
-if (!empty($_GET['catName'])) {
-    $catLink = "cat/{$_GET['catName']}/";
-}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -108,7 +129,6 @@ if (!empty($_GET['catName'])) {
         <div class="container-fluid" itemscope itemtype="http://schema.org/VideoObject">
             <?php
             if (!empty($video)) {
-                if (empty($_GET['search'])) {
                     if (empty($video['type']) || file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                         $video['type'] = "video";
                     }
@@ -166,13 +186,7 @@ if (!empty($_GET['catName'])) {
                                                         <input class="form-control" id="searchinput" type="search" placeholder="Search..." />
                                                     </div>
                                                     <div id="searchlist" class="list-group">
-                                                        <a class="list-group-item" href="#"><i class="fa fa-lock"></i>
-                                                            <span>aquamarine</span>
-                                                            <div class="material-switch pull-right">
-                                                                <input id="someSwitchOptionDefault" name="someSwitchOption002" type="checkbox"/>
-                                                                <label for="someSwitchOptionDefault" class="label-success"></label>
-                                                            </div>
-                                                        </a>
+                                                        
                                                     </div>
                                                 </form>
                                                 <div >
@@ -230,7 +244,7 @@ if (!empty($_GET['catName'])) {
                                                                 }
                                                             }
 
-                                                            $("#searchlist").append('<a class="list-group-item" href="#"><i class="fa fa-' + icon + '"></i> <span>' + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + response[i].id + '" class="label-success"></label></div></a>');
+                                                            $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>' + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + response[i].id + '" class="label-success"></label></div></a>');
                                                         }
                                                         $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
                                                         $('.playListsIds').change(function () {
@@ -613,7 +627,20 @@ if (!empty($_GET['catName'])) {
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite list-group-item">                            
                             <?php
-                            if (!empty($autoPlayVideo)) {
+                             if(!empty($playlist_id)){
+                                include './include/playlist.php';
+                                ?>
+                            <script>
+                                $(document).ready(function () {
+                                        Cookies.set('autoplay', true, {
+                                            path: '/',
+                                            expires: 365
+                                        }); 
+                                });
+                            </script>
+                                   
+                                <?php
+                            }else if (!empty($autoPlayVideo)) {
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="display: none;">
                                     <strong>
@@ -701,7 +728,7 @@ if (!empty($_GET['catName'])) {
                                 ?>
                                 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
                                     <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title'];
-                                    if(!empty($_GET['page'])){
+                                    if(!empty($_GET['page']) && $_GET['page']>1){
                                         echo "/page/{$_GET['page']}";
                                     }
                                     
@@ -795,7 +822,7 @@ if (!empty($_GET['catName'])) {
                                         page: <?php echo $_GET['page']; ?>,
                                         maxVisible: 10
                                     }).on('page', function (event, num) {
-                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
+                                        window.location.replace("<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $video['clean_title']; ?>/page/" + num);
                                     });
                                 });
                             </script>
@@ -804,47 +831,7 @@ if (!empty($_GET['catName'])) {
                         <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
                     </div>
                     <?php
-                } else {
-                    ?>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                        <div class="col-xs-12 col-sm-12 col-lg-10">
-                            <?php
-                            foreach ($videos as $value) {
-                                $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
-                                ?>
-                                <div class="col-lg-3 col-sm-12 col-xs-12">
-                                    <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $value['filename']; ?>.jpg" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130px" />
-                                        <h2><?php echo $value['title']; ?></h2>
-                                        <span class="glyphicon glyphicon-play-circle"></span>
-                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                    </a>
-                                </div>
-                                <?php
-                            }
-                            ?> 
-                            <ul class="pages">
-                            </ul>
-                            <script>
-                                $(document).ready(function () {
-                                    // Total Itens <?php echo $total; ?>
-
-                                    $('.pages').bootpag({
-                                        total: <?php echo $totalPages; ?>,
-                                        page: <?php echo $_GET['page']; ?>,
-                                        maxVisible: 10
-                                    }).on('page', function (event, num) {
-                                        window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
-                                    });
-                                });
-                            </script>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-lg-1"></div>
-                    </div>
-                    <?php
-                }
+                
             } else {
                 ?>
                 <div class="alert alert-warning">

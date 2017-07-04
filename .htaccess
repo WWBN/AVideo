@@ -19,7 +19,6 @@
     RewriteRule    ^downloadNow$ objects/downloadVideo.php    [NC,L]
     RewriteRule    ^getDownloadProgress$ objects/downloadVideoProgress.php    [NC,L]
 
-
     RewriteRule    ^about$ view/about.php    [NC,L]
     RewriteRule    ^contact$ view/contact.php    [NC,L]
     RewriteRule    ^sendEmail$ objects/sendEmail.json.php    [NC,L]
@@ -76,11 +75,14 @@
     RewriteRule    ^deleteCategory$ objects/categoryDelete.json.php    [NC,L]
 
     #manager playList
-    #RewriteRule    ^playLists$ view/managerPlayLists.php    [NC,L]
     RewriteRule    ^playLists.json$ objects/playlists.json.php    [NC,L]
-    #RewriteRule    ^addNewPlayList$ objects/playlistAddNew.json.php    [NC,L]
     RewriteRule    ^addNewPlayList$ objects/playlistAddNew.json.php    [NC,L]
     RewriteRule    ^playListAddVideo.json$ objects/playListAddVideo.json.php    [NC,L]
+    RewriteRule    ^playlist/([0-9]+)/([0-9]+)/?$ view/?playlist_id=$1&playlist_index=$2    [NC,L]
+    RewriteRule    ^playlist/([0-9]+)/?$ view/?playlist_id=$1    [NC,L]
+    RewriteRule    ^removeVideoFromPlaylist/?$ objects/playlistRemoveVideo.php    [NC,L]
+    RewriteRule    ^removePlaylist/?$ objects/playlistRemove.php    [NC,L]
+    RewriteRule    ^renamePlaylist/?$ objects/playlistRename.php    [NC,L]
     RewriteRule    ^channel/([0-9]+)/?$ view/channel.php?user_id=$1    [NC,L]
     RewriteRule    ^channel/?$ view/channel.php    [NC,L]
 

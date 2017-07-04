@@ -80,11 +80,12 @@ if (!empty($_GET['type'])) {
     return;
 }
 
+$object = new stdClass();
 if(empty($_POST['user']) || empty($_POST['pass'])){
-     die(__("User and Password can not be blank"));
+    $object->error = __("User and Password can not be blank");
+     die(json_encode($object));
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
 $user->login();
-$object = new stdClass();
 $object->isLogged = User::isLogged();
 echo json_encode($object);

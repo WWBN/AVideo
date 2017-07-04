@@ -9,8 +9,9 @@ if ($valid) {
 
     //Create a new PHPMailer instance
     $mail = new PHPMailer;
-    // Set PHPMailer to use the sendmail transport
-    $mail->isSendmail();
+    setSiteSendMessage($mail);
+    $mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
+    //var_dump($mail->SMTPAuth, $mail);
     //Set who the message is to be sent from
     $mail->setFrom($_POST['email'], $_POST['first_name']);
     //Set who the message is to be sent to

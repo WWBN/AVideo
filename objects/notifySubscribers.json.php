@@ -20,8 +20,7 @@ require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.ph
 $obj = new stdClass();
 //Create a new PHPMailer instance
 $mail = new PHPMailer;
-// Set PHPMailer to use the sendmail transport
-$mail->isSendmail();
+setSiteSendMessage($mail);
 //Set who the message is to be sent from
 $mail->setFrom($config->getContactEmail());
 //Set who the message is to be sent to

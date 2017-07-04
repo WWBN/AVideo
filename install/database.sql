@@ -155,6 +155,13 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `theme` VARCHAR(45) NULL DEFAULT 'default',
   `doNotShowVideoAndAudioLinks` TINYINT(1) NULL,
   `doNotShowCategories` TINYINT(1) NULL,
+  `smtp` TINYINT(1) NULL,
+  `smtpAuth` TINYINT(1) NULL,
+  `smtpSecure` VARCHAR(45) NULL COMMENT '\'ssl\'; // secure transfer enabled REQUIRED for Gmail',
+  `smtpHost` VARCHAR(100) NULL COMMENT '\"smtp.gmail.com\"',
+  `smtpUsername` VARCHAR(45) NULL COMMENT '\"email@gmail.com\"',
+  `smtpPassword` VARCHAR(45) NULL,
+  `smtpPort` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
