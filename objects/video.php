@@ -21,12 +21,28 @@ class Video {
     private $users_id;
     private $categories_id;
     private $type;
+    private $rotation;
+    private $zoom;
     private $videoDownloadedLink;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
     private $videoGroups;
+    private $videoAdsCount;
+    static $statusDesc = array(
+              'a' => 'active',
+              'i' => 'inactive',
+              'e' => 'encoding',
+              'x' => 'encoding error',
+              'd' => 'downloading',
+              'xmp4' => 'encoding mp4 error',
+              'xwebm' => 'encoding webm error',
+              'xmp3' => 'encoding mp3 error',
+              'xogg' => 'encoding ogg error',
+              'ximg' => 'get image error');
 
     function __construct($title = "", $filename = "", $id = 0) {
         global $global;
+        $this->rotation = 0;
+        $this->zoom = 1;
         if (!empty($id)) {
             $this->load($id);
         }
@@ -76,6 +92,7 @@ class Video {
         if (empty($this->clean_title)) {
             $this->clean_title = $this->filename;
         }
+        $this->clean_title = self::fixCleanTitle($this->clean_title, 1, $this->id);
         global $global;
 
         if (empty($this->status)) {
@@ -99,14 +116,14 @@ class Video {
         }
         $insert_row = $global['mysqli']->query($sql);
 
-        if ($insert_row) {     
+        if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
             } else {
                 $id = $this->id;
             }
-            if($updateVideoGroups){
-                require_once './userGroups.php';
+            if ($updateVideoGroups) {
+                require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 // update the user groups
                 UserGroups::updateVideoGroups($id, $this->videoGroups);
             }
@@ -117,7 +134,7 @@ class Video {
     }
 
     function setClean_title($clean_title) {
-        preg_replace('/\W+/', '-', strtolower($clean_title));
+        preg_replace('/\W+/', '-', strtolower(cleanString($clean_title)));
         $this->clean_title = $clean_title;
     }
 
@@ -139,46 +156,101 @@ class Video {
     function setType($type) {
         $this->type = $type;
     }
-    
-    static private function getUserGroupsCanSeeSQL(){
-        if(User::isAdmin()){
+
+    function setRotation($rotation) {
+        $saneRotation = intval($rotation) % 360;
+
+        if (!empty($this->id)) {
+            global $global;
+            $sql = "UPDATE videos SET rotation = '{$saneRotation}', modified = now() WHERE id = {$this->id} ";
+            if (!$global['mysqli']->query($sql)) {
+                die('Error on update Rotation: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+        }
+        $this->rotation = $saneRotation;
+    }
+
+    function getRotation() {
+        return $this->rotation;
+    }
+
+    function setZoom($zoom) {
+        $saneZoom = abs(floatval($zoom));
+
+        if ($saneZoom < 0.1 || $saneZoom > 10) {
+            die('Zoom level must be between 0.1 and 10');
+        }
+
+        if (!empty($this->id)) {
+            global $global;
+            $sql = "UPDATE videos SET zoom = '{$saneZoom}', modified = now() WHERE id = {$this->id} ";
+            if (!$global['mysqli']->query($sql)) {
+                die('Error on update Zoom: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+        }
+
+        $this->zoom = $saneZoom;
+    }
+
+    function getZoom() {
+        return $this->zoom;
+    }
+
+    static private function getUserGroupsCanSeeSQL() {
+        global $global;
+
+        $res = $global['mysqli']->query('select 1 from `videos_group_view` LIMIT 1');
+        if (!$res) {
+            if (User::isAdmin()) {
+                $_GET['error'] = "You need to Update YouPHPTube to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
+            }
+            return "";
+        }
+        if (User::isAdmin()) {
             return "";
         }
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'videos_group_view'");
         if (empty($result->num_rows)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.3</a>";
             header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
-            return false; 
+            return false;
         }
         $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
-        if(User::isLogged()){
+        if (User::isLogged()) {
             require_once 'userGroups.php';
             $userGroups = UserGroups::getUserGroups(User::getId());
             $groups_id = array();
             foreach ($userGroups as $value) {
                 $groups_id[] = $value['users_groups_id'];
             }
-            if(!empty($groups_id)){
-                $sql = " (({$sql}) OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN (". implode(",", $groups_id).") ) > 0)) ";
+            if (!empty($groups_id)) {
+                $sql = " (({$sql}) OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN (" . implode(",", $groups_id) . ") ) > 0)) ";
             }
         }
-        return " AND ".$sql;
+        return " AND " . $sql;
     }
 
-    static function getVideo($id = "", $status = "viewable", $ignoreGroup=false) {
+    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false) {
         global $global;
         $id = intval($id);
-        
+
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'likes'");
         if (empty($result->num_rows)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.0</a>";
             header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
-            return false; 
+            return false;
         }
-        
-        $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation, "
+        $result = $global['mysqli']->query("SHOW TABLES LIKE 'video_ads'");
+        if (empty($result->num_rows)) {
+            $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
+            header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
+            return false;
+        }
+
+        $sql = "SELECT u.*, v.*, c.name as category,c.iconClass,  c.clean_name as clean_category, v.created as videoCreation, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
-                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
+                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes, "
+                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount ";
         if (User::isLogged()) {
             $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = " . User::getId() . " ) as myVote ";
         } else {
@@ -188,8 +260,8 @@ class Video {
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
-        
-        if(!$ignoreGroup){
+        $sql .= static::getVideoQueryFileter();
+        if (!$ignoreGroup) {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
         if (!empty($_SESSION['type'])) {
@@ -197,8 +269,13 @@ class Video {
         }
 
 
-        if ($status == "viewable") {
+        if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+            if ($status == "viewableNotAd") {
+                $sql .= " having videoAdsCount = 0 ";
+            } else if ($status == "viewableAd") {
+                $sql .= " having videoAdsCount > 0 ";
+            }
         } else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
@@ -206,15 +283,18 @@ class Video {
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
-        if (!empty($_GET['videoName'])) {
-            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
-        } else if (!empty($id)) {
+        if (!empty($id)) {
             $sql .= " AND v.id = $id ";
-        } else {
+        }else if (empty($random) && !empty($_GET['videoName'])) {
+            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
+        } else if(!empty($random)){   
+            $sql .= " AND v.id != {$random} ";
+            $sql .= " ORDER BY RAND() ";
+        }else{
             $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
-        //echo $sql;exit;
+        //if(!empty($random))echo "<hr>".$sql;
         $res = $global['mysqli']->query($sql);
         if ($res) {
             require_once 'userGroups.php';
@@ -225,28 +305,66 @@ class Video {
         }
         return $video;
     }
-
-    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup=false) {
+    
+    static function getVideoFromFileName($fileName){
         global $global;
-        $sql = "SELECT u.*, v.*, c.name as category, v.created as videoCreation FROM videos as v "
-                . "LEFT JOIN categories c ON categories_id = c.id "
-                . "LEFT JOIN users u ON v.users_id = u.id "
+
+        $sql = "SELECT id  FROM videos  WHERE filename = '{$fileName}' LIMIT 1";
+        //echo $sql;
+        $res = $global['mysqli']->query($sql);
+        if ($res) {
+            $video = $res->fetch_assoc();
+            return self::getVideo($video['id'], "");
+            //$video['groups'] = UserGroups::getVideoGroups($video['id']);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 
+     * @global type $global
+     * @param type $status
+     * @param type $showOnlyLoggedUserVideos you may pass an user ID to filter results
+     * @param type $ignoreGroup
+     * @param type $videosArrayId an array with videos to return (for filter only)
+     * @return boolean
+     */
+    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array()) {
+        global $global;
+        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category, v.created as videoCreation, "
+                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
+                . " FROM videos as v "
+                . " LEFT JOIN categories c ON categories_id = c.id "
+                . " LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
 
-        if(!$ignoreGroup){
+        $sql .= static::getVideoQueryFileter();
+        if(!empty($videosArrayId) && is_array($videosArrayId)){
+            $sql .= " AND v.id IN ( ". implode(", ", $videosArrayId).") ";
+        }
+        
+        if (!$ignoreGroup) {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
         if (!empty($_SESSION['type'])) {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
 
-        if ($status == "viewable") {
+        if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+            if ($status == "viewableNotAd") {
+                $sql .= " having videoAdsCount = 0 ";
+            } else if ($status == "viewableAd") {
+                $sql .= " having videoAdsCount > 0 ";
+            }
         } else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
-        if ($showOnlyLoggedUserVideos && !User::isAdmin()) {
+        if ($showOnlyLoggedUserVideos===true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
+        }else if(!empty($showOnlyLoggedUserVideos)){
+            $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
         }
 
         if (!empty($_GET['catName'])) {
@@ -259,7 +377,7 @@ class Video {
 
         $sql .= BootGrid::getSqlFromPost(array('title', 'description'), "v.");
 
-
+        //echo $sql;
         $res = $global['mysqli']->query($sql);
         $videos = array();
         if ($res) {
@@ -277,24 +395,33 @@ class Video {
         return $videos;
     }
 
-    static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup=false) {
+    static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false) {
         global $global;
-        $sql = "SELECT v.id FROM videos v "
+        $sql = "SELECT v.id, "
+                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
+                . "FROM videos v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " WHERE 1=1  ";
 
-        if(!$ignoreGroup){
+        $sql .= static::getVideoQueryFileter();
+        if (!$ignoreGroup) {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
-        if ($status == "viewable") {
+        if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+            if ($status == "viewableNotAd") {
+                $sql .= " having videoAdsCount = 0 ";
+            } else if ($status == "viewableAd") {
+                $sql .= " having videoAdsCount > 0 ";
+            }
         } else if (!empty($status)) {
             $sql .= " AND status = '{$status}'";
         }
-        if ($showOnlyLoggedUserVideos) {
+        if ($showOnlyLoggedUserVideos===true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
+        }else if(is_int($showOnlyLoggedUserVideos)){
+            $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
         }
-
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
@@ -343,6 +470,16 @@ class Video {
             } else {
                 
             }
+            
+            if(!empty($object->$value->progress) && !is_numeric($object->$value->progress)){
+            
+                $video = self::getVideoFromFileName($filename);
+                //var_dump($video, $filename);
+                if(!empty($video)){
+                    $object->$value->progress = self::$statusDesc[$video['status']];
+                }
+            }
+            
             $object->$value->filename = $progressFilename;
         }
 
@@ -393,9 +530,12 @@ class Video {
                 $time += intval($ar[2]) * 60 * 60;
             }
 
-            //calculate the progress
-            $progress = round(($time / $duration) * 100);
-
+            if (!empty($duration)) {
+                //calculate the progress
+                $progress = round(($time / $duration) * 100);
+            } else {
+                $progress = 'undefined';
+            }
             $obj->duration = $duration;
             $obj->currentTime = $time;
             $obj->progress = $progress;
@@ -421,28 +561,28 @@ class Video {
         } else {
             foreach (self::$types as $value) {
                 /*
-                $cmd = "rm -f {$global['systemRootPath']}videos/original_{$video['filename']}.{$value}";
-                exec($cmd);
-                $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}.{$value}";
-                exec($cmd);
-                $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
-                exec($cmd);
+                  $cmd = "rm -f {$global['systemRootPath']}videos/original_{$video['filename']}.{$value}";
+                  exec($cmd);
+                  $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}.{$value}";
+                  exec($cmd);
+                  $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
+                  exec($cmd);
                  * 
                  */
                 $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
-                if(file_exists($file)){
+                if (file_exists($file)) {
                     unlink($file);
                 }
                 $file = "{$global['systemRootPath']}videos/{$video['filename']}.{$value}";
-                if(file_exists($file)){
+                if (file_exists($file)) {
                     unlink($file);
                 }
                 $file = "{$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
-                if(file_exists($file)){
+                if (file_exists($file)) {
                     unlink($file);
                 }
                 $file = "{$global['systemRootPath']}videos/{$video['filename']}.jpg";
-                if(file_exists($file)){
+                if (file_exists($file)) {
                     unlink($file);
                 }
             }
@@ -475,26 +615,55 @@ class Video {
             return $durationParts[0];
         }
     }
+    
+    static function getItemPropDuration($duration = ""){
+        $duration = static::getCleanDuration($duration);
+        $parts = explode(":", $duration);
+        return "PT".intval($parts[0])."H".intval($parts[1])."M".intval($parts[2])."S";
+    }
 
     static function getDurationFromFile($file) {
+        global $config;
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($file)) {
-            echo '{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}';
-            exit;
+            error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
+            return "EE:EE:EE";
         }
-        $config = new Configuration();
         //$cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';
         eval('$cmd="' . $config->getFfprobeDuration() . '";');
         exec($cmd . ' 2>&1', $output, $return_val);
         if ($return_val !== 0) {
-            //echo '{"status":"error", "msg":' . json_encode($output) . ' ,"return_val":' . json_encode($return_val) . ', "where":"getDuration", "cmd":"'.$cmd.'"}';exit;
+            error_log('{"status":"error", "msg":' . json_encode($output) . ' ,"return_val":' . json_encode($return_val) . ', "where":"getDuration", "cmd":"' . $cmd . '"}');
             // fix ffprobe
             $duration = "EE:EE:EE";
         } else {
             preg_match("/([0-9]+:[0-9]+:[0-9]{2})/", $output[0], $match);
-            $duration = $match[1];
+            if (!empty($match[1])) {
+                $duration = $match[1];
+            } else {
+                error_log('{"status":"error", "msg":' . json_encode($output) . ' ,"match_not_found":' . json_encode($match) . ' ,"return_val":' . json_encode($return_val) . ', "where":"getDuration", "cmd":"' . $cmd . '"}');
+                $duration = "EE:EE:EE";
+            }
         }
+        error_log("Duration founded: {$duration}");
         return $duration;
+    }
+
+    function updateDurationIfNeed($fileExtension = ".mp4") {
+        global $global;
+        if (!empty($this->id) && $this->duration == "EE:EE:EE") {
+            $this->duration = Video::getDurationFromFile($global['systemRootPath'] . "videos/" . $this->filename . $fileExtension);
+            error_log("Duration Updated: " . print_r($this, true));
+
+            $sql = "UPDATE videos SET duration = '{$this->duration}', modified = now() WHERE id = {$this->id}";
+
+            $global['mysqli']->query($sql);
+
+            return $this->id;
+        } else {
+            error_log("Do not need update duration: " . print_r($this, true));
+            return false;
+        }
     }
 
     function getFilename() {
@@ -516,14 +685,14 @@ class Video {
     function setVideoDownloadedLink($videoDownloadedLink) {
         $this->videoDownloadedLink = $videoDownloadedLink;
     }
-    
-    static function isLandscape($pathFileName){
+
+    static function isLandscape($pathFileName) {
+        global $config;
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($pathFileName)) {
             echo '{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $pathFileName . ') Not Found"}';
             exit;
         }
-        $config = new Configuration();
         eval('$cmd="' . $config->getExiftool() . '";');
         $resp = true; // is landscape by default
         exec($cmd . ' 2>&1', $output, $return_val);
@@ -535,27 +704,26 @@ class Video {
             $rotation = 0;
             foreach ($output as $value) {
                 preg_match("/Image Size.*:[^0-9]*([0-9]+x[0-9]+)/i", $value, $match);
-                if(!empty($match)){
+                if (!empty($match)) {
                     $parts = explode("x", $match[1]);
                     $w = $parts[0];
-                    $h = $parts[1];                    
+                    $h = $parts[1];
                 }
                 preg_match("/Rotation.*:[^0-9]*([0-9]+)/i", $value, $match);
-                if(!empty($match)){
-                    $rotation = $match[1];                    
+                if (!empty($match)) {
+                    $rotation = $match[1];
                 }
-                
             }
-            if($rotation==0){
-                if($w>$h){
+            if ($rotation == 0) {
+                if ($w > $h) {
                     $resp = true;
-                }else{
+                } else {
                     $resp = false;
                 }
-            }else{                
-                if($w<$h){
+            } else {
+                if ($w < $h) {
                     $resp = true;
-                }else{
+                } else {
                     $resp = false;
                 }
             }
@@ -563,145 +731,158 @@ class Video {
         //var_dump($cmd, $w, $h, $rotation, $resp);exit;
         return $resp;
     }
-    
-    function userCanManageVideo(){
-        if(empty($this->users_id) || !User::canUpload()){
+
+    function userCanManageVideo() {
+        if (empty($this->users_id) || !User::canUpload()) {
             return false;
         }
         // if you not admin you can only manager yours video
-        if(!User::isAdmin() && $this->users_id != User::getId()){
+        if (!User::isAdmin() && $this->users_id != User::getId()) {
             return false;
         }
         return true;
     }
-    
-    
+
     function getVideoGroups() {
         return $this->videoGroups;
     }
 
     function setVideoGroups($userGroups) {
-        if(is_array($userGroups)){
+        if (is_array($userGroups)) {
             $this->videoGroups = $userGroups;
         }
     }
-    
+
     /**
      * 
      * @param type $user_id
      * text
      * label Default Primary Success Info Warning Danger
      */
-    static function getTags($video_id){
+    static function getTags($video_id, $type = "") {
         $video = new Video("", "", $video_id);
         $tags = array();
-        /**
-        a = active
-        i = inactive
-        e = encoding
-        x = encoding error
-        d = downloading
-        xmp4 = encoding mp4 error 
-        xwebm = encoding webm error 
-        xmp3 = encoding mp3 error 
-        xogg = encoding ogg error 
-        ximg = get image error
-         */
-        $obj = new stdClass();
-        
-        $icon = "<span class='fa fa-file-video-o'></span> ";
-        if($video->getType()=="audio"){
-            $icon = "<span class='fa fa-file-audio-o'></span> ";            
-        }
-        $obj->label = __("Status");
-        switch ($video->getStatus()) {
-            case 'a':
-                $obj->type = "success";
-                $obj->text = __("Active");
-                break;
-            case 'i':
-                $obj->type = "warning";
-                $obj->text = __("Inactive");
-                break;
-            case 'e':
-                $obj->type = "info";
-                $obj->text = __("Encoding");
-                break;
-            case 'd':
-                $obj->type = "info";
-                $obj->text = __("Downloading");
-                break;
-            case 'xmp4':
-                $obj->type = "danger";
-                $obj->text = __("Encoding mp4 error");
-                break;
-            case 'xwebm':
-                $obj->type = "danger";
-                $obj->text = __("Encoding xwebm error");
-                break;
-            case 'xmp3':
-                $obj->type = "danger";
-                $obj->text = __("Encoding xmp3 error");
-                break;
-            case 'xogg':
-                $obj->type = "danger";
-                $obj->text = __("Encoding xogg error");
-                break;
-            case 'ximg':
-                $obj->type = "danger";
-                $obj->text = __("Get imgage error");
-                break;
 
-            default:
+        if (empty($type) || $type === "ad") {
+            $obj = new stdClass();
+            $obj->label = __("Is Ad");
+            if ($video->getIsAd()) {
+                $obj->type = "success";
+                $obj->text = __("Yes");
+                $tags[] = $obj;
+            } else {
                 $obj->type = "danger";
-                $obj->text = __("Status not found");
-                break;
-        }
-        $obj->text = $icon.$obj->text;
-        $tags[] = $obj;   
-        
-        require_once 'userGroups.php';
-        $groups = UserGroups::getVideoGroups($video->getId());
-        $obj = new stdClass();
-        $obj->label = __("Group");
-        if(empty($groups)){
-            $obj->type = "success";
-            $obj->text = __("Public");
-            $tags[] = $obj;
-        }else{
-            foreach ($groups as $value) {
-                $obj->type = "warning";
-                $obj->text = $value['group_name'];
+                $obj->text = __("No");
                 $tags[] = $obj;
             }
         }
-        
-        require_once 'category.php';
-        $category = Category::getCategory($video->getCategories_id());
-        $obj = new stdClass();
-        $obj->label = __("Category");
-        if(!empty($category)){
-            $obj->type = "default";
-            $obj->text = $category['name'];
+
+        /**
+          a = active
+          i = inactive
+          e = encoding
+          x = encoding error
+          d = downloading
+          xmp4 = encoding mp4 error
+          xwebm = encoding webm error
+          xmp3 = encoding mp3 error
+          xogg = encoding ogg error
+          ximg = get image error
+         */
+        if (empty($type) || $type === "status") {
+            $obj = new stdClass();
+            $obj->label = __("Status");
+            switch ($video->getStatus()) {
+                case 'a':
+                    $obj->type = "success";
+                    $obj->text = __("Active");
+                    break;
+                case 'i':
+                    $obj->type = "warning";
+                    $obj->text = __("Inactive");
+                    break;
+                case 'e':
+                    $obj->type = "info";
+                    $obj->text = __("Encoding");
+                    break;
+                case 'd':
+                    $obj->type = "info";
+                    $obj->text = __("Downloading");
+                    break;
+                case 'xmp4':
+                    $obj->type = "danger";
+                    $obj->text = __("Encoding mp4 error");
+                    break;
+                case 'xwebm':
+                    $obj->type = "danger";
+                    $obj->text = __("Encoding xwebm error");
+                    break;
+                case 'xmp3':
+                    $obj->type = "danger";
+                    $obj->text = __("Encoding xmp3 error");
+                    break;
+                case 'xogg':
+                    $obj->type = "danger";
+                    $obj->text = __("Encoding xogg error");
+                    break;
+                case 'ximg':
+                    $obj->type = "danger";
+                    $obj->text = __("Get imgage error");
+                    break;
+
+                default:
+                    $obj->type = "danger";
+                    $obj->text = __("Status not found");
+                    break;
+            }
+            $obj->text = $obj->text;
             $tags[] = $obj;
         }
-        
-        $url = $video->getVideoDownloadedLink();
-        $parse = parse_url($url);
-        $obj = new stdClass();
-        $obj->label = __("Source");
-        if(!empty($parse['host'])){
-            $obj->type = "danger";
-            $obj->text = $parse['host'];
-            $tags[] = $obj;
-        }else{
-            $obj->type = "info";
-            $obj->text = __("Local File");
-            $tags[] = $obj;
+        if (empty($type) || $type === "userGroups") {
+            require_once 'userGroups.php';
+            $groups = UserGroups::getVideoGroups($video_id);
+            $obj = new stdClass();
+            $obj->label = __("Group");
+            if (empty($groups)) {
+                $obj->type = "success";
+                $obj->text = __("Public");
+                $tags[] = $obj;
+            } else {
+                foreach ($groups as $value) {
+                    $obj->type = "warning";
+                    $obj->text = $value['group_name'];
+                    $tags[] = $obj;
+                }
+            }
         }
-        
+        if (empty($type) || $type === "category") {
+            require_once 'category.php';
+            $category = Category::getCategory($video->getCategories_id());
+            $obj = new stdClass();
+            $obj->label = __("Category");
+            if (!empty($category)) {
+                $obj->type = "default";
+                $obj->text = $category['name'];
+                $tags[] = $obj;
+            }
+        }
+        if (empty($type) || $type === "source") {
+            $url = $video->getVideoDownloadedLink();
+            $parse = parse_url($url);
+            $obj = new stdClass();
+            $obj->label = __("Source");
+            if (!empty($parse['host'])) {
+                $obj->type = "danger";
+                $obj->text = $parse['host'];
+                $tags[] = $obj;
+            } else {
+                $obj->type = "info";
+                $obj->text = __("Local File");
+                $tags[] = $obj;
+            }
+        }
+
         return $tags;
-        
     }
 
     function getCategories_id() {
@@ -712,7 +893,42 @@ class Video {
         return $this->type;
     }
 
+    function getIsAd() {
+        return !empty($this->videoAdsCount);
+    }
 
+    static function fixCleanTitle($clean_title, $count, $videoId) {
+        global $global;
 
+        $sql = "SELECT * FROM videos WHERE clean_title = '{$clean_title}' ";
+        if(!empty($videoId)){
+            $sql .= " AND id != {$videoId} ";
+        }
+        $sql .= " LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+
+        if ($res && !empty($res->num_rows)) {
+            return self::fixCleanTitle($clean_title . $count, $count + 1, $videoId);
+        }
+        return $clean_title;
+    }
+    
+    static function getRandom($excludeVideoId=false){
+        return static::getVideo("", "viewableNotAd",false, $excludeVideoId);
+        
+    }
+    
+    static function getVideoQueryFileter(){
+        global $global;
+        $sql = "";
+        if(!empty($_GET['playlist_id'])){
+            require_once $global['systemRootPath'] . 'objects/playlist.php';
+            $ids = PlayList::getVideosIdFromPlaylist($_GET['playlist_id']);
+            if(!empty($ids)){
+                $sql .= " AND v.id IN (". implode(",", $ids).") "; 
+            }
+        }
+        return $sql;
+    }
 
 }

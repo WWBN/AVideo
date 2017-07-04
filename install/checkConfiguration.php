@@ -1,6 +1,6 @@
 <?php
 
-$installationVersion = "2.2";
+$installationVersion = "3.3";
 
 header('Content-Type: application/json');
 
@@ -116,6 +116,8 @@ if ($mysqli->query($sql) !== TRUE) {
 $mysqli->close();
 
 $content = "<?php
+\$global['disableAdvancedConfigurations'] = 0;
+\$global['videoStorageLimitMinutes'] = 0;
 \$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
 
@@ -128,10 +130,7 @@ $content = "<?php
 /**
  * Do NOT change from here
  */
-session_start();
 
-\$global['mysqli'] = new mysqli(\$mysqlHost, \$mysqlUser,\$mysqlPass,\$mysqlDatabase);
-require_once \$global['systemRootPath'].'locale/function.php';
 require_once \$global['systemRootPath'].'objects/include_config.php';
 ";
 

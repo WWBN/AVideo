@@ -5,10 +5,6 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager users"));
     exit;
 }
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
-
-
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();
 ?>
@@ -31,7 +27,12 @@ $userGroups = UserGroups::getAllUsersGroups();
             <button type="button" class="btn btn-default" id="addUserBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User"); ?>
             </button>
-
+            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
+            </a>
+            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
+                <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
+            </a>
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -83,15 +84,18 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 <ul class="list-group">
                                     <li class="list-group-item active">
                                         <?php echo __("User Groups"); ?>
+                                        <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                     </li>
                                     <?php
                                     foreach ($userGroups as $value) {
                                         ?>
                                         <li class="list-group-item">
+                                            <span class="fa fa-unlock"></span>
                                             <?php echo $value['group_name']; ?>
+                                            <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
                                             <div class="material-switch pull-right">
                                                 <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups"/>
-                                                <label for="userGroup<?php echo $value['id']; ?>" class="label-success"></label>
+                                                <label for="userGroup<?php echo $value['id']; ?>" class="label-warning"></label>
                                             </div>
                                         </li>
                                         <?php

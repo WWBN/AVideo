@@ -1,8 +1,6 @@
 <?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 
 $tags = User::getTags(User::getId());
 $tagsStr = "";
@@ -26,21 +24,20 @@ foreach ($tags as $value) {
         include 'include/navbar.php';
         ?>
 
-        <div class="container">
+        <div class="container-fluid">
             <?php
             if (User::isLogged()) {
                 $user = new User("");
                 $user->loadSelfUser();
                 ?>
                 <div class="row">
-                    <div class="col-xs-1 col-sm-1 col-lg-2"></div>
-                    <div class="col-xs-10 col-sm-10 col-lg-8">
+                    <div>
                         <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
-                                <?php echo $tagsStr;?>
+                            <?php echo $tagsStr; ?>
                             <fieldset>
                                 <legend>
-                                    <?php echo __("Update your user")?>
-                                    
+                                    <?php echo __("Update your user") ?>
+
                                 </legend>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>  
@@ -93,14 +90,19 @@ foreach ($tags as $value) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">
-                                        <?php echo __("Your Photo"); ?>
-                                    </label>  
-                                    <div class="col-md-8 ">
+                                    <div class="col-md-12 ">
                                         <div id="croppie"></div>
-                                        <a id="upload-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Upload a Photo"); ?></a>
+                                        <a id="upload-btn" class="btn btn-primary btn-xs btn-block"><?php echo __("Upload a Photo"); ?></a>
                                     </div>
                                     <input type="file" id="upload" value="Choose a file" accept="image/*" style="display: none;" />
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 ">
+                                        <div id="croppieBg"></div>
+                                        <a id="upload-btnBg" class="btn btn-success btn-xs btn-block"><?php echo __("Upload a Background"); ?></a>
+                                    </div>
+                                    <input type="file" id="uploadBg" value="Choose a file" accept="image/*" style="display: none;" />
                                 </div>
 
 
@@ -115,11 +117,10 @@ foreach ($tags as $value) {
                         </form>
 
                     </div>
-                    <div class="col-xs-1 col-sm-1 col-lg-2"></div>
                 </div>
                 <script>
                     var uploadCrop;
-                    function readFile(input) {
+                    function readFile(input, crop) {
                         console.log(input);
                         console.log($(input)[0]);
                         console.log($(input)[0].files);
@@ -127,7 +128,7 @@ foreach ($tags as $value) {
                             var reader = new FileReader();
 
                             reader.onload = function (e) {
-                                uploadCrop.croppie('bind', {
+                                crop.croppie('bind', {
                                     url: e.target.result
                                 }).then(function () {
                                     console.log('jQuery bind complete');
@@ -142,47 +143,40 @@ foreach ($tags as $value) {
                     }
                     $(document).ready(function () {
                         $('#upload').on('change', function () {
-                            readFile(this);
+                            readFile(this, uploadCrop);
                         });
                         $('#upload-btn').on('click', function (ev) {
                             $('#upload').trigger("click");
                         });
-                        $('#upload-result-btn').on('click', function (ev) {
-                            uploadCrop.croppie('result', {
-                                type: 'canvas',
-                                size: 'viewport'
-                            }).then(function (resp) {
-                                $.ajax({
-                                    type: "POST",
-                                    url: "savePhoto",
-                                    data: {
-                                        imgBase64: resp
-                                    }
-                                }).done(function (result) {                                    
-                                    uploadCrop.croppie('bind', {
-                                        url: result.url+"?rand="+Math.random()
-                                    }).then(function () {
-                                        console.log('jQuery bind complete');
-                                    });
-                                    // If you want the file to be visible in the browser 
-                                    // - please modify the callback in javascript. All you
-                                    // need is to return the url to the file, you just saved 
-                                    // and than put the image in your browser.
-                                });
-                                //console.log(resp);
-                            });
+                        $('#uploadBg').on('change', function () {
+                            readFile(this, uploadCropBg);
+                        });
+                        $('#upload-btnBg').on('click', function (ev) {
+                            $('#uploadBg').trigger("click");
                         });
 
                         uploadCrop = $('#croppie').croppie({
                             url: '<?php echo $user->getPhoto(); ?>',
                             enableExif: true,
-
                             viewport: {
                                 width: 150,
                                 height: 150
                             },
                             boundary: {
                                 width: 300,
+                                height: 300
+                            }
+                        });
+
+                        uploadCropBg = $('#croppieBg').croppie({
+                            url: '<?php echo $user->getBackgroundURL(); ?>',
+                            enableExif: true,
+                            viewport: {
+                                width: 1250,
+                                height: 250
+                            },
+                            boundary: {
+                                width: 1300,
                                 height: 300
                             }
                         });
@@ -203,7 +197,6 @@ foreach ($tags as $value) {
                                     type: 'post',
                                     success: function (response) {
                                         if (response.status > "0") {
-                                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been updated! Saving Photo now"); ?>", "success");
                                             uploadCrop.croppie('result', {
                                                 type: 'canvas',
                                                 size: 'viewport'
@@ -215,7 +208,20 @@ foreach ($tags as $value) {
                                                         imgBase64: resp
                                                     }
                                                 }).done(function (o) {
-                                                    modal.hidePleaseWait();
+                                                    uploadCropBg.croppie('result', {
+                                                        type: 'canvas',
+                                                        size: 'viewport'
+                                                    }).then(function (resp) {
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "saveBackground",
+                                                            data: {
+                                                                imgBase64: resp
+                                                            }
+                                                        }).done(function (o) {
+                                                            modal.hidePleaseWait();
+                                                        });
+                                                    });
                                                 });
                                             });
                                         } else {
@@ -321,9 +327,14 @@ foreach ($tags as $value) {
                             });
                         });
                         $('#forgotPassword').click(function () {
+                            var user = $('#inputUser').val();
+                            if (!user) {
+                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
+                                return false;
+                            }
                             var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">';
                             swal({
-                                title: $('#inputUser').val() + ", <?php echo __("Are you sure?"); ?>",
+                                title: user + ", <?php echo __("Are you sure?"); ?>",
                                 text: "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha,
                                 type: "warning",
                                 html: true,

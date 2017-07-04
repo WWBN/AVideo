@@ -94,7 +94,10 @@ class UserGroups {
 
     static function getAllUsersGroups() {
         global $global;
-        $sql = "SELECT * FROM users_groups WHERE 1=1 ";
+        $sql = "SELECT *,"
+                . " (SELECT COUNT(*) FROM videos_group_view WHERE users_groups_id = ug.id ) as total_videos, "
+                . " (SELECT COUNT(*) FROM users_has_users_groups WHERE users_groups_id = ug.id ) as total_users "
+                . " FROM users_groups as ug WHERE 1=1 ";
 
         $sql .= BootGrid::getSqlFromPost(array('group_name'));
 
@@ -147,7 +150,7 @@ class UserGroups {
         foreach ($array_groups_id as $value) {
             $value = intval($value);
             $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES ({$users_id},{$value})";
-            echo $sql;
+            //echo $sql;
             $global['mysqli']->query($sql);
         }
         

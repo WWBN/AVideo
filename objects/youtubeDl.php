@@ -3,9 +3,6 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
-
 $filename = $argv[1];
 $videoURL = $argv[2];
 $userId = $argv[3];
@@ -52,6 +49,7 @@ if ($return_val !== 0) {
     echo "{$cmd}\\n **youtube-dl get video ERROR**\n", print_r($output, true);
 } else {    
     echo "Success: We got the video, calling the upload action ".print_r($_FILES, true)."\n";
+    $_GET['ignoreCommandLineInterface'] = true;
     require "{$global['systemRootPath']}view/mini-upload-form/upload.php";
 }
 

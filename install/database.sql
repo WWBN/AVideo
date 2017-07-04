@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `photoURL` VARCHAR(255) NULL,
   `lastLogin` DATETIME NULL,
   `recoverPass` VARCHAR(255) NULL,
+  `backgroundURL` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
@@ -59,6 +60,8 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `type` ENUM('audio', 'video') NOT NULL DEFAULT 'video',
   `videoDownloadedLink` VARCHAR(255) NULL,
   `order` INT UNSIGNED NOT NULL DEFAULT 1,
+  `rotation` SMALLINT NULL DEFAULT 0,
+  `zoom` FLOAT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
@@ -124,19 +127,41 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `authFacebook_enabled` TINYINT(1) NOT NULL DEFAULT 0,
   `authCanUploadVideos` TINYINT(1) NOT NULL DEFAULT 0,
   `authCanComment` TINYINT(1) NOT NULL DEFAULT 1,
-  `ffprobeDuration` VARCHAR(255) NULL,
-  `ffmpegImage` VARCHAR(255) NULL,
-  `ffmpegMp4` VARCHAR(255) NULL,
-  `ffmpegMp4Portrait` VARCHAR(255) NULL,
-  `ffmpegWebm` VARCHAR(255) NULL,
-  `ffmpegWebmPortrait` VARCHAR(255) NULL,
-  `ffmpegMp3` VARCHAR(255) NULL,
-  `ffmpegOgg` VARCHAR(255) NULL,
-  `youtubeDl` VARCHAR(255) NULL,
+  `ffprobeDuration` VARCHAR(400) NULL,
+  `ffmpegImage` VARCHAR(400) NULL,
+  `ffmpegMp4` VARCHAR(400) NULL,
+  `ffmpegMp4Portrait` VARCHAR(400) NULL,
+  `ffmpegWebm` VARCHAR(400) NULL,
+  `ffmpegWebmPortrait` VARCHAR(400) NULL,
+  `ffmpegMp3` VARCHAR(400) NULL,
+  `ffmpegSpectrum` VARCHAR(400) NULL,
+  `ffmpegOgg` VARCHAR(400) NULL,
+  `youtubeDl` VARCHAR(400) NULL,
   `ffmpegPath` VARCHAR(255) NULL,
   `youtubeDlPath` VARCHAR(255) NULL,
   `exiftool` VARCHAR(255) NULL,
   `exiftoolPath` VARCHAR(255) NULL,
+  `head` TEXT NULL,
+  `logo` VARCHAR(255) NULL,
+  `logo_small` VARCHAR(255) NULL,
+  `adsense` TEXT NULL,
+  `mode` ENUM('Youtube', 'Gallery') NULL DEFAULT 'Youtube',
+  `disable_analytics` TINYINT(1) NULL DEFAULT 0,
+  `session_timeout` INT NULL DEFAULT 3600,
+  `encode_mp4` TINYINT(1) NULL DEFAULT 1,
+  `encode_webm` TINYINT(1) NULL DEFAULT 1,
+  `encode_mp3spectrum` TINYINT(1) NULL DEFAULT 1,
+  `autoplay` TINYINT(1) NULL,
+  `theme` VARCHAR(45) NULL DEFAULT 'default',
+  `doNotShowVideoAndAudioLinks` TINYINT(1) NULL,
+  `doNotShowCategories` TINYINT(1) NULL,
+  `smtp` TINYINT(1) NULL,
+  `smtpAuth` TINYINT(1) NULL,
+  `smtpSecure` VARCHAR(45) NULL COMMENT '\'ssl\'; // secure transfer enabled REQUIRED for Gmail',
+  `smtpHost` VARCHAR(100) NULL COMMENT '\"smtp.gmail.com\"',
+  `smtpUsername` VARCHAR(45) NULL COMMENT '\"email@gmail.com\"',
+  `smtpPassword` VARCHAR(45) NULL,
+  `smtpPort` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
@@ -193,6 +218,184 @@ CREATE TABLE IF NOT EXISTS `likes` (
   CONSTRAINT `fk_likes_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `users_groups`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users_groups` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_name` VARCHAR(45) NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `users_has_users_groups`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users_has_users_groups` (
+  `users_id` INT NOT NULL,
+  `users_groups_id` INT NOT NULL,
+  PRIMARY KEY (`users_id`, `users_groups_id`),
+  INDEX `fk_users_has_users_groups_users_groups1_idx` (`users_groups_id` ASC),
+  INDEX `fk_users_has_users_groups_users1_idx` (`users_id` ASC),
+  UNIQUE INDEX `index_user_groups_unique` (`users_groups_id` ASC, `users_id` ASC),
+  CONSTRAINT `fk_users_has_users_groups_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_users_has_users_groups_users_groups1`
+    FOREIGN KEY (`users_groups_id`)
+    REFERENCES `users_groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `videos_group_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `videos_group_view` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `users_groups_id` INT NOT NULL,
+  `videos_id` INT NOT NULL,
+  INDEX `fk_videos_group_view_users_groups1_idx` (`users_groups_id` ASC),
+  INDEX `fk_videos_group_view_videos1_idx` (`videos_id` ASC),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_videos_group_view_users_groups1`
+    FOREIGN KEY (`users_groups_id`)
+    REFERENCES `users_groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_videos_group_view_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `video_ads`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `video_ads` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `ad_title` VARCHAR(255) NOT NULL,
+  `starts` DATETIME NOT NULL,
+  `finish` DATETIME NULL,
+  `skip_after_seconds` INT(4) NULL,
+  `redirect` VARCHAR(300) NULL,
+  `finish_max_clicks` INT NULL,
+  `finish_max_prints` INT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `videos_id` INT NOT NULL,
+  `categories_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_video_ads_videos1_idx` (`videos_id` ASC),
+  INDEX `fk_video_ads_categories1_idx` (`categories_id` ASC),
+  CONSTRAINT `fk_video_ads_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_video_ads_categories1`
+    FOREIGN KEY (`categories_id`)
+    REFERENCES `categories` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `video_ads_logs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `video_ads_logs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `datetime` DATETIME NOT NULL,
+  `clicked` TINYINT(1) NOT NULL DEFAULT 0,
+  `ip` VARCHAR(45) NOT NULL,
+  `video_ads_id` INT NOT NULL,
+  `users_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_video_ads_logs_users1_idx` (`users_id` ASC),
+  INDEX `fk_video_ads_logs_video_ads1_idx` (`video_ads_id` ASC),
+  CONSTRAINT `fk_video_ads_logs_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_video_ads_logs_video_ads1`
+    FOREIGN KEY (`video_ads_id`)
+    REFERENCES `video_ads` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `subscribes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `subscribes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) NOT NULL,
+  `status` ENUM('a', 'i') NOT NULL DEFAULT 'a',
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `ip` VARCHAR(45) NULL,
+  `users_id` INT NOT NULL DEFAULT 1 COMMENT 'subscribes to user channel',
+  PRIMARY KEY (`id`),
+  INDEX `fk_subscribes_users1_idx` (`users_id` ASC),
+  CONSTRAINT `fk_subscribes_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `playlists`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `playlists` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `users_id` INT NOT NULL,
+  `status` ENUM('public', 'private') NOT NULL DEFAULT 'public',
+  PRIMARY KEY (`id`),
+  INDEX `fk_playlists_users1_idx` (`users_id` ASC),
+  CONSTRAINT `fk_playlists_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `playlists_has_videos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `playlists_has_videos` (
+  `playlists_id` INT NOT NULL,
+  `videos_id` INT NOT NULL,
+  PRIMARY KEY (`playlists_id`, `videos_id`),
+  INDEX `fk_playlists_has_videos_videos1_idx` (`videos_id` ASC),
+  INDEX `fk_playlists_has_videos_playlists1_idx` (`playlists_id` ASC),
+  CONSTRAINT `fk_playlists_has_videos_playlists1`
+    FOREIGN KEY (`playlists_id`)
+    REFERENCES `playlists` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_playlists_has_videos_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

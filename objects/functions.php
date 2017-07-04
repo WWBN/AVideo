@@ -40,14 +40,14 @@ function humanFileSize($size, $unit = "") {
     return number_format($size) . " bytes";
 }
 
-function get_max_file_size(){
+function get_max_file_size() {
     return humanFileSize(file_upload_max_size());
 }
 
-function humanTiming ($time){
+function humanTiming($time) {
     $time = time() - $time; // to get the time since that moment
-    $time = ($time<1)? 1 : $time;
-    $tokens = array (
+    $time = ($time < 1) ? 1 : $time;
+    $tokens = array(
         31536000 => __('year'),
         2592000 => __('month'),
         604800 => __('week'),
@@ -58,19 +58,19 @@ function humanTiming ($time){
     );
 
     foreach ($tokens as $unit => $text) {
-        if ($time < $unit) continue;
+        if ($time < $unit)
+            continue;
         $numberOfUnits = floor($time / $unit);
-        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+        return $numberOfUnits . ' ' . $text . (($numberOfUnits > 1) ? 's' : '');
     }
-
 }
 
-function checkVideosDir(){
+function checkVideosDir() {
     $dir = "../videos";
     if (file_exists($dir)) {
-        if(is_writable($dir)){
+        if (is_writable($dir)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     } else {
@@ -94,12 +94,21 @@ function isPHP($version = "'7.0.0'") {
 }
 
 function modRewriteEnabled() {
-    return in_array('mod_rewrite', apache_get_modules());
+    if (!function_exists('apache_get_modules')) {
+        ob_start();
+        phpinfo(INFO_MODULES);
+        $contents = ob_get_contents();
+        ob_end_clean();
+        return (strpos($contents, 'mod_rewrite') !== false);
+    } else {
+        return in_array('mod_rewrite', apache_get_modules());
+    }
 }
 
 function isFFMPEG() {
     return trim(shell_exec('which ffmpeg'));
 }
+
 function isExifToo() {
     return trim(shell_exec('which exiftool'));
 }
@@ -160,4 +169,134 @@ function check_memory_limit() {
 
 function check_mysqlnd() {
     return function_exists('mysqli_fetch_all');
+}
+
+function base64DataToImage($imgBase64) {
+    $img = $imgBase64;
+    $img = str_replace('data:image/png;base64,', '', $img);
+    $img = str_replace(' ', '+', $img);
+    return base64_decode($img);
+}
+
+function getRealIpAddr() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {   //check ip from share internet
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {   //to check ip is pass from proxy
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+
+function cleanString($text) {
+    $utf8 = array(
+        '/[áàâãªä]/u' => 'a',
+        '/[ÁÀÂÃÄ]/u' => 'A',
+        '/[ÍÌÎÏ]/u' => 'I',
+        '/[íìîï]/u' => 'i',
+        '/[éèêë]/u' => 'e',
+        '/[ÉÈÊË]/u' => 'E',
+        '/[óòôõºö]/u' => 'o',
+        '/[ÓÒÔÕÖ]/u' => 'O',
+        '/[úùûü]/u' => 'u',
+        '/[ÚÙÛÜ]/u' => 'U',
+        '/ç/' => 'c',
+        '/Ç/' => 'C',
+        '/ñ/' => 'n',
+        '/Ñ/' => 'N',
+        '/–/' => '-', // UTF-8 hyphen to "normal" hyphen
+        '/[’‘‹›‚]/u' => ' ', // Literally a single quote
+        '/[“”«»„]/u' => ' ', // Double quote
+        '/ /' => ' ', // nonbreaking space (equiv. to 0x160)
+    );
+    return preg_replace(array_keys($utf8), array_values($utf8), $text);
+}
+
+/**
+ * @brief return true if running in CLI, false otherwise
+ * if is set $_GET['ignoreCommandLineInterface'] will return false
+ * @return boolean
+ */
+function isCommandLineInterface() {
+    return (empty($_GET['ignoreCommandLineInterface']) && php_sapi_name() === 'cli');
+}
+
+/**
+ * @brief show status message as text (CLI) or JSON-encoded array (web)
+ *
+ * @param array $statusarray associative array with type/message pairs
+ * @return string
+ */
+function status($statusarray) {
+    if (isCommandLineInterface()) {
+        foreach ($statusarray as $status => $message) {
+            echo $status . ":" . $message . "\n";
+        }
+    } else {
+        echo json_encode(array_map(
+                        function($text) {
+                    return nl2br($text);
+                }
+                        , $statusarray));
+    }
+}
+
+/**
+ * @brief show status message and die
+ *
+ * @param array $statusarray associative array with type/message pairs
+ */
+function croak($statusarray) {
+    status($statusarray);
+    die;
+}
+
+function getSecondsTotalVideosLength() {
+    $configFile = dirname(__FILE__) . '/../videos/configuration.php';
+    require_once $configFile;
+    global $global;
+    $sql = "SELECT * FROM videos v ";
+    $res = $global['mysqli']->query($sql);
+    $seconds = 0;
+    while ($row = $res->fetch_assoc()) {
+        $seconds += parseDurationToSeconds($row['duration']);
+    }
+    return $seconds;
+}
+
+function getMinutesTotalVideosLength() {
+    $seconds = getSecondsTotalVideosLength();
+    return floor($seconds/60);
+}
+
+function parseDurationToSeconds($str){
+    $durationParts = explode(":", $str);
+    if(empty($durationParts[1]))return 0;
+    $minutes = intval(($durationParts[0])*60)+intval($durationParts[1]);
+    return intval($durationParts[2])+($minutes*60);
+}
+
+/**
+ * 
+ * @global type $global
+ * @param type $mail
+ * call it before send mail to let YouPHPTube decide the method
+ */
+function setSiteSendMessage(&$mail){
+    global $global;
+    require_once $global['systemRootPath'] . 'objects/configuration.php';
+    $config = new Configuration();
+    
+    if($config->getSmtp()){
+        $mail->IsSMTP(); // enable SMTP
+        $mail->SMTPAuth = true; // authentication enabled
+        $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
+        $mail->Host = $config->getSmtpHost();
+        $mail->Port = $config->getSmtpPort();
+        $mail->Username = $config->getSmtpUsername();
+        $mail->Password = $config->getSmtpPassword();
+    }else{
+        $mail->isSendmail();
+    }
 }

@@ -5,8 +5,6 @@ if (!User::canUpload()) {
     header("location: {$global['webSiteRootURL']}user");
     exit;
 }
-require_once $global['systemRootPath'] . 'objects/configuration.php';
-$config = new Configuration();
 
 function isYoutubeDl() {
     return trim(shell_exec('which youtube-dl'));
@@ -87,7 +85,18 @@ function isYoutubeDl() {
                             <div id="downloadProgress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div>
                         </div>
                     </div>
-                    <div class="col-xs-1 col-sm-1 col-lg-2"></div>
+                    <div class="col-xs-1 col-sm-1 col-lg-2">
+                        <?php
+                        if (!empty($global['videoStorageLimitMinutes'])) {
+                            $minutesTotal = getMinutesTotalVideosLength();
+                            ?>
+                        <div class="alert alert-warning">
+                            <?php printf(__("Make sure that the video you are going to download has a duration of less than %d minute(s)!"), ($global['videoStorageLimitMinutes']-$minutesTotal)); ?>                            
+                        </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
                 </div>
                 <script>
                     $(document).ready(function () {

@@ -1,9 +1,7 @@
 <?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
-$config = new Configuration();
 //var_dump($config);exit;
 ?>
 <!DOCTYPE html>
@@ -13,6 +11,14 @@ $config = new Configuration();
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
+        <style>
+            .img-radio {
+                opacity: 0.5;
+                margin-bottom: 5px;
+            }
+        </style>
     </head>
 
     <body>
@@ -31,14 +37,20 @@ $config = new Configuration();
                             <div class="tabbable-panel">
                                 <div class="tabbable-line">
                                     <ul class="nav nav-tabs">
-                                        <li class="nav-item  active">
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="#tabTheme" data-toggle="tab">
+                                                <span class="fa fa-cog"></span> 
+                                                <?php echo __("Themes"); ?>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link " href="#tabCompatibility" data-toggle="tab">
                                                 <span class="fa fa-cog"></span> 
                                                 <?php echo __("Compatibility Check"); ?>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="#tabRegular" data-toggle="tab">
+                                        <li class="nav-item active">
+                                            <a class="nav-link " href="#tabRegular" id="tabRegularLink" data-toggle="tab">
                                                 <span class="fa fa-cog"></span> 
                                                 <?php echo __("Regular Configuration"); ?>
                                             </a>
@@ -50,6 +62,12 @@ $config = new Configuration();
                                             </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link " href="#tabHead" data-toggle="tab">
+                                                <span class="fa fa-code"></span> 
+                                                <?php echo __("Script Code"); ?>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link " href="#tabServerInfo" data-toggle="tab">
                                                 <span class="fa fa-info-circle"></span> 
                                                 <?php echo __("Server Info"); ?>
@@ -57,7 +75,75 @@ $config = new Configuration();
                                         </li>
                                     </ul>
                                     <div class="tab-content clearfix">
-                                        <div class="tab-pane active" id="tabCompatibility">
+                                        <div class="tab-pane" id="tabTheme">
+                                            <fieldset>
+                                                <legend><?php echo __("Themes"); ?></legend>
+                                                <h1 class="alert alert-warning">
+                                                    <span class="fa fa-warning"></span> 
+                                                    <?php echo __("Do not forget to save after choose your theme"); ?>
+                                                </h1>
+                                                <div class="alert alert-info">
+                                                    <span class="fa fa-info-circle"></span> 
+                                                    <?php echo __("We would like to thanks http://bootswatch.com/"); ?>
+                                                </div>
+                                                <?php
+                                                foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
+                                                    //echo "$filename size " . filesize($filename) . "\n";
+                                                    $file = basename($filename);         // $file is set to "index.php"
+                                                    $fileEx = basename($filename, ".css"); // $file is set to "index"
+                                                    $savedTheme = $config->getTheme();
+                                                    if($fileEx == $savedTheme){
+                                                        ?>
+                                                <script>
+                                                $(document).ready(function () {
+                                                    setTimeout(function () {                                                        
+                                                        $("#btn<?php echo ($fileEx); ?>").trigger("click");
+                                                    }, 1000);
+                                                });
+                                                </script>    
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    <div class="col-xs-4" style="padding: 10px;">
+                                                        <img src="<?php echo $global['webSiteRootURL'], "view/css/custom/", $fileEx, ".png"; ?>" class="img-responsive img-radio">
+                                                        <button type="button" class="btn btn-default btn-radio btn-block btn-xs" id="btn<?php echo ($fileEx); ?>"><?php echo ucfirst($fileEx); ?></button>
+                                                        <input type="checkbox" value="<?php echo ($fileEx); ?>"  class="hidden left-item">
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </fieldset>
+                                        </div>
+                                        <div class="tab-pane" id="tabCompatibility">                                            
+                                            <div class="alert alert-success">
+                                                <span class="fa fa-film"></span>
+                                                <strong><?php
+                                                    $secondsTotal = getSecondsTotalVideosLength();
+                                                    $seconds = $secondsTotal % 60;
+                                                    $minutes = ($secondsTotal - $seconds) / 60;
+                                                    printf(__("You are hosting %d minutes and %d seconds of video"), $minutes, $seconds);
+                                                    ?></strong>
+                                                <?php
+                                                if (!empty($global['videoStorageLimitMinutes'])) {
+                                                    $secondsLimit = $global['videoStorageLimitMinutes'] * 60;
+                                                    if ($secondsLimit > $secondsTotal) {
+
+                                                        $percent = intval($secondsTotal / $secondsLimit * 100);
+                                                    } else {
+                                                        $percent = 100;
+                                                    }
+                                                    ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" 
+                                                             aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent; ?>%">
+                                                            <?php echo $percent; ?>% of your storage limit used
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+
+                                            </div>   
                                             <?php
                                             if (isApache()) {
                                                 ?>
@@ -172,9 +258,9 @@ $config = new Configuration();
                                                         Update the package list.
                                                         <br>
                                                         <pre><code>
-                                                sudo apt-get update
-                                                sudo apt-get dist-upgrade
-                                            </code></pre>
+                                                                                                        sudo apt-get update
+                                                                                                        sudo apt-get dist-upgrade
+                                                                                                    </code></pre>
                                                         <br>
                                                         Now FFmpeg is available to be installed with apt:
                                                         <br>
@@ -323,9 +409,43 @@ $config = new Configuration();
                                             }
                                             ?>
                                         </div>
-                                        <div class="tab-pane" id="tabRegular">
+                                        <div class="tab-pane  active" id="tabRegular">
                                             <fieldset>
                                                 <legend><?php echo __("Update the site configuration"); ?></legend>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">
+                                                        <?php echo __("Your Logo"); ?> (138x30)
+                                                    </label>  
+                                                    <div class="col-md-8 ">
+                                                        <div id="croppieLogo"></div>
+                                                        <a id="logo-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Upload a logo"); ?></a>
+                                                    </div>
+                                                    <input type="file" id="logo" value="Choose a Logo" accept="image/*" style="display: none;" />
+                                                </div>                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">
+                                                        <?php echo __("Your Small Logo"); ?>  (32x32)
+                                                    </label>  
+                                                    <div class="col-md-8 ">
+                                                        <div id="croppieLogoSmall"></div>
+                                                        <a id="logoSmall-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Upload a small logo"); ?></a>
+                                                    </div>
+                                                    <input type="file" id="logoSmall" value="Choose a Small Logo" accept="image/*" style="display: none;" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("First Page Mode"); ?></label>  
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>                                            
+                                                            <select class="form-control" id="mode" >
+                                                                <option value="Youtube" <?php echo ($config->getMode() == "Youtube") ? "selected" : ""; ?>><?php echo __("Youtube"); ?></option>
+                                                                <option value="Gallery" <?php echo ($config->getMode() == "Gallery") ? "selected" : ""; ?>><?php echo __("Gallery"); ?></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("Video Resolution"); ?></label>  
@@ -393,7 +513,19 @@ $config = new Configuration();
                                                             </select>
                                                         </div>
                                                     </div>
+                                                </div>                                                                                             
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4  control-label"><?php echo __("Autoplay Video on Load Page"); ?></label>  
+                                                    <div class="col-md-8">
+                                                        <input data-toggle="toggle" type="checkbox" name="autoplay" id="autoplay" value="1" <?php
+                                                        if (!empty($config->getAutoplay())) {
+                                                            echo "checked";
+                                                        }
+                                                        ?>>    
+                                                    </div>
                                                 </div>
+
 
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("Enable Facebook Login"); ?></label>  
@@ -457,99 +589,231 @@ $config = new Configuration();
                                             </fieldset>
                                         </div>
                                         <div class="tab-pane" id="tabAdvanced">
+                                            <?php
+                                            if (empty($global['disableAdvancedConfigurations'])) {
+                                                ?>
+                                                <fieldset>
+                                                    <legend><?php echo __("Advanced configuration"); ?></legend>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Exiftool"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="exiftool" class="form-control"  type="text" value="<?php echo $config->getExiftool(); ?>" >       
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFPROBE Duration"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffprobeDuration" class="form-control"  type="text" value="<?php echo $config->getFfprobeDuration(); ?>" >       
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFMPEG Image"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffmpegImage" class="form-control"  type="text" value="<?php echo $config->getFfmpegImage(); ?>" >  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFMPEG MP4"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffmpegMp4" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4(); ?>" > 
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFMPEG MP4 Portrait"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffmpegMp4Portrait" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4Portrait(); ?>" > 
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFMPEG Webm"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffmpegWebm" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebm(); ?>" >   
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFMPEG Webm Portrait"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffmpegWebmPortrait" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebmPortrait(); ?>" >   
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFMPEG MP3"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffmpegMp3" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp3(); ?>" >  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFMPEG MP3 Spectrum"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffmpegSpectrum" class="form-control"  type="text" value="<?php echo $config->getFfmpegSpectrum(); ?>" >  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("FFMPEG Ogg"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="ffmpegOgg" class="form-control"  type="text" value="<?php echo $config->getFfmpegOgg(); ?>" >  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Youtube-dl"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="youtubeDl" class="form-control"  type="text" value="<?php echo $config->getYoutubedl(); ?>" >     
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Session Timeout in seconds"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="session_timeout" class="form-control"  type="number" value="<?php echo $config->getSession_timeout(); ?>" >     
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Encode video in MP4 Format"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="encode_mp4" id="encode_mp4" value="1" <?php
+                                                            if (!empty($config->getEncode_mp4())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?>>    
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Encode video in WEBM Format"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="encode_webm" id="encode_webm" value="1" <?php
+                                                            if (!empty($config->getEncode_webm())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?>>    
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Encode MP3 file Spectrum"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="encode_mp3spectrum" id="encode_mp3spectrum" value="1" <?php
+                                                            if (!empty($config->getEncode_mp3spectrum())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?>>    
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Disable YouPHPTube Google Analytics"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="disable_analytics" id="disable_analytics" value="1" <?php
+                                                            if (!empty($config->getDisable_analytics())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?>  aria-describedby="disable_analyticsHelp">    
+                                                            <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Enable SMTP"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="enableSmtp" id="enableSmtp" value="1" <?php
+                                                            if (!empty($config->getSmtp())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?> >    
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Enable SMTP Auth"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="enableSmtpAuth" id="enableSmtpAuth" value="1" <?php
+                                                            if (!empty($config->getSmtpAuth())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?> >    
+                                                        </div>
+                                                    </div>               
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Secure"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpSecure" class="form-control"  type="text" value="<?php echo $config->getSmtpSecure(); ?>" placeholder="tls OR ssl" aria-describedby="smtpSecureHelp"    >  
+                                                            <small id="smtpSecureHelp" class="form-text text-muted"><?php echo __("Use tls OR ssl"); ?></small>
+                                                        </div>
+                                                    </div>      
+                                                    
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Port"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpPort" class="form-control"  type="number" value="<?php echo $config->getSmtpPort(); ?>" placeholder="465 OR 587" aria-describedby="smtpPortHelp"    >  
+                                                            <small id="smtpPortHelp" class="form-text text-muted"><?php echo __("465 OR 587"); ?></small>
+                                                        </div>
+                                                    </div>         
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Host"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpHost" class="form-control"  type="text" value="<?php echo $config->getSmtpHost(); ?>" placeholder="smtp.gmail.com" >                                                              
+                                                        </div>
+                                                    </div>
+  
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Username"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpUsername" class="form-control"  type="text" value="<?php echo $config->getSmtpUsername(); ?>" placeholder="email@gmail.com" >                                                              
+                                                        </div>
+                                                    </div>  
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("SMTP Password"); ?></label>  
+                                                        <div class="col-md-10">
+                                                            <input id="smtpPassword" class="form-control"  type="password" value="<?php echo $config->getSmtpPassword(); ?>" >                                                              
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                </fieldset>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <h2 class="alert alert-danger"><?php echo __("Advanced configurations are disabled"); ?></h2>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="tab-pane" id="tabHead">
                                             <fieldset>
-                                                <legend><?php echo __("Advanced configuration"); ?></legend>
+                                                <legend><?php echo __("Script Code"); ?></legend>
 
                                                 <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("Path to FFMPEG"); ?></label>  
+                                                    <label class="col-md-2"><?php echo __("Head Code"); ?></label>  
                                                     <div class="col-md-10">
-                                                        <input id="ffmpegPath" class="form-control"  type="text" value="<?php echo $config->getFfmpegPath(); ?>" >
-                                                        <small>Leave blank for native ffmpeg</small>
+                                                        <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
+                                                        <small>For Google Analytics code: <a href='https://analytics.google.com'  target="_blank">https://analytics.google.com</a></small><br>
+                                                        <small>Leave blank for native code</small>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("Path to Youtube-Dl"); ?></label>  
+                                                    <label class="col-md-2"><?php echo __("Google Ad Sense"); ?></label>  
                                                     <div class="col-md-10">
-                                                        <input id="youtubeDlPath" class="form-control"  type="text" value="<?php echo $config->getYoutubeDlPath(); ?>" >
-                                                        <small>Leave blank for native youtube-dl</small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("Path to exiftool"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="youtubeDlPath" class="form-control"  type="text" value="<?php echo $config->getExiftoolPath(); ?>" >
-                                                        <small>Leave blank for native Exiftool</small>
+                                                        <textarea id="adsense" class="form-control" type="text" rows="20" ><?php echo $config->getAdsense(); ?></textarea>
+                                                        <small>For Google AdSense code: <a href='https://www.google.com/adsense'  target="_blank">https://www.google.com/adsense</a></small><br>
+                                                        <small>Leave blank for native code</small>
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("Exiftool"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="exiftool" class="form-control"  type="text" value="<?php echo $config->getExiftool(); ?>" >       
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFPROBE Duration"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="ffprobeDuration" class="form-control"  type="text" value="<?php echo $config->getFfprobeDuration(); ?>" >       
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG Image"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="ffmpegImage" class="form-control"  type="text" value="<?php echo $config->getFfmpegImage(); ?>" >  
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG MP4"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="ffmpegMp4" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4(); ?>" > 
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG MP4 Portrait"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="ffmpegMp4Portrait" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp4Portrait(); ?>" > 
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG Webm"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="ffmpegWebm" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebm(); ?>" >   
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG Webm Portrait"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="ffmpegWebmPortrait" class="form-control"  type="text" value="<?php echo $config->getFfmpegWebmPortrait(); ?>" >   
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG MP3"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="ffmpegMp3" class="form-control"  type="text" value="<?php echo $config->getFfmpegMp3(); ?>" >  
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("FFMPEG Ogg"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="ffmpegOgg" class="form-control"  type="text" value="<?php echo $config->getFfmpegOgg(); ?>" >  
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-2"><?php echo __("Youtube-dl"); ?></label>  
-                                                    <div class="col-md-10">
-                                                        <input id="youtubeDl" class="form-control"  type="text" value="<?php echo $config->getYoutubedl(); ?>" >     
-                                                    </div>
-                                                </div>
                                             </fieldset>
                                         </div>
                                         <div class="tab-pane" id="tabServerInfo">
@@ -629,7 +893,7 @@ $config = new Configuration();
                                                             update('cpu', response);
                                                             setTimeout(function () {
                                                                 getCpu();
-                                                            }, 1000);
+                                                            }, 2000);
                                                         }
                                                     });
                                                 }
@@ -642,7 +906,7 @@ $config = new Configuration();
 
                                                             setTimeout(function () {
                                                                 getMem();
-                                                            }, 1000);
+                                                            }, 10000);
                                                         }
                                                     });
                                                 }
@@ -654,7 +918,7 @@ $config = new Configuration();
                                                             update('disk', response);
                                                             setTimeout(function () {
                                                                 getDisk();
-                                                            }, 1000);
+                                                            }, 30000);
                                                         }
                                                     });
                                                 }
@@ -692,7 +956,7 @@ $config = new Configuration();
                                 <span class="badge badge-default badge-pill">(240p)(SD)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
-                                480:360 
+                                640:360 
                                 <span class="badge badge-default badge-pill">(360p)</span>
                             </li>
                             <li class="list-group-item justify-content-between list-group-item-action">
@@ -715,47 +979,186 @@ $config = new Configuration();
                     </div>
                 </div>
                 <script>
+                    var logoCrop;
+                    var logoSmallCrop;
+                    var theme;
+                    function readFile(input, c) {
+                        console.log("read file");
+                        if ($(input)[0].files && $(input)[0].files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                c.croppie('bind', {
+                                    url: e.target.result
+                                }).then(function () {
+                                    console.log('jQuery bind complete');
+                                });
+
+                            }
+
+                            reader.readAsDataURL($(input)[0].files[0]);
+                        } else {
+                            swal("Sorry - you're browser doesn't support the FileReader API");
+                        }
+                    }
+
+                    var logoImgBase64;
+                    var logoSmallImgBase64;
+
                     $(document).ready(function () {
+                        // start croppie logo
+                        $('#logo').on('change', function () {
+                            readFile(this, logoCrop);
+                        });
+                        $('#logo-btn').on('click', function (ev) {
+                            $('#logo').trigger("click");
+                        });
+                        $('#logo-result-btn').on('click', function (ev) {
+                            logoCrop.croppie('result', {
+                                type: 'canvas',
+                                size: 'viewport'
+                            }).then(function (resp) {
+
+                            });
+                        });
+
+                        logoCrop = $('#croppieLogo').croppie({
+                            url: '<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>',
+                            enableExif: true,
+                            viewport: {
+                                width: 250,
+                                height: 70
+                            },
+                            boundary: {
+                                width: 300,
+                                height: 120
+                            }
+                        });
+                        // END croppie logo
+                        // start croppie logoSmall
+                        $('#logoSmall').on('change', function () {
+                            readFile(this, logoSmallCrop);
+                        });
+                        $('#logoSmall-btn').on('click', function (ev) {
+                            $('#logoSmall').trigger("click");
+                        });
+                        $('#logoSmall-result-btn').on('click', function (ev) {
+                            logoSmallCrop.croppie('result', {
+                                type: 'canvas',
+                                size: 'viewport'
+                            }).then(function (resp) {
+
+                            });
+                        });
+
+                        logoSmallCrop = $('#croppieLogoSmall').croppie({
+                            url: '<?php echo $global['webSiteRootURL'], $config->getLogo_small(); ?>',
+                            enableExif: true,
+                            viewport: {
+                                width: 32,
+                                height: 32
+                            },
+                            boundary: {
+                                width: 60,
+                                height: 60
+                            }
+                        });
+
+                        // END croppie logoSmall
+
                         $('#updateConfigForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
-                            $.ajax({
-                                url: 'updateConfig',
-                                data: {
-                                    "video_resolution": $('#inputVideoResolution').val(),
-                                    "webSiteTitle": $('#inputWebSiteTitle').val(),
-                                    "language": $('#inputLanguage').val(),
-                                    "contactEmail": $('#inputEmail').val(),
-                                    "authCanUploadVideos": $('#authCanUploadVideos').val(),
-                                    "authCanComment": $('#authCanComment').val(),
-                                    "authFacebook_enabled": $('#authFacebook_enabled').val(),
-                                    "authFacebook_id": $('#authFacebook_id').val(),
-                                    "authFacebook_key": $('#authFacebook_key').val(),
-                                    "authGoogle_enabled": $('#authGoogle_enabled').val(),
-                                    "authGoogle_id": $('#authGoogle_id').val(),
-                                    "authGoogle_key": $('#authGoogle_key').val(),
-                                    "ffprobeDuration": $('#ffprobeDuration').val(),
-                                    "ffmpegImage": $('#ffmpegImage').val(),
-                                    "ffmpegMp4": $('#ffmpegMp4').val(),
-                                    "ffmpegWebm": $('#ffmpegWebm').val(),
-                                    "ffmpegMp4Portrait": $('#ffmpegMp4Portrait').val(),
-                                    "ffmpegWebmPortrait": $('#ffmpegWebmPortrait').val(),
-                                    "ffmpegMp3": $('#ffmpegMp3').val(),
-                                    "ffmpegOgg": $('#ffmpegOgg').val(),
-                                    "youtubeDl": $('#youtubeDl').val(),
-                                    "youtubeDlPath": $('#youtubeDlPath').val(),
-                                    "ffmpegPath": $('#ffmpegPath').val()
-                                },
-                                type: 'post',
-                                success: function (response) {
-                                    if (response.status === "1") {
-                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
-                                    } else {
-                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
-                                    }
-                                    modal.hidePleaseWait();
-                                }
+                            $('#tabRegularLink').tab('show');
+                            logoSmallCrop.croppie('result', {
+                                type: 'canvas',
+                                size: 'viewport'
+                            }).then(function (resp) {
+                                logoSmallImgBase64 = resp;
+                                logoCrop.croppie('result', {
+                                    type: 'canvas',
+                                    size: 'viewport'
+                                }).then(function (resp) {
+                                    logoImgBase64 = resp;
+
+                                    $.ajax({
+                                        url: 'updateConfig',
+                                        data: {
+                                            "logoSmallImgBase64": logoSmallImgBase64,
+                                            "logoImgBase64": logoImgBase64,
+                                            "video_resolution": $('#inputVideoResolution').val(),
+                                            "webSiteTitle": $('#inputWebSiteTitle').val(),
+                                            "language": $('#inputLanguage').val(),
+                                            "contactEmail": $('#inputEmail').val(),
+                                            "authCanUploadVideos": $('#authCanUploadVideos').val(),
+                                            "authCanComment": $('#authCanComment').val(),
+                                            "authFacebook_enabled": $('#authFacebook_enabled').val(),
+                                            "authFacebook_id": $('#authFacebook_id').val(),
+                                            "authFacebook_key": $('#authFacebook_key').val(),
+                                            "authGoogle_enabled": $('#authGoogle_enabled').val(),
+                                            "authGoogle_id": $('#authGoogle_id').val(),
+                                            "authGoogle_key": $('#authGoogle_key').val(),
+                                            "ffprobeDuration": $('#ffprobeDuration').val(),
+                                            "ffmpegImage": $('#ffmpegImage').val(),
+                                            "ffmpegMp4": $('#ffmpegMp4').val(),
+                                            "ffmpegWebm": $('#ffmpegWebm').val(),
+                                            "ffmpegMp4Portrait": $('#ffmpegMp4Portrait').val(),
+                                            "ffmpegWebmPortrait": $('#ffmpegWebmPortrait').val(),
+                                            "ffmpegMp3": $('#ffmpegMp3').val(),
+                                            "ffmpegOgg": $('#ffmpegOgg').val(),
+                                            "youtubeDl": $('#youtubeDl').val(),
+                                            "youtubeDlPath": $('#youtubeDlPath').val(),
+                                            "exiftoolPath": $('#exiftoolPath').val(),
+                                            "exiftool": $('#exiftool').val(),
+                                            "ffmpegPath": $('#ffmpegPath').val(),
+                                            "head": $('#head').val(),
+                                            "adsense": $('#adsense').val(),
+                                            "mode": $('#mode').val(),
+                                            "disable_analytics": $('#disable_analytics').prop("checked"),
+                                            "session_timeout": $('#session_timeout').val(),
+                                            "encode_mp4": $('#encode_mp4').prop("checked"),
+                                            "encode_webm": $('#encode_webm').prop("checked"),
+                                            "encode_mp3spectrum": $('#encode_mp3spectrum').prop("checked"),
+                                            "ffmpegSpectrum": $('#ffmpegSpectrum').val(),
+                                            "autoplay": $('#autoplay').prop("checked"),
+                                            "theme": theme,
+                                            "smtp": $('#enableSmtp').prop("checked"),
+                                            "smtpAuth": $('#enableSmtpAuth').prop("checked"),
+                                            "smtpSecure": $('#smtpSecure').val(),
+                                            "smtpHost": $('#smtpHost').val(),
+                                            "smtpUsername": $('#smtpUsername').val(),
+                                            "smtpPassword": $('#smtpPassword').val(),
+                                            "smtpPort": $('#smtpPort').val(),
+
+                                        },
+                                        type: 'post',
+                                        success: function (response) {
+                                            if (response.status === "1") {
+                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
+                                            } else {
+                                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
+                                            }
+                                            modal.hidePleaseWait();
+                                        }
+                                    });
+                                });
                             });
+
+
+
+                        });
+
+                        $('.btn-radio').click(function (e) {
+                            $('.btn-radio').not(this).removeClass('active')
+                                    .siblings('input').prop('checked', false)
+                                    .siblings('.img-radio').css('opacity', '0.5');
+                            $(this).addClass('active')
+                                    .siblings('input').prop('checked', true)
+                                    .siblings('.img-radio').css('opacity', '1');
+                            var cssName = $(this).addClass('active').siblings('input').val();
+                            $("#theme").attr("href", "<?php echo $global['webSiteRootURL']?>css/custom/"+cssName+".css");
+                            $('.btn-radio').parent("div").removeClass('bg-success');
+                            $(this).addClass('active').parent("div").addClass("bg-success");
+                            theme = cssName;
                         });
                     });
                 </script>
