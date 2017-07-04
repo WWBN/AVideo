@@ -71,3 +71,6 @@ https://tutorials.youphptube.com/video/how-to-change-the-theme-of-youphptube-ver
 # Ver 3.2
 - Add Playlists Support
 - Add Channels Support
+
+# Ver 3.3
+- Add SMTP Mail Support
