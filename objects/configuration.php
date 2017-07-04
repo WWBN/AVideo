@@ -55,6 +55,15 @@ class Configuration {
     private $theme;
     private $doNotShowVideoAndAudioLinks;
     private $doNotShowCategories;
+    
+    //version 3.3
+    private $smtp;
+    private $smtpAuth;
+    private $smtpSecure;
+    private $smtpHost;
+    private $smtpUsername;
+    private $smtpPassword;
+    private $smtpPort;
 
     function __construct($video_resolution = "") {
         $this->load();
@@ -130,7 +139,14 @@ class Configuration {
                 . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}',"
                 . "theme = '{$global['mysqli']->real_escape_string($this->getTheme())}',"
                 . "doNotShowVideoAndAudioLinks = '{$this->getDoNotShowVideoAndAudioLinks()}',"
-                . "doNotShowCategories = '{$this->getDoNotShowCategories()}'"
+                . "doNotShowCategories = '{$this->getDoNotShowCategories()}',"
+                . "smtp = '{$this->getSmtp()}',"
+                . "smtpAuth = '{$this->getSmtpAuth()}',"
+                . "smtpSecure = '{$global['mysqli']->real_escape_string($this->getSmtpSecure())}',"
+                . "smtpHost = '{$global['mysqli']->real_escape_string($this->getSmtpHost())}',"
+                . "smtpUsername = '{$global['mysqli']->real_escape_string($this->getSmtpUsername())}',"
+                . "smtpPort = '{$global['mysqli']->real_escape_string($this->getSmtpPort())}',"
+                . "smtpPassword = '{$global['mysqli']->real_escape_string($this->getSmtpPassword())}'"
                 . " WHERE id = 1";
 
 
@@ -608,6 +624,62 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
 
     function setDoNotShowCategories($doNotShowCategories) {
         $this->doNotShowCategories = ($doNotShowCategories == 'true' || $doNotShowCategories == '1') ? 1 : 0;
+    }
+
+    function getSmtp() {
+        return $this->smtp;
+    }
+
+    function getSmtpAuth() {
+        return $this->smtpAuth;
+    }
+
+    function getSmtpSecure() {
+        return $this->smtpSecure;
+    }
+
+    function getSmtpHost() {
+        return $this->smtpHost;
+    }
+
+    function getSmtpUsername() {
+        return $this->smtpUsername;
+    }
+
+    function getSmtpPassword() {
+        return $this->smtpPassword;
+    }
+
+    function setSmtp($smtp) {
+        $this->smtp = ($smtp == 'true' || $smtp == '1') ? 1 : 0;
+    }
+
+    function setSmtpAuth($smtpAuth) {
+        $this->smtpAuth = ($smtpAuth == 'true' || $smtpAuth == '1') ? 1 : 0;
+    }
+
+    function setSmtpSecure($smtpSecure) {
+        $this->smtpSecure = $smtpSecure;
+    }
+
+    function setSmtpHost($smtpHost) {
+        $this->smtpHost = $smtpHost;
+    }
+
+    function setSmtpUsername($smtpUsername) {
+        $this->smtpUsername = $smtpUsername;
+    }
+
+    function setSmtpPassword($smtpPassword) {
+        $this->smtpPassword = $smtpPassword;
+    }
+
+    function getSmtpPort() {
+        return $this->smtpPort;
+    }
+
+    function setSmtpPort($smtpPort) {
+        $this->smtpPort = $smtpPort;
     }
 
 

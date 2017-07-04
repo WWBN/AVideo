@@ -22,8 +22,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
                 //Create a new PHPMailer instance
                 $mail = new PHPMailer;
-                // Set PHPMailer to use the sendmail transport
-                $mail->isSendmail();
+                setSiteSendMessage($mail);
                 //Set who the message is to be sent from
                 $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
                 //Set who the message is to be sent to

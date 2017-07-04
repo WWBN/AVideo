@@ -276,3 +276,26 @@ function parseDurationToSeconds($str){
     $minutes = intval(($durationParts[0])*60)+intval($durationParts[1]);
     return intval($durationParts[2])+($minutes*60);
 }
+
+/**
+ * 
+ * @global type $global
+ * @param type $mail
+ * call it before send mail to let YouPHPTube decide the method
+ */
+function setSiteSendMessage(&$mail){
+    global $global;
+    require_once $global['systemRootPath'] . 'objects/configuration.php';
+    $config = new Configuration();
+    
+    if($config->getSmtp()){
+        $mail->SMTPAuth = true; // authentication enabled
+        $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
+        $mail->Host = $config->getSmtpHost();
+        $mail->Port = $config->getSmtpPort();
+        $mail->Username = $config->getSmtpUsername();
+        $mail->Password = $config->getSmtpPassword();
+    }else{
+        $mail->isSendmail();
+    }
+}

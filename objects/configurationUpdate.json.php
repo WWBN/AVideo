@@ -42,6 +42,13 @@ if (empty($global['disableAdvancedConfigurations'])) {
     $config->setEncode_webm($_POST['encode_webm']);
     $config->setEncode_mp3spectrum($_POST['encode_mp3spectrum']);
     $config->setFfmpegSpectrum($_POST['ffmpegSpectrum']);
+    $config->setSmtp($_POST['smtp']);
+    $config->setSmtpAuth($_POST['smtpAuth']);
+    $config->setSmtpSecure($_POST['smtpSecure']);
+    $config->setSmtpHost($_POST['smtpHost']);
+    $config->setSmtpUsername($_POST['smtpUsername']);
+    $config->setSmtpPassword($_POST['smtpPassword']);
+    $config->setSmtpPort($_POST['smtpPort']);
 }
 
 $config->setHead($_POST['head']);
