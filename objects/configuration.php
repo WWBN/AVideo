@@ -675,11 +675,11 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function getSmtpPort() {
-        return $this->smtpPort;
+        return intval($this->smtpPort);
     }
 
     function setSmtpPort($smtpPort) {
-        $this->smtpPort = $smtpPort;
+        $this->smtpPort = intval($smtpPort);
     }
 
 
