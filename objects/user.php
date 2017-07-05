@@ -284,15 +284,15 @@ class User {
     }
 
     function setUser($user) {
-        $this->user = $user;
+        $this->user = strip_tags($user);
     }
 
     function setName($name) {
-        $this->name = $name;
+        $this->name = strip_tags($name);
     }
 
     function setEmail($email) {
-        $this->email = $email;
+        $this->email = strip_tags($email);
     }
 
     function setPassword($password) {
@@ -311,7 +311,7 @@ class User {
     }
 
     function setStatus($status) {
-        $this->status = $status;
+        $this->status = strip_tags($status);
     }
 
     function getPhotoURL() {
@@ -319,7 +319,7 @@ class User {
     }
 
     function setPhotoURL($photoURL) {
-        $this->photoURL = $photoURL;
+        $this->photoURL = strip_tags($photoURL);
     }
 
     static function getAllUsers() {
@@ -495,7 +495,7 @@ class User {
     }
 
     function setBackgroundURL($backgroundURL) {
-        $this->backgroundURL = $backgroundURL;
+        $this->backgroundURL = strip_tags($backgroundURL);
     }
 
 
