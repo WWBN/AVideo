@@ -19,14 +19,14 @@ if (!empty($ad)) {
 <div class="row main-video">
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8">
-        <div align="center" class="embed-responsive <?php
+    <div align="center" class="embed-responsive <?php
         echo $embedResponsiveClass;
         if (!empty($logId)) {
             echo " ad";
         }
         ?>">
             <video poster="<?php echo $poster; ?>" controls crossorigin 
-                   class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo"  data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>" }'>
+            class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo"  data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>" }'>
                 <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
                 <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
                 <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
@@ -82,54 +82,58 @@ if ($config->getAutoplay()) {
     if (!empty($autoPlayVideo)) {
         ?>
                         else if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                            document.location = '<?php echo $autoPlayVideo['url']; ?>';
-                        }
+                            document.location = '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>';
+                                            }
         <?php
     }
     ?>
 
-                });
-                this.on('timeupdate', function () {
-                    var durationLeft = fullFuration - this.currentTime();
-                    $("#adUrl .time").text(secondsToStr(durationLeft + 1, 2));
+                                    });
+                                    this.on('timeupdate', function () {
+                                        var durationLeft = fullFuration - this.currentTime();
+                                        $("#adUrl .time").text(secondsToStr(durationLeft + 1, 2));
     <?php if (!empty($ad['skip_after_seconds'])) {
         ?>
-                        if (isPlayingAd && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
-                            $('#adButton').fadeIn();
-                        }
+                                            if (isPlayingAd && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
+                                                $('#adButton').fadeIn();
+                                            }
     <?php }
     ?>
-                });
+                                    });
 <?php } else {
     ?>
-                this.on('ended', function () {
-                    console.log("Finish Video");
+                                    this.on('ended', function () {
+                                        console.log("Finish Video");
     <?php
     // if autoplay play next video
     if (!empty($autoPlayVideo)) {
         ?>
-                        if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                            document.location = '<?php echo $autoPlayVideo['url']; ?>';
-                        }
+                                            if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                                                document.location = '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>';
+                                                                }
         <?php
     }
     ?>
 
-                });
+                                                        });
 <?php }
 ?>
-        });
-        player.persistvolume({
-            namespace: "YouPHPTube"
-        });
+                                                });
+                                                player.persistvolume({
+                                                    namespace: "YouPHPTube"
+                                                });
 <?php if (!empty($logId)) { ?>
-            $('#adButton').click(function () {
-                console.log("Change Video");
-                fullFuration = strToSeconds('<?php echo $video['duration']; ?>');
-                changeVideoSrc(player, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
-                            $(".ad").removeClass("ad");
-                            return false;
-                        });
+                                                    $('#adButton').click(function () {
+                                                        console.log("Change Video");
+                                                        fullFuration = strToSeconds('<?php echo $video['duration']; ?>');
+                                                        changeVideoSrc(player, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
+                                                                    $(".ad").removeClass("ad");
+                                                                    return false;
+                                                                });
 <?php } ?>
+<<<<<<< HEAD
+                                                        });
+=======
                 });
+>>>>>>> master
 </script>
