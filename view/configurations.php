@@ -448,16 +448,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label"><?php echo __("Video Resolution"); ?></label>  
-                                                    <div class="col-md-8 inputGroupContainer">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
-                                                            <input aria-describedby="resolutionHelp"   id="inputVideoResolution" placeholder="<?php echo __("Video Resolution"); ?>" class="form-control"  type="text" value="<?php echo $config->getVideo_resolution(); ?>" >                                            
-                                                        </div>
-                                                        <small id="resolutionHelp" class="form-text text-muted"><?php echo __("Use one of the recommended resolutions"); ?></small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("Web site title"); ?></label>  
                                                     <div class="col-md-8 inputGroupContainer">
                                                         <div class="input-group">
@@ -595,6 +585,16 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                 <fieldset>
                                                     <legend><?php echo __("Advanced configuration"); ?></legend>
 
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"><?php echo __("Video Resolution"); ?></label>  
+                                                        <div class="col-md-8 inputGroupContainer">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                                                                <input aria-describedby="resolutionHelp"   id="inputVideoResolution" placeholder="<?php echo __("Video Resolution"); ?>" class="form-control"  type="text" value="<?php echo $config->getVideo_resolution(); ?>" >                                            
+                                                            </div>
+                                                            <small id="resolutionHelp" class="form-text text-muted"><?php echo __("Use one of the recommended resolutions"); ?></small>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Exiftool"); ?></label>  
                                                         <div class="col-md-10">
