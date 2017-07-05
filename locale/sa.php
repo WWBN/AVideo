@@ -1,17 +1,17 @@
 <?php
 global $t;
-$t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<p> يوفبتوب! هو موقع مشاركة الفيديو، تم إنشاء الخدمة من قبل دانيال نيتو في مارس 2017. </ p> <p> البرنامج يسمح لك لتحميل وعرض ومشاركة والتعليق على أشرطة الفيديو، ويستفيد من ويب و H.264 / مبيغ-4 أفك لعرض مجموعة واسعة من أشرطة الفيديو وسائل الإعلام التي أنشأها المستخدم والشركات. </ p> <p> أفضل للجميع، يوفبتوب! هو حل مفتوح المصدر متاح مجانا للجميع. </ p>";
-$t['About'] = "حول";
+$t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<p> يوفبتوب! هو موقع مشاركة الفيديو، تم إنشاء الخدمة من قبل دانيال نيتو في مارس 2017. </p><p> البرنامج يسمح لك لتحميل وعرض ومشاركة والتعليق على أشرطة الفيديو، ويستفيد من ويب و H.264 / مبيغ-4 أفك لعرض مجموعة واسعة من أشرطة الفيديو وسائل الإعلام التي أنشأها المستخدم والشركات. </p><p> أفضل للجميع، يوفبتوب! هو حل مفتوح المصدر متاح مجانا للجميع. </p>";
 $t['About YouPHPTube!'] = "حول يوفبتوب!";
+$t['About'] = "حول";
 $t['Activate'] = "تفعيل";
 $t['Active'] = "نشيط";
 $t['All categories'] = "جميع الفئات";
 $t['Are you sure?'] = "هل أنت واثق؟";
-$t['Audios'] = "صوتيات";
 $t['Audios and Videos'] = "صوتيات والفيديو";
+$t['Audios'] = "صوتيات";
 $t['Browse'] = "تصفح";
-$t['Category'] = "الفئة";
 $t['Category Form'] = "نموذج الفئة";
+$t['Category'] = "الفئة";
 $t['Clean Name'] = "اسم النظيفة";
 $t['Clean Title'] = "عنوان نظيف";
 $t['Close'] = "قريب";
@@ -19,35 +19,36 @@ $t['Comment'] = "تعليق";
 $t['Comments'] = "تعليقات";
 $t['Configuration'] = "ترتيب";
 $t['Confirm New Password'] = "تأكيد كلمة المرور الجديدة";
-$t['Congratulations'] = "تهانينا";
 $t['Congratulations!'] = "تهانينا!";
-$t['Contact'] = "اتصل";
+$t['Congratulations'] = "تهانينا";
 $t['Contact Us Today!'] = "اتصل بنا اليوم!";
+$t['Contact'] = "اتصل";
 $t['Continue'] = "استمر";
-$t['Copy'] = "نسخ";
 $t['Copy to Clipboard'] = "نسخ إلى الحافظة";
+$t['Copy'] = "نسخ";
 $t['Created'] = "خلقت";
 $t['Delete'] = "حذف";
 $t['Description'] = "وصف";
 $t['Drop Here'] = "إسقاط هنا";
 $t['Duration'] = "المدة الزمنية";
-$t['E-mail'] = "البريد الإلكتروني";
 $t['E-mail Address'] = "عنوان البريد الإلكتروني";
+$t['E-mail'] = "البريد الإلكتروني";
 $t['Edit'] = "تصحيح";
 $t['ID'] = "هوية شخصية";
 $t['If you can\'t view this video, your browser does not support HTML5 videos'] = "إذا لم تتمكن من مشاهدة هذا الفيديو، فإن متصفحك لا يدعم مقاطع فيديو HTML5";
 $t['Inactivate'] = "تعطيل";
 $t['Inactive'] = "غير نشط";
 $t['Is Admin'] = "هو المشرف";
+$t['is Admin'] = "هو المشرف";
 $t['Language'] = "لغة";
 $t['Login'] = "تسجيل الدخول";
 $t['Logoff'] = "إطفاء";
 $t['Manager Audios and Videos'] = "مدير صوتيات والفيديو";
 $t['Manager Categories'] = "مدير الفئات";
 $t['Manager Users'] = "مدير المستخدمين";
-$t['Message'] = "رسالة";
 $t['Message could not be sent'] = "تعذر إرسال الرسالة";
 $t['Message sent'] = "تم الارسال";
+$t['Message'] = "رسالة";
 $t['Modified'] = "تم التعديل";
 $t['Name'] = "اسم";
 $t['New Category'] = "فئة جديدة";
@@ -63,9 +64,10 @@ $t['Re-encode Image'] = "أعد ترميز الصورة";
 $t['Re-encode Video'] = "أعد ترميز الفيديو";
 $t['Recommended resolutions'] = "القرارات الموصى بها";
 $t['Refresh'] = "تحديث";
-$t['Save'] = "حفظ";
-$t['Save File'] = "حفظ الملف";
+$t['remaining'] = "المتبقي";
 $t['Save changes'] = "حفظ التغييرات";
+$t['Save File'] = "حفظ الملف";
+$t['Save'] = "حفظ";
 $t['Search'] = "بحث";
 $t['Select a Language Flag'] = "حدد لغة العلم";
 $t['Select the update'] = "حدد التحديث";
@@ -73,31 +75,31 @@ $t['Send'] = "إرسال";
 $t['Share Video'] = "شارك الفيديو";
 $t['Sign in'] = "تسجيل الدخول";
 $t['Site Configurations'] = "تكوينات الموقع";
-$t['Sorry'] = "معذرة";
 $t['Sorry!'] = "معذرة!";
+$t['Sorry'] = "معذرة";
 $t['Status'] = "الحالة";
 $t['The original file for this video does not exists anymore'] = "لم يعد الملف الأصلي لهذا الفيديو متوفرا";
 $t['This e-mail will be used for this web site notifications'] = "سيتم استخدام هذا البريد الإلكتروني لإشعارات موقع الويب هذا";
 $t['This value must match with the language files on'] = "يجب أن تتطابق هذه القيمة مع ملفات اللغة";
 $t['Title'] = "عنوان";
 $t['Translated Array'] = "صفيف مترجم";
-$t['Type'] = "اكتب";
 $t['Type the code'] = "اكتب الرمز";
+$t['Type'] = "اكتب";
 $t['Unable to open file!'] = "غير قادر على فتح ملف!";
 $t['Update Now'] = "تحديث الان";
-$t['Update YouPHPTube System'] = "تحديث نظام يوفبتيوب";
 $t['Update the site configuration'] = "تحديث تكوين الموقع";
 $t['Update version'] = "تحديث الإصدار";
+$t['Update YouPHPTube System'] = "تحديث نظام يوفبتيوب";
 $t['Update your user'] = "تحديث المستخدم";
 $t['Upload your file'] = "حمل الملف";
 $t['Use one of the recommended resolutions'] = "استخدم أحد القرارات الموصى بها";
-$t['User'] = "المستعمل";
 $t['User Form'] = "نموذج المستخدم";
+$t['User'] = "المستعمل";
 $t['Users'] = "المستخدمون";
-$t['Video Form'] = "نموذج الفيديو";
-$t['Video Resolution'] = "دقة الفيديو";
 $t['Video and Audio Upload'] = "تحميل الفيديو والصوت";
+$t['Video Form'] = "نموذج الفيديو";
 $t['Video re-encoding!'] = "إعادة ترميز الفيديو!";
+$t['Video Resolution'] = "دقة الفيديو";
 $t['Videos'] = "أشرطة فيديو";
 $t['Views'] = "الآراء";
 $t['Warning'] = "تحذير";
@@ -105,10 +107,10 @@ $t['We detected a total of %d pending updates, if you want to do it now click (U
 $t['We have not found any videos or audios to show'] = "لم يتم العثور على أي أشرطة الفيديو أو صوتيات لإظهار";
 $t['Web site title'] = "عنوان الموقع";
 $t['Website'] = "موقع الكتروني";
-$t['Welcome %s, update your informations'] = "مرحبا٪ s، تحديث المعلومات الخاصة بك";
+$t['Welcome %s, update your informations'] = "مرحبا %s، تحديث المعلومات الخاصة بك";
 $t['Word Translations'] = "ترجمة الكلمات";
 $t['Yes, delete it!'] = "نعم، حذفه!";
-$t['You are running YouPHPTube version %s!'] = "أنت تقوم بتشغيل٪ يوفبتيوب الإصدار٪ s!";
+$t['You are running YouPHPTube version %s!'] = "أنت تقوم بتشغيل٪ يوفبتيوب الإصدار %s!";
 $t['You can not manager categories'] = "لا يمكنك إدارة الفئات";
 $t['You can not manager users'] = "لا يمكنك إدارة المستخدمين";
 $t['You can not manager videos'] = "لا يمكنك إدارة مقاطع الفيديو";
@@ -117,35 +119,33 @@ $t['You need to make your locale folder writable'] = "تحتاج إلى جعل �
 $t['You will not be able to recover this category!'] = "لن تكون قادرا على استرداد هذه الفئة!";
 $t['You will not be able to recover this user!'] = "لن تكون قادرا على استرداد هذا المستخدم!";
 $t['You will not be able to recover this video!'] = "لن تتمكن من استرداد هذا الفيديو!";
-$t['Your %slocale dir is not writable'] = "٪ دير سلوك غير قابل للكتابة";
-$t['Your category has NOT been deleted!'] = "لم يتم حذف الفئة الخاصة بك!";
-$t['Your category has NOT been saved!'] = "لم يتم حفظ الفئة الخاصة بك!";
+$t['Your %slocale dir is not writable'] = "%slocale سلوك غير قابل للكتابة";
 $t['Your category has been deleted!'] = "تم حذف الفئة الخاصة بك!";
 $t['Your category has been saved!'] = "تم حفظ الفئة الخاصة بك!";
+$t['Your category has NOT been deleted!'] = "لم يتم حذف الفئة الخاصة بك!";
+$t['Your category has NOT been saved!'] = "لم يتم حفظ الفئة الخاصة بك!";
 $t['Your code is not valid'] = "الرمز غير صالح";
-$t['Your comment has NOT been saved!'] = "لم يتم حفظ تعليقك!";
 $t['Your comment has been saved!'] = "تم حفظ تعليقك!";
+$t['Your comment has NOT been saved!'] = "لم يتم حفظ تعليقك!";
 $t['Your comment must be bigger then 5 characters!'] = "يجب أن يكون تعليقك أكبر ثم 5 أحرف!";
-$t['Your configurations has NOT been updated!'] = "لم يتم تحديث التهيئات الخاصة بك!";
 $t['Your configurations has been updated!'] = "تم تحديث التهيئات الخاصة بك!";
-$t['Your encode video resolution is set to %s !'] = "تم تعيين دقة الفيديو المشفرة على٪ s!";
+$t['Your configurations has NOT been updated!'] = "لم يتم تحديث التهيئات الخاصة بك!";
+$t['Your encode video resolution is set to %s !'] = "تم تعيين دقة الفيديو المشفرة على %s!";
 $t['Your language has been saved!'] = "تم حفظ اللغة الخاصة بك!";
 $t['Your maximum file size is:'] = "الحد الأقصى لحجم الملف هو:";
 $t['Your message could not be sent!'] = "لا يمكن ارسال رسالتك!";
 $t['Your message has been sent!'] = "تم ارسال رسالتك!";
 $t['Your password does not match!'] = "كلمة المرور غير متطابقة!";
 $t['Your system is up to date'] = "النظام الخاص بك هو حتى الآن";
-$t['Your update from file %s is done, click continue'] = "تم إجراء التحديث من الملف٪ s، ثم انقر على متابعة";
-$t['Your user has NOT been deleted!'] = "لم يتم حذف المستخدم الخاص بك!";
-$t['Your user has NOT been saved!'] = "لم يتم حفظ المستخدم الخاص بك!";
-$t['Your user has NOT been updated!'] = "لم يتم تحديث المستخدم الخاص بك!";
+$t['Your update from file %s is done, click continue'] = "تم إجراء التحديث من الملف %s، ثم انقر على متابعة";
 $t['Your user has been deleted!'] = "تم حذف المستخدم الخاص بك!";
 $t['Your user has been saved!'] = "تم حفظ المستخدم الخاص بك!";
 $t['Your user has been updated!'] = "تم تحديث المستخدم الخاص بك!";
+$t['Your user has NOT been deleted!'] = "لم يتم حذف المستخدم الخاص بك!";
+$t['Your user has NOT been saved!'] = "لم يتم حفظ المستخدم الخاص بك!";
+$t['Your user has NOT been updated!'] = "لم يتم تحديث المستخدم الخاص بك!";
 $t['Your user or password is wrong!'] = "المستخدم أو كلمة المرور خاطئة!";
-$t['Your video has NOT been deleted!'] = "لم يتم حذف الفيديو الخاص بك!";
-$t['Your video has NOT been saved!'] = "لم يتم حفظ الفيديو الخاص بك!";
 $t['Your video has been deleted!'] = "تم حذف الفيديو الخاص بك!";
 $t['Your video has been saved!'] = "تم حفظ الفيديو الخاص بك!";
-$t['is Admin'] = "هو المشرف";
-$t['remaining'] = "المتبقي";
+$t['Your video has NOT been deleted!'] = "لم يتم حذف الفيديو الخاص بك!";
+$t['Your video has NOT been saved!'] = "لم يتم حفظ الفيديو الخاص بك!";
