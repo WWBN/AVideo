@@ -6,7 +6,7 @@ $obj = new stdClass();
 $obj->success = false;
 
 require_once $global['systemRootPath'] . 'objects/functions.php';
-require_once $global['systemRootPath'] . 'vendor/autoload.php';
+require_once $global['systemRootPath'] . 'google/autoload.php';
 header('Content-Type: application/json');
 
 $OAUTH2_CLIENT_ID = '465968763542-vcvkb0gighvud49ca8n6nhbvu5fljfje.apps.googleusercontent.com';

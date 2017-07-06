@@ -212,19 +212,19 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <h2>Before you start</h2>
                     <ol>
                         <li>
-                            Enable Google Login and get your google ID and Key <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">go to configurations</a>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-info btn-xs">Enable Google Login</a> and get your google ID and Key
                         </li>
                         <li>
-                            Go to <a href="https://console.developers.google.com">https://console.developers.google.com</a>
+                            Go to <a href="https://console.developers.google.com" class="btn btn-info btn-xs">https://console.developers.google.com</a>
                         </li>
                         <li>
-                            On <a href="https://console.developers.google.com/apis/dashboard">dashboard</a> Enable <strong>YouTube Data API v3</strong>
+                            On <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs">dashboard</a> Enable <strong>YouTube Data API v3</strong>
                         </li>
                         <li>
                             In credentials authorized this redirect URIs <code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
                         </li>
                         <li>
-                            You can find more help on <a href="https://developers.google.com/youtube/v3/getting-started ">https://developers.google.com/youtube/v3/getting-started </a>
+                            You can find more help on <a href="https://developers.google.com/youtube/v3/getting-started " class="btn btn-info btn-xs">https://developers.google.com/youtube/v3/getting-started </a>
                         </li>
                     </ol>
                     
