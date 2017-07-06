@@ -9,8 +9,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'google/autoload.php';
 header('Content-Type: application/json');
 
-$OAUTH2_CLIENT_ID = '465968763542-vcvkb0gighvud49ca8n6nhbvu5fljfje.apps.googleusercontent.com';
-$OAUTH2_CLIENT_SECRET = '3G5kM4D4eEOBoik_3m-htBIZ';
+$OAUTH2_CLIENT_ID = $config->getAuthGoogle_id();
+$OAUTH2_CLIENT_SECRET = $config->getAuthGoogle_key();
 
 /*
  * You can acquire an OAuth 2.0 client ID and client secret from the
