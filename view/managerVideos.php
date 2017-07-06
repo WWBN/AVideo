@@ -215,10 +215,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                             <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-info btn-xs">Enable Google Login</a> and get your google ID and Key
                         </li>
                         <li>
-                            Go to <a href="https://console.developers.google.com" class="btn btn-info btn-xs" target="_blank">https://console.developers.google.com</a>
-                        </li>
-                        <li>
-                            On <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank">dashboard</a> Enable <strong>YouTube Data API v3</strong>
+                            Go to https://console.developers.google.com
+                            on <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank">dashboard</a> Enable <strong>YouTube Data API v3</strong>
                         </li>
                         <li>
                             In credentials authorized this redirect URIs <code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>

@@ -29,7 +29,7 @@ if ($return_val !== 0) {
     $obj->text = sprintf(__("Your video (%s) is downloading"), $title);
     $filename = preg_replace("/[^A-Za-z0-9]+/", "_", $title);
     $filename = uniqid("{$filename}_", true).".mp4";
-    $cmd = PHP_BINDIR." -f youtubeDl.php {$filename} {$_POST['videoURL']} {$userId} > /dev/null 2>/dev/null &";
+    $cmd = PHP_BINDIR.DS."php -f youtubeDl.php {$filename} {$_POST['videoURL']} {$userId} > /dev/null 2>/dev/null &";
     exec($cmd);
     $obj->command = $cmd;
     $obj->filename = $filename;
