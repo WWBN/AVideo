@@ -1,41 +1,48 @@
 <?php
+
 header('Content-Type: application/json');
 
-if(empty($global['systemRootPath'])){
+if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
+require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin() || empty($_POST['id'])) {
-    die('{"error":"'.__("Permission denied").'"}');
+    die('{"error":"' . __("Permission denied") . '"}');
 }
 
-$type = !empty($_POST['type'])?$_POST['type']:"";
+$type = !empty($_POST['type']) ? $_POST['type'] : "";
 
 require_once 'video.php';
 $obj = new Video("", "", $_POST['id']);
-if(empty($obj)){
+if (empty($obj)) {
     die("Object not found");
 }
 
 $fileName = "{$global['systemRootPath']}videos/original_{$obj->getFilename()}";
-if(file_exists($fileName)){
+$obj2 = new stdClass();
+if (file_exists($fileName)) {
     $obj->setStatus('e');
     $resp = $obj->save();
-    $cmd = "/usr/bin/php -f {$global['systemRootPath']}view/mini-upload-form/videoEncoder.php {$obj->getFilename()} {$obj->getId()} {$type} > /dev/null 2>/dev/null &";
+    $cmd = PHP_BINDIR . " -f {$global['systemRootPath']}view/mini-upload-form/videoEncoder.php {$obj->getFilename()} {$obj->getId()} {$type} > /dev/null 2>/dev/null &";
     exec($cmd . " 2>&1", $output, $return_val);
     if ($return_val !== 0) {
-        echo '{"error":"'.print_r($output, true).'"}';
-        error_log($cmd."\n". print_r($output, true));
-    }else{
-        $obj = new stdClass();
-        $obj->status = true;
-        $obj->message = __("Video re-encoding!");
-        $obj->command = $cmd;
-        $obj->output = $output;
-        echo json_encode($obj);
+        $obj2->status = false;
+        $obj2->message = __("Error on re-encoding!");
+        $obj2->command = $cmd;
+        $obj2->output = $output;
+        echo json_encode($obj2);
+        error_log($cmd . "\n" . print_r($output, true));
+    } else {
+        $obj2->status = true;
+        $obj2->message = __("Video re-encoding!");
+        $obj2->command = $cmd;
+        $obj2->output = $output;
+        echo json_encode($obj2);
     }
-}else{
-    echo '{"error":"'.__("The original file for this video does not exists anymore").'"}';
+} else {
+    $obj2->status = false;
+    $obj2->message = __("The original file for this video does not exists anymore");
+    echo json_encode($obj2);
 }
 
