@@ -204,18 +204,34 @@ $userGroups = UserGroups::getAllUsersGroups();
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
-            <div class="alert alert-incdo">
-               Go to https://console.developers.google.com
-
-Activate YouTube Data API v3
-
-credentials
-autorize https://127.0.0.1/YouPHPTube/mvideos
-
-You can find more help on https://developers.google.com/youtube/v3/getting-started 
-                
-            </div>
+            <?php
+            if (User::isAdmin()) {
+                ?>
+                <div class="alert alert-info">
+                    <h1><span class="fa fa-youtube"></span> Let us upload your video to YouTube</h1>
+                    <h2>Before you start</h2>
+                    <ol>
+                        <li>
+                            Enable Google Login and get your google ID and Key <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">go to configurations</a>
+                        </li>
+                        <li>
+                            Go to <a href="https://console.developers.google.com">https://console.developers.google.com</a>
+                        </li>
+                        <li>
+                            On <a href="https://console.developers.google.com/apis/dashboard">dashboard</a> Enable <strong>YouTube Data API v3</strong>
+                        </li>
+                        <li>
+                            In credentials authorized this redirect URIs <code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
+                        </li>
+                        <li>
+                            You can find more help on <a href="https://developers.google.com/youtube/v3/getting-started ">https://developers.google.com/youtube/v3/getting-started </a>
+                        </li>
+                    </ol>
+                    
+                </div>
+                <?php
+            }
+            ?>
         </div><!--/.container-->
 
         <?php
@@ -377,10 +393,10 @@ You can find more help on https://developers.google.com/youtube/v3/getting-start
                             var tags = "";
                             var youTubeLink = "", youTubeUpload = "";
                             youTubeUpload = '<button type="button" class="btn btn-danger command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
-                            if(row.youtubeId){
-                                youTubeLink += '<a href=\'https://youtu.be/'+row.youtubeId+'\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
+                            if (row.youtubeId) {
+                                youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                             }
-                            var yt = '<div class="btn-group" role="group" ><a class="btn btn-default" disabled><span class="fa fa-youtube-play" aria-hidden="true"></span> YouTube</a> '+youTubeUpload+youTubeLink+' </div>';
+                            var yt = '<div class="btn-group" role="group" ><a class="btn btn-default" disabled><span class="fa fa-youtube-play" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
 
                             if (/^x.*$/gi.test(row.status) || row.status == 'e') {
                                 setTimeout(function () {
@@ -412,7 +428,7 @@ You can find more help on https://developers.google.com/youtube/v3/getting-start
                                 is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
                                 img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title+'" class="btn btn-default btn-xs">' +type + row.title + "</a><br>" + tags + "<br>" + yt;
+                            return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a><br>" + tags + "<br>" + yt;
                         }
 
 
