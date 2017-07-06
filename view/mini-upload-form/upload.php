@@ -89,7 +89,7 @@ if (!User::canUpload()) {
 //}
 
 // A list of permitted file extensions
-$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm');
+$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv');
 
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 

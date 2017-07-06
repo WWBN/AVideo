@@ -205,7 +205,17 @@ $userGroups = UserGroups::getAllUsersGroups();
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
+            <div class="alert alert-incdo">
+               Go to https://console.developers.google.com
 
+Activate YouTube Data API v3
+
+credentials
+autorize https://127.0.0.1/YouPHPTube/mvideos
+
+You can find more help on https://developers.google.com/youtube/v3/getting-started 
+                
+            </div>
         </div><!--/.container-->
 
         <?php
@@ -280,11 +290,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                              type: "success"
                              });
                              */
-                                
+
                             setTimeout(function () {
                                 $("#grid").bootgrid("reload");
                             }, 2000);
-                            
+
                         }
                     }
                 });
@@ -320,17 +330,17 @@ $userGroups = UserGroups::getAllUsersGroups();
                         {
                             var originalBtn = '<a href="<?php echo $global['webSiteRootURL']; ?>/videos/original_' + row.filename + '" target="_blank" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="left" title="<?php echo __("Download Original"); ?>"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>'
                             var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>""><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
                             var reloadBtn = '<button type="button" class="btn btn-default btn-xs command-refresh"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Refresh")); ?>""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>';
-                            var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>""><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-                            var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Activate")); ?>""><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
-                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp4"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Video")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
-                            var reencodeWEBMBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="webm"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Video")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> WEBM</button>';
-                            var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Image")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
-                            var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
-                            var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Audio")); ?>""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
-                            var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>""><span class="fa fa-undo" aria-hidden="true"></span></button>';
-                            var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>""><span class="fa fa-repeat " aria-hidden="true"></span></button>';
+                            var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+                            var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Activate")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
+                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp4"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Video")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
+                            var reencodeWEBMBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="webm"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Video")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> WEBM</button>';
+                            var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Image")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
+                            var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Audio")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
+                            var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Audio")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
+                            var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
+                            var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fa fa-repeat " aria-hidden="true"></span></button>';
                             var reencodeAudio = "<br>" + reencodeMp3 + reencodeOGG;
                             var reencodeBtn = "<br>" + reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
                             var rotateBtn = "<br>" + rotateLeft + rotateRight;
@@ -365,6 +375,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                         },
                         "titleTag": function (column, row) {
                             var tags = "";
+                            var youTubeLink = "", youTubeUpload = "";
+                            youTubeUpload = '<button type="button" class="btn btn-danger command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
+                            if(row.youtubeId){
+                                youTubeLink += '<a href=\'https://youtu.be/'+row.youtubeId+'\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
+                            }
+                            var yt = '<div class="btn-group" role="group" ><a class="btn btn-default" disabled><span class="fa fa-youtube-play" aria-hidden="true"></span> YouTube</a> '+youTubeUpload+youTubeLink+' </div>';
+
                             if (/^x.*$/gi.test(row.status) || row.status == 'e') {
                                 setTimeout(function () {
                                     checkProgressVideo(row.filename, row.id, row.status == 'e');
@@ -395,7 +412,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
                                 img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            return img + type + row.title + "<br>" + tags + "<br>";
+                            return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title+'" class="btn btn-default btn-xs">' +type + row.title + "</a><br>" + tags + "<br>" + yt;
                         }
 
 
@@ -527,6 +544,36 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 if (response.error) {
                                     swal("<?php echo __("Sorry!"); ?>", response.error, "error");
                                 } else {
+                                    $("#grid").bootgrid("reload");
+                                }
+                            }
+                        });
+                    })
+                            .end().find(".command-uploadYoutube").on("click", function (e) {
+                        var row_index = $(this).closest('tr').index();
+                        var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                        modal.showPleaseWait();
+                        $.ajax({
+                            url: 'youtubeUpload',
+                            data: {"id": row.id},
+                            type: 'post',
+                            success: function (response) {
+                                console.log(response);
+                                modal.hidePleaseWait();
+                                if (!response.success) {
+                                    swal({
+                                        title: "<?php echo __("Sorry!"); ?>",
+                                        text: response.msg,
+                                        type: "error",
+                                        html: true
+                                    });
+                                } else {
+                                    swal({
+                                        title: "<?php echo __("Success!"); ?>",
+                                        text: response.msg,
+                                        type: "success",
+                                        html: true
+                                    });
                                     $("#grid").bootgrid("reload");
                                 }
                             }

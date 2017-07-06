@@ -28,16 +28,18 @@ class Video {
     private $videoGroups;
     private $videoAdsCount;
     static $statusDesc = array(
-              'a' => 'active',
-              'i' => 'inactive',
-              'e' => 'encoding',
-              'x' => 'encoding error',
-              'd' => 'downloading',
-              'xmp4' => 'encoding mp4 error',
-              'xwebm' => 'encoding webm error',
-              'xmp3' => 'encoding mp3 error',
-              'xogg' => 'encoding ogg error',
-              'ximg' => 'get image error');
+        'a' => 'active',
+        'i' => 'inactive',
+        'e' => 'encoding',
+        'x' => 'encoding error',
+        'd' => 'downloading',
+        'xmp4' => 'encoding mp4 error',
+        'xwebm' => 'encoding webm error',
+        'xmp3' => 'encoding mp3 error',
+        'xogg' => 'encoding ogg error',
+        'ximg' => 'get image error');
+    //ver 3.4
+    private $youtubeId;
 
     function __construct($title = "", $filename = "", $id = 0) {
         global $global;
@@ -107,7 +109,7 @@ class Video {
             }
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                     . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', modified = now()"
+                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', modified = now()"
                     . " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos "
@@ -285,12 +287,12 @@ class Video {
         }
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
-        }else if (empty($random) && !empty($_GET['videoName'])) {
+        } else if (empty($random) && !empty($_GET['videoName'])) {
             $sql .= " AND clean_title = '{$_GET['videoName']}' ";
-        } else if(!empty($random)){   
+        } else if (!empty($random)) {
             $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
-        }else{
+        } else {
             $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
@@ -305,8 +307,8 @@ class Video {
         }
         return $video;
     }
-    
-    static function getVideoFromFileName($fileName){
+
+    static function getVideoFromFileName($fileName) {
         global $global;
 
         $sql = "SELECT id  FROM videos  WHERE filename = '{$fileName}' LIMIT 1";
@@ -340,10 +342,10 @@ class Video {
                 . " WHERE 1=1 ";
 
         $sql .= static::getVideoQueryFileter();
-        if(!empty($videosArrayId) && is_array($videosArrayId)){
-            $sql .= " AND v.id IN ( ". implode(", ", $videosArrayId).") ";
+        if (!empty($videosArrayId) && is_array($videosArrayId)) {
+            $sql .= " AND v.id IN ( " . implode(", ", $videosArrayId) . ") ";
         }
-        
+
         if (!$ignoreGroup) {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
@@ -361,9 +363,9 @@ class Video {
         } else if (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
-        if ($showOnlyLoggedUserVideos===true && !User::isAdmin()) {
+        if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
-        }else if(!empty($showOnlyLoggedUserVideos)){
+        } else if (!empty($showOnlyLoggedUserVideos)) {
             $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
         }
 
@@ -417,9 +419,9 @@ class Video {
         } else if (!empty($status)) {
             $sql .= " AND status = '{$status}'";
         }
-        if ($showOnlyLoggedUserVideos===true && !User::isAdmin()) {
+        if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
-        }else if(is_int($showOnlyLoggedUserVideos)){
+        } else if (is_int($showOnlyLoggedUserVideos)) {
             $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
         }
         if (!empty($_GET['catName'])) {
@@ -470,16 +472,16 @@ class Video {
             } else {
                 
             }
-            
-            if(!empty($object->$value->progress) && !is_numeric($object->$value->progress)){
-            
+
+            if (!empty($object->$value->progress) && !is_numeric($object->$value->progress)) {
+
                 $video = self::getVideoFromFileName($filename);
                 //var_dump($video, $filename);
-                if(!empty($video)){
+                if (!empty($video)) {
                     $object->$value->progress = self::$statusDesc[$video['status']];
                 }
             }
-            
+
             $object->$value->filename = $progressFilename;
         }
 
@@ -615,11 +617,11 @@ class Video {
             return $durationParts[0];
         }
     }
-    
-    static function getItemPropDuration($duration = ""){
+
+    static function getItemPropDuration($duration = "") {
         $duration = static::getCleanDuration($duration);
         $parts = explode(":", $duration);
-        return "PT".intval($parts[0])."H".intval($parts[1])."M".intval($parts[2])."S";
+        return "PT" . intval($parts[0]) . "H" . intval($parts[1]) . "M" . intval($parts[2]) . "S";
     }
 
     static function getDurationFromFile($file) {
@@ -901,7 +903,7 @@ class Video {
         global $global;
 
         $sql = "SELECT * FROM videos WHERE clean_title = '{$clean_title}' ";
-        if(!empty($videoId)){
+        if (!empty($videoId)) {
             $sql .= " AND id != {$videoId} ";
         }
         $sql .= " LIMIT 1";
@@ -912,23 +914,54 @@ class Video {
         }
         return $clean_title;
     }
-    
-    static function getRandom($excludeVideoId=false){
-        return static::getVideo("", "viewableNotAd",false, $excludeVideoId);
-        
+
+    static function getRandom($excludeVideoId = false) {
+        return static::getVideo("", "viewableNotAd", false, $excludeVideoId);
     }
-    
-    static function getVideoQueryFileter(){
+
+    static function getVideoQueryFileter() {
         global $global;
         $sql = "";
-        if(!empty($_GET['playlist_id'])){
+        if (!empty($_GET['playlist_id'])) {
             require_once $global['systemRootPath'] . 'objects/playlist.php';
             $ids = PlayList::getVideosIdFromPlaylist($_GET['playlist_id']);
-            if(!empty($ids)){
-                $sql .= " AND v.id IN (". implode(",", $ids).") "; 
+            if (!empty($ids)) {
+                $sql .= " AND v.id IN (" . implode(",", $ids) . ") ";
             }
         }
         return $sql;
     }
+
+    function getTitle() {
+        return $this->title;
+    }
+
+    function getDescription() {
+        return $this->description;
+    }
+
+    function getExistingVideoFile() {
+        global $global;
+        $file = $global['systemRootPath'] . "videos/original_" . $this->getFilename();
+        if (!file_exists($file)) {
+            $file = $global['systemRootPath'] . "videos/" . $this->getFilename() . ".mp4";
+            if (!file_exists($file)) {
+                $file = $global['systemRootPath'] . "videos/" . $this->getFilename() . ".webm";
+                if (!file_exists($file)) {
+                    $file = false;
+                }
+            }
+        }
+        return $file;
+    }
+
+    function getYoutubeId() {
+        return $this->youtubeId;
+    }
+
+    function setYoutubeId($youtubeId) {
+        $this->youtubeId = $youtubeId;
+    }
+
 
 }
