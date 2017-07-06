@@ -24,7 +24,7 @@ $obj2 = new stdClass();
 if (file_exists($fileName)) {
     $obj->setStatus('e');
     $resp = $obj->save();
-    $cmd = PHP_BINDIR.DS."php -f {$global['systemRootPath']}view/mini-upload-form/videoEncoder.php {$obj->getFilename()} {$obj->getId()} {$type} > /dev/null 2>/dev/null &";
+    $cmd = PHP_BINDIR."/php -f {$global['systemRootPath']}view/mini-upload-form/videoEncoder.php {$obj->getFilename()} {$obj->getId()} {$type} > /dev/null 2>/dev/null &";
     exec($cmd . " 2>&1", $output, $return_val);
     if ($return_val !== 0) {
         $obj2->status = false;
