@@ -218,11 +218,11 @@ class Configuration {
     }
 
     function getAuthGoogle_id() {
-        return $this->authGoogle_id;
+        return trim($this->authGoogle_id);
     }
 
     function getAuthGoogle_key() {
-        return $this->authGoogle_key;
+        return trim($this->authGoogle_key);
     }
 
     function getAuthGoogle_enabled() {
@@ -230,11 +230,11 @@ class Configuration {
     }
 
     function getAuthFacebook_id() {
-        return $this->authFacebook_id;
+        return trim($this->authFacebook_id);
     }
 
     function getAuthFacebook_key() {
-        return $this->authFacebook_key;
+        return trim($this->authFacebook_key);
     }
 
     function getAuthFacebook_enabled() {
