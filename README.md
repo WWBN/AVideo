@@ -27,26 +27,30 @@ Take a look at our video tutorials site (http://tutorials.youphptube.com), you w
 - How to translate YouPHPTube to another language
 - And more
 
-# Ver 2.0
-- Change Comments Layout (Show user Picture now)
-- You can download and encode videos from other web sites (Youtube, Vimeo, etc), to share on yours
-- You can enable Facebook or Google login on configuration menu, also set up what logged users can do (Comment and Upload/Download videos).
+# Versions details
 
-# Ver 2.4
-- User and Videos Groups
-- Private Videos
+# Ver 3.4
+- Add YouTube Video Upload Support.
+Video Tutorial https://tutorials.youphptube.com/video/enable-google-auth-and-youtube-uploader-ver-3-4
 
-**Private videos since version 2.4** YouPHPTube allows you to determine if the videos published on the page will be public or private.
-By default all videos are public, but you can create groups and link them to videos and users, so only users in the group can view videos from the same group. And the linked video will not be public any more.
-We have made a video to help you: http://tutorials.youphptube.com/video/enable-facebook-login-and-making-a-video-private
+# Ver 3.3
+- Add SMTP Mail Support
 
-# Ver 2.6
-**We will help you make money with google AdSense** watch this video http://tutorials.youphptube.com/video/make-money-with-youphptube-enable-google-adsense
+# Ver 3.2
+- Add Playlists Support
+- Add Channels Support
 
-# Ver 2.7
-- Independent Video Advertising System to Avoid Meddling by Google (Thanks for the idea Simon Christopher)
-- Choose the fist style, Youtube video Play or Gallery
-- Now MP3 files create a spectrum video, audio now will play like a video, watch an sample: http://demo.youphptube.com/video/mark-ronson-uptown-funk-ft-bruno-mars
+# Ver 3.1
+- Add Themes Support
+https://tutorials.youphptube.com/video/how-to-change-the-theme-of-youphptube-ver-3-1
+
+# Ver 3.0
+- Add the Subscription Option
+
+# Ver 2.9
+*Special Thanks for Frank de Lange. He is responsible for the creation of these functionalities*
+- Add video rotate command.
+- Add command line interface to upload videos. Use php -f upload.php -- -h in view/mini-upload-form for instructions.
 
 # Ver 2.8
 - Option to enable and disable features such as: (Coding formats, MP4, WEBM and creation of Spectrum for MP3)
@@ -56,21 +60,23 @@ We have made a video to help you: http://tutorials.youphptube.com/video/enable-f
 - Choose if the video to start will play automatically
 - Option on the main screen for the video to continue playing the next videos
 
-# Ver 2.9
-*Special Thanks for Frank de Lange. He is responsible for the creation of these functionalities*
-- Add video rotate command.
-- Add command line interface to upload videos. Use php -f upload.php -- -h in view/mini-upload-form for instructions.
+# Ver 2.7
+- Independent Video Advertising System to Avoid Meddling by Google (Thanks for the idea Simon Christopher)
+- Choose the fist style, Youtube video Play or Gallery
+- Now MP3 files create a spectrum video, audio now will play like a video, watch an sample: http://demo.youphptube.com/video/mark-ronson-uptown-funk-ft-bruno-mars
 
-# Ver 3.0
-- Add the Subscription Option
+# Ver 2.6
+**We will help you make money with google AdSense** watch this video http://tutorials.youphptube.com/video/make-money-with-youphptube-enable-google-adsense
 
-# Ver 3.1
-- Add Themes Support
-https://tutorials.youphptube.com/video/how-to-change-the-theme-of-youphptube-ver-3-1
+# Ver 2.4
+- User and Videos Groups
+- Private Videos
 
-# Ver 3.2
-- Add Playlists Support
-- Add Channels Support
+**Private videos since version 2.4** YouPHPTube allows you to determine if the videos published on the page will be public or private.
+By default all videos are public, but you can create groups and link them to videos and users, so only users in the group can view videos from the same group. And the linked video will not be public any more.
+We have made a video to help you: http://tutorials.youphptube.com/video/enable-facebook-login-and-making-a-video-private
 
-# Ver 3.3
-- Add SMTP Mail Support
+# Ver 2.0
+- Change Comments Layout (Show user Picture now)
+- You can download and encode videos from other web sites (Youtube, Vimeo, etc), to share on yours
+- You can enable Facebook or Google login on configuration menu, also set up what logged users can do (Comment and Upload/Download videos).
