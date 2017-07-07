@@ -101,7 +101,7 @@ class Video {
             $this->status = 'e';
         }
         // TODO Check if the cleantitle already exists
-
+        $this->description = $global['mysqli']->real_escape_string($this->description);
         if (!empty($this->id)) {
             if (!$this->userCanManageVideo()) {
                 header('Content-Type: application/json');
