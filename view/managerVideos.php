@@ -392,7 +392,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             var youTubeLink = "", youTubeUpload = "";
                             youTubeUpload = '<button type="button" class="btn btn-danger command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
                             if (row.youtubeId) {
-                                youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
+                                //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                             }
                             var yt = '<div class="btn-group" role="group" ><a class="btn btn-default" disabled><span class="fa fa-youtube-play" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
 
