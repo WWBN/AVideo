@@ -27,7 +27,7 @@ Take a look at our video tutorials site (http://tutorials.youphptube.com), you w
 - How to translate YouPHPTube to another language
 - And more
 
-# Version details
+# Versions details
 
 # Ver 3.4
 - Add YouTube Video Upload Support
