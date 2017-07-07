@@ -30,7 +30,7 @@ Take a look at our video tutorials site (http://tutorials.youphptube.com), you w
 # Versions details
 
 # Ver 3.4
-- Add YouTube Video Upload Support
+- Add YouTube Video Upload Support.
 Video Tutorial https://tutorials.youphptube.com/video/enable-google-auth-and-youtube-uploader-ver-3-4
 
 # Ver 3.3
