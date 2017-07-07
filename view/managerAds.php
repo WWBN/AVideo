@@ -29,18 +29,18 @@ $userGroups = UserGroups::getAllUsersGroups();
 
         <div class="container">
 
+            <div class="btn-group" >
+                <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                    <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
+                </a>
+                <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
+                    <span class="fa fa-user"></span> <?php echo __("Users"); ?>
+                </a>
 
-            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
-                <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
-            </a>
-            <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
-                <span class="fa fa-user"></span> <?php echo __("Users"); ?>
-            </a>
-
-            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
-                <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
-            </a>
-
+                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
+                    <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
+                </a>
+            </div>
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -185,9 +185,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
                             } else {
                                 type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
-                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg'  style='max-height:80px; margin-right: 5px;'> ";
+                                img = "<img class='img img-responsive img-thumbnail pull-left' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            return img+type + row.title + "<br>" + tags;
+                            return img + type + row.title + "<br>" + tags;
                         }
 
 

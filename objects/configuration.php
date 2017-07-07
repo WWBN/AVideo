@@ -454,7 +454,7 @@ class Configuration {
 
     function getLogo() {
         if (empty($this->logo)) {
-            return "view/img/logo138x30.png";
+            return "view/img/logo.png";
         }
         return $this->logo;
     }

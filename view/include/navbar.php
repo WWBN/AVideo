@@ -43,16 +43,16 @@ if (empty($_SESSION['language'])) {
             </li>
         </ul>
 
-        <ul class="pull-right list-inline">
+        <ul class="pull-right list-inline ">
 
             <?php
             if (User::canUpload()) {
                 ?>
-                <li>
+                <li class="hidden-xs">
                     <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Video and Audio Upload"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
 
                 </li>
-                <li>
+                <li class="hidden-xs">
                     <a href="<?php echo $global['webSiteRootURL']; ?>download" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Import Videos from Sites"); ?>" data-placement="bottom" ><span class="fa fa-download"></span></a>
                 </li>
                 <?php
@@ -128,50 +128,58 @@ if (empty($_SESSION['language'])) {
                         </div>
                     </li>
                     <li>
-                        
+
                         <div>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-xs btn-block">
-                            <span class="fa fa-user-circle"></span> 
-                            <?php echo __("My Account"); ?>
-                        </a>
-                            
+                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-xs btn-block">
+                                <span class="fa fa-user-circle"></span> 
+                                <?php echo __("My Account"); ?>
+                            </a>
+
                         </div>
                     </li>
 
                     <li>
-                        
+
                         <div>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo User::getId(); ?>" class="btn btn-danger btn-xs btn-block">
-                            <span class="fa fa-youtube-play"></span> 
-                            <?php echo __("My Channel"); ?>
-                        </a>
-                            
+                            <a href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo User::getId(); ?>" class="btn btn-danger btn-xs btn-block">
+                                <span class="fa fa-youtube-play"></span> 
+                                <?php echo __("My Channel"); ?>
+                            </a>
+
                         </div>
                     </li>
 
-                        <?php
-                        if (User::canUpload()) {
-                            ?>
-                    <li>
-                        <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs btn-block">
-                                <span class="glyphicon glyphicon-film"></span> 
-                                <span class="glyphicon glyphicon-headphones"></span> 
-                                <?php echo __("My videos"); ?>
-                            </a>
-                        </div>
-                    </li>
-                        <li>
-                        <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-xs btn-block">
-                                <span class="fa fa-check"></span> 
-                                <?php echo __("Subscriptions"); ?>
-                            </a>
-                        </div>
-                        </li>
-                            <?php
-                        }
+                    <?php
+                    if (User::canUpload()) {
                         ?>
+                        <li>
+                            <div>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs btn-block">
+                                    <span class="glyphicon glyphicon-film"></span> 
+                                    <span class="glyphicon glyphicon-headphones"></span> 
+                                    <?php echo __("My videos"); ?>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-xs btn-block">
+                                    <span class="fa fa-bar-chart"></span> 
+                                    <?php echo __("Video Chart"); ?>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-xs btn-block">
+                                    <span class="fa fa-check"></span> 
+                                    <?php echo __("Subscriptions"); ?>
+                                </a>
+                            </div>
+                        </li>
+                        <?php
+                    }
+                    ?>
                     <?php
                     if (User::isAdmin()) {
                         ?>
@@ -230,38 +238,38 @@ if (empty($_SESSION['language'])) {
                     ?>
                     <li>
                         <div>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-success btn-block">
-                            <span class="glyphicon glyphicon-log-in"></span> 
-                            <?php echo __("Login"); ?>
-                        </a>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-success btn-block">
+                                <span class="glyphicon glyphicon-log-in"></span> 
+                                <?php echo __("Login"); ?>
+                            </a>
                         </div>
                     </li>
                     <?php
                 }
                 ?>
-                    
-                  
+
+
                 <li>
                     <hr>
                 </li>  
-            <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
-                <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
-                    <span class="glyphicon glyphicon-star"></span> 
-                    <?php echo __("Audios and Videos"); ?>
-                </a>
-            </li>
-            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_GET['catName'])) ? "active" : ""; ?>">
-                <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
-                    <span class="glyphicon glyphicon-facetime-video"></span> 
-                    <?php echo __("Videos"); ?>
-                </a>
-            </li>
-            <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_GET['catName'])) ? "active" : ""; ?>">
-                <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
-                    <span class="glyphicon glyphicon-headphones"></span> 
-                    <?php echo __("Audios"); ?>
-                </a>
-            </li>
+                <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
+                    <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
+                        <span class="glyphicon glyphicon-star"></span> 
+                        <?php echo __("Audios and Videos"); ?>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_GET['catName'])) ? "active" : ""; ?>">
+                    <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
+                        <span class="glyphicon glyphicon-facetime-video"></span> 
+                        <?php echo __("Videos"); ?>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_GET['catName'])) ? "active" : ""; ?>">
+                    <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
+                        <span class="glyphicon glyphicon-headphones"></span> 
+                        <?php echo __("Audios"); ?>
+                    </a>
+                </li>
                 <!-- categories -->
 
                 <li>

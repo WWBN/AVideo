@@ -23,16 +23,17 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <div class="container">
-
-            <button type="button" class="btn btn-default" id="addUserBtn">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User"); ?>
-            </button>
-            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
-                <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
-            </a>
-            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
-                <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
-            </a>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" id="addUserBtn">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User"); ?>
+                </button>
+                <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                    <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
+                </a>
+                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
+                    <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
+                </a>
+            </div>
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -132,23 +133,23 @@ $userGroups = UserGroups::getAllUsersGroups();
                             //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
                             //return editBtn + deleteBtn;
                             return editBtn;
-                        }, 
+                        },
                         "tags": function (column, row) {
                             var tags = "";
-                            for(var i in row.tags){
-                                if(typeof row.tags[i].type == "undefined"){
+                            for (var i in row.tags) {
+                                if (typeof row.tags[i].type == "undefined") {
                                     continue;
                                 }
-                                tags += "<span class=\"label label-"+row.tags[i].type+" fix-width\">"+row.tags[i].text+"</span><br>";
+                                tags += "<span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                             }
                             return tags;
-                        }, 
+                        },
                         "user": function (column, row) {
                             var photo = "";
-                            if(row.photoURL){
-                                photo = "<br><img src='"+row.photoURL+"' class='img img-responsive img-rounded img-thumbnail' style='max-width:50px;'/>";
+                            if (row.photoURL) {
+                                photo = "<br><img src='" + row.photoURL + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:50px;'/>";
                             }
-                            return row.user+photo;
+                            return row.user + photo;
                         }
                     }
                 }).on("loaded.rs.jquery.bootgrid", function ()

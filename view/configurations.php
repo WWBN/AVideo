@@ -415,7 +415,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label">
-                                                        <?php echo __("Your Logo"); ?> (138x30)
+                                                        <?php echo __("Your Logo"); ?>
                                                     </label>  
                                                     <div class="col-md-8 ">
                                                         <div id="croppieLogo"></div>

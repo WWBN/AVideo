@@ -28,27 +28,34 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <div class="container">
-            <!--
-                        <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
-                        </a>
-            -->
-            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
-                <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
-            </a>
-            <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
-                <span class="fa fa-user"></span> <?php echo __("Users"); ?>
-            </a>
 
-            <?php
-            if (User::isAdmin()) {
-                ?>
-                <a href="<?php echo $global['webSiteRootURL']; ?>ads" class="btn btn-danger">
-                    <span class="fa fa-money"></span> <?php echo __("Advertising Manager"); ?>
+            <div class="btn-group" >
+                <!--
+                            <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
+                            </a>
+                -->
+                <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                    <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
                 </a>
+                <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
+                    <span class="fa fa-user"></span> <?php echo __("Users"); ?>
+                </a>
+                <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info">
+                    <span class="fa fa-bar-chart"></span> 
+                    <?php echo __("Video Chart"); ?>
+                </a>
+
                 <?php
-            }
-            ?>
+                if (User::isAdmin()) {
+                    ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>ads" class="btn btn-danger">
+                        <span class="fa fa-money"></span> <?php echo __("Advertising Manager"); ?>
+                    </a>
+                    <?php
+                }
+                ?>
+            </div>
             <strong>
                 <?php
                 $secondsTotal = getSecondsTotalVideosLength();
@@ -225,7 +232,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             You can find more help on <a href="https://developers.google.com/youtube/v3/getting-started" class="btn btn-info btn-xs"  target="_blank">https://developers.google.com/youtube/v3/getting-started </a>
                         </li>
                     </ol>
-                    
+
                 </div>
                 <?php
             }

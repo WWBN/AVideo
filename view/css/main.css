@@ -7,7 +7,7 @@ body {
     height: 100vh;
 }
 body {
-    padding-top: 55px;
+    padding-top: 60px;
 }
 
 
@@ -480,7 +480,6 @@ img.rotate270, img.rotate-90{
 }
 .navbar-brand>img {
     height: 100%;
-    padding: 7px; /* firefox bug fix */
     width: auto;
 }
 
@@ -554,15 +553,9 @@ img.rotate270, img.rotate-90{
     .galleryVideo{
         height: 200px;
     }
-    .navbar-brand>img {
-        padding: 12px; /* firefox bug fix */
-    }
 }
 @media (max-width: 400px) {
     .galleryVideo{
         height: 180px;
-    }
-    .navbar-brand>img {
-        padding: 15px; /* firefox bug fix */
     }
 }

@@ -332,7 +332,7 @@ class Video {
      * @param type $videosArrayId an array with videos to return (for filter only)
      * @return boolean
      */
-    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array()) {
+    static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
         global $global;
         $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category, v.created as videoCreation, "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
@@ -385,6 +385,15 @@ class Video {
         if ($res) {
             require_once 'userGroups.php';
             while ($row = $res->fetch_assoc()) {
+                if($getStatistcs){                    
+                    $previewsMonth = date("Y-m-d", strtotime("-30 days"));
+                    $previewsWeek = date("Y-m-d", strtotime("-7 days"));
+                    $today = date('Y-m-d');
+                    $row['statistc_all'] = self::getStatisticTotalViews($row['id']);
+                    $row['statistc_week'] = self::getStatisticTotalViews($row['id'], $previewsWeek, $today);
+                    $row['statistc_month'] = self::getStatisticTotalViews($row['id'], false,$previewsMonth, $today);
+                    $row['statistc_unique_user'] = self::getStatisticTotalViews($row['id'], true);
+                }
                 $row['groups'] = UserGroups::getVideoGroups($row['id']);
                 $row['tags'] = self::getTags($row['id']);
                 $videos[] = $row;
@@ -963,5 +972,40 @@ class Video {
         $this->youtubeId = $youtubeId;
     }
 
+    static function getStatisticTotalViews($id, $uniqueUsers = false, $startDate = "", $endDate = "") {
+        global $global;
+        if(empty($id)){
+            return 0;
+        }
+        
+        if ($uniqueUsers) {
+            $ast = "distinct(users_id)";
+        }else{
+            $ast = "*";
+        }
+        $sql = "SELECT count({$ast}) as total FROM videos_statistics WHERE videos_id = {$id} ";
+
+        if (!empty($startDate)) {
+            $sql .= " AND `when` >= '{$startDate} 00:00:00' ";
+        }
+
+        if (!empty($endDate)) {
+            $sql .= " AND `when` <= '{$endDate} 23:59:59' ";
+        }
+
+        if (!empty($videoId)) {
+            $sql .= " AND id != {$videoId} ";
+        }
+        
+        //echo $sql, "<br>";
+        $res = $global['mysqli']->query($sql);
+
+        if ($res && $row = $res->fetch_assoc()) {
+            return $row['total'];
+        }
+        return 0;
+    }
+    
+    
 
 }

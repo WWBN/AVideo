@@ -17,6 +17,7 @@
     "@context": "http://schema.org/",
     "@type": "Product",
     "name": "YouPHPTube",
+    "version": "<?php echo $config->getVersion(); ?>",
     "image": "http://youphptube.com/img/logo.png",
     "description": "Free web solution to build your own video sahring site."
     }

@@ -34,6 +34,8 @@ if (!empty($_GET['catName'])) {
 }
 
 $video = Video::getVideo("", "viewableNotAd");
+$obj = new Video("", "", $video['id']);
+$resp = $obj->addView();
 if(!empty($_GET['playlist_id'])){
     $playlist_id = $_GET['playlist_id'];
     if(!empty($_GET['playlist_index'])){
@@ -397,37 +399,14 @@ if (!empty($video)) {
                                             </div>
                                             <div class="tab-pane" id="tabEmbeded">
                                                 <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
-
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control"
-                                                           value="<?php
+                                                <textarea class="form-control" style="min-width: 100%" rows="5"><?php
                                                            if ($video['type'] == 'video') {
                                                                $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
                                                            } else {
                                                                $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
                                                            }
                                                            echo htmlentities($code);
-                                                           ?>" placeholder="<?php echo __("Share Video"); ?>" id="code-input">
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-default" type="button" id="code-button"
-                                                                data-toggle="tooltip" data-placement="bottom" 
-                                                                title="<?php echo __("Preview"); ?>">
-                                                            <span class="fa fa-eye"></span>    <?php echo __("Preview"); ?>
-                                                        </button>
-                                                    </span>
-                                                    <script>
-                                                        $(document).ready(function () {
-                                                            $("#showMore").slideUp();
-                                                            $("#code-button").click(function () {
-                                                                $("#showMore").slideToggle();
-                                                                return false;
-                                                            });
-                                                        });
-                                                    </script>
-                                                </div>
-                                                <div class="row" id="showMore">
-                                                    <?php echo $code; ?>
-                                                </div> 
+                                                           ?></textarea>
                                             </div>
                                             <div class="tab-pane" id="tabEmail">
                                                 <?php
