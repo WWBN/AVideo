@@ -12,7 +12,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-$videos = Video::getAllVideos("", true, true, array(), true);
+$videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
 $bg = $bc = $labels = $datas = $datas7 = $datas30 = array();
 foreach ($videos as $value) {
     $labels[] = substr($value["title"], 0, 20);
