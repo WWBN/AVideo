@@ -142,7 +142,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     
     $path_parts = pathinfo($_FILES['upl']['name']);
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", $path_parts['filename']);
-    $filename = uniqid($mainName . "_uniqid_", true);
+    $filename = uniqid($mainName . "_YPTuniqid_", true);
     
     $video = new Video(preg_replace("/_+/", " ", $_FILES['upl']['name']), $filename, @$_FILES['upl']['videoId']);
     $video->setDuration($duration);
@@ -168,7 +168,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video->setDescription($_FILES['upl']['description']);
     }
     $videoNewTitle = $video->getTitle();
-    $titleParts = explode("_uniqid_", $videoNewTitle);
+    $titleParts = explode("YPTuniqid", $videoNewTitle);
     $video->setTitle($titleParts[0]);
     $id = $video->save($updateVideoGroups);
 
