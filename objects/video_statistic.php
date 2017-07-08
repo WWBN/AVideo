@@ -48,17 +48,16 @@ class VideoStatistic {
 
     static function getStatisticTotalViews($videos_id, $uniqueUsers = false, $startDate = "", $endDate = "") {
         global $global;
-        if (empty($videos_id)) {
-            return 0;
-        }
-
         if ($uniqueUsers) {
             $ast = "distinct(users_id)";
         } else {
             $ast = "*";
         }
-        $sql = "SELECT count({$ast}) as total FROM videos_statistics WHERE videos_id = {$videos_id} ";
+        $sql = "SELECT count({$ast}) as total FROM videos_statistics WHERE 1=1 ";
 
+        if (!empty($videos_id)) {
+            $sql .= " AND videos_id = {$videos_id} ";
+        }
         if (!empty($startDate)) {
             $sql .= " AND `when` >= '{$startDate} 00:00:00' ";
         }
@@ -66,18 +65,23 @@ class VideoStatistic {
         if (!empty($endDate)) {
             $sql .= " AND `when` <= '{$endDate} 23:59:59' ";
         }
-
-        if (!empty($videoId)) {
-            $sql .= " AND id != {$videoId} ";
-        }
-
-        //echo $sql, "<br>";
         $res = $global['mysqli']->query($sql);
 
         if ($res && $row = $res->fetch_assoc()) {
+            //echo "<hr>".$row['total']." --- ".$sql, "<br>";
             return $row['total'];
         }
         return 0;
+    }
+
+    static function getTotalLastDays($video_id, $numberOfDays, $returnArray = array()) {
+        if ($numberOfDays < 0) {
+            return $returnArray;
+        }
+        $date = date("Y-m-d", strtotime("-{$numberOfDays} days"));
+        $returnArray[] = static::getStatisticTotalViews($video_id, false, $date, $date);
+        $numberOfDays--;
+        return static::getTotalLastDays($video_id, $numberOfDays, $returnArray);
     }
 
 }
