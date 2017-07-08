@@ -174,6 +174,8 @@ foreach ($videos as $value) {
             var lineChartData = {
                 labels: <?php echo json_encode($label30Days); ?>,
                 datasets: [{
+                        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+                        borderColor: 'rgba(255, 0, 0, 0.5)',
                         label: '<?php echo __("Last 30 Days"); ?>',
                         data: <?php echo json_encode($statistc_last30Days); ?>
                     }]
