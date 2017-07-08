@@ -71,7 +71,7 @@ class VideoStatistic {
             $sql .= " AND id != {$videoId} ";
         }
 
-        echo $sql, "<br>";
+        //echo $sql, "<br>";
         $res = $global['mysqli']->query($sql);
 
         if ($res && $row = $res->fetch_assoc()) {
