@@ -100,7 +100,7 @@ foreach ($videos as $value) {
                         <div class="panel panel-default">
                             <div class="panel-heading when"># <?php echo __("Total Views"); ?></div>
                             <div class="panel-body">
-                                <canvas id="myChart" ></canvas>
+                                <canvas id="myChart" height="100" ></canvas>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ foreach ($videos as $value) {
                         <div class="panel panel-default">
                             <div class="panel-heading when"># <?php echo __("Total Views"); ?></div>
                             <div class="panel-body">
-                                <canvas id="myChartPie" ></canvas> 
+                                <canvas id="myChartPie" height="225"  ></canvas> 
                             </div>
                         </div>                       
                     </div>
@@ -118,7 +118,7 @@ foreach ($videos as $value) {
                         <div class="panel panel-default">
                             <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
                             <div class="panel-body" id="timeline">
-                                <canvas id="myChartLine" ></canvas> 
+                                <canvas id="myChartLine" height="100"  ></canvas> 
                             </div>
                         </div>                       
                     </div>
@@ -128,6 +128,7 @@ foreach ($videos as $value) {
         <script>
             var ctx = document.getElementById("myChart");
             var ctxPie = document.getElementById("myChartPie");
+            var ctxLine = document.getElementById("myChartLine");
             var chartData = {
                 labels: <?php echo json_encode($labelsFull); ?>,
                 datasets: [{
@@ -174,8 +175,6 @@ foreach ($videos as $value) {
                 }
             });
 
-
-            var ctxLine = document.getElementById("myChartLine");
             var lineChartData = {
                 labels: <?php echo json_encode($label90Days); ?>,
                 datasets: [{
@@ -202,6 +201,9 @@ foreach ($videos as $value) {
                                     }
                                 }
                             }]
+                    },
+                    legend: {
+                        display: false
                     },
                     responsive: true,
                     title: {
