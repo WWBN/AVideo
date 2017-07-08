@@ -167,7 +167,9 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     if (!empty($_FILES['upl']['description'])) {
         $video->setDescription($_FILES['upl']['description']);
     }
-
+    $videoNewTitle = $video->getTitle();
+    $titleParts = explode("_uniqid_", $videoNewTitle);
+    $video->setTitle($titleParts[0]);
     $id = $video->save($updateVideoGroups);
 
     /**

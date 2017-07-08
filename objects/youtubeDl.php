@@ -27,8 +27,7 @@ $user->login(true);
 // save and encode video
 $_FILES['upl'] = array();
 $_FILES['upl']['error'] = 0;
-$videoNamePart = explode("_uniqid_", $filename); 
-$_FILES['upl']['name'] = $videoNamePart[0];
+$_FILES['upl']['name'] = $filename;
 $_FILES['upl']['tmp_name'] = "{$dir}{$filename}";
 $_FILES['upl']['dontMoveUploadedFile'] = true;
 

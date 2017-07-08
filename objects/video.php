@@ -98,8 +98,8 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'e';
         }
-        // TODO Check if the cleantitle already exists
         $this->description = $global['mysqli']->real_escape_string($this->description);
+        $this->title = $global['mysqli']->real_escape_string($this->title);
         if (!empty($this->id)) {
             if (!$this->userCanManageVideo()) {
                 header('Content-Type: application/json');
@@ -969,4 +969,10 @@ class Video {
     function setYoutubeId($youtubeId) {
         $this->youtubeId = $youtubeId;
     }
+    
+    function setTitle($title) {
+        $this->title = $title;
+    }
+
+
 }
