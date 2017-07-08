@@ -22,8 +22,13 @@ $label30Days = array();
 for ($i = 30; $i >= 0; $i--) {
     $label30Days[] = date("Y-m-d", strtotime("-{$i} days"));
 }
+$label90Days = array();
+for ($i = 90; $i >= 0; $i--) {
+    $label90Days[] = date("Y-m-d", strtotime("-{$i} days"));
+}
 $statistc_last7Days = VideoStatistic::getTotalLastDays("", 7);
 $statistc_last30Days = VideoStatistic::getTotalLastDays("", 30);
+$statistc_last90Days = VideoStatistic::getTotalLastDays("", 90);
 
 $bg = $bc = $labels = $labelsFull = $datas = $datas7 = $datas30 = array();
 foreach ($videos as $value) {
@@ -172,12 +177,12 @@ foreach ($videos as $value) {
 
             var ctxLine = document.getElementById("myChartLine");
             var lineChartData = {
-                labels: <?php echo json_encode($label30Days); ?>,
+                labels: <?php echo json_encode($label90Days); ?>,
                 datasets: [{
                         backgroundColor: 'rgba(255, 0, 0, 0.3)',
                         borderColor: 'rgba(255, 0, 0, 0.5)',
-                        label: '<?php echo __("Last 30 Days"); ?>',
-                        data: <?php echo json_encode($statistc_last30Days); ?>
+                        label: '# <?php echo __("Total Views (90 Days)"); ?>',
+                        data: <?php echo json_encode($statistc_last90Days); ?>
                     }]
             };
 
@@ -211,9 +216,9 @@ foreach ($videos as $value) {
                     $(this).addClass('active');
                     chartData.datasets[0].data = <?php echo json_encode($datas); ?>;
                     chartData.datasets[0].label = '# <?php echo __("Total Views"); ?>';
-                    lineChartData.labels = <?php echo json_encode($label30Days); ?>;
-                    lineChartData.datasets[0].data = <?php echo json_encode($statistc_last30Days); ?>;
-                    lineChartData.datasets[0].label = '# <?php echo __("Total Views (30 Days)"); ?>';  
+                    lineChartData.labels = <?php echo json_encode($label90Days); ?>;
+                    lineChartData.datasets[0].data = <?php echo json_encode($statistc_last90Days); ?>;
+                    lineChartData.datasets[0].label = '# <?php echo __("Total Views (90 Days)"); ?>';  
                     myChart.update();
                     myChartPie.update();
                     myChartLine.update();
