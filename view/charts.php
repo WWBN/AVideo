@@ -211,7 +211,7 @@ foreach ($videos as $value) {
                     chartData.datasets[0].label = '# <?php echo __("Total Views"); ?>';
                     lineChartData.labels = <?php echo json_encode($label30Days); ?>;
                     lineChartData.datasets[0].data = <?php echo json_encode($statistc_last30Days); ?>;
-                    lineChartData.datasets[0].label = '# <?php echo __("We display Maximum 30 Days"); ?>';  
+                    lineChartData.datasets[0].label = '# <?php echo __("Total Views (30 Days)"); ?>';  
                     myChart.update();
                     myChartPie.update();
                     myChartLine.update();
