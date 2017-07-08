@@ -165,7 +165,7 @@ if (empty($_SESSION['language'])) {
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-xs btn-block">
                                     <span class="fa fa-bar-chart"></span> 
-                                    <?php echo __("Video Chart"); ?>
+                                    <?php echo __("Video Statistics"); ?>
                                 </a>
                             </div>
                         </li>
