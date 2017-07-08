@@ -30,7 +30,7 @@ foreach ($videos as $value) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Report - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title>Chart - <?php echo $config->getWebSiteTitle(); ?></title>
         <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script " />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
@@ -43,17 +43,16 @@ foreach ($videos as $value) {
         //var_dump($videos);
         ?>
         <div class="container-fluid">
-            <div class="row bgWhite">
-                <canvas id="myChart" ></canvas>
-            </div>
-            <div class="row bgWhite">
-
-                <div class="btn-group" >
-                    <button class="btn btn-primary" id="btnAll" ><?php echo __("Total Views"); ?></button>
-                    <button class="btn btn-primary" id="btn7"><?php echo __("Last 7 Days"); ?></button>
-                    <button class="btn btn-primary" id="btn30" ><?php echo __("Last 30 Days"); ?></button>
-                    <button class="btn btn-primary" id="btnUnique" ><?php echo __("Unique Users"); ?></button>
+            <div class="col-md-1 ">
+                <div class="btn-group-vertical" >
+                    <button class="btn btn-default" id="btnAll" ><?php echo __("Total Views"); ?></button>
+                    <button class="btn btn-default" id="btn7"><?php echo __("Last 7 Days"); ?></button>
+                    <button class="btn btn-default" id="btn30" ><?php echo __("Last 30 Days"); ?></button>
+                    <button class="btn btn-default" id="btnUnique" ><?php echo __("Unique Users"); ?></button>
                 </div>
+            </div>
+            <div class="col-md-11 list-group-item">
+                <canvas id="myChart" ></canvas>
             </div>
         </div>
         <script>
