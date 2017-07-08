@@ -25,7 +25,6 @@ if (!empty($_GET['type'])) {
 
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
-require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 
 
 $catLink = "";
@@ -62,7 +61,6 @@ if(!empty($_GET['playlist_id'])){
 
 if (!empty($video)) {
     $ad = Video_ad::getAdFromCategory($video['categories_id']);
-    VideoStatistic::save($video['id']);
     $name = empty($video['name']) ? substr($video['user'], 0, 5) . "..." : $video['name'];
     $name = "<a href='{$global['webSiteRootURL']}channel/{$video['users_id']}/' class='btn btn-xs btn-default'>{$name}</a>";
     $subscribe = Subscribe::getButton($video['users_id']);

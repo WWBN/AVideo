@@ -1,7 +1,6 @@
 <?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 $video = Video::getVideo();
 if(empty($video)){
     die(__("Video not found"));
@@ -17,7 +16,6 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
     $embedResponsiveClass = "embed-responsive-16by9";
     $vjsClass = "vjs-16-9";
 }
-VideoStatistic::save($video['id']);
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
 if ($video['type'] !== "audio") {

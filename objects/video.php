@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
+require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 
 class Video {
 
@@ -67,11 +68,8 @@ class Video {
         $insert_row = $global['mysqli']->query($sql);
 
         if ($insert_row) {
-            if (empty($this->id)) {
-                return $global['mysqli']->insert_id;
-            } else {
-                return $this->id;
-            }
+            VideoStatistic::save($this->id);
+            return $this->id;
         } else {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
@@ -389,10 +387,10 @@ class Video {
                     $previewsMonth = date("Y-m-d", strtotime("-30 days"));
                     $previewsWeek = date("Y-m-d", strtotime("-7 days"));
                     $today = date('Y-m-d');
-                    $row['statistc_all'] = self::getStatisticTotalViews($row['id']);
-                    $row['statistc_week'] = self::getStatisticTotalViews($row['id'], $previewsWeek, $today);
-                    $row['statistc_month'] = self::getStatisticTotalViews($row['id'], false,$previewsMonth, $today);
-                    $row['statistc_unique_user'] = self::getStatisticTotalViews($row['id'], true);
+                    $row['statistc_all'] = VideoStatistic::getStatisticTotalViews($row['id']);
+                    $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'],false, $previewsWeek, $today);
+                    $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false,$previewsMonth, $today);
+                    $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
                 }
                 $row['groups'] = UserGroups::getVideoGroups($row['id']);
                 $row['tags'] = self::getTags($row['id']);
@@ -971,41 +969,4 @@ class Video {
     function setYoutubeId($youtubeId) {
         $this->youtubeId = $youtubeId;
     }
-
-    static function getStatisticTotalViews($id, $uniqueUsers = false, $startDate = "", $endDate = "") {
-        global $global;
-        if(empty($id)){
-            return 0;
-        }
-        
-        if ($uniqueUsers) {
-            $ast = "distinct(users_id)";
-        }else{
-            $ast = "*";
-        }
-        $sql = "SELECT count({$ast}) as total FROM videos_statistics WHERE videos_id = {$id} ";
-
-        if (!empty($startDate)) {
-            $sql .= " AND `when` >= '{$startDate} 00:00:00' ";
-        }
-
-        if (!empty($endDate)) {
-            $sql .= " AND `when` <= '{$endDate} 23:59:59' ";
-        }
-
-        if (!empty($videoId)) {
-            $sql .= " AND id != {$videoId} ";
-        }
-        
-        //echo $sql, "<br>";
-        $res = $global['mysqli']->query($sql);
-
-        if ($res && $row = $res->fetch_assoc()) {
-            return $row['total'];
-        }
-        return 0;
-    }
-    
-    
-
 }
