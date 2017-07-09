@@ -88,7 +88,7 @@ class VideoStatistic {
         if ($hour >= 24) {
             return $returnArray;
         }
-        $date = date("Y-m-d h:i:s {$hour}", time());
+        $date = date("Y-m-d {$hour}", time());
         //echo $date;exit;
         $returnArray[] = static::getStatisticTotalViews($video_id, false, $date.":00:00", $date.":59:59");
         $hour++;
