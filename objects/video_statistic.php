@@ -59,11 +59,11 @@ class VideoStatistic {
             $sql .= " AND videos_id = {$videos_id} ";
         }
         if (!empty($startDate)) {
-            $sql .= " AND `when` >= '{$startDate} 00:00:00' ";
+            $sql .= " AND `when` >= '{$startDate}' ";
         }
 
         if (!empty($endDate)) {
-            $sql .= " AND `when` <= '{$endDate} 23:59:59' ";
+            $sql .= " AND `when` <= '{$endDate}' ";
         }
         $res = $global['mysqli']->query($sql);
 
@@ -79,9 +79,20 @@ class VideoStatistic {
             return $returnArray;
         }
         $date = date("Y-m-d", strtotime("-{$numberOfDays} days"));
-        $returnArray[] = static::getStatisticTotalViews($video_id, false, $date, $date);
+        $returnArray[] = static::getStatisticTotalViews($video_id, false, $date." 00:00:00", $date." 23:59:59");
         $numberOfDays--;
         return static::getTotalLastDays($video_id, $numberOfDays, $returnArray);
+    }
+    
+    static function getTotalToday($video_id, $hour=0, $returnArray = array()) {
+        if ($hour >= 24) {
+            return $returnArray;
+        }
+        $date = date("Y-m-d h:i:s {$hour}", time());
+        //echo $date;exit;
+        $returnArray[] = static::getStatisticTotalViews($video_id, false, $date.":00:00", $date.":59:59");
+        $hour++;
+        return static::getTotalToday($video_id, $hour, $returnArray);
     }
 
 }

@@ -384,10 +384,11 @@ class Video {
             require_once 'userGroups.php';
             while ($row = $res->fetch_assoc()) {
                 if($getStatistcs){                    
-                    $previewsMonth = date("Y-m-d", strtotime("-30 days"));
-                    $previewsWeek = date("Y-m-d", strtotime("-7 days"));
-                    $today = date('Y-m-d');
+                    $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
+                    $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
+                    $today = date('Y-m-d 23:59:59');
                     $row['statistc_all'] = VideoStatistic::getStatisticTotalViews($row['id']);
+                    $row['statistc_today'] = VideoStatistic::getStatisticTotalViews($row['id'],false, date('Y-m-d 00:00:00'), $today);
                     $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'],false, $previewsWeek, $today);
                     $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false,$previewsMonth, $today);
                     $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
