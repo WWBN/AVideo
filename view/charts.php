@@ -133,7 +133,7 @@ foreach ($videos as $value) {
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading when"># <?php echo __("Total Views Today"); ?></div>
+                            <div class="panel-heading when"># <?php echo __("Total Views Today"), " - ", date("Y-m-d"); ?></div>
                             <div class="panel-body">
                                 <canvas id="myChartLineToday" height="60" ></canvas>
                             </div>
