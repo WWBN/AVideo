@@ -85,7 +85,7 @@ foreach ($videos as $value) {
 
                 <div class="panel panel-default">
                     <div class="panel-heading when"><?php echo __("Color Legend"); ?></div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="height: 600px; overflow-y: scroll;">
                         <div class="list-group">
 
                             <?php
