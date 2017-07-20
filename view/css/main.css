@@ -74,22 +74,23 @@ h4{
 }
 
 footer {
-    color: white;
+    color: #444;
     padding: 25px;
-    background-color: #000;
+    background-color: #F2F2F2;
+    border-top: 1px solid #DDD;
     text-align: center;
     margin: 0;
 }
-.btn-outline:hover,
-.btn-outline:focus,
-.btn-outline:active{
-    color: #000;
+footer .btn-outline:hover,
+footer .btn-outline:focus,
+footer .btn-outline:active{
+    color: #444;
     background: white;
     border: solid 2px white;
 }
-.btn-outline {
-    color: white;
-    border: solid 2px white;
+footer .btn-outline {
+    color: #444;
+    border: solid 2px #444;
     background: transparent;
     transition: all 0.3s ease-in-out;
     margin: 0 5px;
@@ -477,17 +478,65 @@ img.rotate270, img.rotate-90{
 .navbar-brand {
     padding: 0px !important; /* firefox bug fix */
     margin-left: 10px !important;
+    height: auto;
 }
 .navbar-brand>img {
-    height: 100%;
-    width: auto;
+    width: 120px;
 }
 
-.navbar .list-inline li{
-    padding: 0 2px;
+.list-inline {
+    display: flex;
+    justify-content: left;
+}
+footer ul.list-inline{
+    justify-content: center;
+ }
+footer ul.list-inline li{
+    justify-content: center;
+    align-items: center;   
+}
+
+/** header **/
+nav ul.items-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0px;
+    padding: 0px;
+}
+nav ul.items-container,
+nav ul.items-container li{
+    list-style: none;
+}
+nav ul.items-container li:first-child{
+    flex: 1;
+    display: flex;
+}
+nav ul.items-container li:first-child ul.left-side{
+    display: flex;
+    align-items: center
+}
+nav ul.items-container li:last-child{
+    margin-right: 20px;
+}
+
+nav ul.items-container li ul.locale-combo {
+    display: flex;
+    flex-direction: column;
+}
+/** header **/
+
+
+.navbar .container{
+    padding: 0 2px;    
+    align-items: center;
+}
+.list-inline > li {
+    display: flex;
 }
 .navbar .list-inline{
     margin: 0;
+    display: flex;
+    align-items: center;
 }
 /* Play List */
 .playlistList{    
