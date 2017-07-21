@@ -87,21 +87,52 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
 }
 
 
+$pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
+exec("ffmpeg -i {$pathFileName}  2>&1", $videoInfo, $return_val);
+echo("Original video info: " . print_r($videoInfo));
 foreach ($videoConverter as $key => $value) {
+    $destinationFile = "{$global['systemRootPath']}videos/{$filename}.{$key}";
+
+    //first, check whether the file is already encoded in the specified convertion
+    if ( ($key == "webm" && strpos($videoInfo[12], "matroska,webm") !== false) 
+        || ($key == "mp4" && strpos($videoInfo[12], "mov,mp4,m4a,3gp,3g2,mj2") !== false) ) {
+
+        //if the file is already encoded, it just copy the file, bypassing the convertion phase for this converter
+        exec("cp {$pathFileName} {$destinationFile}", $output, $return_val);
+
+        if ($return_val !== 0) {
+            echo "\\n **VIDEO ERROR**\n", print_r($output, true);        
+            error_log($cmd . "\n" . print_r($output, true));
+            if ($status == 'a') {
+                $status = 'x' . $key;
+            } else {
+                $status = 'x';
+            }
+        } else {
+            //it also copy a 100% TXT progress file to update the view
+            exec("cp {$global['systemRootPath']}videos/FinishedProgressSample.{$key}.txt {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt", $output, $return_val);
+        
+            echo "Updating Duration .{$key}";
+            $video->updateDurationIfNeed(".{$key}");
+            echo "\n {$key} Ok\n";
+        
+        }
+        continue;
+    }
+
     if ((!empty($type) && $type != $key) || empty($value)) {
         continue;
     }
     // convert video
     echo "\n\n--Converting video {$key} \n";
-    $pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
     // check if is portrait video
     if (!Video::isLandscape($pathFileName)) {
         eval('$value = $config->getFfmpeg' . ucfirst($key) . 'Portrait();');
     }
 
-    $destinationFile = "{$global['systemRootPath']}videos/{$filename}.{$key}";
+    
     eval('$ffmpeg ="' . $value . '";');
-    $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
+    $cmd = "rm -f {$$destinationFile} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
     echo "** executing command {$cmd}\n";
     exec($cmd . " < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
     if ($return_val !== 0) {
