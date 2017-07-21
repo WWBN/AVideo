@@ -519,9 +519,12 @@ nav ul.items-container li:last-child{
     margin-right: 20px;
 }
 
-nav ul.items-container li ul.locale-combo {
+nav ul.items-container li ul.right-menus {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+}
+nav ul.items-container li ul.right-menus li{
+    margin-left: 20px;
 }
 /** header **/
 

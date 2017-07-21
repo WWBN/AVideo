@@ -46,7 +46,7 @@ if (empty($_SESSION['language'])) {
         </li>
 
         <li>
-            <ul class="locale-combo">
+            <ul class="right-menus">
 
                 <?php
                 if (User::canUpload()) {
