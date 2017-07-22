@@ -123,6 +123,7 @@ $content = "<?php
 
 
 \$mysqlHost = '{$_POST['databaseHost']}';
+\$mysqlPort = '{$_POST['databasePort']}';
 \$mysqlUser = '{$_POST['databaseUser']}';
 \$mysqlPass = '{$_POST['databasePass']}';
 \$mysqlDatabase = '{$_POST['databaseName']}';
