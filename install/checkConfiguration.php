@@ -13,7 +13,7 @@ if (!file_exists($_POST['systemRootPath'] . "index.php")) {
     exit;
 }
 
-$mysqli = @new mysqli($_POST['databaseHost'], $_POST['databaseUser'], $_POST['databasePass']);
+$mysqli = @new mysqli($_POST['databaseHost'], $_POST['databaseUser'], $_POST['databasePass'], "", $_POST['databasePort']);
 
 /*
  * This is the "official" OO way to do it,
