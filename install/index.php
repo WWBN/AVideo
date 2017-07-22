@@ -430,6 +430,7 @@ sudo apt-get dist-upgrade
                     var systemRootPath = $('#systemRootPath').val();
                     var webSiteTitle = $('#webSiteTitle').val();
                     var databaseHost = $('#databaseHost').val();
+                    var databasePort = $('#databasePort').val();
                     var databaseUser = $('#databaseUser').val();
                     var databasePass = $('#databasePass').val();
                     var databaseName = $('#databaseName').val();
@@ -443,6 +444,7 @@ sudo apt-get dist-upgrade
                             systemRootPath: systemRootPath,
                             webSiteTitle: webSiteTitle,
                             databaseHost: databaseHost,
+                            databasePort: databasePort,
                             databaseUser: databaseUser,
                             databasePass: databasePass,
                             databaseName: databaseName,
