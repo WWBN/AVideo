@@ -23,7 +23,7 @@ require_once '../objects/functions.php';
             ?>
             <div class="container">
                 <h3 class="alert alert-success">
-                    <span class="glyphicon glyphicon-ok-circle"></span> 
+                    <span class="glyphicon glyphicon-ok-circle"></span>
                     Your system is installed, remove the <code><?php echo $global['systemRootPath']; ?>install</code> directory to continue
                     <hr>
                     <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-success btn-lg center-block">Go to the main page</a>
@@ -36,21 +36,21 @@ require_once '../objects/functions.php';
                 <img src="../view/img/logo.png" alt="Logo" class="img img-responsive center-block"/>
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-xs-12">
-                        
+
                         <?php
                         if (isApache()) {
                             ?>
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?> is Present</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your server is <?php echo $_SERVER['SERVER_SOFTWARE']; ?>, you must install Apache</strong>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -62,14 +62,14 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>PHP <?php echo PHP_VERSION; ?> is Present</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your PHP version is <?php echo PHP_VERSION; ?>, you must install PHP 5.6.x or greater</strong>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -81,7 +81,7 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Mod Rewrite module is Present</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
@@ -94,12 +94,12 @@ require_once '../objects/functions.php';
                                     Restart apache2 after<br>
                                     <pre><code>/etc/init.d/apache2 restart</code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
-                        
-                        
+
+
                         <?php
                         /*
                         if (check_mysqlnd()) {
@@ -107,7 +107,7 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>This server is using MySQLnd as the driver</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
@@ -117,20 +117,20 @@ require_once '../objects/functions.php';
                                     mysqli_result::fetch_all() requires MySQL Native Driver (mysqlnd).
                                     <pre><code>sudo apt-get install php5-mysqlnd</code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
-                         * 
+                         *
                          */
                         ?>
-                        
+
                         <?php
                         if ($exifTool = isExifToo()) {
                             ?>
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Exiftool [<?php echo $exifTool; ?>] is Present</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
@@ -141,7 +141,7 @@ require_once '../objects/functions.php';
                                     In order to install exiftool type the following command in the terminal:<br>
                                     <pre><code>sudo apt install libimage-exiftool-perl</code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -152,7 +152,7 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>FFMPEG <?php echo $ffmpeg; ?> is Present</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
@@ -162,7 +162,7 @@ require_once '../objects/functions.php';
                                 <details>
                                     FFmpeg has been removed from Ubuntu 14.04 and was replaced by Libav. This decision has been reversed so that FFmpeg is available now in Ubuntu 15.04 again, but there is still no official package for 14.04. In this tutorial, I will show you how to install FFmpeg from mc3man ppa. Add the mc3man ppa:
                                     <br>
-                                    If you are not using Ubuntu 14.x go to step 2 
+                                    If you are not using Ubuntu 14.x go to step 2
                                     <h2>Step 1</h2>
                                     <pre><code>sudo add-apt-repository ppa:mc3man/trusty-media</code></pre>
                                     <br>
@@ -187,7 +187,7 @@ sudo apt-get dist-upgrade
                                     <pre><code>sudo apt-get install ffmpeg</code></pre>
 
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -199,7 +199,7 @@ sudo apt-get dist-upgrade
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Your videos directory is writable</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
@@ -222,7 +222,7 @@ sudo apt-get dist-upgrade
                                     <br>
                                     <pre><code>sudo chmod -R 777 <?php echo $dir; ?></code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         $pathToPHPini= php_ini_loaded_file();
@@ -238,20 +238,20 @@ sudo apt-get dist-upgrade
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Your max_execution_time is <?php echo ini_get('max_execution_time'); ?></strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your max_execution_time is <?php echo ini_get('max_execution_time'); ?>, it must be at least 7200</strong>
-                                
+
                                 <details>
-                                    Edit the <code>php.ini</code> file 
+                                    Edit the <code>php.ini</code> file
                                     <br>
                                     <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -262,20 +262,20 @@ sudo apt-get dist-upgrade
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?></strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?>, it must be at least 100M</strong>
-                                
+
                                 <details>
-                                    Edit the <code>php.ini</code> file 
+                                    Edit the <code>php.ini</code> file
                                     <br>
                                     <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -286,20 +286,20 @@ sudo apt-get dist-upgrade
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?></strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?>, it must be at least 100M</strong>
-                                
+
                                 <details>
-                                    Edit the <code>php.ini</code> file 
+                                    Edit the <code>php.ini</code> file
                                     <br>
                                     <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
                                 </details>
-                            </div>                   
+                            </div>
                             <?php
                         }
                         ?>
@@ -310,20 +310,20 @@ sudo apt-get dist-upgrade
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?></strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?>, it must be at least 512M</strong>
-                                
+
                                 <details>
-                                    Edit the <code>php.ini</code> file 
+                                    Edit the <code>php.ini</code> file
                                     <br>
                                     <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
                                 </details>
-                            </div>                   
+                            </div>
                             <?php
                         }
                         ?>
@@ -349,6 +349,10 @@ sudo apt-get dist-upgrade
                             <div class="form-group">
                                 <label for="databaseHost">Database Host</label>
                                 <input type="text" class="form-control" id="databaseHost" placeholder="Enter Database Host" value="localhost" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label for="databasePort">Database Port</label>
+                                <input type="text" class="form-control" id="databasePort" placeholder="Enter Database Port" value="3306" required="required">
                             </div>
                             <div class="form-group">
                                 <label for="databaseUser">Database User</label>
@@ -393,7 +397,7 @@ sudo apt-get dist-upgrade
 
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
-                    </div>            
+                    </div>
                 </div>
 
             </div>
@@ -402,7 +406,7 @@ sudo apt-get dist-upgrade
         <script src="../view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="../view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
         <script src="../view/js/script.js" type="text/javascript"></script>
-        
+
         <script>
             $(function () {
                 $('.selectpicker').selectpicker();
@@ -420,12 +424,13 @@ sudo apt-get dist-upgrade
                         swal("Sorry!", "Your System Admin Password must be confirmed!", "error");
                         return false;
                     }
-                    
+
                     modal.showPleaseWait();
                     var webSiteRootURL = $('#webSiteRootURL').val();
                     var systemRootPath = $('#systemRootPath').val();
                     var webSiteTitle = $('#webSiteTitle').val();
                     var databaseHost = $('#databaseHost').val();
+                    var databasePort = $('#databasePort').val();
                     var databaseUser = $('#databaseUser').val();
                     var databasePass = $('#databasePass').val();
                     var databaseName = $('#databaseName').val();
@@ -439,6 +444,7 @@ sudo apt-get dist-upgrade
                             systemRootPath: systemRootPath,
                             webSiteTitle: webSiteTitle,
                             databaseHost: databaseHost,
+                            databasePort: databasePort,
                             databaseUser: databaseUser,
                             databasePass: databasePass,
                             databaseName: databaseName,
