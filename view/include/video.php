@@ -19,7 +19,7 @@ if (!empty($ad)) {
 <div class="row main-video">
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8">
-        <div align="center" class="embed-responsive <?php
+        <div align="center" id="main-video" class="embed-responsive <?php
         echo $embedResponsiveClass;
         if (!empty($logId)) {
             echo " ad";
@@ -51,10 +51,14 @@ if (!empty($ad)) {
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
 </div><!--/row-->
 <script>
-    var fullFuration = 0;
+
+    var changingVideoFloat = 0;
+    var mainVideoHeight = $('#main-video').innerHeight();
+    var fullDuration = 0;
     var isPlayingAd = false;
     $(document).ready(function () {
-        fullFuration = strToSeconds('<?php echo $ad['duration']; ?>');
+        
+        fullDuration = strToSeconds('<?php echo $ad['duration']; ?>');
         player = videojs('mainVideo');
 
         player.zoomrotate(<?php echo $transformation; ?>);
@@ -90,7 +94,7 @@ if ($config->getAutoplay()) {
 
                 });
                 this.on('timeupdate', function () {
-                    var durationLeft = fullFuration - this.currentTime();
+                    var durationLeft = fullDuration - this.currentTime();
                     $("#adUrl .time").text(secondsToStr(durationLeft + 1, 2));
     <?php if (!empty($ad['skip_after_seconds'])) {
         ?>
@@ -125,11 +129,45 @@ if ($config->getAutoplay()) {
 <?php if (!empty($logId)) { ?>
             $('#adButton').click(function () {
                 console.log("Change Video");
-                fullFuration = strToSeconds('<?php echo $video['duration']; ?>');
+                fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
                 changeVideoSrc(player, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
                             $(".ad").removeClass("ad");
                             return false;
                         });
 <?php } ?>
+
+                    $(window).resize(function () {
+
+                        mainVideoHeight = $('#main-video').innerHeight();
+                    });
+                    $(window).scroll(function () {
+                        if (changingVideoFloat) {
+                            return false;
+                        }
+                        changingVideoFloat = 1;
+                        var s = $(window).scrollTop();
+                        if (s > mainVideoHeight) {
+                            if (!$('#main-video').hasClass("floatVideo")) {
+                                $('#main-video').hide();
+                                $('#main-video').addClass('floatVideo');
+                                $('#main-video').parent().css('height', mainVideoHeight);
+                                changingVideoFloat = 0;
+                                $('#main-video').slideDown(1000);
+                            } else {
+                                changingVideoFloat = 0;
+                            }
+                        } else {
+                            if ($('#main-video').hasClass("floatVideo")) {
+                                $('#main-video').fadeOut('fast', function () {
+                                    $('#main-video').parent().css('height', '');
+                                    $('#main-video').removeClass('floatVideo');
+                                    changingVideoFloat = 0;
+                                });
+                                $('#main-video').fadeIn();
+                            } else {
+                                changingVideoFloat = 0;
+                            }
+                        }
+                    });
                 });
 </script>

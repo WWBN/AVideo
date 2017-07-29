@@ -83,57 +83,10 @@ $(function () {
             } else {
                 data.context.find('p.action').html("Encoding... <a href='mvideos'>video manager</a>");
                 data.context.addClass('working');
-                checkProgress(data);
             }
         }
 
     });
-
-    function checkProgress(data) {
-        $.ajax({
-            url: 'uploadStatus?filename=' + data.result.filename,
-            success: function (response) {
-
-                if (response) {
-                    var txt = "";
-                    if (response.mp4) {
-                        txt += "(MP4:" + response.mp4.progress + "%)";
-                    }
-                    if (response.webm) {
-                        txt += "(WEBM:" + response.webm.progress + "%)";
-                    }
-                    $('#encoding' + id).html(txt);
-                }
-
-
-                if (response) {
-                    var progress = 0;
-                    var divide = 0;
-                    if (response.mp4) {
-                        progress += response.mp4.progress;
-                        divide++;
-                    }
-                    if (response.webm) {
-                        progress += response.webm.progress;
-                        divide++;
-                    }
-                    progress = progress / divide;
-                    data.context.find('input').val(response.progress).change();
-
-                    if (progress == 100) {
-                        data.context.find('p.action').text("Success");
-                        data.context.removeClass('working');
-                    }
-                }
-                if (!response || response.mp4.progress < 100 || response.webm.progress < 100) {
-                    setTimeout(function () {
-                        checkProgress(data);
-                    }, 2000);
-                }
-            }
-        });
-    }
-
 
     // Prevent the default action when a file is dropped on the window
     $(document).on('drop dragover', function (e) {

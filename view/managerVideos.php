@@ -30,11 +30,6 @@ $userGroups = UserGroups::getAllUsersGroups();
         <div class="container">
 
             <div class="btn-group" >
-                <!--
-                            <a href="<?php echo $global['webSiteRootURL']; ?>orphanFiles" class="btn btn-default" id="addUserBtn">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <?php echo __("Orphan Files"); ?>
-                            </a>
-                -->
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
                 </a>
@@ -44,6 +39,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                 <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info">
                     <span class="fa fa-bar-chart"></span> 
                     <?php echo __("Video Chart"); ?>
+                </a>
+                <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()) ; ?>" class="btn btn-default">
+                    <span class="fa fa-upload"></span> 
+                    <?php echo __("Encoder Site"); ?>
                 </a>
 
                 <?php
@@ -56,14 +55,14 @@ $userGroups = UserGroups::getAllUsersGroups();
                 }
                 ?>
             </div>
-            <strong>
+            <small class="text-muted clearfix">
                 <?php
                 $secondsTotal = getSecondsTotalVideosLength();
                 $seconds = $secondsTotal % 60;
                 $minutes = ($secondsTotal - $seconds) / 60;
                 printf(__("You are hosting %d minutes and %d seconds of video"), $minutes, $seconds);
                 ?>
-            </strong>
+            </small>
             <?php
             if (!empty($global['videoStorageLimitMinutes'])) {
                 $secondsLimit = $global['videoStorageLimitMinutes'] * 60;
@@ -243,82 +242,87 @@ $userGroups = UserGroups::getAllUsersGroups();
         include 'include/footer.php';
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>monitor/gauge/jquery-asPieProgress.js"></script>
+
         <script>
-            function checkProgressVideo(filename, id, refresh) {
+            var timeOut;
+            var encodingNowId = "";
+            function checkProgress() {
                 $.ajax({
-                    url: 'uploadStatus?filename=' + filename,
+                    url: '<?php echo $config->getEncoderURL(); ?>status',
                     success: function (response) {
-                        console.log(response);
-                        var types = <?php echo json_encode(Video::$types); ?>;
-                        var allComplete = true;
-                        types.forEach(function (entry) {
-                            console.log(entry);
-                            var responseType;
-                            if (response) {
-                                //eval("if(!response."+entry + "){ continue;}");
-                                eval("responseType = response." + entry + ";");
-                                if (responseType && responseType.progress) {
-                                    var txt
-                                    if (!isNaN(responseType.progress)) {
-                                        txt = entry.toUpperCase() + ": " + responseType.progress + "%";
-                                    } else {
-                                        txt = entry.toUpperCase() + ": " + responseType.progress;
-                                    }
-                                    $('#encoding' + entry + id).html(txt);
+                        if (response.queue_list.length) {
+                            for (i = 0; i < response.queue_list.length; i++) {
+                                if('<?php echo $global['webSiteRootURL']; ?>'!==response.queue_list[i].streamer_site){
+                                    continue;
                                 }
+                                createQueueItem(response.queue_list[i], i);
                             }
-                            if (responseType && !(responseType.progress >= 100)) {
-                                if (responseType.progress > 0 || (responseType.progress && isNaN(responseType.progress))) {
-                                    $('#encoding' + entry + id).removeClass('label-danger');
-                                    $('#encoding' + entry + id).addClass('label-warning');
-                                }
-                                allComplete = false;
-                            }
-                            if (responseType && (responseType.progress === 100 || responseType.progress === 'active')) {
-                                $('#encoding' + entry + id).removeClass('label-warning');
-                                $('#encoding' + entry + id).removeClass('label-danger');
-                                $('#encoding' + entry + id).addClass('label-success');
-                                $('#encoding' + entry + id).html(entry.toUpperCase() + ': 100%');
-                            }
-                        });
-                        if (refresh && !allComplete) {
-                            setTimeout(function () {
-                                checkProgressVideo(filename, id, refresh);
-                            }, 1000);
-                        } else if (refresh && allComplete) {
-                            $("#grid").bootgrid("reload");
+
                         }
+                        if (response.encoding && '<?php echo $global['webSiteRootURL']; ?>'===response.encoding.streamer_site) {
+                            var id = response.encoding.id;
+                            // if start encode next before get 100%
+                            if (id !== encodingNowId) {
+                                $("#encodeProgress" + encodingNowId).slideUp("normal", function () {
+                                    $(this).remove();
+                                });
+                                encodingNowId = id;
+                            }
+
+                            $("#downloadProgress" + id).slideDown();
+
+                            if (response.download_status && !response.encoding_status.progress) {
+                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
+                            } else {
+                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> " + response.encoding_status.progress + '%');
+                                $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
+                            }
+                            if (response.download_status) {
+                                $("#downloadProgress" + id).find('.progress-bar').css({'width': response.download_status.progress + '%'});
+                            }
+                            if (response.encoding_status.progress >= 100) {
+                                $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
+                                clearTimeout(timeOut);
+                                timeOut = setTimeout(function () {
+                                    $("#grid").bootgrid('reload');
+                                }, 2000);
+                            } else {
+
+                            }
+
+                            setTimeout(function () {
+                                checkProgress();
+                            }, 1000);
+                        } else if (encodingNowId !== "") {
+                            $("#encodeProgress" + encodingNowId).slideUp("normal", function () {
+                                $(this).remove();
+                            });
+                            encodingNowId = "";
+                            setTimeout(function () {
+                                checkProgress();
+                            }, 5000);
+                        } else {
+                            setTimeout(function () {
+                                checkProgress();
+                            }, 5000);
+                        }
+
                     }
                 });
             }
-            function checkProgressDownload(filename, id) {
-                $.ajax({
-                    url: 'getDownloadProgress',
-                    data: {"filename": filename},
-                    type: 'post',
-                    success: function (response) {
-                        $("#downloadProgress" + id).css({'width': response.progress + '%'});
-                        if (response.progress < 100) {
-                            setTimeout(function () {
-                                checkProgressDownload(filename, id);
-                            }, 1000);
-                        } else if (response.progress == 100) {
-                            $("#downloadProgress" + id).css({'width': '100%'});
-                            /*
-                             swal({
-                             title: "<?php echo __("Success"); ?>",
-                             text: "<?php echo __("Your video download is complete, it is encoding now"); ?>",
-                             type: "success"
-                             });
-                             */
 
-                            setTimeout(function () {
-                                $("#grid").bootgrid("reload");
-                            }, 2000);
-
-                        }
-                    }
-                });
+            function createQueueItem(queueItem, position) {
+                var id = queueItem.return_vars.videos_id;
+                if ($('#encodeProgress' + id).children().length) {
+                    return false;
+                }
+                var item = '<div class="progress progress-striped active " id="encodingProgress' + queueItem.id + '" style="margin: 0;">';
+                item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"><span class="sr-only">0% Complete</span></div>';
+                item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> '+position+'</span></span><span class="progress-completed">' + queueItem.name + '</span>';
+                item += '</div><div class="progress progress-striped active " id="downloadProgress' + queueItem.id + '" style="height: 10px;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
+                
+                $('#encodeProgress' + id).html(item);
             }
             $(document).ready(function () {
 
@@ -349,24 +353,14 @@ $userGroups = UserGroups::getAllUsersGroups();
                     formatters: {
                         "commands": function (column, row)
                         {
-                            var originalBtn = '<a href="<?php echo $global['webSiteRootURL']; ?>/videos/original_' + row.filename + '" target="_blank" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="left" title="<?php echo __("Download Original"); ?>"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>'
                             var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                             var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
-                            var reloadBtn = '<button type="button" class="btn btn-default btn-xs command-refresh"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Refresh")); ?>""><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>';
                             var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
                             var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Activate")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
-                            var reencodeMP4Btn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp4"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Video")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP4</button>';
-                            var reencodeWEBMBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="webm"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Video")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> WEBM</button>';
-                            var reencodeImageBtn = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="img"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Image")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Img</button>';
-                            var reencodeMp3 = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="mp3"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Audio")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> MP3</button>';
-                            var reencodeOGG = '<button type="button" class="btn btn-default btn-xs command-reencode"  data-row-id="ogg"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Re-encode Audio")); ?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> OGG</button>';
                             var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
                             var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fa fa-repeat " aria-hidden="true"></span></button>';
-                            var reencodeAudio = "<br>" + reencodeMp3 + reencodeOGG;
-                            var reencodeBtn = "<br>" + reencodeMP4Btn + reencodeWEBMBtn + reencodeImageBtn;
                             var rotateBtn = "<br>" + rotateLeft + rotateRight;
                             if (row.type == "audio") {
-                                reencodeBtn = reencodeAudio;
                                 rotateBtn = "";
                             }
                             var status;
@@ -376,13 +370,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                             } else if (row.status == "a") {
                                 status = inactiveBtn;
                             } else if (row.status == "x") {
-                                return editBtn + deleteBtn + originalBtn + reloadBtn + reencodeBtn;
+                                return editBtn + deleteBtn;
                             } else if (row.status == "d") {
                                 return deleteBtn;
                             } else {
-                                return editBtn + deleteBtn + originalBtn + reencodeBtn;
+                                return editBtn + deleteBtn;
                             }
-                            return editBtn + deleteBtn + originalBtn + reloadBtn + status + reencodeBtn + rotateBtn;
+                            return editBtn + deleteBtn + status + rotateBtn;
                         },
                         "tags": function (column, row) {
                             var tags = "";
@@ -401,29 +395,17 @@ $userGroups = UserGroups::getAllUsersGroups();
                             if (row.youtubeId) {
                                 //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                             }
-                            var yt = '<div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fa fa-youtube-play" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
-                            if (row.status == "d") {
+                            var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fa fa-youtube-play" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
+                            if (row.status == "d" || row.status == "e") {
                                 yt = "";
                             }
+                            tags += '<div id="encodeProgress' + row.id + '"></div>';
                             if (/^x.*$/gi.test(row.status) || row.status == 'e') {
-                                setTimeout(function () {
-                                    checkProgressVideo(row.filename, row.id, row.status == 'e');
-                                }, 1000);
+                                //tags += '<div class="progress progress-striped active" style="margin:5px;"><div id="encodeProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
-                                if (row.type == "audio") {
-                                    tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp3.txt' target='_blank' class='label label-danger' id='encodingmp3" + row.id + "' >MP3: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_ogg.txt' target='_blank' class='label label-danger' id='encodingogg" + row.id + "' >OGG: 0%</a>";
-                                    tags += "<br><span class='label label-info'>Audio Spectrum</span>";
-                                    tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "' >MP4: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "' >WEBM: 0%</a>";
-                                } else {
-                                    tags += "<a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_mp4.txt' target='_blank' class='label label-danger' id='encodingmp4" + row.id + "' >MP4: 0%</a> <a href='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_progress_webm.txt' target='_blank' class='label label-danger' id='encodingwebm" + row.id + "' >WEBM: 0%</a>";
-                                }
 
                             } else if (row.status == 'd') {
-                                setTimeout(function () {
-                                    checkProgressDownload(row.filename, row.id);
-                                }, 1000);
-
-                                tags += '<div class="progress progress-striped active"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
+                                tags += '<div class="progress progress-striped active" style="margin:5px;"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
                             }
                             var type, img, is_portrait;
@@ -435,7 +417,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
                                 img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'  style='max-height:80px; margin-right: 5px;'> ";
                             }
-                            return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a><br>" + tags + "<br>" + yt;
+                            return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt;
                         }
 
 
@@ -602,6 +584,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                             }
                         });
                     });
+                    $('.pie').asPieProgress({});
+                    setTimeout(function () {
+                        checkProgress()
+                    }, 500);
                 });
 
                 $('#inputCleanTitle').keyup(function (evt) {
@@ -623,9 +609,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                 $('#saveCategoryBtn').click(function (evt) {
                     $('#updateCategoryForm').submit();
                 });
-
-
-
 
                 $('#updateCategoryForm').submit(function (evt) {
                     evt.preventDefault();
@@ -683,7 +666,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                     });
                     return false;
                 });
-
 
             });
 

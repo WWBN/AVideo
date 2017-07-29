@@ -1,17 +1,13 @@
 <?php
 require_once '../videos/configuration.php';
 require_once 'video.php';
-
 $obj = new stdClass();
 $obj->success = false;
-
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'google/autoload.php';
 header('Content-Type: application/json');
-
 $OAUTH2_CLIENT_ID = $config->getAuthGoogle_id();
 $OAUTH2_CLIENT_SECRET = $config->getAuthGoogle_key();
-
 /*
  * You can acquire an OAuth 2.0 client ID and client secret from the
  * {{ Google Cloud Console }} <{{ https://cloud.google.com/console }}>

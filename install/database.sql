@@ -5,16 +5,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema youPHPTube
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema youPHPTube
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `youPHPTube` DEFAULT CHARACTER SET utf8 ;
-USE `youPHPTube` ;
-
--- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
@@ -77,17 +67,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
-  INDEX `index5` (`order` ASC),
-  CONSTRAINT `fk_videos_users`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_videos_categories1`
-    FOREIGN KEY (`categories_id`)
-    REFERENCES `categories` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `index5` (`order` ASC))
 ENGINE = InnoDB;
 
 
@@ -138,20 +118,6 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `authFacebook_enabled` TINYINT(1) NOT NULL DEFAULT 0,
   `authCanUploadVideos` TINYINT(1) NOT NULL DEFAULT 0,
   `authCanComment` TINYINT(1) NOT NULL DEFAULT 1,
-  `ffprobeDuration` VARCHAR(400) NULL,
-  `ffmpegImage` VARCHAR(400) NULL,
-  `ffmpegMp4` VARCHAR(400) NULL,
-  `ffmpegMp4Portrait` VARCHAR(400) NULL,
-  `ffmpegWebm` VARCHAR(400) NULL,
-  `ffmpegWebmPortrait` VARCHAR(400) NULL,
-  `ffmpegMp3` VARCHAR(400) NULL,
-  `ffmpegSpectrum` VARCHAR(400) NULL,
-  `ffmpegOgg` VARCHAR(400) NULL,
-  `youtubeDl` VARCHAR(400) NULL,
-  `ffmpegPath` VARCHAR(255) NULL,
-  `youtubeDlPath` VARCHAR(255) NULL,
-  `exiftool` VARCHAR(255) NULL,
-  `exiftoolPath` VARCHAR(255) NULL,
   `head` TEXT NULL,
   `logo` VARCHAR(255) NULL,
   `logo_small` VARCHAR(255) NULL,
@@ -159,13 +125,8 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `mode` ENUM('Youtube', 'Gallery') NULL DEFAULT 'Youtube',
   `disable_analytics` TINYINT(1) NULL DEFAULT 0,
   `session_timeout` INT NULL DEFAULT 3600,
-  `encode_mp4` TINYINT(1) NULL DEFAULT 1,
-  `encode_webm` TINYINT(1) NULL DEFAULT 1,
-  `encode_mp3spectrum` TINYINT(1) NULL DEFAULT 1,
   `autoplay` TINYINT(1) NULL,
   `theme` VARCHAR(45) NULL DEFAULT 'default',
-  `doNotShowVideoAndAudioLinks` TINYINT(1) NULL,
-  `doNotShowCategories` TINYINT(1) NULL,
   `smtp` TINYINT(1) NULL,
   `smtpAuth` TINYINT(1) NULL,
   `smtpSecure` VARCHAR(45) NULL COMMENT '\'ssl\'; // secure transfer enabled REQUIRED for Gmail',
@@ -173,6 +134,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `smtpUsername` VARCHAR(45) NULL COMMENT '\"email@gmail.com\"',
   `smtpPassword` VARCHAR(45) NULL,
   `smtpPort` INT NULL,
+  `encoderURL` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
@@ -348,6 +310,28 @@ CREATE TABLE IF NOT EXISTS `video_ads_logs` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `video_documents`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `video_documents` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `doc_name` VARCHAR(255) NOT NULL,
+  `doc_description` TEXT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `blob` BLOB NOT NULL,
+  `videos_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_video_documents_videos1_idx` (`videos_id` ASC),
+  CONSTRAINT `fk_video_documents_videos1`
+    FOREIGN KEY (`videos_id`)
+    REFERENCES `videos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `subscribes`

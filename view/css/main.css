@@ -522,13 +522,46 @@ img.rotate270, img.rotate-90{
 }
 /* End Play List */
 
+.floatVideo{
+    position: fixed;
+    width: 550px;
+    top: 60px;
+    left: 10px;
+    z-index: 100;
+}
+
+/** video manager progress bar */
+.progress {
+    position: relative;
+    height: 25px;
+}
+.progress > .progress-type {
+    position: absolute;
+    left: 0px;
+    font-weight: 800;
+    padding: 3px 30px 2px 10px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(25, 25, 25, 0.2);
+}
+.progress > .progress-completed {
+    position: absolute;
+    right: 0px;
+    font-weight: 800;
+    padding: 3px 10px 2px;
+}
 
 @media (max-width: 1200px) {
+    .floatVideo{
+        width: 500px;
+    }
     .galleryVideo{
         height: 195px;
     }
 }
 @media (max-width: 992px) {
+    .floatVideo{
+        width: 450px;
+    }
     .galleryVideo{
         height: 220px;
     }

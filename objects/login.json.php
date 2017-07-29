@@ -86,6 +86,9 @@ if(empty($_POST['user']) || empty($_POST['pass'])){
      die(json_encode($object));
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
-$user->login();
+$user->login(false, @$_POST['encodedPass']);
 $object->isLogged = User::isLogged();
+$object->isAdmin = User::isAdmin();
+$object->canUpload = User::canUpload();
+$object->canComment = User::canComment();
 echo json_encode($object);

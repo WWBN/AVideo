@@ -24,19 +24,6 @@ class Configuration {
     private $authFacebook_enabled;
     private $authCanUploadVideos;
     private $authCanComment;
-    private $ffprobeDuration;
-    private $ffmpegImage;
-    private $ffmpegMp4;
-    private $ffmpegWebm;
-    private $ffmpegMp4Portrait;
-    private $ffmpegWebmPortrait;
-    private $ffmpegMp3;
-    private $ffmpegOgg;
-    private $youtubeDl;
-    private $ffmpegPath;
-    private $youtubeDlPath;
-    private $exiftool;
-    private $exiftoolPath;
     private $head;
     private $logo;
     private $logo_small;
@@ -45,16 +32,10 @@ class Configuration {
     // version 2.7
     private $disable_analytics;
     private $session_timeout;
-    private $encode_mp4;
-    private $encode_webm;
-    private $encode_mp3spectrum;
-    private $ffmpegSpectrum;
     private $autoplay;
     
     // version 3.1
     private $theme;
-    private $doNotShowVideoAndAudioLinks;
-    private $doNotShowCategories;
     
     //version 3.3
     private $smtp;
@@ -64,6 +45,9 @@ class Configuration {
     private $smtpUsername;
     private $smtpPassword;
     private $smtpPort;
+    
+    // version 4
+    private $encoderURL;
 
     function __construct($video_resolution = "") {
         $this->load();
@@ -112,17 +96,7 @@ class Configuration {
                 . "authFacebook_enabled = '{$this->authFacebook_enabled}',"
                 . "authCanUploadVideos = '{$this->authCanUploadVideos}',"
                 . "authCanComment = '{$this->authCanComment}',"
-                . "ffmpegImage = '{$global['mysqli']->real_escape_string($this->getFfmpegImage())}',"
-                . "ffmpegMp3 = '{$global['mysqli']->real_escape_string($this->getFfmpegMp3())}',"
-                . "ffmpegMp4 = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4())}',"
-                . "ffmpegOgg = '{$global['mysqli']->real_escape_string($this->getFfmpegOgg())}',"
-                . "ffmpegWebm = '{$global['mysqli']->real_escape_string($this->getFfmpegWebm())}',"
-                . "ffmpegMp4Portrait = '{$global['mysqli']->real_escape_string($this->getFfmpegMp4Portrait())}',"
-                . "ffmpegWebmPortrait = '{$global['mysqli']->real_escape_string($this->getFfmpegWebmPortrait())}',"
-                . "ffprobeDuration = '{$global['mysqli']->real_escape_string($this->getFfprobeDuration())}',"
-                . "youtubeDl = '{$global['mysqli']->real_escape_string($this->getYoutubeDl())}',"
-                . "youtubeDlPath = '{$global['mysqli']->real_escape_string($this->youtubeDlPath)}',"
-                . "ffmpegPath = '{$global['mysqli']->real_escape_string($this->ffmpegPath)}',"
+                . "encoderURL = '{$global['mysqli']->real_escape_string($this->getEncoderURL())}',"
                 . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
                 . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
                 . "mode = '{$this->getMode()}',"
@@ -130,16 +104,8 @@ class Configuration {
                 . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}',"
                 . "disable_analytics = '{$this->getDisable_analytics()}',"
                 . "session_timeout = '{$this->getSession_timeout()}',"
-                . "encode_mp4 = '{$this->getEncode_mp4()}',"
-                . "encode_webm = '{$this->getEncode_webm()}',"
-                . "encode_mp3spectrum = '{$this->getEncode_mp3spectrum()}',"
-                . "ffmpegSpectrum = '{$global['mysqli']->real_escape_string($this->getFfmpegSpectrum())}',"
-                . "exiftoolPath = '{$global['mysqli']->real_escape_string($this->getExiftoolPath())}',"
-                . "exiftool = '{$global['mysqli']->real_escape_string($this->getExiftool())}',"
                 . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}',"
                 . "theme = '{$global['mysqli']->real_escape_string($this->getTheme())}',"
-                . "doNotShowVideoAndAudioLinks = '{$this->getDoNotShowVideoAndAudioLinks()}',"
-                . "doNotShowCategories = '{$this->getDoNotShowCategories()}',"
                 . "smtp = '{$this->getSmtp()}',"
                 . "smtpAuth = '{$this->getSmtpAuth()}',"
                 . "smtpSecure = '{$global['mysqli']->real_escape_string($this->getSmtpSecure())}',"
@@ -281,174 +247,8 @@ class Configuration {
         $this->authCanComment = $authCanComment;
     }
 
-    function getFfprobeDuration() {
-        if (empty($this->ffprobeDuration)) {
-            return 'ffprobe -i {$file} -sexagesimal -show_entries  format=duration -v quiet -of csv=\'p=0\'';
-        }
-        return $this->ffprobeDuration;
-    }
-
-    function getFfmpegImage() {
-        if (empty($this->ffprobeDuration)) {
-            return 'ffmpeg -ss 5 -i {$pathFileName} -qscale:v 2 -vframes 1 -y {$destinationFile}';
-        }
-        return $this->ffmpegImage;
-    }
-
-    function getFfmpegMp4() {
-        if (empty($this->ffmpegMp4)) {
-            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
-        }
-        return $this->ffmpegMp4;
-    }
-
-    function getFfmpegWebm() {
-        if (empty($this->ffmpegWebm)) {
-            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
-        }
-        return $this->ffmpegWebm;
-    }
-
-    function getFfmpegMp4Portrait() {
-        if (empty($this->ffmpegMp4Portrait)) {
-            return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
-        }
-        return $this->ffmpegMp4Portrait;
-    }
-
-    function getFfmpegWebmPortrait() {
-        if (empty($this->ffmpegWebmPortrait)) {
-            return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
-        }
-        return $this->ffmpegWebmPortrait;
-    }
-
-    function getFfmpegMp3() {
-        if (empty($this->ffmpegMp3)) {
-            return 'ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
-        }
-        return $this->ffmpegMp3;
-    }
-
-    function getFfmpegOgg() {
-        if (empty($this->ffmpegOgg)) {
-            return 'ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
-        }
-        return $this->ffmpegOgg;
-    }
-
-    function getYoutubeDl() {
-        if (empty($this->youtubeDl)) {
-            return 'youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
-        }
-        return $this->youtubeDl;
-    }
-
-    function setFfprobeDuration($ffprobeDuration) {
-        $this->ffprobeDuration = $ffprobeDuration;
-    }
-
-    function setFfmpegImage($ffmpegImage) {
-        $this->ffmpegImage = $ffmpegImage;
-    }
-
-    function setFfmpegMp4($ffmpegMp4) {
-        $this->ffmpegMp4 = $ffmpegMp4;
-    }
-
-    function setFfmpegWebm($ffmpegWebm) {
-        $this->ffmpegWebm = $ffmpegWebm;
-    }
-
-    function setFfmpegMp3($ffmpegMp3) {
-        $this->ffmpegMp3 = $ffmpegMp3;
-    }
-
-    function setFfmpegOgg($ffmpegOgg) {
-        $this->ffmpegOgg = $ffmpegOgg;
-    }
-
-    function setYoutubeDl($youtubeDl) {
-        $this->youtubeDl = $youtubeDl;
-    }
-
-    function setFfmpegPath($ffmpegPath) {
-        $this->ffmpegPath = $ffmpegPath;
-    }
-
-    function setYoutubeDlPath($youtubeDlPath) {
-        $this->youtubeDlPath = $youtubeDlPath;
-    }
-
-    function getFfmpegPath() {
-        if (!empty($this->ffmpegPath)) {
-            if (substr($this->ffmpegPath, -1) !== "/") {
-                $this->ffmpegPath .= "/";
-            }
-        }
-        return $this->ffmpegPath;
-    }
-
-    function getYoutubeDlPath() {
-        if (!empty($this->youtubeDlPath)) {
-            if (substr($this->youtubeDlPath, -1) !== "/") {
-                $this->youtubeDlPath .= "/";
-            }
-        }
-        return $this->youtubeDlPath;
-    }
-
-    function getExiftool() {
-        if (empty($this->exiftool)) {
-            return 'exiftool {$pathFileName}';
-        }
-        return $this->exiftool;
-    }
-
-    function getExiftoolPath() {
-        return $this->exiftoolPath;
-    }
-
-    function setExiftool($exiftool) {
-        $this->exiftool = $exiftool;
-    }
-
-    function setExiftoolPath($exiftoolPath) {
-        $this->exiftoolPath = $exiftoolPath;
-    }
-
-    function setFfmpegMp4Portrait($ffmpegMp4Portrait) {
-        $this->ffmpegMp4Portrait = $ffmpegMp4Portrait;
-    }
-
-    function setFfmpegWebmPortrait($ffmpegWebmPortrait) {
-        $this->ffmpegWebmPortrait = $ffmpegWebmPortrait;
-    }
 
     function getHead() {
-        if (empty($this->head)) {
-            /*
-              return "
-              <script>
-              // YouPHPTube Analytics
-              (function (i, s, o, g, r, a, m) {
-              i['GoogleAnalyticsObject'] = r;
-              i[r] = i[r] || function () {
-              (i[r].q = i[r].q || []).push(arguments)
-              }, i[r].l = 1 * new Date();
-              a = s.createElement(o),
-              m = s.getElementsByTagName(o)[0];
-              a.async = 1;
-              a.src = g;
-              m.parentNode.insertBefore(a, m)
-              })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-              ga('create', 'UA-96597943-1', 'auto');
-              ga('send', 'pageview');
-              </script>
-              ";
-             */
-        }
         return $this->head;
     }
 
@@ -479,21 +279,6 @@ class Configuration {
     }
 
     function getAdsense() {
-        if (empty($this->adsense)) {
-            /*
-              return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-              <!-- YouPHPTube -->
-              <ins class="adsbygoogle"
-              style="display:block"
-              data-ad-client="ca-pub-8404441263723333"
-              data-ad-slot="3904005408"
-              data-ad-format="auto"></ins>
-              <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-              </script>';
-             * 
-             */
-        }
         return $this->adsense;
     }
 
@@ -520,48 +305,12 @@ class Configuration {
     function getSession_timeout() {
         return $this->session_timeout;
     }
-
-    function getEncode_mp4() {
-        return $this->encode_mp4;
-    }
-
-    function getEncode_webm() {
-        return $this->encode_webm;
-    }
-
-    function getEncode_mp3spectrum() {
-        return $this->encode_mp3spectrum;
-    }
-
     function setDisable_analytics($disable_analytics) {
         $this->disable_analytics = ($disable_analytics == 'true' || $disable_analytics == '1') ? 1 : 0;
     }
 
     function setSession_timeout($session_timeout) {
         $this->session_timeout = $session_timeout;
-    }
-
-    function setEncode_mp4($encode_mp4) {
-        $this->encode_mp4 = ($encode_mp4 == 'true' || $encode_mp4 == '1') ? 1 : 0;
-    }
-
-    function setEncode_webm($encode_webm) {
-        $this->encode_webm = ($encode_webm == 'true' || $encode_webm == '1') ? 1 : 0;
-    }
-
-    function setEncode_mp3spectrum($encode_mp3spectrum) {
-        $this->encode_mp3spectrum = ($encode_mp3spectrum == 'true' || $encode_mp3spectrum == '1') ? 1 : 0;
-    }
-
-    function getFfmpegSpectrum() {
-        if (empty($this->ffmpegSpectrum)) {
-            return 'ffmpeg -i {$pathFileName} -filter_complex \'[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\' -map \'[v]\' -map 0:a -c:v libx264 -c:a copy {$destinationFile}';
-        }
-        return $this->ffmpegSpectrum;
-    }
-
-    function setFfmpegSpectrum($ffmpegSpectrum) {
-        $this->ffmpegSpectrum = $ffmpegSpectrum;
     }
 
     function getAutoplay() {
@@ -606,24 +355,8 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         return $this->theme;
     }
 
-    function getDoNotShowVideoAndAudioLinks() {
-        return intval($this->doNotShowVideoAndAudioLinks);
-    }
-
-    function getDoNotShowCategories() {
-        return intval($this->doNotShowCategories);
-    }
-
     function setTheme($theme) {
         $this->theme = $theme;
-    }
-
-    function setDoNotShowVideoAndAudioLinks($doNotShowVideoAndAudioLinks) {
-        $this->doNotShowVideoAndAudioLinks = ($doNotShowVideoAndAudioLinks == 'true' || $doNotShowVideoAndAudioLinks == '1') ? 1 : 0;
-    }
-
-    function setDoNotShowCategories($doNotShowCategories) {
-        $this->doNotShowCategories = ($doNotShowCategories == 'true' || $doNotShowCategories == '1') ? 1 : 0;
     }
 
     function getSmtp() {
@@ -680,6 +413,14 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
 
     function setSmtpPort($smtpPort) {
         $this->smtpPort = intval($smtpPort);
+    }
+
+    function getEncoderURL() {
+        return $this->encoderURL;
+    }
+
+    function setEncoderURL($encoderURL) {
+        $this->encoderURL = $encoderURL;
     }
 
 

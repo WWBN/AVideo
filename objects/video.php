@@ -90,7 +90,7 @@ class Video {
             die('{"error":"' . __("Permission denied") . '"}');
         }
         if (empty($this->clean_title)) {
-            $this->clean_title = $this->filename;
+            $this->setClean_title($this->title);
         }
         $this->clean_title = self::fixCleanTitle($this->clean_title, 1, $this->id);
         global $global;
@@ -383,14 +383,14 @@ class Video {
         if ($res) {
             require_once 'userGroups.php';
             while ($row = $res->fetch_assoc()) {
-                if($getStatistcs){                    
+                if ($getStatistcs) {
                     $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
                     $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
                     $today = date('Y-m-d 23:59:59');
                     $row['statistc_all'] = VideoStatistic::getStatisticTotalViews($row['id']);
-                    $row['statistc_today'] = VideoStatistic::getStatisticTotalViews($row['id'],false, date('Y-m-d 00:00:00'), $today);
-                    $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'],false, $previewsWeek, $today);
-                    $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false,$previewsMonth, $today);
+                    $row['statistc_today'] = VideoStatistic::getStatisticTotalViews($row['id'], false, date('Y-m-d 00:00:00'), $today);
+                    $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsWeek, $today);
+                    $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
                     $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
                 }
                 $row['groups'] = UserGroups::getVideoGroups($row['id']);
@@ -622,7 +622,22 @@ class Video {
         if (empty($durationParts[0])) {
             return "00:00:00";
         } else {
-            return $durationParts[0];
+            $duration = $durationParts[0];
+            $durationParts = explode(":", $duration);
+            if(count($durationParts) == 1){
+                return "0:00:".static::addZero($durationParts[0]);
+            }else if(count($durationParts)==2){
+                return "0:".static::addZero($durationParts[0]).":".static::addZero($durationParts[1]);
+            }
+            return $duration;
+        }
+    }
+    
+    static private function addZero($str){
+        if(intval($str) < 10){
+            return "0".intval($str);
+        }else{
+            return $str;
         }
     }
 
@@ -632,31 +647,20 @@ class Video {
         return "PT" . intval($parts[0]) . "H" . intval($parts[1]) . "M" . intval($parts[2]) . "S";
     }
 
+
     static function getDurationFromFile($file) {
-        global $config;
+        global $global;
+        require_once($global['systemRootPath'].'objects/getid3/getid3.php');
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($file)) {
             error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
             return "EE:EE:EE";
         }
-        //$cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';
-        eval('$cmd="' . $config->getFfprobeDuration() . '";');
-        exec($cmd . ' 2>&1', $output, $return_val);
-        if ($return_val !== 0) {
-            error_log('{"status":"error", "msg":' . json_encode($output) . ' ,"return_val":' . json_encode($return_val) . ', "where":"getDuration", "cmd":"' . $cmd . '"}');
-            // fix ffprobe
-            $duration = "EE:EE:EE";
-        } else {
-            preg_match("/([0-9]+:[0-9]+:[0-9]{2})/", $output[0], $match);
-            if (!empty($match[1])) {
-                $duration = $match[1];
-            } else {
-                error_log('{"status":"error", "msg":' . json_encode($output) . ' ,"match_not_found":' . json_encode($match) . ' ,"return_val":' . json_encode($return_val) . ', "where":"getDuration", "cmd":"' . $cmd . '"}');
-                $duration = "EE:EE:EE";
-            }
-        }
-        error_log("Duration founded: {$duration}");
-        return $duration;
+        // Initialize getID3 engine
+        $getID3 = new getID3;
+        // Analyze file and store returned data in $ThisFileInfo
+        $ThisFileInfo = $getID3->analyze($file);
+        return static::getCleanDuration($ThisFileInfo['playtime_string']);
     }
 
     function updateDurationIfNeed($fileExtension = ".mp4") {
@@ -970,10 +974,47 @@ class Video {
     function setYoutubeId($youtubeId) {
         $this->youtubeId = $youtubeId;
     }
-    
+
     function setTitle($title) {
         $this->title = trim($title);
     }
 
+    function setFilename($filename) {
+        $this->filename = $filename;
+    }
+
+    function queue($format) {
+        global $global;
+        $obj = new stdClass();
+        $obj->error = true;
+
+        $target = $global['YouPHPTubeURL-encoder'] . "queue.php";
+        $postFields = array(
+            'fileURI' => $global['webSiteRootURL'] . "videos/original_{$this->getFilename()}",
+            'filename' => $this->getFilename(),
+            'videos_id' => $this->getId(),
+            "notifyURL" => "{$global['webSiteRootURL']}",
+            'format' => $format
+        );
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $target);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_SAFE_UPLOAD, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        $r = curl_exec($curl);
+        $obj->response = $r;
+        if ($errno = curl_errno($curl)) {
+            $error_message = curl_strerror($errno);
+            //echo "cURL error ({$errno}):\n {$error_message}";
+            $obj->msg = "cURL error ({$errno}):\n {$error_message}";
+        } else {
+            $obj->error = false;
+        }
+        curl_close($curl);
+        return $obj;
+    }
 
 }

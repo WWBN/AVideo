@@ -94,6 +94,22 @@ class User {
         }
     }
     
+    static function getUserName() {
+        if (self::isLogged()) {
+            return $_SESSION['user']['user'];
+        } else {
+            return false;
+        }
+    }
+    
+    static function getUserPass() {
+        if (self::isLogged()) {
+            return $_SESSION['user']['password'];
+        } else {
+            return false;
+        }
+    }
+    
     function _getName(){
         return $this->name;
     }
@@ -184,11 +200,11 @@ class User {
         return $resp;
     }
 
-    function login($noPass = false) {
+    function login($noPass = false, $encodedPass=false) {
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
-            $user = $this->find($this->user, $this->password, true);
+            $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
         if ($user) {
             $_SESSION['user'] = $user;
@@ -219,7 +235,7 @@ class User {
         return !empty($_SESSION['user']['isAdmin']);
     }
 
-    private function find($user, $pass, $mustBeactive = false) {
+    private function find($user, $pass, $mustBeactive = false, $encodedPass=false) {
         global $global;
 
         $user = $global['mysqli']->real_escape_string($user);
@@ -230,7 +246,9 @@ class User {
         }
         
         if ($pass !== false) {
-            $pass = md5($pass);
+            if(!$encodedPass || $encodedPass === 'false'){
+                $pass = md5($pass);
+            }            
             $sql .= " AND password = '$pass' ";
         }
         $sql .= " LIMIT 1";

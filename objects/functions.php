@@ -267,14 +267,15 @@ function getSecondsTotalVideosLength() {
 
 function getMinutesTotalVideosLength() {
     $seconds = getSecondsTotalVideosLength();
-    return floor($seconds/60);
+    return floor($seconds / 60);
 }
 
-function parseDurationToSeconds($str){
+function parseDurationToSeconds($str) {
     $durationParts = explode(":", $str);
-    if(empty($durationParts[1]))return 0;
-    $minutes = intval(($durationParts[0])*60)+intval($durationParts[1]);
-    return intval($durationParts[2])+($minutes*60);
+    if (empty($durationParts[1]))
+        return 0;
+    $minutes = intval(($durationParts[0]) * 60) + intval($durationParts[1]);
+    return intval($durationParts[2]) + ($minutes * 60);
 }
 
 /**
@@ -283,12 +284,12 @@ function parseDurationToSeconds($str){
  * @param type $mail
  * call it before send mail to let YouPHPTube decide the method
  */
-function setSiteSendMessage(&$mail){
+function setSiteSendMessage(&$mail) {
     global $global;
     require_once $global['systemRootPath'] . 'objects/configuration.php';
     $config = new Configuration();
-    
-    if($config->getSmtp()){
+
+    if ($config->getSmtp()) {
         $mail->IsSMTP(); // enable SMTP
         $mail->SMTPAuth = true; // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
@@ -296,7 +297,7 @@ function setSiteSendMessage(&$mail){
         $mail->Port = $config->getSmtpPort();
         $mail->Username = $config->getSmtpUsername();
         $mail->Password = $config->getSmtpPassword();
-    }else{
+    } else {
         $mail->isSendmail();
     }
 }

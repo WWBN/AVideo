@@ -103,6 +103,10 @@
     RewriteRule    ^subscribe.json$ objects/subscribe.json.php    [NC,L]
     RewriteRule    ^notifySubscribers.json$ objects/notifySubscribers.json.php    [NC,L]
 
+
+    RewriteRule    ^youPHPTubeQueueEncoder.json$ objects/youPHPTubeQueueEncoder.json.php    [NC,L]
+    RewriteRule    ^youPHPTubeEncoder.json$ objects/youPHPTubeEncoder.json.php    [NC,L]
+
     #comment
     RewriteRule    ^saveComment$ objects/commentAddNew.json.php    [NC,L]
     RewriteRule    ^comments.json/([0-9]+)$ objects/comments.json.php?video_id=$1    [NC,L]
