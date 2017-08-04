@@ -21,6 +21,7 @@ if (!User::isAdmin()) {
 
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", @$_POST['videos_id']);
+$obj->video_id = @$_POST['videos_id'];
 $title = $video->getTitle();
 if(empty($title) && !empty($_POST['title'])){
     $title = $video->setTitle($_POST['title']);
@@ -60,9 +61,16 @@ if(!empty($_FILES['video']['tmp_name'])){
     // set encoding
     $video->setStatus('e');
 }
-if(!empty($_FILES['image']['tmp_name'])){
+if(!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination}.jpg")){
     if(!move_uploaded_file ($_FILES['image']['tmp_name'] ,  "{$destination}.jpg")){
         $obj->msg = __("Could not move image file [{$destination}.jpg]");
+        error_log($obj->msg);
+        die(json_encode($obj));
+    }
+}
+if(!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination}.gif")){
+    if(!move_uploaded_file ($_FILES['gifimage']['tmp_name'] ,  "{$destination}.gif")){
+        $obj->msg = __("Could not move gif image file [{$destination}.gif]");
         error_log($obj->msg);
         die(json_encode($obj));
     }

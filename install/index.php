@@ -9,6 +9,7 @@ require_once '../objects/functions.php';
 <html lang="en">
     <head>
         <title>Install YouPHPTube</title>
+        <link rel="icon" href="../view/img/favicon.png">
         <link href="../view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/css/flag-icon-css-master/css/flag-icon.min.css" rel="stylesheet" type="text/css"/>
@@ -35,7 +36,7 @@ require_once '../objects/functions.php';
             <div class="container">
                 <img src="../view/img/logo.png" alt="Logo" class="img img-responsive center-block"/>
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 col-xs-12">
+                    <div class="col-md-6">
                         
                         <?php
                         if (isApache()) {
@@ -66,9 +67,9 @@ require_once '../objects/functions.php';
                             <?php
                         } else {
                             ?>
-                            <div class="alert alert-danger">
-                                <span class="glyphicon glyphicon-unchecked"></span>
-                                <strong>Your PHP version is <?php echo PHP_VERSION; ?>, you must install PHP 5.6.x or greater</strong>
+                            <div class="alert alert-warning">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                <strong>Your PHP version is <?php echo PHP_VERSION; ?>, we recommend install PHP 5.6.x or greater</strong>
                             </div>                  
                             <?php
                         }
@@ -186,7 +187,7 @@ require_once '../objects/functions.php';
                         ?>
 
                     </div>
-                    <div class="col-lg-6 col-md-12 col-xs-12">
+                    <div class="col-md-6">
                         <form id="configurationForm">
                             <div class="form-group">
                                 <label for="webSiteRootURL">Your Site URL</label>

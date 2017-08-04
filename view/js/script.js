@@ -40,6 +40,16 @@ $(document).ready(function () {
 
     $('[data-toggle="popover"]').popover();
     $('[data-toggle="tooltip"]').tooltip();
+    
+    $(".thumbsImage").on("mouseenter", function () {
+        $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
+        $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
+        $(this).find(".thumbsGIF").stop(true, true).fadeIn();
+    });
+
+    $(".thumbsImage").on("mouseleave", function () {
+        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
+    });
 });
 function changeVideoSrc(vid_obj, fileName) {
     vid_obj.src([

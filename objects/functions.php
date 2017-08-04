@@ -119,7 +119,8 @@ function getPathToApplication() {
 
 function getURLToApplication() {
     $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $url = str_replace("install/index.php", "", $url);
+    $url = explode("install/index.php", $url);
+    $url = $url[0];
     return $url;
 }
 
