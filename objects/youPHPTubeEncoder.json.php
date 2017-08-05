@@ -12,7 +12,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 // pass admin user and pass
 $user = new User("", @$_POST['user'], @$_POST['password']);
-$user->login();
+$user->login(false, true);
 if (!User::isAdmin()) {
     $obj->msg = __("Permission denied to receive a file: ".  print_r($_POST, true));
     error_log($obj->msg);
