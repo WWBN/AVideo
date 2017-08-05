@@ -5,16 +5,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema youPHPTube
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema youPHPTube
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `youPHPTube` DEFAULT CHARACTER SET utf8 ;
-USE `youPHPTube` ;
-
--- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
