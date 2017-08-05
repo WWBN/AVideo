@@ -9,89 +9,95 @@ if (empty($_SESSION['language'])) {
 }
 ?>
 <nav class="navbar navbar-default navbar-fixed-top ">
-    <div class="container-fluid">
-        <ul class="list-inline pull-left">
-            <li>
-                <button class="btn btn-default navbar-btn pull-left" id="buttonMenu" ><span class="fa fa-bars"></span></button>
-                <script>
-                    $('#buttonMenu').click(function (event) {
-                        event.stopPropagation();
-                        $('#sidebar').fadeToggle();
-
-                    });
-
-                    $(document).on("click", function () {
-                        $("#sidebar").fadeOut();
-                    });
-                    $("#sidebar").on("click", function (event) {
-                        event.stopPropagation();
-                    });
-                </script>
-            </li>
-            <li>
-                <a class="navbar-brand" href="<?php echo $global['webSiteRootURL']; ?>" >
-                    <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
-                </a>
-            </li>
-            <li class="hidden-xs">
-                <form class="navbar-form navbar-left"  action="<?php echo $global['webSiteRootURL']; ?>" >
-                    <div class="input-group" >
-                        <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
-                        <span class="input-group-addon"  style="width: 50px;"><span class="glyphicon glyphicon-search"></span></span>
-                    </div>
-                </form>
-            </li>
-        </ul>
-
-        <ul class="pull-right list-inline ">
-            <?php
-            if (User::canUpload()) {
-                if(!empty($config->getEncoderURL())){
-                ?>
+    <ul class="items-container">
+        <li>
+            <ul class="left-side">
                 <li>
-                    <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Video and Audio Upload"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
-                </li>
-                <?php
-                }else{
-                ?>
-                <li>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Configure an Encoder URL"); ?>" data-placement="bottom" ><span class="fa fa-cogs"></span></a>
-                </li>
-                <?php
-                }
-            }
-            ?>
+                    <button class="btn btn-default navbar-btn pull-left" id="buttonMenu" ><span class="fa fa-bars"></span></button>
+                    <script>
+                        $('#buttonMenu').click(function (event) {
+                            event.stopPropagation();
+                            $('#sidebar').fadeToggle();
 
-            <li class="pull-right">
-                <select class="selectpicker" id="navBarFlag" data-width="fit">
-                    <?php
-                    $flags = getEnabledLangs();
-                    foreach ($flags as $value) {
-                        $selected = "";
-                        if ($value == 'en') {
-                            $value = 'us';
-                        }
-                        if ($lang == $value) {
-                            $selected = 'selected="selected"';
-                        }
-                        echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span>' value=\"{$value}\" {$selected}>{$value}</option>";
-                    }
-                    ?>
-                </select>
-                <script>
-                    $(function () {
-                        $('#navBarFlag').selectpicker('setStyle', 'btn-default');
-                        $('#navBarFlag').selectpicker('setStyle', 'navbar-btn', 'add');
-
-                        $('#navBarFlag').on('change', function () {
-                            var selected = $(this).find("option:selected").val();
-                            window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + selected;
                         });
-                    });
-                </script>
-            </li>
-        </ul>
-    </div>
+
+                        $(document).on("click", function () {
+                            $("#sidebar").fadeOut();
+                        });
+                        $("#sidebar").on("click", function (event) {
+                            event.stopPropagation();
+                        });
+                    </script>
+                </li>
+                <li>
+                    <a class="navbar-brand" href="<?php echo $global['webSiteRootURL']; ?>" >
+                        <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
+                    </a>
+                </li>
+                <li class="hidden-xs">
+                    <form class="navbar-form navbar-left"  action="<?php echo $global['webSiteRootURL']; ?>" >
+                        <div class="input-group" >
+                            <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
+                            <span class="input-group-addon"  style="width: 50px;"><span class="glyphicon glyphicon-search"></span></span>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <ul class="right-menus">
+
+                <?php
+                if (User::canUpload()) {
+                    if (!empty($config->getEncoderURL())) {
+                        ?>
+                        <li>
+                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Video and Audio Upload"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
+                        </li>
+                        <?php
+                    } else {
+                        ?>
+                        <li>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Configure an Encoder URL"); ?>" data-placement="bottom" ><span class="fa fa-cogs"></span></a>
+                        </li>
+                        <?php
+                    }
+                }
+                ?>
+
+                <li>
+                    <select class="selectpicker" id="navBarFlag" data-width="fit">
+                        <?php
+                        $flags = getEnabledLangs();
+                        foreach ($flags as $value) {
+                            $selected = "";
+                            if ($value == 'en') {
+                                $value = 'us';
+                            }
+                            if ($lang == $value) {
+                                $selected = 'selected="selected"';
+                            }
+                            echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span>' value=\"{$value}\" {$selected}>{$value}</option>";
+                        }
+                        ?>
+                    </select>
+                    <script>
+                        $(function () {
+                            $('#navBarFlag').selectpicker('setStyle', 'btn-default');
+                            $('#navBarFlag').selectpicker('setStyle', 'navbar-btn', 'add');
+
+                            $('#navBarFlag').on('change', function () {
+                                var selected = $(this).find("option:selected").val();
+                                window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + selected;
+                            });
+                        });
+                    </script>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
 
     <div id="sidebar" class="list-group-item" style="display: none;">
         <div id="sideBarContainer">

@@ -24,7 +24,7 @@ require_once '../objects/functions.php';
             ?>
             <div class="container">
                 <h3 class="alert alert-success">
-                    <span class="glyphicon glyphicon-ok-circle"></span> 
+                    <span class="glyphicon glyphicon-ok-circle"></span>
                     Your system is installed, remove the <code><?php echo $global['systemRootPath']; ?>install</code> directory to continue
                     <hr>
                     <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-success btn-lg center-block">Go to the main page</a>
@@ -44,14 +44,14 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?> is Present</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your server is <?php echo $_SERVER['SERVER_SOFTWARE']; ?>, you must install Apache</strong>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -63,7 +63,7 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>PHP <?php echo PHP_VERSION; ?> is Present</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
@@ -82,7 +82,7 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Mod Rewrite module is Present</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
@@ -95,7 +95,7 @@ require_once '../objects/functions.php';
                                     Restart apache2 after<br>
                                     <pre><code>/etc/init.d/apache2 restart</code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -106,7 +106,7 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Your videos directory is writable</strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
@@ -129,7 +129,7 @@ require_once '../objects/functions.php';
                                     <br>
                                     <pre><code>sudo chmod -R 777 <?php echo $dir; ?></code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         $pathToPHPini= php_ini_loaded_file();
@@ -144,20 +144,20 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?></strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?>, it must be at least 100M</strong>
-                                
+
                                 <details>
-                                    Edit the <code>php.ini</code> file 
+                                    Edit the <code>php.ini</code> file
                                     <br>
                                     <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
                                 </details>
-                            </div>                  
+                            </div>
                             <?php
                         }
                         ?>
@@ -168,20 +168,20 @@ require_once '../objects/functions.php';
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
                                 <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?></strong>
-                            </div>                  
+                            </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
                                 <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?>, it must be at least 100M</strong>
-                                
+
                                 <details>
-                                    Edit the <code>php.ini</code> file 
+                                    Edit the <code>php.ini</code> file
                                     <br>
                                     <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
                                 </details>
-                            </div>                   
+                            </div>
                             <?php
                         }
                         ?>
@@ -208,6 +208,10 @@ require_once '../objects/functions.php';
                             <div class="form-group">
                                 <label for="databaseHost">Database Host</label>
                                 <input type="text" class="form-control" id="databaseHost" placeholder="Enter Database Host" value="localhost" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label for="databasePort">Database Port</label>
+                                <input type="text" class="form-control" id="databasePort" placeholder="Enter Database Port" value="3306" required="required">
                             </div>
                             <div class="form-group">
                                 <label for="databaseUser">Database User</label>
@@ -252,7 +256,7 @@ require_once '../objects/functions.php';
 
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
-                    </div>            
+                    </div>
                 </div>
 
             </div>
@@ -261,7 +265,7 @@ require_once '../objects/functions.php';
         <script src="../view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="../view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
         <script src="../view/js/script.js" type="text/javascript"></script>
-        
+
         <script>
             $(function () {
                 $('.selectpicker').selectpicker();
@@ -279,12 +283,13 @@ require_once '../objects/functions.php';
                         swal("Sorry!", "Your System Admin Password must be confirmed!", "error");
                         return false;
                     }
-                    
+
                     modal.showPleaseWait();
                     var webSiteRootURL = $('#webSiteRootURL').val();
                     var systemRootPath = $('#systemRootPath').val();
                     var webSiteTitle = $('#webSiteTitle').val();
                     var databaseHost = $('#databaseHost').val();
+                    var databasePort = $('#databasePort').val();
                     var databaseUser = $('#databaseUser').val();
                     var databasePass = $('#databasePass').val();
                     var databaseName = $('#databaseName').val();
@@ -298,6 +303,7 @@ require_once '../objects/functions.php';
                             systemRootPath: systemRootPath,
                             webSiteTitle: webSiteTitle,
                             databaseHost: databaseHost,
+                            databasePort: databasePort,
                             databaseUser: databaseUser,
                             databasePass: databasePass,
                             databaseName: databaseName,

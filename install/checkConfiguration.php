@@ -13,7 +13,7 @@ if (!file_exists($_POST['systemRootPath'] . "index.php")) {
     exit;
 }
 
-$mysqli = @new mysqli($_POST['databaseHost'], $_POST['databaseUser'], $_POST['databasePass']);
+$mysqli = @new mysqli($_POST['databaseHost'], $_POST['databaseUser'], $_POST['databasePass'], "", $_POST['databasePort']);
 
 /*
  * This is the "official" OO way to do it,
@@ -125,6 +125,7 @@ $content = "<?php
 
 
 \$mysqlHost = '{$_POST['databaseHost']}';
+\$mysqlPort = '{$_POST['databasePort']}';
 \$mysqlUser = '{$_POST['databaseUser']}';
 \$mysqlPass = '{$_POST['databasePass']}';
 \$mysqlDatabase = '{$_POST['databaseName']}';
@@ -139,6 +140,15 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
 $fp = fopen($_POST['systemRootPath'] . "videos/configuration.php", "wb");
 fwrite($fp, $content);
 fclose($fp);
+
+//copy the 100% progress sample file to be used when the uploaded file is already encoded in the MP4 or WBM formats
+exec("cp {$_POST['systemRootPath']}install/FinishedProgressSample.* {$_POST['systemRootPath']}videos/", $output, $return_val);
+
+if ($return_val !== 0) {
+    $obj->error = "Error copying the encoding progress sample files. Check whether the directory {$_POST['systemRootPath']}videos/ exists and the process have permission";
+    echo json_encode($obj);
+    exit;
+}
 
 $obj->success = true;
 echo json_encode($obj);
