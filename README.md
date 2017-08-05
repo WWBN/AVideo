@@ -28,4 +28,4 @@ No. We will be providing a public encoder, we will build the encoder in such a w
 </div>
 
 # Older version
-If you want the old version with Streamer and Encoder together (Version 3.4) download it <a href="https://github.com/DanielnetoDotCom/YouPHPTube/archive/3.4.zip">here</a>
+If you want the old version with Streamer and Encoder together (Version 3.4.1) download it <a href="https://github.com/DanielnetoDotCom/YouPHPTube/releases/tag/3.4.1">here</a>
