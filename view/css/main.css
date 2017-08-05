@@ -641,11 +641,17 @@ nav ul.items-container li ul.right-menus li{
     }
 }
 @media (max-width: 500px) {
+    .floatVideo{
+        width: 380px;
+    }
     .galleryVideo{
         height: 200px;
     }
 }
 @media (max-width: 400px) {
+    .floatVideo{
+        width: 350px;
+    }
     .galleryVideo{
         height: 180px;
     }
