@@ -650,7 +650,7 @@ nav ul.items-container li ul.right-menus li{
 }
 @media (max-width: 400px) {
     .floatVideo{
-        width: 350px;
+        width: 320px;
     }
     .galleryVideo{
         height: 180px;
