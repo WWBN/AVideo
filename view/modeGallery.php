@@ -71,26 +71,26 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                             ?>
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo thumbsImage">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
-                                        <?php
-                                        $imgGif = "";
-                                        if (file_exists("{$global['systemRootPath']}videos/{$value['filename']}.gif")) {
-                                            $imgGif = "{$global['webSiteRootURL']}videos/{$value['filename']}.gif";
-                                        }
-                                        if ($value['type'] !== "audio") {
-                                            $poster = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
-                                        } else {
-                                            $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                                        }
-                                        ?>    
-                                        <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
-                                        <?php
-                                        if (!empty($imgGif)) {
-                                            ?>
-                                            <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130px" />
-                                        <?php } ?>                                        
-                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                    </a>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
+                                    <?php
+                                    $imgGif = "";
+                                    if (file_exists("{$global['systemRootPath']}videos/{$value['filename']}.gif")) {
+                                        $imgGif = "{$global['webSiteRootURL']}videos/{$value['filename']}.gif";
+                                    }
+                                    if ($value['type'] !== "audio") {
+                                        $poster = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
+                                    } else {
+                                        $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                    }
+                                    ?>    
+                                    <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
+                                    <?php
+                                    if (!empty($imgGif)) {
+                                        ?>
+                                        <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130px" />
+                                    <?php } ?>                                        
+                                    <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                </a>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                     <h2><?php echo $value['title']; ?></h2>
                                 </a>
