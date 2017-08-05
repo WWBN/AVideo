@@ -585,6 +585,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <input id="encoder_url" aria-describedby="encoder_urlHelp" class="form-control"  type="url" value="<?php echo $config->getEncoderURL(); ?>" > 
                                                             <small id="encoder_urlHelp" class="form-text text-muted">
                                                                 <?php echo __("You need to set up an encoder server"); ?><br>
+                                                                <?php echo __("You can use our public encoder on"); ?>: https://encoder.youphptube.com/ or 
                                                                 <a href="https://github.com/DanielnetoDotCom/YouPHPTube-Encoder" class="btn btn-default btn-xs" target="_blank"><?php echo __("For faster encode, download your own encoder"); ?></a>
                                                             </small>
                                                         </div>

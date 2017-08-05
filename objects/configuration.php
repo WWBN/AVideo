@@ -416,6 +416,9 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function getEncoderURL() {
+        if(empty($this->encoderURL)){
+            return "https://encoder.youphptube.com/";
+        }
         return $this->encoderURL;
     }
 
