@@ -153,7 +153,7 @@ if ($config->getAutoplay()) {
                                 $('#main-video').addClass('floatVideo');
                                 $('#main-video').parent().css('height', mainVideoHeight);
                                 changingVideoFloat = 0;
-                                $('#main-video').slideDown(1000);
+                                $('#main-video').fadeIn();
                             } else {
                                 changingVideoFloat = 0;
                             }
