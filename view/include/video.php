@@ -203,8 +203,8 @@ if ($config->getAutoplay()) {
 
                                 $("#videoContainer").resizable({
                                     aspectRatio: 16 / 9,
-                                    minHeight: 90,
-                                    minWidth: 160
+                                    minHeight: 150,
+                                    minWidth: 266
                                 });
                                 $("#videoContainer").draggable({
                                     handle: ".move",
