@@ -127,7 +127,7 @@ if (!empty($video)) {
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="container-fluid" itemscope itemtype="http://schema.org/VideoObject">
+        <div class="container-fluid principalContainer" itemscope itemtype="http://schema.org/VideoObject">
             <?php
             if (!empty($video)) {
                 if (empty($video['type']) || file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {

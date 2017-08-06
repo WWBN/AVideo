@@ -208,7 +208,10 @@ if ($config->getAutoplay()) {
                                     minHeight: 90,
                                     minWidth: 160
                                 });
-                                $("#videoContainer").draggable({handle: ".move"});
+                                $("#videoContainer").draggable({
+                                    handle: ".move",
+                                    containment: ".principalContainer"
+                                });
                                 changingVideoFloat = 0;
                                 $('#videoContainer').fadeIn();
                                 $('#floatButtons').fadeIn();
