@@ -575,7 +575,7 @@ nav ul.items-container li ul.right-menus li{
 /* End Play List */
 
 .floatVideo{
-    position: fixed;
+    position: fixed !important;
     width: 550px;
     top: 60px;
     left: 10px;
