@@ -196,8 +196,6 @@ if ($config->getAutoplay()) {
                                 if(parseInt(floatLeft)<10){
                                     floatLeft = "10px";
                                 }
-                                console.log("Top: "+floatTop);
-                                console.log("Left: "+floatLeft);
                                 $("#videoContainer").css({"top": floatTop});
                                 $("#videoContainer").css({"left": floatLeft});
                                 $("#videoContainer").css({"height": floatHeight});
