@@ -577,12 +577,12 @@ nav ul.items-container li ul.right-menus li{
 .floatVideo{
     position: fixed !important;
     width: 550px;
-    top: 60px;
+    top: 70px;
     left: 10px;
     z-index: 100;
     overflow: visible;
 }
-.floatVideo #mainVideo{
+.floatVideo #main-video{
     -webkit-box-shadow: 2px 0px 19px 2px rgba(0,0,0,1);
     -moz-box-shadow: 2px 0px 19px 2px rgba(0,0,0,1);
     box-shadow: 2px 0px 19px 2px rgba(0,0,0,1);
@@ -590,7 +590,31 @@ nav ul.items-container li ul.right-menus li{
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+#floatButtons{
+    z-index: 110;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+}
+#floatButtons .btn-outline:hover,
+#floatButtons .btn-outline:focus,
+#floatButtons .btn-outline:active{
+    color: rgba(255,255,255,1);
+    background-color: rgba(0,0,0,0.5);
+    border: solid 1px white;
+}
+#floatButtons .btn-outline {
+    color: rgba(255,255,255,0.3);
+    border: solid 1px rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.1);
+    transition: all 0.3s ease-in-out;
+    border-radius: 10px;
+}
 
+#videoContainer{
+ overflow: visible;
+ background: black;
+}
 /** video manager progress bar */
 .progress {
     position: relative;

@@ -19,33 +19,43 @@ if (!empty($ad)) {
 <div class="row main-video">
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8">
-        <div align="center" id="main-video" class="embed-responsive <?php
-        echo $embedResponsiveClass;
-        if (!empty($logId)) {
-            echo " ad";
-        }
-        ?>">
-            <video poster="<?php echo $poster; ?>" controls crossorigin 
-                   class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
-                   id="mainVideo"  data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>" }'>
-                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
-                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
-                <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
-                <p class="vjs-no-js">
-                    <?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
-                    <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+        <div id="videoContainer">
+            <div id="floatButtons" style="display: none;">
+                <p class="btn btn-outline btn-xs move">
+                    <i class="fa fa-arrows"></i>
                 </p>
-            </video>
-            <?php if (!empty($logId)) { ?>
-                <div id="adUrl" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i> 
-                    <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
-                        $url = parse_url($ad['redirect']);
-                        echo $url['host'];
-                        ?> <i class="fa fa-external-link"></i>
-                    </a>
-                </div>
-                <a id="adButton" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
-            <?php } ?>
+                <button type="button" class="btn btn-outline btn-xs" onclick="closeFloatVideo();floatClosed=1;">
+                    <i class="fa fa-close"></i>
+                </button>
+            </div>
+            <div align="center" id="main-video" class="embed-responsive <?php
+            echo $embedResponsiveClass;
+            if (!empty($logId)) {
+                echo " ad";
+            }
+            ?>">
+                <video poster="<?php echo $poster; ?>" controls crossorigin 
+                       class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
+                       id="mainVideo"  data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>" }'>
+                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
+                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
+                    <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
+                    <p class="vjs-no-js">
+                        <?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
+                        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                    </p>
+                </video>
+                <?php if (!empty($logId)) { ?>
+                    <div id="adUrl" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i> 
+                        <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
+                            $url = parse_url($ad['redirect']);
+                            echo $url['host'];
+                            ?> <i class="fa fa-external-link"></i>
+                        </a>
+                    </div>
+                    <a id="adButton" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
+                <?php } ?>
+            </div>
         </div>
     </div> 
 
@@ -58,9 +68,33 @@ if (!empty($ad)) {
     var floatHeight = "";
 
     var changingVideoFloat = 0;
-    var mainVideoHeight = $('#main-video').innerHeight();
+    var floatClosed = 0;
+    var mainVideoHeight = $('#videoContainer').innerHeight();
     var fullDuration = 0;
     var isPlayingAd = false;
+
+    function closeFloatVideo() {
+        $('#videoContainer').fadeOut('fast', function () {
+            // this is to remove the dragable and resize
+            floatLeft = $("#videoContainer").css("left");
+            floatTop = $("#videoContainer").css("top");
+            floatWidth = $("#videoContainer").css("width");
+            floatHeight = $("#videoContainer").css("height");
+            $("#videoContainer").css({"top": ""});
+            $("#videoContainer").css({"left": ""});
+            $("#videoContainer").css({"height": ""});
+            $("#videoContainer").css({"width": ""});
+
+            $('#videoContainer').parent().css('height', '');
+            $('#videoContainer').removeClass('floatVideo');
+            $("#videoContainer").resizable('destroy');
+            $("#videoContainer").draggable('destroy');
+            $('#floatButtons').hide();
+            changingVideoFloat = 0;
+        });
+        $('#videoContainer').fadeIn();
+    }
+
     $(document).ready(function () {
 
         fullDuration = strToSeconds('<?php echo $ad['duration']; ?>');
@@ -143,7 +177,7 @@ if ($config->getAutoplay()) {
 
                     $(window).resize(function () {
 
-                        mainVideoHeight = $('#main-video').innerHeight();
+                        mainVideoHeight = $('#videoContainer').innerHeight();
                     });
                     $(window).scroll(function () {
                         if (changingVideoFloat) {
@@ -152,43 +186,39 @@ if ($config->getAutoplay()) {
                         changingVideoFloat = 1;
                         var s = $(window).scrollTop();
                         if (s > mainVideoHeight) {
-                            if (!$('#main-video').hasClass("floatVideo")) {
-                                $('#main-video').hide();
-                                $('#main-video').addClass('floatVideo');
-                                $('#main-video').parent().css('height', mainVideoHeight);
-                                $("#main-video").css({"top": floatTop});
-                                $("#main-video").css({"left": floatLeft});
-                                $("#mainVideo").css({"height": floatHeight});
-                                $("#mainVideo").css({"width": floatWidth});
+                            if (!$('#videoContainer').hasClass("floatVideo") && !floatClosed) {
+                                $('#videoContainer').hide();
+                                $('#videoContainer').addClass('floatVideo');
+                                $('#videoContainer').parent().css('height', mainVideoHeight);
+                                if(parseInt(floatTop)<70){
+                                    floatTop = "70px";
+                                }
+                                if(parseInt(floatLeft)<10){
+                                    floatLeft = "10px";
+                                }
+                                console.log("Top: "+floatTop);
+                                console.log("Left: "+floatLeft);
+                                $("#videoContainer").css({"top": floatTop});
+                                $("#videoContainer").css({"left": floatLeft});
+                                $("#videoContainer").css({"height": floatHeight});
+                                $("#videoContainer").css({"width": floatWidth});
 
-                                $("#mainVideo").resizable();
-                                $("#main-video").draggable();
+                                $("#videoContainer").resizable({
+                                    aspectRatio: 16 / 9,
+                                    minHeight: 90,
+                                    minWidth: 160
+                                });
+                                $("#videoContainer").draggable({handle: ".move"});
                                 changingVideoFloat = 0;
-                                $('#main-video').fadeIn();
+                                $('#videoContainer').fadeIn();
+                                $('#floatButtons').fadeIn();
                             } else {
                                 changingVideoFloat = 0;
                             }
                         } else {
-                            if ($('#main-video').hasClass("floatVideo")) {
-                                $('#main-video').fadeOut('fast', function () {
-                                    // this is to remove the dragable and resize
-                                    floatLeft = $("#main-video").css("left");
-                                    floatTop = $("#main-video").css("top");
-                                    floatWidth = $("#mainVideo").css("width");
-                                    floatHeight = $("#mainVideo").css("height");
-                                    $("#main-video").css({"top": ""});
-                                    $("#main-video").css({"left": ""});
-                                    $("#mainVideo").css({"height": ""});
-                                    $("#mainVideo").css({"width": ""});
-
-                                    $('#main-video').parent().css('height', '');
-                                    $('#main-video').removeClass('floatVideo');
-                                    $("#mainVideo").resizable('destroy');
-                                    $("#main-video").draggable('destroy');
-
-                                    changingVideoFloat = 0;
-                                });
-                                $('#main-video').fadeIn();
+                            floatClosed = 0;
+                            if ($('#videoContainer').hasClass("floatVideo")) {
+                                closeFloatVideo();
                             } else {
                                 changingVideoFloat = 0;
                             }
