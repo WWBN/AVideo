@@ -201,74 +201,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             ?>
 
                                             <?php
-                                            if ($exifTool = isExifToo()) {
-                                                ?>
-                                                <div class="alert alert-success">
-                                                    <span class="glyphicon glyphicon-check"></span>
-                                                    <strong>Exiftool [<?php echo $exifTool; ?>] is Present</strong>
-                                                </div>                  
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <div class="alert alert-danger">
-                                                    <span class="glyphicon glyphicon-unchecked"></span>
-                                                    <strong>Since YouPHPTube 2.1 we use exiftool to determine if an video is landscape or portrait</strong>
-                                                    <details>
-                                                        In order to install exiftool type the following command in the terminal:<br>
-                                                        <pre><code>sudo apt install libimage-exiftool-perl</code></pre>
-                                                    </details>
-                                                </div>                  
-                                                <?php
-                                            }
-                                            ?>
-                                            <?php
-                                            if ($ffmpeg = isFFMPEG()) {
-                                                ?>
-                                                <div class="alert alert-success">
-                                                    <span class="glyphicon glyphicon-check"></span>
-                                                    <strong>FFMPEG <?php echo $ffmpeg; ?> is Present</strong>
-                                                </div>                  
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <div class="alert alert-danger">
-                                                    <span class="glyphicon glyphicon-unchecked"></span>
-                                                    <strong>FFmpeg is not enabled</strong>
-                                                    <details>
-                                                        FFmpeg has been removed from Ubuntu 14.04 and was replaced by Libav. This decision has been reversed so that FFmpeg is available now in Ubuntu 15.04 again, but there is still no official package for 14.04. In this tutorial, I will show you how to install FFmpeg from mc3man ppa. Add the mc3man ppa:
-                                                        <br>
-                                                        If you are not using Ubuntu 14.x go to step 2 
-                                                        <h2>Step 1</h2>
-                                                        <pre><code>sudo add-apt-repository ppa:mc3man/trusty-media</code></pre>
-                                                        <br>
-                                                        And confirm the following message by pressing &lt;enter&gt;:
-                                                        <br>
-                                                        <code>
-                                                            Also note that with apt-get a sudo apt-get dist-upgrade is needed for initial setup & with some package upgrades
-                                                            More info: https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media
-                                                            Press [ENTER] to continue or ctrl-c to cancel adding it
-                                                        </code>
-                                                        <br>
-                                                        Update the package list.
-                                                        <br>
-                                                        <pre><code>
-                                                                                                        sudo apt-get update
-                                                                                                        sudo apt-get dist-upgrade
-                                                                                                    </code></pre>
-                                                        <br>
-                                                        Now FFmpeg is available to be installed with apt:
-                                                        <br>
-                                                        <h2>Step 2</h2>
-                                                        <pre><code>sudo apt-get install ffmpeg</code></pre>
-
-                                                    </details>
-                                                </div>                  
-                                                <?php
-                                            }
-                                            ?>
-
-
-                                            <?php
                                             if (checkVideosDir()) {
                                                 ?>
                                                 <div class="alert alert-success">
@@ -303,31 +235,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             $pathToPHPini = php_ini_loaded_file();
                                             if (empty($pathToPHPini)) {
                                                 $pathToPHPini = "/etc/php/7.0/cli/php.ini";
-                                            }
-                                            ?>
-
-
-                                            <?php
-                                            if (check_max_execution_time()) {
-                                                ?>
-                                                <div class="alert alert-success">
-                                                    <span class="glyphicon glyphicon-check"></span>
-                                                    <strong>Your max_execution_time is <?php echo ini_get('max_execution_time'); ?></strong>
-                                                </div>                  
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <div class="alert alert-danger">
-                                                    <span class="glyphicon glyphicon-unchecked"></span>
-                                                    <strong>Your max_execution_time is <?php echo ini_get('max_execution_time'); ?>, it must be at least 7200</strong>
-
-                                                    <details>
-                                                        Edit the <code>php.ini</code> file 
-                                                        <br>
-                                                        <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
-                                                    </details>
-                                                </div>                  
-                                                <?php
                                             }
                                             ?>
 
@@ -379,29 +286,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             }
                                             ?>
 
-                                            <?php
-                                            if (check_memory_limit()) {
-                                                ?>
-                                                <div class="alert alert-success">
-                                                    <span class="glyphicon glyphicon-check"></span>
-                                                    <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?></strong>
-                                                </div>                  
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <div class="alert alert-danger">
-                                                    <span class="glyphicon glyphicon-unchecked"></span>
-                                                    <strong>Your memory_limit is <?php echo ini_get('memory_limit'); ?>, it must be at least 512M</strong>
-
-                                                    <details>
-                                                        Edit the <code>php.ini</code> file 
-                                                        <br>
-                                                        <pre><code>sudo nano <?php echo $pathToPHPini; ?></code></pre>
-                                                    </details>
-                                                </div>                   
-                                                <?php
-                                            }
-                                            ?>
                                         </div>
                                         <div class="tab-pane  active" id="tabRegular">
                                             <fieldset>
