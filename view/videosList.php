@@ -24,9 +24,9 @@ $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
 
 $videoName = "";
-if(!empty($video['clean_title'])){
+if (!empty($video['clean_title'])) {
     $videoName = $video['clean_title'];
-}else if(!empty($_GET['videoName'])){
+} else if (!empty($_GET['videoName'])) {
     $videoName = $_GET['videoName'];
 }
 
@@ -102,13 +102,13 @@ foreach ($videos as $key => $value) {
 </ul>
 <div class="loader" id="pageLoader" style="display: none;"></div>
 <script>
-    function setBootPage(){
+    function setBootPage() {
         $('.pages').bootpag({
             total: <?php echo $totalPages; ?>,
             page: <?php echo $_GET['page']; ?>,
             maxVisible: 10
         }).on('page', function (event, num) {
-            history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>/page/'+ num);
+            history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>/page/' + num);
             $('.pages').slideUp();
             $('#pageLoader').slideDown();
             $("#videosList").load("<?php echo $global['webSiteRootURL']; ?>videosList/video/<?php echo $videoName; ?>/page/" + num, function () {
@@ -118,5 +118,15 @@ foreach ($videos as $key => $value) {
     }
     $(document).ready(function () {
         setBootPage();
+
+        $(".thumbsImage").on("mouseenter", function () {
+            $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
+            $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
+            $(this).find(".thumbsGIF").stop(true, true).fadeIn();
+        });
+
+        $(".thumbsImage").on("mouseleave", function () {
+            $(this).find(".thumbsGIF").stop(true, true).fadeOut();
+        });
     });
 </script>
