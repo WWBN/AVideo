@@ -18,9 +18,18 @@ if (empty($_GET['page'])) {
 $_POST['rowCount'] = 10;
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
+
 $videos = Video::getAllVideos("viewableNotAd");
 $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
+
+$videoName = "";
+if(!empty($video['clean_title'])){
+    $videoName = $video['clean_title'];
+}else if(!empty($_GET['videoName'])){
+    $videoName = $_GET['videoName'];
+}
+
 foreach ($videos as $key => $value) {
     if (!empty($video['id']) && $video['id'] == $value['id']) {
         continue; // skip video
@@ -99,9 +108,10 @@ foreach ($videos as $key => $value) {
             page: <?php echo $_GET['page']; ?>,
             maxVisible: 10
         }).on('page', function (event, num) {
+            history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>/page/'+ num);
             $('.pages').slideUp();
             $('#pageLoader').slideDown();
-            $("#videosList").load("<?php echo $global['webSiteRootURL']; ?>videosList/page/" + num, function () {
+            $("#videosList").load("<?php echo $global['webSiteRootURL']; ?>videosList/video/<?php echo $videoName; ?>/page/" + num, function () {
                 setBootPage();
             });
         });
