@@ -22,6 +22,8 @@
     RewriteRule    ^sendEmail$ objects/sendEmail.json.php    [NC,L]
     RewriteRule    ^captcha$ objects/getCaptcha.php    [NC,L]
     RewriteRule    ^monitor/(.+)$ objects/ServerMonitor/$1    [NC,L]
+    RewriteRule    ^videosList$ view/videosList.php    [NC,L]
+    RewriteRule    ^videosList/page/([0-9]+)/?$ view/videosList.php?page=$1    [NC,L]
 
     #for the category name
     RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L]
