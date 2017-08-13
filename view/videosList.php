@@ -109,8 +109,8 @@ foreach ($videos as $key => $value) {
             maxVisible: 10
         }).on('page', function (event, num) {
             history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>/page/' + num);
-            $('.pages').hide();
-            $('#pageLoader').show();
+            $('.pages').slideUp();
+            $('#pageLoader').fadeIn();
             $("#videosList").load("<?php echo $global['webSiteRootURL']; ?>videosList/video/<?php echo $videoName; ?>/page/" + num, function () {
                 setBootPage();
             });
