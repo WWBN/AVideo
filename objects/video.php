@@ -98,8 +98,7 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'e';
         }
-        $this->description = $global['mysqli']->real_escape_string($this->description);
-        $this->title = $global['mysqli']->real_escape_string($this->title);
+        
         if (!empty($this->id)) {
             if (!$this->userCanManageVideo()) {
                 header('Content-Type: application/json');
@@ -976,7 +975,7 @@ class Video {
     }
 
     function setTitle($title) {
-        $this->title = trim($title);
+        $this->title = $global['mysqli']->real_escape_string(trim($title));
     }
 
     function setFilename($filename) {
