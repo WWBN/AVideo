@@ -77,6 +77,9 @@ if ($video['type'] !== "audio") {
 if (!empty($video)) {
     if ($video['type'] !== "audio") {
         $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+        $data = getimagesize("{$global['systemRootPath']}videos/{$video['filename']}.jpg");
+        $imgw = $data[0];
+        $imgh = $data[1];
     } else {
         $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
     }
@@ -103,6 +106,8 @@ if (!empty($video)) {
         <meta property="og:title"              content="<?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?>" />
         <meta property="og:description"        content="<?php echo $video['title']; ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
+        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
+        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
     </head>
 
     <body>
