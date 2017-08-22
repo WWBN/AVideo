@@ -583,7 +583,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                             }
                         });
                     });
-                    $('.pie').asPieProgress({});
                     setTimeout(function () {
                         checkProgress()
                     }, 500);
