@@ -242,8 +242,7 @@ $userGroups = UserGroups::getAllUsersGroups();
         include 'include/footer.php';
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-        <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>monitor/gauge/jquery-asPieProgress.js"></script>
-
+        
         <script>
             var timeOut;
             var encodingNowId = "";
