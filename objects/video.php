@@ -975,6 +975,7 @@ class Video {
     }
 
     function setTitle($title) {
+        global $global;
         $this->title = $global['mysqli']->real_escape_string(trim($title));
     }
 
