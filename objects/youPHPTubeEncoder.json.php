@@ -3,6 +3,12 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
+if(empty($_POST)){
+    $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
+    error_log($obj->msg);
+    die(json_encode($obj));
+}
+
 if(empty($global['systemRootPath'])){
     $global['systemRootPath'] = "../";
 }
