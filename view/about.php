@@ -21,12 +21,13 @@ require_once '../videos/configuration.php';
                     <h1><?php echo __("For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."); ?></h1>
                     <footer class="blockquote-footer">Apostle Paul in <cite title="Source Title">Romans 11:36</cite></footer>
                 </blockquote>
-                <div class="jumbotron">
-                    <h2><?php echo __("About YouPHPTube!"); ?></h2>
-                    <?php echo __("<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>"); ?>
+                <div class="alert alert-success">
+                    <?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?><br>
+                    <a href="https://demo.youphptube.com/" class="btn btn-danger">Demo Site</a> 
+                    <a href="https://tutorials.youphptube.com/" class="btn btn-primary">Tutorials Site</a> 
                 </div>
                 <div class="alert alert-success">
-                    <?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?>
+                    <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
                 </div>
                 
             </div>
