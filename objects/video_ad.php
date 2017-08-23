@@ -54,7 +54,10 @@ class Video_ad {
             header('Content-Type: application/json');
             die('{"error":"' . __("Permission denied") . '"}');
         }
-        if (empty($this->ad_title) || empty($this->starts)) {
+        if(empty($this->starts)){
+            $this->starts = date("Y-m-d h:i:s");
+        }
+        if (empty($this->ad_title)) {
             return false;
         }
         if(empty($this->finish)){
@@ -83,6 +86,7 @@ class Video_ad {
                     . "('{$this->ad_title}','{$this->starts}', {$finish}, '{$this->getSkip_after_seconds()}',"
                     . "'{$this->redirect}', '{$this->getFinish_max_clicks()}', '{$this->getFinish_max_prints()}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
         }
+        
         $insert_row = $global['mysqli']->query($sql);
 
         if ($insert_row) {
