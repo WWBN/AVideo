@@ -104,8 +104,8 @@ if (!empty($video)) {
         <meta property="fb:app_id"                content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
         <meta property="og:type"               content="video" />
-        <meta property="og:title"              content="<?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?>" />
-        <meta property="og:description"        content="<?php echo $video['title']; ?>" />
+        <meta property="og:title"              content="<?php echo str_replace('"', '\\"', $video['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo str_replace('"', '\\"', $video['title']); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
@@ -132,13 +132,13 @@ if (!empty($video)) {
                         <div class="row bgWhite list-group-item">
                             <div class="row divMainVideo">
                                 <div class="col-xs-4 col-sm-4 col-lg-4">
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130px" itemprop="thumbnail" /> 
+                                    <img src="<?php echo $poster; ?>" alt="<?php echo str_replace('"', '\\"', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130px" itemprop="thumbnail" /> 
                                     <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
                                     <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                     <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
                                     <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
                                     <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
-                                    <meta itemprop="description" content="<?php echo $video['title']; ?> - <?php echo $video['description']; ?>" />
+                                    <meta itemprop="description" content="<?php echo str_replace('"', '\\"', $video['title']); ?> - <?php echo $video['description']; ?>" />
                                 </div>
                                 <div class="col-xs-8 col-sm-8 col-lg-8">
                                     <h1 itemprop="name">
@@ -626,7 +626,7 @@ if (!empty($video)) {
                                 </span>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" style="display: none;" >
-                                <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo $autoPlayVideo['title']; ?>" class="videoLink">
+                                <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo str_replace('"', '\\"', $autoPlayVideo['title']); ?>" class="videoLink">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                                         <?php
                                         $imgGif = "";
@@ -641,11 +641,11 @@ if (!empty($video)) {
                                             $img_portrait = "";
                                         }
                                         ?>
-                                        <img src="<?php echo $img; ?>" alt="<?php echo $autoPlayVideo['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130px" itemprop="thumbnail" />
+                                        <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '\\"', $autoPlayVideo['title']); ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130px" itemprop="thumbnail" />
                                         <?php
                                         if (!empty($imgGif)) {
                                             ?>
-                                            <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $autoPlayVideo['title']; ?>" id="thumbsGIF<?php echo $autoPlayVideo['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130px" />
+                                            <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo str_replace('"', '\\"', $autoPlayVideo['title']); ?>" id="thumbsGIF<?php echo $autoPlayVideo['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130px" />
                                         <?php } ?>
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                         <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $autoPlayVideo['clean_title']; ?>" />
