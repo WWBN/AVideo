@@ -23,7 +23,7 @@ require_once '../videos/configuration.php';
                     <footer class="blockquote-footer">Apostle Paul in <cite title="Source Title">Romans 11:36</cite></footer>
                 </blockquote>
                 <div class="alert alert-success">
-                    <?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?><br>
+                    <span class="label label-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></span><br>
                     <a href="https://www.youphptube.com/" class="btn btn-success">Main Site</a> 
                     <a href="https://demo.youphptube.com/" class="btn btn-danger">Demo Site</a> 
                     <a href="https://tutorials.youphptube.com/" class="btn btn-primary">Tutorials Site</a> 
