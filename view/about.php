@@ -23,8 +23,10 @@ require_once '../videos/configuration.php';
                 </blockquote>
                 <div class="alert alert-success">
                     <?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?><br>
+                    <a href="https://www.youphptube.com/" class="btn btn-success">Main Site</a> 
                     <a href="https://demo.youphptube.com/" class="btn btn-danger">Demo Site</a> 
                     <a href="https://tutorials.youphptube.com/" class="btn btn-primary">Tutorials Site</a> 
+                    <a href="https://github.com/DanielnetoDotCom/YouPHPTube/issues" class="btn btn-warning">Issues and requests Site</a> 
                 </div>
                 <div class="alert alert-success">
                     <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
