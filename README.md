@@ -1,3 +1,11 @@
+# First thing...
+I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
+
+**For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
+`Apostle Paul in Romans 11:36`
+
+# Now you can read the rest...
+
 I don´t want to read I just want you to show me how to install!!
 
 Ok, check this out! https://tutorials.youphptube.com/video/streamer-and-encoder
