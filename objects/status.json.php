@@ -4,5 +4,6 @@ header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->max_file_size = get_max_file_size();
 $obj->file_upload_max_size = file_upload_max_size();
-
+$obj->videoStorageLimitMinutes = $global['videoStorageLimitMinutes'];
+$obj->currentStorageUsage = getSecondsTotalVideosLength();
 echo json_encode($obj);
