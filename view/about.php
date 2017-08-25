@@ -22,16 +22,17 @@ require_once '../videos/configuration.php';
                     <h1><?php echo __("For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."); ?></h1>
                     <footer class="blockquote-footer">Apostle Paul in <cite title="Source Title">Romans 11:36</cite></footer>
                 </blockquote>
-                <div class="alert alert-success">
-                    <span class="label label-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></span><br>
+                <div class="btn-group btn-group-justified">
                     <a href="https://www.youphptube.com/" class="btn btn-success">Main Site</a> 
                     <a href="https://demo.youphptube.com/" class="btn btn-danger">Demo Site</a> 
                     <a href="https://tutorials.youphptube.com/" class="btn btn-primary">Tutorials Site</a> 
                     <a href="https://github.com/DanielnetoDotCom/YouPHPTube/issues" class="btn btn-warning">Issues and requests Site</a> 
                 </div>
-                <div class="alert alert-success">
+                <span class="label label-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></span>
+                    
+                <span class="label label-success">
                     <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
-                </div>
+                </span>
                 
             </div>
 
