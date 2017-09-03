@@ -52,13 +52,13 @@ if (empty($_SESSION['language'])) {
                 if (User::canUpload()) {
                     ?>                    
                     <li>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Upload a video if you already have the encoded file"); ?>" data-placement="bottom" ><span class="fa fa-video-camera"></span></a>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Upload a MP4 video"); ?>" data-placement="bottom" ><span class="fa fa-video-camera"></span></a>
                     </li>
                     <?php
                     if (!empty($config->getEncoderURL())) {
                         ?>
                         <li>
-                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("If you are not sure, we encode the video and audio for you"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
+                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Encode multiple video and audio formats"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
                         </li>
                         <?php
                     } else {
