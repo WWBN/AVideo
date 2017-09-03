@@ -39,6 +39,10 @@ require_once '../videos/configuration.php';
                 <span class="label label-success">
                     <?php printf(__("You have %s minutes of videos!"), number_format(getSecondsTotalVideosLength()/6, 2)); ?>
                 </span>
+                
+                
+$obj->videoStorageLimitMinutes = $global['videoStorageLimitMinutes'];
+$obj->currentStorageUsage = getSecondsTotalVideosLength();
             </div>
 
         </div><!--/.container-->
