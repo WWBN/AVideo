@@ -86,7 +86,7 @@ $video->updateDurationIfNeed();
 
 $obj->error = false;
 $obj->video_id = $video_id;
-error_log("Files Received");
+error_log("Files Received for video {$video_id}: ".$video->getTitle());
 die(json_encode($obj));
 
 /*
