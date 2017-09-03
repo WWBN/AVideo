@@ -50,10 +50,15 @@ if (empty($_SESSION['language'])) {
 
                 <?php
                 if (User::canUpload()) {
+                    ?>                    
+                    <li>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Upload a video if you already have the encoded file"); ?>" data-placement="bottom" ><span class="fa fa-video-camera"></span></a>
+                    </li>
+                    <?php
                     if (!empty($config->getEncoderURL())) {
                         ?>
                         <li>
-                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Video and Audio Upload"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
+                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("If you are not sure, we encode the video and audio for you"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
                         </li>
                         <?php
                     } else {

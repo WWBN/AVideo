@@ -20,6 +20,8 @@ $userGroups = UserGroups::getAllUsersGroups();
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+        <link href="js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>        
     </head>
 
     <body>
@@ -40,7 +42,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <span class="fa fa-bar-chart"></span> 
                     <?php echo __("Video Chart"); ?>
                 </a>
-                <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()) ; ?>" class="btn btn-default">
+                <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
                     <span class="fa fa-upload"></span> 
                     <?php echo __("Encoder Site"); ?>
                 </a>
@@ -103,6 +105,21 @@ $userGroups = UserGroups::getAllUsersGroups();
                             <h4 class="modal-title"><?php echo __("Video Form"); ?></h4>
                         </div>
                         <div class="modal-body">
+
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#jpg">Poster (JPG)</a></li>
+                                <li><a data-toggle="tab" href="#gif">Mouse Over Poster (GIF)</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="jpg" class="tab-pane fade in active">
+                                    <input id="input-jpg" type="file" class="file-loading" accept="image/jpg">
+                                </div>
+                                <div id="gif" class="tab-pane fade">
+                                        <input id="input-gif" type="file" class="file-loading" accept="image/gif">
+                                </div>
+                            </div>
+                            <hr>
                             <form class="form-compact"  id="updateCategoryForm" onsubmit="">
                                 <input type="hidden" id="inputVideoId"  >
                                 <label for="inputTitle" class="sr-only"><?php echo __("Title"); ?></label>
@@ -242,7 +259,7 @@ $userGroups = UserGroups::getAllUsersGroups();
         include 'include/footer.php';
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-        
+
         <script>
             var timeOut;
             var encodingNowId = "";
@@ -252,14 +269,14 @@ $userGroups = UserGroups::getAllUsersGroups();
                     success: function (response) {
                         if (response.queue_list.length) {
                             for (i = 0; i < response.queue_list.length; i++) {
-                                if('<?php echo $global['webSiteRootURL']; ?>'!==response.queue_list[i].streamer_site){
+                                if ('<?php echo $global['webSiteRootURL']; ?>' !== response.queue_list[i].streamer_site) {
                                     continue;
                                 }
                                 createQueueItem(response.queue_list[i], i);
                             }
 
                         }
-                        if (response.encoding && '<?php echo $global['webSiteRootURL']; ?>'===response.encoding.streamer_site) {
+                        if (response.encoding && '<?php echo $global['webSiteRootURL']; ?>' === response.encoding.streamer_site) {
                             var id = response.encoding.id;
                             // if start encode next before get 100%
                             if (id !== encodingNowId) {
@@ -318,9 +335,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                 }
                 var item = '<div class="progress progress-striped active " id="encodingProgress' + queueItem.id + '" style="margin: 0;">';
                 item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"><span class="sr-only">0% Complete</span></div>';
-                item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> '+position+'</span></span><span class="progress-completed">' + queueItem.name + '</span>';
+                item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> ' + position + '</span></span><span class="progress-completed">' + queueItem.name + '</span>';
                 item += '</div><div class="progress progress-striped active " id="downloadProgress' + queueItem.id + '" style="height: 10px;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
-                
+
                 $('#encodeProgress' + id).html(item);
             }
             $(document).ready(function () {
@@ -446,6 +463,44 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                         $('#videoIsAd').prop('checked', false);
                         $('#videoIsAd').trigger("change");
+
+                        $('#input-jpg, #input-gif').fileinput('destroy');
+                        $("#input-jpg").fileinput({
+                            uploadUrl: "uploadPoster/" + row.id+"/jpg",
+                            autoReplace: true,
+                            overwriteInitial: true,
+                            showUploadedThumbs: false,
+                            maxFileCount: 1,
+                            initialPreview: [
+                                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'>",
+                            ],
+                            initialCaption: row.clean_title + '.jpg',
+                            initialPreviewShowDelete: false,
+                            showRemove: false,
+                            showClose: false,
+                            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                            allowedFileExtensions: ["jpg"]
+                        });
+                        $("#input-gif").fileinput({
+                            uploadUrl: "uploadPoster/" + row.id+"/gif",
+                            autoReplace: true,
+                            overwriteInitial: true,
+                            showUploadedThumbs: false,
+                            maxFileCount: 1,
+                            initialPreview: [
+                                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".gif'>",
+                            ],
+                            initialCaption: row.clean_title + '.gif',
+                            initialPreviewShowDelete: false,
+                            showRemove: false,
+                            showClose: false,
+                            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                            allowedFileExtensions: ["gif"]
+                        });
+                        $('#input-jpg, #input-gif').on('fileuploaded', function (event, data, previewId, index) {
+                            $("#grid").bootgrid("reload");
+                        })
+
                         $('#videoFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();

@@ -38,7 +38,7 @@
 
     RewriteRule    ^upload$ view/mini-upload-form/    [NC,L]
     RewriteRule    ^fileUpload$ view/mini-upload-form/upload.php    [NC,L]
-    RewriteRule    ^uploadStatus view/mini-upload-form/videoConversionStatus.php    [NC,L]
+    RewriteRule    ^uploadPoster/([0-9]+)/(jpg|gif)$ objects/uploadPoster.php?video_id=$1&type=$2    [NC,L]
 
     #edit your own user
     RewriteRule    ^user$ view/user.php    [NC,L]
