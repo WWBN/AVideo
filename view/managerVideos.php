@@ -415,7 +415,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                             if (row.status == "d" || row.status == "e") {
                                 yt = "";
                             }
-                            tags += '<div id="encodeProgress' + row.id + '"></div>';
+                            if (row.status !== "a") {
+                                tags += '<div id="encodeProgress' + row.id + '"></div>';
+                            }
                             if (/^x.*$/gi.test(row.status) || row.status == 'e') {
                                 //tags += '<div class="progress progress-striped active" style="margin:5px;"><div id="encodeProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
 
