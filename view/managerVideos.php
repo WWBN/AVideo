@@ -46,6 +46,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <span class="fa fa-upload"></span> 
                     <?php echo __("Encoder Site"); ?>
                 </a>
+                <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
+                    <span class="fa fa-video-camera"></span> 
+                    <?php echo __("Upload a MP4 File"); ?>
+                </a>
 
                 <?php
                 if (User::isAdmin()) {
