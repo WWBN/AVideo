@@ -56,7 +56,6 @@ if (!User::canUpload()) {
                             <?php echo __("Your maximum file size is:"), " ", "" . get_max_file_size() . ""; ?>
                         </h1>
                     </div>
-                    <div class="alert alert-success"><?php printf(__("Your encode video resolution is set to %s !"), $config->getVideo_resolution()); ?></div>
                     <?php
                     if (!empty($global['videoStorageLimitMinutes'])) {
                         $secondsTotal = getMinutesTotalVideosLength();
