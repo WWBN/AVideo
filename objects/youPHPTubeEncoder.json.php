@@ -82,7 +82,7 @@ if(!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination}.gif")
     }
 }
 $video_id = $video->save();
-
+$video->updateDurationIfNeed();
 
 $obj->error = false;
 $obj->video_id = $video_id;

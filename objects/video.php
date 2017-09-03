@@ -664,8 +664,9 @@ class Video {
 
     function updateDurationIfNeed($fileExtension = ".mp4") {
         global $global;
-        if (!empty($this->id) && $this->duration == "EE:EE:EE") {
-            $this->duration = Video::getDurationFromFile($global['systemRootPath'] . "videos/" . $this->filename . $fileExtension);
+        $file = $global['systemRootPath'] . "videos/" . $this->filename . $fileExtension;
+        if (!empty($this->id) && $this->duration == "EE:EE:EE" && file_exists($file)) {
+            $this->duration = Video::getDurationFromFile($file);
             error_log("Duration Updated: " . print_r($this, true));
 
             $sql = "UPDATE videos SET duration = '{$this->duration}', modified = now() WHERE id = {$this->id}";
