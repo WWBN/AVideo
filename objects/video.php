@@ -50,7 +50,7 @@ class Video {
             $this->load($id);
         }
         if (!empty($title)) {
-            $this->title = $global['mysqli']->real_escape_string($title);
+            $this->title = $title;
         }
         if (!empty($filename)) {
             $this->filename = $filename;
@@ -98,7 +98,8 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'e';
         }
-        
+        $this->title = $global['mysqli']->real_escape_string(trim($this->title));
+        $this->description = $global['mysqli']->real_escape_string($this->description);
         if (!empty($this->id)) {
             if (!$this->userCanManageVideo()) {
                 header('Content-Type: application/json');
@@ -600,8 +601,7 @@ class Video {
     }
 
     function setDescription($description) {
-        global $global;
-        $this->description = $global['mysqli']->real_escape_string($description);
+        $this->description = $description;
     }
 
     function setCategories_id($categories_id) {
@@ -976,8 +976,7 @@ class Video {
     }
 
     function setTitle($title) {
-        global $global;
-        $this->title = $global['mysqli']->real_escape_string(trim($title));
+        $this->title = $title;
     }
 
     function setFilename($filename) {
