@@ -37,8 +37,8 @@ if (!empty($ad)) {
                 <video poster="<?php echo $poster; ?>" controls crossorigin 
                        class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                        id="mainVideo"  data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>" }'>
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
+                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                     <p class="vjs-no-js">
                         <?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
