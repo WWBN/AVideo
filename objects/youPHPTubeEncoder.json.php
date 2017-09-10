@@ -50,7 +50,7 @@ if(preg_match("/(mp3|wav|ogg)$/i", $_POST['format'])){
 
 $videoFileName = $video->getFilename();
 if(empty($videoFileName)){
-    $mainName = preg_replace("/[^A-Za-z0-9]/", "", $title);
+    $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($title));
     $videoFileName = uniqid($mainName . "_YPTuniqid_", true);
     $video->setFilename($videoFileName);
 }

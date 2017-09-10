@@ -68,7 +68,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     
     
     $path_parts = pathinfo($_FILES['upl']['name']);
-    $mainName = preg_replace("/[^A-Za-z0-9]/", "", $path_parts['filename']);
+    $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
     $filename = uniqid($mainName . "_YPTuniqid_", true);
 
     $video = new Video(preg_replace("/_+/", " ", $path_parts['filename']), $filename, @$_FILES['upl']['videoId']);
