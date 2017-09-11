@@ -664,9 +664,10 @@ if (!empty($video)) {
                                                 <?php echo $autoPlayVideo['category']; ?>
                                             </div>
                                             <div>
-                                                <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                                                <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong> 
+                                                    <?php echo __("Views"); ?>
                                             </div>
-                                            <div><strong><?php echo $autoPlayVideo['creator']; ?></strong></div>
+                                            <div><?php echo $autoPlayVideo['creator']; ?></div>
 
                                         </div>
                                         <div class="row">
