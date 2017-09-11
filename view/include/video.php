@@ -28,7 +28,7 @@ if (!empty($ad)) {
                     <i class="fa fa-close"></i>
                 </button>
             </div>
-            <div align="center" id="main-video" class="embed-responsive <?php
+            <div id="main-video" class="embed-responsive <?php
             echo $embedResponsiveClass;
             if (!empty($logId)) {
                 echo " ad";

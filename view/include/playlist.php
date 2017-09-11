@@ -50,7 +50,7 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                                 $img_portrait = "";
                             }
                             ?>
-                            <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130px" itemprop="thumbnail" />
+                            <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" itemprop="thumbnail" />
 
                             <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                             <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $value['clean_title']; ?>" />

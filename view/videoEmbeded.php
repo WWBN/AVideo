@@ -44,7 +44,7 @@ if ($video['type'] !== "audio") {
     </head>
 
     <body>
-        <div align="center" class="embed-responsive <?php echo $embedResponsiveClass; ?> ">
+        <div class="embed-responsive <?php echo $embedResponsiveClass; ?> ">
             <?php
             if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                 ?>
