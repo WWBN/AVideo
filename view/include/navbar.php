@@ -83,7 +83,7 @@ if (empty($_SESSION['language'])) {
                             if ($lang == $value) {
                                 $selected = 'selected="selected"';
                             }
-                            echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span>' value=\"{$value}\" label=\"{$value}\" {$selected}>{$value}</option>";
+                            echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span>' value=\"{$value}\" label=\"Lang: {$value}\" {$selected}>{$value}</option>";
                         }
                         ?>
                     </select>
