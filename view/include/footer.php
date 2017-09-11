@@ -19,7 +19,7 @@
     "name": "YouPHPTube",
     "version": "<?php echo $config->getVersion(); ?>",
     "image": "http://youphptube.com/img/logo.png",
-    "description": "Free web solution to build your own video sahring site."
+    "description": "The Best YouTube Clone Script, a free web solution to build your own video sahring site."
     }
 </script>
 <script>
