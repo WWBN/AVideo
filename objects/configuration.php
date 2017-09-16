@@ -1,7 +1,6 @@
 <?php
-
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -33,10 +32,10 @@ class Configuration {
     private $disable_analytics;
     private $session_timeout;
     private $autoplay;
-    
+
     // version 3.1
     private $theme;
-    
+
     //version 3.3
     private $smtp;
     private $smtpAuth;
@@ -45,7 +44,7 @@ class Configuration {
     private $smtpUsername;
     private $smtpPassword;
     private $smtpPort;
-    
+
     // version 4
     private $encoderURL;
 
@@ -347,7 +346,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         fwrite($fp, $content);
         fclose($fp);
     }
-    
+
     function getTheme() {
         if(empty($this->theme)){
             return "default";

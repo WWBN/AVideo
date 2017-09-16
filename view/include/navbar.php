@@ -50,7 +50,7 @@ if (empty($_SESSION['language'])) {
 
                 <?php
                 if (User::canUpload()) {
-                    ?>                    
+                    ?>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Upload a MP4 video"); ?>" data-placement="bottom" ><span class="fa fa-video-camera"></span></a>
                     </li>
@@ -109,11 +109,11 @@ if (empty($_SESSION['language'])) {
             <ul class="nav navbar">
                 <?php
                 if (User::isLogged()) {
-                    ?>           
+                    ?>
                     <li>
                         <div>
                             <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-xs btn-block">
-                                <span class="glyphicon glyphicon-log-out"></span> 
+                                <span class="glyphicon glyphicon-log-out"></span>
                                 <?php echo __("Logoff"); ?>
                             </a>
                         </div>
@@ -132,7 +132,7 @@ if (empty($_SESSION['language'])) {
 
                         <div>
                             <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-xs btn-block">
-                                <span class="fa fa-user-circle"></span> 
+                                <span class="fa fa-user-circle"></span>
                                 <?php echo __("My Account"); ?>
                             </a>
 
@@ -143,7 +143,7 @@ if (empty($_SESSION['language'])) {
 
                         <div>
                             <a href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo User::getId(); ?>" class="btn btn-danger btn-xs btn-block">
-                                <span class="fa fa-youtube-play"></span> 
+                                <span class="fa fa-youtube-play"></span>
                                 <?php echo __("My Channel"); ?>
                             </a>
 
@@ -156,8 +156,8 @@ if (empty($_SESSION['language'])) {
                         <li>
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs btn-block">
-                                    <span class="glyphicon glyphicon-film"></span> 
-                                    <span class="glyphicon glyphicon-headphones"></span> 
+                                    <span class="glyphicon glyphicon-film"></span>
+                                    <span class="glyphicon glyphicon-headphones"></span>
                                     <?php echo __("My videos"); ?>
                                 </a>
                             </div>
@@ -165,7 +165,7 @@ if (empty($_SESSION['language'])) {
                         <li>
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-xs btn-block">
-                                    <span class="fa fa-bar-chart"></span> 
+                                    <span class="fa fa-bar-chart"></span>
                                     <?php echo __("Video Statistics"); ?>
                                 </a>
                             </div>
@@ -173,7 +173,7 @@ if (empty($_SESSION['language'])) {
                         <li>
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-xs btn-block">
-                                    <span class="fa fa-check"></span> 
+                                    <span class="fa fa-check"></span>
                                     <?php echo __("Subscriptions"); ?>
                                 </a>
                             </div>
@@ -191,43 +191,43 @@ if (empty($_SESSION['language'])) {
                         </li>
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>users">
-                                <span class="glyphicon glyphicon-user"></span> 
+                                <span class="glyphicon glyphicon-user"></span>
                                 <?php echo __("Users"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups">
-                                <span class="fa fa-users"></span> 
+                                <span class="fa fa-users"></span>
                                 <?php echo __("Users Groups"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>ads">
-                                <span class="fa fa-money"></span> 
+                                <span class="fa fa-money"></span>
                                 <?php echo __("Video Advertising"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>categories">
-                                <span class="glyphicon glyphicon-list"></span> 
+                                <span class="glyphicon glyphicon-list"></span>
                                 <?php echo __("Categories"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>update">
-                                <span class="glyphicon glyphicon-refresh"></span> 
+                                <span class="glyphicon glyphicon-refresh"></span>
                                 <?php echo __("Update version"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">
-                                <span class="glyphicon glyphicon-cog"></span> 
+                                <span class="glyphicon glyphicon-cog"></span>
                                 <?php echo __("Site Configurations"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>locale">
-                                <span class="glyphicon glyphicon-flag"></span> 
+                                <span class="glyphicon glyphicon-flag"></span>
                                 <?php echo __("Create more translations"); ?>
                             </a>
                         </li>
@@ -240,7 +240,7 @@ if (empty($_SESSION['language'])) {
                     <li>
                         <div>
                             <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-success btn-block">
-                                <span class="glyphicon glyphicon-log-in"></span> 
+                                <span class="glyphicon glyphicon-log-in"></span>
                                 <?php echo __("Login"); ?>
                             </a>
                         </div>
@@ -252,22 +252,22 @@ if (empty($_SESSION['language'])) {
 
                 <li>
                     <hr>
-                </li>  
+                </li>
                 <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
                     <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
-                        <span class="glyphicon glyphicon-star"></span> 
+                        <span class="glyphicon glyphicon-star"></span>
                         <?php echo __("Audios and Videos"); ?>
                     </a>
                 </li>
                 <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_GET['catName'])) ? "active" : ""; ?>">
                     <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
-                        <span class="glyphicon glyphicon-facetime-video"></span> 
+                        <span class="glyphicon glyphicon-facetime-video"></span>
                         <?php echo __("Videos"); ?>
                     </a>
                 </li>
                 <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_GET['catName'])) ? "active" : ""; ?>">
                     <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
-                        <span class="glyphicon glyphicon-headphones"></span> 
+                        <span class="glyphicon glyphicon-headphones"></span>
                         <?php echo __("Audios"); ?>
                     </a>
                 </li>
@@ -292,13 +292,13 @@ if (empty($_SESSION['language'])) {
                 </li>
                 <li>
                     <a href="<?php echo $global['webSiteRootURL']; ?>about">
-                        <span class="glyphicon glyphicon-info-sign"></span> 
+                        <span class="glyphicon glyphicon-info-sign"></span>
                         <?php echo __("About"); ?>
                     </a>
                 </li>
                 <li>
                     <a href="<?php echo $global['webSiteRootURL']; ?>contact">
-                        <span class="glyphicon glyphicon-comment"></span> 
+                        <span class="glyphicon glyphicon-comment"></span>
                         <?php echo __("Contact"); ?>
                     </a>
                 </li>

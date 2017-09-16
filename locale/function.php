@@ -1,5 +1,5 @@
 <?php
-if(empty($config)){
+if (empty($config)) {
     return true;
 }
 if (empty($_SESSION['language'])) {
@@ -39,7 +39,7 @@ function getEnabledLangs() {
     global $global;
     $dir = "{$global['systemRootPath']}locale";
     $flags = array();
-    if(empty($global['dont_show_us_flag'])){
+    if (empty($global['dont_show_us_flag'])) {
         $flags[] = 'us';
     }
     if ($handle = opendir($dir)) {
@@ -56,5 +56,7 @@ function getEnabledLangs() {
 
 function textToLink($string) {
     return preg_replace(
-            "~[[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~", "<a href=\"\\0\">\\0</a>", $string);
+        "~[[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~", "<a href=\"\\0\">\\0</a>",
+        $string
+    );
 }

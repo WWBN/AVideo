@@ -132,7 +132,7 @@ if (!empty($video)) {
                         <div class="row bgWhite list-group-item">
                             <div class="row divMainVideo">
                                 <div class="col-xs-4 col-sm-4 col-lg-4">
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" /> 
+                                    <img src="<?php echo $poster; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
                                     <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
                                     <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                     <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
@@ -158,7 +158,7 @@ if (!empty($video)) {
                                     </h1>
                                     <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
                                     <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
-                                </div> 
+                                </div>
                             </div>
 
                             <div class="row">
@@ -189,7 +189,7 @@ if (!empty($video)) {
                                                         <input id="publicPlayList" name="publicPlayList" type="checkbox" checked="checked"/>
                                                         <label for="publicPlayList" class="label-success"></label>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-group">
                                                     <button class="btn btn-success btn-block" id="addPlayList" ><?php echo __("Create a New Play List"); ?></button>
                                                 </div>
@@ -202,7 +202,7 @@ if (!empty($video)) {
                                             Sign in to add this video to a playlist.
 
                                             <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
-                                                <span class="glyphicon glyphicon-log-in"></span> 
+                                                <span class="glyphicon glyphicon-log-in"></span>
                                                 <?php echo __("Login"); ?>
                                             </a>
                                             <?php
@@ -287,7 +287,7 @@ if (!empty($video)) {
                                     <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                         <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                     </a>
-                                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn"  
+                                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn"
                                     <?php
                                     if (!User::isLogged()) {
                                         ?>
@@ -295,7 +295,7 @@ if (!empty($video)) {
                                        <?php } ?>>
                                         <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
                                     </a>			
-                                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn"  
+                                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn"
                                     <?php
                                     if (!User::isLogged()) {
                                         ?>
@@ -351,19 +351,19 @@ if (!empty($video)) {
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
                                             <a class="nav-link " href="#tabShare" data-toggle="tab">
-                                                <span class="fa fa-share"></span> 
+                                                <span class="fa fa-share"></span>
                                                 <?php echo __("Share"); ?>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link " href="#tabEmbeded" data-toggle="tab">
-                                                <span class="fa fa-code"></span> 
+                                                <span class="fa fa-code"></span>
                                                 <?php echo __("Embeded"); ?>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#tabEmail" data-toggle="tab">
-                                                <span class="fa fa-envelope"></span> 
+                                                <span class="fa fa-envelope"></span>
                                                 <?php echo __("E-mail"); ?>
                                             </a>
                                         </li>
@@ -408,7 +408,7 @@ if (!empty($video)) {
                                                     <fieldset>
                                                         <!-- Text input-->
                                                         <div class="form-group">
-                                                            <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>  
+                                                            <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
                                                             <div class="col-md-8 inputGroupContainer">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
@@ -431,7 +431,7 @@ if (!empty($video)) {
 
 
                                                         <div class="form-group">
-                                                            <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>  
+                                                            <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
                                                             <div class="col-md-8 inputGroupContainer">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
@@ -485,7 +485,7 @@ if (!empty($video)) {
                                     </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                         <div class="row bgWhite list-group-item">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-lg-12">
@@ -495,7 +495,7 @@ if (!empty($video)) {
 
                                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                                     <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo nl2br(textToLink($video['description'])); ?></div>
-                                </div> 
+                                </div>
                             </div>
 
                         </div>
@@ -518,7 +518,7 @@ if (!empty($video)) {
                                               if (!User::canComment()) {
                                                   echo __("You cannot comment on videos");
                                               }
-                                              ?></textarea>     
+                                              ?></textarea>
                                 <?php if (User::canComment()) { ?>
                                     <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php
                                     if (!User::canComment()) {
@@ -590,7 +590,7 @@ if (!empty($video)) {
                         </div>
 
                     </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite list-group-item">                            
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite list-group-item">
                         <?php
                         if (!empty($playlist_id)) {
                             include './include/playlist.php';
@@ -660,11 +660,11 @@ if (!empty($video)) {
                                         <div class="details row text-muted" itemprop="description">
                                             <div>
                                                 <strong><?php echo __("Category"); ?>: </strong>
-                                                <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span> 
+                                                <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span>
                                                 <?php echo $autoPlayVideo['category']; ?>
                                             </div>
                                             <div>
-                                                <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong> 
+                                                <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong>
                                                     <?php echo __("Views"); ?>
                                             </div>
                                             <div><?php echo $autoPlayVideo['creator']; ?></div>
@@ -697,7 +697,7 @@ if (!empty($video)) {
 
                         <!-- videos List -->
                         <div id="videosList">
-                            <?php include './videosList.php'; ?>                                    
+                            <?php include './videosList.php'; ?>
                         </div>
                         <!-- End of videos List -->
 
@@ -744,7 +744,7 @@ if (!empty($video)) {
                 <div class="alert alert-warning">
                     <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
                 </div>
-            <?php } ?>  
+            <?php } ?>
 
         </div>
         <?php

@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-if(!User::canUpload()){
+if (!User::canUpload()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not notify"));
     exit;
 }
@@ -39,6 +39,5 @@ if (!$mail->send()) {
 } else {
     $obj->success = __("Message sent");
 }
-
 
 echo json_encode($obj);

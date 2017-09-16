@@ -1,7 +1,6 @@
 <?php
-
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
@@ -30,7 +29,7 @@ class UserGroups {
             $this->$key = $value;
         }
     }
-    
+
     static private function getUserGroupsDb($id) {
         global $global;
         $id = intval($id);
@@ -126,7 +125,7 @@ class UserGroups {
 
         return $res->num_rows;
     }
-    
+
     function getGroup_name() {
         return $this->group_name;
     }
@@ -136,35 +135,35 @@ class UserGroups {
     }
 
     // for users
-    
+
     static function updateUserGroups($users_id, $array_groups_id){
         if (!User::isAdmin()) {
             return false;
         }
-        if(!is_array($array_groups_id)){
+        if (!is_array($array_groups_id)) {
             return false;
         }
         self::deleteGroupsFromUser($users_id);
         global $global;
-        
+
         foreach ($array_groups_id as $value) {
             $value = intval($value);
             $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES ({$users_id},{$value})";
             //echo $sql;
             $global['mysqli']->query($sql);
         }
-        
+
         return true;
-    } 
-    
-    static function getUserGroups($users_id){
+    }
+
+    static function getUserGroups($users_id) {
         global $global;
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'users_has_users_groups'");
         if (empty($result->num_rows)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.3</a>";
             return array();
         }
-        if(empty($users_id)){
+        if (empty($users_id)) {
             return array();
         }
         $sql = "SELECT * FROM users_has_users_groups"
@@ -182,8 +181,8 @@ class UserGroups {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $arr;
-    } 
-    
+    }
+
     static private function deleteGroupsFromUser($users_id){
         if (!User::isAdmin()) {
             return false;
@@ -203,39 +202,39 @@ class UserGroups {
     }
 
     // for users end
-    
-    // for videos   
-    
-    static function updateVideoGroups($videos_id, $array_groups_id){
+
+    // for videos
+
+    static function updateVideoGroups($videos_id, $array_groups_id) {
         if (!User::canUpload()) {
             return false;
         }
-        if(!is_array($array_groups_id)){
+        if (!is_array($array_groups_id)) {
             return false;
         }
         self::deleteGroupsFromVideo($videos_id);
         global $global;
-        
+
         foreach ($array_groups_id as $value) {
             $value = intval($value);
             $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES ({$videos_id},{$value})";
             $global['mysqli']->query($sql);
         }
-        
+
         return true;
-    } 
-    
-    static function getVideoGroups($videos_id){
+    }
+
+    static function getVideoGroups($videos_id) {
         global $global;
         //check if table exists if not you need to update
         $res = $global['mysqli']->query('select 1 from `videos_group_view` LIMIT 1');
-        if(!$res){
-            if(User::isAdmin()){
+        if (!$res) {
+            if (User::isAdmin()) {
                 $_GET['error'] = "You need to Update YouPHPTube to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
             }
-           return array();
+            return array();
         }
-        
+
         $sql = "SELECT * FROM videos_group_view as v "
                 . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = $videos_id ";
 
@@ -251,8 +250,8 @@ class UserGroups {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $arr;
-    } 
-    
+    }
+
     static private function deleteGroupsFromVideo($videos_id){
         if (!User::canUpload()) {
             return false;

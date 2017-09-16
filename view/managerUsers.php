@@ -189,7 +189,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                          closeOnConfirm: false
                          },
                          function () {
-                         
+
                          modal.showPleaseWait();
                          $.ajax({
                          url: 'deleteUser',

@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {

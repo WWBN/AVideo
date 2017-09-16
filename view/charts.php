@@ -60,7 +60,7 @@ foreach ($videos as $value) {
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js" integrity="sha256-+q+dGCSrVbejd3MDuzJHKsk2eXd4sF5XYEMfPZsOnYE=" crossorigin="anonymous"></script>
-        
+
     </head>
     <body>
         <?php
@@ -117,17 +117,17 @@ foreach ($videos as $value) {
                         <div class="panel panel-default">
                             <div class="panel-heading when"># <?php echo __("Total Views"); ?></div>
                             <div class="panel-body">
-                                <canvas id="myChartPie" height="200"  ></canvas> 
+                                <canvas id="myChartPie" height="200"  ></canvas>
                             </div>
-                        </div>                       
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="panel panel-default">
                             <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
                             <div class="panel-body" id="timeline">
-                                <canvas id="myChartLine" height="90"  ></canvas> 
+                                <canvas id="myChartLine" height="90"  ></canvas>
                             </div>
-                        </div>                       
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -157,7 +157,7 @@ foreach ($videos as $value) {
                         borderWidth: 1
                     }]
             };
-            
+
             var lineChartData = {
                 labels: <?php echo json_encode($label90Days); ?>,
                 datasets: [{
@@ -167,7 +167,7 @@ foreach ($videos as $value) {
                         data: <?php echo json_encode($statistc_last90Days); ?>
                     }]
             };
-            
+
             var lineChartDataToday = {
                 labels: <?php echo json_encode($labelToday); ?>,
                 datasets: [{
@@ -240,7 +240,7 @@ foreach ($videos as $value) {
                     }
                 }
             });
-            
+
             var myChartLineToday = new Chart(ctxLineToday, {
                 type: 'line',
                 data: lineChartDataToday,

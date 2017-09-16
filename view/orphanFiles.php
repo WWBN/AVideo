@@ -29,33 +29,33 @@ foreach ($files as $value) {
             break;
         }
     }
-    if($obj->orphan){
-        if(!empty($_GET['delete'])){
+    if ($obj->orphan) {
+        if (!empty($_GET['delete'])) {
             $file = $dir.$obj->dirFilename;
             unlink($file);
-        }else{
+        } else {
             $arrayOrphan[] = $obj;
         }
-    }else{
+    } else {
         $arrayNotOrphan[] = $obj;
     }
     $array[] = $obj;
     /*
       $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
-      if(file_exists($file)){
-      unlink($file);
+      if (file_exists($file)) {
+          unlink($file);
       }
       $file = "{$global['systemRootPath']}videos/{$video['filename']}.{$value}";
-      if(file_exists($file)){
-      unlink($file);
+      if (file_exists($file)) {
+          unlink($file);
       }
       $file = "{$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
-      if(file_exists($file)){
-      unlink($file);
+      if (file_exists($file)) {
+          unlink($file);
       }
       $file = "{$global['systemRootPath']}videos/{$video['filename']}.jpg";
-      if(file_exists($file)){
-      unlink($file);
+      if (file_exists($file)) {
+          unlink($file);
       }
      * */
 }
@@ -63,8 +63,8 @@ foreach ($files as $value) {
 function getMainName($filename) {
     preg_match("/([a-z0-9_]{1,}(\.[a-z0-9_]{5,})?)(\.[a-z0-9]{0,4})?$/i", $filename, $matches);
     $parts = explode("_progress_", $matches[1]);
-    if(preg_match("/original_.*/", $parts[0])){
-        $parts = explode("original_", $parts[0]); 
+    if (preg_match("/original_.*/", $parts[0])) {
+        $parts = explode("original_", $parts[0]);
         return $parts[1];
     }
     return $parts[0];
@@ -86,14 +86,14 @@ function getMainName($filename) {
 
         <div class="container">
             <?php
-                if(empty($arrayOrphan)){
+                if (empty($arrayOrphan)) {
                     ?>
                     <h1 class="alert alert-success">
                         <?php echo __("You dont have any orphan file"); ?>
                     </h1>
                     <?php
-                    
-                }else{
+
+                } else {
             ?>
             <ul class="list-group">
                 <a href="#" id="deleteAll" class="list-group-item list-group-item-danger"><?php echo __("Delete All Orphans Files"); ?> <span class="badge"><?php echo count($arrayOrphan); ?></span> </a>

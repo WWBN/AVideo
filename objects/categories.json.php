@@ -1,5 +1,4 @@
 <?php
-
 require_once 'category.php';
 header('Content-Type: application/json');
 $categories = Category::getAllCategories();

@@ -40,7 +40,7 @@ foreach ($tags as $value) {
 
                                 </legend>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
@@ -50,7 +50,7 @@ foreach ($tags as $value) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("User"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -60,7 +60,7 @@ foreach ($tags as $value) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
@@ -70,7 +70,7 @@ foreach ($tags as $value) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -80,7 +80,7 @@ foreach ($tags as $value) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -247,7 +247,7 @@ foreach ($tags as $value) {
 
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("User"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -258,7 +258,7 @@ foreach ($tags as $value) {
 
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Password"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("Password"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>

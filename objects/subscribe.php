@@ -1,7 +1,6 @@
 <?php
-
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
@@ -149,7 +148,7 @@ class Subscribe {
         <div class=\"input-group\">
           <input type=\"text\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail\">
           <span class=\"input-group-btn\">
-          <button class=\"btn btn-primary\" id=\"subscribeButton2\">" . __("Subscribe") . "</button> 
+          <button class=\"btn btn-primary\" id=\"subscribeButton2\">" . __("Subscribe") . "</button>
           </span>
         </div>
     </div><script>
@@ -157,11 +156,11 @@ $(document).ready(function () {
 $(\".subscribeButton\").popover({
 placement: 'bottom',
 trigger: 'manual',
-    html: true, 
+    html: true,
 	content: function() {
           return $('#popover-content').html();
         }
-});    
+});
 });
 </script>";
         $script = "<script>

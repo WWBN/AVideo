@@ -1,13 +1,12 @@
 <?php
-
-class Main{
+class Main {
      /**
-     * receive a YYYY-MM-DD
-     * @param type $brDate
-     * @return String dd/mm/yyyy
-     */
+      * receive a YYYY-MM-DD
+      * @param type $brDate
+      * @return String dd/mm/yyyy
+      */
     static public function dateMySQLToBrString($mySqlDate) {
-        $parts = explode("-", $mySqlDate);
+        $parts = explode('-', $mySqlDate);
         //switch month and day
         if (empty($parts[2])) {
             return $mySqlDate;

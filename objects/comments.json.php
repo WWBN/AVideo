@@ -11,5 +11,4 @@ foreach ($comments as $key => $value) {
     $comments[$key]['comment'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong>'.$name.'</strong> <small>'.humanTiming(strtotime($value['created'])).'</small></div>'. nl2br(textToLink($value['comment'])).'</div>';
 }
 
-
 echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($comments).'}';
