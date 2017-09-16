@@ -134,8 +134,8 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                         if ($isMyChannel) {
                             ?>
                             <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
-                                <span class="glyphicon glyphicon-film"></span> 
-                                <span class="glyphicon glyphicon-headphones"></span> 
+                                <span class="glyphicon glyphicon-film"></span>
+                                <span class="glyphicon glyphicon-headphones"></span>
                                 <?php echo __("My videos"); ?>
                             </a>
                             <?php

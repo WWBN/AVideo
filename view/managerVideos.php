@@ -21,7 +21,7 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
-        <script src="js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>        
+        <script src="js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -39,15 +39,15 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <span class="fa fa-user"></span> <?php echo __("Users"); ?>
                 </a>
                 <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info">
-                    <span class="fa fa-bar-chart"></span> 
+                    <span class="fa fa-bar-chart"></span>
                     <?php echo __("Video Chart"); ?>
                 </a>
                 <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
-                    <span class="fa fa-upload"></span> 
+                    <span class="fa fa-upload"></span>
                     <?php echo __("Encoder Site"); ?>
                 </a>
                 <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
-                    <span class="fa fa-video-camera"></span> 
+                    <span class="fa fa-video-camera"></span>
                     <?php echo __("Upload a MP4 File"); ?>
                 </a>
 
@@ -80,7 +80,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                 }
                 ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
                 <div class="progress">
-                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
+                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
                          aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent; ?>%">
                         <?php echo $percent; ?>% of your storage limit used
                     </div>

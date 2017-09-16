@@ -1,7 +1,6 @@
 <?php
-
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
@@ -83,7 +82,7 @@ class VideoStatistic {
         $numberOfDays--;
         return static::getTotalLastDays($video_id, $numberOfDays, $returnArray);
     }
-    
+
     static function getTotalToday($video_id, $hour=0, $returnArray = array()) {
         if ($hour >= 24) {
             return $returnArray;

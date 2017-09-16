@@ -53,7 +53,7 @@ function isYoutubeDl() {
                                 <legend><?php echo __("Download Video"); ?></legend>
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Video URL"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("Video URL"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
@@ -63,7 +63,7 @@ function isYoutubeDl() {
                                 </div>
                                 <!-- TODO audio only -->
                                 <div class="form-group" style="display: none">
-                                    <label class="col-md-4 control-label"><?php echo __("Audio only"); ?></label>  
+                                    <label class="col-md-4 control-label"><?php echo __("Audio only"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-headphones"></i></span>
@@ -91,7 +91,7 @@ function isYoutubeDl() {
                             $minutesTotal = getMinutesTotalVideosLength();
                             ?>
                         <div class="alert alert-warning">
-                            <?php printf(__("Make sure that the video you are going to download has a duration of less than %d minute(s)!"), ($global['videoStorageLimitMinutes']-$minutesTotal)); ?>                            
+                            <?php printf(__("Make sure that the video you are going to download has a duration of less than %d minute(s)!"), ($global['videoStorageLimitMinutes']-$minutesTotal)); ?>
                         </div>
                             <?php
                         }

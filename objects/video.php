@@ -273,10 +273,10 @@ class Video {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
             if ($status == "viewableNotAd") {
                 $sql .= " having videoAdsCount = 0 ";
-            } else if ($status == "viewableAd") {
+            } elseif ($status == "viewableAd") {
                 $sql .= " having videoAdsCount > 0 ";
             }
-        } else if (!empty($status)) {
+        } elseif (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
 
@@ -285,16 +285,20 @@ class Video {
         }
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
-        } else if (empty($random) && !empty($_GET['videoName'])) {
+        } elseif (empty($random) && !empty($_GET['videoName'])) {
             $sql .= " AND clean_title = '{$_GET['videoName']}' ";
-        } else if (!empty($random)) {
+        } elseif (!empty($random)) {
             $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
         } else {
             $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
-        //if(!empty($random))echo "<hr>".$sql;
+        /*
+        if (!empty($random)) {
+                echo '<hr />'.$sql;
+        }
+        */
         $res = $global['mysqli']->query($sql);
         if ($res) {
             require_once 'userGroups.php';
@@ -322,7 +326,7 @@ class Video {
     }
 
     /**
-     * 
+     *
      * @global type $global
      * @param type $status
      * @param type $showOnlyLoggedUserVideos you may pass an user ID to filter results
@@ -355,15 +359,15 @@ class Video {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
             if ($status == "viewableNotAd") {
                 $sql .= " having videoAdsCount = 0 ";
-            } else if ($status == "viewableAd") {
+            } elseif ($status == "viewableAd") {
                 $sql .= " having videoAdsCount > 0 ";
             }
-        } else if (!empty($status)) {
+        } elseif (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
         }
         if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
-        } else if (!empty($showOnlyLoggedUserVideos)) {
+        } elseif (!empty($showOnlyLoggedUserVideos)) {
             $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
         }
 
@@ -421,15 +425,15 @@ class Video {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
             if ($status == "viewableNotAd") {
                 $sql .= " having videoAdsCount = 0 ";
-            } else if ($status == "viewableAd") {
+            } elseif ($status == "viewableAd") {
                 $sql .= " having videoAdsCount > 0 ";
             }
-        } else if (!empty($status)) {
+        } elseif (!empty($status)) {
             $sql .= " AND status = '{$status}'";
         }
         if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
-        } else if (is_int($showOnlyLoggedUserVideos)) {
+        } elseif (is_int($showOnlyLoggedUserVideos)) {
             $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
         }
         if (!empty($_GET['catName'])) {
@@ -478,7 +482,7 @@ class Video {
             if (!empty($content)) {
                 $object->$value = self::parseProgress($content);
             } else {
-                
+
             }
 
             if (!empty($object->$value->progress) && !is_numeric($object->$value->progress)) {
@@ -577,7 +581,7 @@ class Video {
                   exec($cmd);
                   $cmd = "rm -f {$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
                   exec($cmd);
-                 * 
+                 *
                  */
                 $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
                 if (file_exists($file)) {
@@ -622,28 +626,27 @@ class Video {
             return "00:00:00";
         } else {
             $duration = $durationParts[0];
-            $durationParts = explode(":", $duration);
-            if(count($durationParts) == 1){
-                return "0:00:".static::addZero($durationParts[0]);
-            }else if(count($durationParts)==2){
-                return "0:".static::addZero($durationParts[0]).":".static::addZero($durationParts[1]);
+            $durationParts = explode(':', $duration);
+            if (count($durationParts) == 1) {
+                return '0:00:'.static::addZero($durationParts[0]);
+            } elseif (count($durationParts) == 2) {
+                return '0:'.static::addZero($durationParts[0]).':'.static::addZero($durationParts[1]);
             }
             return $duration;
         }
     }
-    
-    static private function addZero($str){
-        if(intval($str) < 10){
-            return "0".intval($str);
-        }else{
-            return $str;
+
+    static private function addZero($str) {
+        if (intval($str) < 10) {
+            return '0'.intval($str);
         }
+        return $str;
     }
 
-    static function getItemPropDuration($duration = "") {
+    static function getItemPropDuration($duration = '') {
         $duration = static::getCleanDuration($duration);
-        $parts = explode(":", $duration);
-        return "PT" . intval($parts[0]) . "H" . intval($parts[1]) . "M" . intval($parts[2]) . "S";
+        $parts = explode(':', $duration);
+        return 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
     }
 
 
@@ -768,7 +771,7 @@ class Video {
     }
 
     /**
-     * 
+     *
      * @param type $user_id
      * text
      * label Default Primary Success Info Warning Danger

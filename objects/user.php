@@ -1,7 +1,6 @@
 <?php
-
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
@@ -93,7 +92,7 @@ class User {
             return false;
         }
     }
-    
+
     static function getUserName() {
         if (self::isLogged()) {
             return $_SESSION['user']['user'];
@@ -101,7 +100,7 @@ class User {
             return false;
         }
     }
-    
+
     static function getUserPass() {
         if (self::isLogged()) {
             return $_SESSION['user']['password'];
@@ -109,7 +108,7 @@ class User {
             return false;
         }
     }
-    
+
     function _getName(){
         return $this->name;
     }
@@ -121,11 +120,10 @@ class User {
             if (!empty($user)) {
                 $photo = $user['photoURL'];
             }
-        } else if (self::isLogged()) {
+        } elseif (self::isLogged()) {
             $photo = $_SESSION['user']['photoURL'];
-            
         }
-        if(preg_match("/videos\/userPhoto\/.*/", $photo)){
+        if (preg_match("/videos\/userPhoto\/.*/", $photo)) {
             $photo = $global['webSiteRootURL'].$photo;
         }
         if (empty($photo)) {
@@ -160,14 +158,14 @@ class User {
         }
         //echo $sql;
         $insert_row = $global['mysqli']->query($sql);
-            
+
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
             } else {
                 $id = $this->id;
             }
-            if($updateUserGroups){
+            if ($updateUserGroups) {
                 require_once './userGroups.php';
                 // update the user groups
                 UserGroups::updateUserGroups($id, $this->userGroups);
@@ -240,15 +238,15 @@ class User {
 
         $user = $global['mysqli']->real_escape_string($user);
         $sql = "SELECT * FROM users WHERE user = '$user' ";
-        
-        if($mustBeactive){
+
+        if ($mustBeactive) {
             $sql .= " AND status = 'a' ";
         }
-        
+
         if ($pass !== false) {
-            if(!$encodedPass || $encodedPass === 'false'){
+            if (!$encodedPass || $encodedPass === 'false') {
                 $pass = md5($pass);
-            }            
+            }
             $sql .= " AND password = '$pass' ";
         }
         $sql .= " LIMIT 1";
@@ -344,7 +342,7 @@ class User {
         if (!self::isAdmin()) {
             return false;
         }
-        //will receive 
+        //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT * FROM users WHERE 1=1 ";
@@ -372,7 +370,7 @@ class User {
         if (!self::isAdmin()) {
             return false;
         }
-        //will receive 
+        //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT id FROM users WHERE 1=1  ";
@@ -440,13 +438,13 @@ class User {
         }
         return self::isAdmin();
     }
-    
+
     function getUserGroups() {
         return $this->userGroups;
     }
 
     function setUserGroups($userGroups) {
-        if(is_array($userGroups)){
+        if (is_array($userGroups)) {
             $this->userGroups = $userGroups;
         }
     }
@@ -460,7 +458,7 @@ class User {
     }
 
     /**
-     * 
+     *
      * @param type $user_id
      * text
      * label Default Primary Success Info Warning Danger
@@ -468,30 +466,30 @@ class User {
     static function getTags($user_id){
         $user = new User($user_id);
         $tags = array();
-        if($user->getIsAdmin()){
+        if ($user->getIsAdmin()) {
             $obj = new stdClass();
             $obj->type = "info";
             $obj->text = __("Admin");
             $tags[] = $obj;
-        }else{            
+        } else {
             $obj = new stdClass();
             $obj->type = "default";
             $obj->text = __("Regular User");
             $tags[] = $obj;
         }
-        
-        if($user->getStatus() == "a"){
+
+        if ($user->getStatus() == "a") {
             $obj = new stdClass();
             $obj->type = "success";
             $obj->text = __("Active");
-            $tags[] = $obj;            
-        }else{            
+            $tags[] = $obj;
+        } else {
             $obj = new stdClass();
             $obj->type = "danger";
             $obj->text = __("Inactive");
             $tags[] = $obj;
         }
-        
+
         require_once 'userGroups.php';
         $groups = UserGroups::getUserGroups($user_id);
         foreach ($groups as $value) {
@@ -500,13 +498,13 @@ class User {
             $obj->text = $value['group_name'];
             $tags[] = $obj;
         }
-        
+
         return $tags;
-        
+
     }
-    
+
     function getBackgroundURL() {
-        if(empty($this->backgroundURL)){
+        if (empty($this->backgroundURL)) {
             $this->backgroundURL = "view/img/background.png";
         }
         return $this->backgroundURL;
@@ -515,7 +513,5 @@ class User {
     function setBackgroundURL($backgroundURL) {
         $this->backgroundURL = strip_tags($backgroundURL);
     }
-
-
 
 }

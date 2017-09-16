@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
@@ -34,7 +34,7 @@ if (!empty($_GET['type'])) {
     if(empty($id)){
         die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
     }
-    
+
     if(empty($key)){
         die(sprintf(__("%s ERROR: You must set a KEY on config"), $_GET['type']));
     }
@@ -61,18 +61,18 @@ if (!empty($_GET['type'])) {
 
         //print_r($tokens);
         //print_r($userProfile);
-        
+
         $user = $userProfile->email;
         $name = $userProfile->displayName;
         $photoURL = $userProfile->photoURL;
-        $email = $userProfile->email;        
+        $email = $userProfile->email;
         $pass = rand();
         User::createUserIfNotExists($user, $pass, $name, $email, $photoURL);
         $userObject = new User(0, $user, $pass);
         $userObject->login(true);
         $adapter->disconnect();
         header("Location: {$global['webSiteRootURL']}");
-        
+
     } catch (\Exception $e) {
         header("Location: {$global['webSiteRootURL']}user?error=".urlencode($e->getMessage()));
         //echo $e->getMessage();

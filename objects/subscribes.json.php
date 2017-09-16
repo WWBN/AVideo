@@ -1,14 +1,13 @@
 <?php
-
 require_once 'subscribe.php';
-if(!User::isLogged()){
+if (!User::isLogged()) {
     return false;
 }
 header('Content-Type: application/json');
 
 $user_id = User::getId();
 // if admin bring all subscribers
-if(User::isAdmin()){
+if (User::isAdmin()) {
     $user_id = "";
 }
 $Subscribes = Subscribe::getAllSubscribes($user_id);

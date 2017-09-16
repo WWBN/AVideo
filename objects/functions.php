@@ -1,5 +1,4 @@
 <?php
-
 // Returns a file size limit in bytes based on the PHP upload_max_filesize
 // and post_max_size
 function file_upload_max_size() {
@@ -280,7 +279,7 @@ function parseDurationToSeconds($str) {
 }
 
 /**
- * 
+ *
  * @global type $global
  * @param type $mail
  * call it before send mail to let YouPHPTube decide the method

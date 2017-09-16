@@ -1,7 +1,6 @@
 <?php
-
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -19,7 +18,7 @@ class PlayList extends Object {
     }
 
     /**
-     * 
+     *
      * @global type $global
      * @param type $publicOnly
      * @param type $userId if not present check session
@@ -49,7 +48,7 @@ class PlayList extends Object {
         }
         return $rows;
     }
-    
+
     static function getVideosFromPlaylist($playlists_id) {
         global $global;
         $sql = "SELECT * FROM  playlists_has_videos "
@@ -67,7 +66,7 @@ class PlayList extends Object {
         }
         return $rows;
     }
-    
+
     static function getVideosIdFromPlaylist($playlists_id) {
         $videosId = array();
         $rows = static::getVideosFromPlaylist($playlists_id);
@@ -96,7 +95,7 @@ class PlayList extends Object {
         //echo $sql;
         return $global['mysqli']->query($sql);
     }
-    
+
     public function delete() {
         if(empty($this->id)){
             return false;

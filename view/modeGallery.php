@@ -58,7 +58,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
             <?php
             echo $config->getAdsense();
             ?>
-        </div>        
+        </div>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
             <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
             <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 list-group-item">
@@ -82,13 +82,13 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     } else {
                                         $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
                                     }
-                                    ?>    
+                                    ?>
                                     <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                     <?php
                                     if (!empty($imgGif)) {
                                         ?>
                                         <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
-                                    <?php } ?>                                        
+                                    <?php } ?>
                                     <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                 </a>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
@@ -108,7 +108,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </div>
                             <?php
                         }
-                        ?> 
+                        ?>
 
                     </div>
                     <div class="row">
@@ -135,7 +135,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     <div class="alert alert-warning">
                         <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
                     </div>
-                <?php } ?> 
+                <?php } ?>
             </div>
 
             <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>

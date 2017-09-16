@@ -1,6 +1,6 @@
 <?php
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -68,12 +68,12 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
             <div class="container">
                 <?php
-                
-    if($user->getRecoverPass() != $_GET['recoverpass']){
+
+    if ($user->getRecoverPass() != $_GET['recoverpass']) {
         ?>
                 <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
         <?php
-    }else{
+    } else {
                 ?>
                 <form class="well form-horizontal" action=" " method="post"  id="recoverPassForm">
                     <fieldset>
@@ -82,7 +82,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                         <legend><?php echo __("Recover password!"); ?></legend>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("User"); ?></label>  
+                            <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
                             <div class="col-md-8 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -91,7 +91,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("Recover Password"); ?></label>  
+                            <label class="col-md-4 control-label"><?php echo __("Recover Password"); ?></label>
                             <div class="col-md-8 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -99,9 +99,9 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>  
+                            <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
                             <div class="col-md-8 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -111,7 +111,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>  
+                            <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
                             <div class="col-md-8 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>

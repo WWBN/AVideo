@@ -1,15 +1,14 @@
 <?php
-
 require_once 'subscribe.php';
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = "";
 $obj->subscribe = "";
-if(empty($_POST['email'])){
+if (empty($_POST['email'])) {
     $obj->error = __("Email can not be blank");
     die(json_encode($obj));
 }
-if(empty($_POST['user_id'])){
+if (empty($_POST['user_id'])) {
     $obj->error = __("User can not be blank");
     die(json_encode($obj));
 }

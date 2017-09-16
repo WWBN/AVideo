@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 $obj = new stdClass();
 $obj->error = true;
 if (!User::canUpload()) {
-    $obj->msg = "Only logged users can file_dataoad";
+    $obj->msg = 'Only logged users can file_dataoad';
     die(json_encode($obj));
 }
 header('Content-Type: application/json');

@@ -16,9 +16,9 @@
 <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.2.0.min.js" type="text/javascript"></script>
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
-</script> 
+</script>
 <?php
-if(!$config->getDisable_analytics()){
+if (!$config->getDisable_analytics()) {
 ?>
 <script>
     // YouPHPTube Analytics
@@ -36,7 +36,7 @@ if(!$config->getDisable_analytics()){
 
     ga('create', 'UA-96597943-1', 'auto', 'youPHPTube');
     ga('youPHPTube.send', 'pageview');
-</script> 
+</script>
 <?php
 }
 echo $config->getHead();
