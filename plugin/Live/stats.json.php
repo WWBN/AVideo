@@ -20,7 +20,7 @@ $xml = json_encode($xml);
 $xml = json_decode($xml);
 $stream = false;
 $lifeStream = array();
-
+//$obj->server = $xml->server;
 if(!is_array($xml->server->application)){
     $application = $xml->server->application;
     $xml->server->application = array();
@@ -33,6 +33,8 @@ if(!empty($xml->server->application[0]->live->stream)){
         $lifeStream[0] = $xml->server->application[0]->live->stream;
     }
 }
+
+$obj->countLifeStream = count($lifeStream);
 foreach ($lifeStream as $value){
     if(!empty($value->name)){
         $row = LiveTransmition::keyExists($value->name);
@@ -44,7 +46,7 @@ foreach ($lifeStream as $value){
         $user = $u->getUser();
         $obj->applications[] = array("key"=>$value->name, "name"=>$userName, "user"=>$user, "title"=>$row['title']);
         if($value->name === $_POST['name']){
-            $obj->error = (empty($value->publishing)||$value->publishing)?false:true;
+            $obj->error = (!empty($value->publishing))?false:true;
             $obj->msg = (!$obj->error)?"ONLINE":"Waiting for Streamer";
             $obj->stream = $value;
             $obj->nclients = intval($value->nclients);

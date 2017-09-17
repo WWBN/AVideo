@@ -24,7 +24,7 @@
                 $('#onlineApplications').text(response.applications.lenght);
                 setTimeout(function () {
                     getStats();
-                }, 1000);
+                }, 3000);
             }
         });
     }

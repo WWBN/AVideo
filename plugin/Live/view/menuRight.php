@@ -38,7 +38,7 @@ if (User::canUpload()) {
                 }
                 setTimeout(function () {
                     getStatsMenu();
-                }, 5000);
+                }, 20000);
             }
         });
     }
