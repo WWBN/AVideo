@@ -21,12 +21,16 @@ $xml = json_decode($xml);
 $stream = false;
 $lifeStream = array();
 
-var_dump($xml);
-if(!empty($xml->server->application[1]->live->stream)){
-    $lifeStream = $xml->server->application[1]->live->stream;
-    if(!is_array($xml->server->application[1]->live->stream)){
+if(!is_array($xml->server->application)){
+    $application = $xml->server->application;
+    $xml->server->application = array();
+    $xml->server->application[] = $application;
+}
+if(!empty($xml->server->application[0]->live->stream)){
+    $lifeStream = $xml->server->application[0]->live->stream;
+    if(!is_array($xml->server->application[0]->live->stream)){
         $lifeStream = array();
-        $lifeStream[0] = $xml->server->application[1]->live->stream;
+        $lifeStream[0] = $xml->server->application[0]->live->stream;
     }
 }
 foreach ($lifeStream as $value){
