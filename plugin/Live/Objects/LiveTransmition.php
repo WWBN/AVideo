@@ -149,6 +149,7 @@ class LiveTransmition extends Object{
 
     function save() {
         $this->public = intval($this->public);
+        $this->saveTransmition = intval($this->saveTransmition);
         return parent::save();
     }
 
