@@ -1,4 +1,5 @@
 <?php
+
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
@@ -15,14 +16,14 @@ class Live extends PluginAbstract {
     public function getHTMLMenuRight() {
         global $global;
         $buttonTitle = $this->getButtonTitle();
-        include $global['systemRootPath'].'plugin/Live/view/menuRight.php';
+        include $global['systemRootPath'] . 'plugin/Live/view/menuRight.php';
     }
 
     public function getUUID() {
         return "e06b161c-cbd0-4c1d-a484-71018efa2f35";
     }
-    
-    public function getEmptyDataObject(){
+
+    public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->key = "you need a key";
         $obj->button_title = "LIVE";
@@ -31,42 +32,58 @@ class Live extends PluginAbstract {
         $obj->stats = "http://your.address/stats";
         return $obj;
     }
-    
+
     public function getButtonTitle() {
         $o = $this->getDataObject();
         return $o->button_title;
     }
+
     public function getKey() {
         $o = $this->getDataObject();
         return $o->key;
     }
+
     public function getServer() {
         $o = $this->getDataObject();
         return $o->server;
     }
+
     public function getPlayerServer() {
         $o = $this->getDataObject();
         return $o->playerServer;
     }
+
     public function getStatsURL() {
         $o = $this->getDataObject();
         return $o->stats;
     }
-    
-    public function getChat($uuid){
+
+    public function getChat($uuid) {
         global $global;
         //check if LiveChat Plugin is available
-        $filename = $global['systemRootPath'].'plugin/LiveChat/LiveChat.php';;
-        if(file_exists($filename)){
+        $filename = $global['systemRootPath'] . 'plugin/LiveChat/LiveChat.php';
+        ;
+        if (file_exists($filename)) {
             require_once $filename;
             LiveChat::includeChatPanel($uuid);
         }
     }
-    
-    function getStatsObject(){
-        $feed = file_get_contents($this->getStatsURL());
-        $xml = simplexml_load_file($feed);
+
+    function getStatsObject() {
+        ini_set('allow_url_fopen ', 'ON');
+        $xml = simplexml_load_string($this->get_data($this->getStatsURL()));
         return $xml;
+    }
+
+    function get_data($url) {
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
     }
 
 }
