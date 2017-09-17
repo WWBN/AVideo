@@ -1,8 +1,7 @@
 <?php
-
 header('Content-Type: application/json');
 if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+    $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -32,12 +31,12 @@ $fileData = base64DataToImage($_POST['imgBase64']);
 $fileName = 'photo'. User::getId().'.png';
 $photoURL = $imagePath.$fileName;
 $bytes = file_put_contents($global['systemRootPath'].$photoURL, $fileData);
-if($bytes){
+if ($bytes) {
     $response = array(
         "status" => 'success',
         "url" => $global['systemRootPath'].$photoURL
     );
-}else{
+} else {
     $response = array(
         "status" => 'error',
         "msg" => 'We could not save this file',
@@ -50,4 +49,3 @@ $user->setPhotoURL($photoURL);
 $user->save();
 User::updateSessionInfo();
 print json_encode($response);
-?>

@@ -29,11 +29,10 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
             foreach ($playlistVideos as $value) {
                 $class = "";
                 $indicator = $count+1;
-                if($count==$playlist_index){
+                if ($count==$playlist_index) {
                     $class .= " active";
                     $indicator = '<span class="fa fa-play text-danger"></span>';
-                    
-                } 
+                }
             ?>
             <li class="<?php echo $class; ?>">
                     <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist_id; ?>/<?php echo $count; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
@@ -64,7 +63,7 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                             <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
                             <div class="details row" itemprop="description">
                                 <div>
-                                    <span class="<?php echo $value['iconClass']; ?>"></span> 
+                                    <span class="<?php echo $value['iconClass']; ?>"></span>
                                 </div>
                                 <div>
                                     <strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
@@ -72,8 +71,8 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
 
                             </div>
                         </div>
-                    </a>  
-                </li>  
+                    </a>
+                </li>
                 <?php
                 $count++;
             }

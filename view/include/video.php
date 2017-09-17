@@ -46,7 +46,7 @@ if (!empty($ad)) {
                     </p>
                 </video>
                 <?php if (!empty($logId)) { ?>
-                    <div id="adUrl" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i> 
+                    <div id="adUrl" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
                         <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
                             $url = parse_url($ad['redirect']);
                             echo $url['host'];
@@ -57,7 +57,7 @@ if (!empty($ad)) {
                 <?php } ?>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
 </div><!--/row-->

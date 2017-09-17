@@ -22,10 +22,10 @@ if (!User::canUpload()) {
         ?>
 
         <div class="container">
-            <div class="col-lg-9">                
+            <div class="col-lg-9">
                 <textarea id="emailMessage" placeholder="Enter text ..." style="width: 100%;"></textarea>
             </div>
-            <div class="col-lg-3">                
+            <div class="col-lg-3">
                 <button type="button" class="btn btn-success" id="sendSubscribeBtn">
                     <span class="fa fa-envelope-o" aria-hidden="true"></span> <?php echo __("Notify Subscribers"); ?>
                 </button>
@@ -73,7 +73,7 @@ if (!User::canUpload()) {
                     }
                 });
             }
-            
+
             function notify(){
                 modal.showPleaseWait();
                 $.ajax({

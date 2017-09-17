@@ -67,7 +67,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                                 <div class="form-group">
                                     <label for="inputAdTitle" ><?php echo __("Advertising Title"); ?></label>
-                                    <input type="text" id="inputAdTitle" class="form-control " placeholder="<?php echo __("Advertising Title"); ?>" required autofocus>                                    
+                                    <input type="text" id="inputAdTitle" class="form-control " placeholder="<?php echo __("Advertising Title"); ?>" required autofocus>
                                 </div>
 
                                 <div class="form-group">
@@ -75,7 +75,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     <input type="url" id="inputAdUrlRedirect" pattern="https?://.+" class="form-control " placeholder="<?php echo __("URL"); ?>" required >
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputAdStarts"><?php echo __("Starts on"); ?></label>                                            
+                                    <label for="inputAdStarts"><?php echo __("Starts on"); ?></label>
                                     <input type="text" id="inputAdStarts" class="form-control datepicker" placeholder="<?php echo __("Starts on"); ?>" required >
                                     <small>Leave Blank for Right Now</small>
                                 </div>
@@ -102,7 +102,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     <small>Leave Blank for Never</small>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputAdCategory" ><?php echo __("Category to display this Ad"); ?></label>                                
+                                    <label for="inputAdCategory" ><?php echo __("Category to display this Ad"); ?></label>
                                     <select class="form-control last" id="inputAdCategory" required>
                                         <?php
                                         foreach ($categories as $value) {

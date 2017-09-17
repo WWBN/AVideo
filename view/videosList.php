@@ -74,7 +74,7 @@ foreach ($videos as $key => $value) {
                 <div class="details row" itemprop="description">
                     <div>
                         <strong><?php echo __("Category"); ?>: </strong>
-                        <span class="<?php echo $value['iconClass']; ?>"></span> 
+                        <span class="<?php echo $value['iconClass']; ?>"></span>
                         <?php echo $value['category']; ?>
                     </div>
                     <div>
@@ -99,7 +99,7 @@ foreach ($videos as $key => $value) {
     </div>
     <?php
 }
-?> 
+?>
 <ul class="pages">
 </ul>
 <div class="loader" id="pageLoader" style="display: none;"></div>

@@ -44,7 +44,6 @@ Surely you need to install an encoder
 
 In order for you to be able to run YouPHPTube, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below.
 
-- Linux (Kernel 2.6.32+)
 - PHP 5.3+
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)

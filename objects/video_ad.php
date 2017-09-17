@@ -54,18 +54,18 @@ class Video_ad {
             header('Content-Type: application/json');
             die('{"error":"' . __("Permission denied") . '"}');
         }
-        if(empty($this->starts)){
-            $this->starts = date("Y-m-d h:i:s");
+        if (empty($this->starts)) {
+            $this->starts = date('Y-m-d h:i:s');
         }
         if (empty($this->ad_title)) {
             return false;
         }
-        if(empty($this->finish)){
+        if (empty($this->finish)) {
             $finish = "NULL";
-        }else{
+        } else {
             $finish = "'{$this->finish}'";
         }
-        
+
         global $global;
         if (!empty($this->id)) {
             $sql = "UPDATE video_ads SET "
@@ -86,7 +86,7 @@ class Video_ad {
                     . "('{$this->ad_title}','{$this->starts}', {$finish}, '{$this->getSkip_after_seconds()}',"
                     . "'{$this->redirect}', '{$this->getFinish_max_clicks()}', '{$this->getFinish_max_prints()}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
         }
-        
+
         $insert_row = $global['mysqli']->query($sql);
 
         if ($insert_row) {
@@ -288,8 +288,8 @@ class Video_ad {
                 . " AND (finish IS NULL OR finish = '0000-00-00 00:00:00' OR finish > now()) "
                 . " AND (finish_max_clicks = 0 OR finish_max_clicks > (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id AND clicked = 1 )) "
                 . " AND (finish_max_prints = 0 OR finish_max_prints > (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id)) ";
-        
-                
+
+
         $sql .= " LIMIT 1";
         //echo $sql;exit;
         $res = $global['mysqli']->query($sql);
@@ -300,14 +300,14 @@ class Video_ad {
         }
         return $ad;
     }
-    
+
     static function log($id){
         global $global;
         $userId = empty($_SESSION["user"]["id"]) ? "NULL" : $_SESSION["user"]["id"];
         $sql = "INSERT INTO video_ads_logs "
                     . "(datetime, clicked, ip, video_ads_id, users_id) values "
                     . "(now(),0, '".getRealIpAddr()."', '{$id}',{$userId})";
-        
+
         $insert_row = $global['mysqli']->query($sql);
 
         if ($insert_row) {
@@ -316,11 +316,11 @@ class Video_ad {
             die($sql . ' Save Video Ads Log Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
-    
+
     static function clickLog($video_ads_log_id){
         global $global;
         $sql = "UPDATE video_ads_logs set clicked = 1 WHERE id = {$video_ads_log_id}";
-        
+
         $insert_row = $global['mysqli']->query($sql);
 
         if ($insert_row) {
@@ -329,7 +329,7 @@ class Video_ad {
             die($sql . ' Save Click Video Ads Log Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
-    
+
     static function redirect($id){
         $ad = self::getVideoAds($id);
         header("Location: {$ad['redirect']}");

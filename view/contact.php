@@ -25,7 +25,7 @@ require_once '../videos/configuration.php';
                     <!-- Text input-->
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>  
+                        <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -37,7 +37,7 @@ require_once '../videos/configuration.php';
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>  
+                        <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
@@ -49,7 +49,7 @@ require_once '../videos/configuration.php';
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label"><?php echo __("Website"); ?></label>  
+                        <label class="col-md-4 control-label"><?php echo __("Website"); ?></label>
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
@@ -71,7 +71,7 @@ require_once '../videos/configuration.php';
 
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>  
+                        <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>

@@ -20,7 +20,7 @@ class Category {
         $this->clean_name = $clean_name;
     }
 
-    function __construct($id, $name = "") {
+    function __construct($id, $name = '') {
         if (empty($id)) {
             // get the category data from category and pass
             $this->name = $name;
@@ -84,12 +84,7 @@ class Category {
         $id = intval($id);
         $sql = "SELECT * FROM categories WHERE  id = $id LIMIT 1";
         $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $category = $res->fetch_assoc();
-        } else {
-            $category = false;
-        }
-        return $category;
+        return ($res) ? $res->fetch_assoc() : false;
     }
 
     static function getAllCategories() {
@@ -115,11 +110,9 @@ class Category {
     static function getTotalCategories() {
         global $global;
         $sql = "SELECT id FROM categories WHERE 1=1  ";
-
         $sql .= BootGrid::getSqlSearchFromPost(array('name'));
 
         $res = $global['mysqli']->query($sql);
-
 
         return $res->num_rows;
     }

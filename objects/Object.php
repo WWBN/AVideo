@@ -1,7 +1,6 @@
 <?php
-
 abstract class Object{
-    
+
     abstract static protected function getTableName();
     abstract static protected function getSearchFieldsNames();
     private $fieldsName = array();
@@ -16,14 +15,13 @@ abstract class Object{
         return true;
     }
 
-    
     function __construct($id) {
         if (!empty($id)) {
             // get data from id
             $this->load($id);
         }
     }
-    
+
     static protected function getFromDb($id) {
         global $global;
         $id = intval($id);
@@ -36,13 +34,13 @@ abstract class Object{
         }
         return $user;
     }
-    
+
     static function getAll() {
         global $global;
         $sql = "SELECT * FROM  ".static::getTableName()." WHERE 1=1 ";
 
         $sql .= self::getSqlFromPost();
-        
+
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
@@ -54,10 +52,9 @@ abstract class Object{
         }
         return $rows;
     }
-    
-    
+
     static function getTotal() {
-        //will receive 
+        //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT id FROM  ".static::getTableName()." WHERE 1=1  ";
@@ -70,65 +67,65 @@ abstract class Object{
         return $res->num_rows;
     }
 
-    
+
      static function getSqlFromPost() {
         $sql = self::getSqlSearchFromPost();
-        
-        if(!empty($_POST['sort'])){
+
+        if (!empty($_POST['sort'])) {
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
                 $orderBy[] = " {$key} {$value} ";
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
-        }else{
+        } else {
             //$sql .= " ORDER BY CREATED DESC ";
         }
-        
-        if(!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount']>0){
+
+        if (!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount']>0) {
             $current = ($_POST['current']-1)*$_POST['rowCount'];
             $sql .= " LIMIT $current, {$_POST['rowCount']} ";
-        }else{
+        } else {
             $_POST['current'] = 0;
             $_POST['rowCount'] = 0;
             $sql .= " LIMIT 12 ";
         }
         return $sql;
     }
-    
+
     static function getSqlSearchFromPost() {
         $sql = "";
-        if(!empty($_POST['searchPhrase'])){
+        if (!empty($_POST['searchPhrase'])) {
             $_GET['q'] = $_POST['searchPhrase'];
         }
-        if(!empty($_GET['q'])){
+        if (!empty($_GET['q'])) {
             global $global;
             $search = $global['mysqli']->real_escape_string($_GET['q']);
-            
+
             $like = array();
             $searchFields = static::getSearchFieldsNames();
             foreach ($searchFields as $value) {
                 $like[] = " {$value} LIKE '%{$search}%' ";
             }
             if(!empty($like)){
-                $sql .= " AND (". implode(" OR ", $like).")"; 
+                $sql .= " AND (". implode(" OR ", $like).")";
             }else{
                 $sql .= " AND 1=1 ";
             }
         }
-        
+
         return $sql;
     }
-    
-    function save(){
+
+    function save() {
         global $global;
         $fieldsName = $this->getAllFields();
         if (!empty($this->id)) {
             $sql = "UPDATE ".static::getTableName()." SET ";
             $fields = array();
             foreach ($fieldsName as $value) {
-                if(strtolower($value) == 'created' ){
+                if (strtolower($value) == 'created') {
                     // do nothing
-                }else if(strtolower($value) == 'modified' ){
+                } elseif (strtolower($value) == 'modified') {
                     $fields[] = " {$value} = now() ";
                 }else {
                     $fields[] = " `{$value}` = '{$this->$value}' ";
@@ -141,11 +138,11 @@ abstract class Object{
             $sql .= "`".implode("`,`", $fieldsName). "` )";            
             $fields = array();
             foreach ($fieldsName as $value) {
-                if(strtolower($value) == 'created' || strtolower($value) == 'modified' ){
+                if (strtolower($value) == 'created' || strtolower($value) == 'modified') {
                     $fields[] = " now() ";
-                }else if(!isset($this->$value)){
+                } elseif (!isset($this->$value)) {
                     $fields[] = " NULL ";
-                }else{
+                } else {
                     $fields[] = " '{$this->$value}' ";
                 }
             }
@@ -153,7 +150,7 @@ abstract class Object{
         }
         //echo $sql;
         $insert_row = $global['mysqli']->query($sql);
-            
+
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
@@ -165,11 +162,11 @@ abstract class Object{
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
-    
-    private function getAllFields(){        
+
+    private function getAllFields() {
         global $global, $mysqlDatabase;
         $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{$mysqlDatabase}' AND TABLE_NAME = '".static::getTableName()."'";
-        
+
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
@@ -195,4 +192,3 @@ abstract class Object{
         return false;
     }
 }
-

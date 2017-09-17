@@ -23,13 +23,13 @@ require_once '../videos/configuration.php';
                     <footer class="blockquote-footer">Apostle Paul in <cite title="Source Title">Romans 11:36</cite></footer>
                 </blockquote>
                 <div class="btn-group btn-group-justified">
-                    <a href="https://www.youphptube.com/" class="btn btn-success">Main Site</a> 
-                    <a href="https://demo.youphptube.com/" class="btn btn-danger">Demo Site</a> 
-                    <a href="https://tutorials.youphptube.com/" class="btn btn-primary">Tutorials Site</a> 
-                    <a href="https://github.com/DanielnetoDotCom/YouPHPTube/issues" class="btn btn-warning">Issues and requests Site</a> 
+                    <a href="https://www.youphptube.com/" class="btn btn-success">Main Site</a>
+                    <a href="https://demo.youphptube.com/" class="btn btn-danger">Demo Site</a>
+                    <a href="https://tutorials.youphptube.com/" class="btn btn-primary">Tutorials Site</a>
+                    <a href="https://github.com/DanielnetoDotCom/YouPHPTube/issues" class="btn btn-warning">Issues and requests Site</a>
                 </div>
                 <span class="label label-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></span>
-                    
+
                 <span class="label label-success">
                     <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
                 </span>
@@ -39,8 +39,8 @@ require_once '../videos/configuration.php';
                 <span class="label label-success">
                     <?php printf(__("You have %s minutes of videos!"), number_format(getSecondsTotalVideosLength()/6, 2)); ?>
                 </span>
-                
-                
+
+
 $obj->videoStorageLimitMinutes = $global['videoStorageLimitMinutes'];
 $obj->currentStorageUsage = getSecondsTotalVideosLength();
             </div>

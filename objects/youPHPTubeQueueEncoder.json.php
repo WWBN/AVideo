@@ -2,10 +2,10 @@
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
-if(empty($global['systemRootPath'])){
-    $global['systemRootPath'] = "../";
+if (empty($global['systemRootPath'])) {
+    $global['systemRootPath'] = '../';
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
+require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
@@ -38,14 +38,14 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     if (strcasecmp($extension, 'mp3') == 0 || strcasecmp($extension, 'wav') == 0) {
         $type = 'audio';
     }
-    
+
     //var_dump($extension, $type);exit;
 
     require_once $global['systemRootPath'] . 'objects/video.php';
 
     //echo "Starting Get Duration\n";
     $duration = Video::getDurationFromFile($_FILES['upl']['tmp_name']);
-    
+
     // check if can upload video (about time limit storage)
     if(!empty($global['videoStorageLimitMinutes'])){
         $maxDuration = $global['videoStorageLimitMinutes']*60;
@@ -65,8 +65,8 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
             exit;
         }
     }
-    
-    
+
+
     $path_parts = pathinfo($_FILES['upl']['name']);
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
     $filename = uniqid($mainName . "_YPTuniqid_", true);
@@ -114,32 +114,32 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         if (!copy($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
             die("Error on copy(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
         }
-    } else if (array_key_exists('dontMoveUploadedFile', $_FILES['upl'])) {
+    } elseif (array_key_exists('dontMoveUploadedFile', $_FILES['upl'])) {
         if (!rename($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
             die("Error on rename(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
         }
-    } else if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
+    } elseif (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
         die("Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
     }
-    
-    $video = new Video("", "", $id);
+
+    $video = new Video('', '', $id);
     // send to encoder
     $queue = array();
-    if($video->getType() == 'video'){
-        if($config->getEncode_mp4()){
+    if ($video->getType() == 'video') {
+        if ($config->getEncode_mp4()) {
             $queue[] = $video->queue("mp4");
         }
-        if($config->getEncode_webm()){
+        if ($config->getEncode_webm()) {
             $queue[] = $video->queue("webm");
         }
-    }else if($config->getEncode_mp3spectrum()){
-        if($config->getEncode_mp4()){
+    } elseif ($config->getEncode_mp3spectrum()) {
+        if ($config->getEncode_mp4()) {
             $queue[] = $video->queue("mp4_spectrum");
         }
-        if($config->getEncode_webm()){
+        if ($config->getEncode_webm()) {
             $queue[] = $video->queue("webm_spectrum");
         }
-    }else{
+    } else {
         $queue[] = $video->queue("mp3");
         $queue[] = $video->queue("ogg");
     }
@@ -159,8 +159,3 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 //echo '{"status":"error", "msg":' . json_encode($_FILES) . ', "type":"$_FILES Error"}';
 status(["status" => "error", "msg" => print_r($_FILES,true), "type" => '$_FILES Error']);
 exit;
-
-
-
-
-

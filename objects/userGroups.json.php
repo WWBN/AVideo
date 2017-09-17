@@ -1,5 +1,4 @@
 <?php
-
 require_once 'userGroups.php.php';
 header('Content-Type: application/json');
 $rows = UserGroups::getAllUsersGroups();

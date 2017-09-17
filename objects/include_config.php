@@ -3,7 +3,6 @@ ini_set('error_log', $global['systemRootPath'].'videos/youphptube.log');
 global $global;
 global $config;
 
-
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
 
 $now = new DateTime();
@@ -19,7 +18,7 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 
 // for update config from old versions
-if(function_exists("getAllFlags")){
+if (function_exists("getAllFlags")) {
     Configuration::rewriteConfigFile();
 }
 

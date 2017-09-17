@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo();
-if(empty($video)){
+if (empty($video)) {
     die(__("Video not found"));
 }
 
@@ -53,16 +53,16 @@ if ($video['type'] !== "audio") {
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
-                </audio> 
+                </audio>
                 <?php
             } else {
                 ?>
-                <video poster="<?php echo $poster; ?>" controls crossorigin  width="auto" height="auto" 
+                <video poster="<?php echo $poster; ?>" controls crossorigin  width="auto" height="auto"
                 class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp4" type="video/mp4">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.webm" type="video/webm">
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
-                </video>    
+                </video>
                 <?php
             }
             ?>
