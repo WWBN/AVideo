@@ -4,7 +4,7 @@
 <script>
     function getStats() {
         $.ajax({
-            url: 'stats.json.php',
+            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Label',
             data: {"name": "<?php echo $streamName; ?>"},
             type: 'post',
             success: function (response) {

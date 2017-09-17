@@ -7,7 +7,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
 if (!empty($_GET['u'])) {
     include './view/modeYoutubeLive.php';
     exit;
-}else if (!User::canUpload()) {
+} else if (!User::canUpload()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not stream live videos"));
     exit;
 }
@@ -18,7 +18,6 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -43,7 +42,14 @@ $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
                     <div class="panel-heading">WebCam Streaming</div>
                     <div class="panel-body">
                         <div class="embed-responsive embed-responsive-16by9">
-                            <div class="embed-responsive-item"  id="webcam"></div>
+                            <div class="embed-responsive-item"  id="webcam">
+                                <button class="btn btn-primary btn-block" id="enableWebCam">
+                                    <i class="fa fa-camera"></i> Enable WebCam Stream
+                                </button>
+                                <div class="alert alert-warning">
+                                    <i class="fa fa-warning">We will check it there is a stream conflict before stream</i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,13 +78,13 @@ $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
                         $ug = UserGroups::getAllUsersGroups();
                         foreach ($ug as $value) {
                             ?>
-                                        <div class="form-group">
-                                            <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
-                                            <div class="material-switch pull-right">
-                                                <input id="public" type="checkbox" value="0" class="userGroups"/>
-                                                <label for="public" class="label-success"></label>
-                                            </div>
-                                        </div>    
+                                            <div class="form-group">
+                                                <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
+                                                <div class="material-switch pull-right">
+                                                    <input id="public" type="checkbox" value="0" class="userGroups"/>
+                                                    <label for="public" class="label-success"></label>
+                                                </div>
+                                            </div>    
                             <?php
                         }
                         ?>
@@ -113,26 +119,26 @@ $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <?php 
-                            $streamName = $trasnmition['key'];
-                            include './view/onlineLabel.php';
+                        <?php
+                        $streamName = $trasnmition['key'];
+                        include './view/onlineLabel.php';
                         ?>
                     </div>
-                        <div class="panel-body">          
+                    <div class="panel-body">          
 
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin 
-                                       class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
-                                       id="mainVideo" data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>",  "techorder" : ["flash", "html5"] }'>
-                                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>" type='rtmp/flv'>
-                                </video>
-                            </div>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin 
+                                   class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
+                                   id="mainVideo" data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>",  "techorder" : ["flash", "html5"] }'>
+                                <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>" type='rtmp/flv'>
+                            </video>
                         </div>
                     </div>
-                
-                    <?php
-                        $p->getChat($trasnmition['key']);
-                    ?>
+                </div>
+
+                <?php
+                $p->getChat($trasnmition['key']);
+                ?>
             </div>
         </div>
         <?php
@@ -140,26 +146,51 @@ $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
         ?>
         <script>
             var flashvars = {server: "<?php echo $p->getServer(); ?>?p=<?php echo User::getUserPass(); ?>", stream: "<?php echo $trasnmition['key']; ?>"};
-            var params = {};
-            var attributes = {};
+                var params = {};
+                var attributes = {};
+                function amIOnline() {
+                    $.ajax({
+                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?checkIfYouOnline',
+                        data: {"name": "<?php echo $streamName; ?>"},
+                        type: 'post',
+                        success: function (response) {
+                            offLine = true;
+                            for (i = 0; i < response.applications.length; i++) {
+                                if (response.applications[i].key === "<?php echo $trasnmition['key']; ?>") {
+                                    offLine = false;
+                                    break;
+                                }
+                            }
+                            // you online do not show webcam
+                            if (!offLine) {
+                                $('#webcam').find('.alert').text("You are online now, web cam is disabled");
+                            } else {
+                                $('#webcam').find('.alert').text("You are not online, loading webcam...");
+                                swfobject.embedSWF("<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/webcam.swf", "webcam", "100%", "100%", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
+                            }
+                        }
+                    });
+                }
 
-            function saveStream() {
-                modal.showPleaseWait();
-                $.ajax({
-                    url: 'saveLive.php',
-                    data: {"title": $('#title').val(), "description": $('#description').val(), "key": "<?php echo $trasnmition['key']; ?>"},
-                    type: 'post',
-                    success: function (response) {
-                        modal.hidePleaseWait();
-                    }
+                function saveStream() {
+                    modal.showPleaseWait();
+                    $.ajax({
+                        url: 'saveLive.php',
+                        data: {"title": $('#title').val(), "description": $('#description').val(), "key": "<?php echo $trasnmition['key']; ?>"},
+                        type: 'post',
+                        success: function (response) {
+                            modal.hidePleaseWait();
+                        }
+                    });
+                }
+                $(document).ready(function () {
+                    $('#btnSaveStream').click(function () {
+                        saveStream();
+                    });
+                    $('#enableWebCam').click(function () {
+                        amIOnline();
+                    });
                 });
-            }
-            $(document).ready(function () {
-                swfobject.embedSWF("<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/webcam.swf", "webcam", "100%", "100%", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
-                $('#btnSaveStream').click(function () {
-                    saveStream();
-                });
-            });
         </script>
     </body>
 </html>

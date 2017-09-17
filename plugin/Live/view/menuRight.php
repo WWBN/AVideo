@@ -22,9 +22,8 @@ if (User::canUpload()) {
 <script>
     function getStatsMenu() {
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php',
+            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu',
             success: function (response) {
-                $('.liveViewCount').text(" " + response.nclients);
                 $('.onlineApplications').text(response.applications.length);
                 $('#availableLive').empty();
                 for (i = 0; i < response.applications.length; i++) {
@@ -38,7 +37,7 @@ if (User::canUpload()) {
                 }
                 setTimeout(function () {
                     getStatsMenu();
-                }, 20000);
+                }, 2000);
             }
         });
     }
