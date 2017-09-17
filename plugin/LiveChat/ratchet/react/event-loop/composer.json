@@ -1,0 +1,22 @@
+{
+    "name": "react/event-loop",
+    "description": "Event loop abstraction layer that libraries can use for evented I/O.",
+    "keywords": ["event-loop", "asynchronous"],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
+    },
+    "suggest": {
+        "ext-libevent": ">=0.1.0",
+        "ext-event": "~1.0",
+        "ext-libev": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "React\\EventLoop\\": "src"
+        }
+    }
+}

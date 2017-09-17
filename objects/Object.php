@@ -131,14 +131,14 @@ abstract class Object{
                 }else if(strtolower($value) == 'modified' ){
                     $fields[] = " {$value} = now() ";
                 }else {
-                    $fields[] = " {$value} = '{$this->$value}' ";
+                    $fields[] = " `{$value}` = '{$this->$value}' ";
                 }                
             }
             $sql .= implode(", ", $fields);
             $sql .= " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO ".static::getTableName()." ( ";
-            $sql .= implode(",", $fieldsName). " )";            
+            $sql .= "`".implode("`,`", $fieldsName). "` )";            
             $fields = array();
             foreach ($fieldsName as $value) {
                 if(strtolower($value) == 'created' || strtolower($value) == 'modified' ){
@@ -180,6 +180,19 @@ abstract class Object{
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+    
+    function delete(){
+        global $global;
+        if (!empty($this->id)) {
+            $sql = "DELETE FROM ".static::getTableName()." ";
+            $sql .= " WHERE id = {$this->id}";
+            $global['lastQuery'] = $sql;
+            //error_log("Delete Query: ".$sql);
+            return $global['mysqli']->query($sql);
+        } 
+        error_log("Id for table ".static::getTableName()." not defined for deletion");
+        return false;
     }
 }
 

@@ -42,6 +42,9 @@ class User {
     function getUser() {
         return $this->user;
     }
+    function getPassword() {
+        return $this->password;
+    }
 
     private function load($id) {
         $user = self::getUserDb($id);
@@ -100,6 +103,41 @@ class User {
         } else {
             return false;
         }
+    }    
+    /**
+     * return an name to identify the user
+     * @return String
+     */
+    static function getNameIdentification(){
+        if(self::isLogged()){
+            if(!empty(self::getName())){
+                return self::getName();
+            }
+            if(!empty(self::getMail())){
+                return self::getMail();
+            }
+            if(!empty(self::getUserName())){
+                return self::getUserName();
+            }
+        }
+        return __("Unknown User");
+    }
+    
+    /**
+     * return an name to identify the user from database
+     * @return String
+     */
+    function getNameIdentificationBd(){
+        if(!empty($this->name)){
+            return $this->name;
+        }
+        if(!empty($this->email)){
+            return $this->email;
+        }
+        if(!empty($this->user)){
+            return $this->user;
+        }
+        return __("Unknown User");
     }
     
     static function getUserPass() {
@@ -125,7 +163,7 @@ class User {
             $photo = $_SESSION['user']['photoURL'];
             
         }
-        if(preg_match("/videos\/userPhoto\/.*/", $photo)){
+        if(!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)){
             $photo = $global['webSiteRootURL'].$photo;
         }
         if (empty($photo)) {

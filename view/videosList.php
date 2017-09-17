@@ -1,5 +1,5 @@
 <?php
-require_once '../videos/configuration.php';
+require_once dirname(__FILE__) . '/../videos/configuration.php';
 
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';

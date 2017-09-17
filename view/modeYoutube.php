@@ -29,6 +29,7 @@ $catLink = "";
 if (!empty($_GET['catName'])) {
     $catLink = "cat/{$_GET['catName']}/";
 }
+
 $video = Video::getVideo("", "viewableNotAd");
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
@@ -121,8 +122,6 @@ if (!empty($video)) {
                 if (empty($video['type']) || file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                     $video['type'] = "video";
                 }
-                ?>
-                <?php
                 require "{$global['systemRootPath']}view/include/{$video['type']}.php";
                 $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                 ?>
@@ -145,7 +144,11 @@ if (!empty($video)) {
                                         <?php echo $video['title']; ?>
                                         <small>
                                             <?php
-                                            $video['tags'] = Video::getTags($video['id']);
+                                            if (!empty($video['id'])) {
+                                                $video['tags'] = Video::getTags($video['id']);
+                                            } else {
+                                                $video['tags'] = array();
+                                            }
                                             foreach ($video['tags'] as $value) {
                                                 if ($value->label === __("Group")) {
                                                     ?>
@@ -665,7 +668,7 @@ if (!empty($video)) {
                                             </div>
                                             <div>
                                                 <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong> 
-                                                    <?php echo __("Views"); ?>
+                                                <?php echo __("Views"); ?>
                                             </div>
                                             <div><?php echo $autoPlayVideo['creator']; ?></div>
 

@@ -36,7 +36,7 @@ if (!empty($ad)) {
             ?>">
                 <video poster="<?php echo $poster; ?>" controls crossorigin 
                        class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
-                       id="mainVideo"  data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>" }'>
+                       id="mainVideo"  data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
@@ -62,39 +62,7 @@ if (!empty($ad)) {
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
 </div><!--/row-->
 <script>
-    var floatLeft = "";
-    var floatTop = "";
-    var floatWidth = "";
-    var floatHeight = "";
-
-    var changingVideoFloat = 0;
-    var floatClosed = 0;
-    var mainVideoHeight = $('#videoContainer').innerHeight();
-    var fullDuration = 0;
-    var isPlayingAd = false;
-
-    function closeFloatVideo() {
-        $('#videoContainer').fadeOut('fast', function () {
-            // this is to remove the dragable and resize
-            floatLeft = $("#videoContainer").css("left");
-            floatTop = $("#videoContainer").css("top");
-            floatWidth = $("#videoContainer").css("width");
-            floatHeight = $("#videoContainer").css("height");
-            $("#videoContainer").css({"top": ""});
-            $("#videoContainer").css({"left": ""});
-            $("#videoContainer").css({"height": ""});
-            $("#videoContainer").css({"width": ""});
-
-            $('#videoContainer').parent().css('height', '');
-            $('#videoContainer').removeClass('floatVideo');
-            $("#videoContainer").resizable('destroy');
-            $("#videoContainer").draggable('destroy');
-            $('#floatButtons').hide();
-            changingVideoFloat = 0;
-        });
-        $('#videoContainer').fadeIn();
-    }
-
+    
     $(document).ready(function () {
         //Prevent HTML5 video from being downloaded (right-click saved)?
         $('#mainVideo').bind('contextmenu',function() { return false; });
@@ -174,57 +142,6 @@ if ($config->getAutoplay()) {
                             $(".ad").removeClass("ad");
                             return false;
                         });
-<?php } ?>
-
-                    $(window).resize(function () {
-
-                        mainVideoHeight = $('#videoContainer').innerHeight();
-                    });
-                    $(window).scroll(function () {
-                        if (changingVideoFloat) {
-                            return false;
-                        }
-                        changingVideoFloat = 1;
-                        var s = $(window).scrollTop();
-                        if (s > mainVideoHeight) {
-                            if (!$('#videoContainer').hasClass("floatVideo") && !floatClosed) {
-                                $('#videoContainer').hide();
-                                $('#videoContainer').addClass('floatVideo');
-                                $('#videoContainer').parent().css('height', mainVideoHeight);
-                                if(parseInt(floatTop)<70){
-                                    floatTop = "70px";
-                                }
-                                if(parseInt(floatLeft)<10){
-                                    floatLeft = "10px";
-                                }
-                                $("#videoContainer").css({"top": floatTop});
-                                $("#videoContainer").css({"left": floatLeft});
-                                $("#videoContainer").css({"height": floatHeight});
-                                $("#videoContainer").css({"width": floatWidth});
-
-                                $("#videoContainer").resizable({
-                                    aspectRatio: 16 / 9,
-                                    minHeight: 150,
-                                    minWidth: 266
-                                });
-                                $("#videoContainer").draggable({
-                                    handle: ".move",
-                                    containment: ".principalContainer"
-                                });
-                                changingVideoFloat = 0;
-                                $('#videoContainer').fadeIn();
-                                $('#floatButtons').fadeIn();
-                            } else {
-                                changingVideoFloat = 0;
-                            }
-                        } else {
-                            floatClosed = 0;
-                            if ($('#videoContainer').hasClass("floatVideo")) {
-                                closeFloatVideo();
-                            } else {
-                                changingVideoFloat = 0;
-                            }
-                        }
-                    });
+<?php } ?>                    
                 });
 </script>

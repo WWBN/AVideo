@@ -1,0 +1,65 @@
+.liveChat .messages {
+  position: relative;
+  list-style: none;
+  padding: 20px 10px 0 10px;
+  margin: 0;
+  height: 40vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.liveChat .messages .message {
+  clear: both;
+  overflow: hidden;
+  margin-bottom: 10px;
+  transition: all 0.5s linear;
+  opacity: 0;
+}
+.liveChat .messages .message.left .text_wrapper {
+  margin-left: 10px;
+}
+.liveChat .messages .message.right .text_wrapper {
+  margin-right: -30px;
+  padding-right: 40px;
+  float: right;
+}
+.liveChat .messages .message.appeared {
+  opacity: 1;
+}
+.liveChat .messages .message .avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.liveChat .messages .message .text_wrapper {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 6px;
+  width: calc(100% - 65px);
+  min-width: 100px;
+  position: relative;
+}
+.liveChat .messages .message .text_wrapper::after, .messages .message .text_wrapper:before {
+  top: 7px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.liveChat .messages .message .text_wrapper::after {
+  border-width: 8px;
+  margin-top: 0px;
+}
+.liveChat .messages .message .text_wrapper::before {
+  border-width: 10px;
+  margin-top: -2px;
+}
+.liveChat .messages .message .text_wrapper .text {
+  font-size: 14px;
+  font-weight: 300;
+}
+.message_template {
+  display: none;
+}

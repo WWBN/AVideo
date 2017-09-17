@@ -462,7 +462,7 @@ img.rotate270, img.rotate-90{
     position: absolute;
     top: 0;
     height: 100vh;
-    margin-top: 55px;
+    margin-top: 50px;
 }
 #sideBarContainer{
     overflow-y: auto;

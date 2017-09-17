@@ -36,6 +36,8 @@
     #for the embeded video name
     RewriteRule    ^videoEmbeded/([A-Za-z0-9-_.]+)/?$ view/videoEmbeded.php?videoName=$1    [NC,L]
 
+    RewriteRule    ^plugin/([A-Za-z0-9-_.]+)/(.*)?$ plugin/$1/$2    [NC,L]
+
     RewriteRule    ^upload$ view/mini-upload-form/    [NC,L]
     RewriteRule    ^fileUpload$ view/mini-upload-form/upload.php    [NC,L]
     RewriteRule    ^uploadPoster/([0-9]+)/(jpg|gif)$ objects/uploadPoster.php?video_id=$1&type=$2    [NC,L]
@@ -74,6 +76,14 @@
     RewriteRule    ^categories.json$ objects/categories.json.php    [NC,L]
     RewriteRule    ^addNewCategory$ objects/categoryAddNew.json.php    [NC,L]
     RewriteRule    ^deleteCategory$ objects/categoryDelete.json.php    [NC,L]
+
+    #manager plugin
+    RewriteRule    ^plugins$ view/managerPlugins.php    [NC,L]
+    RewriteRule    ^plugins.json$ objects/plugins.json.php    [NC,L]
+    RewriteRule    ^pluginsAvailable.json$ objects/pluginsAvailable.json.php    [NC,L]
+    RewriteRule    ^switchPlugin$ objects/pluginSwitch.json.php    [NC,L]
+    RewriteRule    ^addDataObjectPlugin.json$ objects/pluginAddDataObject.json.php    [NC,L]
+    RewriteRule    ^runDBScriptPlugin.json$ objects/pluginRunDatabaseScript.json.php    [NC,L]
 
     #manager playList
     RewriteRule    ^playLists.json$ objects/playlists.json.php    [NC,L]

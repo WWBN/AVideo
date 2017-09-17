@@ -44,10 +44,11 @@ if (empty($_SESSION['language'])) {
                 </li>
             </ul>
         </li>
-
         <li>
             <ul class="right-menus">
-
+                <?php
+                echo YouPHPTubePlugin::getHTMLMenuRight();
+                ?>
                 <?php
                 if (User::canUpload()) {
                     ?>                    
@@ -231,6 +232,12 @@ if (empty($_SESSION['language'])) {
                                 <?php echo __("Create more translations"); ?>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>plugins">
+                                <span class="fa fa-plug"></span> 
+                                <?php echo __("Plugins"); ?>
+                            </a>
+                        </li>
                         <?php
                     }
                     ?>
@@ -283,6 +290,10 @@ if (empty($_SESSION['language'])) {
                     . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >'
                     . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
                 }
+                ?>
+                
+                <?php
+                echo YouPHPTubePlugin::getHTMLMenuLeft();
                 ?>
 
                 <!-- categories END -->

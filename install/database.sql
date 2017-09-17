@@ -5,6 +5,16 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
+-- Schema youPHPTube
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema youPHPTube
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `youPHPTube` DEFAULT CHARACTER SET utf8 ;
+USE `youPHPTube` ;
+
+-- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
@@ -67,7 +77,17 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
-  INDEX `index5` (`order` ASC))
+  INDEX `index5` (`order` ASC),
+  CONSTRAINT `fk_videos_users`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_videos_categories1`
+    FOREIGN KEY (`categories_id`)
+    REFERENCES `categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -393,6 +413,22 @@ CREATE TABLE IF NOT EXISTS `playlists_has_videos` (
     REFERENCES `videos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `plugins`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `plugins` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `uuid` VARCHAR(45) NOT NULL,
+  `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
+  `object_data` TEXT NULL DEFAULT NULL,
+  `name` VARCHAR(255) NULL DEFAULT NULL,
+  `dirName` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC))
 ENGINE = InnoDB;
 
 

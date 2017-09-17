@@ -1,0 +1,25 @@
+{
+    "name": "react/dns",
+    "description": "Async DNS resolver for ReactPHP",
+    "keywords": ["dns", "dns-resolver", "ReactPHP", "async"],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.0",
+        "react/cache": "~0.4.0|~0.3.0",
+        "react/event-loop": "^1.0 || ^0.5 || ^0.4 || ^0.3.5",
+        "react/promise": "^2.1 || ^1.2.1",
+        "react/promise-timer": "^1.2",
+        "react/socket": "^1.0 || ^0.8 || ^0.7 || ^0.6 || ^0.5 || ^0.4.4",
+        "react/stream": "^1.0 || ^0.7 || ^0.6 || ^0.5 || ^0.4.5"
+    },
+    "require-dev": {
+        "clue/block-react": "^1.2",
+        "phpunit/phpunit": "^5.0 || ^4.8.10"
+    },
+    "autoload": {
+        "psr-4": { "React\\Dns\\": "src" }
+    },
+    "autoload-dev": {
+        "psr-4": { "React\\Tests\\Dns\\": "tests" }
+    }
+}

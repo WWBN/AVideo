@@ -15,7 +15,7 @@ if (empty($config)) {
     require_once '../objects/include_config.php';
 }
 $mode = $config->getMode();
-if (!empty($_GET['videoName']) || !empty($_GET['playlist_id'])) {
+if (!empty($_GET['videoName']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName'])) {
     $mode = "Youtube";
 }
 if (!empty($_GET['search'])) {
