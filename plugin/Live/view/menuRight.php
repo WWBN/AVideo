@@ -10,7 +10,10 @@ if (User::canUpload()) {
 }
 ?>
 <li class="dropdown">
-    <a href="#" class=" btn btn-default navbar-btn" data-toggle="dropdown"><span class="fa fa-bell"></span> <span class="badge onlineApplications">0</span></a>
+    <a href="#" class=" btn btn-default navbar-btn" data-toggle="dropdown">
+        <span class="fa fa-bell"></span> 
+        <span class="badge onlineApplications" style=" background: rgba(255,0,0,1); color: #FFF;">0</span></span>
+    </a>
     <ul class="dropdown-menu notify-drop" id="availableLive" style="left: -100%;">
         
     </ul>
@@ -20,20 +23,36 @@ if (User::canUpload()) {
         <span class="label label-success liveUser">User</span> <span class="badge">is live</span>
     </a>
 <script>
+    
+    function createLiveItem(href, title, name, offline){
+        var $liveLi = $('.liveModel').clone();
+        if(offline){            
+            $liveLi.find('.fa-video-camera').removeClass("fa-video-camera").addClass("fa-ban");
+            $liveLi.find('.liveUser').removeClass("label-success").addClass("label-danger");
+            $liveLi.find('.badge').text("offline");
+        }        
+        $liveLi.removeClass("hidden").removeClass("liveModel");
+        $liveLi.attr("href", href);   
+        $liveLi.find('.liveTitle').text(title);
+        $liveLi.find('.liveUser').text(name);
+        $('#availableLive').append($liveLi);
+    }
+    
     function getStatsMenu() {
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu',
             success: function (response) {
                 $('.onlineApplications').text(response.applications.length);
                 $('#availableLive').empty();
-                for (i = 0; i < response.applications.length; i++) {
-                    var $liveLi = $('.liveModel').clone();
-                    $liveLi.removeClass("hidden").removeClass("liveModel");
-                    $liveLi.attr("href", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u="+response.applications[i].user);   
-                    $liveLi.find('.liveTitle').text(response.applications[i].title);
-                    $liveLi.find('.liveUser').text(response.applications[i].name);
-                    
-                    $('#availableLive').append($liveLi);
+                if(response.applications.length){
+                    for (i = 0; i < response.applications.length; i++) {
+                        href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u="+response.applications[i].user;
+                        title = response.applications[i].title;
+                        name = response.applications[i].name;                        
+                        createLiveItem(href, title, name, false);
+                    }
+                }else{
+                    createLiveItem("#", "There is no streaming now", "nobody", true);
                 }
                 setTimeout(function () {
                     getStatsMenu();
