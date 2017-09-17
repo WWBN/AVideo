@@ -31,7 +31,7 @@ if (!empty($_GET['p'])) {
 }
 
 if (!empty($obj) && empty($obj->error)) {
-    http_response_code(200);
+    http_response_code(300);
 } else {
     http_response_code(401);
     error_log("Publish denied");

@@ -20,6 +20,8 @@ $xml = json_encode($xml);
 $xml = json_decode($xml);
 $stream = false;
 $lifeStream = array();
+
+var_dump($xml);
 if(!empty($xml->server->application[1]->live->stream)){
     $lifeStream = $xml->server->application[1]->live->stream;
     if(!is_array($xml->server->application[1]->live->stream)){
