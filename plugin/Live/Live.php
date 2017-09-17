@@ -64,7 +64,8 @@ class Live extends PluginAbstract {
     }
     
     function getStatsObject(){
-        $xml = simplexml_load_file($this->getStatsURL());
+        $feed = file_get_contents($this->getStatsURL());
+        $xml = simplexml_load_file($feed);
         return $xml;
     }
 
