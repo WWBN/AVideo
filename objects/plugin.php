@@ -174,7 +174,7 @@ class Plugin extends Object {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
