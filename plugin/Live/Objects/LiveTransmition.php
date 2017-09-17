@@ -147,5 +147,9 @@ class LiveTransmition extends Object{
         return $row;
     }
 
+    function save() {
+        $this->public = intval($this->public);
+        return parent::save();
+    }
 
 }
