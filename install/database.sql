@@ -9,12 +9,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema youPHPTube
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `youPHPTube` DEFAULT CHARACTER SET utf8 ;
-USE `youPHPTube` ;
-
--- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
