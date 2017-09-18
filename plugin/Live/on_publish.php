@@ -31,8 +31,7 @@ if (!empty($_GET['p'])) {
 }
 
 if (!empty($obj) && empty($obj->error)) {
-    http_response_code(300);
-    header("Location: {$_POST['name']}");
+    http_response_code(200);
 } else {
     http_response_code(401);
     error_log("Publish denied");
