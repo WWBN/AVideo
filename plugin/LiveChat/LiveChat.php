@@ -26,5 +26,19 @@ class LiveChat extends PluginAbstract{
             require static::getChatPanelFile();            
         }
     }
+    
+    public function getEmptyDataObject() {
+        global $global;
+        $server = parse_url($global['webSiteRootURL']);
+        $obj = new stdClass();
+        $obj->websocket = "ws://{$server['host']}/wss/";
+        return $obj;
+    }
+    
+    
+    public function getWebSocket() {
+        $o = $this->getDataObject();
+        return $o->websocket;
+    }
 
 }

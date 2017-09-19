@@ -1,3 +1,6 @@
+<?php
+$p = YouPHPTubePlugin::loadPlugin("LiveChat");
+?>
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/style.css" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/script.js" type="text/javascript"></script>
 <div class="alert alert-warning" id="chatOffline">
@@ -30,9 +33,6 @@
     </div>
 </div>
 <script>
-<?php
-$server = parse_url($global['webSiteRootURL']);
-?>
     var attempChatConnections = 3;
     var conn;
     function sendJsonMessage(text, message_side) {
@@ -40,8 +40,8 @@ $server = parse_url($global['webSiteRootURL']);
         return sendMessage(text, message_side);
     }
     function connect() {
-        console.log('Trying to reconnect on <?php echo $server['host'] ?>');
-        conn = new WebSocket('wss://<?php echo $server['host'] ?>/wss/');
+        console.log('Trying to reconnect on <?php echo $p->getWebSocket(); ?>');
+        conn = new WebSocket('<?php echo $p->getWebSocket(); ?>');
         conn.onopen = function (e) {
             console.log("Connection established!");
             attempChatConnections = 3;
