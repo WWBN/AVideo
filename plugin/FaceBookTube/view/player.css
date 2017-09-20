@@ -1,0 +1,115 @@
+.video-js .vjs-control-bar {
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 100%);
+    /* FF3.6-15 */
+
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000', GradientType=0);
+    /* IE6-9 */
+}
+.video-js:hover .vjs-play-progress {
+    font-size: 1em !important;
+}
+.video-js .vjs-big-play-button {
+    height: 1.5em;
+    width: 1.5em;
+    -webkit-border-radius: 3em;
+    -moz-border-radius: 3em;
+    border-radius: 3em;
+    background-color: rgba(200, 200, 200, 0.1);
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+.video-js:hover .vjs-big-play-button,
+.video-js .vjs-big-play-button:focus {
+    background-color: rgba(200, 200, 200, 0.3);
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+.video-js .vjs-mouse-display:after,
+.video-js .vjs-play-progress:after,
+.video-js .vjs-time-tooltip {
+    background: rgba(0, 0, 0, 0.6)!important;
+    padding: 2px;
+    color: #FFF;
+    font-size: 12px !important;
+}
+.video-js .vjs-load-progress {
+    background-color: rgba(159, 159, 159, .8);
+}
+.video-js .vjs-slider-horizontal {
+    background-color: rgba(159, 159, 159, .3);
+}
+.vjs-rotate90 {
+    rotate: 90;
+    zoom: 1.0;
+}
+
+/* Ad Elements */
+#adUrl {
+    color: #DDD;
+    position: absolute;
+    left: 0;
+    top: 80%;
+    padding: 10px;
+    font-size: 12px;
+    text-shadow: -1px 0 #333, 0 1px #333, 1px 0 #333, 0 -1px #333, 0 0 0.3em black;
+    white-space: nowrap;
+}
+#adUrl a {
+    color: #DDD;
+}
+#adUrl a:hover {
+    color: #FFF;
+    text-decoration: underline;
+}
+#adButton {
+    background-color: rgba(0, 0, 0, 0.7);
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+    color: #FFF;
+    border: 1px solid #888;
+    position: absolute;
+    right: 0;
+    top: 70%;
+    padding: 10px;
+    font-size: 16px;
+}
+#adButton:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid #DDD;
+}
+.adControl {
+    display: none;
+}
+.ad .video-js .vjs-play-progress {
+    color: #FC0;
+    background-color: #FC0;
+}
+.ad .vjs-progress-control * {
+    pointer-events: none !important;
+}
+.ad .adControl {
+    display: block;
+}
+/* End Ad Elements */
+
+.img-portrait {
+    transform: scale(0.56) rotate(90deg);
+}
+.embed-responsive-9by16 {
+    padding-bottom: 100%;
+}
+.video-js.vjs-9-16 {
+    padding-top: 100%;
+}

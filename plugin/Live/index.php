@@ -18,6 +18,9 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
+
+$aspectRatio = "16:9";
+$vjsClass = "vjs-16-9";
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -78,13 +81,13 @@ $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
                         $ug = UserGroups::getAllUsersGroups();
                         foreach ($ug as $value) {
                             ?>
-                                            <div class="form-group">
-                                                <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
-                                                <div class="material-switch pull-right">
-                                                    <input id="public" type="checkbox" value="0" class="userGroups"/>
-                                                    <label for="public" class="label-success"></label>
-                                                </div>
-                                            </div>    
+                                                <div class="form-group">
+                                                    <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
+                                                    <div class="material-switch pull-right">
+                                                        <input id="public" type="checkbox" value="0" class="userGroups"/>
+                                                        <label for="public" class="label-success"></label>
+                                                    </div>
+                                                </div>    
                             <?php
                         }
                         ?>

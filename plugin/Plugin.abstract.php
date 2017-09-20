@@ -43,5 +43,8 @@ abstract class PluginAbstract {
         return $obj;
     }
     
+    public function getFirstPage(){
+        return false;
+    }
 
 }

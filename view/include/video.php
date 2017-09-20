@@ -66,7 +66,7 @@ if (!empty($ad)) {
     $(document).ready(function () {
         //Prevent HTML5 video from being downloaded (right-click saved)?
         $('#mainVideo').bind('contextmenu',function() { return false; });
-        fullDuration = strToSeconds('<?php echo $ad['duration']; ?>');
+        fullDuration = strToSeconds('<?php echo @$ad['duration']; ?>');
         player = videojs('mainVideo');
 
         player.zoomrotate(<?php echo $transformation; ?>);

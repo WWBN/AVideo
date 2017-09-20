@@ -24,12 +24,13 @@ class Live extends PluginAbstract {
     }
 
     public function getEmptyDataObject() {
+        global $global;
+        $server = parse_url($global['webSiteRootURL']);
         $obj = new stdClass();
-        $obj->key = "you need a key";
         $obj->button_title = "LIVE";
-        $obj->server = "rtmp://your.address/live";
-        $obj->playerServer = "rtmp://your.address/live360p";
-        $obj->stats = "http://your.address/stats";
+        $obj->server = "rtmp://{$server['host']}/live";
+        $obj->playerServer = "rtmp://{$server['host']}/live";
+        $obj->stats = "http://{$server['host']}/stats";
         return $obj;
     }
 

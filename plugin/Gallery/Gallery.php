@@ -15,5 +15,10 @@ class Gallery extends PluginAbstract {
     public function getUUID() {
         return "a06505bf-3570-4b1f-977a-fd0e5cab205d";
     }
+        
+    public function getFirstPage(){
+        global $global;
+        return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
+    }
 
 }
