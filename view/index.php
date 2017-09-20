@@ -6,6 +6,7 @@ if (!file_exists($configFile)) {
         die("No Configuration and no Installation");
     }
     header("Location: install/index.php");
+    exit;
 }
 require_once $configFile;
 if (empty($config)) {
