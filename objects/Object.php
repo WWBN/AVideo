@@ -69,6 +69,7 @@ abstract class Object{
 
 
      static function getSqlFromPost() {
+         global $global;
         $sql = self::getSqlSearchFromPost();
 
         if (!empty($_POST['sort'])) {
