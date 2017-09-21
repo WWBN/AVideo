@@ -5,7 +5,8 @@
     RewriteEngine on
 
     #main Files
-    RewriteRule    ^$ view/    [NC,L]
+    RewriteRule    ^index.php$ view/index.php    [NC,L]
+    #RewriteRule    ^$ view/    [NC,L]
     RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]
     RewriteRule    ^js/(.+)$ view/js/$1 [NC,L]
     RewriteRule    ^css/(.+)$ view/css/$1 [NC,L]
