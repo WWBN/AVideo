@@ -16,9 +16,9 @@ require_once '../videos/configuration.php';
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/FaceBookTube/view/style.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/FBTube/view/style.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/FaceBookTube/view/player.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/FBTube/view/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
@@ -62,7 +62,7 @@ require_once '../videos/configuration.php';
 
         <script>
             function load(page){
-                $('#result').append($('<div>').load('<?php echo $global['webSiteRootURL']; ?>plugin/FaceBookTube/view/getVideos.php?page='+page));
+                $('#result').append($('<div>').load('<?php echo $global['webSiteRootURL']; ?>plugin/FBTube/view/getVideos.php?page='+page));
             }
             $(document).ready(function () {
                 $(window).scroll(function () {

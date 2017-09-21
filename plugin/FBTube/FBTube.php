@@ -2,7 +2,7 @@
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
-class FaceBookTube extends PluginAbstract {
+class FBTube extends PluginAbstract {
     
     public function getDescription() {
         return "Make the first page works as a facebook page";
@@ -18,12 +18,12 @@ class FaceBookTube extends PluginAbstract {
         
     public function getFirstPage(){
         global $global;
-        return $global['systemRootPath'].'plugin/FacebookTube/view/modeFacebook.php';
+        return $global['systemRootPath'].'plugin/FBTube/view/modeFacebook.php';
     }
 
     
     public function getHeadCode(){
         global $global;
-        return '<link href="'.$global['webSiteRootURL'].'plugin/FaceBookTube/view/style.css" rel="stylesheet" type="text/css"/>';
+        return '<link href="'.$global['webSiteRootURL'].'plugin/FBTube/view/style.css" rel="stylesheet" type="text/css"/>';
     }
 }
