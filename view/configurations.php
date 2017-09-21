@@ -319,7 +319,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                                                             <select class="form-control" id="mode" >
                                                                 <option value="Youtube" <?php echo ($config->getMode() == "Youtube") ? "selected" : ""; ?>><?php echo __("Youtube"); ?></option>
-                                                                <option value="Gallery" <?php echo ($config->getMode() == "Gallery") ? "selected" : ""; ?>><?php echo __("Gallery"); ?></option>
                                                             </select>
                                                         </div>
                                                     </div>
