@@ -41,8 +41,6 @@ require_once '../videos/configuration.php';
                 </span>
 
 
-$obj->videoStorageLimitMinutes = $global['videoStorageLimitMinutes'];
-$obj->currentStorageUsage = getSecondsTotalVideosLength();
             </div>
 
         </div><!--/.container-->
