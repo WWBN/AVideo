@@ -13,3 +13,17 @@
 .fbRow{
     margin-bottom: 10px;
 }
+
+.fbRow .playActive{
+    border-color: #29487d;
+}
+.fbRow h2{
+    font-size: 1.2em;
+    margin: 5px 1px;
+    font-weight: bold;
+}
+
+.commenterName strong a{
+    color: #365899;
+    font-size: 14px;
+}
