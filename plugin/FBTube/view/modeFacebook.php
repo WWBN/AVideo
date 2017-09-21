@@ -34,11 +34,6 @@ require_once '../videos/configuration.php';
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="row text-center" style="padding: 10px;">
-            <?php
-            echo $config->getAdsense();
-            ?>
-        </div>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
             <div class="col-lg-2 col-md-1 col-sm-1 hidden-xs"></div>
             <div class="col-lg-6 col-md-7 col-sm-8 col-xs-12" id="result">
