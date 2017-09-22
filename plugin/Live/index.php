@@ -152,7 +152,7 @@ $vjsClass = "vjs-16-9";
 
                 <div class="alert alert-warning">
                     <?php echo __("For Live streaming is necessary enable flash in your browser."); ?>
-                    <?php echo __("Make sure you enable flash on your browser:"); ?>
+                    <?php echo __("Make sure you have enabled flash in your browser:"); ?>
 
                     <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-chrome.html" target="_blank" class="btn btn-warning">
                         <i class="fa fa-chrome"></i> Chrome Users
