@@ -37,6 +37,8 @@ $vjsClass = "vjs-16-9";
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
+        
     </head>
     <body>
         <?php
@@ -135,12 +137,11 @@ $vjsClass = "vjs-16-9";
                         ?>
                     </div>
                     <div class="panel-body">          
-
                         <div class="embed-responsive embed-responsive-16by9">
                             <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin 
                                    class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                                    id="mainVideo" data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>",  "techorder" : ["flash", "html5"] }'>
-                                <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>" type='rtmp/flv'>
+                                <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8" type='application/x-mpegURL'>
                             </video>
                         </div>
                     </div>

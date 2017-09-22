@@ -29,8 +29,8 @@ class Live extends PluginAbstract {
         $obj = new stdClass();
         $obj->button_title = "LIVE";
         $obj->server = "rtmp://{$server['host']}/live";
-        $obj->playerServer = "rtmp://{$server['host']}/live";
-        $obj->stats = "http://{$server['host']}/stats";
+        $obj->playerServer = "https://{$server['host']}:444/live";
+        $obj->stats = "http://{$server['host']}/stat";
         return $obj;
     }
 
