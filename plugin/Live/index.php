@@ -7,7 +7,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
 if (!empty($_GET['u']) && !empty($_GET['embed'])) {
     include './view/videoEmbeded.php';
     exit;
-}else if (!empty($_GET['u'])) {
+} else if (!empty($_GET['u'])) {
     include './view/modeYoutubeLive.php';
     exit;
 } else if (!User::canUpload()) {
@@ -84,13 +84,13 @@ $vjsClass = "vjs-16-9";
                         $ug = UserGroups::getAllUsersGroups();
                         foreach ($ug as $value) {
                             ?>
-                                                <div class="form-group">
-                                                    <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
-                                                    <div class="material-switch pull-right">
-                                                        <input id="public" type="checkbox" value="0" class="userGroups"/>
-                                                        <label for="public" class="label-success"></label>
-                                                    </div>
-                                                </div>    
+                                                    <div class="form-group">
+                                                        <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
+                                                        <div class="material-switch pull-right">
+                                                            <input id="public" type="checkbox" value="0" class="userGroups"/>
+                                                            <label for="public" class="label-success"></label>
+                                                        </div>
+                                                    </div>    
                             <?php
                         }
                         ?>
@@ -149,21 +149,21 @@ $vjsClass = "vjs-16-9";
                 <?php
                 $p->getChat($trasnmition['key']);
                 ?>
-                
-        <div class="alert alert-warning">
-            <?php echo __("For Live streaming is necessary enable flash on your browser."); ?>
-            <?php echo __("Make sure you enable flash on your browser. If you are not sure look those links:"); ?>
 
-            <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-chrome.html" target="_blank" class="btn btn-warning">
-                <i class="fa fa-chrome"></i> Chrome Users
-            </a>
-            <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-firefox.html" target="_blank" class="btn btn-warning">
-                <i class="fa fa-firefox"></i> Firefox users
-            </a>
-            <a href="https://helpx.adobe.com/flash-player/kb/install-flash-player-windows.html" target="_blank" class="btn btn-warning">
-                <i class="fa fa-internet-explorer"></i> IE Users
-            </a>
-        </div>
+                <div class="alert alert-warning">
+                    <?php echo __("For Live streaming is necessary enable flash in your browser."); ?>
+                    <?php echo __("Make sure you enable flash on your browser:"); ?>
+
+                    <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-chrome.html" target="_blank" class="btn btn-warning">
+                        <i class="fa fa-chrome"></i> Chrome Users
+                    </a>
+                    <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-firefox.html" target="_blank" class="btn btn-warning">
+                        <i class="fa fa-firefox"></i> Firefox users
+                    </a>
+                    <a href="https://helpx.adobe.com/flash-player/kb/install-flash-player-windows.html" target="_blank" class="btn btn-warning">
+                        <i class="fa fa-internet-explorer"></i> IE Users
+                    </a>
+                </div>
             </div>
         </div>
         <?php
