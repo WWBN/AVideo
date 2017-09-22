@@ -115,12 +115,12 @@ $vjsClass = "vjs-16-9";
                     <div class="panel-heading"><i class="fa fa-hdd-o"></i> Devices Stream Info</div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="server">Server URL:</label>
+                            <label for="server"><i class="fa fa-server"></i> Server URL:</label>
                             <input type="text" class="form-control" id="server" value="<?php echo $p->getServer(); ?>?p=<?php echo User::getUserPass(); ?>" readonly="readonly">
                             <small class="label label-info"><i class="fa fa-warning"></i> If you change your password the Server URL parameters will be changed too.</small>
                         </div>
                         <div class="form-group">
-                            <label for="streamkey">Stream name/key:</label>
+                            <label for="streamkey"><i class="fa fa-key"></i> Stream name/key:</label>
                             <input type="text" class="form-control" id="streamkey" value="<?php echo $trasnmition['key']; ?>" readonly="readonly">
                         </div>
                     </div>
