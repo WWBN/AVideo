@@ -149,6 +149,21 @@ $vjsClass = "vjs-16-9";
                 <?php
                 $p->getChat($trasnmition['key']);
                 ?>
+                
+        <div class="alert alert-warning">
+            <?php echo __("For Live streaming is necessary enable flash on your browser."); ?>
+            <?php echo __("Make sure you enable flash on your browser. If you are not sure look those links:"); ?>
+
+            <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-chrome.html" target="_blank" class="btn btn-warning">
+                <i class="fa fa-chrome"></i> Chrome Users
+            </a>
+            <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-firefox.html" target="_blank" class="btn btn-warning">
+                <i class="fa fa-firefox"></i> Firefox users
+            </a>
+            <a href="https://helpx.adobe.com/flash-player/kb/install-flash-player-windows.html" target="_blank" class="btn btn-warning">
+                <i class="fa fa-internet-explorer"></i> IE Users
+            </a>
+        </div>
             </div>
         </div>
         <?php
