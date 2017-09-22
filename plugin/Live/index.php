@@ -99,20 +99,20 @@ $vjsClass = "vjs-16-9";
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Basic Info</div>
+                    <div class="panel-heading"><i class="fa fa-share"></i> Share Info</div>
                     <div class="panel-body">          
                         <div class="form-group">
-                            <label for="streamURL">Stream URL:</label>
+                            <label for="streamURL"><i class="fa fa-circle"></i> Stream URL:</label>
                             <input type="text" class="form-control" id="streamURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>"  readonly="readonly">
                         </div>   
                         <div class="form-group">
-                            <label for="streamURL">Embed Stream:</label>
+                            <label for="streamURL"><i class="fa fa-code"></i> Embed Stream:</label>
                             <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Devices Stream Info</div>
+                    <div class="panel-heading"><i class="fa fa-hdd-o"></i> Devices Stream Info</div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="server">Server URL:</label>
