@@ -4,7 +4,10 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 $p = YouPHPTubePlugin::loadPlugin("Live");
 
-if (!empty($_GET['u'])) {
+if (!empty($_GET['u']) && !empty($_GET['embed'])) {
+    include './view/videoEmbeded.php';
+    exit;
+}else if (!empty($_GET['u'])) {
     include './view/modeYoutubeLive.php';
     exit;
 } else if (!User::canUpload()) {
@@ -101,6 +104,10 @@ $vjsClass = "vjs-16-9";
                         <div class="form-group">
                             <label for="streamURL">Stream URL:</label>
                             <input type="text" class="form-control" id="streamURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>"  readonly="readonly">
+                        </div>   
+                        <div class="form-group">
+                            <label for="streamURL">Embed Stream:</label>
+                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
                         </div>
                     </div>
                 </div>
