@@ -44,7 +44,8 @@ foreach ($lifeStream as $value){
         $u = new User($row['users_id']);
         $userName = $u->getNameIdentificationBd();
         $user = $u->getUser();
-        $obj->applications[] = array("key"=>$value->name, "name"=>$userName, "user"=>$user, "title"=>$row['title']);
+        $photo = $u->getPhotoURL();
+        $obj->applications[] = array("key"=>$value->name, "name"=>$userName, "user"=>$user, "photo"=>$photo, "title"=>$row['title']);
         if($value->name === $_POST['name']){
             $obj->error = (!empty($value->publishing))?false:true;
             $obj->msg = (!$obj->error)?"ONLINE":"Waiting for Streamer";
