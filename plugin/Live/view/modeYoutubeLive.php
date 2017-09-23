@@ -55,20 +55,6 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
                 <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
             </div> 
         </div>
-        <div class="alert alert-warning">
-            <?php echo __("For Live streaming is necessary enable flash in your browser."); ?>
-            <?php echo __("Make sure you have it enabled:"); ?>
-
-            <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-chrome.html" target="_blank" class="btn btn-warning">
-                <i class="fa fa-chrome"></i> Chrome Users
-            </a>
-            <a href="https://helpx.adobe.com/flash-player/kb/enabling-flash-player-firefox.html" target="_blank" class="btn btn-warning">
-                <i class="fa fa-firefox"></i> Firefox users
-            </a>
-            <a href="https://helpx.adobe.com/flash-player/kb/install-flash-player-windows.html" target="_blank" class="btn btn-warning">
-                <i class="fa fa-internet-explorer"></i> IE Users
-            </a>
-        </div>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
