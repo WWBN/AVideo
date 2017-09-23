@@ -15,6 +15,7 @@ Message = function (arg) {
             $message.find('.text').html(json.text);
             $message.find('.name').html(json.name);
             $message.find('.photo').attr('src', json.photo);
+            alertChat();
             $('.messages').append($message);
             return setTimeout(function () {
                 return $message.addClass('appeared');

@@ -34,20 +34,14 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container-fluid principalContainer " itemscope itemtype="http://schema.org/VideoObject">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <?php
                 require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
                 ?>
             </div>  
-            <div class="col-md-3">
-                <?php
-                $p->getChat($uuid);
-                ?>
-            </div>  
-
         </div>
-        <div class="row list-group-item">
-            <div class="col-md-8 col-md-offset-2">
+        <div class="container ">
+            <div class="col-md-8 col-md-offset-2 list-group-item">
                 <h1 itemprop="name">
                     <?php echo $t['title']; ?>
                 </h1>
@@ -59,6 +53,9 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
+                <?php
+                $p->getChat($uuid);
+                ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>

@@ -3,21 +3,26 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
 ?>
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/style.css" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/script.js" type="text/javascript"></script>
+<link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
 <div class="alert alert-warning" id="chatOffline">
     Trying to establish a chat server connection
 </div>
 <div style="display: none" id="chatOnline">
     <div class="panel panel-default liveChat">
-        <div class="panel-heading">Live Chat</div>
-        <div class="panel-body">  
-            <ul class="messages"></ul>
-        </div>
-        <div class="panel-footer">
-            <div class="input-group">
-                <input type="text" class="form-control message_input" placeholder="Type your message...">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary send_message" type="button"><i class="fa fa-send"></i> Send</button>
-                </span>
+        <div class="panel-heading"><i class="fa fa-comments-o"></i> Live Chat <button class="btn btn-xs btn-default pull-right" id="collapseBtn"><i class="fa fa-minus-square"></i></button></div>
+        <div class="colapsibleArea">
+            <div class="panel-body">  
+                <ul class="messages"></ul>
+            </div>
+            <div class="panel-footer">
+                <div class="input-group">
+                    <input type="text" class="form-control message_input" placeholder="Type your message...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary send_message" type="button"><i class="fa fa-send"></i> Send</button>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -79,7 +84,17 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
             conn.close();
         };
     }
-
+    
+    function alertChat(){
+        //var snd = new Audio("<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/notification.wav");
+        //snd.play();
+        $("#chatOnline .fa-comments-o").addClass('faa-ring');
+        $("#chatOnline .fa-comments-o").addClass('animated');
+        return setTimeout(function () {
+            $("#chatOnline .fa-comments-o").removeClass('faa-ring');
+            $("#chatOnline .fa-comments-o").removeClass('animated');
+        }, 2000);
+    }
     function getJsonDataObject() {
         var chatId = "<?php echo $chatId; ?>";
         var photo = "<?php echo User::getPhoto(); ?>";
@@ -89,6 +104,9 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
         return json;
     }
     $(function () {
+        $('#collapseBtn').click(function (e) {
+            $('.colapsibleArea').slideToggle();
+        });
         $('.send_message').click(function (e) {
             sendJsonMessage(JSON.stringify(getJsonDataObject()), 'right');
         });
@@ -98,6 +116,10 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
             }
         });
         connect();
-        
+        /*
+        $("#chatOnline").draggable({
+            handle: ".panel-heading",
+            containment: "body"
+        });*/
     });
 </script>
