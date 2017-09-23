@@ -54,7 +54,7 @@ if (User::canUpload()) {
                         title = response.applications[i].title;
                         name = response.applications[i].name;
                         photo = response.applications[i].photo;
-                        createLiveItem(href, title, name, photo, false);
+                        createLiveItem(href, title, name, "<?php echo $global['webSiteRootURL']; ?>"+photo, false);
                     }
                 } else {
                     createLiveItem("#", "There is no streaming now", "", "", true);
