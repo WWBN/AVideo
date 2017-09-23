@@ -1,3 +1,19 @@
+#chatOnline {
+    width: 25vw;
+    min-width: 250px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+}
+.liveChat .panel-heading{
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+    
+
 .liveChat .messages {
   position: relative;
   list-style: none;

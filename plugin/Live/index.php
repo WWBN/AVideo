@@ -152,11 +152,11 @@ $vjsClass = "vjs-16-9";
                     </div>
                 </div>
 
+            </div>
+        </div>
                 <?php
                 $p->getChat($trasnmition['key']);
                 ?>
-            </div>
-        </div>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
