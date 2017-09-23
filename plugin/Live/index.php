@@ -104,11 +104,15 @@ $vjsClass = "vjs-16-9";
                     <div class="panel-heading"><i class="fa fa-share"></i> Share Info</div>
                     <div class="panel-body">          
                         <div class="form-group">
-                            <label for="streamURL"><i class="fa fa-circle"></i> Stream URL:</label>
-                            <input type="text" class="form-control" id="streamURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>"  readonly="readonly">
+                            <label for="playerURL"><i class="fa fa-play-circle"></i> Player URL:</label>
+                            <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8"  readonly="readonly">
+                        </div>       
+                        <div class="form-group">
+                            <label for="youphptubeURL"><i class="fa fa-circle"></i> YouPHPTube URL:</label>
+                            <input type="text" class="form-control" id="youphptubeURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>"  readonly="readonly">
                         </div>   
                         <div class="form-group">
-                            <label for="streamURL"><i class="fa fa-code"></i> Embed Stream:</label>
+                            <label for="embedStream"><i class="fa fa-code"></i> Embed Stream:</label>
                             <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
                         </div>
                     </div>

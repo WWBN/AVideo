@@ -29,7 +29,7 @@ class Live extends PluginAbstract {
         $obj = new stdClass();
         $obj->button_title = "LIVE";
         $obj->server = "rtmp://{$server['host']}/live";
-        $obj->playerServer = "http://{$server['host']}:81/live";
+        $obj->playerServer = "http://{$server['host']}:8080/live";
         // for secure connections
         //$obj->playerServer = "https://{$server['host']}:444/live";
         $obj->stats = "http://{$server['host']}/stat";
