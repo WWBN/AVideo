@@ -45,7 +45,7 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
                 <h1 itemprop="name">
                     <?php echo $t['title']; ?>
                 </h1>
-                <p><?php echo $t['description']; ?></p>
+                <p><?php echo nl2br(textToLink($t['description'])); ?></p>
                 <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
             </div> 
         </div>
