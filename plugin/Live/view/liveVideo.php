@@ -15,7 +15,7 @@
                 <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin 
                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
                        id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid ?>" type="rtmp/flv">
+                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8" type='application/x-mpegURL'>
                 </video>
             </div>
             <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">

@@ -21,6 +21,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.2.0.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <style>
         </style>
     </head>
@@ -30,7 +31,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
             <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin 
                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
                        id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid ?>" type="rtmp/flv">
+                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8" type='application/x-mpegURL'>
                 </video>
         </div>
     </body>
