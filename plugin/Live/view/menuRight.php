@@ -18,7 +18,7 @@ if (User::canUpload()) {
 </li>
 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/" class='btn btn-default btn-xs btn-block liveLink hidden liveModel'>
     <div class="pull-left">
-        <img src="" class="img img-circle img-responsive" style="max-width: 30px;">
+        <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
     </div>
     <div style="margin-left: 40px;">
         <i class="fa fa-video-camera"></i> <strong class="liveTitle">Title</strong> <br>
