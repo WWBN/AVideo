@@ -6,11 +6,17 @@
     bottom: 0;
     z-index: 9999;
 }
+
+.liveChat{
+    background: rgba(255, 255, 255, 0.5);
+}
+
 .liveChat .panel-heading{
     cursor: move; /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
+    background: rgba(200, 200, 200, 0.6);
 }
     
 
