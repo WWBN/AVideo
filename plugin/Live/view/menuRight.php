@@ -67,6 +67,6 @@ if (User::canUpload()) {
     }
 
     $(document).ready(function () {
-        //getStatsMenu();
+        getStatsMenu();
     });
 </script>
