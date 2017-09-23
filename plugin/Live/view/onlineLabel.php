@@ -1,6 +1,8 @@
 
 <span class="label label-danger" id="liveViewStatus">OFFLINE</span>
+<!--
 <span class="label label-default" id="liveViewViews"><i class="fa fa-eye"></i> <span class="liveViewCount" style="font-size: 0.9em;">0</span></span>
+-->
 <script>
     function getStats() {
         $.ajax({

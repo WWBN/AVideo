@@ -46,6 +46,7 @@ $vjsClass = "vjs-16-9";
         ?>
         <div class="container">
             <div class="col-md-6">
+                <!--
                 <div class="panel panel-default">
                     <div class="panel-heading">WebCam Streaming</div>
                     <div class="panel-body">
@@ -61,7 +62,7 @@ $vjsClass = "vjs-16-9";
                         </div>
                     </div>
                 </div>
-
+                -->
                 <div class="panel panel-default">
                     <div class="panel-heading">Start Stream</div>
                     <div class="panel-body"> 
