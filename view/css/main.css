@@ -100,7 +100,11 @@ footer .btn-outline {
 }
 .main-video {
     background-color: #000;
-    margin-bottom: 10px;
+    margin-bottom: 10px;    
+}
+.rightBar, .main-video{
+    -webkit-transition: ease 1s; /* Safari */
+    transition: ease 1s;    
 }
 
 /* end for main video */
