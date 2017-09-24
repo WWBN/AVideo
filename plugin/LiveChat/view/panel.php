@@ -103,9 +103,17 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
         var json = {"photo": photo, "name": name, "text": text, "chatId": chatId};
         return json;
     }
+    function makeDrag(){  
+        //$("#chatOnline").draggable('destroy');
+        $("#chatOnline").draggable({
+            handle: ".panel-heading"
+        });
+    }
     $(function () {
         $('#collapseBtn').click(function (e) {
-            $('.colapsibleArea').slideToggle();
+            $('.colapsibleArea').slideToggle().promise().done(function(){
+                //makeDrag();
+            });
         });
         $('.send_message').click(function (e) {
             sendJsonMessage(JSON.stringify(getJsonDataObject()), 'right');
@@ -116,10 +124,6 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
             }
         });
         connect();
-        /*
-        $("#chatOnline").draggable({
-            handle: ".panel-heading",
-            containment: "body"
-        });*/
+        makeDrag();
     });
 </script>
