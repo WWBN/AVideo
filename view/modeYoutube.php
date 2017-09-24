@@ -126,11 +126,11 @@ if (!empty($video)) {
                 $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                 ?>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 ">
+                    <div class="col-sm-1 col-md-1"></div>
+                    <div class="col-sm-6 col-md-6">
                         <div class="row bgWhite list-group-item">
                             <div class="row divMainVideo">
-                                <div class="col-xs-4 col-sm-4 col-lg-4">
+                                <div class="col-xs-4 col-sm-4 col-md-4">
                                     <img src="<?php echo $poster; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
                                     <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
                                     <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
@@ -139,7 +139,7 @@ if (!empty($video)) {
                                     <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
                                     <meta itemprop="description" content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo $video['description']; ?>" />
                                 </div>
-                                <div class="col-xs-8 col-sm-8 col-lg-8">
+                                <div class="col-xs-8 col-sm-8 col-md-8">
                                     <h1 itemprop="name">
                                         <?php echo $video['title']; ?>
                                         <small>
@@ -159,13 +159,13 @@ if (!empty($video)) {
                                             ?>
                                         </small>
                                     </h1>
-                                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12"><?php echo $video['creator']; ?></div>
                                     <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12 col-lg-12 watch8-action-buttons text-muted">
+                                <div class="col-md-12 watch8-action-buttons text-muted">
                                     <button class="btn btn-default no-outline" id="addBtn" data-placement="bottom">
                                         <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                                     </button>
@@ -593,7 +593,7 @@ if (!empty($video)) {
                         </div>
 
                     </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 bgWhite list-group-item">
+                    <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
                         <?php
                         if (!empty($playlist_id)) {
                             include './include/playlist.php';
@@ -739,7 +739,7 @@ if (!empty($video)) {
                             });
                         </script>
                     </div>
-                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
+                    <div class="col-sm-1 col-md-1"></div>
                 </div>
                 <?php
             } else {

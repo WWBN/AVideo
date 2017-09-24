@@ -16,15 +16,21 @@ if (!empty($ad)) {
     $logId = Video_ad::log($ad['id']);
 }
 ?>
-<div class="row main-video">
-    <div class="col-xs-12 col-sm-12 col-lg-2"></div>
-    <div class="col-xs-12 col-sm-12 col-lg-8">
+<style>
+    .compress{
+        position: absolute;
+        top: 50px;
+    }
+</style>
+<div class="row main-video" id="mvideo">
+    <div class="col-sm-2 col-md-2 firstC"></div>
+    <div class="col-sm-8 col-md-8 secC">
         <div id="videoContainer">
             <div id="floatButtons" style="display: none;">
                 <p class="btn btn-outline btn-xs move">
                     <i class="fa fa-arrows"></i>
                 </p>
-                <button type="button" class="btn btn-outline btn-xs" onclick="closeFloatVideo();floatClosed=1;">
+                <button type="button" class="btn btn-outline btn-xs" onclick="closeFloatVideo();floatClosed = 1;">
                     <i class="fa fa-close"></i>
                 </button>
             </div>
@@ -59,15 +65,94 @@ if (!empty($ad)) {
         </div>
     </div>
 
-    <div class="col-xs-12 col-sm-12 col-lg-2"></div>
-</div><!--/row-->
+    <div class="col-sm-2 col-md-2"></div>
+</div>
+<!--/row-->
 <script>
-    
+    function compress(t) {
+        console.log("compress");
+        $('#mvideo').find('.firstC').removeClass('col-sm-2');
+        $('#mvideo').find('.firstC').removeClass('col-md-2');
+        $('#mvideo').find('.firstC').addClass('col-sm-1');
+        $('#mvideo').find('.firstC').addClass('col-md-1');
+        $('#mvideo').find('.secC').removeClass('col-sm-8');
+        $('#mvideo').find('.secC').removeClass('col-md-8');
+        $('#mvideo').find('.secC').addClass('col-sm-6');
+        $('#mvideo').find('.secC').addClass('col-md-6');
+        $('.rightBar').addClass('compress');
+        $('#mvideo').removeClass('main-video');
+        left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width()+30; 
+        $(".compress").css('left', left);
+        
+        t.removeClass('fa-compress');
+        t.addClass('fa-expand');
+    }
+    function expand(t) {
+        $('#mvideo').find('.firstC').removeClass('col-sm-1');
+        $('#mvideo').find('.firstC').removeClass('col-md-1');
+        $('#mvideo').find('.firstC').addClass('col-sm-2');
+        $('#mvideo').find('.firstC').addClass('col-md-2');
+        $('#mvideo').find('.secC').removeClass('col-sm-6');
+        $('#mvideo').find('.secC').removeClass('col-md-6');
+        $('#mvideo').find('.secC').addClass('col-sm-8');
+        $('#mvideo').find('.secC').addClass('col-md-8');
+        $(".compress").css('left', "");
+        $('.rightBar').removeClass('compress');
+        $('#mvideo').addClass('main-video');
+        console.log("expand");
+        t.removeClass('fa-expand');
+        t.addClass('fa-compress');
+    }
+    function toogleEC(t) {
+        if (t.hasClass('fa-expand')) {
+            expand(t);
+            Cookies.set('compress', false, {
+                path: '/',
+                expires: 365
+            });
+        } else {
+            compress(t);
+            Cookies.set('compress', true, {
+                path: '/',
+                expires: 365
+            });
+        }
+    }
     $(document).ready(function () {
+        $(window).on('resize', function () {
+            left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width()+30; 
+            $(".compress").css('left', left);
+        });
+                
         //Prevent HTML5 video from being downloaded (right-click saved)?
-        $('#mainVideo').bind('contextmenu',function() { return false; });
+        $('#mainVideo').bind('contextmenu', function () {
+            return false;
+        });
         fullDuration = strToSeconds('<?php echo @$ad['duration']; ?>');
         player = videojs('mainVideo');
+
+        // Extend default
+        var Button = videojs.getComponent('Button');
+        var teater = videojs.extend(Button, {
+            //constructor: function(player, options) {
+            constructor: function () {
+                Button.apply(this, arguments);
+                //this.addClass('vjs-chapters-button');
+                this.addClass('fa-compress');
+                this.addClass('fa');
+                this.controlText("<?php echo __("Teater"); ?>");                
+                if (Cookies.get('compress')==="true") {
+                    toogleEC(this);
+                }
+            },
+            handleClick: function () {
+                toogleEC(this);
+            }
+        });
+
+        // Register the new component
+        videojs.registerComponent('teater', teater);
+        player.getChild('controlBar').addChild('teater', {}, 8);
 
         player.zoomrotate(<?php echo $transformation; ?>);
         player.ready(function () {
@@ -142,6 +227,6 @@ if ($config->getAutoplay()) {
                             $(".ad").removeClass("ad");
                             return false;
                         });
-<?php } ?>                    
+<?php } ?>
                 });
 </script>
