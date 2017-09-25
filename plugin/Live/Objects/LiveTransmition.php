@@ -4,8 +4,8 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
-class LiveTransmition extends Object{
-    
+class LiveTransmition extends Object {
+
     protected $id, $title, $public, $saveTransmition, $users_id, $categories_id, $key, $description;
 
     protected static function getSearchFieldsNames() {
@@ -15,7 +15,7 @@ class LiveTransmition extends Object{
     protected static function getTableName() {
         return 'live_transmitions';
     }
-    
+
     function getId() {
         return $this->id;
     }
@@ -93,11 +93,11 @@ class LiveTransmition extends Object{
         }
         return true;
     }
-    
+
     static function getFromDbByUser($user_id) {
         global $global;
         $user_id = intval($user_id);
-        $sql = "SELECT * FROM ".static::getTableName()." WHERE  users_id = $user_id LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = $user_id LIMIT 1";
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $user = $res->fetch_assoc();
@@ -106,10 +106,10 @@ class LiveTransmition extends Object{
         }
         return $user;
     }
-    
+
     static function createTransmitionIfNeed($user_id) {
         $row = static::getFromDbByUser($user_id);
-        if($row){
+        if ($row) {
             return $row;
         }
         $l = new LiveTransmition(0);
@@ -121,7 +121,15 @@ class LiveTransmition extends Object{
         $l->save();
         return static::getFromDbByUser($user_id);
     }
-    
+
+    static function resetTransmitionKey($user_id) {
+        $row = static::getFromDbByUser($user_id);
+
+        $l = new LiveTransmition($row['id']);
+        $l->setKey(uniqid());
+        return $l->save();
+    }
+
     static function getFromDbByUserName($userName) {
         global $global;
         $userName = $global['mysqli']->real_escape_string($userName);
@@ -134,10 +142,10 @@ class LiveTransmition extends Object{
             return false;
         }
     }
-    
+
     static function keyExists($key) {
         global $global;
-        $sql = "SELECT * FROM ".static::getTableName()." WHERE  `key` = '$key' LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = '$key' LIMIT 1";
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $row = $res->fetch_assoc();
@@ -151,6 +159,70 @@ class LiveTransmition extends Object{
         $this->public = intval($this->public);
         $this->saveTransmition = intval($this->saveTransmition);
         return parent::save();
+    }
+
+    function deleteGroupsTrasmition() {
+        if (empty($this->id)) {
+            return false;
+        }
+        global $global;
+        $sql = "DELETE FROM live_transmitions_has_users_groups WHERE live_transmitions_id = $this->id";
+        return $global['mysqli']->query($sql);
+    }
+
+    function insertGroup($users_groups_id) {
+        global $global;
+        $sql = "INSERT INTO live_transmitions_has_users_groups (live_transmitions_id, users_groups_id) VALUES ($this->id,$users_groups_id)";
+        return $global['mysqli']->query($sql);
+    }
+
+    function getGroups() {
+        $rows = array();
+        if (empty($this->id)) {
+            return $rows;
+        }
+        global $global;
+        $sql = "SELECT * FROM live_transmitions_has_users_groups WHERE live_transmitions_id = '{$this->id}'";
+
+        $res = $global['mysqli']->query($sql);
+        if ($res) {
+            while ($row = $res->fetch_assoc()) {
+                $rows[] = $row["users_groups_id"];
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
+
+    function userCanSeeTransmition() {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/userGroups.php';
+        require_once $global['systemRootPath'] . 'objects/user.php';
+
+        $transmitionGroups = $this->getGroups();
+        if (!empty($transmitionGroups)) {
+            if (empty($this->id)) {
+                return false;
+            }
+            if (!User::isLogged()) {
+                return false;
+            }
+            $userGroups = UserGroups::getUserGroups(User::getId());
+            if (empty($userGroups)) {
+                return false;
+            }
+            foreach ($userGroups as $ugvalue) {
+                foreach ($transmitionGroups as $tgvalue) {
+                    if ($ugvalue['id'] == $tgvalue) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

@@ -32,6 +32,8 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
     <body>
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
+        $lt = new LiveTransmition($t['id']);
+        if($lt->userCanSeeTransmition()){
         ?>
         <div class="container-fluid principalContainer " itemscope itemtype="http://schema.org/VideoObject">
             <div class="col-md-12">
@@ -50,6 +52,11 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
             </div> 
         </div>
         <?php
+        }else{
+            ?>
+        <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> You are not allowed see this streaming</h1>    
+            <?php
+        }
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 

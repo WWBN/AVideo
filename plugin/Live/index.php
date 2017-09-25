@@ -21,9 +21,17 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
+if(!empty($_GET['resetKey'])){
+    LiveTransmition::resetTransmitionKey(User::getId());
+    header("Location: {$global['webSiteRootURL']}plugin/Live/");
+    exit;
+}
 
 $aspectRatio = "16:9";
 $vjsClass = "vjs-16-9";
+
+$trans = new LiveTransmition($trasnmition['id']);
+$groups = $trans->getGroups();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -38,7 +46,7 @@ $vjsClass = "vjs-16-9";
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
-        
+
     </head>
     <body>
         <?php
@@ -63,44 +71,6 @@ $vjsClass = "vjs-16-9";
                     </div>
                 </div>
                 -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">Start Stream</div>
-                    <div class="panel-body"> 
-                        <div class="form-group">
-                            <label for="title">Title:</label>
-                            <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
-                        </div>    
-                        <div class="form-group">
-                            <label for="description">Description:</label>
-                            <textarea class="form-control" id="description"><?php echo $trasnmition['description'] ?></textarea>
-                        </div>
-                        <!--
-                        <hr>
-                        <div class="form-group">
-                            <span class="fa fa-globe"></span> <?php echo __("Public Video"); ?>
-                            <div class="material-switch pull-right">
-                                <input id="public" type="checkbox" value="0" class="userGroups"/>
-                                <label for="public" class="label-success"></label>
-                            </div>
-                        </div>
-                        <?php
-                        $ug = UserGroups::getAllUsersGroups();
-                        foreach ($ug as $value) {
-                            ?>
-                                                    <div class="form-group">
-                                                        <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
-                                                        <div class="material-switch pull-right">
-                                                            <input id="public" type="checkbox" value="0" class="userGroups"/>
-                                                            <label for="public" class="label-success"></label>
-                                                        </div>
-                                                    </div>    
-                            <?php
-                        }
-                        ?>
-                        -->
-                        <button type="button" class="btn btn-danger" id="btnSaveStream">Save Stream</button>
-                    </div>
-                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading"><i class="fa fa-share"></i> Share Info</div>
                     <div class="panel-body">          
@@ -128,7 +98,13 @@ $vjsClass = "vjs-16-9";
                         </div>
                         <div class="form-group">
                             <label for="streamkey"><i class="fa fa-key"></i> Stream name/key:</label>
-                            <input type="text" class="form-control" id="streamkey" value="<?php echo $trasnmition['key']; ?>" readonly="readonly">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="streamkey" value="<?php echo $trasnmition['key']; ?>" readonly="readonly">
+                                <span class="input-group-btn">
+                                    <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1"><i class="fa fa-refresh"></i> Reset Key</a>
+                                </span>
+                            </div>
+                            <span class="label label-warning"><i class="fa fa-warning"></i> Anyone with this key can watch your live stream.</span>
                         </div>
                     </div>
                 </div>
@@ -151,12 +127,56 @@ $vjsClass = "vjs-16-9";
                         </div>
                     </div>
                 </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Stream Settings</div>
+                    <div class="panel-body"> 
+                        <div class="form-group">
+                            <label for="title">Title:</label>
+                            <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
+                        </div>    
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea class="form-control" id="description"><?php echo $trasnmition['description'] ?></textarea>
+                        </div>
+                        <!--
+                        -->
+                        <hr>
+                        <div class="form-group">
+                            <span class="fa fa-globe"></span> <?php echo __("Listed Transmition"); ?> 
+                            <div class="material-switch pull-right">
+                                <input id="listed" type="checkbox" value="1" <?php echo!empty($trasnmition['public']) ? "checked" : ""; ?>/>
+                                <label for="listed" class="label-success"></label> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Groups That Can See This Stream<br><small>Uncheck all to make it public</small></div>
+                    <div class="panel-body"> 
+                        <?php
+                        $ug = UserGroups::getAllUsersGroups();
+                        foreach ($ug as $value) {
+                            ?>
+                            <div class="form-group">
+                                <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
+                                <div class="material-switch pull-right">
+                                    <input id="group<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo (in_array($value['id'], $groups) ? "checked" : "") ?>/>
+                                    <label for="group<?php echo $value['id']; ?>" class="label-success"></label>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                        <button type="button" class="btn btn-success" id="btnSaveStream">Save Stream</button>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-primary"><span class="fa fa-users"></span> Add more user Groups</a>
+                    </div>
+                </div>
 
             </div>
         </div>
-                <?php
-                $p->getChat($trasnmition['key']);
-                ?>
+        <?php
+        $p->getChat($trasnmition['key']);
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
@@ -190,9 +210,21 @@ $vjsClass = "vjs-16-9";
 
                 function saveStream() {
                     modal.showPleaseWait();
+
+                    var selectedUserGroups = [];
+                    $('.userGroups:checked').each(function () {
+                        selectedUserGroups.push($(this).val());
+                    });
+
                     $.ajax({
                         url: 'saveLive.php',
-                        data: {"title": $('#title').val(), "description": $('#description').val(), "key": "<?php echo $trasnmition['key']; ?>"},
+                        data: {
+                            "title": $('#title').val(),
+                            "description": $('#description').val(),
+                            "key": "<?php echo $trasnmition['key']; ?>",
+                            "listed": $('#listed').is(":checked"),
+                            "userGroups": selectedUserGroups
+                        },
                         type: 'post',
                         success: function (response) {
                             modal.hidePleaseWait();

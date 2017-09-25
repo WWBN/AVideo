@@ -132,7 +132,9 @@ abstract class Object{
                     // do nothing
                 } elseif (strtolower($value) == 'modified') {
                     $fields[] = " {$value} = now() ";
-                }else {
+                }else if(is_numeric($this->$value)) {
+                    $fields[] = " `{$value}` = {$this->$value} ";
+                } else {
                     $fields[] = " `{$value}` = '{$this->$value}' ";
                 }                
             }
