@@ -21,7 +21,7 @@ $xml = json_decode($xml);
 $stream = false;
 $lifeStream = array();
 //$obj->server = $xml->server;
-if(!is_array($xml->server->application)){
+if(!empty($xml->server->application) && !is_array($xml->server->application)){
     $application = $xml->server->application;
     $xml->server->application = array();
     $xml->server->application[] = $application;
@@ -38,7 +38,7 @@ $obj->countLifeStream = count($lifeStream);
 foreach ($lifeStream as $value){
     if(!empty($value->name)){
         $row = LiveTransmition::keyExists($value->name);
-        if(empty($row)){
+        if(empty($row) || empty($row['public'])){
             continue;
         }
         $u = new User($row['users_id']);

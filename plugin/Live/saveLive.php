@@ -15,5 +15,14 @@ $l->setTitle($_POST['title']);
 $l->setDescription($_POST['description']);
 $l->setKey($_POST['key']);
 $l->setCategories_id(1);
+$l->setPublic((empty($_POST['listed'])|| $_POST['listed']==='false')?0:1);
 $l->setUsers_id(User::getId());
-echo '{"status":"'.$l->save().'"}';
+$id = $l->save();
+$l = new LiveTransmition($id);
+$l->deleteGroupsTrasmition();
+if(!empty($_POST['userGroups'])){
+    foreach ($_POST['userGroups'] as $value) {
+        $l->insertGroup($value);    
+    }
+}
+echo '{"status":"'.$id.'"}';
