@@ -11,6 +11,6 @@ if($lt->userCanSeeTransmition()){
     $uuid = $t['key'];
     $p = YouPHPTubePlugin::loadPlugin("Live");
     $video = "{$p->getPlayerServer()}/{$uuid}/index.m3u8";
-    $url = $config->getEncoderURL()."getImageFromVideo/". base64_encode($url);
-    echo file_get_contents(base64_encode($url));
+    $url = $config->getEncoderURL()."getImageFromVideo/". base64_encode($video);
+    echo file_get_contents($url);
 }
