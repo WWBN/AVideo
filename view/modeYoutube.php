@@ -78,7 +78,7 @@ if ($video['type'] !== "audio") {
 if (!empty($video)) {
     if ($video['type'] !== "audio") {
         $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
-        $data = getimagesize("{$global['systemRootPath']}videos/{$video['filename']}.jpg");
+        $data = @getimagesize("{$global['systemRootPath']}videos/{$video['filename']}.jpg");
         $imgw = $data[0];
         $imgh = $data[1];
     } else {
