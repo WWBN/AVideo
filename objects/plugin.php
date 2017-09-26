@@ -164,9 +164,6 @@ class Plugin extends Object {
     static function getAllEnabled() {
         global $global;
         $sql = "SELECT * FROM  ".static::getTableName()." WHERE status='active' ";
-
-        $sql .= self::getSqlFromPost();
-        
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
