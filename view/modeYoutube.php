@@ -668,7 +668,7 @@ if (!empty($video)) {
                                             </div>
                                             <div>
                                                 <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong>
-                                                    <?php echo __("Views"); ?>
+                                                <?php echo __("Views"); ?>
                                             </div>
                                             <div><?php echo $autoPlayVideo['creator']; ?></div>
 
@@ -697,7 +697,9 @@ if (!empty($video)) {
                             echo $config->getAdsense();
                             ?>
                         </div>
+                        <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos">
 
+                        </div>
                         <!-- videos List -->
                         <div id="videosList">
                             <?php include './videosList.php'; ?>
