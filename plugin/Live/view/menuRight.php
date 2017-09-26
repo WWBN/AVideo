@@ -45,7 +45,7 @@ if (User::canUpload()) {
         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
             <img src="https://demo.youphptube.com/plugin/Live/getImage.php?u=danielneto.com@gmail.com&format=jpg" class="thumbsJPG img-responsive" height="130" />
             <img src="https://demo.youphptube.com/plugin/Live/getImage.php?u=danielneto.com@gmail.com&format=gif" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
-            <span class="label label-danger liveNow faa-pulse animate">LIVE NOW</span>
+            <span class="label label-danger liveNow faa-flash animated">LIVE NOW</span>
         </div>
         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
             <div class="text-uppercase row"><strong itemprop="name" class="title liveTitle">Title</strong></div>
