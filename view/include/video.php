@@ -80,7 +80,7 @@ if (!empty($ad)) {
         $('#mvideo').find('.secC').addClass('col-sm-6');
         $('#mvideo').find('.secC').addClass('col-md-6');
         $('.rightBar').addClass('compress');
-        $('body').css({'min-height':$('.rightBar').height()});
+        $('.principalContainer').css({'min-height':$('.rightBar').height()});
         $('#mvideo').removeClass('main-video');
         left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width()+30; 
         $(".compress").css('left', left);
@@ -99,7 +99,7 @@ if (!empty($ad)) {
         $('#mvideo').find('.secC').addClass('col-md-8');
         $(".compress").css('left', "");
         $('.rightBar').removeClass('compress');
-        $('body').css({'min-height':''});
+        $('.principalContainer').css({'min-height':''});
         $('#mvideo').addClass('main-video');
         console.log("expand");
         t.removeClass('fa-expand');
