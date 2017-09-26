@@ -118,9 +118,9 @@ foreach ($videos as $key => $value) {
             });
         });
     }
-    $(document).ready(function () {
-        setBootPage();
-
+    
+    function mouseEffect(){
+        
         $(".thumbsImage").on("mouseenter", function () {
             $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
             $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
@@ -130,5 +130,9 @@ foreach ($videos as $key => $value) {
         $(".thumbsImage").on("mouseleave", function () {
             $(this).find(".thumbsGIF").stop(true, true).fadeOut();
         });
+    }
+    $(document).ready(function () {
+        setBootPage();
+        mouseEffect();
     });
 </script>
