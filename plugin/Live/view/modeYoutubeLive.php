@@ -43,14 +43,14 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
             </div>  
         </div>
         <div class="container-fluid ">
-            <div class="col-md-6 col-md-offset-2 list-group-item">
+            <div class="col-md-5 col-md-offset-2 list-group-item">
                 <h1 itemprop="name">
                     <i class="fa fa-video-camera"></i> <?php echo $t['title']; ?>
                 </h1>
                 <p><?php echo nl2br(textToLink($t['description'])); ?></p>
                 <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
             </div> 
-            <div class="col-md-2">
+            <div class="col-md-3">
                     <?php
                     echo $config->getAdsense();
                     ?>
