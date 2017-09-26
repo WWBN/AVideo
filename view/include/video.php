@@ -80,7 +80,7 @@ if (!empty($ad)) {
         $('#mvideo').find('.secC').addClass('col-sm-6');
         $('#mvideo').find('.secC').addClass('col-md-6');
         $('.rightBar').addClass('compress');
-        setTimeout(function(){ $('.principalContainer').css({'min-height':$('.rightBar').height()}); }, 2000);        
+        setInterval(function(){ $('.principalContainer').css({'min-height':$('.rightBar').height()}); }, 2000);        
         $('#mvideo').removeClass('main-video');
         left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width()+30; 
         $(".compress").css('left', left);
@@ -126,11 +126,7 @@ if (!empty($ad)) {
             left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width()+30; 
             $(".compress").css('left', left);
         });
-                
-        $('.rightBar').on('resize', function () {
-            $('.principalContainer').css({'min-height':$('.rightBar').height()});
-        });
-                
+                  
         //Prevent HTML5 video from being downloaded (right-click saved)?
         $('#mainVideo').bind('contextmenu', function () {
             return false;
