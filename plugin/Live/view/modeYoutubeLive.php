@@ -35,7 +35,13 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
         $lt = new LiveTransmition($t['id']);
         if($lt->userCanSeeTransmition()){
         ?>
+        
         <div class="container-fluid principalContainer " itemscope itemtype="http://schema.org/VideoObject">
+            <div class="col-md-12">
+                    <?php
+                    echo $config->getAdsense();
+                    ?>
+            </div>
             <div class="col-md-12">
                 <?php
                 require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
