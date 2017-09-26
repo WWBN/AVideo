@@ -99,7 +99,6 @@ if (!empty($ad)) {
         $('#mvideo').find('.secC').addClass('col-md-8');
         $(".compress").css('left', "");
         $('.rightBar').removeClass('compress');
-        $('.principalContainer').css({'min-height':''});
         $('#mvideo').addClass('main-video');
         console.log("expand");
         t.removeClass('fa-expand');
@@ -121,9 +120,15 @@ if (!empty($ad)) {
         }
     }
     $(document).ready(function () {
+        
+        
         $(window).on('resize', function () {
             left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width()+30; 
             $(".compress").css('left', left);
+        });
+                
+        $('.rightBar').on('resize', function () {
+            $('.principalContainer').css({'min-height':$('.rightBar').height()});
         });
                 
         //Prevent HTML5 video from being downloaded (right-click saved)?
