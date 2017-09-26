@@ -1,3 +1,16 @@
+<style>
+.liveVideo{
+    position: relative;
+    border: 2px solid red;
+    border-radius: 5px;
+}
+.liveVideo .liveNow{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(255,0,0,0.5);
+}
+</style>
 <?php
 if (User::canUpload()) {
     ?>
@@ -25,6 +38,27 @@ if (User::canUpload()) {
         <span class="label label-success liveUser">User</span> <span class="badge">is live</span>
     </div>
 </a>
+
+<div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo" itemscope itemtype="http://schema.org/VideoObject">
+    <a href="" class="videoLink">
+        <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
+            <img src="https://demo.youphptube.com/plugin/Live/getImage.php?u=danielneto.com@gmail.com&format=png" class="thumbsJPG img-responsive" height="130" />
+            <img src="https://demo.youphptube.com/plugin/Live/getImage.php?u=danielneto.com@gmail.com&format=gif" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
+            <span class="label label-danger liveNow">LIVE NOW</span>
+        </div>
+        <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
+            <div class="text-uppercase row"><strong itemprop="name" class="title liveTitle">Title</strong></div>
+            <div class="details row" itemprop="description">
+                <div class="pull-left">
+                    <img src="" class="photoImg img img-circle img-responsive" style="max-width: 38px;">
+                </div>
+                <div style="margin-left: 50px;">
+                    <div class="liveUser">User</div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
 <script>
 
     function createLiveItem(href, title, name, photo, offline) {
@@ -42,6 +76,24 @@ if (User::canUpload()) {
         $('#availableLive').append($liveLi);
     }
 
+    function createExtraVideos(href, title, name, photo, user) {
+        var id = 'extraVideo' + user;
+        if ($("#" + id).length == 0) {
+            var $liveLi = $('.extraVideosModel').clone();
+            $liveLi.removeClass("hidden").removeClass("extraVideosModel");
+            $liveLi.css({'display':'none'})
+            $liveLi.attr('id', id);
+            $liveLi.find('.videoLink').attr("href", href);
+            $liveLi.find('.liveTitle').text(title);
+            $liveLi.find('.liveUser').text(name);
+            $liveLi.find('.photoImg').attr("src", photo);
+            $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=png");
+            $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=gif");
+            $('.extraVideos').append($liveLi);
+            $liveLi.slideDown();
+        }
+    }
+
     function getStatsMenu() {
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu',
@@ -53,9 +105,12 @@ if (User::canUpload()) {
                         href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=" + response.applications[i].user;
                         title = response.applications[i].title;
                         name = response.applications[i].name;
+                        user = response.applications[i].user;
                         photo = response.applications[i].photo;
-                        createLiveItem(href, title, name, "<?php echo $global['webSiteRootURL']; ?>"+photo, false);
+                        createLiveItem(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, false);
+                        createExtraVideos(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, user);
                     }
+                    mouseEffect();
                 } else {
                     createLiveItem("#", "There is no streaming now", "", "", true);
                 }
