@@ -119,18 +119,6 @@ foreach ($videos as $key => $value) {
         });
     }
     
-    function mouseEffect(){
-        
-        $(".thumbsImage").on("mouseenter", function () {
-            $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
-            $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
-            $(this).find(".thumbsGIF").stop(true, true).fadeIn();
-        });
-
-        $(".thumbsImage").on("mouseleave", function () {
-            $(this).find(".thumbsGIF").stop(true, true).fadeOut();
-        });
-    }
     $(document).ready(function () {
         setBootPage();
         mouseEffect();
