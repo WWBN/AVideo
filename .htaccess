@@ -143,6 +143,8 @@
     # YouTube Sync
     RewriteRule    ^youtubeUpload$ objects/youtubeUpload.json.php    [NC,L]
 
+    RewriteRule    ^googleAdView$ view/googleAdView.php    [NC,L]
+
     # if image do not exists
     RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png|ico)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
