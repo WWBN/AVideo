@@ -4,6 +4,8 @@ I would humbly like to thank God for giving me the necessary knowledge, motivati
 **For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
 `Apostle Paul in Romans 11:36`
 
+# This Software must be used for Good, never Evil. It is expressly forbidden to use YouPHPTube to build porn sites, violence, racism or anything else that affects human integrity or denigrates the image of anyone.
+
 # Now you can read the rest...
 
 I don´t want to read I just want you to show me how to install!!
