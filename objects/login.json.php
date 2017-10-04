@@ -81,6 +81,12 @@ if (!empty($_GET['type'])) {
 }
 
 $object = new stdClass();
+if(!empty($_GET['user'])){
+    $_POST['user'] = $_GET['user'];
+}
+if(!empty($_GET['pass'])){
+    $_POST['pass'] = $_GET['pass'];
+}
 if(empty($_POST['user']) || empty($_POST['pass'])){
     $object->error = __("User and Password can not be blank");
      die(json_encode($object));
