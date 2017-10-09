@@ -60,7 +60,7 @@ if (empty($_SESSION['language'])) {
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a  href="<?php echo $global['webSiteRootURL']; ?>upload" data-toggle="tooltip" title="<?php echo __("Upload a MP4 video"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?></a></li>
-                                <li><a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" data-toggle="tooltip" title="<?php echo __("Link a video"); ?>" data-placement="bottom" ><span class="fa fa-link"></span> <?php echo __("Link a video"); ?></a></li>
+                                <li><a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" data-toggle="tooltip" title="<?php echo __("Embed a video link"); ?>" data-placement="bottom" ><span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?></a></li>
                             </ul>
                         </div>
 

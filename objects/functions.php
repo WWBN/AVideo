@@ -347,6 +347,18 @@ function parseVideos($videoString = null){
         $id = $matches[1];  
         return '//player.vimeo.com/video/'.$id;
     }
+    else if (strpos($link, 'vimeo.com/channels') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i',
+                $link,
+                $matches
+            );
+
+        //the ID of the Vimeo URL: 71673549 
+        $id = $matches[2];  
+        return '//player.vimeo.com/video/'.$id;
+    }
     else if (strpos($link, 'vimeo.com') !== FALSE) { 
         //extract the ID
         preg_match(
