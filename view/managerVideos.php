@@ -51,6 +51,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <?php echo __("Upload a MP4 File"); ?>
                 </a>
 
+                <button class="btn btn-success" id="linkExternalVideo">
+                    <span class="fa fa-link"></span>
+                    <?php echo __("Embed a video link"); ?>
+                </button>
                 <?php
                 if (User::isAdmin()) {
                     ?>
@@ -60,10 +64,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <?php
                 }
                 ?>
-                <button class="btn btn-success" id="linkExternalVideo">
-                    <span class="fa fa-link"></span>
-                    <?php echo __("Link an external video"); ?>
-                </button>
             </div>
             <small class="text-muted clearfix">
                 <?php
