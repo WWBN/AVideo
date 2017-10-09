@@ -58,27 +58,39 @@ if (empty($_SESSION['language'])) {
                             <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
                                 <span class="fa fa-video-camera"></span> <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a  href="<?php echo $global['webSiteRootURL']; ?>upload" data-toggle="tooltip" title="<?php echo __("Upload a MP4 video"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?></a></li>
-                                <li><a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" data-toggle="tooltip" title="<?php echo __("Embed a video link"); ?>" data-placement="bottom" ><span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?></a></li>
+                            <ul class="dropdown-menu" role="menu" style="margin-left: -100px;">
+                                <?php
+                                if (!empty($config->getEncoderURL())) {
+                                    ?>
+                                    <li>
+                                        <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" >
+                                            <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
+                                        </a>
+                                    </li>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <li>
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" ><span class="fa fa-cogs"></span> <?php echo __("Configure an Encoder URL"); ?></a>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                                <li>
+                                    <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
+                                        <span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
+                                        <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
 
                     </li>
                     <?php
-                    if (!empty($config->getEncoderURL())) {
-                        ?>
-                        <li>
-                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Encode multiple video and audio formats"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span></a>
-                        </li>
-                        <?php
-                    } else {
-                        ?>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Configure an Encoder URL"); ?>" data-placement="bottom" ><span class="fa fa-cogs"></span></a>
-                        </li>
-                        <?php
-                    }
                 }
                 ?>
 
