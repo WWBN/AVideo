@@ -51,7 +51,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <?php echo __("Upload a MP4 File"); ?>
                 </a>
 
-                <button class="btn btn-success" id="linkExternalVideo">
+                <button class="btn btn-default" id="linkExternalVideo">
                     <span class="fa fa-link"></span>
                     <?php echo __("Embed a video link"); ?>
                 </button>
