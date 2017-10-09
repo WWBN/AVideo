@@ -655,7 +655,6 @@ if (!empty($video)) {
                                         <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $autoPlayVideo['clean_title']; ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
 
-                                        <span class="glyphicon glyphicon-play-circle"></span>
                                         <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($autoPlayVideo['duration']); ?>"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></time>
                                     </div>
                                     <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">

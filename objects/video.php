@@ -25,6 +25,7 @@ class Video {
     private $rotation;
     private $zoom;
     private $videoDownloadedLink;
+    private $videoLink;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
     private $videoGroups;
     private $videoAdsCount;
@@ -107,12 +108,12 @@ class Video {
             }
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                     . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', modified = now()"
+                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', modified = now()"
                     . " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos "
-                    . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, created, modified) values "
-                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', now(), now())";
+                    . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, created, modified, videoLink) values "
+                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', now(), now(), '{$this->videoLink}')";
         }
         $insert_row = $global['mysqli']->query($sql);
 
@@ -1018,6 +1019,14 @@ class Video {
         }
         curl_close($curl);
         return $obj;
+    }
+    
+    function getVideoLink() {
+        return $this->videoLink;
+    }
+
+    function setVideoLink($videoLink) {
+        $this->videoLink = $videoLink;
     }
 
 }

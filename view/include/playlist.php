@@ -56,7 +56,6 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                             <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
                             <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
-                            <span class="glyphicon glyphicon-play-circle"></span>
                             <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8 videosDetails">

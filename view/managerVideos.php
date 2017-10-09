@@ -60,6 +60,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <?php
                 }
                 ?>
+                <button class="btn btn-success" id="linkExternalVideo">
+                    <span class="fa fa-link"></span>
+                    <?php echo __("Link an external video"); ?>
+                </button>
             </div>
             <small class="text-muted clearfix">
                 <?php
@@ -109,27 +113,34 @@ $userGroups = UserGroups::getAllUsersGroups();
                             <h4 class="modal-title"><?php echo __("Video Form"); ?></h4>
                         </div>
                         <div class="modal-body">
+                            <div id="postersImage">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#jpg">Poster (JPG)</a></li>
+                                    <li><a data-toggle="tab" href="#gif">Mouse Over Poster (GIF)</a></li>
+                                </ul>
 
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#jpg">Poster (JPG)</a></li>
-                                <li><a data-toggle="tab" href="#gif">Mouse Over Poster (GIF)</a></li>
-                            </ul>
-
-                            <div class="tab-content">
-                                <div id="jpg" class="tab-pane fade in active">
-                                    <input id="input-jpg" type="file" class="file-loading" accept="image/jpg">
-                                </div>
-                                <div id="gif" class="tab-pane fade">
+                                <div class="tab-content">
+                                    <div id="jpg" class="tab-pane fade in active">
+                                        <input id="input-jpg" type="file" class="file-loading" accept="image/jpg">
+                                    </div>
+                                    <div id="gif" class="tab-pane fade">
                                         <input id="input-gif" type="file" class="file-loading" accept="image/gif">
+                                    </div>
                                 </div>
+                            </div>
+                            <div id="videoLinkContent">                                
+                                <label for="videoLink" class="sr-only"><?php echo __("Video Link"); ?></label>
+                                <input type="text" id="videoLink" class="form-control first" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
                             </div>
                             <hr>
                             <form class="form-compact"  id="updateCategoryForm" onsubmit="">
                                 <input type="hidden" id="inputVideoId"  >
-                                <label for="inputTitle" class="sr-only"><?php echo __("Title"); ?></label>
-                                <input type="text" id="inputTitle" class="form-control first" placeholder="<?php echo __("Title"); ?>" required autofocus>
-                                <label for="inputCleanTitle" class="sr-only"><?php echo __("Clean Title"); ?></label>
-                                <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
+                                <div class="titles">
+                                    <label for="inputTitle" class="sr-only"><?php echo __("Title"); ?></label>
+                                    <input type="text" id="inputTitle" class="form-control first" placeholder="<?php echo __("Title"); ?>" required autofocus>
+                                    <label for="inputCleanTitle" class="sr-only"><?php echo __("Clean Title"); ?></label>
+                                    <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
+                                </div>
                                 <label for="inputDescription" class="sr-only"><?php echo __("Description"); ?></label>
                                 <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
                                 <label for="inputCategory" class="sr-only"><?php echo __("Category"); ?></label>
@@ -173,7 +184,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 if (User::isAdmin()) {
                                     ?>
 
-                                    <ul class="list-group">
+                                <ul class="list-group" id="videoIsAdControl">
                                         <li class="list-group-item">
                                             <a href="#" class="btn btn-info btn-xs" data-toggle="popover" title="<?php echo __("What is this"); ?>" data-placement="bottom"  data-content="<?php echo __("This video will work as an advertising and will no longer appear on videos list"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                             <?php echo __("Create an Advertising"); ?>
@@ -346,6 +357,27 @@ $userGroups = UserGroups::getAllUsersGroups();
             }
             $(document).ready(function () {
 
+                $('#linkExternalVideo').click(function () {
+                    $('#inputVideoId').val("");
+                    $('#inputTitle').val("");
+                    $('#inputCleanTitle').val("");
+                    $('#inputDescription').val("");
+                    $('#inputCategory').val($('#inputCategory option:first').val());
+                    $('.videoGroups').prop('checked', false);
+                    $('#public').prop('checked', true);
+                    $('#public').trigger("change");
+
+                    $('#videoIsAd').prop('checked', false);
+                    $('#videoIsAd').trigger("change");
+
+                    $('#input-jpg, #input-gif').fileinput('destroy');
+                    $('#postersImage, #videoIsAdControl, .titles').slideUp();
+                    $('#videoLinkContent').slideDown();
+                    $('#videoLink').val('');              
+
+                    $('#videoFormModal').modal();
+                });
+
                 $('.datepicker').datetimepicker({
                     format: 'yyyy-mm-dd hh:ii',
                     autoclose: true
@@ -450,7 +482,12 @@ $userGroups = UserGroups::getAllUsersGroups();
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         console.log(row);
-
+                        
+                        $('#postersImage, #videoIsAdControl, .titles').slideDown();
+                        if(row.type!=='embed'){
+                            $('#videoLinkContent').slideUp();
+                            $('#videoLink').val(row.videoLink);                        
+                        }
                         $('#inputVideoId').val(row.id);
                         $('#inputTitle').val(row.title);
                         $('#inputCleanTitle').val(row.clean_title);
@@ -472,7 +509,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                         $('#input-jpg, #input-gif').fileinput('destroy');
                         $("#input-jpg").fileinput({
-                            uploadUrl: "uploadPoster/" + row.id+"/jpg",
+                            uploadUrl: "uploadPoster/" + row.id + "/jpg",
                             autoReplace: true,
                             overwriteInitial: true,
                             showUploadedThumbs: false,
@@ -488,7 +525,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             allowedFileExtensions: ["jpg"]
                         });
                         $("#input-gif").fileinput({
-                            uploadUrl: "uploadPoster/" + row.id+"/gif",
+                            uploadUrl: "uploadPoster/" + row.id + "/gif",
                             autoReplace: true,
                             overwriteInitial: true,
                             showUploadedThumbs: false,
@@ -703,6 +740,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         data: {
                             "id": $('#inputVideoId').val(),
                             "title": $('#inputTitle').val(),
+                            "videoLink": $('#videoLink').val(),
                             "clean_title": $('#inputCleanTitle').val(),
                             "description": $('#inputDescription').val(),
                             "categories_id": $('#inputCategory').val(),
@@ -725,6 +763,15 @@ $userGroups = UserGroups::getAllUsersGroups();
                     });
                     return false;
                 });
+                
+                
+                <?php
+                if(!empty($_GET['link'])){
+                    ?>
+                    $('#linkExternalVideo').trigger('click');
+                    <?php
+                }
+                ?>
 
             });
 
