@@ -54,7 +54,10 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
-# What is new on this version?
+# Version 4.2
+In this version you can embed Youtube and Vimeo Links
+
+# What is new on this version 4.0?
 Since version 4.x+ we separate the streamer website from the encoder website, so that we can distribute the application on different servers.
 - The Streamer site, is the main front end and has as main function to attend the visitors of the site, through a layout based on the youtube experience, you can host the streamer site in any common internet host can host it (Windows or Linux).
 - The Encoder site, will be better than the original encoder, the new encoder will be in charge of managing a media encoding queue. You can Donwload the encoder here: https://github.com/DanielnetoDotCom/YouPHPTube-Encoder. but to install it you will need ssh access to your server, usually only VPS servers give you that kind of access, that code uses commands that use the Linux shell and consume more CPU.
