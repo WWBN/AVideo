@@ -89,7 +89,7 @@ if (User::canUpload()) {
             $liveLi.find('.liveTitle').text(title);
             $liveLi.find('.liveUser').text(name);
             $liveLi.find('.photoImg').attr("src", photo);
-            $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=png");
+            $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=jpg");
             $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=gif");
             $('.extraVideos').append($liveLi);
             $liveLi.slideDown();

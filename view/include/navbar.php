@@ -53,7 +53,17 @@ if (empty($_SESSION['language'])) {
                 if (User::canUpload()) {
                     ?>
                     <li>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Upload a MP4 video"); ?>" data-placement="bottom" ><span class="fa fa-video-camera"></span></a>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
+                                <span class="fa fa-video-camera"></span> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a  href="<?php echo $global['webSiteRootURL']; ?>upload" data-toggle="tooltip" title="<?php echo __("Upload a MP4 video"); ?>" data-placement="bottom" ><span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?></a></li>
+                                <li><a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" data-toggle="tooltip" title="<?php echo __("Link a video"); ?>" data-placement="bottom" ><span class="fa fa-link"></span> <?php echo __("Link a video"); ?></a></li>
+                            </ul>
+                        </div>
+
                     </li>
                     <?php
                     if (!empty($config->getEncoderURL())) {
@@ -291,7 +301,7 @@ if (empty($_SESSION['language'])) {
                     . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
                 }
                 ?>
-                
+
                 <?php
                 echo YouPHPTubePlugin::getHTMLMenuLeft();
                 ?>

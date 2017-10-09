@@ -56,8 +56,8 @@ require_once '../videos/configuration.php';
         ?>
 
         <script>
-            function load(page){
-                $('#result').append($('<div>').load('<?php echo $global['webSiteRootURL']; ?>plugin/FBTube/view/getVideos.php?page='+page));
+            function load(page) {
+                $('#result').append($('<div>').load('<?php echo $global['webSiteRootURL']; ?>plugin/FBTube/view/getVideos.php?page=' + page));
             }
             $(document).ready(function () {
                 $(window).scroll(function () {
@@ -66,11 +66,15 @@ require_once '../videos/configuration.php';
                         var window_offset = $h1.offset().top - $(window).scrollTop();
                         if (window_offset > 50 && window_offset < 100) {
                             $(".fbRow").each(function (index) {
-                                $(this).find('video').get(0).pause();
+                                try {
+                                    $(this).find('video').get(0).pause();
+                                } catch (err) {}
                                 $(this).find('.list-group-item').removeClass('playActive');
                             });
+                            try {
+                                $(this).find('video').get(0).play();
+                            } catch (err) {}
                             $(this).find('.list-group-item').addClass('playActive');
-                            $(this).find('video').get(0).play();
                             return true;
                         }
                     });

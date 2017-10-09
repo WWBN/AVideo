@@ -64,7 +64,6 @@ foreach ($videos as $key => $value) {
                     ?>
                     <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                 <?php } ?>
-                <span class="glyphicon glyphicon-play-circle"></span>
                 <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                 <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
                 <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
