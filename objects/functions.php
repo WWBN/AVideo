@@ -274,6 +274,9 @@ function parseDurationToSeconds($str) {
     $durationParts = explode(":", $str);
     if (empty($durationParts[1]) || $durationParts[0]=="EE")
         return 0;
+    if(empty($durationParts[2])){
+        $durationParts[2] = 0;
+    }
     $minutes = intval(($durationParts[0]) * 60) + intval($durationParts[1]);
     return intval($durationParts[2]) + ($minutes * 60);
 }
