@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YouPHPTube HLS video</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <video id=example-video width=600 height=300 class="video-js vjs-default-skin" controls poster="poster.jpg">
+            <source src="https://live.youphptube.com:444/live/59be13fe009a6/index.m3u8" type="application/x-mpegURL">
+        </video>
+        <script src="video.js/video.min.js" type="text/javascript"></script>
+        <script src="video.js/videojs-contrib-hls.min.js" type="text/javascript"></script>
+        <script>
+            var player = videojs('example-video');
+            player.play();
+        </script>
+    </body>
+</html>
