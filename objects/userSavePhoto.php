@@ -15,7 +15,7 @@ $imagePath = "videos/userPhoto/";
 
 //Check write Access to Directory
 if (!file_exists($global['systemRootPath'].$imagePath)) {
-    mkdir($global['systemRootPath'].$imagePath, 0777, true);
+    mkdir($global['systemRootPath'].$imagePath, 0755, true);
 }
 
 if (!is_writable($global['systemRootPath'].$imagePath)) {

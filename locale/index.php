@@ -101,7 +101,7 @@ sort($vars);
                 <div class="col-lg-1"></div>
                 <div class="col-lg-10  alert alert-info">  
                 <?php echo __("You need to make your locale folder writable"); ?>
-                <pre><code>sudo chmod -R 777 <?php echo $global['systemRootPath']; ?>locale</code></pre>
+                <pre><code>chown www-data:www-data <?php echo $global['systemRootPath']; ?>locale && sudo chmod -R 755 <?php echo $global['systemRootPath']; ?>locale</code></pre>
                 </div>
                 <div class="col-lg-1">   
                 </div>
