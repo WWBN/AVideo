@@ -80,7 +80,7 @@ if (User::canUpload()) {
     function createExtraVideos(href, title, name, photo, user) {
         var id = 'extraVideo' + user;
         id = id.replace(/\W/g, '');
-        if ($("#" + id).length == 0) {
+        if ($( ".extraVideos" ).length && $("#" + id).length == 0) {
             var $liveLi = $('.extraVideosModel').clone();
             $liveLi.removeClass("hidden").removeClass("extraVideosModel");
             $liveLi.css({'display':'none'})
