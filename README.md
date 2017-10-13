@@ -16,6 +16,8 @@ Ok, check this out! https://tutorials.youphptube.com/video/streamer-and-encoder
 
 https://www.youphptube.com/services
 
+### If you are not sure what is YouPHPTube, go to our <a href="https://demo.youphptube.com/" target="_blank">demo</a> page or visit our <a href="https://www.youphptube.com/" target="_blank">official site</a>
+
 # YouPHPTube - Streamer
 YouPHPTube! is an video-sharing website, It is an open source solution that is freely available to everyone. With YouPHPTube you can create your own video sharing site, YouPHPTube will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
 
