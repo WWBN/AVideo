@@ -125,9 +125,9 @@ require_once '../objects/functions.php';
                                     }
                                     ?>
                                     <br>
-                                    Then you can set the permissions.
+                                    Then you can set the permissions (www-data means apache user).
                                     <br>
-                                    <pre><code>sudo chmod -R 777 <?php echo $dir; ?></code></pre>
+                                    <pre><code>chown www-data:www-data <?php echo $dir; ?> && chmod 755 <?php echo $dir; ?> </code></pre>
                                 </details>
                             </div>
                             <?php

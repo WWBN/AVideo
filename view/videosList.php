@@ -30,6 +30,20 @@ if (!empty($video['clean_title'])) {
     $videoName = $_GET['videoName'];
 }
 
+?>
+<select class="form-control" id="sortBy">
+    <option value="newest"><?php echo __("Date Added (newest)"); ?></option>
+    <option value="oldest"><?php echo __("Date Added (oldest)"); ?></option>
+    <option value="popular"><?php echo __("Most Popular"); ?></option>
+</select>
+<select class="form-control" id="rowCount">
+    <option>10</option>
+    <option>20</option>
+    <option>30</option>
+    <option>50</option>
+</select>
+<?php
+
 foreach ($videos as $key => $value) {
     if (!empty($video['id']) && $video['id'] == $value['id']) {
         continue; // skip video
