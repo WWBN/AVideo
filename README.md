@@ -1,3 +1,5 @@
+### If you are not sure what is YouPHPTube, go to our <a href="https://demo.youphptube.com/" target="_blank">demo</a> page or visit our <a href="https://www.youphptube.com/" target="_blank">official site</a>
+
 # First thing...
 I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
 
