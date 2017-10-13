@@ -31,6 +31,7 @@ if (!empty($video['clean_title'])) {
 }
 
 ?>
+<!--
 <select class="form-control" id="sortBy">
     <option value="newest"><?php echo __("Date Added (newest)"); ?></option>
     <option value="oldest"><?php echo __("Date Added (oldest)"); ?></option>
@@ -42,6 +43,7 @@ if (!empty($video['clean_title'])) {
     <option>30</option>
     <option>50</option>
 </select>
+-->
 <?php
 
 foreach ($videos as $key => $value) {
