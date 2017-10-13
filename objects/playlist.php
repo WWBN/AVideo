@@ -9,11 +9,11 @@ class PlayList extends Object {
 
     protected $id, $name, $users_id, $status;
 
-    protected static function getSearchFieldsNames() {
+    static function getSearchFieldsNames() {
         return array('name');
     }
 
-    protected static function getTableName() {
+    static function getTableName() {
         return 'playlists';
     }
 

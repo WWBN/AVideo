@@ -8,11 +8,11 @@ class LiveTransmition extends Object {
 
     protected $id, $title, $public, $saveTransmition, $users_id, $categories_id, $key, $description;
 
-    protected static function getSearchFieldsNames() {
+    static function getSearchFieldsNames() {
         return array('title');
     }
 
-    protected static function getTableName() {
+    static function getTableName() {
         return 'live_transmitions';
     }
 

@@ -10,11 +10,11 @@ class Plugin extends Object {
 
     protected $id, $status, $object_data, $name, $uuid, $dirName;
 
-    protected static function getSearchFieldsNames() {
+    static function getSearchFieldsNames() {
         return array('name');
     }
 
-    protected static function getTableName() {
+    static function getTableName() {
         return 'plugins';
     }
 

@@ -1,8 +1,12 @@
 <?php
-abstract class Object{
+interface ObjectInterface{
+    
+    static function getTableName();
+    static function getSearchFieldsNames();
+}
 
-    abstract static protected function getTableName();
-    abstract static protected function getSearchFieldsNames();
+abstract class Object implements ObjectInterface{
+
     private $fieldsName = array();
 
     protected function load($id) {
