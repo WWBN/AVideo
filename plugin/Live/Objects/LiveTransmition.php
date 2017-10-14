@@ -224,5 +224,24 @@ class LiveTransmition extends Object {
             return true;
         }
     }
+    
+    static function getPlayURL($user){
+        global $global;
+        $obj = new stdClass();
+        $obj->user = $user;
+        $obj->time = strtotime("+10 sec");
+        return $global['webSiteRootURL']."plugin/Live/playURL.php?playURL=".base64_encode(json_encode($obj));
+    }
+    
+    static function getValidPlayURL($hash){
+        $obj = json_decode(base64_decode($hash));
+        if(time() < $obj->time && $obj->time < strtotime("+10 sec")){
+            $t = LiveTransmition::getFromDbByUserName($obj->user);
+            $uuid = $t['key'];
+            $p = YouPHPTubePlugin::loadPlugin("Live");
+            return $p->getPlayerServer()."/".$uuid."/index.m3u8";
+        }
+        return false;
+    }
 
 }

@@ -4,7 +4,10 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 $p = YouPHPTubePlugin::loadPlugin("Live");
 
-if (!empty($_GET['u']) && !empty($_GET['embed'])) {
+if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
+    include './view/videoEmbededV2.php';
+    exit;
+} else if (!empty($_GET['u']) && !empty($_GET['embed'])) {
     include './view/videoEmbeded.php';
     exit;
 } else if (!empty($_GET['u'])) {
