@@ -5,6 +5,6 @@ $t = LiveTransmition::getValidPlayURL($_GET['playURL']);
 if ($t){
    header('location: '.$t);
 }else{
-    die("Not allow to play this stream");
+    die("Not allow to play this stream on {$_SERVER['HTTP_HOST']}");
 }
 ?>
