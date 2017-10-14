@@ -1,7 +1,9 @@
 <?php
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
-$url = LiveTransmition::getPlayURL($_GET['u']);
+$t = LiveTransmition::getFromDbByUserName($_GET['u']);
+$uuid = $t['key'];
+$p = YouPHPTubePlugin::loadPlugin("Live");
 
 ?>
 <!DOCTYPE html>
@@ -11,7 +13,7 @@ $url = LiveTransmition::getPlayURL($_GET['u']);
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="img/favicon.ico">
-        <title><?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
@@ -31,10 +33,10 @@ $url = LiveTransmition::getPlayURL($_GET['u']);
             ?>
         </div>
         <div class="embed-responsive  embed-responsive-16by9">
-            <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin 
+            <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin autoplay="autoplay" 
                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
                        id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                    <source src="<?php echo $url; ?>" type='application/x-mpegURL'>
+                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
                 </video>
         </div>
     </body>
