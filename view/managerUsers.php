@@ -75,6 +75,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         </div>
                                     </li>
                                     <li class="list-group-item">
+                                        <?php echo __("Can Stream Videos"); ?>
+                                        <div class="material-switch pull-right">
+                                            <input type="checkbox" value="canStream" id="canStream"/>
+                                            <label for="canStream" class="label-success"></label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
                                         <?php echo __("is Active"); ?>
                                         <div class="material-switch pull-right">
                                             <input type="checkbox" value="status" id="status"/>
@@ -171,6 +178,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             $('#userGroup' + row.groups[index].id).prop('checked', true);
                         }
                         $('#isAdmin').prop('checked', (row.isAdmin === "1" ? true : false));
+                        $('#canStream').prop('checked', (row.canStream === "1" ? true : false));
                         $('#status').prop('checked', (row.status === "a" ? true : false));
 
                         $('#userFormModal').modal();
@@ -219,6 +227,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     $('#inputEmail').val('');
                     $('#inputName').val('');
                     $('#isAdmin').prop('checked', false);
+                    $('#canStream').prop('checked', false);
                     $('.userGroups').prop('checked', false);
                     $('#status').prop('checked', true);
 
@@ -246,6 +255,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             "email": $('#inputEmail').val(),
                             "name": $('#inputName').val(),
                             "isAdmin": $('#isAdmin').is(':checked'),
+                            "canStream": $('#canStream').is(':checked'),
                             "status": $('#status').is(':checked') ? 'a' : 'i',
                             "userGroups": selectedUserGroups
                         },

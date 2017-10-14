@@ -10,7 +10,7 @@ if (!empty($_GET['u']) && !empty($_GET['embed'])) {
 } else if (!empty($_GET['u'])) {
     include './view/modeYoutubeLive.php';
     exit;
-} else if (!User::canUpload()) {
+} else if (!User::canStream()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not stream live videos"));
     exit;
 }

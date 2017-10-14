@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `lastLogin` DATETIME NULL,
   `recoverPass` VARCHAR(255) NULL,
   `backgroundURL` VARCHAR(255) NULL,
+  `canStream` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;

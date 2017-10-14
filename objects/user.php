@@ -13,6 +13,7 @@ class User {
     private $email;
     private $password;
     private $isAdmin;
+    private $canStream;
     private $status;
     private $photoURL;
     private $backgroundURL;
@@ -44,7 +45,14 @@ class User {
     function getPassword() {
         return $this->password;
     }
+    function getCanStream() {
+        return $this->canStream;
+    }
+    function setCanStream($canStream) {
+        $this->canStream = $canStream;
+    }
 
+        
     private function load($id) {
         $user = self::getUserDb($id);
         if (empty($user))
@@ -186,13 +194,16 @@ class User {
         if (empty($this->isAdmin)) {
             $this->isAdmin = "false";
         }
+        if (empty($this->canStream)) {
+            $this->canStream = "false";
+        }
         if (empty($this->status)) {
             $this->status = 'a';
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}' , modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},canStream = {$this->canStream}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}' , modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
         //echo $sql;
         $insert_row = $global['mysqli']->query($sql);
@@ -269,6 +280,12 @@ class User {
 
     static function isAdmin() {
         return !empty($_SESSION['user']['isAdmin']);
+    }
+    static function canStream() {
+        return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']);
+    }
+    function thisUserCanStream() {
+        return !empty($this->isAdmin) || !empty($this->canStream);
     }
 
     private function find($user, $pass, $mustBeactive = false, $encodedPass=false) {
