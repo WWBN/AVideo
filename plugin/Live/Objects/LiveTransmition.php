@@ -234,14 +234,15 @@ class LiveTransmition extends Object {
     }
     
     static function getValidPlayURL($hash){
+        $return = new stdClass();
         $obj = json_decode(base64_decode($hash));
-        if(time() < $obj->time && $obj->time < strtotime("+10 sec")){
+        //if(time() < $obj->time && $obj->time < strtotime("+10 sec")){
             $t = LiveTransmition::getFromDbByUserName($obj->user);
             $uuid = $t['key'];
             $p = YouPHPTubePlugin::loadPlugin("Live");
             return $p->getPlayerServer()."/".$uuid."/index.m3u8";
-        }
-        return false;
+        //}
+        //return false;
     }
 
 }
