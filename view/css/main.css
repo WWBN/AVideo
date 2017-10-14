@@ -69,26 +69,38 @@ h4 {
     font-size: 14px;
 }
 footer {
-    color: #444;
-    padding: 25px;
+    color: #AAA;
+    padding: 5px;
     background-color: #F2F2F2;
     border-top: 1px solid #DDD;
-    text-align: center;
+    text-align: right;
     margin: 0;
+    font-size: 0.8em;
 }
 footer .btn-outline:hover,
 footer .btn-outline:focus,
 footer .btn-outline:active {
-    color: #444;
+    color: #888;
     background: white;
-    border: solid 2px white;
+    border: solid 1px white;
 }
 footer .btn-outline {
-    color: #444;
-    border: solid 2px #444;
+    color: #AAA;
+    border: solid 1px #AAA;
     background: transparent;
     transition: all 0.3s ease-in-out;
-    margin: 0 5px;
+    margin: 0 2px;
+    font-size: 0.9em;
+}
+footer ul.list-inline {
+    justify-content: flex-end;
+}
+footer ul.list-inline li {
+    justify-content: center;
+    align-items: center;
+    padding-right: 1px;
+    padding-left: 1px;
+    font-size: 0.8em;
 }
 
 /* for main video */
@@ -494,13 +506,6 @@ img.rotate-90 {
 .list-inline {
     display: flex;
     justify-content: left;
-}
-footer ul.list-inline {
-    justify-content: center;
-}
-footer ul.list-inline li {
-    justify-content: center;
-    align-items: center;
 }
 
 /** header **/
