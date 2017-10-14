@@ -14,6 +14,7 @@ $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
 $user->setIsAdmin($_POST['isAdmin']);
+$user->setCanStream($_POST['canStream']);
 $user->setStatus($_POST['status']);
-$user->setUserGroups($_POST['userGroups']);
+$user->setUserGroups(@$_POST['userGroups']);
 echo '{"status":"'.$user->save(true).'"}';

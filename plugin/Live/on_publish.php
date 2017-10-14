@@ -7,18 +7,20 @@ $obj->error = true;
 
 // get GET parameters
 $url = $_POST['tcurl'];
-if(empty($url)){    
-$url = $_POST['swfurl'];
+if (empty($url)) {
+    $url = $_POST['swfurl'];
 }
 $parts = parse_url($url);
-    error_log(print_r($parts, true));
+error_log(print_r($parts, true));
 parse_str($parts["query"], $_GET);
-    error_log(print_r($_GET, true));
+error_log(print_r($_GET, true));
 if (!empty($_GET['p'])) {
     $obj->row = LiveTransmition::keyExists($_POST['name']);
     if (!empty($obj->row)) {
         $user = new User($obj->row['users_id']);
-        if ($_GET['p'] === $user->getPassword()) {
+        if(!$user->thisUserCanStream()){
+            error_log("User [{$obj->row['users_id']}] can not stream");
+        }else if ($_GET['p'] === $user->getPassword()) {
             $obj->error = false;
         } else {
             error_log("Stream Publish error, Password does not match");

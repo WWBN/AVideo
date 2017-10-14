@@ -4,7 +4,7 @@ require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
 $obj = new stdClass();
 $obj->error = true;
-if(!User::canUpload()){
+if(!User::canStream()){
     $obj->msg = __("Permition denied");
     die(json_encode($obj));
 }

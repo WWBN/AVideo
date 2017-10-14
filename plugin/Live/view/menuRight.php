@@ -13,7 +13,7 @@
 }
 </style>
 <?php
-if (User::canUpload()) {
+if (User::canStream()) {
     ?>
     <li>
         <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live"  class="btn btn-danger navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Broadcast a Live Streaming"); ?>" data-placement="bottom" >
