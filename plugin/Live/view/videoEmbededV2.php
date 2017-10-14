@@ -1,5 +1,11 @@
 <?php
 require_once '../../videos/configuration.php';
+/**
+ * this was made to mask the main URL
+ */
+if(!empty($_GET['webSiteRootURL'])){
+    $global['webSiteRootURL'] = $_GET['webSiteRootURL'];
+}
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $t['key'];
