@@ -59,7 +59,7 @@ if(empty($videoFileName)){
 $destination = "{$global['systemRootPath']}videos/{$videoFileName}";
 if(!empty($_FILES['video']['tmp_name'])){
     if(!move_uploaded_file ($_FILES['video']['tmp_name'] ,  "{$destination}.{$_POST['format']}")){
-        $obj->msg = __("Could not move video file [{$_FILES['video']['tmp_name']}] => [{$destination}{$_POST['format']}]");
+        $obj->msg = print_r(__("Could not move video file [%s] => [%s %s]"), $_FILES['video']['tmp_name'], $destination, $_POST['format']);
         error_log($obj->msg);
         die(json_encode($obj));
     }
@@ -69,14 +69,14 @@ if(!empty($_FILES['video']['tmp_name'])){
 }
 if(!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination}.jpg")){
     if(!move_uploaded_file ($_FILES['image']['tmp_name'] ,  "{$destination}.jpg")){
-        $obj->msg = __("Could not move image file [{$destination}.jpg]");
+        $obj->msg = print_r(__("Could not move image file [%s.jpg]"), $destination);
         error_log($obj->msg);
         die(json_encode($obj));
     }
 }
 if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination}.gif")) {
     if (!move_uploaded_file ($_FILES['gifimage']['tmp_name'] ,  "{$destination}.gif")) {
-        $obj->msg = __("Could not move gif image file [{$destination}.gif]");
+        $obj->msg = print_r(__("Could not move gif image file [%s.gif]"), $destination);
         error_log($obj->msg);
         die(json_encode($obj));
     }
