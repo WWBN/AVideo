@@ -11,7 +11,7 @@ $url = LiveTransmition::getPlayURL($_GET['u']);
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="img/favicon.ico">
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
