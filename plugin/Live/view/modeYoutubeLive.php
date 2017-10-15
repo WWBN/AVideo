@@ -12,6 +12,11 @@ $user_id = $u->getBdId();
 $subscribe = Subscribe::getButton($user_id);
 $name = $u->getNameIdentificationBd();
 $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
+
+$img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
+$data = @getimagesize("{$global['systemRootPath']}videos/{$video['filename']}.jpg");
+$imgw = $data[0];
+$imgh = $data[1];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -27,6 +32,14 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
         <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
+        <meta property="fb:app_id"             content="774958212660408" />
+        <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo $_GET['u']; ?>" />
+        <meta property="og:type"               content="video.other" />
+        <meta property="og:title"              content="<?php echo str_replace('"', '', $trans->getTitle()); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo str_replace('"', '', $trans->getTitle()); ?>" />
+        <meta property="og:image"              content="<?php echo $img; ?>" />
+        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
+        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
     </head>
 
     <body>
