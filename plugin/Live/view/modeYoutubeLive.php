@@ -35,8 +35,8 @@ $imgh = $data[1];
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo $_GET['u']; ?>" />
         <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo str_replace('"', '', $trans->getTitle()); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
-        <meta property="og:description"        content="<?php echo str_replace('"', '', $trans->getTitle()); ?>" />
+        <meta property="og:title"              content="<?php echo str_replace('"', '', $t['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo str_replace('"', '', $t['title']); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
