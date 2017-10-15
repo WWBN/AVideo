@@ -17,6 +17,10 @@ $img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&forma
 $data = @getimagesize("{$global['systemRootPath']}videos/{$video['filename']}.jpg");
 $imgw = $data[0];
 $imgh = $data[1];
+if(empty($imgw) || empty($imgh)){
+    $imgw = 640;
+    $imgh = 360;
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
