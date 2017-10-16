@@ -34,12 +34,12 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
 
     <body style="background-color: black;">
         <div class="container-fluid">
-            <div class="col-md-2">
+            <div class="col-md-2" style="margin: 0; padding: 0;">
                     <?php
                     echo $config->getAdsense();
                     ?>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8" style="margin: 0; padding: 0;">
                     <?php
                     echo $config->getAdsense();
                     ?>
@@ -54,7 +54,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                     echo $config->getAdsense();
                     ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2" style="margin: 0; padding: 0;">
                     <?php
                     echo $config->getAdsense();
                     ?>
