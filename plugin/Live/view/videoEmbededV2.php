@@ -33,17 +33,32 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
     </head>
 
     <body>
-        <div>            
-            <?php
-            echo $config->getAdsense();
-            ?>
-        </div>
-        <div class="embed-responsive  embed-responsive-16by9">
-            <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin autoplay="autoplay" 
-                       class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
-                       id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
-                </video>
+        <div class="container-fluid">
+            <div class="col-md-2">
+                    <?php
+                    echo $config->getAdsense();
+                    ?>
+            </div>
+            <div class="col-md-8">
+                    <?php
+                    echo $config->getAdsense();
+                    ?>
+                <div class="embed-responsive  embed-responsive-16by9">
+                    <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin autoplay="autoplay" 
+                               class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
+                               id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
+                            <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
+                        </video>
+                </div>
+                    <?php
+                    echo $config->getAdsense();
+                    ?>
+            </div>
+            <div class="col-md-2">
+                    <?php
+                    echo $config->getAdsense();
+                    ?>
+            </div>
         </div>
     </body>
 </html>
