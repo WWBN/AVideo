@@ -32,7 +32,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         </style>
     </head>
 
-    <body>
+    <body style="background-color: black;">
         <div class="container-fluid">
             <div class="col-md-2">
                     <?php
