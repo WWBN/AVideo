@@ -121,6 +121,7 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
         $('.message_input').keyup(function (e) {
             if (e.which === 13) {
                 sendJsonMessage(JSON.stringify(getJsonDataObject()), 'right');
+                $('.message_input').val('');
             }
         });
         connect();
