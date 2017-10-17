@@ -34,7 +34,6 @@ sendMessage = function (text, message_side) {
     if (text.trim() === '') {
         return;
     }
-    $('.message_input').val('');
     $messages = $('.messages');
     message = new Message({
         text: text,
