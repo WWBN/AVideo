@@ -65,7 +65,6 @@ class Live extends PluginAbstract {
         global $global;
         //check if LiveChat Plugin is available
         $filename = $global['systemRootPath'] . 'plugin/LiveChat/LiveChat.php';
-        ;
         if (file_exists($filename)) {
             require_once $filename;
             LiveChat::includeChatPanel($uuid);
