@@ -73,9 +73,9 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         </div>
         <script>
             $(function () {
-                $('.liveChat .messages').css({"height": ($('#embedVideo-content').height() - 128) + "px"});
+                $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
                 window.addEventListener('resize', function () {
-                    $('.liveChat .messages').css({"height": ($('#embedVideo-content').height() - 128) + "px"});
+                    $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
                 })
             });
         </script>
