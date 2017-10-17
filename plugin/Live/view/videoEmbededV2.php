@@ -3,14 +3,13 @@ require_once '../../videos/configuration.php';
 /**
  * this was made to mask the main URL
  */
-if(!empty($_GET['webSiteRootURL'])){
+if (!empty($_GET['webSiteRootURL'])) {
     $global['webSiteRootURL'] = $_GET['webSiteRootURL'];
 }
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $t['key'];
 $p = YouPHPTubePlugin::loadPlugin("Live");
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -29,36 +28,46 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <style>
+            #chatOnline {
+                width: 25vw !important;
+                position: relative !important;
+                margin: 0;
+                padding: 0;
+            }
+            .container-fluid {
+                padding-right: 0 !important; 
+                padding-left: 0 !important; 
+            }
         </style>
     </head>
 
     <body style="background-color: black;">
         <div class="container-fluid">
-            <div class="col-md-2" style="margin: 0; padding: 0;">
-                    <?php
-                    echo $config->getAdsense();
-                    ?>
-            </div>
-            <div class="col-md-8" style="margin: 0; padding: 0;">
-                    <?php
-                    echo $config->getAdsense();
-                    ?>
-                <div class="embed-responsive  embed-responsive-16by9">
+            <div class="col-md-9" style="margin: 0; padding: 0;" id="embedVideo-content">
+                <?php
+                echo $config->getAdsense();
+                ?>
+                <div class="embed-responsive  embed-responsive-16by9" >
                     <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin autoplay="autoplay" 
-                               class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
-                               id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                            <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
-                        </video>
+                           class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
+                           id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
+                        <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
+                    </video>
                 </div>
-                    <?php
-                    echo $config->getAdsense();
-                    ?>
+                <?php
+                echo $config->getAdsense();
+                ?>
             </div>
-            <div class="col-md-2" style="margin: 0; padding: 0;">
-                    <?php
-                    echo $config->getAdsense();
-                    ?>
+            <div class="col-md-3" style="margin: 0; padding: 0;">
+                <?php
+                $p->getChat($uuid);
+                ?>
             </div>
         </div>
+        <script>
+            $(function () {
+                $('.liveChat .messages').css({"height": ($('#embedVideo-content').height() - 128) + "px"});
+            });
+        </script>
     </body>
 </html>
