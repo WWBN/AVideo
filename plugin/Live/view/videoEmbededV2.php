@@ -41,7 +41,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         </style>
     </head>
 
-    <body style="background-color: black;">
+    <body style="background-color: black; overflow: hidden;">
         <div class="container-fluid">
             <div class="col-md-9" style="margin: 0; padding: 0;" id="embedVideo-content">
                 <?php
