@@ -18,7 +18,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="img/favicon.ico">
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> </title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
@@ -42,10 +42,13 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                 -webkit-transition: all 1s ease; /* Safari */
                 transition: all 1s ease;
             }
+            #embedVideo-content .embed-responsive{
+                max-height: 98vh;
+            }
         </style>
     </head>
 
-    <body style="background-color: black; overflow: hidden;">
+    <body style="background-color: black; overflow-x: hidden;">
         <div class="container-fluid">
             <div class="col-md-9 col-sm-9 col-xs-9" style="margin: 0; padding: 0;" id="embedVideo-content">
                 <?php
