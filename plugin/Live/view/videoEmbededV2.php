@@ -38,12 +38,16 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                 padding-right: 0 !important; 
                 padding-left: 0 !important; 
             }
+            .liveChat .messages{
+                -webkit-transition: all 1s ease; /* Safari */
+                transition: all 1s ease;
+            }
         </style>
     </head>
 
     <body style="background-color: black; overflow: hidden;">
         <div class="container-fluid">
-            <div class="col-md-9" style="margin: 0; padding: 0;" id="embedVideo-content">
+            <div class="col-md-9 col-sm-9 col-xs-9" style="margin: 0; padding: 0;" id="embedVideo-content">
                 <?php
                 echo $config->getAdsense();
                 ?>
@@ -58,7 +62,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                 echo $config->getAdsense();
                 ?>
             </div>
-            <div class="col-md-3" style="margin: 0; padding: 0;">
+            <div class="col-md-3 col-sm-3 col-xs-3" style="margin: 0; padding: 0;">
                 <?php
                 $p->getChat($uuid);
                 ?>
@@ -67,6 +71,9 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         <script>
             $(function () {
                 $('.liveChat .messages').css({"height": ($('#embedVideo-content').height() - 128) + "px"});
+                window.addEventListener('resize', function () {
+                    $('.liveChat .messages').css({"height": ($('#embedVideo-content').height() - 128) + "px"});
+                })
             });
         </script>
     </body>
