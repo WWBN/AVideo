@@ -51,7 +51,9 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
     <body style="background-color: black; overflow-x: hidden;">
         <div class="container-fluid">
             <div class="col-md-9 col-sm-9 col-xs-9" style="margin: 0; padding: 0;" id="embedVideo-content">
-                <iframe src="<?php echo $global['webSiteRootURL']; ?>googleAdView" frameborder="0" scrolling="no" height="90"  ></iframe>
+                <?php
+                echo $config->getAdsense();
+                ?>
                 <div class="embed-responsive  embed-responsive-16by9" >
                     <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin autoplay="autoplay" 
                            class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
@@ -59,7 +61,9 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                         <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
                     </video>
                 </div>
-                <iframe src="<?php echo $global['webSiteRootURL']; ?>googleAdView" frameborder="0" scrolling="no" height="90"  ></iframe>
+                <?php
+                echo $config->getAdsense();
+                ?>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-3" style="margin: 0; padding: 0;">
                 <?php
