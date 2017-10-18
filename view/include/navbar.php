@@ -95,30 +95,40 @@ if (empty($_SESSION['language'])) {
                 ?>
 
                 <li>
-                    <select class="selectpicker" id="navBarFlag" data-width="fit">
-                        <?php
-                        $flags = getEnabledLangs();
-                        foreach ($flags as $value) {
-                            $selected = "";
-                            if ($value == 'en') {
-                                $value = 'us';
-                            }
-                            if ($lang == $value) {
-                                $selected = 'selected="selected"';
-                            }
-                            echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span>' value=\"{$value}\" label=\"Lang: {$value}\" {$selected}>{$value}</option>";
-                        }
-                        ?>
-                    </select>
+                    <?php
+                    $flags = getEnabledLangs();
+                    $objFlag = new stdClass();
+                    foreach ($flags as $key => $value) {
+                        //$value = strtoupper($value);
+                        $objFlag->$value = $value;
+                    }
+                    if ($lang == 'en') {
+                        $lang = 'us';
+                    }
+                    ?>
+                    <div id="navBarFlag" data-input-name="country" data-selected-country="<?php echo $lang; ?>"></div>
                     <script>
                         $(function () {
-                            $('#navBarFlag').selectpicker('setStyle', 'btn-default');
-                            $('#navBarFlag').selectpicker('setStyle', 'navbar-btn', 'add');
-
-                            $('#navBarFlag').on('change', function () {
-                                var selected = $(this).find("option:selected").val();
-                                window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + selected;
+                            $("#navBarFlag").flagStrap({
+                                countries: <?php echo json_encode($objFlag); ?>,
+                                inputName: 'country',
+                                buttonType: "btn-default navbar-btn",
+                                onSelect: function(value, element) {
+                                    window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + value;
+                                },
+                                placeholder: {
+                                    value: "",
+                                    text: ""
+                                }
                             });
+
+                            //$('#navBarFlag').selectpicker('setStyle', 'btn-default');
+                            //$('#navBarFlag').selectpicker('setStyle', 'navbar-btn', 'add');
+
+                            //$('#navBarFlag').on('change', function () {
+                            //var selected = $(this).find("option:selected").val();
+                            //window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + selected;
+                            //});
                         });
                     </script>
                 </li>

@@ -11,7 +11,7 @@ $head = YouPHPTubePlugin::getHeadCode();
 <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>js/seetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>css/flag-icon-css-master/css/flag-icon.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>js/bootgrid/jquery.bootgrid.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>css/custom/<?php echo $config->getTheme(); ?>.css" rel="stylesheet" type="text/css" id="theme"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>css/main.css" rel="stylesheet" type="text/css"/>
