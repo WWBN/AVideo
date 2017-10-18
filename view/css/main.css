@@ -537,6 +537,9 @@ nav ul.items-container li ul.right-menus {
 nav ul.items-container li ul.right-menus li {
     margin-left: 20px;
 }
+nav ul.items-container li ul.right-menus li li {
+    margin-left: 0;
+}
 /** header **/
 
 .navbar .container {
