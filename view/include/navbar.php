@@ -106,6 +106,11 @@ if (empty($_SESSION['language'])) {
                         $lang = 'us';
                     }
                     ?>
+                    <style>
+                        #navBarFlag .dropdown-menu {
+                            min-width: 20px;
+                        }
+                    </style>
                     <div id="navBarFlag" data-input-name="country" data-selected-country="<?php echo $lang; ?>"></div>
                     <script>
                         $(function () {
@@ -113,7 +118,7 @@ if (empty($_SESSION['language'])) {
                                 countries: <?php echo json_encode($objFlag); ?>,
                                 inputName: 'country',
                                 buttonType: "btn-default navbar-btn",
-                                onSelect: function(value, element) {
+                                onSelect: function (value, element) {
                                     window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + value;
                                 },
                                 placeholder: {
