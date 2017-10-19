@@ -49,7 +49,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
     </head>
 
     <body style="background-color: black; overflow-x: hidden;">
-        <div class="container-fluid">
+        <div class="container">
             <div class="col-md-9 col-sm-9 col-xs-9" style="margin: 0; padding: 0;" id="embedVideo-content">
                 <?php
                 echo $config->getAdsense();
