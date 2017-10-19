@@ -35,17 +35,16 @@ if (strcasecmp($extension, 'zip') == 0) {
     if ($zip->open($_FILES['input-b1']['tmp_name'], ZipArchive::CREATE) === TRUE) {
         $zip->extractTo($destinationFolder);
         $zip->close();
+        $id = true;
     } else {
-        return FALSE;
+        $id = false;
     }
 }
 if($id){
-    $obj->msg = "Your file was encoded";
+    $obj->msg = "Your file was ok";
     $obj->uploaded = true;
     unset($obj->error);
-    $obj->id = $id;
-    
 }else{    
-    $obj->msg = "Your file was NOT encoded";
+    $obj->msg = "Your file was NOT ok";
 }
 die(json_encode($obj));
