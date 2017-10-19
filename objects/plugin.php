@@ -176,4 +176,23 @@ class Plugin extends Object {
         return $rows;
     }
     
+    static function getEnabled($uuid) {
+        global $global;
+        $rows = array();
+        $sql = "SELECT * FROM  ".static::getTableName()." WHERE status='active' AND uuid = ? ";
+        if ($stmt = $global['mysqli']->prepare($sql)) {
+
+            /* bind parameters for markers */
+            $stmt->bind_param("s", $uuid);
+            $stmt->execute();
+            /* instead of bind_result: */
+            $result = $stmt->get_result();
+            /* now you can fetch the results into an array */
+            while($result && $myrow = $result->fetch_assoc()) {
+                $rows[] = $myrow;
+            }
+        }
+        return $rows;
+    }
+    
 }

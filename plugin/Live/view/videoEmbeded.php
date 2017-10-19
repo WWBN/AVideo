@@ -13,9 +13,9 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="img/favicon.ico">
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-
+        <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.2.0.min.js" type="text/javascript"></script>
@@ -34,5 +34,17 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                     <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
                 </video>
         </div>
+        
+        <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
+            <?php 
+                $streamName = $uuid;
+                include $global['systemRootPath'].'plugin/Live/view/onlineLabel.php';
+                include $global['systemRootPath'].'plugin/Live/view/onlineUsers.php';
+            ?>
+        </div>
+        <?php
+        require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
+        echo YouPHPTubePlugin::getFooterCode();
+        ?>
     </body>
 </html>

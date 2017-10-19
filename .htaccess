@@ -82,6 +82,7 @@
     RewriteRule    ^plugins$ view/managerPlugins.php    [NC,L]
     RewriteRule    ^plugins.json$ objects/plugins.json.php    [NC,L]
     RewriteRule    ^pluginsAvailable.json$ objects/pluginsAvailable.json.php    [NC,L]
+    RewriteRule    ^pluginImport.json$ objects/pluginImport.json.php    [NC,L]
     RewriteRule    ^switchPlugin$ objects/pluginSwitch.json.php    [NC,L]
     RewriteRule    ^addDataObjectPlugin.json$ objects/pluginAddDataObject.json.php    [NC,L]
     RewriteRule    ^runDBScriptPlugin.json$ objects/pluginRunDatabaseScript.json.php    [NC,L]
