@@ -17,6 +17,9 @@ abstract class PluginAbstract {
      */
     abstract function getDescription();
     
+    public function getFooterCode(){
+        return "";
+    }
     public function getHeadCode(){
         return "";
     }

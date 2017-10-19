@@ -10,6 +10,15 @@ class YouPHPTubePlugin{
         }
         return $str;
     }
+    public static function getFooterCode(){
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $str .= $p->getFooterCode();
+        }
+        return $str;
+    }
     public static function getHTMLBody(){
         $plugins = Plugin::getAllEnabled();
         $str = "";
@@ -56,6 +65,11 @@ class YouPHPTubePlugin{
         require_once "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         eval("\$p = new {$name}();");
         return $p;
+    }
+    
+    
+    public static function isEnabled($uuid){
+        return !empty(Plugin::getEnabled($uuid));
     }
     
 }

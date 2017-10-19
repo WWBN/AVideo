@@ -1,16 +1,16 @@
 <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
 <style>
-.liveVideo{
-    position: relative;
-    border: 2px solid red;
-    border-radius: 5px;
-}
-.liveVideo .liveNow{
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background-color: rgba(255,0,0,0.5);
-}
+    .liveVideo{
+        position: relative;
+        border: 2px solid red;
+        border-radius: 5px;
+    }
+    .liveVideo .liveNow{
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background-color: rgba(255,0,0,0.5);
+    }
 </style>
 <?php
 if (User::canStream()) {
@@ -57,12 +57,22 @@ if (User::canStream()) {
                     <div class="liveUser">User</div>
                 </div>
             </div>
+            <?php
+            require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+            // the live users plugin
+            if (YouPHPTubePlugin::isEnabled("cf145581-7d5e-4bb6-8c12-48fc37c0630d")) {
+                ?>
+            <span class="label label-primary"><i class="fa fa-user"></i> <b class="liveUsersOnline">0</b></span>
+                <span class="label label-default"><i class="fa fa-eye"></i> <b class="liveUsersViews">0</b></span>
+                <?php
+            }
+            ?>
         </div>
     </a>
 </div>
 <script>
 
-    function createLiveItem(href, title, name, photo, offline) {
+    function createLiveItem(href, title, name, photo, offline, online, views, key) {
         var $liveLi = $('.liveModel').clone();
         if (offline) {
             $liveLi.find('.fa-video-camera').removeClass("fa-video-camera").addClass("fa-ban");
@@ -74,21 +84,28 @@ if (User::canStream()) {
         $liveLi.find('.liveTitle').text(title);
         $liveLi.find('.liveUser').text(name);
         $liveLi.find('.img').attr("src", photo);
-        $('#availableLive').append($liveLi);
+        $('#availableLive').append($liveLi);        
+        
+        $('.liveUsersOnline_'+key).text(online);
+        $('.liveUsersViews_'+key).text(views);
     }
 
-    function createExtraVideos(href, title, name, photo, user) {
+    function createExtraVideos(href, title, name, photo, user, online, views, key) {
         var id = 'extraVideo' + user;
         id = id.replace(/\W/g, '');
-        if ($( ".extraVideos" ).length && $("#" + id).length == 0) {
+        if ($(".extraVideos").length && $("#" + id).length == 0) {
             var $liveLi = $('.extraVideosModel').clone();
             $liveLi.removeClass("hidden").removeClass("extraVideosModel");
-            $liveLi.css({'display':'none'})
+            $liveLi.css({'display': 'none'})
             $liveLi.attr('id', id);
             $liveLi.find('.videoLink').attr("href", href);
             $liveLi.find('.liveTitle').text(title);
             $liveLi.find('.liveUser').text(name);
             $liveLi.find('.photoImg').attr("src", photo);
+            $liveLi.find('.liveUsersOnline').text(online);
+            $liveLi.find('.liveUsersViews').text(views);
+            $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_"+key);
+            $liveLi.find('.liveUsersViews').addClass("liveUsersViews_"+key);
             $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=jpg");
             $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=gif");
             $('.extraVideos').append($liveLi);
@@ -109,8 +126,11 @@ if (User::canStream()) {
                         name = response.applications[i].name;
                         user = response.applications[i].user;
                         photo = response.applications[i].photo;
-                        createLiveItem(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, false);
-                        createExtraVideos(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, user);
+                        online = response.applications[i].users.online;
+                        views = response.applications[i].users.views;
+                        key = response.applications[i].key;
+                        createLiveItem(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, false, online, views, key);
+                        createExtraVideos(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, user, online, views, key);
                     }
                     mouseEffect();
                 } else {

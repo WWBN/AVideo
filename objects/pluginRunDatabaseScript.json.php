@@ -16,8 +16,10 @@ if (empty($_POST['name'])) {
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
+$obj->name = $_POST['name'];
 $templine = '';
 $fileName = Plugin::getDatabaseFileName($_POST['name']);
+$obj->fileName = $fileName;
 if ($fileName) {
     $lines = file($fileName);
     foreach ($lines as $line) {

@@ -22,6 +22,7 @@
                 <?php 
                     $streamName = $uuid;
                     include $global['systemRootPath'].'plugin/Live/view/onlineLabel.php';
+                    include $global['systemRootPath'].'plugin/Live/view/onlineUsers.php';
                 ?>
             </div>
             

@@ -61,6 +61,14 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                         <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
                     </video>
                 </div>
+                
+                <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
+                    <?php 
+                        $streamName = $uuid;
+                        include $global['systemRootPath'].'plugin/Live/view/onlineLabel.php';
+                        include $global['systemRootPath'].'plugin/Live/view/onlineUsers.php';
+                    ?>
+                </div>
                 <?php
                 echo $config->getAdsense();
                 ?>
@@ -79,5 +87,9 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                 })
             });
         </script>
+        <?php
+        require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+        echo YouPHPTubePlugin::getFooterCode();
+        ?>
     </body>
 </html>

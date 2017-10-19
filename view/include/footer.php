@@ -42,3 +42,7 @@ if (!empty($_GET['error'])) {
 <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-toggle/bootstrap-toggle.min.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>js/js-cookie/js.cookie.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>css/flagstrap/js/jquery.flagstrap.min.js" type="text/javascript"></script>
+<?php
+require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
+echo YouPHPTubePlugin::getFooterCode();
+?>

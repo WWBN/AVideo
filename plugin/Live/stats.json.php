@@ -34,6 +34,10 @@ if(!empty($xml->server->application[0]->live->stream)){
     }
 }
 
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+// the live users plugin
+$liveUsersEnabled = YouPHPTubePlugin::isEnabled("cf145581-7d5e-4bb6-8c12-48fc37c0630d");
+
 $obj->countLifeStream = count($lifeStream);
 foreach ($lifeStream as $value){
     if(!empty($value->name)){
@@ -41,11 +45,19 @@ foreach ($lifeStream as $value){
         if(empty($row) || empty($row['public'])){
             continue;
         }
+        
+        $users = false;
+        if($liveUsersEnabled){
+            require_once $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
+            $liveUsers = new LiveOnlineUsers(0);
+            $users = $liveUsers->getUsersFromTransmitionKey($value->name);
+        }
+        
         $u = new User($row['users_id']);
         $userName = $u->getNameIdentificationBd();
         $user = $u->getUser();
         $photo = $u->getPhotoURL();
-        $obj->applications[] = array("key"=>$value->name, "name"=>$userName, "user"=>$user, "photo"=>$photo, "title"=>$row['title']);
+        $obj->applications[] = array("key"=>$value->name, "users"=>$users, "name"=>$userName, "user"=>$user, "photo"=>$photo, "title"=>$row['title']);
         if($value->name === $_POST['name']){
             $obj->error = (!empty($value->publishing))?false:true;
             $obj->msg = (!$obj->error)?"ONLINE":"Waiting for Streamer";

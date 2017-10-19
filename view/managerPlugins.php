@@ -15,6 +15,11 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>        
+<link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/themes/fa/theme.min.js" type="text/javascript"></script>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/themes/explorer/theme.min.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/themes/explorer/theme.min.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -24,6 +29,11 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
         <div class="container">
 
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" id="upload">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("Upload a Plugin"); ?>
+                </button>
+            </div>
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
@@ -38,21 +48,14 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title"><?php echo __("Plugin Form"); ?></h4>
+                            <h4 class="modal-title"><?php echo __("Upload a Plugin ZIP File"); ?></h4>
                         </div>
                         <div class="modal-body">
-                            <form class="form-compact"  id="updatePluginForm" onsubmit="">
-                                <input type="hidden" id="inputPluginId"  >
-                                <label for="inputData" class="sr-only">Object Data</label>
-                                <textarea class="form-control" id="inputData"  rows="5"  placeholder="Object Data"></textarea>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
-                            <button type="button" class="btn btn-primary" id="savePluginBtn"><?php echo __("Save changes"); ?></button>
+                            <input id="input-b1" name="input-b1" type="file" class="">
                         </div>
                     </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
+                </div>
+                
             </div><!-- /.modal -->
         </div><!--/.container-->
         <?php
@@ -67,7 +70,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         "commands": function (column, row) {
                             var editBtn = '';
                             if (row.id) {
-                                editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>';
+                                editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit parameters</button>';
                             }
                             var checked = "";
                             if (row.enabled) {
@@ -75,7 +78,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                             }
                             var sqlBtn = '';
                             if(row.databaseScript){
-                                sqlBtn = '<button type="button" class="btn btn-xs btn-default command-sql" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span></button>';
+                                sqlBtn = '<button type="button" class="btn btn-xs btn-default command-sql" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> Install tables</button>';
                             }
                             var switchBtn = '<div class="material-switch pull-right"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
                             return editBtn + sqlBtn + switchBtn;
@@ -144,6 +147,21 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                             $('#pluginsFormModal').modal('hide');
                         }
                     });
+                });
+                $('#upload').click(function (evt) {
+                    $('#pluginsFormModal').modal();
+                });
+                
+                $('#input-b1').fileinput({
+                    uploadUrl: '<?php echo $global['webSiteRootURL']; ?>pluginImport.json',
+                    allowedFileExtensions: ['zip']
+                }).on('fileuploaded', function (event, data, id, index) {
+                    $("#grid").bootgrid('reload');
+                    console.log('fileuploaded');
+                    console.log(event);
+                    console.log(data);
+                    console.log(id);
+                    console.log(index);
                 });
             });
 
