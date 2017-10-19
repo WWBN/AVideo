@@ -60,8 +60,6 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
                         <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
                     </video>
-                </div>
-                
                 <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
                     <?php 
                         $streamName = $uuid;
@@ -69,6 +67,8 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                         include $global['systemRootPath'].'plugin/Live/view/onlineUsers.php';
                     ?>
                 </div>
+                </div>
+                
                 <?php
                 echo $config->getAdsense();
                 ?>
