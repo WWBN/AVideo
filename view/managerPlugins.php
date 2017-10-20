@@ -45,6 +45,28 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
             </table>
             <div id="pluginsFormModal" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><?php echo __("Plugin Form"); ?></h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-compact"  id="updatePluginForm" onsubmit="">
+                                <input type="hidden" id="inputPluginId"  >
+                                <label for="inputData" class="sr-only">Object Data</label>
+                                <textarea class="form-control" id="inputData"  rows="5"  placeholder="Object Data"></textarea>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
+                            <button type="button" class="btn btn-primary" id="savePluginBtn"><?php echo __("Save changes"); ?></button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+            
+            <div id="pluginsImportFormModal" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
                     <?php
                     $dir = "{$global['systemRootPath']}plugin";
                     if(is_writable($dir)){
@@ -162,7 +184,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     });
                 });
                 $('#upload').click(function (evt) {
-                    $('#pluginsFormModal').modal();
+                    $('#pluginsImportFormModal').modal();
                 });
                 
                 $('#input-b1').fileinput({
