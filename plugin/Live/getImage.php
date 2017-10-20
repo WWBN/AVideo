@@ -16,7 +16,7 @@ if($lt->userCanSeeTransmition()){
     $video = "{$p->getPlayerServer()}/{$uuid}/index.m3u8";
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
     if(empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()){
-        $_SESSION[$url] = array('content'=>file_get_contents($url), 'expire' => time("+2 min") );
-        echo $_SESSION[$url]['content'];
+        $_SESSION[$url] = array('content'=>file_get_contents($url), 'expire' => time("+2 min") );        
     }
+    echo $_SESSION[$url]['content'];
 }
