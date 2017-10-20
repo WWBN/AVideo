@@ -13,4 +13,4 @@ foreach ($videos as $key => $value) {
 }
 
 
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.count($videos).', "rows":'. json_encode($videos).'}';
+echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.count($videos).', "videos":'. json_encode($videos).'}';
