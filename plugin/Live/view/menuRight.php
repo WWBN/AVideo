@@ -106,6 +106,7 @@ if (User::canStream()) {
             $liveLi.find('.liveUsersViews').text(views);
             $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_"+key);
             $liveLi.find('.liveUsersViews').addClass("liveUsersViews_"+key);
+            $('[data-toggle="tooltip"]').tooltip();
             $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=jpg");
             $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=gif");
             $('.extraVideos').append($liveLi);
