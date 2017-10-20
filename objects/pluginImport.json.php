@@ -1,8 +1,9 @@
 <?php
-if(empty($global['systemRootPath'])){
+
+if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
+require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 header('Content-Type: application/json');
@@ -13,7 +14,7 @@ $obj->filename = $_FILES['input-b1']['name'];
 
 $obj->error = true;
 
-if(!User::isAdmin()){
+if (!User::isAdmin()) {
     $obj->msg = "You are not admin";
     die(json_encode($obj));
 }
@@ -32,20 +33,24 @@ if (strcasecmp($extension, 'zip') == 0) {
     //$id =  File::encodeAndsaveZipFile($_FILES['input-b1']['tmp_name'], $_FILES['input-b1']['name'], $key);
     $destination = "{$global['systemRootPath']}plugin/{$path_parts['filename']}";
     $obj->destination = $destination;
+
+    $path = $_FILES['input-b1']['tmp_name'];
+
     $zip = new ZipArchive;
-    if ($zip->open($_FILES['input-b1']['tmp_name'], ZipArchive::CREATE) === TRUE) {
-        $id = $zip->extractTo($destination);
+    if ($zip->open($path) === true) {
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $filename = $zip->getNameIndex($i);
+            $fileinfo = pathinfo($filename);
+            copy("zip://" . $path . "#" . $filename, $destination . $fileinfo['basename']);
+        }
         $zip->close();
-    } else {
-        $id = false;
     }
-    $obj->id = $id;
 }
-if($id){
+if ($id) {
     $obj->msg = "Your file was ok";
     $obj->uploaded = true;
     unset($obj->error);
-}else{    
+} else {
     $obj->msg = "Your file was NOT ok";
 }
 die(json_encode($obj));
