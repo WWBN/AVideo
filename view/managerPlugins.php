@@ -45,17 +45,30 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
             </table>
             <div id="pluginsFormModal" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title"><?php echo __("Upload a Plugin ZIP File"); ?></h4>
+                    <?php
+                    $dir = "{$global['systemRootPath']}plugin";
+                    if(is_writable($dir)){
+                        ?>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title"><?php echo __("Upload a Plugin ZIP File"); ?></h4>
+                            </div>
+                            <div class="modal-body">
+                                <input id="input-b1" name="input-b1" type="file" class="">
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <input id="input-b1" name="input-b1" type="file" class="">
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div>
-                
+                        <?php
+                    }else{
+                        ?>
+                            <div class="alert alert-danger">
+                                You need to make the plugin dir writable before upload, run this command and refresh this page
+                                <pre><code>chown www-data:www-data <?php echo $dir; ?> && chmod 755 <?php echo $dir; ?></code></pre>
+                            </div>
+                        <?php
+                    }
+                    ?>
+                </div>                
             </div><!-- /.modal -->
         </div><!--/.container-->
         <?php
