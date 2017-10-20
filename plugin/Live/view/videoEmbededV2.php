@@ -55,7 +55,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                 echo $config->getAdsense();
                 ?>
                 <div class="embed-responsive  embed-responsive-16by9" >
-                    <video poster="<?php echo $global['webSiteRootURL']; ?>img/youphptubeLiveStreaming.jpg" controls crossorigin autoplay="autoplay" 
+                    <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls crossorigin autoplay="autoplay" 
                            class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
                         <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
