@@ -10,7 +10,7 @@
                     <i class="fa fa-close"></i>
                 </button>
             </div>
-            <div class="embed-responsive embed-responsive-16by9">
+            <div id="main-video" class="embed-responsive embed-responsive-16by9">
                 <iframe class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']) ?>"></iframe>
             </div>
         </div>
