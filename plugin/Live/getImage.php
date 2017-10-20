@@ -9,7 +9,7 @@ if(empty($_GET['format'])){
     $_GET['format'] = "png";
 }
 $lt = new LiveTransmition($t['id']);
-//if($lt->userCanSeeTransmition()){
+if($lt->userCanSeeTransmition()){
     header('Content-Type: image/x-png');
     $uuid = $t['key'];
     $p = YouPHPTubePlugin::loadPlugin("Live");
@@ -19,4 +19,5 @@ $lt = new LiveTransmition($t['id']);
         $_SESSION[$url] = array('content'=>file_get_contents($url), 'expire' => time("+2 min") );        
     }
     echo $_SESSION[$url]['content'];
-//}
+    error_log($url." Image Expired ".intval($_SESSION[$url]['expire'] < time()));
+}
