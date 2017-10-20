@@ -12,8 +12,6 @@ $obj = new stdClass();
 $obj->uploaded = false;
 $obj->filename = $_FILES['input-b1']['name'];
 
-$obj->error = true;
-
 if (!User::isAdmin()) {
     $obj->msg = "You are not admin";
     die(json_encode($obj));
@@ -33,18 +31,7 @@ if (strcasecmp($extension, 'zip') == 0) {
     //$id =  File::encodeAndsaveZipFile($_FILES['input-b1']['tmp_name'], $_FILES['input-b1']['name'], $key);
     $destination = "{$global['systemRootPath']}plugin/";
     $obj->destination = $destination;
-
-    $path = $_FILES['input-b1']['tmp_name'];
-
-    $zip = new ZipArchive;
-    if ($zip->open($path) === true) {
-        for ($i = 0; $i < $zip->numFiles; $i++) {
-            $filename = $zip->getNameIndex($i);
-            $fileinfo = pathinfo($filename);
-            copy("zip://" . $path . "#" . $filename, $destination . $fileinfo['basename']);
-        }
-        $zip->close();
-        $obj->uploaded = true;
-    }
+    $path = $_FILES['input-b1']['tmp_name'];    
+    exec("unzip {$path} -d {$destination}");
 }
 die(json_encode($obj));
