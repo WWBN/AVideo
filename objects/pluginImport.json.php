@@ -31,6 +31,7 @@ if (!in_array(strtolower($extension), $allowed)) {
 if (strcasecmp($extension, 'zip') == 0) {
     //$id =  File::encodeAndsaveZipFile($_FILES['input-b1']['tmp_name'], $_FILES['input-b1']['name'], $key);
     $destination = "{$global['systemRootPath']}plugin/{$path_parts['filename']}";
+    $obj->destination = $destination;
     $zip = new ZipArchive;
     if ($zip->open($_FILES['input-b1']['tmp_name'], ZipArchive::CREATE) === TRUE) {
         $zip->extractTo($destinationFolder);
@@ -39,6 +40,7 @@ if (strcasecmp($extension, 'zip') == 0) {
     } else {
         $id = false;
     }
+    $obj->id = $id;
 }
 if($id){
     $obj->msg = "Your file was ok";
