@@ -34,9 +34,8 @@ if (strcasecmp($extension, 'zip') == 0) {
     $obj->destination = $destination;
     $zip = new ZipArchive;
     if ($zip->open($_FILES['input-b1']['tmp_name'], ZipArchive::CREATE) === TRUE) {
-        $zip->extractTo($destinationFolder);
+        $id = $zip->extractTo($destinationFolder);
         $zip->close();
-        $id = true;
     } else {
         $id = false;
     }
