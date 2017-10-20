@@ -2,8 +2,6 @@
 <style>
     .liveVideo{
         position: relative;
-        border: 2px solid red;
-        border-radius: 5px;
     }
     .liveVideo .liveNow{
         position: absolute;
