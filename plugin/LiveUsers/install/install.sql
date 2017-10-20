@@ -19,8 +19,7 @@ CREATE TABLE IF NOT EXISTS `live_online_users` (
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`),
   INDEX `live_online_usersindex2` (`session_id` ASC),
-  INDEX `live_online_usersindex3` (`transmition_key` ASC),
-  UNIQUE INDEX `live_online_usersindex4` (`session_id` ASC, `transmition_key` ASC))
+  INDEX `live_online_usersindex3` (`transmition_key` ASC)
 ENGINE = InnoDB;
 
 
