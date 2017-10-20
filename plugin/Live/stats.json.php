@@ -1,4 +1,5 @@
 <?php
+ini_set('max_execution_time', 5);
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
