@@ -31,7 +31,7 @@ if (!in_array(strtolower($extension), $allowed)) {
 
 if (strcasecmp($extension, 'zip') == 0) {
     //$id =  File::encodeAndsaveZipFile($_FILES['input-b1']['tmp_name'], $_FILES['input-b1']['name'], $key);
-    $destination = "{$global['systemRootPath']}plugin/{$path_parts['filename']}/";
+    $destination = "{$global['systemRootPath']}plugin/";
     $obj->destination = $destination;
 
     $path = $_FILES['input-b1']['tmp_name'];
@@ -44,13 +44,7 @@ if (strcasecmp($extension, 'zip') == 0) {
             copy("zip://" . $path . "#" . $filename, $destination . $fileinfo['basename']);
         }
         $zip->close();
+        $obj->uploaded = true;
     }
-}
-if ($id) {
-    $obj->msg = "Your file was ok";
-    $obj->uploaded = true;
-    unset($obj->error);
-} else {
-    $obj->msg = "Your file was NOT ok";
 }
 die(json_encode($obj));
