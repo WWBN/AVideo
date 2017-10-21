@@ -23,7 +23,7 @@ $lt = new LiveTransmition($t['id']);
 $time_end = microtime(true);
 $time = $time_end - $time_start;
 if ($time > 1) {
-    error_log(__FILE__." ".__FILE__." ".__LINE__ . 'Execution time : ' . $time . ' seconds');
+    error_log(__FILE__." ".__LINE__ . 'Execution time : ' . $time . ' seconds');
 }
 
 if ($lt->userCanSeeTransmition()) {
