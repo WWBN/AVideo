@@ -7,7 +7,7 @@
         position: absolute;
         bottom: 5px;
         right: 5px;
-        background-color: rgba(255,0,0,0.5);
+        background-color: rgba(255,0,0,0.7);
     }
 </style>
 <?php
