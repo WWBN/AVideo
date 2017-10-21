@@ -696,7 +696,7 @@ if (!empty($video)) {
                             echo $config->getAdsense();
                             ?>
                         </div>
-                        <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos">
+                        <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding">
 
                         </div>
                         <!-- videos List -->
