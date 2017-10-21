@@ -11,7 +11,7 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 $time_end = microtime(true);
 $time = $time_end - $time_start;
 if ($time > 1) {
-    error_log(__LINE__ . 'Execution time : ' . $time . ' seconds');
+    error_log(__FILE__." ".__LINE__ . 'Execution time : ' . $time . ' seconds');
 }
 
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
@@ -23,7 +23,7 @@ $lt = new LiveTransmition($t['id']);
 $time_end = microtime(true);
 $time = $time_end - $time_start;
 if ($time > 1) {
-    error_log(__LINE__ . 'Execution time : ' . $time . ' seconds');
+    error_log(__FILE__." ".__FILE__." ".__LINE__ . 'Execution time : ' . $time . ' seconds');
 }
 
 if ($lt->userCanSeeTransmition()) {
@@ -36,7 +36,7 @@ if ($lt->userCanSeeTransmition()) {
     $time_end = microtime(true);
     $time = $time_end - $time_start;
     if ($time > 1) {
-        error_log(__LINE__ . 'Execution time : ' . $time . ' seconds');
+        error_log(__FILE__." ".__LINE__ . 'Execution time : ' . $time . ' seconds');
     }
 
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
@@ -46,7 +46,7 @@ if ($lt->userCanSeeTransmition()) {
     $time_end = microtime(true);
     $time = $time_end - $time_start;
     if ($time > 1) {
-        error_log(__LINE__ . 'Execution time : ' . $time . ' seconds');
+        error_log(__FILE__." ".__LINE__ . 'Execution time : ' . $time . ' seconds');
     }
     echo $_SESSION[$url]['content'];
     error_log($url . " Image Expired " . intval($_SESSION[$url]['expire'] < time()));
@@ -55,5 +55,5 @@ if ($lt->userCanSeeTransmition()) {
 $time_end = microtime(true);
 $time = $time_end - $time_start;
 if ($time > 1) {
-    error_log(__LINE__ . 'Execution time : ' . $time . ' seconds');
+    error_log(__FILE__." ".__LINE__ . 'Execution time : ' . $time . ' seconds');
 }
