@@ -21,7 +21,7 @@ require_once '../../objects/user.php';
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
 }
 
 $p = YouPHPTubePlugin::loadPlugin("Live");
