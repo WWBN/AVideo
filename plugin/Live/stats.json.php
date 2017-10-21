@@ -1,5 +1,4 @@
 <?php
-$time_start = microtime(true);
 ini_set('max_execution_time', 1);
 set_time_limit(1);
 header('Content-Type: application/json');
@@ -17,37 +16,9 @@ $obj->applications = array();
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
-
-$time_end = microtime(true);  
-$time = $time_end - $time_start; 
-if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
-}
-
 $p = YouPHPTubePlugin::loadPlugin("Live");
-
-$time_end = microtime(true);  
-$time = $time_end - $time_start; 
-if($time>1){
-    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
-}
-
 $xml = $p->getStatsObject();
-
-$time_end = microtime(true);  
-$time = $time_end - $time_start; 
-if($time>1){
-    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
-}
-
 $xml = json_encode($xml);
-
-$time_end = microtime(true);  
-$time = $time_end - $time_start; 
-if($time>1){
-    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
-}
-
 $xml = json_decode($xml);
 $stream = false;
 $lifeStream = array();
@@ -57,13 +28,6 @@ if(!empty($xml->server->application) && !is_array($xml->server->application)){
     $xml->server->application = array();
     $xml->server->application[] = $application;
 }
-
-$time_end = microtime(true);  
-$time = $time_end - $time_start; 
-if($time>1){
-    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
-}
-
 if(!empty($xml->server->application[0]->live->stream)){
     $lifeStream = $xml->server->application[0]->live->stream;
     if(!is_array($xml->server->application[0]->live->stream)){
@@ -72,22 +36,9 @@ if(!empty($xml->server->application[0]->live->stream)){
     }
 }
 
-$time_end = microtime(true);  
-$time = $time_end - $time_start; 
-if($time>1){
-    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
-}
-
-
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 // the live users plugin
 $liveUsersEnabled = YouPHPTubePlugin::isEnabled("cf145581-7d5e-4bb6-8c12-48fc37c0630d");
-
-$time_end = microtime(true);  
-$time = $time_end - $time_start; 
-if($time>1){
-    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
-}
 
 $obj->countLifeStream = count($lifeStream);
 foreach ($lifeStream as $value){
@@ -118,11 +69,4 @@ foreach ($lifeStream as $value){
         }
     }
 }
-
-$time_end = microtime(true);  
-$time = $time_end - $time_start; 
-if($time>1){
-    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
-}
-
 echo json_encode($obj);
