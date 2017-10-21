@@ -30,7 +30,7 @@ if (User::canStream()) {
 </li>
 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/" class='btn btn-default btn-xs btn-block liveLink hidden liveModel'>
     <div class="pull-left">
-        <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
+        <img src="" class="img img-circle img-responsive" style="max-width: 20px;">
     </div>
     <div style="margin-left: 40px;">
         <i class="fa fa-video-camera"></i> <strong class="liveTitle">Title</strong> <br>
@@ -49,7 +49,7 @@ if (User::canStream()) {
             <div class="text-uppercase row"><strong itemprop="name" class="title liveTitle">Title</strong></div>
             <div class="details row" itemprop="description">
                 <div class="pull-left">
-                    <img src="" class="photoImg img img-circle img-responsive" style="max-width: 38px;">
+                    <img src="" class="photoImg img img-circle img-responsive" style="max-width: 20px;">
                 </div>
                 <div style="margin-left: 50px;">
                     <div class="liveUser">User</div>
