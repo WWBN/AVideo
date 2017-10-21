@@ -7,9 +7,9 @@ $videos = Video::getAllVideos("viewableNotAd");
 $reversed = array_reverse($videos);
 $videos = $reversed;
 foreach ($videos as $key => $value) {
-    $videos[$key]['Thumbnail'] = "http://".$_SERVER['SERVER_NAME']."/videos/".$videos[$key]['filename'].".jpg";
-    $videos[$key]['VideoUrl'] = "http://".$_SERVER['SERVER_NAME']."/videos/".$videos[$key]['filename'].".mp4";
-    $videos[$key]['UserPhoto'] = "http://".$_SERVER['SERVER_NAME']."/".$videos[$key]['photoURL'];
+    $videos[$key]['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".jpg";
+    $videos[$key]['VideoUrl'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".mp4";
+    $videos[$key]['UserPhoto'] = "{$global['webSiteRootURL']}".$videos[$key]['photoURL'];
 }
 
 
