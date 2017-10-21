@@ -20,25 +20,33 @@ require_once '../../objects/user.php';
 
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
-error_log(__LINE__.'Execution time : '.$time.' seconds');
+if($time>1){
+    error_log(__LINE__.'Execution time : '.$time.' seconds');
+}
 
 $p = YouPHPTubePlugin::loadPlugin("Live");
 
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
-error_log(__LINE__.'Execution time : '.$time.' seconds');
+if($time>1){
+    error_log(__LINE__.'Execution time : '.$time.' seconds');
+}
 
 $xml = $p->getStatsObject();
 
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
-error_log(__LINE__.'Execution time : '.$time.' seconds');
+if($time>1){
+    error_log(__LINE__.'Execution time : '.$time.' seconds');
+}
 
 $xml = json_encode($xml);
 
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
-error_log(__LINE__.'Execution time : '.$time.' seconds');
+if($time>1){
+    error_log(__LINE__.'Execution time : '.$time.' seconds');
+}
 
 $xml = json_decode($xml);
 $stream = false;
