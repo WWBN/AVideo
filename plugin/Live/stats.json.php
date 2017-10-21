@@ -21,7 +21,7 @@ require_once '../../objects/user.php';
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__LINE__.'Execution time : '.$time.' seconds');
 }
 
 $p = YouPHPTubePlugin::loadPlugin("Live");
@@ -29,7 +29,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
 }
 
 $xml = $p->getStatsObject();
@@ -37,7 +37,7 @@ $xml = $p->getStatsObject();
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
 }
 
 $xml = json_encode($xml);
@@ -45,7 +45,7 @@ $xml = json_encode($xml);
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
 }
 
 $xml = json_decode($xml);
@@ -61,7 +61,7 @@ if(!empty($xml->server->application) && !is_array($xml->server->application)){
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
 }
 
 if(!empty($xml->server->application[0]->live->stream)){
@@ -75,7 +75,7 @@ if(!empty($xml->server->application[0]->live->stream)){
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
 }
 
 
@@ -86,7 +86,7 @@ $liveUsersEnabled = YouPHPTubePlugin::isEnabled("cf145581-7d5e-4bb6-8c12-48fc37c
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
 }
 
 $obj->countLifeStream = count($lifeStream);
@@ -122,7 +122,7 @@ foreach ($lifeStream as $value){
 $time_end = microtime(true);  
 $time = $time_end - $time_start; 
 if($time>1){
-    error_log(__LINE__.'Execution time : '.$time.' seconds');
+    error_log(__FILE__." ".__LINE__.'Execution time : '.$time.' seconds');
 }
 
 echo json_encode($obj);
