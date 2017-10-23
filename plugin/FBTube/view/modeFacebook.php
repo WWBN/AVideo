@@ -71,6 +71,7 @@ require_once '../videos/configuration.php';
                                 } catch (err) {}
                                 try {
                                     id = $(this).find('.embed-responsive-item').attr('id');
+                                    console.log(id);
                                     document.getElementById('iframe'+id).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                                 } catch (err) {}
                                 $(this).find('.list-group-item').removeClass('playActive');
@@ -80,6 +81,7 @@ require_once '../videos/configuration.php';
                             } catch (err) {}
                             try {
                                 id = $(this).find('.embed-responsive-item').attr('id');
+                                console.log(id);
                                 document.getElementById('iframe'+id).contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
                             } catch (err) {}
                             $(this).find('.list-group-item').addClass('playActive');
