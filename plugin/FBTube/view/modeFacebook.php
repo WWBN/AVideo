@@ -69,10 +69,18 @@ require_once '../videos/configuration.php';
                                 try {
                                     $(this).find('video').get(0).pause();
                                 } catch (err) {}
+                                try {
+                                    id = $(this).find('.embed-responsive-item').attr('id');
+                                    document.getElementById('iframe'+id).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                                } catch (err) {}
                                 $(this).find('.list-group-item').removeClass('playActive');
                             });
                             try {
                                 $(this).find('video').get(0).play();
+                            } catch (err) {}
+                            try {
+                                id = $(this).find('.embed-responsive-item').attr('id');
+                                document.getElementById('iframe'+id).contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
                             } catch (err) {}
                             $(this).find('.list-group-item').addClass('playActive');
                             return true;
