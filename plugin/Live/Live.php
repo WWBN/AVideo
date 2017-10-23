@@ -6,7 +6,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class Live extends PluginAbstract {
 
     public function getDescription() {
-        return "Broadcast a RTMP video from your webcam and receive RTMP streaming from servers";
+        return "Broadcast a RTMP video from your computer<br> and receive HLS streaming from servers";
     }
 
     public function getName() {
