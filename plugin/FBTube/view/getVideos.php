@@ -76,7 +76,7 @@ if (!empty($videos)) {
                          if ($video['type'] === "embed") {
                              ?>
                         <div class="embed-responsive embed-responsive-16by9" id="mainVideo<?php echo $video['id']; ?>" >
-                            <iframe class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']) ?>"></iframe>
+                            <iframe id="iframe<?php echo $video['id']; ?>" class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']) ?>"></iframe>
                         </div>
                         <?php
                     } else {
