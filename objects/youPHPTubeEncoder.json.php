@@ -58,8 +58,12 @@ if(empty($videoFileName)){
 // get video file from encoder
 $destination = "{$global['systemRootPath']}videos/{$videoFileName}";
 if(!empty($_FILES['video']['tmp_name'])){
-    if(!move_uploaded_file ($_FILES['video']['tmp_name'] ,  "{$destination}.{$_POST['format']}")){
-        $obj->msg = print_r(__("Could not move video file [%s] => [%s %s]"), $_FILES['video']['tmp_name'], $destination, $_POST['format']);
+    $resolution = "";
+    if(!empty($_POST['resolution'])){
+        $resolution = "_{$_POST['resolution']}";
+    }
+    if(!move_uploaded_file ($_FILES['video']['tmp_name'] ,  "{$destination}{$resolution}.{$_POST['format']}")){
+        $obj->msg = print_r(__("Could not move video file [%s] => [%s %s %s]"), $_FILES['video']['tmp_name'], $destination, $_POST['format'], $resolution);
         error_log($obj->msg);
         die(json_encode($obj));
     }
