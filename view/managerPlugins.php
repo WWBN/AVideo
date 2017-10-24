@@ -106,7 +106,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 <span class="label label-success">Price</span>
                 <br>
                 <a href="https://easytube.club/signUp"><strong>Plugin Name</strong> </a>  
-                <a href="https://easytube.club/signUp" class="btn btn-default"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>              
+                <a href="https://easytube.club/signUp" class="btn btn-default btn-sm"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>              
                 <p>Description</p>
             </li>
 
