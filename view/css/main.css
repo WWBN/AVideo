@@ -66,7 +66,7 @@ h4 {
 }
 footer {
     color: #AAA;
-    padding: 5px;
+    padding: 2px;
     background-color: #F2F2F2;
     border-top: 1px solid #DDD;
     text-align: right;
@@ -90,6 +90,7 @@ footer .btn-outline {
 }
 footer ul.list-inline {
     justify-content: flex-end;
+    margin-bottom: 0;
 }
 footer ul.list-inline li {
     justify-content: center;
