@@ -103,7 +103,9 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
             </div>
             <li class="list-group-item hidden" id="pluginStoreListModel">
                 <img src="" class="img img-rounded img-responsive pull-left thumbnail zoom" style="max-width: 60px; margin-right: 5px;">
-                <span class="label label-success">Price</span><a href="https://easytube.club/signUp"><strong>Plugin Name</strong> </a>  
+                <span class="label label-success">Price</span>
+                <br>
+                <a href="https://easytube.club/signUp"><strong>Plugin Name</strong> </a>  
                 <a href="https://easytube.club/signUp" class="btn btn-default"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>              
                 <p>Description</p>
             </li>
