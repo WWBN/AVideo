@@ -99,9 +99,9 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'e';
         }
-        if(empty($this->categories_id)){		
-           $this->categories_id = 1;		
-       }
+        if (empty($this->categories_id)) {
+            $this->categories_id = 1;
+        }
         $this->title = $global['mysqli']->real_escape_string(trim($this->title));
         $this->description = $global['mysqli']->real_escape_string($this->description);
         if (!empty($this->id)) {
@@ -299,10 +299,10 @@ class Video {
         }
         $sql .= " LIMIT 1";
         /*
-        if (!empty($random)) {
-                echo '<hr />'.$sql;
-        }
-        */
+          if (!empty($random)) {
+          echo '<hr />'.$sql;
+          }
+         */
         $res = $global['mysqli']->query($sql);
         if ($res) {
             require_once 'userGroups.php';
@@ -486,7 +486,7 @@ class Video {
             if (!empty($content)) {
                 $object->$value = self::parseProgress($content);
             } else {
-
+                
             }
 
             if (!empty($object->$value->progress) && !is_numeric($object->$value->progress)) {
@@ -577,28 +577,32 @@ class Video {
         if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
+            $types = array('', '_Low', '_SD', '_HD');
             foreach (self::$types as $value) {
-                $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
-                if (file_exists($file)) {
-                    unlink($file);
+
+                foreach ($types as $key => $value2) {
+                    $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                    $file = "{$global['systemRootPath']}videos/{$video['filename']}{$value2}.{$value}";
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                    $file = "{$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                    $file = "{$global['systemRootPath']}videos/{$video['filename']}{$value2}.jpg";
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                    /* Added to delete .gif as well */
+                    $file = "{$global['systemRootPath']}videos/{$video['filename']}{$value2}.gif";
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
                 }
-                $file = "{$global['systemRootPath']}videos/{$video['filename']}.{$value}";
-                if (file_exists($file)) {
-                    unlink($file);
-                }
-                $file = "{$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
-                if (file_exists($file)) {
-                    unlink($file);
-                }
-                $file = "{$global['systemRootPath']}videos/{$video['filename']}.jpg";
-                if (file_exists($file)) {
-                    unlink($file);
-		}
-		/* Added to delete .gif as well */
-                $file = "{$global['systemRootPath']}videos/{$video['filename']}.gif";
-                if (file_exists($file)) {
-                    unlink($file);
-		}
             }
         }
         return $resp;
@@ -628,9 +632,9 @@ class Video {
             $duration = $durationParts[0];
             $durationParts = explode(':', $duration);
             if (count($durationParts) == 1) {
-                return '0:00:'.static::addZero($durationParts[0]);
+                return '0:00:' . static::addZero($durationParts[0]);
             } elseif (count($durationParts) == 2) {
-                return '0:'.static::addZero($durationParts[0]).':'.static::addZero($durationParts[1]);
+                return '0:' . static::addZero($durationParts[0]) . ':' . static::addZero($durationParts[1]);
             }
             return $duration;
         }
@@ -638,7 +642,7 @@ class Video {
 
     static private function addZero($str) {
         if (intval($str) < 10) {
-            return '0'.intval($str);
+            return '0' . intval($str);
         }
         return $str;
     }
@@ -649,10 +653,9 @@ class Video {
         return 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
     }
 
-
     static function getDurationFromFile($file) {
         global $global;
-        require_once($global['systemRootPath'].'objects/getid3/getid3.php');
+        require_once($global['systemRootPath'] . 'objects/getid3/getid3.php');
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($file)) {
             error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
@@ -1019,7 +1022,7 @@ class Video {
         curl_close($curl);
         return $obj;
     }
-    
+
     function getVideoLink() {
         return $this->videoLink;
     }
