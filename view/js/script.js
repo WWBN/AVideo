@@ -114,11 +114,8 @@ $(document).ready(function () {
         }
     });
 });
-function changeVideoSrc(vid_obj, fileName) {
-    vid_obj.src([
-        {type: "video/mp4", src: fileName + ".mp4"},
-        {type: "video/webm", src: fileName + ".webm"}
-    ]);
+function changeVideoSrc(vid_obj, source) {
+    vid_obj.src(source);
     vid_obj.load();
     vid_obj.play();
 }

@@ -227,7 +227,7 @@ if ($config->getAutoplay()) {
             $('#adButton').click(function () {
                 console.log("Change Video");
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
-                changeVideoSrc(player, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
+                changeVideoSrc(player, <?php echo json_encode(getSources($video['filename'], true)); ?>);
                             $(".ad").removeClass("ad");
                             return false;
                         });
