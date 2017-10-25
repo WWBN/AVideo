@@ -68,6 +68,12 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
 
     $path_parts = pathinfo($_FILES['upl']['name']);
+    
+    if(empty($path_parts['extension']) || !in_array($path_parts['extension'], $global['allowedExtension'])){
+        error_log("Extension not allowed File ".__FILE__.": ".  print_r($path_parts, true));
+        die();
+    }
+    
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
     $filename = uniqid($mainName . "_YPTuniqid_", true);
 
