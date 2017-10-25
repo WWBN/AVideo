@@ -395,15 +395,16 @@ function getVideosURL($fileName){
         if(file_exists($file)){
             $files["mp4{$value}"]=array(
                 'path'=>$file,
-                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.mp4"
-
+                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.mp4",
+                'type'=>'video'
             );
         }
         $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.webm";
         if(file_exists($file)){
             $files["webm{$value}"]=array(
                 'path'=>$file,
-                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.webm"
+                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.webm",
+                'type'=>'video'
 
             );
         }
@@ -411,7 +412,8 @@ function getVideosURL($fileName){
         if(file_exists($file)){
             $files["jpg{$value}"]=array(
                 'path'=>$file,
-                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.jpg"
+                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.jpg",
+                'type'=>'image'
 
             );
         }
@@ -419,7 +421,8 @@ function getVideosURL($fileName){
         if(file_exists($file)){
             $files["gif{$value}"]=array(
                 'path'=>$file,
-                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.gif"
+                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.gif",
+                'type'=>'image'
 
             );
         }
