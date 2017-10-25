@@ -68,7 +68,15 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     <div class="modal-dialog" role="document">
                         <?php
                         $dir = "{$global['systemRootPath']}plugin";
-                        if (is_writable($dir)) {
+                        if(!isUnzip()){
+                            ?>                                
+                            <div class="alert alert-warning">
+                                Make sure you have the unzip app on your server 
+                                <pre><code>sudo apt-get install unzip</code></pre>
+                            </div>
+                            <?php
+                        }
+                        if (is_writable($dir) ) {
                             ?>
                             <div class="modal-content">
                                 <div class="modal-header">

@@ -108,6 +108,12 @@ function isFFMPEG() {
     return trim(shell_exec('which ffmpeg'));
 }
 
+
+function isUnzip() {
+    return trim(shell_exec('which unzip'));
+}
+
+
 function isExifToo() {
     return trim(shell_exec('which exiftool'));
 }

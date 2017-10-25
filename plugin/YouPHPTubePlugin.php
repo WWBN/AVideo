@@ -62,9 +62,13 @@ class YouPHPTubePlugin{
     
     static function loadPlugin($name){
         global $global;
-        require_once "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
-        eval("\$p = new {$name}();");
-        return $p;
+        $file = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
+        if(file_exists($file)){
+            require_once $file;
+            eval("\$p = new {$name}();");
+            return $p;
+        }
+        return false;
     }
     
     
