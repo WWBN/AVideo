@@ -421,18 +421,23 @@ function getVideosURL($fileName){
     return $files;
 }
 
-function getSources($fileName){
+function getSources($fileName, $returnArray=false){
     if(function_exists('getVRSSources')){
-        return getVRSSources($fileName);
+        return getVRSSources($fileName, $returnArray);
     }else{
         $files = getVideosURL($fileName);
         $sources = "";
+        $sourcesArray = array();
         foreach ($files as $key => $value) {
             $path_parts = pathinfo($value['path']);
             if($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4"){
                 $sources .= "<source src=\"{$value['url']}\" type=\"video/{$path_parts['extension']}\">";
+                $obj = new stdClass();
+                $obj->type = "video/{$path_parts['extension']}";
+                $obj->src = $value['url'];
+                $sourcesArray[] = $obj;
             }
         }
-        return $sources;
+        return $returnArray?$sourcesArray:$sources;
     }
 }
