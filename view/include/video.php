@@ -225,6 +225,7 @@ if ($config->getAutoplay()) {
         });
 <?php if (!empty($logId)) { ?>
             $('#adButton').click(function () {
+                isPlayingAd = false;
                 console.log("Change Video");
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
                 changeVideoSrc(player, <?php echo json_encode(getSources($video['filename'], true)); ?>);
