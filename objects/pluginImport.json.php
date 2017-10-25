@@ -32,6 +32,6 @@ if (strcasecmp($extension, 'zip') == 0) {
     $destination = "{$global['systemRootPath']}plugin/";
     $obj->destination = $destination;
     $path = $_FILES['input-b1']['tmp_name'];    
-    exec("rm {$destination}/{$path_parts['filename']} && unzip {$path} -d {$destination}");
+    exec("rm -R {$destination}/{$path_parts['filename']} && unzip {$path} -d {$destination}");
 }
 die(json_encode($obj));
