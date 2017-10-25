@@ -1,26 +1,31 @@
 <?php
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
-if(empty($_POST)){
+if (empty($_POST)) {
     $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
     error_log($obj->msg);
     die(json_encode($obj));
 }
 
-if(empty($global['systemRootPath'])){
+if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
+require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
+if (empty($_POST['format']) || !in_array($_POST['format'], $global['allowedExtension'])) {
+    error_log("Extension not allowed File " . __FILE__ . ": " . print_r($_POST, true));
+    die();
+}
 // pass admin user and pass
 $user = new User("", @$_POST['user'], @$_POST['password']);
 $user->login(false, true);
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to receive a file: ".  print_r($_POST, true));
+    $obj->msg = __("Permission denied to receive a file: " . print_r($_POST, true));
     error_log($obj->msg);
     die(json_encode($obj));
 }
@@ -50,7 +55,7 @@ if (preg_match("/(mp3|wav|ogg)$/i", $_POST['format'])) {
 }
 
 $videoFileName = $video->getFilename();
-if(empty($videoFileName)){
+if (empty($videoFileName)) {
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($title));
     $videoFileName = uniqid($mainName . "_YPTuniqid_", true);
     $video->setFilename($videoFileName);
@@ -58,29 +63,29 @@ if(empty($videoFileName)){
 
 // get video file from encoder
 $destination = "{$global['systemRootPath']}videos/{$videoFileName}";
-if(!empty($_FILES['video']['tmp_name'])){
+if (!empty($_FILES['video']['tmp_name'])) {
     $resolution = "";
-    if(!empty($_POST['resolution'])){
+    if (!empty($_POST['resolution'])) {
         $resolution = "_{$_POST['resolution']}";
     }
-    if(!move_uploaded_file ($_FILES['video']['tmp_name'] ,  "{$destination}{$resolution}.{$_POST['format']}")){
+    if (!move_uploaded_file($_FILES['video']['tmp_name'], "{$destination}{$resolution}.{$_POST['format']}")) {
         $obj->msg = print_r(__("Could not move video file [%s] => [%s %s %s]"), $_FILES['video']['tmp_name'], $destination, $_POST['format'], $resolution);
         error_log($obj->msg);
         die(json_encode($obj));
     }
-}else{
+} else {
     // set encoding
     $video->setStatus('e');
 }
-if(!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination}.jpg")){
-    if(!move_uploaded_file ($_FILES['image']['tmp_name'] ,  "{$destination}.jpg")){
+if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination}.jpg")) {
+    if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination}.jpg")) {
         $obj->msg = print_r(__("Could not move image file [%s.jpg]"), $destination);
         error_log($obj->msg);
         die(json_encode($obj));
     }
 }
 if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination}.gif")) {
-    if (!move_uploaded_file ($_FILES['gifimage']['tmp_name'] ,  "{$destination}.gif")) {
+    if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination}.gif")) {
         $obj->msg = print_r(__("Could not move gif image file [%s.gif]"), $destination);
         error_log($obj->msg);
         die(json_encode($obj));
@@ -91,7 +96,7 @@ $video->updateDurationIfNeed();
 
 $obj->error = false;
 $obj->video_id = $video_id;
-error_log("Files Received for video {$video_id}: ".$video->getTitle());
+error_log("Files Received for video {$video_id}: " . $video->getTitle());
 die(json_encode($obj));
 
 /*

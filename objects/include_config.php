@@ -37,3 +37,5 @@ session_start();
 require_once $global['systemRootPath'].'objects/Object.php';
 require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
+
+$global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm');
