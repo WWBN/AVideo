@@ -966,6 +966,12 @@ class Video {
             if (!file_exists($file)) {
                 $file = $global['systemRootPath'] . "videos/" . $this->getFilename() . ".webm";
                 if (!file_exists($file)) {
+                    $videos = getVideosURL($this->getFilename());
+                    foreach ($videos as $value) {
+                        if($value['type']=='video' && file_exists($value['path'])){
+                            return $value['path'];
+                        }
+                    }
                     $file = false;
                 }
             }
