@@ -51,7 +51,7 @@ if (!empty($_GET['playlist_id'])) {
     $autoPlayVideo = Video::getRandom($video['id']);
     if (!empty($autoPlayVideo)) {
         $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
-        $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
+        $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
         $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . $catLink . "video/" . $autoPlayVideo['clean_title'];
     }
@@ -63,7 +63,7 @@ if (!empty($video)) {
     $name = "<a href='{$global['webSiteRootURL']}channel/{$video['users_id']}/' class='btn btn-xs btn-default'>{$name}</a>";
     $subscribe = Subscribe::getButton($video['users_id']);
 
-    $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '<br><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
+    $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '<br><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
     $obj = new Video("", "", $video['id']);
     // dont need because have one embeded video on this page
     //$resp = $obj->addView();
