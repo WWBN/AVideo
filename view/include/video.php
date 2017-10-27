@@ -120,6 +120,7 @@ if (!empty($ad)) {
             });
         }
     }
+    var player;
     $(document).ready(function () {
         
         

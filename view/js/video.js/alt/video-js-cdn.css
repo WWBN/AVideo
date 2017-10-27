@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: VideoJS;
-  src: url("font/VideoJS.eot?#iefix") format("eot"); }
+  src: url("//vjs.zencdn.net/font/1.5.1/VideoJS.eot?#iefix") format("eot"); }
 
 @font-face {
   font-family: VideoJS;
@@ -1387,15 +1387,3 @@ video::-webkit-media-text-track-display {
 @media print {
   .video-js > *:not(.vjs-tech):not(.vjs-poster) {
     visibility: hidden; } }
-
-@media \0screen {
-  .vjs-user-inactive.vjs-playing .vjs-control-bar :before {
-    content: "";
-  }
-}
-
-@media \0screen {
-  .vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
-    visibility: hidden;
-  }
-}

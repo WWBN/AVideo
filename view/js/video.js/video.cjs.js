@@ -10,70 +10,22 @@
  * <https://github.com/mozilla/vtt.js/blob/master/LICENSE>
  */
 
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.videojs = factory());
-}(this, (function () {
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var window = _interopDefault(require('global/window'));
+var document = _interopDefault(require('global/document'));
+var tsml = _interopDefault(require('tsml'));
+var safeParseTuple = _interopDefault(require('safe-json-parse/tuple'));
+var xhr = _interopDefault(require('xhr'));
+var vtt = _interopDefault(require('videojs-vtt.js'));
 
 var version = "6.2.8";
-
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-
-
-
-
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
-
-var win;
-
-if (typeof window !== "undefined") {
-    win = window;
-} else if (typeof commonjsGlobal !== "undefined") {
-    win = commonjsGlobal;
-} else if (typeof self !== "undefined"){
-    win = self;
-} else {
-    win = {};
-}
-
-var window_1 = win;
-
-var empty = {};
-
-
-var empty$1 = (Object.freeze || Object)({
-	'default': empty
-});
-
-var minDoc = ( empty$1 && empty ) || empty$1;
-
-var topLevel = typeof commonjsGlobal !== 'undefined' ? commonjsGlobal :
-    typeof window !== 'undefined' ? window : {};
-
-
-var doccy;
-
-if (typeof document !== 'undefined') {
-    doccy = document;
-} else {
-    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
-
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-}
-
-var document_1 = doccy;
 
 /**
  * @file browser.js
  * @module browser
  */
-var USER_AGENT = window_1.navigator && window_1.navigator.userAgent || '';
+var USER_AGENT = window.navigator && window.navigator.userAgent || '';
 var webkitVersionMap = /AppleWebKit\/([\d.]+)/i.exec(USER_AGENT);
 var appleWebkitVersion = webkitVersionMap ? parseFloat(webkitVersionMap.pop()) : null;
 
@@ -154,9 +106,9 @@ var IE_VERSION = function () {
 var IS_SAFARI = /Safari/i.test(USER_AGENT) && !IS_CHROME && !IS_ANDROID && !IS_EDGE;
 var IS_ANY_SAFARI = IS_SAFARI || IS_IOS;
 
-var TOUCH_ENABLED = isReal() && ('ontouchstart' in window_1 || window_1.DocumentTouch && window_1.document instanceof window_1.DocumentTouch);
+var TOUCH_ENABLED = isReal() && ('ontouchstart' in window || window.DocumentTouch && window.document instanceof window.DocumentTouch);
 
-var BACKGROUND_SIZE_SUPPORTED = isReal() && 'backgroundSize' in window_1.document.createElement('video').style;
+var BACKGROUND_SIZE_SUPPORTED = isReal() && 'backgroundSize' in window.document.createElement('video').style;
 
 var browser = (Object.freeze || Object)({
 	IS_IPAD: IS_IPAD,
@@ -455,7 +407,7 @@ var logByType = function logByType(type, args) {
   // Was setting these once outside of this function, but containing them
   // in the function makes it easier to test cases where console doesn't exist
   // when the module is executed.
-  var fn = window_1.console && window_1.console[type];
+  var fn = window.console && window.console[type];
 
   // Bail out if there's no console or if this type is not allowed by the
   // current logging level.
@@ -486,7 +438,7 @@ var logByType = function logByType(type, args) {
   if (!fn.apply) {
     fn(args);
   } else {
-    fn[Array.isArray(args) ? 'apply' : 'call'](window_1.console, args);
+    fn[Array.isArray(args) ? 'apply' : 'call'](window.console, args);
   }
 };
 
@@ -623,21 +575,6 @@ log.warn = function () {
 
 var log$1 = log;
 
-function clean (s) {
-  return s.replace(/\n\r?\s*/g, '')
-}
-
-
-var tsml = function tsml (sa) {
-  var s = ''
-    , i = 0;
-
-  for (; i < arguments.length; i++)
-    s += clean(sa[i]) + (arguments[i + 1] || '');
-
-  return s
-};
-
 /**
  * @file computed-style.js
  * @module computed-style
@@ -665,8 +602,8 @@ function computedStyle(el, prop) {
     return '';
   }
 
-  if (typeof window_1.getComputedStyle === 'function') {
-    var cs = window_1.getComputedStyle(el);
+  if (typeof window.getComputedStyle === 'function') {
+    var cs = window.getComputedStyle(el);
 
     return cs ? cs[prop] : '';
   }
@@ -735,11 +672,11 @@ function isReal() {
   return (
 
     // Both document and window will never be undefined thanks to `global`.
-    document_1 === window_1.document &&
+    document === window.document &&
 
     // In IE < 9, DOM methods return "object" as their type, so all we can
     // confidently check is that it exists.
-    typeof document_1.createElement !== 'undefined'
+    typeof document.createElement !== 'undefined'
   );
 }
 
@@ -769,13 +706,13 @@ function isEl(value) {
 function createQuerier(method) {
   return function (selector, context) {
     if (!isNonBlankString(selector)) {
-      return document_1[method](null);
+      return document[method](null);
     }
     if (isNonBlankString(context)) {
-      context = document_1.querySelector(context);
+      context = document.querySelector(context);
     }
 
-    var ctx = isEl(context) ? context : document_1;
+    var ctx = isEl(context) ? context : document;
 
     return ctx[method] && ctx[method](selector);
   };
@@ -805,7 +742,7 @@ function createEl() {
   var attributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var content = arguments[3];
 
-  var el = document_1.createElement(tagName);
+  var el = document.createElement(tagName);
 
   Object.getOwnPropertyNames(properties).forEach(function (propName) {
     var val = properties[propName];
@@ -1124,8 +1061,8 @@ function removeAttribute(el, attribute) {
  * Attempt to block the ability to select text while dragging controls
  */
 function blockTextSelection() {
-  document_1.body.focus();
-  document_1.onselectstart = function () {
+  document.body.focus();
+  document.onselectstart = function () {
     return false;
   };
 }
@@ -1134,7 +1071,7 @@ function blockTextSelection() {
  * Turn off text selection blocking
  */
 function unblockTextSelection() {
-  document_1.onselectstart = function () {
+  document.onselectstart = function () {
     return true;
   };
 }
@@ -1220,15 +1157,15 @@ function findPosition(el) {
     };
   }
 
-  var docEl = document_1.documentElement;
-  var body = document_1.body;
+  var docEl = document.documentElement;
+  var body = document.body;
 
   var clientLeft = docEl.clientLeft || body.clientLeft || 0;
-  var scrollLeft = window_1.pageXOffset || body.scrollLeft;
+  var scrollLeft = window.pageXOffset || body.scrollLeft;
   var left = box.left + scrollLeft - clientLeft;
 
   var clientTop = docEl.clientTop || body.clientTop || 0;
-  var scrollTop = window_1.pageYOffset || body.scrollTop;
+  var scrollTop = window.pageYOffset || body.scrollTop;
   var top = box.top + scrollTop - clientTop;
 
   // Android sometimes returns slightly off decimal values, so need to round
@@ -1361,7 +1298,7 @@ function normalizeContent(content) {
     }
 
     if (typeof value === 'string' && /\S/.test(value)) {
-      return document_1.createTextNode(value);
+      return document.createTextNode(value);
     }
   }).filter(function (value) {
     return value;
@@ -1687,7 +1624,7 @@ function fixEvent(event) {
   // other expected methods like isPropagationStopped. Seems to be a problem
   // with the Javascript Ninja code. So we're just overriding all events now.
   if (!event || !event.isPropagationStopped) {
-    var old = event || window_1.event;
+    var old = event || window.event;
 
     event = {};
     // Clone the old object so that we can modify the values event = {};
@@ -1710,7 +1647,7 @@ function fixEvent(event) {
 
     // The event occurred on this element
     if (!event.target) {
-      event.target = event.srcElement || document_1;
+      event.target = event.srcElement || document;
     }
 
     // Handle which other element the event is related to
@@ -1755,8 +1692,8 @@ function fixEvent(event) {
 
     // Handle mouse position
     if (event.clientX !== null && event.clientX !== undefined) {
-      var doc = document_1.documentElement;
-      var body = document_1.body;
+      var doc = document.documentElement;
+      var body = document.body;
 
       event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0);
       event.pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0);
@@ -1794,7 +1731,7 @@ var _supportsPassive = false;
       }
     });
 
-    window_1.addEventListener('test', null, opts);
+    window.addEventListener('test', null, opts);
   } catch (e) {
     // disregard
   }
@@ -2080,8 +2017,8 @@ var autoSetup = function autoSetup() {
 
   // Because IE8 doesn't support calling slice on a node list, we need to loop
   // through each list of elements to build up a new, combined list of elements.
-  var vids = document_1.getElementsByTagName('video');
-  var audios = document_1.getElementsByTagName('audio');
+  var vids = document.getElementsByTagName('video');
+  var audios = document.getElementsByTagName('audio');
   var mediaEls = [];
 
   if (vids && vids.length > 0) {
@@ -2147,10 +2084,10 @@ function autoSetupTimeout(wait, vjs) {
     videojs$2 = vjs;
   }
 
-  window_1.setTimeout(autoSetup, wait);
+  window.setTimeout(autoSetup, wait);
 }
 
-if (isReal() && document_1.readyState === 'complete') {
+if (isReal() && document.readyState === 'complete') {
   _windowLoaded = true;
 } else {
   /**
@@ -2158,7 +2095,7 @@ if (isReal() && document_1.readyState === 'complete') {
    *
    * @listens load
    */
-  one(window_1, 'load', function () {
+  one(window, 'load', function () {
     _windowLoaded = true;
   });
 }
@@ -2177,7 +2114,7 @@ if (isReal() && document_1.readyState === 'complete') {
  *         The element that was created.
  */
 var createStyleElement = function createStyleElement(className) {
-  var style = document_1.createElement('style');
+  var style = document.createElement('style');
 
   style.className = className;
 
@@ -4074,8 +4011,8 @@ var Component = function () {
       throw new Error('currentDimension only accepts width or height value');
     }
 
-    if (typeof window_1.getComputedStyle === 'function') {
-      var computedStyle = window_1.getComputedStyle(this.el_);
+    if (typeof window.getComputedStyle === 'function') {
+      var computedStyle = window.getComputedStyle(this.el_);
 
       computedWidthOrHeight = computedStyle.getPropertyValue(widthOrHeight) || computedStyle[widthOrHeight];
     }
@@ -4359,7 +4296,7 @@ var Component = function () {
   Component.prototype.setTimeout = function setTimeout(fn, timeout) {
     fn = bind(this, fn);
 
-    var timeoutId = window_1.setTimeout(fn, timeout);
+    var timeoutId = window.setTimeout(fn, timeout);
     var disposeFn = function disposeFn() {
       this.clearTimeout(timeoutId);
     };
@@ -4389,7 +4326,7 @@ var Component = function () {
 
 
   Component.prototype.clearTimeout = function clearTimeout(timeoutId) {
-    window_1.clearTimeout(timeoutId);
+    window.clearTimeout(timeoutId);
 
     var disposeFn = function disposeFn() {};
 
@@ -4425,7 +4362,7 @@ var Component = function () {
   Component.prototype.setInterval = function setInterval(fn, interval) {
     fn = bind(this, fn);
 
-    var intervalId = window_1.setInterval(fn, interval);
+    var intervalId = window.setInterval(fn, interval);
 
     var disposeFn = function disposeFn() {
       this.clearInterval(intervalId);
@@ -4456,7 +4393,7 @@ var Component = function () {
 
 
   Component.prototype.clearInterval = function clearInterval(intervalId) {
-    window_1.clearInterval(intervalId);
+    window.clearInterval(intervalId);
 
     var disposeFn = function disposeFn() {};
 
@@ -4500,7 +4437,7 @@ var Component = function () {
     if (this.supportsRaf_) {
       fn = bind(this, fn);
 
-      var id = window_1.requestAnimationFrame(fn);
+      var id = window.requestAnimationFrame(fn);
       var disposeFn = function disposeFn() {
         return _this2.cancelAnimationFrame(id);
       };
@@ -4535,7 +4472,7 @@ var Component = function () {
 
   Component.prototype.cancelAnimationFrame = function cancelAnimationFrame(id) {
     if (this.supportsRaf_) {
-      window_1.cancelAnimationFrame(id);
+      window.cancelAnimationFrame(id);
 
       var disposeFn = function disposeFn() {};
 
@@ -4663,7 +4600,7 @@ var Component = function () {
  */
 
 
-Component.prototype.supportsRaf_ = typeof window_1.requestAnimationFrame === 'function' && typeof window_1.cancelAnimationFrame === 'function';
+Component.prototype.supportsRaf_ = typeof window.requestAnimationFrame === 'function' && typeof window.cancelAnimationFrame === 'function';
 
 Component.registerComponent('Component', Component);
 
@@ -4871,7 +4808,7 @@ var browserApi = void 0;
 // determine the supported set of functions
 for (var i = 0; i < apiMap.length; i++) {
   // check for exitFullscreen function
-  if (apiMap[i][1] in document_1) {
+  if (apiMap[i][1] in document) {
     browserApi = apiMap[i];
     break;
   }
@@ -4994,21 +4931,6 @@ for (var errNum = 0; errNum < MediaError.errorTypes.length; errNum++) {
   MediaError[MediaError.errorTypes[errNum]] = errNum;
   // values should be accessible on both the class and instance
   MediaError.prototype[MediaError.errorTypes[errNum]] = errNum;
-}
-
-var tuple = SafeParseTuple;
-
-function SafeParseTuple(obj, reviver) {
-    var json;
-    var error = null;
-
-    try {
-        json = JSON.parse(obj, reviver);
-    } catch (err) {
-        error = err;
-    }
-
-    return [error, json]
 }
 
 /**
@@ -5558,7 +5480,7 @@ var ModalDialog = function (_Component) {
 
 
   ModalDialog.prototype.conditionalFocus_ = function conditionalFocus_() {
-    var activeEl = document_1.activeElement;
+    var activeEl = document.activeElement;
     var playerEl = this.player_.el_;
 
     this.previouslyActiveEl_ = null;
@@ -5568,7 +5490,7 @@ var ModalDialog = function (_Component) {
 
       this.focus();
 
-      this.on(document_1, 'keydown', this.handleKeyDown);
+      this.on(document, 'keydown', this.handleKeyDown);
     }
   };
 
@@ -5585,7 +5507,7 @@ var ModalDialog = function (_Component) {
       this.previouslyActiveEl_ = null;
     }
 
-    this.off(document_1, 'keydown', this.handleKeyDown);
+    this.off(document, 'keydown', this.handleKeyDown);
   };
 
   /**
@@ -5612,7 +5534,7 @@ var ModalDialog = function (_Component) {
       }
     }
 
-    if (document_1.activeElement === this.el_) {
+    if (document.activeElement === this.el_) {
       focusIndex = 0;
     }
 
@@ -5636,7 +5558,7 @@ var ModalDialog = function (_Component) {
     var allChildren = this.el_.querySelectorAll('*');
 
     return Array.prototype.filter.call(allChildren, function (child) {
-      return (child instanceof window_1.HTMLAnchorElement || child instanceof window_1.HTMLAreaElement) && child.hasAttribute('href') || (child instanceof window_1.HTMLInputElement || child instanceof window_1.HTMLSelectElement || child instanceof window_1.HTMLTextAreaElement || child instanceof window_1.HTMLButtonElement) && !child.hasAttribute('disabled') || child instanceof window_1.HTMLIFrameElement || child instanceof window_1.HTMLObjectElement || child instanceof window_1.HTMLEmbedElement || child.hasAttribute('tabindex') && child.getAttribute('tabindex') !== -1 || child.hasAttribute('contenteditable');
+      return (child instanceof window.HTMLAnchorElement || child instanceof window.HTMLAreaElement) && child.hasAttribute('href') || (child instanceof window.HTMLInputElement || child instanceof window.HTMLSelectElement || child instanceof window.HTMLTextAreaElement || child instanceof window.HTMLButtonElement) && !child.hasAttribute('disabled') || child instanceof window.HTMLIFrameElement || child instanceof window.HTMLObjectElement || child instanceof window.HTMLEmbedElement || child.hasAttribute('tabindex') && child.getAttribute('tabindex') !== -1 || child.hasAttribute('contenteditable');
     });
   };
 
@@ -5695,7 +5617,7 @@ var TrackList = function (_EventTarget) {
     if (!list) {
       list = _this; // eslint-disable-line
       if (IS_IE8) {
-        list = document_1.createElement('custom');
+        list = document.createElement('custom');
         for (var prop in TrackList.prototype) {
           if (prop !== 'constructor') {
             list[prop] = TrackList.prototype[prop];
@@ -5925,7 +5847,7 @@ var AudioTrackList = function (_TrackList) {
     // IE8 forces us to implement inheritance ourselves
     // as it does not support Object.defineProperty properly
     if (IS_IE8) {
-      list = document_1.createElement('custom');
+      list = document.createElement('custom');
       for (var prop in TrackList.prototype) {
         if (prop !== 'constructor') {
           list[prop] = TrackList.prototype[prop];
@@ -6048,7 +5970,7 @@ var VideoTrackList = function (_TrackList) {
     // IE8 forces us to implement inheritance ourselves
     // as it does not support Object.defineProperty properly
     if (IS_IE8) {
-      list = document_1.createElement('custom');
+      list = document.createElement('custom');
       for (var prop in TrackList.prototype) {
         if (prop !== 'constructor') {
           list[prop] = TrackList.prototype[prop];
@@ -6154,7 +6076,7 @@ var TextTrackList = function (_TrackList) {
     // IE8 forces us to implement inheritance ourselves
     // as it does not support Object.defineProperty properly
     if (IS_IE8) {
-      list = document_1.createElement('custom');
+      list = document.createElement('custom');
       for (var prop in TrackList.prototype) {
         if (prop !== 'constructor') {
           list[prop] = TrackList.prototype[prop];
@@ -6227,7 +6149,7 @@ var HtmlTrackElementList = function () {
     var list = this; // eslint-disable-line
 
     if (IS_IE8) {
-      list = document_1.createElement('custom');
+      list = document.createElement('custom');
 
       for (var prop in HtmlTrackElementList.prototype) {
         if (prop !== 'constructor') {
@@ -6378,7 +6300,7 @@ var TextTrackCueList = function () {
     var list = this; // eslint-disable-line
 
     if (IS_IE8) {
-      list = document_1.createElement('custom');
+      list = document.createElement('custom');
 
       for (var prop in TextTrackCueList.prototype) {
         if (prop !== 'constructor') {
@@ -6585,7 +6507,7 @@ var Track = function (_EventTarget) {
     var track = _this; // eslint-disable-line
 
     if (IS_IE8) {
-      track = document_1.createElement('custom');
+      track = document.createElement('custom');
       for (var prop in Track.prototype) {
         if (prop !== 'constructor') {
           track[prop] = Track.prototype[prop];
@@ -6698,7 +6620,7 @@ var parseUrl = function parseUrl(url) {
   var props = ['protocol', 'hostname', 'port', 'pathname', 'search', 'hash', 'host'];
 
   // add the url to an anchor and let the browser parse the URL
-  var a = document_1.createElement('a');
+  var a = document.createElement('a');
 
   a.href = url;
 
@@ -6709,12 +6631,12 @@ var parseUrl = function parseUrl(url) {
   var div = void 0;
 
   if (addToBody) {
-    div = document_1.createElement('div');
+    div = document.createElement('div');
     div.innerHTML = '<a href="' + url + '"></a>';
     a = div.firstChild;
     // prevent the div from affecting layout
     div.setAttribute('style', 'display:none; position:absolute;');
-    document_1.body.appendChild(div);
+    document.body.appendChild(div);
   }
 
   // Copy the specific URL properties to a new object
@@ -6737,7 +6659,7 @@ var parseUrl = function parseUrl(url) {
   }
 
   if (addToBody) {
-    document_1.body.removeChild(div);
+    document.body.removeChild(div);
   }
 
   return details;
@@ -6759,7 +6681,7 @@ var getAbsoluteURL = function getAbsoluteURL(url) {
   // Check if absolute URL
   if (!url.match(/^https?:\/\//)) {
     // Convert to absolute URL. Flash hosted off-site needs an absolute URL.
-    var div = document_1.createElement('div');
+    var div = document.createElement('div');
 
     div.innerHTML = '<a href="' + url + '">x</a>';
     url = div.firstChild.href;
@@ -6802,7 +6724,7 @@ var getFileExtension = function getFileExtension(path) {
  *         Whether it is a cross domain request or not.
  */
 var isCrossOrigin = function isCrossOrigin(url) {
-  var winLoc = window_1.location;
+  var winLoc = window.location;
   var urlInfo = parseUrl(url);
 
   // IE8 protocol relative urls will return ':' for protocol
@@ -6822,369 +6744,6 @@ var Url = (Object.freeze || Object)({
 	isCrossOrigin: isCrossOrigin
 });
 
-var isFunction_1 = isFunction;
-
-var toString$1 = Object.prototype.toString;
-
-function isFunction (fn) {
-  var string = toString$1.call(fn);
-  return string === '[object Function]' ||
-    (typeof fn === 'function' && string !== '[object RegExp]') ||
-    (typeof window !== 'undefined' &&
-     // IE8 and below
-     (fn === window.setTimeout ||
-      fn === window.alert ||
-      fn === window.confirm ||
-      fn === window.prompt))
-}
-
-var trim_1 = createCommonjsModule(function (module, exports) {
-exports = module.exports = trim;
-
-function trim(str){
-  return str.replace(/^\s*|\s*$/g, '');
-}
-
-exports.left = function(str){
-  return str.replace(/^\s*/, '');
-};
-
-exports.right = function(str){
-  return str.replace(/\s*$/, '');
-};
-});
-
-var forEach_1 = forEach;
-
-var toString$2 = Object.prototype.toString;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-function forEach(list, iterator, context) {
-    if (!isFunction_1(iterator)) {
-        throw new TypeError('iterator must be a function')
-    }
-
-    if (arguments.length < 3) {
-        context = this;
-    }
-    
-    if (toString$2.call(list) === '[object Array]')
-        forEachArray$1(list, iterator, context);
-    else if (typeof list === 'string')
-        forEachString(list, iterator, context);
-    else
-        forEachObject(list, iterator, context);
-}
-
-function forEachArray$1(array, iterator, context) {
-    for (var i = 0, len = array.length; i < len; i++) {
-        if (hasOwnProperty.call(array, i)) {
-            iterator.call(context, array[i], i, array);
-        }
-    }
-}
-
-function forEachString(string, iterator, context) {
-    for (var i = 0, len = string.length; i < len; i++) {
-        // no such thing as a sparse string.
-        iterator.call(context, string.charAt(i), i, string);
-    }
-}
-
-function forEachObject(object, iterator, context) {
-    for (var k in object) {
-        if (hasOwnProperty.call(object, k)) {
-            iterator.call(context, object[k], k, object);
-        }
-    }
-}
-
-var isArray = function(arg) {
-      return Object.prototype.toString.call(arg) === '[object Array]';
-    };
-
-var parseHeaders = function (headers) {
-  if (!headers)
-    return {}
-
-  var result = {};
-
-  forEach_1(
-      trim_1(headers).split('\n')
-    , function (row) {
-        var index = row.indexOf(':')
-          , key = trim_1(row.slice(0, index)).toLowerCase()
-          , value = trim_1(row.slice(index + 1));
-
-        if (typeof(result[key]) === 'undefined') {
-          result[key] = value;
-        } else if (isArray(result[key])) {
-          result[key].push(value);
-        } else {
-          result[key] = [ result[key], value ];
-        }
-      }
-  );
-
-  return result
-};
-
-var immutable = extend;
-
-var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
-
-function extend() {
-    var target = {};
-
-    for (var i = 0; i < arguments.length; i++) {
-        var source = arguments[i];
-
-        for (var key in source) {
-            if (hasOwnProperty$1.call(source, key)) {
-                target[key] = source[key];
-            }
-        }
-    }
-
-    return target
-}
-
-var xhr = createXHR;
-createXHR.XMLHttpRequest = window_1.XMLHttpRequest || noop;
-createXHR.XDomainRequest = "withCredentials" in (new createXHR.XMLHttpRequest()) ? createXHR.XMLHttpRequest : window_1.XDomainRequest;
-
-forEachArray(["get", "put", "post", "patch", "head", "delete"], function(method) {
-    createXHR[method === "delete" ? "del" : method] = function(uri, options, callback) {
-        options = initParams(uri, options, callback);
-        options.method = method.toUpperCase();
-        return _createXHR(options)
-    };
-});
-
-function forEachArray(array, iterator) {
-    for (var i = 0; i < array.length; i++) {
-        iterator(array[i]);
-    }
-}
-
-function isEmpty(obj){
-    for(var i in obj){
-        if(obj.hasOwnProperty(i)) return false
-    }
-    return true
-}
-
-function initParams(uri, options, callback) {
-    var params = uri;
-
-    if (isFunction_1(options)) {
-        callback = options;
-        if (typeof uri === "string") {
-            params = {uri:uri};
-        }
-    } else {
-        params = immutable(options, {uri: uri});
-    }
-
-    params.callback = callback;
-    return params
-}
-
-function createXHR(uri, options, callback) {
-    options = initParams(uri, options, callback);
-    return _createXHR(options)
-}
-
-function _createXHR(options) {
-    if(typeof options.callback === "undefined"){
-        throw new Error("callback argument missing")
-    }
-
-    var called = false;
-    var callback = function cbOnce(err, response, body){
-        if(!called){
-            called = true;
-            options.callback(err, response, body);
-        }
-    };
-
-    function readystatechange() {
-        if (xhr.readyState === 4) {
-            setTimeout(loadFunc, 0);
-        }
-    }
-
-    function getBody() {
-        // Chrome with requestType=blob throws errors arround when even testing access to responseText
-        var body = undefined;
-
-        if (xhr.response) {
-            body = xhr.response;
-        } else {
-            body = xhr.responseText || getXml(xhr);
-        }
-
-        if (isJson) {
-            try {
-                body = JSON.parse(body);
-            } catch (e) {}
-        }
-
-        return body
-    }
-
-    function errorFunc(evt) {
-        clearTimeout(timeoutTimer);
-        if(!(evt instanceof Error)){
-            evt = new Error("" + (evt || "Unknown XMLHttpRequest Error") );
-        }
-        evt.statusCode = 0;
-        return callback(evt, failureResponse)
-    }
-
-    // will load the data & process the response in a special response object
-    function loadFunc() {
-        if (aborted) return
-        var status;
-        clearTimeout(timeoutTimer);
-        if(options.useXDR && xhr.status===undefined) {
-            //IE8 CORS GET successful response doesn't have a status field, but body is fine
-            status = 200;
-        } else {
-            status = (xhr.status === 1223 ? 204 : xhr.status);
-        }
-        var response = failureResponse;
-        var err = null;
-
-        if (status !== 0){
-            response = {
-                body: getBody(),
-                statusCode: status,
-                method: method,
-                headers: {},
-                url: uri,
-                rawRequest: xhr
-            };
-            if(xhr.getAllResponseHeaders){ //remember xhr can in fact be XDR for CORS in IE
-                response.headers = parseHeaders(xhr.getAllResponseHeaders());
-            }
-        } else {
-            err = new Error("Internal XMLHttpRequest Error");
-        }
-        return callback(err, response, response.body)
-    }
-
-    var xhr = options.xhr || null;
-
-    if (!xhr) {
-        if (options.cors || options.useXDR) {
-            xhr = new createXHR.XDomainRequest();
-        }else{
-            xhr = new createXHR.XMLHttpRequest();
-        }
-    }
-
-    var key;
-    var aborted;
-    var uri = xhr.url = options.uri || options.url;
-    var method = xhr.method = options.method || "GET";
-    var body = options.body || options.data;
-    var headers = xhr.headers = options.headers || {};
-    var sync = !!options.sync;
-    var isJson = false;
-    var timeoutTimer;
-    var failureResponse = {
-        body: undefined,
-        headers: {},
-        statusCode: 0,
-        method: method,
-        url: uri,
-        rawRequest: xhr
-    };
-
-    if ("json" in options && options.json !== false) {
-        isJson = true;
-        headers["accept"] || headers["Accept"] || (headers["Accept"] = "application/json"); //Don't override existing accept header declared by user
-        if (method !== "GET" && method !== "HEAD") {
-            headers["content-type"] || headers["Content-Type"] || (headers["Content-Type"] = "application/json"); //Don't override existing accept header declared by user
-            body = JSON.stringify(options.json === true ? body : options.json);
-        }
-    }
-
-    xhr.onreadystatechange = readystatechange;
-    xhr.onload = loadFunc;
-    xhr.onerror = errorFunc;
-    // IE9 must have onprogress be set to a unique function.
-    xhr.onprogress = function () {
-        // IE must die
-    };
-    xhr.onabort = function(){
-        aborted = true;
-    };
-    xhr.ontimeout = errorFunc;
-    xhr.open(method, uri, !sync, options.username, options.password);
-    //has to be after open
-    if(!sync) {
-        xhr.withCredentials = !!options.withCredentials;
-    }
-    // Cannot set timeout with sync request
-    // not setting timeout on the xhr object, because of old webkits etc. not handling that correctly
-    // both npm's request and jquery 1.x use this kind of timeout, so this is being consistent
-    if (!sync && options.timeout > 0 ) {
-        timeoutTimer = setTimeout(function(){
-            if (aborted) return
-            aborted = true;//IE9 may still call readystatechange
-            xhr.abort("timeout");
-            var e = new Error("XMLHttpRequest timeout");
-            e.code = "ETIMEDOUT";
-            errorFunc(e);
-        }, options.timeout );
-    }
-
-    if (xhr.setRequestHeader) {
-        for(key in headers){
-            if(headers.hasOwnProperty(key)){
-                xhr.setRequestHeader(key, headers[key]);
-            }
-        }
-    } else if (options.headers && !isEmpty(options.headers)) {
-        throw new Error("Headers cannot be set on an XDomainRequest object")
-    }
-
-    if ("responseType" in options) {
-        xhr.responseType = options.responseType;
-    }
-
-    if ("beforeSend" in options &&
-        typeof options.beforeSend === "function"
-    ) {
-        options.beforeSend(xhr);
-    }
-
-    // Microsoft Edge browser sends "undefined" when send is called with undefined value.
-    // XMLHttpRequest spec says to pass null as body to indicate no body
-    // See https://github.com/naugtur/xhr/issues/100.
-    xhr.send(body || null);
-
-    return xhr
-
-
-}
-
-function getXml(xhr) {
-    if (xhr.responseType === "document") {
-        return xhr.responseXML
-    }
-    var firefoxBugTakenEffect = xhr.responseXML && xhr.responseXML.documentElement.nodeName === "parsererror";
-    if (xhr.responseType === "" && !firefoxBugTakenEffect) {
-        return xhr.responseXML
-    }
-
-    return null
-}
-
-function noop() {}
-
 /**
  * @file text-track.js
  */
@@ -7200,7 +6759,7 @@ function noop() {}
  * @private
  */
 var parseCues = function parseCues(srcContent, track) {
-  var parser = new window_1.WebVTT.Parser(window_1, window_1.vttjs, window_1.WebVTT.StringDecoder());
+  var parser = new window.WebVTT.Parser(window, window.vttjs, window.WebVTT.StringDecoder());
   var errors = [];
 
   parser.oncue = function (cue) {
@@ -7220,14 +6779,14 @@ var parseCues = function parseCues(srcContent, track) {
 
   parser.parse(srcContent);
   if (errors.length > 0) {
-    if (window_1.console && window_1.console.groupCollapsed) {
-      window_1.console.groupCollapsed('Text Track parsing errors for ' + track.src);
+    if (window.console && window.console.groupCollapsed) {
+      window.console.groupCollapsed('Text Track parsing errors for ' + track.src);
     }
     errors.forEach(function (error) {
       return log$1.error(error);
     });
-    if (window_1.console && window_1.console.groupEnd) {
-      window_1.console.groupEnd();
+    if (window.console && window.console.groupEnd) {
+      window.console.groupEnd();
     }
   }
 
@@ -7264,7 +6823,7 @@ var loadTrack = function loadTrack(src, track) {
 
     // Make sure that vttjs has loaded, otherwise, wait till it finished loading
     // NOTE: this is only used for the alt/video.novtt.js build
-    if (typeof window_1.WebVTT !== 'function') {
+    if (typeof window.WebVTT !== 'function') {
       if (track.tech_) {
         var loadHandler = function loadHandler() {
           return parseCues(responseBody, track);
@@ -7529,8 +7088,8 @@ var TextTrack = function (_Track) {
   TextTrack.prototype.addCue = function addCue(originalCue) {
     var cue = originalCue;
 
-    if (window_1.vttjs && !(originalCue instanceof window_1.vttjs.VTTCue)) {
-      cue = new window_1.vttjs.VTTCue(originalCue.startTime, originalCue.endTime, originalCue.text);
+    if (window.vttjs && !(originalCue instanceof window.vttjs.VTTCue)) {
+      cue = new window.vttjs.VTTCue(originalCue.startTime, originalCue.endTime, originalCue.text);
 
       for (var prop in originalCue) {
         if (!(prop in cue)) {
@@ -7860,7 +7419,7 @@ var HTMLTrackElement = function (_EventTarget) {
     var trackElement = _this; // eslint-disable-line
 
     if (IS_IE8) {
-      trackElement = document_1.createElement('custom');
+      trackElement = document.createElement('custom');
 
       for (var prop in HTMLTrackElement.prototype) {
         if (prop !== 'constructor') {
@@ -7987,1830 +7546,6 @@ var ALL = mergeOptions(NORMAL, REMOTE);
 REMOTE.names = Object.keys(REMOTE);
 NORMAL.names = Object.keys(NORMAL);
 ALL.names = [].concat(REMOTE.names).concat(NORMAL.names);
-
-/**
- * Copyright 2013 vtt.js Contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
-/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */
-var _objCreate = Object.create || (function() {
-  function F() {}
-  return function(o) {
-    if (arguments.length !== 1) {
-      throw new Error('Object.create shim only accepts one parameter.');
-    }
-    F.prototype = o;
-    return new F();
-  };
-})();
-
-// Creates a new ParserError object from an errorData object. The errorData
-// object should have default code and message properties. The default message
-// property can be overriden by passing in a message parameter.
-// See ParsingError.Errors below for acceptable errors.
-function ParsingError(errorData, message) {
-  this.name = "ParsingError";
-  this.code = errorData.code;
-  this.message = message || errorData.message;
-}
-ParsingError.prototype = _objCreate(Error.prototype);
-ParsingError.prototype.constructor = ParsingError;
-
-// ParsingError metadata for acceptable ParsingErrors.
-ParsingError.Errors = {
-  BadSignature: {
-    code: 0,
-    message: "Malformed WebVTT signature."
-  },
-  BadTimeStamp: {
-    code: 1,
-    message: "Malformed time stamp."
-  }
-};
-
-// Try to parse input as a time stamp.
-function parseTimeStamp(input) {
-
-  function computeSeconds(h, m, s, f) {
-    return (h | 0) * 3600 + (m | 0) * 60 + (s | 0) + (f | 0) / 1000;
-  }
-
-  var m = input.match(/^(\d+):(\d{2})(:\d{2})?\.(\d{3})/);
-  if (!m) {
-    return null;
-  }
-
-  if (m[3]) {
-    // Timestamp takes the form of [hours]:[minutes]:[seconds].[milliseconds]
-    return computeSeconds(m[1], m[2], m[3].replace(":", ""), m[4]);
-  } else if (m[1] > 59) {
-    // Timestamp takes the form of [hours]:[minutes].[milliseconds]
-    // First position is hours as it's over 59.
-    return computeSeconds(m[1], m[2], 0,  m[4]);
-  } else {
-    // Timestamp takes the form of [minutes]:[seconds].[milliseconds]
-    return computeSeconds(0, m[1], m[2], m[4]);
-  }
-}
-
-// A settings object holds key/value pairs and will ignore anything but the first
-// assignment to a specific key.
-function Settings() {
-  this.values = _objCreate(null);
-}
-
-Settings.prototype = {
-  // Only accept the first assignment to any key.
-  set: function(k, v) {
-    if (!this.get(k) && v !== "") {
-      this.values[k] = v;
-    }
-  },
-  // Return the value for a key, or a default value.
-  // If 'defaultKey' is passed then 'dflt' is assumed to be an object with
-  // a number of possible default values as properties where 'defaultKey' is
-  // the key of the property that will be chosen; otherwise it's assumed to be
-  // a single value.
-  get: function(k, dflt, defaultKey) {
-    if (defaultKey) {
-      return this.has(k) ? this.values[k] : dflt[defaultKey];
-    }
-    return this.has(k) ? this.values[k] : dflt;
-  },
-  // Check whether we have a value for a key.
-  has: function(k) {
-    return k in this.values;
-  },
-  // Accept a setting if its one of the given alternatives.
-  alt: function(k, v, a) {
-    for (var n = 0; n < a.length; ++n) {
-      if (v === a[n]) {
-        this.set(k, v);
-        break;
-      }
-    }
-  },
-  // Accept a setting if its a valid (signed) integer.
-  integer: function(k, v) {
-    if (/^-?\d+$/.test(v)) { // integer
-      this.set(k, parseInt(v, 10));
-    }
-  },
-  // Accept a setting if its a valid percentage.
-  percent: function(k, v) {
-    var m;
-    if ((m = v.match(/^([\d]{1,3})(\.[\d]*)?%$/))) {
-      v = parseFloat(v);
-      if (v >= 0 && v <= 100) {
-        this.set(k, v);
-        return true;
-      }
-    }
-    return false;
-  }
-};
-
-// Helper function to parse input into groups separated by 'groupDelim', and
-// interprete each group as a key/value pair separated by 'keyValueDelim'.
-function parseOptions(input, callback, keyValueDelim, groupDelim) {
-  var groups = groupDelim ? input.split(groupDelim) : [input];
-  for (var i in groups) {
-    if (typeof groups[i] !== "string") {
-      continue;
-    }
-    var kv = groups[i].split(keyValueDelim);
-    if (kv.length !== 2) {
-      continue;
-    }
-    var k = kv[0];
-    var v = kv[1];
-    callback(k, v);
-  }
-}
-
-function parseCue(input, cue, regionList) {
-  // Remember the original input if we need to throw an error.
-  var oInput = input;
-  // 4.1 WebVTT timestamp
-  function consumeTimeStamp() {
-    var ts = parseTimeStamp(input);
-    if (ts === null) {
-      throw new ParsingError(ParsingError.Errors.BadTimeStamp,
-                            "Malformed timestamp: " + oInput);
-    }
-    // Remove time stamp from input.
-    input = input.replace(/^[^\sa-zA-Z-]+/, "");
-    return ts;
-  }
-
-  // 4.4.2 WebVTT cue settings
-  function consumeCueSettings(input, cue) {
-    var settings = new Settings();
-
-    parseOptions(input, function (k, v) {
-      switch (k) {
-      case "region":
-        // Find the last region we parsed with the same region id.
-        for (var i = regionList.length - 1; i >= 0; i--) {
-          if (regionList[i].id === v) {
-            settings.set(k, regionList[i].region);
-            break;
-          }
-        }
-        break;
-      case "vertical":
-        settings.alt(k, v, ["rl", "lr"]);
-        break;
-      case "line":
-        var vals = v.split(","),
-            vals0 = vals[0];
-        settings.integer(k, vals0);
-        settings.percent(k, vals0) ? settings.set("snapToLines", false) : null;
-        settings.alt(k, vals0, ["auto"]);
-        if (vals.length === 2) {
-          settings.alt("lineAlign", vals[1], ["start", "middle", "end"]);
-        }
-        break;
-      case "position":
-        vals = v.split(",");
-        settings.percent(k, vals[0]);
-        if (vals.length === 2) {
-          settings.alt("positionAlign", vals[1], ["start", "middle", "end"]);
-        }
-        break;
-      case "size":
-        settings.percent(k, v);
-        break;
-      case "align":
-        settings.alt(k, v, ["start", "middle", "end", "left", "right"]);
-        break;
-      }
-    }, /:/, /\s/);
-
-    // Apply default values for any missing fields.
-    cue.region = settings.get("region", null);
-    cue.vertical = settings.get("vertical", "");
-    cue.line = settings.get("line", "auto");
-    cue.lineAlign = settings.get("lineAlign", "start");
-    cue.snapToLines = settings.get("snapToLines", true);
-    cue.size = settings.get("size", 100);
-    cue.align = settings.get("align", "middle");
-    cue.position = settings.get("position", {
-      start: 0,
-      left: 0,
-      middle: 50,
-      end: 100,
-      right: 100
-    }, cue.align);
-    cue.positionAlign = settings.get("positionAlign", {
-      start: "start",
-      left: "start",
-      middle: "middle",
-      end: "end",
-      right: "end"
-    }, cue.align);
-  }
-
-  function skipWhitespace() {
-    input = input.replace(/^\s+/, "");
-  }
-
-  // 4.1 WebVTT cue timings.
-  skipWhitespace();
-  cue.startTime = consumeTimeStamp();   // (1) collect cue start time
-  skipWhitespace();
-  if (input.substr(0, 3) !== "-->") {     // (3) next characters must match "-->"
-    throw new ParsingError(ParsingError.Errors.BadTimeStamp,
-                           "Malformed time stamp (time stamps must be separated by '-->'): " +
-                           oInput);
-  }
-  input = input.substr(3);
-  skipWhitespace();
-  cue.endTime = consumeTimeStamp();     // (5) collect cue end time
-
-  // 4.1 WebVTT cue settings list.
-  skipWhitespace();
-  consumeCueSettings(input, cue);
-}
-
-var ESCAPE = {
-  "&amp;": "&",
-  "&lt;": "<",
-  "&gt;": ">",
-  "&lrm;": "\u200e",
-  "&rlm;": "\u200f",
-  "&nbsp;": "\u00a0"
-};
-
-var TAG_NAME = {
-  c: "span",
-  i: "i",
-  b: "b",
-  u: "u",
-  ruby: "ruby",
-  rt: "rt",
-  v: "span",
-  lang: "span"
-};
-
-var TAG_ANNOTATION = {
-  v: "title",
-  lang: "lang"
-};
-
-var NEEDS_PARENT = {
-  rt: "ruby"
-};
-
-// Parse content into a document fragment.
-function parseContent(window, input) {
-  function nextToken() {
-    // Check for end-of-string.
-    if (!input) {
-      return null;
-    }
-
-    // Consume 'n' characters from the input.
-    function consume(result) {
-      input = input.substr(result.length);
-      return result;
-    }
-
-    var m = input.match(/^([^<]*)(<[^>]+>?)?/);
-    // If there is some text before the next tag, return it, otherwise return
-    // the tag.
-    return consume(m[1] ? m[1] : m[2]);
-  }
-
-  // Unescape a string 's'.
-  function unescape1(e) {
-    return ESCAPE[e];
-  }
-  function unescape(s) {
-    while ((m = s.match(/&(amp|lt|gt|lrm|rlm|nbsp);/))) {
-      s = s.replace(m[0], unescape1);
-    }
-    return s;
-  }
-
-  function shouldAdd(current, element) {
-    return !NEEDS_PARENT[element.localName] ||
-           NEEDS_PARENT[element.localName] === current.localName;
-  }
-
-  // Create an element for this tag.
-  function createElement(type, annotation) {
-    var tagName = TAG_NAME[type];
-    if (!tagName) {
-      return null;
-    }
-    var element = window.document.createElement(tagName);
-    element.localName = tagName;
-    var name = TAG_ANNOTATION[type];
-    if (name && annotation) {
-      element[name] = annotation.trim();
-    }
-    return element;
-  }
-
-  var rootDiv = window.document.createElement("div"),
-      current = rootDiv,
-      t,
-      tagStack = [];
-
-  while ((t = nextToken()) !== null) {
-    if (t[0] === '<') {
-      if (t[1] === "/") {
-        // If the closing tag matches, move back up to the parent node.
-        if (tagStack.length &&
-            tagStack[tagStack.length - 1] === t.substr(2).replace(">", "")) {
-          tagStack.pop();
-          current = current.parentNode;
-        }
-        // Otherwise just ignore the end tag.
-        continue;
-      }
-      var ts = parseTimeStamp(t.substr(1, t.length - 2));
-      var node;
-      if (ts) {
-        // Timestamps are lead nodes as well.
-        node = window.document.createProcessingInstruction("timestamp", ts);
-        current.appendChild(node);
-        continue;
-      }
-      var m = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
-      // If we can't parse the tag, skip to the next tag.
-      if (!m) {
-        continue;
-      }
-      // Try to construct an element, and ignore the tag if we couldn't.
-      node = createElement(m[1], m[3]);
-      if (!node) {
-        continue;
-      }
-      // Determine if the tag should be added based on the context of where it
-      // is placed in the cuetext.
-      if (!shouldAdd(current, node)) {
-        continue;
-      }
-      // Set the class list (as a list of classes, separated by space).
-      if (m[2]) {
-        node.className = m[2].substr(1).replace('.', ' ');
-      }
-      // Append the node to the current node, and enter the scope of the new
-      // node.
-      tagStack.push(m[1]);
-      current.appendChild(node);
-      current = node;
-      continue;
-    }
-
-    // Text nodes are leaf nodes.
-    current.appendChild(window.document.createTextNode(unescape(t)));
-  }
-
-  return rootDiv;
-}
-
-// This is a list of all the Unicode characters that have a strong
-// right-to-left category. What this means is that these characters are
-// written right-to-left for sure. It was generated by pulling all the strong
-// right-to-left characters out of the Unicode data table. That table can
-// found at: http://www.unicode.org/Public/UNIDATA/UnicodeData.txt
-var strongRTLRanges = [[0x5be, 0x5be], [0x5c0, 0x5c0], [0x5c3, 0x5c3], [0x5c6, 0x5c6],
- [0x5d0, 0x5ea], [0x5f0, 0x5f4], [0x608, 0x608], [0x60b, 0x60b], [0x60d, 0x60d],
- [0x61b, 0x61b], [0x61e, 0x64a], [0x66d, 0x66f], [0x671, 0x6d5], [0x6e5, 0x6e6],
- [0x6ee, 0x6ef], [0x6fa, 0x70d], [0x70f, 0x710], [0x712, 0x72f], [0x74d, 0x7a5],
- [0x7b1, 0x7b1], [0x7c0, 0x7ea], [0x7f4, 0x7f5], [0x7fa, 0x7fa], [0x800, 0x815],
- [0x81a, 0x81a], [0x824, 0x824], [0x828, 0x828], [0x830, 0x83e], [0x840, 0x858],
- [0x85e, 0x85e], [0x8a0, 0x8a0], [0x8a2, 0x8ac], [0x200f, 0x200f],
- [0xfb1d, 0xfb1d], [0xfb1f, 0xfb28], [0xfb2a, 0xfb36], [0xfb38, 0xfb3c],
- [0xfb3e, 0xfb3e], [0xfb40, 0xfb41], [0xfb43, 0xfb44], [0xfb46, 0xfbc1],
- [0xfbd3, 0xfd3d], [0xfd50, 0xfd8f], [0xfd92, 0xfdc7], [0xfdf0, 0xfdfc],
- [0xfe70, 0xfe74], [0xfe76, 0xfefc], [0x10800, 0x10805], [0x10808, 0x10808],
- [0x1080a, 0x10835], [0x10837, 0x10838], [0x1083c, 0x1083c], [0x1083f, 0x10855],
- [0x10857, 0x1085f], [0x10900, 0x1091b], [0x10920, 0x10939], [0x1093f, 0x1093f],
- [0x10980, 0x109b7], [0x109be, 0x109bf], [0x10a00, 0x10a00], [0x10a10, 0x10a13],
- [0x10a15, 0x10a17], [0x10a19, 0x10a33], [0x10a40, 0x10a47], [0x10a50, 0x10a58],
- [0x10a60, 0x10a7f], [0x10b00, 0x10b35], [0x10b40, 0x10b55], [0x10b58, 0x10b72],
- [0x10b78, 0x10b7f], [0x10c00, 0x10c48], [0x1ee00, 0x1ee03], [0x1ee05, 0x1ee1f],
- [0x1ee21, 0x1ee22], [0x1ee24, 0x1ee24], [0x1ee27, 0x1ee27], [0x1ee29, 0x1ee32],
- [0x1ee34, 0x1ee37], [0x1ee39, 0x1ee39], [0x1ee3b, 0x1ee3b], [0x1ee42, 0x1ee42],
- [0x1ee47, 0x1ee47], [0x1ee49, 0x1ee49], [0x1ee4b, 0x1ee4b], [0x1ee4d, 0x1ee4f],
- [0x1ee51, 0x1ee52], [0x1ee54, 0x1ee54], [0x1ee57, 0x1ee57], [0x1ee59, 0x1ee59],
- [0x1ee5b, 0x1ee5b], [0x1ee5d, 0x1ee5d], [0x1ee5f, 0x1ee5f], [0x1ee61, 0x1ee62],
- [0x1ee64, 0x1ee64], [0x1ee67, 0x1ee6a], [0x1ee6c, 0x1ee72], [0x1ee74, 0x1ee77],
- [0x1ee79, 0x1ee7c], [0x1ee7e, 0x1ee7e], [0x1ee80, 0x1ee89], [0x1ee8b, 0x1ee9b],
- [0x1eea1, 0x1eea3], [0x1eea5, 0x1eea9], [0x1eeab, 0x1eebb], [0x10fffd, 0x10fffd]];
-
-function isStrongRTLChar(charCode) {
-  for (var i = 0; i < strongRTLRanges.length; i++) {
-    var currentRange = strongRTLRanges[i];
-    if (charCode >= currentRange[0] && charCode <= currentRange[1]) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function determineBidi(cueDiv) {
-  var nodeStack = [],
-      text = "",
-      charCode;
-
-  if (!cueDiv || !cueDiv.childNodes) {
-    return "ltr";
-  }
-
-  function pushNodes(nodeStack, node) {
-    for (var i = node.childNodes.length - 1; i >= 0; i--) {
-      nodeStack.push(node.childNodes[i]);
-    }
-  }
-
-  function nextTextNode(nodeStack) {
-    if (!nodeStack || !nodeStack.length) {
-      return null;
-    }
-
-    var node = nodeStack.pop(),
-        text = node.textContent || node.innerText;
-    if (text) {
-      // TODO: This should match all unicode type B characters (paragraph
-      // separator characters). See issue #115.
-      var m = text.match(/^.*(\n|\r)/);
-      if (m) {
-        nodeStack.length = 0;
-        return m[0];
-      }
-      return text;
-    }
-    if (node.tagName === "ruby") {
-      return nextTextNode(nodeStack);
-    }
-    if (node.childNodes) {
-      pushNodes(nodeStack, node);
-      return nextTextNode(nodeStack);
-    }
-  }
-
-  pushNodes(nodeStack, cueDiv);
-  while ((text = nextTextNode(nodeStack))) {
-    for (var i = 0; i < text.length; i++) {
-      charCode = text.charCodeAt(i);
-      if (isStrongRTLChar(charCode)) {
-        return "rtl";
-      }
-    }
-  }
-  return "ltr";
-}
-
-function computeLinePos(cue) {
-  if (typeof cue.line === "number" &&
-      (cue.snapToLines || (cue.line >= 0 && cue.line <= 100))) {
-    return cue.line;
-  }
-  if (!cue.track || !cue.track.textTrackList ||
-      !cue.track.textTrackList.mediaElement) {
-    return -1;
-  }
-  var track = cue.track,
-      trackList = track.textTrackList,
-      count = 0;
-  for (var i = 0; i < trackList.length && trackList[i] !== track; i++) {
-    if (trackList[i].mode === "showing") {
-      count++;
-    }
-  }
-  return ++count * -1;
-}
-
-function StyleBox() {
-}
-
-// Apply styles to a div. If there is no div passed then it defaults to the
-// div on 'this'.
-StyleBox.prototype.applyStyles = function(styles, div) {
-  div = div || this.div;
-  for (var prop in styles) {
-    if (styles.hasOwnProperty(prop)) {
-      div.style[prop] = styles[prop];
-    }
-  }
-};
-
-StyleBox.prototype.formatStyle = function(val, unit) {
-  return val === 0 ? 0 : val + unit;
-};
-
-// Constructs the computed display state of the cue (a div). Places the div
-// into the overlay which should be a block level element (usually a div).
-function CueStyleBox(window, cue, styleOptions) {
-  var isIE8 = (/MSIE\s8\.0/).test(navigator.userAgent);
-  var color = "rgba(255, 255, 255, 1)";
-  var backgroundColor = "rgba(0, 0, 0, 0.8)";
-
-  if (isIE8) {
-    color = "rgb(255, 255, 255)";
-    backgroundColor = "rgb(0, 0, 0)";
-  }
-
-  StyleBox.call(this);
-  this.cue = cue;
-
-  // Parse our cue's text into a DOM tree rooted at 'cueDiv'. This div will
-  // have inline positioning and will function as the cue background box.
-  this.cueDiv = parseContent(window, cue.text);
-  var styles = {
-    color: color,
-    backgroundColor: backgroundColor,
-    position: "relative",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    display: "inline"
-  };
-
-  if (!isIE8) {
-    styles.writingMode = cue.vertical === "" ? "horizontal-tb"
-                                             : cue.vertical === "lr" ? "vertical-lr"
-                                                                     : "vertical-rl";
-    styles.unicodeBidi = "plaintext";
-  }
-  this.applyStyles(styles, this.cueDiv);
-
-  // Create an absolutely positioned div that will be used to position the cue
-  // div. Note, all WebVTT cue-setting alignments are equivalent to the CSS
-  // mirrors of them except "middle" which is "center" in CSS.
-  this.div = window.document.createElement("div");
-  styles = {
-    textAlign: cue.align === "middle" ? "center" : cue.align,
-    font: styleOptions.font,
-    whiteSpace: "pre-line",
-    position: "absolute"
-  };
-
-  if (!isIE8) {
-    styles.direction = determineBidi(this.cueDiv);
-    styles.writingMode = cue.vertical === "" ? "horizontal-tb"
-                                             : cue.vertical === "lr" ? "vertical-lr"
-                                                                     : "vertical-rl".
-    stylesunicodeBidi =  "plaintext";
-  }
-
-  this.applyStyles(styles);
-
-  this.div.appendChild(this.cueDiv);
-
-  // Calculate the distance from the reference edge of the viewport to the text
-  // position of the cue box. The reference edge will be resolved later when
-  // the box orientation styles are applied.
-  var textPos = 0;
-  switch (cue.positionAlign) {
-  case "start":
-    textPos = cue.position;
-    break;
-  case "middle":
-    textPos = cue.position - (cue.size / 2);
-    break;
-  case "end":
-    textPos = cue.position - cue.size;
-    break;
-  }
-
-  // Horizontal box orientation; textPos is the distance from the left edge of the
-  // area to the left edge of the box and cue.size is the distance extending to
-  // the right from there.
-  if (cue.vertical === "") {
-    this.applyStyles({
-      left:  this.formatStyle(textPos, "%"),
-      width: this.formatStyle(cue.size, "%")
-    });
-  // Vertical box orientation; textPos is the distance from the top edge of the
-  // area to the top edge of the box and cue.size is the height extending
-  // downwards from there.
-  } else {
-    this.applyStyles({
-      top: this.formatStyle(textPos, "%"),
-      height: this.formatStyle(cue.size, "%")
-    });
-  }
-
-  this.move = function(box) {
-    this.applyStyles({
-      top: this.formatStyle(box.top, "px"),
-      bottom: this.formatStyle(box.bottom, "px"),
-      left: this.formatStyle(box.left, "px"),
-      right: this.formatStyle(box.right, "px"),
-      height: this.formatStyle(box.height, "px"),
-      width: this.formatStyle(box.width, "px")
-    });
-  };
-}
-CueStyleBox.prototype = _objCreate(StyleBox.prototype);
-CueStyleBox.prototype.constructor = CueStyleBox;
-
-// Represents the co-ordinates of an Element in a way that we can easily
-// compute things with such as if it overlaps or intersects with another Element.
-// Can initialize it with either a StyleBox or another BoxPosition.
-function BoxPosition(obj) {
-  var isIE8 = (/MSIE\s8\.0/).test(navigator.userAgent);
-
-  // Either a BoxPosition was passed in and we need to copy it, or a StyleBox
-  // was passed in and we need to copy the results of 'getBoundingClientRect'
-  // as the object returned is readonly. All co-ordinate values are in reference
-  // to the viewport origin (top left).
-  var lh, height, width, top;
-  if (obj.div) {
-    height = obj.div.offsetHeight;
-    width = obj.div.offsetWidth;
-    top = obj.div.offsetTop;
-
-    var rects = (rects = obj.div.childNodes) && (rects = rects[0]) &&
-                rects.getClientRects && rects.getClientRects();
-    obj = obj.div.getBoundingClientRect();
-    // In certain cases the outter div will be slightly larger then the sum of
-    // the inner div's lines. This could be due to bold text, etc, on some platforms.
-    // In this case we should get the average line height and use that. This will
-    // result in the desired behaviour.
-    lh = rects ? Math.max((rects[0] && rects[0].height) || 0, obj.height / rects.length)
-               : 0;
-
-  }
-  this.left = obj.left;
-  this.right = obj.right;
-  this.top = obj.top || top;
-  this.height = obj.height || height;
-  this.bottom = obj.bottom || (top + (obj.height || height));
-  this.width = obj.width || width;
-  this.lineHeight = lh !== undefined ? lh : obj.lineHeight;
-
-  if (isIE8 && !this.lineHeight) {
-    this.lineHeight = 13;
-  }
-}
-
-// Move the box along a particular axis. Optionally pass in an amount to move
-// the box. If no amount is passed then the default is the line height of the
-// box.
-BoxPosition.prototype.move = function(axis, toMove) {
-  toMove = toMove !== undefined ? toMove : this.lineHeight;
-  switch (axis) {
-  case "+x":
-    this.left += toMove;
-    this.right += toMove;
-    break;
-  case "-x":
-    this.left -= toMove;
-    this.right -= toMove;
-    break;
-  case "+y":
-    this.top += toMove;
-    this.bottom += toMove;
-    break;
-  case "-y":
-    this.top -= toMove;
-    this.bottom -= toMove;
-    break;
-  }
-};
-
-// Check if this box overlaps another box, b2.
-BoxPosition.prototype.overlaps = function(b2) {
-  return this.left < b2.right &&
-         this.right > b2.left &&
-         this.top < b2.bottom &&
-         this.bottom > b2.top;
-};
-
-// Check if this box overlaps any other boxes in boxes.
-BoxPosition.prototype.overlapsAny = function(boxes) {
-  for (var i = 0; i < boxes.length; i++) {
-    if (this.overlaps(boxes[i])) {
-      return true;
-    }
-  }
-  return false;
-};
-
-// Check if this box is within another box.
-BoxPosition.prototype.within = function(container) {
-  return this.top >= container.top &&
-         this.bottom <= container.bottom &&
-         this.left >= container.left &&
-         this.right <= container.right;
-};
-
-// Check if this box is entirely within the container or it is overlapping
-// on the edge opposite of the axis direction passed. For example, if "+x" is
-// passed and the box is overlapping on the left edge of the container, then
-// return true.
-BoxPosition.prototype.overlapsOppositeAxis = function(container, axis) {
-  switch (axis) {
-  case "+x":
-    return this.left < container.left;
-  case "-x":
-    return this.right > container.right;
-  case "+y":
-    return this.top < container.top;
-  case "-y":
-    return this.bottom > container.bottom;
-  }
-};
-
-// Find the percentage of the area that this box is overlapping with another
-// box.
-BoxPosition.prototype.intersectPercentage = function(b2) {
-  var x = Math.max(0, Math.min(this.right, b2.right) - Math.max(this.left, b2.left)),
-      y = Math.max(0, Math.min(this.bottom, b2.bottom) - Math.max(this.top, b2.top)),
-      intersectArea = x * y;
-  return intersectArea / (this.height * this.width);
-};
-
-// Convert the positions from this box to CSS compatible positions using
-// the reference container's positions. This has to be done because this
-// box's positions are in reference to the viewport origin, whereas, CSS
-// values are in referecne to their respective edges.
-BoxPosition.prototype.toCSSCompatValues = function(reference) {
-  return {
-    top: this.top - reference.top,
-    bottom: reference.bottom - this.bottom,
-    left: this.left - reference.left,
-    right: reference.right - this.right,
-    height: this.height,
-    width: this.width
-  };
-};
-
-// Get an object that represents the box's position without anything extra.
-// Can pass a StyleBox, HTMLElement, or another BoxPositon.
-BoxPosition.getSimpleBoxPosition = function(obj) {
-  var height = obj.div ? obj.div.offsetHeight : obj.tagName ? obj.offsetHeight : 0;
-  var width = obj.div ? obj.div.offsetWidth : obj.tagName ? obj.offsetWidth : 0;
-  var top = obj.div ? obj.div.offsetTop : obj.tagName ? obj.offsetTop : 0;
-
-  obj = obj.div ? obj.div.getBoundingClientRect() :
-                obj.tagName ? obj.getBoundingClientRect() : obj;
-  var ret = {
-    left: obj.left,
-    right: obj.right,
-    top: obj.top || top,
-    height: obj.height || height,
-    bottom: obj.bottom || (top + (obj.height || height)),
-    width: obj.width || width
-  };
-  return ret;
-};
-
-// Move a StyleBox to its specified, or next best, position. The containerBox
-// is the box that contains the StyleBox, such as a div. boxPositions are
-// a list of other boxes that the styleBox can't overlap with.
-function moveBoxToLinePosition(window, styleBox, containerBox, boxPositions) {
-
-  // Find the best position for a cue box, b, on the video. The axis parameter
-  // is a list of axis, the order of which, it will move the box along. For example:
-  // Passing ["+x", "-x"] will move the box first along the x axis in the positive
-  // direction. If it doesn't find a good position for it there it will then move
-  // it along the x axis in the negative direction.
-  function findBestPosition(b, axis) {
-    var bestPosition,
-        specifiedPosition = new BoxPosition(b),
-        percentage = 1; // Highest possible so the first thing we get is better.
-
-    for (var i = 0; i < axis.length; i++) {
-      while (b.overlapsOppositeAxis(containerBox, axis[i]) ||
-             (b.within(containerBox) && b.overlapsAny(boxPositions))) {
-        b.move(axis[i]);
-      }
-      // We found a spot where we aren't overlapping anything. This is our
-      // best position.
-      if (b.within(containerBox)) {
-        return b;
-      }
-      var p = b.intersectPercentage(containerBox);
-      // If we're outside the container box less then we were on our last try
-      // then remember this position as the best position.
-      if (percentage > p) {
-        bestPosition = new BoxPosition(b);
-        percentage = p;
-      }
-      // Reset the box position to the specified position.
-      b = new BoxPosition(specifiedPosition);
-    }
-    return bestPosition || specifiedPosition;
-  }
-
-  var boxPosition = new BoxPosition(styleBox),
-      cue = styleBox.cue,
-      linePos = computeLinePos(cue),
-      axis = [];
-
-  // If we have a line number to align the cue to.
-  if (cue.snapToLines) {
-    var size;
-    switch (cue.vertical) {
-    case "":
-      axis = [ "+y", "-y" ];
-      size = "height";
-      break;
-    case "rl":
-      axis = [ "+x", "-x" ];
-      size = "width";
-      break;
-    case "lr":
-      axis = [ "-x", "+x" ];
-      size = "width";
-      break;
-    }
-
-    var step = boxPosition.lineHeight,
-        position = step * Math.round(linePos),
-        maxPosition = containerBox[size] + step,
-        initialAxis = axis[0];
-
-    // If the specified intial position is greater then the max position then
-    // clamp the box to the amount of steps it would take for the box to
-    // reach the max position.
-    if (Math.abs(position) > maxPosition) {
-      position = position < 0 ? -1 : 1;
-      position *= Math.ceil(maxPosition / step) * step;
-    }
-
-    // If computed line position returns negative then line numbers are
-    // relative to the bottom of the video instead of the top. Therefore, we
-    // need to increase our initial position by the length or width of the
-    // video, depending on the writing direction, and reverse our axis directions.
-    if (linePos < 0) {
-      position += cue.vertical === "" ? containerBox.height : containerBox.width;
-      axis = axis.reverse();
-    }
-
-    // Move the box to the specified position. This may not be its best
-    // position.
-    boxPosition.move(initialAxis, position);
-
-  } else {
-    // If we have a percentage line value for the cue.
-    var calculatedPercentage = (boxPosition.lineHeight / containerBox.height) * 100;
-
-    switch (cue.lineAlign) {
-    case "middle":
-      linePos -= (calculatedPercentage / 2);
-      break;
-    case "end":
-      linePos -= calculatedPercentage;
-      break;
-    }
-
-    // Apply initial line position to the cue box.
-    switch (cue.vertical) {
-    case "":
-      styleBox.applyStyles({
-        top: styleBox.formatStyle(linePos, "%")
-      });
-      break;
-    case "rl":
-      styleBox.applyStyles({
-        left: styleBox.formatStyle(linePos, "%")
-      });
-      break;
-    case "lr":
-      styleBox.applyStyles({
-        right: styleBox.formatStyle(linePos, "%")
-      });
-      break;
-    }
-
-    axis = [ "+y", "-x", "+x", "-y" ];
-
-    // Get the box position again after we've applied the specified positioning
-    // to it.
-    boxPosition = new BoxPosition(styleBox);
-  }
-
-  var bestPosition = findBestPosition(boxPosition, axis);
-  styleBox.move(bestPosition.toCSSCompatValues(containerBox));
-}
-
-function WebVTT$1() {
-  // Nothing
-}
-
-// Helper to allow strings to be decoded instead of the default binary utf8 data.
-WebVTT$1.StringDecoder = function() {
-  return {
-    decode: function(data) {
-      if (!data) {
-        return "";
-      }
-      if (typeof data !== "string") {
-        throw new Error("Error - expected string data.");
-      }
-      return decodeURIComponent(encodeURIComponent(data));
-    }
-  };
-};
-
-WebVTT$1.convertCueToDOMTree = function(window, cuetext) {
-  if (!window || !cuetext) {
-    return null;
-  }
-  return parseContent(window, cuetext);
-};
-
-var FONT_SIZE_PERCENT = 0.05;
-var FONT_STYLE = "sans-serif";
-var CUE_BACKGROUND_PADDING = "1.5%";
-
-// Runs the processing model over the cues and regions passed to it.
-// @param overlay A block level element (usually a div) that the computed cues
-//                and regions will be placed into.
-WebVTT$1.processCues = function(window, cues, overlay) {
-  if (!window || !cues || !overlay) {
-    return null;
-  }
-
-  // Remove all previous children.
-  while (overlay.firstChild) {
-    overlay.removeChild(overlay.firstChild);
-  }
-
-  var paddedOverlay = window.document.createElement("div");
-  paddedOverlay.style.position = "absolute";
-  paddedOverlay.style.left = "0";
-  paddedOverlay.style.right = "0";
-  paddedOverlay.style.top = "0";
-  paddedOverlay.style.bottom = "0";
-  paddedOverlay.style.margin = CUE_BACKGROUND_PADDING;
-  overlay.appendChild(paddedOverlay);
-
-  // Determine if we need to compute the display states of the cues. This could
-  // be the case if a cue's state has been changed since the last computation or
-  // if it has not been computed yet.
-  function shouldCompute(cues) {
-    for (var i = 0; i < cues.length; i++) {
-      if (cues[i].hasBeenReset || !cues[i].displayState) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // We don't need to recompute the cues' display states. Just reuse them.
-  if (!shouldCompute(cues)) {
-    for (var i = 0; i < cues.length; i++) {
-      paddedOverlay.appendChild(cues[i].displayState);
-    }
-    return;
-  }
-
-  var boxPositions = [],
-      containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay),
-      fontSize = Math.round(containerBox.height * FONT_SIZE_PERCENT * 100) / 100;
-  var styleOptions = {
-    font: fontSize + "px " + FONT_STYLE
-  };
-
-  (function() {
-    var styleBox, cue;
-
-    for (var i = 0; i < cues.length; i++) {
-      cue = cues[i];
-
-      // Compute the intial position and styles of the cue div.
-      styleBox = new CueStyleBox(window, cue, styleOptions);
-      paddedOverlay.appendChild(styleBox.div);
-
-      // Move the cue div to it's correct line position.
-      moveBoxToLinePosition(window, styleBox, containerBox, boxPositions);
-
-      // Remember the computed div so that we don't have to recompute it later
-      // if we don't have too.
-      cue.displayState = styleBox.div;
-
-      boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
-    }
-  })();
-};
-
-WebVTT$1.Parser = function(window, vttjs, decoder) {
-  if (!decoder) {
-    decoder = vttjs;
-    vttjs = {};
-  }
-  if (!vttjs) {
-    vttjs = {};
-  }
-
-  this.window = window;
-  this.vttjs = vttjs;
-  this.state = "INITIAL";
-  this.buffer = "";
-  this.decoder = decoder || new TextDecoder("utf8");
-  this.regionList = [];
-};
-
-WebVTT$1.Parser.prototype = {
-  // If the error is a ParsingError then report it to the consumer if
-  // possible. If it's not a ParsingError then throw it like normal.
-  reportOrThrowError: function(e) {
-    if (e instanceof ParsingError) {
-      this.onparsingerror && this.onparsingerror(e);
-    } else {
-      throw e;
-    }
-  },
-  parse: function (data) {
-    var self = this;
-
-    // If there is no data then we won't decode it, but will just try to parse
-    // whatever is in buffer already. This may occur in circumstances, for
-    // example when flush() is called.
-    if (data) {
-      // Try to decode the data that we received.
-      self.buffer += self.decoder.decode(data, {stream: true});
-    }
-
-    function collectNextLine() {
-      var buffer = self.buffer;
-      var pos = 0;
-      while (pos < buffer.length && buffer[pos] !== '\r' && buffer[pos] !== '\n') {
-        ++pos;
-      }
-      var line = buffer.substr(0, pos);
-      // Advance the buffer early in case we fail below.
-      if (buffer[pos] === '\r') {
-        ++pos;
-      }
-      if (buffer[pos] === '\n') {
-        ++pos;
-      }
-      self.buffer = buffer.substr(pos);
-      return line;
-    }
-
-    // 3.4 WebVTT region and WebVTT region settings syntax
-    function parseRegion(input) {
-      var settings = new Settings();
-
-      parseOptions(input, function (k, v) {
-        switch (k) {
-        case "id":
-          settings.set(k, v);
-          break;
-        case "width":
-          settings.percent(k, v);
-          break;
-        case "lines":
-          settings.integer(k, v);
-          break;
-        case "regionanchor":
-        case "viewportanchor":
-          var xy = v.split(',');
-          if (xy.length !== 2) {
-            break;
-          }
-          // We have to make sure both x and y parse, so use a temporary
-          // settings object here.
-          var anchor = new Settings();
-          anchor.percent("x", xy[0]);
-          anchor.percent("y", xy[1]);
-          if (!anchor.has("x") || !anchor.has("y")) {
-            break;
-          }
-          settings.set(k + "X", anchor.get("x"));
-          settings.set(k + "Y", anchor.get("y"));
-          break;
-        case "scroll":
-          settings.alt(k, v, ["up"]);
-          break;
-        }
-      }, /=/, /\s/);
-
-      // Create the region, using default values for any values that were not
-      // specified.
-      if (settings.has("id")) {
-        var region = new (self.vttjs.VTTRegion || self.window.VTTRegion)();
-        region.width = settings.get("width", 100);
-        region.lines = settings.get("lines", 3);
-        region.regionAnchorX = settings.get("regionanchorX", 0);
-        region.regionAnchorY = settings.get("regionanchorY", 100);
-        region.viewportAnchorX = settings.get("viewportanchorX", 0);
-        region.viewportAnchorY = settings.get("viewportanchorY", 100);
-        region.scroll = settings.get("scroll", "");
-        // Register the region.
-        self.onregion && self.onregion(region);
-        // Remember the VTTRegion for later in case we parse any VTTCues that
-        // reference it.
-        self.regionList.push({
-          id: settings.get("id"),
-          region: region
-        });
-      }
-    }
-
-    // draft-pantos-http-live-streaming-20
-    // https://tools.ietf.org/html/draft-pantos-http-live-streaming-20#section-3.5
-    // 3.5 WebVTT
-    function parseTimestampMap(input) {
-      var settings = new Settings();
-
-      parseOptions(input, function(k, v) {
-        switch(k) {
-        case "MPEGT":
-          settings.integer(k + 'S', v);
-          break;
-        case "LOCA":
-          settings.set(k + 'L', parseTimeStamp(v));
-          break;
-        }
-      }, /[^\d]:/, /,/);
-
-      self.ontimestampmap && self.ontimestampmap({
-        "MPEGTS": settings.get("MPEGTS"),
-        "LOCAL": settings.get("LOCAL")
-      });
-    }
-
-    // 3.2 WebVTT metadata header syntax
-    function parseHeader(input) {
-      if (input.match(/X-TIMESTAMP-MAP/)) {
-        // This line contains HLS X-TIMESTAMP-MAP metadata
-        parseOptions(input, function(k, v) {
-          switch(k) {
-          case "X-TIMESTAMP-MAP":
-            parseTimestampMap(v);
-            break;
-          }
-        }, /=/);
-      } else {
-        parseOptions(input, function (k, v) {
-          switch (k) {
-          case "Region":
-            // 3.3 WebVTT region metadata header syntax
-            parseRegion(v);
-            break;
-          }
-        }, /:/);
-      }
-
-    }
-
-    // 5.1 WebVTT file parsing.
-    try {
-      var line;
-      if (self.state === "INITIAL") {
-        // We can't start parsing until we have the first line.
-        if (!/\r\n|\n/.test(self.buffer)) {
-          return this;
-        }
-
-        line = collectNextLine();
-
-        var m = line.match(/^WEBVTT([ \t].*)?$/);
-        if (!m || !m[0]) {
-          throw new ParsingError(ParsingError.Errors.BadSignature);
-        }
-
-        self.state = "HEADER";
-      }
-
-      var alreadyCollectedLine = false;
-      while (self.buffer) {
-        // We can't parse a line until we have the full line.
-        if (!/\r\n|\n/.test(self.buffer)) {
-          return this;
-        }
-
-        if (!alreadyCollectedLine) {
-          line = collectNextLine();
-        } else {
-          alreadyCollectedLine = false;
-        }
-
-        switch (self.state) {
-        case "HEADER":
-          // 13-18 - Allow a header (metadata) under the WEBVTT line.
-          if (/:/.test(line)) {
-            parseHeader(line);
-          } else if (!line) {
-            // An empty line terminates the header and starts the body (cues).
-            self.state = "ID";
-          }
-          continue;
-        case "NOTE":
-          // Ignore NOTE blocks.
-          if (!line) {
-            self.state = "ID";
-          }
-          continue;
-        case "ID":
-          // Check for the start of NOTE blocks.
-          if (/^NOTE($|[ \t])/.test(line)) {
-            self.state = "NOTE";
-            break;
-          }
-          // 19-29 - Allow any number of line terminators, then initialize new cue values.
-          if (!line) {
-            continue;
-          }
-          self.cue = new (self.vttjs.VTTCue || self.window.VTTCue)(0, 0, "");
-          self.state = "CUE";
-          // 30-39 - Check if self line contains an optional identifier or timing data.
-          if (line.indexOf("-->") === -1) {
-            self.cue.id = line;
-            continue;
-          }
-          // Process line as start of a cue.
-          /*falls through*/
-        case "CUE":
-          // 40 - Collect cue timings and settings.
-          try {
-            parseCue(line, self.cue, self.regionList);
-          } catch (e) {
-            self.reportOrThrowError(e);
-            // In case of an error ignore rest of the cue.
-            self.cue = null;
-            self.state = "BADCUE";
-            continue;
-          }
-          self.state = "CUETEXT";
-          continue;
-        case "CUETEXT":
-          var hasSubstring = line.indexOf("-->") !== -1;
-          // 34 - If we have an empty line then report the cue.
-          // 35 - If we have the special substring '-->' then report the cue,
-          // but do not collect the line as we need to process the current
-          // one as a new cue.
-          if (!line || hasSubstring && (alreadyCollectedLine = true)) {
-            // We are done parsing self cue.
-            self.oncue && self.oncue(self.cue);
-            self.cue = null;
-            self.state = "ID";
-            continue;
-          }
-          if (self.cue.text) {
-            self.cue.text += "\n";
-          }
-          self.cue.text += line;
-          continue;
-        case "BADCUE": // BADCUE
-          // 54-62 - Collect and discard the remaining cue.
-          if (!line) {
-            self.state = "ID";
-          }
-          continue;
-        }
-      }
-    } catch (e) {
-      self.reportOrThrowError(e);
-
-      // If we are currently parsing a cue, report what we have.
-      if (self.state === "CUETEXT" && self.cue && self.oncue) {
-        self.oncue(self.cue);
-      }
-      self.cue = null;
-      // Enter BADWEBVTT state if header was not parsed correctly otherwise
-      // another exception occurred so enter BADCUE state.
-      self.state = self.state === "INITIAL" ? "BADWEBVTT" : "BADCUE";
-    }
-    return this;
-  },
-  flush: function () {
-    var self = this;
-    try {
-      // Finish decoding the stream.
-      self.buffer += self.decoder.decode();
-      // Synthesize the end of the current cue or region.
-      if (self.cue || self.state === "HEADER") {
-        self.buffer += "\n\n";
-        self.parse();
-      }
-      // If we've flushed, parsed, and we're still on the INITIAL state then
-      // that means we don't have enough of the stream to parse the first
-      // line.
-      if (self.state === "INITIAL") {
-        throw new ParsingError(ParsingError.Errors.BadSignature);
-      }
-    } catch(e) {
-      self.reportOrThrowError(e);
-    }
-    self.onflush && self.onflush();
-    return this;
-  }
-};
-
-var vtt$1 = WebVTT$1;
-
-/**
- * Copyright 2013 vtt.js Contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-var autoKeyword = "auto";
-var directionSetting = {
-  "": true,
-  "lr": true,
-  "rl": true
-};
-var alignSetting = {
-  "start": true,
-  "middle": true,
-  "end": true,
-  "left": true,
-  "right": true
-};
-
-function findDirectionSetting(value) {
-  if (typeof value !== "string") {
-    return false;
-  }
-  var dir = directionSetting[value.toLowerCase()];
-  return dir ? value.toLowerCase() : false;
-}
-
-function findAlignSetting(value) {
-  if (typeof value !== "string") {
-    return false;
-  }
-  var align = alignSetting[value.toLowerCase()];
-  return align ? value.toLowerCase() : false;
-}
-
-function extend$1(obj) {
-  var i = 1;
-  for (; i < arguments.length; i++) {
-    var cobj = arguments[i];
-    for (var p in cobj) {
-      obj[p] = cobj[p];
-    }
-  }
-
-  return obj;
-}
-
-function VTTCue(startTime, endTime, text) {
-  var cue = this;
-  var isIE8 = (/MSIE\s8\.0/).test(navigator.userAgent);
-  var baseObj = {};
-
-  if (isIE8) {
-    cue = document.createElement('custom');
-  } else {
-    baseObj.enumerable = true;
-  }
-
-  /**
-   * Shim implementation specific properties. These properties are not in
-   * the spec.
-   */
-
-  // Lets us know when the VTTCue's data has changed in such a way that we need
-  // to recompute its display state. This lets us compute its display state
-  // lazily.
-  cue.hasBeenReset = false;
-
-  /**
-   * VTTCue and TextTrackCue properties
-   * http://dev.w3.org/html5/webvtt/#vttcue-interface
-   */
-
-  var _id = "";
-  var _pauseOnExit = false;
-  var _startTime = startTime;
-  var _endTime = endTime;
-  var _text = text;
-  var _region = null;
-  var _vertical = "";
-  var _snapToLines = true;
-  var _line = "auto";
-  var _lineAlign = "start";
-  var _position = 50;
-  var _positionAlign = "middle";
-  var _size = 50;
-  var _align = "middle";
-
-  Object.defineProperty(cue,
-    "id", extend$1({}, baseObj, {
-      get: function() {
-        return _id;
-      },
-      set: function(value) {
-        _id = "" + value;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "pauseOnExit", extend$1({}, baseObj, {
-      get: function() {
-        return _pauseOnExit;
-      },
-      set: function(value) {
-        _pauseOnExit = !!value;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "startTime", extend$1({}, baseObj, {
-      get: function() {
-        return _startTime;
-      },
-      set: function(value) {
-        if (typeof value !== "number") {
-          throw new TypeError("Start time must be set to a number.");
-        }
-        _startTime = value;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "endTime", extend$1({}, baseObj, {
-      get: function() {
-        return _endTime;
-      },
-      set: function(value) {
-        if (typeof value !== "number") {
-          throw new TypeError("End time must be set to a number.");
-        }
-        _endTime = value;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "text", extend$1({}, baseObj, {
-      get: function() {
-        return _text;
-      },
-      set: function(value) {
-        _text = "" + value;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "region", extend$1({}, baseObj, {
-      get: function() {
-        return _region;
-      },
-      set: function(value) {
-        _region = value;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "vertical", extend$1({}, baseObj, {
-      get: function() {
-        return _vertical;
-      },
-      set: function(value) {
-        var setting = findDirectionSetting(value);
-        // Have to check for false because the setting an be an empty string.
-        if (setting === false) {
-          throw new SyntaxError("An invalid or illegal string was specified.");
-        }
-        _vertical = setting;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "snapToLines", extend$1({}, baseObj, {
-      get: function() {
-        return _snapToLines;
-      },
-      set: function(value) {
-        _snapToLines = !!value;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "line", extend$1({}, baseObj, {
-      get: function() {
-        return _line;
-      },
-      set: function(value) {
-        if (typeof value !== "number" && value !== autoKeyword) {
-          throw new SyntaxError("An invalid number or illegal string was specified.");
-        }
-        _line = value;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "lineAlign", extend$1({}, baseObj, {
-      get: function() {
-        return _lineAlign;
-      },
-      set: function(value) {
-        var setting = findAlignSetting(value);
-        if (!setting) {
-          throw new SyntaxError("An invalid or illegal string was specified.");
-        }
-        _lineAlign = setting;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "position", extend$1({}, baseObj, {
-      get: function() {
-        return _position;
-      },
-      set: function(value) {
-        if (value < 0 || value > 100) {
-          throw new Error("Position must be between 0 and 100.");
-        }
-        _position = value;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "positionAlign", extend$1({}, baseObj, {
-      get: function() {
-        return _positionAlign;
-      },
-      set: function(value) {
-        var setting = findAlignSetting(value);
-        if (!setting) {
-          throw new SyntaxError("An invalid or illegal string was specified.");
-        }
-        _positionAlign = setting;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "size", extend$1({}, baseObj, {
-      get: function() {
-        return _size;
-      },
-      set: function(value) {
-        if (value < 0 || value > 100) {
-          throw new Error("Size must be between 0 and 100.");
-        }
-        _size = value;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  Object.defineProperty(cue,
-    "align", extend$1({}, baseObj, {
-      get: function() {
-        return _align;
-      },
-      set: function(value) {
-        var setting = findAlignSetting(value);
-        if (!setting) {
-          throw new SyntaxError("An invalid or illegal string was specified.");
-        }
-        _align = setting;
-        this.hasBeenReset = true;
-      }
-    }));
-
-  /**
-   * Other <track> spec defined properties
-   */
-
-  // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html#text-track-cue-display-state
-  cue.displayState = undefined;
-
-  if (isIE8) {
-    return cue;
-  }
-}
-
-/**
- * VTTCue methods
- */
-
-VTTCue.prototype.getCueAsHTML = function() {
-  // Assume WebVTT.convertCueToDOMTree is on the global.
-  return WebVTT.convertCueToDOMTree(window, this.text);
-};
-
-var vttcue = VTTCue;
-
-/**
- * Copyright 2013 vtt.js Contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-var scrollSetting = {
-  "": true,
-  "up": true
-};
-
-function findScrollSetting(value) {
-  if (typeof value !== "string") {
-    return false;
-  }
-  var scroll = scrollSetting[value.toLowerCase()];
-  return scroll ? value.toLowerCase() : false;
-}
-
-function isValidPercentValue(value) {
-  return typeof value === "number" && (value >= 0 && value <= 100);
-}
-
-// VTTRegion shim http://dev.w3.org/html5/webvtt/#vttregion-interface
-function VTTRegion() {
-  var _width = 100;
-  var _lines = 3;
-  var _regionAnchorX = 0;
-  var _regionAnchorY = 100;
-  var _viewportAnchorX = 0;
-  var _viewportAnchorY = 100;
-  var _scroll = "";
-
-  Object.defineProperties(this, {
-    "width": {
-      enumerable: true,
-      get: function() {
-        return _width;
-      },
-      set: function(value) {
-        if (!isValidPercentValue(value)) {
-          throw new Error("Width must be between 0 and 100.");
-        }
-        _width = value;
-      }
-    },
-    "lines": {
-      enumerable: true,
-      get: function() {
-        return _lines;
-      },
-      set: function(value) {
-        if (typeof value !== "number") {
-          throw new TypeError("Lines must be set to a number.");
-        }
-        _lines = value;
-      }
-    },
-    "regionAnchorY": {
-      enumerable: true,
-      get: function() {
-        return _regionAnchorY;
-      },
-      set: function(value) {
-        if (!isValidPercentValue(value)) {
-          throw new Error("RegionAnchorX must be between 0 and 100.");
-        }
-        _regionAnchorY = value;
-      }
-    },
-    "regionAnchorX": {
-      enumerable: true,
-      get: function() {
-        return _regionAnchorX;
-      },
-      set: function(value) {
-        if(!isValidPercentValue(value)) {
-          throw new Error("RegionAnchorY must be between 0 and 100.");
-        }
-        _regionAnchorX = value;
-      }
-    },
-    "viewportAnchorY": {
-      enumerable: true,
-      get: function() {
-        return _viewportAnchorY;
-      },
-      set: function(value) {
-        if (!isValidPercentValue(value)) {
-          throw new Error("ViewportAnchorY must be between 0 and 100.");
-        }
-        _viewportAnchorY = value;
-      }
-    },
-    "viewportAnchorX": {
-      enumerable: true,
-      get: function() {
-        return _viewportAnchorX;
-      },
-      set: function(value) {
-        if (!isValidPercentValue(value)) {
-          throw new Error("ViewportAnchorX must be between 0 and 100.");
-        }
-        _viewportAnchorX = value;
-      }
-    },
-    "scroll": {
-      enumerable: true,
-      get: function() {
-        return _scroll;
-      },
-      set: function(value) {
-        var setting = findScrollSetting(value);
-        // Have to check for false as an empty string is a legal value.
-        if (setting === false) {
-          throw new SyntaxError("An invalid or illegal string was specified.");
-        }
-        _scroll = setting;
-      }
-    }
-  });
-}
-
-var vttregion = VTTRegion;
-
-var browserIndex = createCommonjsModule(function (module) {
-/**
- * Copyright 2013 vtt.js Contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-// Default exports for Node. Export the extended versions of VTTCue and
-// VTTRegion in Node since we likely want the capability to convert back and
-// forth between JSON. If we don't then it's not that big of a deal since we're
-// off browser.
-
-
-
-var vttjs = module.exports = {
-  WebVTT: vtt$1,
-  VTTCue: vttcue,
-  VTTRegion: vttregion
-};
-
-window_1.vttjs = vttjs;
-window_1.WebVTT = vttjs.WebVTT;
-
-var cueShim = vttjs.VTTCue;
-var regionShim = vttjs.VTTRegion;
-var nativeVTTCue = window_1.VTTCue;
-var nativeVTTRegion = window_1.VTTRegion;
-
-vttjs.shim = function() {
-  window_1.VTTCue = cueShim;
-  window_1.VTTRegion = regionShim;
-};
-
-vttjs.restore = function() {
-  window_1.VTTCue = nativeVTTCue;
-  window_1.VTTRegion = nativeVTTRegion;
-};
-
-if (!window_1.VTTCue) {
-  vttjs.shim();
-}
-});
 
 /**
  * @file tech.js
@@ -10365,26 +8100,26 @@ var Tech = function (_Component) {
   Tech.prototype.addWebVttScript_ = function addWebVttScript_() {
     var _this4 = this;
 
-    if (window_1.WebVTT) {
+    if (window.WebVTT) {
       return;
     }
 
     // Initially, Tech.el_ is a child of a dummy-div wait until the Component system
     // signals that the Tech is ready at which point Tech.el_ is part of the DOM
     // before inserting the WebVTT script
-    if (document_1.body.contains(this.el())) {
+    if (document.body.contains(this.el())) {
 
       // load via require if available and vtt.js script location was not passed in
       // as an option. novtt builds will turn the above require call into an empty object
       // which will cause this if check to always fail.
-      if (!this.options_['vtt.js'] && isPlain(browserIndex) && Object.keys(browserIndex).length > 0) {
+      if (!this.options_['vtt.js'] && isPlain(vtt) && Object.keys(vtt).length > 0) {
         this.trigger('vttjsloaded');
         return;
       }
 
       // load vtt.js via the script location option or the cdn of no location was
       // passed in
-      var script = document_1.createElement('script');
+      var script = document.createElement('script');
 
       script.src = this.options_['vtt.js'] || 'https://vjs.zencdn.net/vttjs/0.12.4/vtt.min.js';
       script.onload = function () {
@@ -10411,7 +8146,7 @@ var Tech = function (_Component) {
       });
       // but have not loaded yet and we set it to true before the inject so that
       // we don't overwrite the injected window.WebVTT if it loads right away
-      window_1.WebVTT = true;
+      window.WebVTT = true;
       this.el().parentNode.appendChild(script);
     } else {
       this.ready(this.addWebVttScript_);
@@ -10774,9 +8509,9 @@ var Tech = function (_Component) {
       return Tech.techs_[name];
     }
 
-    if (window_1 && window_1.videojs && window_1.videojs[name]) {
+    if (window && window.videojs && window.videojs[name]) {
       log$1.warn('The ' + name + ' tech was added to the videojs object when it should be registered using videojs.registerTech(name, tech)');
-      return window_1.videojs[name];
+      return window.videojs[name];
     }
   };
 
@@ -11565,7 +9300,7 @@ var ClickableComponent = function (_Component) {
 
 
   ClickableComponent.prototype.handleFocus = function handleFocus(event) {
-    on(document_1, 'keydown', bind(this, this.handleKeyPress));
+    on(document, 'keydown', bind(this, this.handleKeyPress));
   };
 
   /**
@@ -11604,7 +9339,7 @@ var ClickableComponent = function (_Component) {
 
 
   ClickableComponent.prototype.handleBlur = function handleBlur(event) {
-    off(document_1, 'keydown', bind(this, this.handleKeyPress));
+    off(document, 'keydown', bind(this, this.handleKeyPress));
   };
 
   return ClickableComponent;
@@ -11975,8 +9710,8 @@ var TextTrackDisplay = function (_Component) {
 
 
   TextTrackDisplay.prototype.clearDisplay = function clearDisplay() {
-    if (typeof window_1.WebVTT === 'function') {
-      window_1.WebVTT.processCues(window_1, [], this.el_);
+    if (typeof window.WebVTT === 'function') {
+      window.WebVTT.processCues(window, [], this.el_);
     }
   };
 
@@ -12036,7 +9771,7 @@ var TextTrackDisplay = function (_Component) {
 
 
   TextTrackDisplay.prototype.updateForTrack = function updateForTrack(track) {
-    if (typeof window_1.WebVTT !== 'function' || !track.activeCues) {
+    if (typeof window.WebVTT !== 'function' || !track.activeCues) {
       return;
     }
 
@@ -12047,7 +9782,7 @@ var TextTrackDisplay = function (_Component) {
       cues.push(track.activeCues[_i]);
     }
 
-    window_1.WebVTT.processCues(window_1, cues, this.el_);
+    window.WebVTT.processCues(window, cues, this.el_);
 
     var i = cues.length;
 
@@ -12091,7 +9826,7 @@ var TextTrackDisplay = function (_Component) {
         }
       }
       if (overrides.fontPercent && overrides.fontPercent !== 1) {
-        var fontSize = window_1.parseFloat(cueDiv.style.fontSize);
+        var fontSize = window.parseFloat(cueDiv.style.fontSize);
 
         cueDiv.style.fontSize = fontSize * overrides.fontPercent + 'px';
         cueDiv.style.height = 'auto';
@@ -12715,7 +10450,7 @@ var CurrentTimeDisplay = function (_Component) {
     if (this.textNode_) {
       this.contentEl_.removeChild(this.textNode_);
     }
-    this.textNode_ = document_1.createTextNode(' ' + (this.formattedTime_ || '0:00'));
+    this.textNode_ = document.createTextNode(' ' + (this.formattedTime_ || '0:00'));
     this.contentEl_.appendChild(this.textNode_);
   };
 
@@ -12822,7 +10557,7 @@ var DurationDisplay = function (_Component) {
     if (this.textNode_) {
       this.contentEl_.removeChild(this.textNode_);
     }
-    this.textNode_ = document_1.createTextNode(' ' + (this.formattedTime_ || '0:00'));
+    this.textNode_ = document.createTextNode(' ' + (this.formattedTime_ || '0:00'));
     this.contentEl_.appendChild(this.textNode_);
   };
 
@@ -12961,7 +10696,7 @@ var RemainingTimeDisplay = function (_Component) {
     if (this.textNode_) {
       this.contentEl_.removeChild(this.textNode_);
     }
-    this.textNode_ = document_1.createTextNode(' -' + (this.formattedTime_ || '0:00'));
+    this.textNode_ = document.createTextNode(' -' + (this.formattedTime_ || '0:00'));
     this.contentEl_.appendChild(this.textNode_);
   };
 
@@ -15439,7 +13174,7 @@ var MenuButton = function (_Component) {
 
 
   MenuButton.prototype.handleFocus = function handleFocus() {
-    on(document_1, 'keydown', bind(this, this.handleKeyPress));
+    on(document, 'keydown', bind(this, this.handleKeyPress));
   };
 
   /**
@@ -15454,7 +13189,7 @@ var MenuButton = function (_Component) {
 
 
   MenuButton.prototype.handleBlur = function handleBlur() {
-    off(document_1, 'keydown', bind(this, this.handleKeyPress));
+    off(document, 'keydown', bind(this, this.handleKeyPress));
   };
 
   /**
@@ -15802,17 +13537,17 @@ var TextTrackMenuItem = function (_MenuItem) {
       var event = void 0;
 
       _this.on(['tap', 'click'], function () {
-        if (_typeof(window_1.Event) !== 'object') {
+        if (_typeof(window.Event) !== 'object') {
           // Android 2.3 throws an Illegal Constructor error for window.Event
           try {
-            event = new window_1.Event('change');
+            event = new window.Event('change');
           } catch (err) {
             // continue regardless of error
           }
         }
 
         if (!event) {
-          event = document_1.createEvent('Event');
+          event = document.createEvent('Event');
           event.initEvent('change', true, true);
         }
 
@@ -18002,7 +15737,7 @@ var TextTrackSettings = function (_ModalDialog) {
     var values = void 0;
 
     try {
-      values = JSON.parse(window_1.localStorage.getItem(LOCAL_STORAGE_KEY));
+      values = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY));
     } catch (err) {
       log$1.warn(err);
     }
@@ -18026,9 +15761,9 @@ var TextTrackSettings = function (_ModalDialog) {
 
     try {
       if (Object.keys(values).length) {
-        window_1.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(values));
+        window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(values));
       } else {
-        window_1.localStorage.removeItem(LOCAL_STORAGE_KEY);
+        window.localStorage.removeItem(LOCAL_STORAGE_KEY);
       }
     } catch (err) {
       log$1.warn(err);
@@ -18057,7 +15792,7 @@ var TextTrackSettings = function (_ModalDialog) {
 
   TextTrackSettings.prototype.conditionalBlur_ = function conditionalBlur_() {
     this.previouslyActiveEl_ = null;
-    this.off(document_1, 'keydown', this.handleKeyDown);
+    this.off(document, 'keydown', this.handleKeyDown);
 
     var cb = this.player_.controlBar;
     var subsCapsBtn = cb && cb.subsCapsButton;
@@ -18356,7 +16091,7 @@ var Html5 = function (_Tech) {
         Html5.disposeMediaElement(el);
         el = clone;
       } else {
-        el = document_1.createElement('video');
+        el = document.createElement('video');
 
         // determine if native controls should be used
         var tagAttributes = this.options_.tag && getAttributes(this.options_.tag);
@@ -18620,7 +16355,7 @@ var Html5 = function (_Tech) {
 
   Html5.prototype.supportsFullScreen = function supportsFullScreen() {
     if (typeof this.el_.webkitEnterFullScreen === 'function') {
-      var userAgent = window_1.navigator && window_1.navigator.userAgent || '';
+      var userAgent = window.navigator && window.navigator.userAgent || '';
 
       // Seems to be broken in Chromium/Chrome && Safari in Leopard
       if (/Android/.test(userAgent) || !/Chrome|Mac OS X 10.5/.test(userAgent)) {
@@ -18785,7 +16520,7 @@ var Html5 = function (_Tech) {
     if (!this.featuresNativeTextTracks) {
       return _Tech.prototype.createRemoteTextTrack.call(this, options);
     }
-    var htmlTrackElement = document_1.createElement('track');
+    var htmlTrackElement = document.createElement('track');
 
     if (options.kind) {
       htmlTrackElement.kind = options.kind;
@@ -18880,10 +16615,10 @@ var Html5 = function (_Tech) {
       videoPlaybackQuality.totalVideoFrames = this.el().webkitDecodedFrameCount;
     }
 
-    if (window_1.performance && typeof window_1.performance.now === 'function') {
-      videoPlaybackQuality.creationTime = window_1.performance.now();
-    } else if (window_1.performance && window_1.performance.timing && typeof window_1.performance.timing.navigationStart === 'number') {
-      videoPlaybackQuality.creationTime = window_1.Date.now() - window_1.performance.timing.navigationStart;
+    if (window.performance && typeof window.performance.now === 'function') {
+      videoPlaybackQuality.creationTime = window.performance.now();
+    } else if (window.performance && window.performance.timing && typeof window.performance.timing.navigationStart === 'number') {
+      videoPlaybackQuality.creationTime = window.Date.now() - window.performance.timing.navigationStart;
     }
 
     return videoPlaybackQuality;
@@ -18903,8 +16638,8 @@ if (isReal()) {
    * @constant
    * @private
    */
-  Html5.TEST_VID = document_1.createElement('video');
-  var track = document_1.createElement('track');
+  Html5.TEST_VID = document.createElement('video');
+  var track = document.createElement('track');
 
   track.kind = 'captions';
   track.srclang = 'en';
@@ -20397,7 +18132,7 @@ var Player = function (_Component) {
     // Add a style element in the player that we'll use to set the width/height
     // of the player in a way that's still overrideable by CSS, just like the
     // video element
-    if (window_1.VIDEOJS_NO_DYNAMIC_STYLE !== true) {
+    if (window.VIDEOJS_NO_DYNAMIC_STYLE !== true) {
       this.styleEl_ = createStyleElement('vjs-styles-dimensions');
       var defaultsStyleEl = $('.vjs-styles-defaults');
       var head = $('head');
@@ -20598,7 +18333,7 @@ var Player = function (_Component) {
 
 
   Player.prototype.updateStyleEl_ = function updateStyleEl_() {
-    if (window_1.VIDEOJS_NO_DYNAMIC_STYLE === true) {
+    if (window.VIDEOJS_NO_DYNAMIC_STYLE === true) {
       var _width = typeof this.width_ === 'number' ? this.width_ : this.options_.width;
       var _height = typeof this.height_ === 'number' ? this.height_ : this.options_.height;
       var techEl = this.tech_ && this.tech_.el();
@@ -21957,12 +19692,12 @@ var Player = function (_Component) {
       // when canceling fullscreen. Otherwise if there's multiple
       // players on a page, they would all be reacting to the same fullscreen
       // events
-      on(document_1, fsApi.fullscreenchange, bind(this, function documentFullscreenChange(e) {
-        this.isFullscreen(document_1[fsApi.fullscreenElement]);
+      on(document, fsApi.fullscreenchange, bind(this, function documentFullscreenChange(e) {
+        this.isFullscreen(document[fsApi.fullscreenElement]);
 
         // If cancelling fullscreen, remove event listener.
         if (this.isFullscreen() === false) {
-          off(document_1, fsApi.fullscreenchange, documentFullscreenChange);
+          off(document, fsApi.fullscreenchange, documentFullscreenChange);
         }
         /**
          * @event Player#fullscreenchange
@@ -22002,7 +19737,7 @@ var Player = function (_Component) {
 
     // Check for browser element fullscreen support
     if (fsApi.requestFullscreen) {
-      document_1[fsApi.exitFullscreen]();
+      document[fsApi.exitFullscreen]();
     } else if (this.tech_.supportsFullScreen()) {
       this.techCall_('exitFullScreen');
     } else {
@@ -22027,16 +19762,16 @@ var Player = function (_Component) {
     this.isFullWindow = true;
 
     // Storing original doc overflow value to return to when fullscreen is off
-    this.docOrigOverflow = document_1.documentElement.style.overflow;
+    this.docOrigOverflow = document.documentElement.style.overflow;
 
     // Add listener for esc key to exit fullscreen
-    on(document_1, 'keydown', bind(this, this.fullWindowOnEscKey));
+    on(document, 'keydown', bind(this, this.fullWindowOnEscKey));
 
     // Hide any scroll bars
-    document_1.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 
     // Apply fullscreen styles
-    addClass(document_1.body, 'vjs-full-window');
+    addClass(document.body, 'vjs-full-window');
 
     /**
      * @event Player#enterFullWindow
@@ -22073,13 +19808,13 @@ var Player = function (_Component) {
 
   Player.prototype.exitFullWindow = function exitFullWindow() {
     this.isFullWindow = false;
-    off(document_1, 'keydown', this.fullWindowOnEscKey);
+    off(document, 'keydown', this.fullWindowOnEscKey);
 
     // Unhide scroll bars.
-    document_1.documentElement.style.overflow = this.docOrigOverflow;
+    document.documentElement.style.overflow = this.docOrigOverflow;
 
     // Remove fullscreen styles
-    removeClass(document_1.body, 'vjs-full-window');
+    removeClass(document.body, 'vjs-full-window');
 
     // Resize the box, controller, and poster to original sizes
     // this.positionAll();
@@ -23224,7 +20959,7 @@ var Player = function (_Component) {
     if (dataSetup !== null) {
       // Parse options JSON
       // If empty string, make it a parsable json object.
-      var _safeParseTuple = tuple(dataSetup || '{}'),
+      var _safeParseTuple = safeParseTuple(dataSetup || '{}'),
           err = _safeParseTuple[0],
           data = _safeParseTuple[1];
 
@@ -23266,7 +21001,7 @@ var Player = function (_Component) {
 
 
   Player.prototype.flexNotSupported_ = function flexNotSupported_() {
-    var elem = document_1.createElement('i');
+    var elem = document.createElement('i');
 
     // Note: We don't actually use flexBasis (or flexOrder), but it's one of the more
     // common flex features that we can rely on when checking for flex support.
@@ -23349,7 +21084,7 @@ ALL.names.forEach(function (name$$1) {
  */
 Player.players = {};
 
-var navigator$1 = window_1.navigator;
+var navigator = window.navigator;
 
 /*
  * Player instance options, surfaced using options
@@ -23377,7 +21112,7 @@ Player.prototype.options_ = {
   // Included control sets
   children: ['mediaLoader', 'posterImage', 'textTrackDisplay', 'loadingSpinner', 'bigPlayButton', 'controlBar', 'errorDisplay', 'textTrackSettings'],
 
-  language: navigator$1 && (navigator$1.languages && navigator$1.languages[0] || navigator$1.userLanguage || navigator$1.language) || 'en',
+  language: navigator && (navigator.languages && navigator.languages[0] || navigator.userLanguage || navigator.language) || 'en',
 
   // locales and their language translations
   languages: {},
@@ -24161,9 +21896,9 @@ var extendFn = function extendFn(superClass) {
 // Include the built-in techs
 // HTML5 Element Shim for IE8
 if (typeof HTMLVideoElement === 'undefined' && isReal()) {
-  document_1.createElement('video');
-  document_1.createElement('audio');
-  document_1.createElement('track');
+  document.createElement('video');
+  document.createElement('audio');
+  document.createElement('track');
 }
 
 /**
@@ -24321,7 +22056,7 @@ videojs.removeHook = function (type, fn) {
 };
 
 // Add default styles
-if (window_1.VIDEOJS_NO_DYNAMIC_STYLE !== true && isReal()) {
+if (window.VIDEOJS_NO_DYNAMIC_STYLE !== true && isReal()) {
   var style = $('.vjs-styles-defaults');
 
   if (!style) {
@@ -24830,6 +22565,4 @@ videojs.dom = Dom;
  */
 videojs.url = Url;
 
-return videojs;
-
-})));
+module.exports = videojs;
