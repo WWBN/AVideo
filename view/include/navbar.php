@@ -34,110 +34,110 @@ if (empty($_SESSION['language'])) {
                         <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
                     </a>
                 </li>
-                <li class="hidden-xs">
-                    <form class="navbar-form navbar-left"  action="<?php echo $global['webSiteRootURL']; ?>" >
-                        <div class="input-group" >
-                            <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
-                            <span class="input-group-addon"  style="width: 50px;"><span class="glyphicon glyphicon-search"></span></span>
-                        </div>
-                    </form>
-                </li>
             </ul>
         </li>
         <li>
-            <ul class="right-menus">
-                <?php
-                echo YouPHPTubePlugin::getHTMLMenuRight();
-                ?>
-                <?php
-                if (User::canUpload()) {
-                    ?>
-                    <li>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
-                                <span class="fa fa-video-camera"></span> <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu" style="margin-left: -100px;">
-                                <?php
-                                if (!empty($config->getEncoderURL())) {
-                                    ?>
-                                    <li>
-                                        <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" >
-                                            <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
-                                        </a>
-                                    </li>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <li>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" ><span class="fa fa-cogs"></span> <?php echo __("Configure an Encoder URL"); ?></a>
-                                    </li>
-                                    <?php
-                                }
-                                ?>
-                                <li>
-                                    <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
-                                        <span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
-                                        <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
+            <div class="navbar-header">
+                <button type="button" class=" navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#myNavbar" style="padding: 6px 12px;">
+                    <span class="fa fa-bars"></span>                      
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="right-menus">
+                    <li class="">
+                        <form class="navbar-form navbar-left"  action="<?php echo $global['webSiteRootURL']; ?>" >
+                            <div class="input-group" >
+                                <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
+                                <span class="input-group-addon"  style="width: 50px;"><span class="glyphicon glyphicon-search"></span></span>
+                            </div>
+                        </form>
                     </li>
                     <?php
-                }
-                ?>
-
-                <li>
+                    echo YouPHPTubePlugin::getHTMLMenuRight();
+                    ?>
                     <?php
-                    $flags = getEnabledLangs();
-                    $objFlag = new stdClass();
-                    foreach ($flags as $key => $value) {
-                        //$value = strtoupper($value);
-                        $objFlag->$value = $value;
-                    }
-                    if ($lang == 'en') {
-                        $lang = 'us';
+                    if (User::canUpload()) {
+                        ?>
+                        <li>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
+                                    <span class="fa fa-video-camera"></span> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                    <?php
+                                    if (!empty($config->getEncoderURL())) {
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" >
+                                                <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
+                                            </a>
+                                        </li>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" ><span class="fa fa-cogs"></span> <?php echo __("Configure an Encoder URL"); ?></a>
+                                        </li>
+                                        <?php
+                                    }
+                                    ?>
+                                    <li>
+                                        <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
+                                            <span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
+                                            <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </li>
+                        <?php
                     }
                     ?>
-                    <style>
-                        #navBarFlag .dropdown-menu {
-                            min-width: 20px;
+
+                    <li>
+                        <?php
+                        $flags = getEnabledLangs();
+                        $objFlag = new stdClass();
+                        foreach ($flags as $key => $value) {
+                            //$value = strtoupper($value);
+                            $objFlag->$value = $value;
                         }
-                    </style>
-                    <div id="navBarFlag" data-input-name="country" data-selected-country="<?php echo $lang; ?>"></div>
-                    <script>
-                        $(function () {
-                            $("#navBarFlag").flagStrap({
-                                countries: <?php echo json_encode($objFlag); ?>,
-                                inputName: 'country',
-                                buttonType: "btn-default navbar-btn",
-                                onSelect: function (value, element) {
-                                    window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + value;
-                                },
-                                placeholder: {
-                                    value: "",
-                                    text: ""
-                                }
+                        if ($lang == 'en') {
+                            $lang = 'us';
+                        }
+                        ?>
+                        <style>
+                            #navBarFlag .dropdown-menu {
+                                min-width: 20px;
+                            }
+                        </style>
+                        <div id="navBarFlag" data-input-name="country" data-selected-country="<?php echo $lang; ?>"></div>
+                        <script>
+                            $(function () {
+                                $("#navBarFlag").flagStrap({
+                                    countries: <?php echo json_encode($objFlag); ?>,
+                                    inputName: 'country',
+                                    buttonType: "btn-default navbar-btn",
+                                    onSelect: function (value, element) {
+                                        window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + value;
+                                    },
+                                    placeholder: {
+                                        value: "",
+                                        text: ""
+                                    }
+                                });
                             });
+                        </script>
+                    </li>
+                </ul>
+            </div>
 
-                            //$('#navBarFlag').selectpicker('setStyle', 'btn-default');
-                            //$('#navBarFlag').selectpicker('setStyle', 'navbar-btn', 'add');
-
-                            //$('#navBarFlag').on('change', function () {
-                            //var selected = $(this).find("option:selected").val();
-                            //window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + selected;
-                            //});
-                        });
-                    </script>
-                </li>
-            </ul>
         </li>
     </ul>
 

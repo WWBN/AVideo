@@ -328,6 +328,20 @@ class Video {
             return false;
         }
     }
+    static function getVideoFromCleanTitle($clean_title) {
+        global $global;
+
+        $sql = "SELECT id  FROM videos  WHERE clean_title = '{$clean_title}' LIMIT 1";
+        //echo $sql;
+        $res = $global['mysqli']->query($sql);
+        if ($res) {
+            $video = $res->fetch_assoc();
+            return self::getVideo($video['id'], "");
+            //$video['groups'] = UserGroups::getVideoGroups($video['id']);
+        } else {
+            return false;
+        }
+    }
 
     /**
      *

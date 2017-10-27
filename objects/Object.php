@@ -7,13 +7,13 @@ interface ObjectInterface{
 
 abstract class Object implements ObjectInterface{
 
-    private $fieldsName = array();
+    protected $fieldsName = array();
 
     protected function load($id) {
-        $user = self::getFromDb($id);
-        if (empty($user))
+        $row = self::getFromDb($id);
+        if (empty($row))
             return false;
-        foreach ($user as $key => $value) {
+        foreach ($row as $key => $value) {
             $this->$key = $value;
         }
         return true;
@@ -32,11 +32,11 @@ abstract class Object implements ObjectInterface{
         $sql = "SELECT * FROM ".static::getTableName()." WHERE  id = $id LIMIT 1";
         $res = $global['mysqli']->query($sql);
         if ($res) {
-            $user = $res->fetch_assoc();
+            $row = $res->fetch_assoc();
         } else {
-            $user = false;
+            $row = false;
         }
-        return $user;
+        return $row;
     }
 
     static function getAll() {

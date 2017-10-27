@@ -31,6 +31,9 @@ if (!empty($_GET['catName'])) {
 }
 
 $video = Video::getVideo("", "viewableNotAd");
+if(empty($_GET['videoName'])){
+    $_GET['videoName'] = $video['clean_title'];
+}
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
 if (!empty($_GET['playlist_id'])) {

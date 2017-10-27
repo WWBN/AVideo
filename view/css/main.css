@@ -524,6 +524,9 @@ nav ul.items-container li:first-child ul.left-side {
     display: flex;
     align-items: center
 }
+ul.left-side {
+    height: 50px;
+}
 nav ul.items-container li:last-child {
     margin-right: 20px;
 }
@@ -532,10 +535,13 @@ nav ul.items-container li ul.right-menus {
     flex-direction: row;
 }
 nav ul.items-container li ul.right-menus li {
-    margin-left: 20px;
+    margin-left: 5px;
 }
 nav ul.items-container li ul.right-menus li li {
     margin-left: 0;
+}
+.navbar-left{
+    padding-right: 0;
 }
 /** header **/
 
@@ -704,6 +710,9 @@ z-index:100;
     .galleryVideo {
         height: 290px;
     }
+    nav ul.items-container li ul.right-menus {
+        flex-direction: column;
+    }
 }
 @media (max-width: 650px) {
     .galleryVideo {
@@ -725,4 +734,7 @@ z-index:100;
     .galleryVideo {
         height: 180px;
     }
+}
+.navbar-collapse.in {
+    overflow-y: visible; /* Bootstrap default is "auto" */
 }
