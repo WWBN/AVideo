@@ -50,7 +50,13 @@ if ($video['type'] !== "audio") {
     <body>
         <div class="embed-responsive <?php echo $embedResponsiveClass; ?> ">
             <?php
-            if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+            if ($video['type'] == "embed") {
+                ?>
+                <iframe class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']); if ($config->getAutoplay()) {
+    echo "?autoplay=1";
+}  ?>"></iframe>
+                <?php
+            } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                 ?>
                 <audio controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
                        poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
