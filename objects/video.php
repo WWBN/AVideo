@@ -591,32 +591,19 @@ class Video {
         if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
-            $types = array('', '_Low', '_SD', '_HD');
-            foreach (self::$types as $value) {
 
-                foreach ($types as $key => $value2) {
-                    $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
-                    if (file_exists($file)) {
-                        unlink($file);
-                    }
-                    $file = "{$global['systemRootPath']}videos/{$video['filename']}{$value2}.{$value}";
-                    if (file_exists($file)) {
-                        unlink($file);
-                    }
-                    $file = "{$global['systemRootPath']}videos/{$video['filename']}_progress_{$value}.txt";
-                    if (file_exists($file)) {
-                        unlink($file);
-                    }
-                    $file = "{$global['systemRootPath']}videos/{$video['filename']}{$value2}.jpg";
-                    if (file_exists($file)) {
-                        unlink($file);
-                    }
-                    /* Added to delete .gif as well */
-                    $file = "{$global['systemRootPath']}videos/{$video['filename']}{$value2}.gif";
-                    if (file_exists($file)) {
-                        unlink($file);
-                    }
-                }
+		foreach (self::$types as $value) {
+		$file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
+		if (file_exists($file)) {
+			unlink($file);
+		}
+		// Streamlined for less coding space.
+		$files = glob("{$global['systemRootPath']}videos/{$video['filename']}.*");
+		foreach ($files as $file) {
+			if (file_exists($file)) {
+				unlink($file);
+			}
+		}           
             }
         }
         return $resp;
