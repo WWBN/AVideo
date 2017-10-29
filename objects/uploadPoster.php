@@ -14,6 +14,10 @@ if (!User::canUpload()) {
 header('Content-Type: application/json');
 // A list of permitted file extensions
 $allowed = array('jpg', 'gif');
+if(!in_array(strtolower($_GET['type']), $allowed)){
+    error_log("UploadPoster FIle extension not allowed");
+    die();
+}
 if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     $extension = pathinfo($_FILES['file_data']['name'], PATHINFO_EXTENSION);
     if (!in_array(strtolower($extension), $allowed)) {

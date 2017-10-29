@@ -11,7 +11,9 @@
                 </button>
             </div>
             <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']) ?>"></iframe>
+                <iframe class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']); if ($config->getAutoplay()) {
+    echo "?autoplay=1";
+}  ?>"></iframe>
             </div>
         </div>
     </div>

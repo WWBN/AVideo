@@ -66,7 +66,7 @@ h4 {
 }
 footer {
     color: #AAA;
-    padding: 5px;
+    padding: 2px;
     background-color: #F2F2F2;
     border-top: 1px solid #DDD;
     text-align: right;
@@ -90,6 +90,7 @@ footer .btn-outline {
 }
 footer ul.list-inline {
     justify-content: flex-end;
+    margin-bottom: 0;
 }
 footer ul.list-inline li {
     justify-content: center;
@@ -523,6 +524,9 @@ nav ul.items-container li:first-child ul.left-side {
     display: flex;
     align-items: center
 }
+ul.left-side {
+    height: 50px;
+}
 nav ul.items-container li:last-child {
     margin-right: 20px;
 }
@@ -531,10 +535,13 @@ nav ul.items-container li ul.right-menus {
     flex-direction: row;
 }
 nav ul.items-container li ul.right-menus li {
-    margin-left: 20px;
+    margin-left: 5px;
 }
 nav ul.items-container li ul.right-menus li li {
     margin-left: 0;
+}
+.navbar-left{
+    padding-right: 0;
 }
 /** header **/
 
@@ -648,6 +655,28 @@ nav ul.items-container li ul.right-menus li li {
     height: 30px;
     animation: spin 2s linear infinite;
 }
+.zoom {      
+-webkit-transition: all 0.35s ease-in-out;    
+-moz-transition: all 0.35s ease-in-out;    
+transition: all 0.35s ease-in-out;     
+cursor: -webkit-zoom-in;      
+cursor: -moz-zoom-in;      
+cursor: zoom-in;  
+}     
+
+.zoom:hover,  
+.zoom:active,   
+.zoom:focus {
+/**adjust scale to desired size, 
+add browser prefixes**/
+-ms-transform: scale(2.5);    
+-moz-transform: scale(2.5);  
+-webkit-transform: scale(2.5);  
+-o-transform: scale(2.5);  
+transform: scale(2.5);    
+position:relative;      
+z-index:100;  
+}
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -681,6 +710,9 @@ nav ul.items-container li ul.right-menus li li {
     .galleryVideo {
         height: 290px;
     }
+    nav ul.items-container li ul.right-menus {
+        flex-direction: column;
+    }
 }
 @media (max-width: 650px) {
     .galleryVideo {
@@ -702,4 +734,7 @@ nav ul.items-container li ul.right-menus li li {
     .galleryVideo {
         height: 180px;
     }
+}
+.navbar-collapse.in {
+    overflow-y: visible; /* Bootstrap default is "auto" */
 }
