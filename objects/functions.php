@@ -383,7 +383,7 @@ function parseVideos($videoString = null){
     else if (strpos($link, 'dailymotion.com') !== FALSE) { 
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?dailymotion.com\/video/([a-zA-Z0-9_]+)($|\/)/',
+                '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/',
                 $link,
                 $matches
             );
