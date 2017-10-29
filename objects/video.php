@@ -99,6 +99,9 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'e';
         }
+        if (empty($this->categories_id)) {
+            $this->categories_id = 1;
+        }
         $this->title = $global['mysqli']->real_escape_string(trim($this->title));
         $this->description = $global['mysqli']->real_escape_string($this->description);
         if (!empty($this->id)) {
@@ -113,7 +116,7 @@ class Video {
         } else {
             $sql = "INSERT INTO videos "
                     . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, created, modified, videoLink) values "
-                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},1, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', now(), now(), '{$this->videoLink}')";
+                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', now(), now(), '{$this->videoLink}')";
         }
         $insert_row = $global['mysqli']->query($sql);
 
@@ -296,10 +299,10 @@ class Video {
         }
         $sql .= " LIMIT 1";
         /*
-        if (!empty($random)) {
-                echo '<hr />'.$sql;
-        }
-        */
+          if (!empty($random)) {
+          echo '<hr />'.$sql;
+          }
+         */
         $res = $global['mysqli']->query($sql);
         if ($res) {
             require_once 'userGroups.php';
@@ -315,6 +318,20 @@ class Video {
         global $global;
 
         $sql = "SELECT id  FROM videos  WHERE filename = '{$fileName}' LIMIT 1";
+        //echo $sql;
+        $res = $global['mysqli']->query($sql);
+        if ($res) {
+            $video = $res->fetch_assoc();
+            return self::getVideo($video['id'], "");
+            //$video['groups'] = UserGroups::getVideoGroups($video['id']);
+        } else {
+            return false;
+        }
+    }
+    static function getVideoFromCleanTitle($clean_title) {
+        global $global;
+
+        $sql = "SELECT id  FROM videos  WHERE clean_title = '{$clean_title}' LIMIT 1";
         //echo $sql;
         $res = $global['mysqli']->query($sql);
         if ($res) {
@@ -483,7 +500,7 @@ class Video {
             if (!empty($content)) {
                 $object->$value = self::parseProgress($content);
             } else {
-
+                
             }
 
             if (!empty($object->$value->progress) && !is_numeric($object->$value->progress)) {
@@ -574,6 +591,7 @@ class Video {
         if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
+
 		foreach (self::$types as $value) {
 		$file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
 		if (file_exists($file)) {
@@ -585,7 +603,7 @@ class Video {
 			if (file_exists($file)) {
 				unlink($file);
 			}
-		}
+		}           
             }
         }
         return $resp;
@@ -615,9 +633,9 @@ class Video {
             $duration = $durationParts[0];
             $durationParts = explode(':', $duration);
             if (count($durationParts) == 1) {
-                return '0:00:'.static::addZero($durationParts[0]);
+                return '0:00:' . static::addZero($durationParts[0]);
             } elseif (count($durationParts) == 2) {
-                return '0:'.static::addZero($durationParts[0]).':'.static::addZero($durationParts[1]);
+                return '0:' . static::addZero($durationParts[0]) . ':' . static::addZero($durationParts[1]);
             }
             return $duration;
         }
@@ -625,7 +643,7 @@ class Video {
 
     static private function addZero($str) {
         if (intval($str) < 10) {
-            return '0'.intval($str);
+            return '0' . intval($str);
         }
         return $str;
     }
@@ -636,10 +654,9 @@ class Video {
         return 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
     }
 
-
     static function getDurationFromFile($file) {
         global $global;
-        require_once($global['systemRootPath'].'objects/getid3/getid3.php');
+        require_once($global['systemRootPath'] . 'objects/getid3/getid3.php');
         // get movie duration HOURS:MM:SS.MICROSECONDS
         if (!file_exists($file)) {
             error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
@@ -950,6 +967,12 @@ class Video {
             if (!file_exists($file)) {
                 $file = $global['systemRootPath'] . "videos/" . $this->getFilename() . ".webm";
                 if (!file_exists($file)) {
+                    $videos = getVideosURL($this->getFilename());
+                    foreach ($videos as $value) {
+                        if($value['type']=='video' && file_exists($value['path'])){
+                            return $value['path'];
+                        }
+                    }
                     $file = false;
                 }
             }
@@ -1006,7 +1029,7 @@ class Video {
         curl_close($curl);
         return $obj;
     }
-    
+
     function getVideoLink() {
         return $this->videoLink;
     }

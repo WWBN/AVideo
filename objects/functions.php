@@ -108,6 +108,12 @@ function isFFMPEG() {
     return trim(shell_exec('which ffmpeg'));
 }
 
+
+function isUnzip() {
+    return trim(shell_exec('which unzip'));
+}
+
+
 function isExifToo() {
     return trim(shell_exec('which exiftool'));
 }
@@ -377,4 +383,70 @@ function parseVideos($videoString = null){
     return $videoString;
     // return data
 
+}
+
+function getVideosURL($fileName){
+    global $global;
+    $types = array('', '_Low', '_SD', '_HD');
+    $files = array();
+    // old
+    foreach ($types as $key => $value) {
+        $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.mp4";
+        if(file_exists($file)){
+            $files["mp4{$value}"]=array(
+                'path'=>$file,
+                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.mp4",
+                'type'=>'video'
+            );
+        }
+        $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.webm";
+        if(file_exists($file)){
+            $files["webm{$value}"]=array(
+                'path'=>$file,
+                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.webm",
+                'type'=>'video'
+
+            );
+        }
+        $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.jpg";
+        if(file_exists($file)){
+            $files["jpg{$value}"]=array(
+                'path'=>$file,
+                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.jpg",
+                'type'=>'image'
+
+            );
+        }
+        $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.gif";
+        if(file_exists($file)){
+            $files["gif{$value}"]=array(
+                'path'=>$file,
+                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.gif",
+                'type'=>'image'
+
+            );
+        }
+    } 
+    return $files;
+}
+
+function getSources($fileName, $returnArray=false){
+    if(function_exists('getVRSSources')){
+        return getVRSSources($fileName, $returnArray);
+    }else{
+        $files = getVideosURL($fileName);
+        $sources = "";
+        $sourcesArray = array();
+        foreach ($files as $key => $value) {
+            $path_parts = pathinfo($value['path']);
+            if($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4"){
+                $sources .= "<source src=\"{$value['url']}\" type=\"video/{$path_parts['extension']}\">";
+                $obj = new stdClass();
+                $obj->type = "video/{$path_parts['extension']}";
+                $obj->src = $value['url'];
+                $sourcesArray[] = $obj;
+            }
+        }
+        return $returnArray?$sourcesArray:$sources;
+    }
 }

@@ -14,30 +14,32 @@
 if (User::canStream()) {
     ?>
     <li>
-        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live"  class="btn btn-danger navbar-btn pull-left" data-toggle="tooltip" title="<?php echo __("Broadcast a Live Streaming"); ?>" data-placement="bottom" >
+        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live"  class="btn btn-danger navbar-btn" data-toggle="tooltip" title="<?php echo __("Broadcast a Live Streaming"); ?>" data-placement="bottom" >
             <span class="fa fa-circle"></span> <?php echo $buttonTitle; ?>
         </a>
     </li>
     <?php
 }
 ?>
-<li class="dropdown">
+    <li class="dropdown">
     <a href="#" class=" btn btn-default navbar-btn" data-toggle="dropdown">
         <span class="fa fa-bell"></span> 
-        <span class="badge onlineApplications" style=" background: rgba(255,0,0,1); color: #FFF;">0</span></span>
-</a>
-<ul class="dropdown-menu notify-drop" id="availableLive" style="left: -100%;"></ul>
+        <span class="badge onlineApplications" style=" background: rgba(255,0,0,1); color: #FFF;">0</span>
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right notify-drop" id="availableLive"></ul>
 </li>
-<a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/" class='btn btn-default btn-xs btn-block liveLink hidden liveModel'>
-    <div class="pull-left">
-        <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
-    </div>
-    <div style="margin-left: 40px;">
-        <i class="fa fa-video-camera"></i> <strong class="liveTitle">Title</strong> <br>
-        <span class="label label-success liveUser">User</span> <span class="badge">is live</span>
-    </div>
-</a>
-
+<li class="hidden liveModel"  style="margin-right: 0;">
+    <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/" class='liveLink '>
+        <div class="pull-left">
+            <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
+        </div>
+        <div style="margin-left: 40px;">
+            <i class="fa fa-video-camera"></i> <strong class="liveTitle">Title</strong> <br>
+            <span class="label label-success liveUser">User</span> <span class="badge">is live</span>
+        </div>
+    </a>
+</li>
 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo" itemscope itemtype="http://schema.org/VideoObject">
     <a href="" class="videoLink">
         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" style="min-height: 70px;" >
@@ -78,14 +80,14 @@ if (User::canStream()) {
             $liveLi.find('.badge').text("offline");
         }
         $liveLi.removeClass("hidden").removeClass("liveModel");
-        $liveLi.attr("href", href);
+        $liveLi.find('a').attr("href", href);
         $liveLi.find('.liveTitle').text(title);
         $liveLi.find('.liveUser').text(name);
         $liveLi.find('.img').attr("src", photo);
-        $('#availableLive').append($liveLi);        
-        
-        $('.liveUsersOnline_'+key).text(online);
-        $('.liveUsersViews_'+key).text(views);
+        $('#availableLive').append($liveLi);
+
+        $('.liveUsersOnline_' + key).text(online);
+        $('.liveUsersViews_' + key).text(views);
     }
 
     function createExtraVideos(href, title, name, photo, user, online, views, key) {
@@ -102,8 +104,8 @@ if (User::canStream()) {
             $liveLi.find('.photoImg').attr("src", photo);
             $liveLi.find('.liveUsersOnline').text(online);
             $liveLi.find('.liveUsersViews').text(views);
-            $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_"+key);
-            $liveLi.find('.liveUsersViews').addClass("liveUsersViews_"+key);
+            $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_" + key);
+            $liveLi.find('.liveUsersViews').addClass("liveUsersViews_" + key);
             $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=jpg");
             $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=gif");
             $('.extraVideos').append($liveLi);

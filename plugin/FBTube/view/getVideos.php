@@ -67,16 +67,16 @@ if (!empty($videos)) {
                 <h2><?php echo $video['title']; ?></h2>
                 <div><?php echo nl2br(textToLink($video['description'])); ?></div>
                 <div class="main-video embed-responsive <?php
-        echo $embedResponsiveClass;
-        if (!empty($logId)) {
-            echo " ad";
-        }
-        ?>">
-                     <?php
+                echo $embedResponsiveClass;
+                if (!empty($logId)) {
+                    echo " ad";
+                }
+                ?>">
+                         <?php
                          if ($video['type'] === "embed") {
                              ?>
                         <div class="embed-responsive embed-responsive-16by9" id="mainVideo<?php echo $video['id']; ?>" >
-                            <iframe class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']) ?>"></iframe>
+                            <iframe id="iframe<?php echo $video['id']; ?>" class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']) ?>?enablejsapi=1"></iframe>
                         </div>
                         <?php
                     } else {
@@ -84,40 +84,41 @@ if (!empty($videos)) {
                         <video poster="<?php echo $poster; ?>" controls crossorigin 
                                class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                                id="mainVideo<?php echo $video['id']; ?>"  data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
-                            <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.mp4" type="video/mp4">
-                            <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $playNowVideo['filename']; ?>.webm" type="video/webm">
+                                   <?php
+                                   echo getSources($playNowVideo['filename']);
+                                   ?>
                             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                             <p class="vjs-no-js">
-            <?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
+                                <?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
                                 <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
                             </p>
                         </video>
-            <?php if (!empty($logId)) { ?>
+                        <?php if (!empty($logId)) { ?>
                             <div id="adUrl<?php echo $video['id']; ?>" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
-                $url = parse_url($ad['redirect']);
-                echo $url['host'];
-                ?> <i class="fa fa-external-link"></i>
+                                    $url = parse_url($ad['redirect']);
+                                    echo $url['host'];
+                                    ?> <i class="fa fa-external-link"></i>
                                 </a>
                             </div>
                             <a id="adButton<?php echo $video['id']; ?>" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
-                <?php
-            }
-        }
-        ?>
+                            <?php
+                        }
+                    }
+                    ?>
 
                 </div>
                 <!-- all the stuffs here -->
 
-        <?php
-        if (!empty($video['id'])) {
-            $video['tags'] = Video::getTags($video['id']);
-        } else {
-            $video['tags'] = array();
-        }
-        foreach ($video['tags'] as $value) {
-            if ($value->label === __("Group")) {
-                ?>
+                <?php
+                if (!empty($video['id'])) {
+                    $video['tags'] = Video::getTags($video['id']);
+                } else {
+                    $video['tags'] = array();
+                }
+                foreach ($video['tags'] as $value) {
+                    if ($value->label === __("Group")) {
+                        ?>
                         <span class="label label-<?php echo $value->type; ?>"><?php echo $value->text; ?></span>
                         <?php
                     }
@@ -132,9 +133,9 @@ if (!empty($videos)) {
                             <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                         </button>
                         <div class="webui-popover-content">
-        <?php
-        if (User::isLogged()) {
-            ?>
+                            <?php
+                            if (User::isLogged()) {
+                                ?>
                                 <form role="form">
                                     <div class="form-group">
                                         <input class="form-control" id="searchinput<?php echo $video['id']; ?>" type="search" placeholder="Search..." />
@@ -149,7 +150,7 @@ if (!empty($videos)) {
                                         <input id="playListName<?php echo $video['id']; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
                                     </div>
                                     <div class="form-group">
-            <?php echo __("Make it public"); ?>
+                                        <?php echo __("Make it public"); ?>
                                         <div class="material-switch pull-right">
                                             <input id="publicPlayList<?php echo $video['id']; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
                                             <label for="publicPlayList" class="label-success"></label>
@@ -159,20 +160,20 @@ if (!empty($videos)) {
                                         <button class="btn btn-success btn-block" id="addPlayList<?php echo $video['id']; ?>" ><?php echo __("Create a New Play List"); ?></button>
                                     </div>
                                 </div>
-            <?php
-        } else {
-            ?>
+                                <?php
+                            } else {
+                                ?>
                                 <h5>Want to watch this again later?</h5>
 
                                 Sign in to add this video to a playlist.
 
                                 <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
                                     <span class="glyphicon glyphicon-log-in"></span>
-            <?php echo __("Login"); ?>
+                                    <?php echo __("Login"); ?>
                                 </a>
-                                    <?php
-                                }
-                                ?>
+                                <?php
+                            }
+                            ?>
                         </div>
                         <script>
                             function loadPlayLists<?php echo $video['id']; ?>() {
@@ -256,19 +257,19 @@ if (!empty($videos)) {
                             <span class="fa fa-comment"></span> <?php echo __("Comment"); ?>
                         </a>
                         <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn<?php echo $video['id']; ?>"
-        <?php
-        if (!User::isLogged()) {
-            ?>
+                        <?php
+                        if (!User::isLogged()) {
+                            ?>
                                data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>"
-                        <?php } ?>>
+                           <?php } ?>>
                             <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
                         </a>			
                         <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn<?php echo $video['id']; ?>"
-        <?php
-        if (!User::isLogged()) {
-            ?>
+                        <?php
+                        if (!User::isLogged()) {
+                            ?>
                                data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>"
-                        <?php } ?>>
+                           <?php } ?>>
                             <span class="fa fa-thumbs-up"></span> <small><?php echo $video['likes']; ?></small>
                         </a>
                         <script>
@@ -318,31 +319,31 @@ if (!empty($videos)) {
                                 <li class="nav-item">
                                     <a class="nav-link " href="#tabShare<?php echo $video['id']; ?>" data-toggle="tab">
                                         <span class="fa fa-share"></span>
-        <?php echo __("Share"); ?>
+                                        <?php echo __("Share"); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link " href="#tabEmbeded<?php echo $video['id']; ?>" data-toggle="tab">
                                         <span class="fa fa-code"></span>
-        <?php echo __("Embeded"); ?>
+                                        <?php echo __("Embeded"); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#tabEmail<?php echo $video['id']; ?>" data-toggle="tab">
                                         <span class="fa fa-envelope"></span>
-        <?php echo __("E-mail"); ?>
+                                        <?php echo __("E-mail"); ?>
                                     </a>
                                 </li>
                             </ul>
                             <div class="tab-content clearfix">
                                 <div class="tab-pane active" id="tabShare<?php echo $video['id']; ?>">
-        <?php
-        $url = urlencode($global['webSiteRootURL'] . "video/" . $video['clean_title']);
-        $title = urlencode($video['title']);
-        $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
-        $twitterURL = "http://twitter.com/home?status={$title}+{$url}";
-        $googleURL = "https://plus.google.com/share?url={$url}";
-        ?>
+                                    <?php
+                                    $url = urlencode($global['webSiteRootURL'] . "video/" . $video['clean_title']);
+                                    $title = urlencode($video['title']);
+                                    $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
+                                    $twitterURL = "http://twitter.com/home?status={$title}+{$url}";
+                                    $googleURL = "https://plus.google.com/share?url={$url}";
+                                    ?>
                                     <ul class="social-network social-circle">
                                         <li><a href="<?php echo $facebookURL; ?>" target="_blank" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                                         <li><a href="<?php echo $twitterURL; ?>" target="_blank"  class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
@@ -352,24 +353,24 @@ if (!empty($videos)) {
                                 <div class="tab-pane" id="tabEmbeded<?php echo $video['id']; ?>">
                                     <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
                                     <textarea class="form-control" style="min-width: 100%" rows="5"><?php
-                            if ($video['type'] == 'video') {
-                                $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
-                            } else {
-                                $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
-                            }
-                            echo htmlentities($code);
-        ?></textarea>
+                                        if ($video['type'] == 'video') {
+                                            $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                        } else {
+                                            $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                        }
+                                        echo htmlentities($code);
+                                        ?></textarea>
                                 </div>
                                 <div class="tab-pane" id="tabEmail<?php echo $video['id']; ?>">
-        <?php
-        if (!User::isLogged()) {
-            ?>
+                                    <?php
+                                    if (!User::isLogged()) {
+                                        ?>
                                         <strong>
                                             <a href="<?php echo $global['webSiteRootURL']; ?>user"><?php echo __("Sign in now!"); ?></a>
                                         </strong>
-            <?php
-        } else {
-            ?>
+                                        <?php
+                                    } else {
+                                        ?>
                                         <form class="well form-horizontal" action="<?php echo $global['webSiteRootURL']; ?>sendEmail" method="post"  id="contact_form<?php echo $video['id']; ?>">
                                             <fieldset>
                                                 <!-- Text input-->
@@ -444,9 +445,9 @@ if (!empty($videos)) {
                                                 });
                                             });
                                         </script>
-            <?php
-        }
-        ?>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -456,23 +457,23 @@ if (!empty($videos)) {
                 <div class="row bgWhite list-group-item" id="commentDiv<?php echo $video['id']; ?>">
                     <div class="input-group">
                         <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment<?php echo $video['id']; ?>" maxlength="200" <?php
-                            if (!User::canComment()) {
-                                echo "disabled";
-                            }
-        ?>><?php
                         if (!User::canComment()) {
-                            echo __("You cannot comment on videos");
+                            echo "disabled";
                         }
-                        ?></textarea>
-                                      <?php if (User::canComment()) { ?>
+                        ?>><?php
+                                      if (!User::canComment()) {
+                                          echo __("You cannot comment on videos");
+                                      }
+                                      ?></textarea>
+                        <?php if (User::canComment()) { ?>
                             <span class="input-group-addon btn btn-success" id="saveCommentBtn<?php echo $video['id']; ?>" <?php
                             if (!User::canComment()) {
                                 echo "disabled='disabled'";
                             }
                             ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
-                        <?php } else { ?>
+                              <?php } else { ?>
                             <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You must login to be able to comment on videos"); ?></a>
-                              <?php } ?>
+                        <?php } ?>
                     </div>
                     <div class="pull-right" id="count_message<?php echo $video['id']; ?>"></div>
                     <script>
@@ -567,60 +568,61 @@ if (!empty($videos)) {
             <?php
         }
         if ($video['type'] === "video") {
-        ?>
-                        //Prevent HTML5 video from being downloaded (right-click saved)?
-                        $('#mainVideo<?php echo $video['id']; ?>').bind('contextmenu', function () {
-                            return false;
-                        });
-                        fullDuration<?php echo $video['id']; ?> = strToSeconds('<?php echo @$ad['duration']; ?>');
-                        player<?php echo $video['id']; ?> = videojs('mainVideo<?php echo $video['id']; ?>');
+            ?>
+                            //Prevent HTML5 video from being downloaded (right-click saved)?
+                            $('#mainVideo<?php echo $video['id']; ?>').bind('contextmenu', function () {
+                                return false;
+                            });
+                            fullDuration<?php echo $video['id']; ?> = strToSeconds('<?php echo @$ad['duration']; ?>');
+                            player<?php echo $video['id']; ?> = videojs('mainVideo<?php echo $video['id']; ?>');
 
-                        player<?php echo $video['id']; ?>.zoomrotate(<?php echo $transformation; ?>);
-                        player<?php echo $video['id']; ?>.ready(function () {
+                            player<?php echo $video['id']; ?>.zoomrotate(<?php echo $transformation; ?>);
+                            player<?php echo $video['id']; ?>.ready(function () {
 
-        <?php if (!empty($logId)) { ?>
-                                isPlayingAd<?php echo $video['id']; ?> = true;
-                                this.on('ended', function () {
-                                    console.log("Finish Video");
-                                    if (isPlayingAd<?php echo $video['id']; ?>) {
-                                        isPlayingAd<?php echo $video['id']; ?> = false;
-                                        $('#adButton<?php echo $video['id']; ?>').trigger("click");
-                                    }
-
-                                });
-                                this.on('timeupdate', function () {
-                                    var durationLeft = fullDuration<?php echo $video['id']; ?> - this.currentTime();
-                                    $("#adUrl<?php echo $video['id']; ?> .time").text(secondsToStr(durationLeft + 1, 2));
-            <?php if (!empty($ad['skip_after_seconds'])) {
-                ?>
-                                        if (isPlayingAd<?php echo $video['id']; ?> && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
-                                            $('#adButton<?php echo $video['id']; ?>').fadeIn();
+            <?php if (!empty($logId)) { ?>
+                                    isPlayingAd<?php echo $video['id']; ?> = true;
+                                    this.on('ended', function () {
+                                        console.log("Finish Video");
+                                        if (isPlayingAd<?php echo $video['id']; ?>) {
+                                            isPlayingAd<?php echo $video['id']; ?> = false;
+                                            $('#adButton<?php echo $video['id']; ?>').trigger("click");
                                         }
+
+                                    });
+                                    this.on('timeupdate', function () {
+                                        var durationLeft = fullDuration<?php echo $video['id']; ?> - this.currentTime();
+                                        $("#adUrl<?php echo $video['id']; ?> .time").text(secondsToStr(durationLeft + 1, 2));
+                <?php if (!empty($ad['skip_after_seconds'])) {
+                    ?>
+                                            if (isPlayingAd<?php echo $video['id']; ?> && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
+                                                $('#adButton<?php echo $video['id']; ?>').fadeIn();
+                                            }
+                <?php }
+                ?>
+                                    });
+            <?php } else {
+                ?>
+                                    this.on('ended', function () {
+                                        console.log("Finish Video");
+                                    });
             <?php }
             ?>
-                                });
-        <?php } else {
-            ?>
-                                this.on('ended', function () {
-                                    console.log("Finish Video");
-                                });
-        <?php }
+                            });
+                            player<?php echo $video['id']; ?>.persistvolume({
+                                namespace: "YouPHPTube"
+                            });
+            <?php if (!empty($logId)) { ?>
+                                $('#adButton<?php echo $video['id']; ?>').click(function () {
+                                    console.log("Change Video");
+                                    fullDuration<?php echo $video['id']; ?> = strToSeconds('<?php echo $video['duration']; ?>');
+                                    changeVideoSrc(player<?php echo $video['id']; ?>, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
+                                                $('#mainVideo<?php echo $video['id']; ?>').parent().removeClass("ad");
+                                                return false;
+                                            });
+            <?php }
+        }
         ?>
-                        });
-                        player<?php echo $video['id']; ?>.persistvolume({
-                            namespace: "YouPHPTube"
-                        });
-        <?php if (!empty($logId)) { ?>
-                            $('#adButton<?php echo $video['id']; ?>').click(function () {
-                                console.log("Change Video");
-                                fullDuration<?php echo $video['id']; ?> = strToSeconds('<?php echo $video['duration']; ?>');
-                                changeVideoSrc(player<?php echo $video['id']; ?>, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
-                                            $('#mainVideo<?php echo $video['id']; ?>').parent().removeClass("ad");
-                                            return false;
-                                        });
-        <?php } 
-        }?>
-        
+
                                 });
                 </script>
             </div>

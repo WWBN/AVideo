@@ -27,6 +27,10 @@ if ($video['type'] !== "audio") {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
+        <?php
+        require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+        echo YouPHPTubePlugin::getHeadCode();
+        ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,10 +50,16 @@ if ($video['type'] !== "audio") {
     <body>
         <div class="embed-responsive <?php echo $embedResponsiveClass; ?> ">
             <?php
-            if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+            if ($video['type'] == "embed") {
+                ?>
+                <iframe class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']); if ($config->getAutoplay()) {
+    echo "?autoplay=1";
+}  ?>"></iframe>
+                <?php
+            } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                 ?>
                 <audio controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
-               poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
+                       poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
@@ -58,14 +68,18 @@ if ($video['type'] !== "audio") {
             } else {
                 ?>
                 <video poster="<?php echo $poster; ?>" controls crossorigin  width="auto" height="auto"
-                class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp4" type="video/mp4">
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.webm" type="video/webm">
+                       class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
+                    <?php
+                    echo getSources($video['filename']);
+                    ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                 </video>
                 <?php
             }
             ?>
         </div>
+        <?php
+        echo YouPHPTubePlugin::getFooterCode();
+        ?>
     </body>
 </html>
