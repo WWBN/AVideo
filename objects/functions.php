@@ -380,6 +380,18 @@ function parseVideos($videoString = null){
         $id = $matches[2];  
         return '//player.vimeo.com/video/'.$id;
     }
+    else if (strpos($link, 'dailymotion.com') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?dailymotion.com\/video/([a-zA-Z0-9_]+)($|\/)/',
+                $link,
+                $matches
+            );
+
+        //the ID of the Vimeo URL: 71673549 
+        $id = $matches[2];  
+        return '//www.dailymotion.com/embed/video/'.$id;
+    }
     return $videoString;
     // return data
 
