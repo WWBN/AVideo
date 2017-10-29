@@ -328,6 +328,7 @@ class Video {
             return false;
         }
     }
+
     static function getVideoFromCleanTitle($clean_title) {
         global $global;
 
@@ -591,19 +592,18 @@ class Video {
         if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
-
-		foreach (self::$types as $value) {
-		$file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
-		if (file_exists($file)) {
-			unlink($file);
-		}
-		// Streamlined for less coding space.
-		$files = glob("{$global['systemRootPath']}videos/{$video['filename']}.*");
-		foreach ($files as $file) {
-			if (file_exists($file)) {
-				unlink($file);
-			}
-		}           
+            foreach (self::$types as $value) {
+                $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+                // Streamlined for less coding space.
+                $files = glob("{$global['systemRootPath']}videos/{$video['filename']}.*");
+                foreach ($files as $file) {
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                }
             }
         }
         return $resp;
@@ -969,7 +969,7 @@ class Video {
                 if (!file_exists($file)) {
                     $videos = getVideosURL($this->getFilename());
                     foreach ($videos as $value) {
-                        if($value['type']=='video' && file_exists($value['path'])){
+                        if ($value['type'] == 'video' && file_exists($value['path'])) {
                             return $value['path'];
                         }
                     }
