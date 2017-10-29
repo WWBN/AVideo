@@ -71,7 +71,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                             ?>
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo thumbsImage">
-                                <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
+                                <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
                                     <?php
                                     $imgGif = "";
                                     if (file_exists("{$global['systemRootPath']}videos/{$value['filename']}.gif")) {
