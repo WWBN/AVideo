@@ -9,4 +9,13 @@ if(empty($video)){
     die("Object not found");
 }
 $video->addView();
-echo json_encode($video);
+
+$VideoInformation = $video->getVideo($_POST['id']);
+
+$VideoInformation['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$VideoInformation['filename'].".jpg";
+$VideoInformation['CreatorImage'] = "{$global['webSiteRootURL']}".$VideoInformation['photoURL'];
+$VideoInformation['VideoSources'] = getSources($VideoInformation['filename'], true);
+//Fix null in myVote
+if ($VideoInformation['myVote'] == null) {$VideoInformation['myVote']= 0;}
+
+echo json_encode($VideoInformation);
