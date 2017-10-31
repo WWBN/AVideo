@@ -35,7 +35,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
             {
                 background-color: rgba(220,220,220,.17);
                 box-shadow: 0 1px 0 #dcdcdc, inset 0 1px 0 #fff;
-                padding: 20px;
+                padding: 6px;
                 margin: 0;
             }
 
@@ -123,6 +123,24 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 font-weight: bold;
                 text-align: center;
             }
+            .panel-sm{
+                margin-bottom: 5px;
+            }
+            .panel-sm table, .panel-sm div{
+                margin: 0;
+            }
+            .panel-sm .panel-heading{
+                height: 25px;
+                padding: 2px 5px;
+                font-size: 0.9em;
+            }
+            .panel-sm .panel-heading .panel-title{
+                font-size: 0.9em;
+            }
+            .panel-sm .panel-body{
+               padding: 0;
+               font-size: 0.8em;
+            }
         </style>
     </head>
 
@@ -132,7 +150,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
         ?>
 
         <div class="container-fluid">
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <div class="btn-group" >
                     <button type="button" class="btn btn-default" id="upload">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("Upload a Plugin"); ?>
@@ -204,9 +222,9 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     </div>                
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><a href="https://easytube.club/signUp" class="btn btn-default"><i class="fa fa-plug"></i> Easy Club Plugin Store </a></div>
+                    <div class="panel-heading"><a href="https://easytube.club/signUp" class="btn btn-default btn-xs"><i class="fa fa-plug"></i> Easy Club Plugin Store </a></div>
                     <div class="panel-body">
                         <ul class="list-group" id="pluginStoreList">
                         </ul>
@@ -217,7 +235,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
             <li class="list-group-item hidden" id="pluginStoreListModel">
 
-                <div class="panel panel-warning">
+                <div class="panel panel-warning panel-sm">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                     </div>
@@ -239,7 +257,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="signUp" class="btn btn-success btn-sm" role="button"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>
+                        <a href="signUp" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>
                     </div>
                 </div>
             </li>
