@@ -17,8 +17,8 @@ class Gallery extends PluginAbstract {
     }
         
     public function getFirstPage(){
-        global $global;
+        global $global;        
         return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
-    }
-
+    }   
+    
 }
