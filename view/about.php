@@ -16,7 +16,16 @@ require_once '../videos/configuration.php';
         ?>
 
         <div class="container">
-            <div class="bgWhite">
+            <div class="bgWhite">  
+                <?php
+                $custom = "";
+                if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+                    require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+                    $ec = new ExtraConfig();
+                    $custom = $ec->getAbout();
+                }
+                if(empty($custom)){
+                ?>
                 <h1><?php echo __("I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible."); ?></h1>
                 <blockquote class="blockquote">
                     <h1><?php echo __("For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."); ?></h1>
@@ -34,12 +43,16 @@ require_once '../videos/configuration.php';
                     <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
                 </span>
                 <span class="label label-success">
-                    <?php printf(__("You can storage %s minutes of videos!"), (empty($global['videoStorageLimitMinutes'])?"unlimited":$global['videoStorageLimitMinutes'])); ?>
+                    <?php printf(__("You can storage %s minutes of videos!"), (empty($global['videoStorageLimitMinutes']) ? "unlimited" : $global['videoStorageLimitMinutes'])); ?>
                 </span>
                 <span class="label label-success">
-                    <?php printf(__("You have %s minutes of videos!"), number_format(getSecondsTotalVideosLength()/6, 2)); ?>
+                    <?php printf(__("You have %s minutes of videos!"), number_format(getSecondsTotalVideosLength() / 6, 2)); ?>
                 </span>
-
+                <?php
+                }else{
+                    echo $custom;
+                }
+                ?>
 
             </div>
 

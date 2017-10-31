@@ -295,7 +295,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                             if (row.databaseScript) {
                                 sqlBtn = '<button type="button" class="btn btn-xs btn-default command-sql" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> Install tables</button>';
                             }
-                            return  editBtn + "<br>" + sqlBtn;
+                            return  editBtn + "<br>" + sqlBtn + "<br>" + row.pluginMenu;
                         },
                         "name": function (column, row) {
                             var checked = "";

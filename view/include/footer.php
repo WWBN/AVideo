@@ -1,16 +1,30 @@
 <hr>
 <footer>
-    <ul class="list-inline">
-        <li>
-            Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary btn-xs" target="_blank">YouPHPTube v<?php echo $config->getVersion(); ?></a>
-        </li>
-        <li>
-            <a href="https://www.facebook.com/mediasharingtube/" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Facebook</span><i class="fa fa-fw fa-facebook"></i></a>
-        </li>
-        <li>
-            <a href="https://plus.google.com/u/0/113820501552689289262" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Google Plus</span><i class="fa fa-fw fa-google-plus"></i></a>
-        </li>
-    </ul>
+    <?php
+    $custom = "";
+    if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+        require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+        $ec = new ExtraConfig();
+        $custom = $ec->getFooter();
+    }
+    if (empty($custom)) {
+        ?>
+        <ul class="list-inline">
+            <li>
+                Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary btn-xs" target="_blank">YouPHPTube v<?php echo $config->getVersion(); ?></a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/mediasharingtube/" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Facebook</span><i class="fa fa-fw fa-facebook"></i></a>
+            </li>
+            <li>
+                <a href="https://plus.google.com/u/0/113820501552689289262" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Google Plus</span><i class="fa fa-fw fa-google-plus"></i></a>
+            </li>
+        </ul>
+        <?php
+    } else {
+        echo $custom;
+    }
+    ?>
 </footer>
 <script type="application/ld+json">
     {
@@ -43,6 +57,6 @@ if (!empty($_GET['error'])) {
 <script src="<?php echo $global['webSiteRootURL']; ?>js/js-cookie/js.cookie.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>css/flagstrap/js/jquery.flagstrap.min.js" type="text/javascript"></script>
 <?php
-require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 echo YouPHPTubePlugin::getFooterCode();
 ?>

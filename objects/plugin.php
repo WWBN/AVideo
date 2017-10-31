@@ -133,6 +133,7 @@ class Plugin extends Object {
                     $obj->id = (!empty($obj->installedPlugin['id']))?$obj->installedPlugin['id']:0;
                     $obj->data_object = $p->getDataObject();
                     $obj->databaseScript = !empty(static::getDatabaseFile($value));
+                    $obj->pluginMenu = $p->getPluginMenu();        
                     $result[] = $obj;
                 }
             }

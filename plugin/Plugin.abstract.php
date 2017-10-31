@@ -33,6 +33,10 @@ abstract class PluginAbstract {
         return "";
     }
     
+    public function getPluginMenu(){
+        return "";
+    }
+    
     public function getDataObject(){
         $obj = Plugin::getPluginByUUID($this->getUUID());
         $o = json_decode($obj['object_data']);

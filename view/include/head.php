@@ -1,11 +1,18 @@
 <?php
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
 $head = YouPHPTubePlugin::getHeadCode();
+$custom = "The Best YouTube Clone Ever - YouPHPTube";
+if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+    require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+    $ec = new ExtraConfig();
+    $custom = $ec->getDescription();
+}
+
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="The YouPHPTube">
+<meta name="description" content="<?php echo $custom; ?>">
 <meta name="author" content="Daniel Neto">
 <link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>img/favicon.png">
 <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
