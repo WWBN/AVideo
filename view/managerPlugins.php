@@ -252,12 +252,12 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
             function createPluginStoreList(src, name, price, description) {
                 var intPrice = Math.floor(price);
-                var cents = Math.ceil((price - intPrice) * 100);
+                //var cents = Math.ceil((price - intPrice) * 100);
                 var $li = $('#pluginStoreListModel').clone();
                 $li.removeClass("hidden").attr("id", "");
                 $li.find('.panel-title').text(name);
                 $li.find('.int').text(intPrice);
-                $li.find('.cents').text(cents);
+                $li.find('.cents').text("99");
                 $li.find('.desc').text(description);
                 $li.find('.img').attr("src", src);
                 $('#pluginStoreList').append($li);
