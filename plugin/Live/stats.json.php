@@ -20,7 +20,6 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
 $xml = $p->getStatsObject();
 $xml = json_encode($xml);
 $xml = json_decode($xml);
-$xml->disableGif = $p->getDisableGifThumbs();
 
 $stream = false;
 $lifeStream = array();
@@ -42,6 +41,7 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 // the live users plugin
 $liveUsersEnabled = YouPHPTubePlugin::isEnabled("cf145581-7d5e-4bb6-8c12-48fc37c0630d");
 
+$obj->disableGif = $p->getDisableGifThumbs();
 $obj->countLifeStream = count($lifeStream);
 foreach ($lifeStream as $value){
     if(!empty($value->name)){
