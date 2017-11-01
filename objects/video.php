@@ -356,7 +356,9 @@ class Video {
     static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
         global $global;
         $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category, v.created as videoCreation, "
-                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
+                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount, "
+                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
+                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
                 . " FROM videos as v "
                 . " LEFT JOIN categories c ON categories_id = c.id "
                 . " LEFT JOIN users u ON v.users_id = u.id "
@@ -398,7 +400,7 @@ class Video {
             $_POST['searchPhrase'] = $_GET['search'];
         }
 
-        $sql .= BootGrid::getSqlFromPost(array('title', 'description'), "v.");
+        $sql .= BootGrid::getSqlFromPost(array('title', 'description'), empty($_POST['sort']['likes'])?"v.":"");
 
         //echo $sql;
         $res = $global['mysqli']->query($sql);
