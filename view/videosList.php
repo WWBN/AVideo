@@ -55,6 +55,7 @@ if (!empty($video['clean_title'])) {
         <option value="newest" data-icon="glyphicon-sort-by-attributes" value="desc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created']=='desc')?"selected='selected'":"" ?>> <?php echo __("Date Added (newest)"); ?></option>
         <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" value="asc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created']=='asc')?"selected='selected'":"" ?>> <?php echo __("Date Added (oldest)"); ?></option>
         <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo (!empty($_POST['sort']['likes']))?"selected='selected'":"" ?>> <?php echo __("Most Popular"); ?></option>
+        <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count']))?"selected='selected'":"" ?>> <?php echo __("Most Watched"); ?></option>
     </select>
 </div>
 <div class="col-md-4">
@@ -163,6 +164,8 @@ foreach ($videos as $key => $value) {
         }else 
         if(sortBy=='oldest'){
             sortBy = {'created':'asc'};
+        }else if(sortBy=='views_count'){
+            sortBy = {'views_count':'desc'};                
         }else{
             sortBy = {'likes':'desc'};                
         }
