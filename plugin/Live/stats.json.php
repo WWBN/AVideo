@@ -20,6 +20,8 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
 $xml = $p->getStatsObject();
 $xml = json_encode($xml);
 $xml = json_decode($xml);
+$xml->disableGif = $p->getDisableGifThumbs();
+
 $stream = false;
 $lifeStream = array();
 //$obj->server = $xml->server;

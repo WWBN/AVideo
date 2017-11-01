@@ -57,6 +57,10 @@ class Live extends PluginAbstract {
         return $o->playerServer;
     }
 
+    public function getDisableGifThumbs() {
+        $o = $this->getDataObject();
+        return $o->disableGifThumbs;
+    }
     public function getStatsURL() {
         $o = $this->getDataObject();
         return $o->stats;
