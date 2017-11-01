@@ -90,7 +90,7 @@ if (User::canStream()) {
         $('.liveUsersViews_' + key).text(views);
     }
 
-    function createExtraVideos(href, title, name, photo, user, online, views, key) {
+    function createExtraVideos(href, title, name, photo, user, online, views, key,disableGif) {
         var id = 'extraVideo' + user;
         id = id.replace(/\W/g, '');
         if ($(".extraVideos").length && $("#" + id).length == 0) {
@@ -107,7 +107,11 @@ if (User::canStream()) {
             $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_" + key);
             $liveLi.find('.liveUsersViews').addClass("liveUsersViews_" + key);
             $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=jpg");
-            $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=gif");
+            if(!disableGif){
+                $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=gif");
+            }else{
+                $liveLi.find('.thumbsGIF').remove();
+            }
             $('.extraVideos').append($liveLi);
             $liveLi.slideDown();
         }
@@ -120,6 +124,7 @@ if (User::canStream()) {
                 $('.onlineApplications').text(response.applications.length);
                 $('#availableLive').empty();
                 if (response.applications.length) {
+                    disableGif = response.disableGif;
                     for (i = 0; i < response.applications.length; i++) {
                         href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=" + response.applications[i].user;
                         title = response.applications[i].title;
@@ -130,7 +135,7 @@ if (User::canStream()) {
                         views = response.applications[i].users.views;
                         key = response.applications[i].key;
                         createLiveItem(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, false, online, views, key);
-                        createExtraVideos(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, user, online, views, key);
+                        createExtraVideos(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, user, online, views, key, disableGif);
                     }
                     mouseEffect();
                 } else {
