@@ -85,15 +85,14 @@ foreach ($videos as $key => $value) {
     ?>" title="<?php echo $value['title']; ?>" class="videoLink">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
            <?php
-           $imgGif = "";
-           if (file_exists("{$global['systemRootPath']}videos/{$value['filename']}.gif")) {
-               $imgGif = "{$global['webSiteRootURL']}videos/{$value['filename']}.gif";
-           }
+           
+           $images = Video::getImageFromFilename($value['filename'], $value['type']);
+           
+           $imgGif = $images->thumbsGif;
+           $img = $images->thumbsJpg;
            if ($value['type'] !== "audio") {
-               $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
                $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
            } else {
-               $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
                $img_portrait = "";
            }
            ?>
