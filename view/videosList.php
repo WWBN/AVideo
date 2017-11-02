@@ -148,7 +148,7 @@ foreach ($videos as $key => $value) {
             page: <?php echo $_GET['page']; ?>,
             maxVisible: 10
         }).on('page', function (event, num) {
-            
+            loadPage(num);
         });
     }
     
