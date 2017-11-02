@@ -400,7 +400,7 @@ class Video {
             $_POST['searchPhrase'] = $_GET['search'];
         }
 
-        $sql .= BootGrid::getSqlFromPost(array('title', 'description'), empty($_POST['sort']['likes'])?"v.":"");
+        $sql .= BootGrid::getSqlFromPost(array('title', 'description'), empty($_POST['sort']['likes']) ? "v." : "");
 
         //echo $sql;
         $res = $global['mysqli']->query($sql);
@@ -1038,6 +1038,32 @@ class Video {
 
     function setVideoLink($videoLink) {
         $this->videoLink = $videoLink;
+    }
+
+    static function getImageFromFilename($filename, $type = "video") {
+        global $global;
+        $obj = new stdClass();
+        $jpegSource = "{$global['systemRootPath']}videos/{$filename}.jpg";
+        $thumbsSource = "{$global['systemRootPath']}videos/{$filename}_thumbs.jpg";
+        $obj->poster = "";
+        $obj->thumbsGif = "";
+        $obj->thumbsJpg = "";
+        if ($type !== "audio") {
+            if (file_exists("{$global['systemRootPath']}videos/{$filename}.gif")) {
+                $obj->thumbsGif = "{$global['webSiteRootURL']}videos/{$filename}.gif";
+            }
+            if (file_exists($jpegSource)) {
+                $obj->poster = "{$global['webSiteRootURL']}videos/{$filename}.jpg";
+                $obj->thumbsJpg = "{$global['webSiteRootURL']}videos/{$filename}_thumbs.jpg";
+                // create thumbs
+                if (!file_exists($thumbsSource)) {
+                    im_resize($jpegSource, $thumbsSource, 250, 140);
+                }
+            }
+        } else {
+            $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        }
+        return $obj;
     }
 
 }

@@ -73,15 +73,11 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo thumbsImage">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
                                     <?php
-                                    $imgGif = "";
-                                    if (file_exists("{$global['systemRootPath']}videos/{$value['filename']}.gif")) {
-                                        $imgGif = "{$global['webSiteRootURL']}videos/{$value['filename']}.gif";
-                                    }
-                                    if ($value['type'] !== "audio") {
-                                        $poster = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
-                                    } else {
-                                        $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                                    }
+                                    
+                                    $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                                    $imgGif = $images->thumbsGif;
+                                    $poster = $images->thumbsJpg;
+                                    
                                     ?>
                                     <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                     <?php

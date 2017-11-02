@@ -462,3 +462,77 @@ function getSources($fileName, $returnArray=false){
         return $returnArray?$sourcesArray:$sources;
     }
 }
+
+function im_resize($file_src, $file_dest, $wd, $hd) {
+    if (!file_exists($file_src))
+        return false;
+    $size = getimagesize($file_src);
+    if ($size === false)
+        return false;
+    if ($size['mime'] == 'image/pjpeg')
+        $size['mime'] = 'image/jpeg';
+
+    $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
+    $destformat = strtolower(substr($file_dest, -4));
+    $icfunc = "imagecreatefrom" . $format;
+    if (!function_exists($icfunc))
+        return false;
+
+    $src = $icfunc($file_src);
+
+    $ws = imagesx($src);
+    $hs = imagesy($src);
+
+    if ($ws >= $hs) {
+        $hd = ceil(($wd * $hs) / $ws);
+    } else {
+        $wd = ceil(($hd * $ws) / $hs);
+    }
+    if ($ws <= $wd) {
+        $wd = $ws;
+        $hd = $hs;
+    }
+    $wc = ($wd * $hs) / $hd;
+
+    if ($wc <= $ws) {
+        $hc = ($wc * $hd) / $wd;
+    } else {
+        $hc = ($ws * $hd) / $wd;
+        $wc = ($wd * $hc) / $hd;
+    }
+
+    $dest = imagecreatetruecolor($wd, $hd);
+    switch ($format) {
+        case "png":
+            imagealphablending($dest, false);
+            imagesavealpha($dest, true);
+            $transparent = imagecolorallocatealpha($dest, 255, 255, 255, 127);
+            imagefilledrectangle($dest, 0, 0, $nw, $nh, $transparent);
+
+            break;
+        case "gif":
+            // integer representation of the color black (rgb: 0,0,0)
+            $background = imagecolorallocate($src, 0, 0, 0);
+            // removing the black from the placeholder
+            imagecolortransparent($src, $background);
+
+            break;
+    }
+
+    imagecopyresampled($dest, $src, 0, 0, ($ws - $wc) / 2, ($hs - $hc) / 2, $wd, $hd, $wc, $hc);
+
+    if (!isset($q))
+        $q = 100;
+    if ($destformat == '.png')
+        $saved = imagepng($dest, $file_dest);
+    if ($destformat == '.jpg')
+        $saved = imagejpeg($dest, $file_dest, $q);
+    if (!$saved)
+        my_error_log('saving failed');
+
+    imagedestroy($dest);
+    imagedestroy($src);
+    @chmod($file_dest, 0666);
+
+    return true;
+}
