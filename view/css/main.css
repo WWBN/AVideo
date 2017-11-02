@@ -738,6 +738,10 @@ z-index:100;
 .navbar-collapse.in {
     overflow-y: visible; /* Bootstrap default is "auto" */
 }
+#videosList{    
+    -webkit-transition: ease 1s; /* Safari */
+    transition: ease 1s;    
+}
 .transparent{
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
