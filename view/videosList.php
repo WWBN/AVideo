@@ -153,6 +153,8 @@ foreach ($videos as $key => $value) {
     }
     
     function loadPage(num){
+        $("#videosList").find('a').click(false);
+        $("#videosList").addClass('transparent');
         history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>/page/' + num);
         $('.pages').slideUp();
         $('#pageLoader').fadeIn();
@@ -179,7 +181,8 @@ foreach ($videos as $key => $value) {
             }
         }).done(function (result) {
             $("#videosList").html(result);
-            setBootPage();
+            setBootPage();            
+            $("#videosList").removeClass('transparent');
         });
     }
     
