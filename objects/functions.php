@@ -391,6 +391,18 @@ function parseVideos($videoString = null){
         //the ID of the Vimeo URL: 71673549 
         $id = $matches[2];  
         return '//www.dailymotion.com/embed/video/'.$id;
+    }else if (strpos($link, '/video/') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i',
+                $link,
+                $matches
+            );
+
+        //the YouPHPTube site 
+        $site = $matches[1];  
+        $id = $matches[2];  
+        return $site.'/videoEmbeded/'.$id;
     }
     return $videoString;
     // return data
