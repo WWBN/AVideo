@@ -9,7 +9,8 @@ $videos = $reversed;
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);
-    $videos[$key]['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".jpg";
+    $videos[$key]['Poster'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".jpg";
+    $videos[$key]['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename']."_thumbs.jpg";
     $videos[$key]['VideoUrl'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".mp4";
     $videos[$key]['UserPhoto'] = "{$global['webSiteRootURL']}".$videos[$key]['photoURL'];
 }
