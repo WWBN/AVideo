@@ -115,6 +115,7 @@ if (!empty($video)) {
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
         
         <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+        <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     </head>
 
     <body>
