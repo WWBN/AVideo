@@ -25,7 +25,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $path_parts = pathinfo($_FILES['upl']['name']);
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
     $filename = uniqid($mainName . "_", true);
-    $video = new Video(preg_replace("/_+/", " ", $_FILES['upl']['name']), $filename, @$_FILES['upl']['videoId']);
+    $video = new Video(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']),0,-4), $filename, @$_FILES['upl']['videoId']);
     $video->setDuration($duration);
     $video->setType("video");
     $video->setStatus('a');
