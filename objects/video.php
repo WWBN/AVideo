@@ -655,6 +655,15 @@ class Video {
         $parts = explode(':', $duration);
         return 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
     }
+    
+    static function getItemDurationSeconds($duration = '') {
+        if($duration=="EE:EE:EE"){
+            return 0;
+        }
+        $duration = static::getCleanDuration($duration);
+        $parts = explode(':', $duration);
+        return intval($parts[0]*60*60) + intval($parts[1]*60) + intval($parts[2]);
+    }
 
     static function getDurationFromFile($file) {
         global $global;
