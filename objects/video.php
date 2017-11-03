@@ -328,6 +328,7 @@ class Video {
             return false;
         }
     }
+
     static function getVideoFromCleanTitle($clean_title) {
         global $global;
 
@@ -355,7 +356,9 @@ class Video {
     static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
         global $global;
         $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category, v.created as videoCreation, "
-                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
+                . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount, "
+                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
+                . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
                 . " FROM videos as v "
                 . " LEFT JOIN categories c ON categories_id = c.id "
                 . " LEFT JOIN users u ON v.users_id = u.id "
@@ -397,7 +400,7 @@ class Video {
             $_POST['searchPhrase'] = $_GET['search'];
         }
 
-        $sql .= BootGrid::getSqlFromPost(array('title', 'description'), "v.");
+        $sql .= BootGrid::getSqlFromPost(array('title', 'description'), empty($_POST['sort']['likes']) ? "v." : "");
 
         //echo $sql;
         $res = $global['mysqli']->query($sql);
@@ -591,19 +594,18 @@ class Video {
         if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
-
-		foreach (self::$types as $value) {
-		$file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
-		if (file_exists($file)) {
-			unlink($file);
-		}
-		// Streamlined for less coding space.
-		$files = glob("{$global['systemRootPath']}videos/{$video['filename']}.*");
-		foreach ($files as $file) {
-			if (file_exists($file)) {
-				unlink($file);
-			}
-		}           
+            foreach (self::$types as $value) {
+                $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+                // Streamlined for less coding space.
+                $files = glob("{$global['systemRootPath']}videos/{$video['filename']}*");
+                foreach ($files as $file) {
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                }
             }
         }
         return $resp;
@@ -652,6 +654,15 @@ class Video {
         $duration = static::getCleanDuration($duration);
         $parts = explode(':', $duration);
         return 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
+    }
+    
+    static function getItemDurationSeconds($duration = '') {
+        if($duration=="EE:EE:EE"){
+            return 0;
+        }
+        $duration = static::getCleanDuration($duration);
+        $parts = explode(':', $duration);
+        return intval($parts[0]*60*60) + intval($parts[1]*60) + intval($parts[2]);
     }
 
     static function getDurationFromFile($file) {
@@ -969,7 +980,7 @@ class Video {
                 if (!file_exists($file)) {
                     $videos = getVideosURL($this->getFilename());
                     foreach ($videos as $value) {
-                        if($value['type']=='video' && file_exists($value['path'])){
+                        if ($value['type'] == 'video' && file_exists($value['path'])) {
                             return $value['path'];
                         }
                     }
@@ -1036,6 +1047,32 @@ class Video {
 
     function setVideoLink($videoLink) {
         $this->videoLink = $videoLink;
+    }
+
+    static function getImageFromFilename($filename, $type = "video") {
+        global $global;
+        $obj = new stdClass();
+        $jpegSource = "{$global['systemRootPath']}videos/{$filename}.jpg";
+        $thumbsSource = "{$global['systemRootPath']}videos/{$filename}_thumbs.jpg";
+        $obj->poster = "";
+        $obj->thumbsGif = "";
+        $obj->thumbsJpg = "";
+        if ($type !== "audio") {
+            if (file_exists("{$global['systemRootPath']}videos/{$filename}.gif")) {
+                $obj->thumbsGif = "{$global['webSiteRootURL']}videos/{$filename}.gif";
+            }
+            if (file_exists($jpegSource)) {
+                $obj->poster = "{$global['webSiteRootURL']}videos/{$filename}.jpg";
+                $obj->thumbsJpg = "{$global['webSiteRootURL']}videos/{$filename}_thumbs.jpg";
+                // create thumbs
+                if (!file_exists($thumbsSource)) {
+                    im_resize($jpegSource, $thumbsSource, 250, 140);
+                }
+            }
+        } else {
+            $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        }
+        return $obj;
     }
 
 }
