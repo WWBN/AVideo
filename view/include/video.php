@@ -43,7 +43,8 @@ if (!empty($ad)) {
                 <video poster="<?php echo $poster; ?>" controls crossorigin 
                        class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                        id="mainVideo"  data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
-                    <?php
+                    <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
+                           <?php
                                 echo getSources($playNowVideo['filename']);
                     ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
