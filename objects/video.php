@@ -1068,6 +1068,9 @@ class Video {
                 if (!file_exists($thumbsSource)) {
                     im_resize($jpegSource, $thumbsSource, 250, 140);
                 }
+            }else{
+                $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+                $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfound.jpg";
             }
         } else {
             $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
