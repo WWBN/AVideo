@@ -1061,7 +1061,7 @@ class Video {
             if (file_exists("{$global['systemRootPath']}videos/{$filename}.gif")) {
                 $obj->thumbsGif = "{$global['webSiteRootURL']}videos/{$filename}.gif";
             }
-            if (file_exists($jpegSource)) {
+            if (file_exists($jpegSource) && filesize($jpegSource) > 0) {
                 $obj->poster = "{$global['webSiteRootURL']}videos/{$filename}.jpg";
                 $obj->thumbsJpg = "{$global['webSiteRootURL']}videos/{$filename}_thumbs.jpg";
                 // create thumbs
