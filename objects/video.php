@@ -600,7 +600,7 @@ class Video {
                     unlink($file);
                 }
                 // Streamlined for less coding space.
-                $files = glob("{$global['systemRootPath']}videos/{$video['filename']}.*");
+                $files = glob("{$global['systemRootPath']}videos/{$video['filename']}*");
                 foreach ($files as $file) {
                     if (file_exists($file)) {
                         unlink($file);
