@@ -33,7 +33,6 @@ function listAll($dir) {
 
 listAll($global['systemRootPath']);
 sort($vars);
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
@@ -58,15 +57,15 @@ sort($vars);
             <div class="row">
                 <div class="col-lg-4"></div>
                 <div class="col-lg-2">  
-                    <select class="selectpicker" data-width="fit" required="required" data-live-search="true" id="flag">
-                        <option data-content='' value=""><?php echo __("Select a Language Flag"); ?></option>
-                        <?php
-                        $flags = getAllFlags();
-                        foreach ($flags as $value) {
-                            echo "<option data-content='<span class=\"flag-icon flag-icon-{$value}\"></span> {$value}' value=\"{$value}\">{$value}</option>";
-                        }
-                        ?>
-                    </select>
+                    <div id="navBarFlag2" data-input-name="country2"></div>
+                    <script>
+                        $(function () {
+                            $("#navBarFlag2").flagStrap({
+                                inputName: 'country2',
+                                buttonType: "btn-default navbar-btn",
+                            });
+                        });
+                    </script>
                 </div>
                 <div class="col-lg-2">   
                     <button class="btn btn-success center-block" id="btnSaveFile" disabled><?php echo __("Save File"); ?></button>
@@ -96,17 +95,17 @@ sort($vars);
             <?php
             $dir = "{$global['systemRootPath']}locale";
             if (!is_writable($dir)) {
-            ?>
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10  alert alert-info">  
-                <?php echo __("You need to make your locale folder writable"); ?>
-                <pre><code>chown www-data:www-data <?php echo $global['systemRootPath']; ?>locale && sudo chmod -R 755 <?php echo $global['systemRootPath']; ?>locale</code></pre>
+                ?>
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10  alert alert-info">  
+                        <?php echo __("You need to make your locale folder writable"); ?>
+                        <pre><code>chown www-data:www-data <?php echo $global['systemRootPath']; ?>locale && sudo chmod -R 755 <?php echo $global['systemRootPath']; ?>locale</code></pre>
+                    </div>
+                    <div class="col-lg-1">   
+                    </div>
                 </div>
-                <div class="col-lg-1">   
-                </div>
-            </div>
-            <?php
+                <?php
             }
             ?>
         </div><!--/.container-->
@@ -137,13 +136,13 @@ sort($vars);
                 });
 
                 $('#btnSaveFile').click(function () {
-                    if($('#btnSaveFile').is(":disabled")){
+                    if ($('#btnSaveFile').is(":disabled")) {
                         return false;
                     }
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'save.php',
-                        data: {"flag": $('#flag').val(), "code": $('#arrayCode').val()},
+                        data: {"flag": $("select[name='country2']").val(), "code": $('#arrayCode').val()},
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {
