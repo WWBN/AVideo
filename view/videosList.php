@@ -5,7 +5,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-if(!empty($_POST['video_id'])){
+if (!empty($_POST['video_id'])) {
     $video = Video::getVideo($_POST['video_id'], "viewableNotAd");
 }
 
@@ -21,17 +21,17 @@ if (empty($_GET['page'])) {
 }
 $_POST['current'] = $_GET['page'];
 
-if(empty($_POST['rowCount'])){
-    if(!empty($_SESSION['rowCount'])){
+if (empty($_POST['rowCount'])) {
+    if (!empty($_SESSION['rowCount'])) {
         $_POST['rowCount'] = $_SESSION['rowCount'];
-    }else{
+    } else {
         $_POST['rowCount'] = 10;
     }
 }
-if(empty($_POST['sort'])){
-    if(!empty($_SESSION['sort'])){
+if (empty($_POST['sort'])) {
+    if (!empty($_SESSION['sort'])) {
         $_POST['sort'] = $_SESSION['sort'];
-    }else{
+    } else {
         $_POST['sort']['created'] = 'desc';
     }
 }
@@ -52,19 +52,19 @@ if (!empty($video['clean_title'])) {
 ?>
 <div class="col-md-8">
     <select class="form-control" id="sortBy" >
-        <option value="newest" data-icon="glyphicon-sort-by-attributes" value="desc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created']=='desc')?"selected='selected'":"" ?>> <?php echo __("Date Added (newest)"); ?></option>
-        <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" value="asc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created']=='asc')?"selected='selected'":"" ?>> <?php echo __("Date Added (oldest)"); ?></option>
-        <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo (!empty($_POST['sort']['likes']))?"selected='selected'":"" ?>> <?php echo __("Most Popular"); ?></option>
-        <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count']))?"selected='selected'":"" ?>> <?php echo __("Most Watched"); ?></option>
+        <option value="newest" data-icon="glyphicon-sort-by-attributes" value="desc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'desc') ? "selected='selected'" : "" ?>> <?php echo __("Date Added (newest)"); ?></option>
+        <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" value="asc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Date Added (oldest)"); ?></option>
+        <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo (!empty($_POST['sort']['likes'])) ? "selected='selected'" : "" ?>> <?php echo __("Most Popular"); ?></option>
+        <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most Watched"); ?></option>
     </select>
 </div>
 <div class="col-md-4">
     <select class="form-control" id="rowCount">
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount']=='10')?"selected='selected'":"" ?>>10</option>
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount']=='20')?"selected='selected'":"" ?>>20</option>
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount']=='30')?"selected='selected'":"" ?>>30</option>
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount']=='40')?"selected='selected'":"" ?>>40</option>
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount']=='50')?"selected='selected'":"" ?>>50</option>
+        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '10') ? "selected='selected'" : "" ?>>10</option>
+        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '20') ? "selected='selected'" : "" ?>>20</option>
+        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '30') ? "selected='selected'" : "" ?>>30</option>
+        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '40') ? "selected='selected'" : "" ?>>40</option>
+        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '50') ? "selected='selected'" : "" ?>>50</option>
     </select>
 </div>
 
@@ -76,26 +76,25 @@ foreach ($videos as $key => $value) {
     $name = empty($value['name']) ? $value['user'] : $value['name'];
     $value['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
     ?>
-    <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" itemscope itemtype="http://schema.org/VideoObject">
+    <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" id="divVideo-<?php echo $value['id']; ?>" itemscope itemtype="http://schema.org/VideoObject">
         <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php
-    echo $value['clean_title'];
-    if (!empty($_GET['page']) && $_GET['page'] > 1) {
-        echo "/page/{$_GET['page']}";
-    }
-    ?>" title="<?php echo $value['title']; ?>" class="videoLink">
+        echo $value['clean_title'];
+        if (!empty($_GET['page']) && $_GET['page'] > 1) {
+            echo "/page/{$_GET['page']}";
+        }
+        ?>" title="<?php echo $value['title']; ?>" class="videoLink">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
-           <?php
-           
-           $images = Video::getImageFromFilename($value['filename'], $value['type']);
-           
-           $imgGif = $images->thumbsGif;
-           $img = $images->thumbsJpg;
-           if ($value['type'] !== "audio") {
-               $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
-           } else {
-               $img_portrait = "";
-           }
-           ?>
+                <?php
+                $images = Video::getImageFromFilename($value['filename'], $value['type']);
+
+                $imgGif = $images->thumbsGif;
+                $img = $images->thumbsJpg;
+                if ($value['type'] !== "audio") {
+                    $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
+                } else {
+                    $img_portrait = "";
+                }
+                ?>
                 <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                 <?php
                 if (!empty($imgGif)) {
@@ -112,7 +111,7 @@ foreach ($videos as $key => $value) {
                     <div>
                         <strong><?php echo __("Category"); ?>: </strong>
                         <span class="<?php echo $value['iconClass']; ?>"></span>
-    <?php echo $value['category']; ?>
+                        <?php echo $value['category']; ?>
                     </div>
                     <div>
                         <strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
@@ -121,10 +120,10 @@ foreach ($videos as $key => $value) {
 
                 </div>
                 <div class="row">
-    <?php
-    foreach ($value['tags'] as $value2) {
-        if ($value2->label === __("Group")) {
-            ?>
+                    <?php
+                    foreach ($value['tags'] as $value2) {
+                        if ($value2->label === __("Group")) {
+                            ?>
                             <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                             <?php
                         }
@@ -150,8 +149,8 @@ foreach ($videos as $key => $value) {
             loadPage(num);
         });
     }
-    
-    function loadPage(num){
+
+    function loadPage(num) {
         $("#videosList").find('a').click(false);
         $("#videosList").addClass('transparent');
         history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>/page/' + num);
@@ -160,15 +159,15 @@ foreach ($videos as $key => $value) {
         rowCount = $('#rowCount').val();
         sortBy = $('#sortBy').val();
         console.log(sortBy);
-        if(sortBy=='newest'){
-            sortBy = {'created':'desc'};
-        }else 
-        if(sortBy=='oldest'){
-            sortBy = {'created':'asc'};
-        }else if(sortBy=='views_count'){
-            sortBy = {'views_count':'desc'};                
-        }else{
-            sortBy = {'likes':'desc'};                
+        if (sortBy == 'newest') {
+            sortBy = {'created': 'desc'};
+        } else
+        if (sortBy == 'oldest') {
+            sortBy = {'created': 'asc'};
+        } else if (sortBy == 'views_count') {
+            sortBy = {'views_count': 'desc'};
+        } else {
+            sortBy = {'likes': 'desc'};
         }
         $.ajax({
             type: "POST",
@@ -180,15 +179,15 @@ foreach ($videos as $key => $value) {
             }
         }).done(function (result) {
             $("#videosList").html(result);
-            setBootPage();            
+            setBootPage();
             $("#videosList").removeClass('transparent');
         });
     }
-    
+
     $(document).ready(function () {
         setBootPage();
-        mouseEffect();  
-        $('#rowCount, #sortBy').change(function(){
+        mouseEffect();
+        $('#rowCount, #sortBy').change(function () {
             num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
             loadPage(num);
         });
