@@ -257,7 +257,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="signUp" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>
+                        <a href="https://easytube.club/signUp" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>
                     </div>
                 </div>
             </li>
