@@ -89,15 +89,10 @@ class Category {
 
     static function getAllCategories() {
         global $global;
-        $sql = "SELECT * FROM categories WHERE 1=1 ";
+        $sql = "SELECT * FROM categories WHERE 1=1 ";         
         
+        $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
         
-        if(empty($_POST['sort'])){
-           // $_POST['sort']['c.name'] = 'asc';
-        }
-        
-        $sql .= BootGrid::getSqlFromPost(array('name'));
-
         $res = $global['mysqli']->query($sql);
         $category = array();
         if ($res) {

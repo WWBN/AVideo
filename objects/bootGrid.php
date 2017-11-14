@@ -1,7 +1,7 @@
 <?php
 class BootGrid {
 
-    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "") {
+    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "", $alternativeOrderBy = "") {
         $sql = self::getSqlSearchFromPost($searchFieldsNames);
 
         if (!empty($_POST['sort'])) {
@@ -11,7 +11,7 @@ class BootGrid {
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
         } else {
-            //$sql .= " ORDER BY CREATED DESC ";
+            $sql .= $alternativeOrderBy;
         }
 
         if(!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount']>0){
