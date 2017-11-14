@@ -93,7 +93,7 @@ class Category {
         
         
         if(empty($_POST['sort'])){
-            $_POST['sort']['c.name'] = 'asc';
+           // $_POST['sort']['c.name'] = 'asc';
         }
         
         $sql .= BootGrid::getSqlFromPost(array('name'));
