@@ -70,6 +70,15 @@ class YouPHPTubePlugin{
         }
         return false;
     }
+    static function getVideosManagerListButton(){
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $str .= $p->getVideosManagerListButton();
+        }
+        return $str;
+    }
     
     
     public static function isEnabled($uuid){

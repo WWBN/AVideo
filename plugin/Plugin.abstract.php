@@ -37,6 +37,10 @@ abstract class PluginAbstract {
         return "";
     }
     
+    public function getVideosManagerListButton(){
+        return "";
+    }
+    
     public function getDataObject(){
         $obj = Plugin::getPluginByUUID($this->getUUID());
         $o = json_decode($obj['object_data']);
