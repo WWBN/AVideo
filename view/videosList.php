@@ -179,7 +179,7 @@ foreach ($videos as $key => $value) {
         }
         $.ajax({
             type: "POST",
-            url: "<?php echo $global['webSiteRootURL'], $catLink; ?>videosList/video/<?php echo $videoName; ?>" + page,
+            url: "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo  $catLink; ?>video/<?php echo $videoName; ?>" + page,
             data: {
                 rowCount: rowCount,
                 sort: sortBy,
