@@ -19,20 +19,21 @@
     font-size: 1em !important;
 }
 .video-js .vjs-big-play-button {
-    height: 1.5em;
-    width: 1.5em;
-    -webkit-border-radius: 3em;
-    -moz-border-radius: 3em;
-    border-radius: 3em;
-    background-color: rgba(200, 200, 200, 0.1);
+    height: 1.6em;
+    width: 2.0em;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    background-color: rgba(50, 50, 50, 0.6);
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
     transition: all 0.4s;
+    border-width: 0;
 }
 .video-js:hover .vjs-big-play-button,
 .video-js .vjs-big-play-button:focus {
-    background-color: rgba(200, 200, 200, 0.3);
+    background-color: rgba(255, 0, 0, 0.9);
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
