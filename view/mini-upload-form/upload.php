@@ -30,6 +30,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $video->setType("video");
     $video->setStatus('a');
     $id = $video->save();
+    
     /**
      * This is when is using in a non uploaded movie
      */
@@ -37,6 +38,16 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $obj->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename.".mp4)";
         die(json_encode($obj));
     }
+    
+    
+    if (YouPHPTubePlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) {
+        require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
+        $videoFileName = $video->getFilename();
+        MP4ThumbsAndGif::getImage($videoFileName, 'jpg');
+        MP4ThumbsAndGif::getImage($videoFileName, 'gif');
+    }
+   
+    
     $obj->error = false;
     $obj->filename = $filename;
     $obj->duration = $duration;

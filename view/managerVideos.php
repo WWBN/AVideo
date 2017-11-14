@@ -416,6 +416,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 rotateBtn = "";
                             }
                             var status;
+                            var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getVideosManagerListButton(); ?>';
+                    
 
                             if (row.status == "i") {
                                 status = activeBtn;
@@ -428,7 +430,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             } else {
                                 return editBtn + deleteBtn;
                             }
-                            return editBtn + deleteBtn + status + rotateBtn;
+                            return editBtn + deleteBtn + status + rotateBtn+pluginsButtons;
                         },
                         "tags": function (column, row) {
                             var tags = "";
