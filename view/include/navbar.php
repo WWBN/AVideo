@@ -1,7 +1,14 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
-$categories = Category::getAllCategories();
+if (empty($_POST['sort'])) {
+    $_POST['sort']['name'] = 'asc';
+    $categories = Category::getAllCategories();
+    unset($_POST['sort']['name']);
+} else {
+
+    $categories = Category::getAllCategories();
+}
 if (empty($_SESSION['language'])) {
     $lang = 'us';
 } else {
