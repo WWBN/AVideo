@@ -153,7 +153,13 @@ foreach ($videos as $key => $value) {
     function loadPage(num) {
         $("#videosList").find('a').click(false);
         $("#videosList").addClass('transparent');
-        history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>/page/' + num);
+        console.log(num);
+        var page = '/page/1';
+        if(typeof num != 'undefined' && num != 'undefined'){
+            page = '/page/'+num;
+        }
+        
+        history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>' + page);
         $('.pages').slideUp();
         $('#pageLoader').fadeIn();
         rowCount = $('#rowCount').val();
@@ -171,7 +177,7 @@ foreach ($videos as $key => $value) {
         }
         $.ajax({
             type: "POST",
-            url: "<?php echo $global['webSiteRootURL']; ?>videosList/video/<?php echo $videoName; ?>/page/" + num,
+            url: "<?php echo $global['webSiteRootURL']; ?>videosList/video/<?php echo $videoName; ?>" + page,
             data: {
                 rowCount: rowCount,
                 sort: sortBy,
