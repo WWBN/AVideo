@@ -42,7 +42,9 @@ $_SESSION['sort'] = $_POST['sort'];
 $videos = Video::getAllVideos("viewableNotAd");
 $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
-
+if(empty($totalPages)){
+    $totalPages = 1;
+}
 $videoName = "";
 if (!empty($video['clean_title'])) {
     $videoName = $video['clean_title'];
@@ -177,7 +179,7 @@ foreach ($videos as $key => $value) {
         }
         $.ajax({
             type: "POST",
-            url: "<?php echo $global['webSiteRootURL']; ?>videosList/video/<?php echo $videoName; ?>" + page,
+            url: "<?php echo $global['webSiteRootURL'], $catLink; ?>videosList/video/<?php echo $videoName; ?>" + page,
             data: {
                 rowCount: rowCount,
                 sort: sortBy,
