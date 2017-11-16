@@ -44,15 +44,34 @@ if (!empty($ad)) {
                        class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                        id="mainVideo"  data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
                     <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
-                           <?php
-                                echo getSources($playNowVideo['filename']);
+                    <?php
+                    echo getSources($playNowVideo['filename']);
                     ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                     <p class="vjs-no-js">
                         <?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
                         <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
                     </p>
+
                 </video>
+                <?php
+                require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+                // the live users plugin
+                if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {                   
+                    
+                    require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+                    $style = VideoLogoOverlay::getStyle();
+                    $url = VideoLogoOverlay::getLink();
+                    ?>
+                    <div style="<?php echo $style; ?>">
+                        <a href="<?php echo $url; ?>">
+                            <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png">
+                        </a>
+                    </div>
+                    <?php
+                }
+                ?>
+
                 <?php if (!empty($logId)) { ?>
                     <div id="adUrl" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
                         <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
@@ -82,11 +101,13 @@ if (!empty($ad)) {
         $('#mvideo').find('.secC').addClass('col-sm-6');
         $('#mvideo').find('.secC').addClass('col-md-6');
         $('.rightBar').addClass('compress');
-        setInterval(function(){ $('.principalContainer').css({'min-height':$('.rightBar').height()}); }, 2000);        
+        setInterval(function () {
+            $('.principalContainer').css({'min-height': $('.rightBar').height()});
+        }, 2000);
         $('#mvideo').removeClass('main-video');
-        left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width()+30; 
+        left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width() + 30;
         $(".compress").css('left', left);
-        
+
         t.removeClass('fa-compress');
         t.addClass('fa-expand');
     }
@@ -123,13 +144,13 @@ if (!empty($ad)) {
     }
     var player;
     $(document).ready(function () {
-        
-        
+
+
         $(window).on('resize', function () {
-            left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width()+30; 
+            left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width() + 30;
             $(".compress").css('left', left);
         });
-                  
+
         //Prevent HTML5 video from being downloaded (right-click saved)?
         $('#mainVideo').bind('contextmenu', function () {
             return false;
@@ -146,8 +167,8 @@ if (!empty($ad)) {
                 //this.addClass('vjs-chapters-button');
                 this.addClass('fa-compress');
                 this.addClass('fa');
-                this.controlText("<?php echo __("Teater"); ?>");                
-                if (Cookies.get('compress')==="true") {
+                this.controlText("<?php echo __("Teater"); ?>");
+                if (Cookies.get('compress') === "true") {
                     toogleEC(this);
                 }
             },
@@ -231,9 +252,9 @@ if ($config->getAutoplay()) {
                 console.log("Change Video");
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
                 changeVideoSrc(player, <?php echo json_encode(getSources($video['filename'], true)); ?>);
-                            $(".ad").removeClass("ad");
-                            return false;
-                        });
+                $(".ad").removeClass("ad");
+                return false;
+            });
 <?php } ?>
-                });
+    });
 </script>
