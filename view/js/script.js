@@ -12,6 +12,7 @@ var fullDuration = 0;
 var isPlayingAd = false;
 
 var mainVideoHeight = 0;
+var doNotFloatVideo = false;
 
 String.prototype.stripAccents = function () {
     var translate_re = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
@@ -68,7 +69,7 @@ $(document).ready(function () {
         mainVideoHeight = $('#videoContainer').innerHeight();
     });
     $(window).scroll(function () {
-        if (changingVideoFloat) {
+        if (changingVideoFloat || doNotFloatVideo) {
             return false;
         }
         changingVideoFloat = 1;

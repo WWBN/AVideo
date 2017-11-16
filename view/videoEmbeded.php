@@ -1,4 +1,6 @@
 <?php
+global $isEmbed;
+$isEmbed = 1;
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo();
@@ -6,6 +8,7 @@ if (empty($video)) {
     die(__("Video not found"));
 }
 
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 /*
  * Swap aspect ratio for rotated (vvs) videos
  */
@@ -40,6 +43,8 @@ if ($video['type'] !== "audio") {
 
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.2.0.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
@@ -58,25 +63,42 @@ if ($video['type'] !== "audio") {
                     echo "?autoplay=1";
                 }
                 ?>"></iframe>
-    <?php
-} else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
-    ?>
+                        <?php
+                    } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+                        ?>
                 <audio controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
                        poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
                 </audio>
-    <?php
-} else {
-    ?>
+                <?php
+            } else {
+                ?>
                 <video poster="<?php echo $poster; ?>" controls crossorigin  width="auto" height="auto"
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
-    <?php
-    echo getSources($video['filename']);
-    ?>
+                           <?php
+                           echo getSources($video['filename']);
+                           ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                 </video>
+
+                <?php
+                // the live users plugin
+                if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+
+                    require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+                    $style = VideoLogoOverlay::getStyle();
+                    $url = VideoLogoOverlay::getLink();
+                    ?>
+                    <div style="<?php echo $style; ?>">
+                        <a href="<?php echo $url; ?>">
+                            <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png">
+                        </a>
+                    </div>
+                    <?php
+                }
+                ?>
                 <script>
                     $(document).ready(function () {
                         //Prevent HTML5 video from being downloaded (right-click saved)?
@@ -85,12 +107,12 @@ if ($video['type'] !== "audio") {
                         });
                     });
                 </script>
-            <?php
-        }
-        ?>
+                <?php
+            }
+            ?>
         </div>
-<?php
-echo YouPHPTubePlugin::getFooterCode();
-?>
+        <?php
+        echo YouPHPTubePlugin::getFooterCode();
+        ?>
     </body>
 </html>
