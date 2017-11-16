@@ -30,6 +30,7 @@
     -o-transition: all 0.4s;
     transition: all 0.4s;
     border-width: 0;
+    z-index: 100;
 }
 .video-js:hover .vjs-big-play-button,
 .video-js .vjs-big-play-button:focus {

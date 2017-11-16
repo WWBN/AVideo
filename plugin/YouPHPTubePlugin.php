@@ -70,6 +70,15 @@ class YouPHPTubePlugin{
         }
         return false;
     }
+    
+    static function getObjectData($name){
+        $p = static::loadPlugin($name);
+        if($p){
+            return $p->getDataObject();
+        }
+        return false;
+    }
+    
     static function getVideosManagerListButton(){
         $plugins = Plugin::getAllEnabled();
         $str = "";
