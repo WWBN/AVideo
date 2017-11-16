@@ -14,6 +14,24 @@
                 <iframe class="embed-responsive-item" src="<?php echo parseVideos($video['videoLink']); if ($config->getAutoplay()) {
     echo "?autoplay=1";
 }  ?>"></iframe>
+                
+                <?php
+                require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+                // the live users plugin
+                if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {                   
+                    
+                    require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+                    $style = VideoLogoOverlay::getStyle();
+                    $url = VideoLogoOverlay::getLink();
+                    ?>
+                    <div style="<?php echo $style; ?>">
+                        <a href="<?php echo $url; ?>">
+                            <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png">
+                        </a>
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
         </div>
     </div>
