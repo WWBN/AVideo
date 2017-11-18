@@ -283,6 +283,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
             }
             $(document).ready(function () {
                 var grid = $("#grid").bootgrid({
+                    navigation:0,
                     ajax: true,
                     url: "<?php echo $global['webSiteRootURL'] . "pluginsAvailable.json"; ?>",
                     formatters: {
