@@ -92,10 +92,21 @@ $userGroups = UserGroups::getAllUsersGroups();
                 <?php
             }
             ?>
-
+            <div class="pull-left">       
+                <button class="btn btn-secondary" id="checkBtn">
+                    <i class="fa fa-square-o" aria-hidden="true" id="chk"></i>
+                </button>
+                <button class="btn btn-danger" id="deleteBtn">
+                    <i class="fa fa-trash" aria-hidden="true"></i> <?php echo __('Delete'); ?>
+                </button>
+                <button class="btn btn-danger" id="uploadYouTubeBtn">
+                    <i class="fa fa-youtube-play" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
+                </button>
+            </div>
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
+                        <th data-formatter="checkbox" data-width="20px" ></th>
                         <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Title"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px"><?php echo __("Tags"); ?></th>
                         <th data-column-id="duration" data-width="100px"><?php echo __("Duration"); ?></th>
@@ -184,7 +195,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 if (User::isAdmin()) {
                                     ?>
 
-                                <ul class="list-group" id="videoIsAdControl">
+                                    <ul class="list-group" id="videoIsAdControl">
                                         <li class="list-group-item">
                                             <a href="#" class="btn btn-info btn-xs" data-toggle="popover" title="<?php echo __("What is this"); ?>" data-placement="bottom"  data-content="<?php echo __("This video will work as an advertising and will no longer appear on videos list"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                             <?php echo __("Create an Advertising"); ?>
@@ -373,9 +384,98 @@ $userGroups = UserGroups::getAllUsersGroups();
                     $('#input-jpg, #input-gif').fileinput('destroy');
                     $('#postersImage, #videoIsAdControl, .titles').slideUp();
                     $('#videoLinkContent').slideDown();
-                    $('#videoLink').val('');              
+                    $('#videoLink').val('');
 
                     $('#videoFormModal').modal();
+                });
+
+                $("#checkBtn").click(function () {
+                    var chk = $("#chk").hasClass('fa-check-square-o');
+                    $(".checkboxVideo").each(function (index) {
+                        if (chk) {
+                            $("#chk").removeClass('fa-check-square-o');
+                            $("#chk").addClass('fa-square-o');
+                        } else {
+                            $("#chk").removeClass('fa-square-o');
+                            $("#chk").addClass('fa-check-square-o');
+                        }
+                        $(this).prop('checked', !chk);
+                    });
+
+                });
+
+                $("#uploadYouTubeBtn").click(function () {
+                    modal.showPleaseWait();
+                    var vals = [];
+                    $(".checkboxVideo").each(function (index) {
+                        if ($(this).is(":checked")) {
+                            vals.push($(this).val());
+                        }
+                    });
+                    $.ajax({
+                        url: 'youtubeUpload',
+                        data: {"id": vals},
+                        type: 'post',
+                        success: function (response) {
+                            console.log(response);
+                            modal.hidePleaseWait();
+                            if (!response.success) {
+                                swal({
+                                    title: "<?php echo __("Sorry!"); ?>",
+                                    text: response.msg,
+                                    type: "error",
+                                    html: true
+                                });
+                            } else {
+                                swal({
+                                    title: "<?php echo __("Success!"); ?>",
+                                    text: response.msg,
+                                    type: "success",
+                                    html: true
+                                });
+                            }
+                        }
+                    });
+
+                });
+
+                $("#deleteBtn").click(function () {
+                    swal({
+                        title: "<?php echo __("Are you sure?"); ?>",
+                        text: "<?php echo __("You will not be able to recover these videos!"); ?>",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
+                        closeOnConfirm: false
+                    },
+                            function () {
+
+                                modal.showPleaseWait();                                
+                                
+                                var vals = [];
+                                $(".checkboxVideo").each(function (index) {
+                                    if ($(this).is(":checked")) {
+                                        vals.push($(this).val());
+                                    }
+                                });
+                                
+                                $.ajax({
+                                    url: 'deleteVideo',
+                                    data: {"id": vals},
+                                    type: 'post',
+                                    success: function (response) {
+                                        if (response.status === "1") {
+                                            $("#grid").bootgrid("reload");
+                                            swal("<?php echo __("Success"); ?>", "<?php echo __("Your videos have been deleted"); ?>", "success");
+                                        } else {
+                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your videos have NOT been deleted!"); ?>", "error");
+                                        }
+                                        modal.hidePleaseWait();
+                                    }
+                                });
+                            });
+
                 });
 
                 $('.datepicker').datetimepicker({
@@ -417,7 +517,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             }
                             var status;
                             var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getVideosManagerListButton(); ?>';
-                    
+
 
                             if (row.status == "i") {
                                 status = activeBtn;
@@ -430,7 +530,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             } else {
                                 return editBtn + deleteBtn;
                             }
-                            return editBtn + deleteBtn + status + rotateBtn+pluginsButtons;
+                            return editBtn + deleteBtn + status + rotateBtn + pluginsButtons;
                         },
                         "tags": function (column, row) {
                             var tags = "";
@@ -440,6 +540,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 }
                                 tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                             }
+                            return tags;
+                        },
+                        "checkbox": function (column, row) {
+                            var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";
+
                             return tags;
                         },
                         "titleTag": function (column, row) {
@@ -484,11 +589,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         console.log(row);
-                        
+
                         $('#postersImage, #videoIsAdControl, .titles').slideDown();
-                        if(row.type!=='embed'){
+                        if (row.type !== 'embed') {
                             $('#videoLinkContent').slideUp();
-                            $('#videoLink').val(row.videoLink);                        
+                            $('#videoLink').val(row.videoLink);
                         }
                         $('#inputVideoId').val(row.id);
                         $('#inputTitle').val(row.title);
@@ -765,15 +870,15 @@ $userGroups = UserGroups::getAllUsersGroups();
                     });
                     return false;
                 });
-                
-                
-                <?php
-                if(!empty($_GET['link'])){
-                    ?>
+
+
+<?php
+if (!empty($_GET['link'])) {
+    ?>
                     $('#linkExternalVideo').trigger('click');
-                    <?php
-                }
-                ?>
+    <?php
+}
+?>
 
             });
 
