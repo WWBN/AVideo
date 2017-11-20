@@ -432,7 +432,12 @@ class Video {
 
     static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false) {
         global $global;
-        $sql = "SELECT v.id, "
+        $cn = "";
+        if (!empty($_GET['catName'])) {
+            $cn .= " c.clean_name as cn,";
+        }
+        
+        $sql = "SELECT v.id, {$cn} "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                 . "FROM videos v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
@@ -458,7 +463,7 @@ class Video {
             $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
         }
         if (!empty($_GET['catName'])) {
-            $sql .= " AND c.clean_name = '{$_GET['catName']}'";
+            $sql .= " AND cn = '{$_GET['catName']}'";
         }
 
         $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description'));
