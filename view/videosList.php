@@ -42,7 +42,7 @@ $_SESSION['sort'] = $_POST['sort'];
 $videos = Video::getAllVideos("viewableNotAd");
 $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
-if(empty($totalPages)){
+if (empty($totalPages)) {
     $totalPages = 1;
 }
 $videoName = "";
@@ -142,6 +142,7 @@ foreach ($videos as $key => $value) {
 </ul>
 <div class="loader" id="pageLoader" style="display: none;"></div>
 <script>
+    var isLoadingPage = 0;
     function setBootPage() {
         $('.pages').bootpag({
             total: <?php echo $totalPages; ?>,
@@ -153,52 +154,56 @@ foreach ($videos as $key => $value) {
     }
 
     function loadPage(num) {
+        if (isLoadingPage) {
+            return false;
+        }
+        isLoadingPage = 1;
         $("#videosList").find('a').click(false);
         $("#videosList").addClass('transparent');
         console.log(num);
         var page = '/page/1';
-        if(typeof num != 'undefined' && num != 'undefined'){
-            page = '/page/'+num;
+        if (typeof num != 'undefined' && num != 'undefined') {
+            page = '/page/' + num;
         }
-        
-        history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>' + page);
-        $('.pages').slideUp();
-        $('#pageLoader').fadeIn();
-        rowCount = $('#rowCount').val();
-        sortBy = $('#sortBy').val();
-        console.log(sortBy);
-        if (sortBy == 'newest') {
-            sortBy = {'created': 'desc'};
-        } else
-        if (sortBy == 'oldest') {
-            sortBy = {'created': 'asc'};
-        } else if (sortBy == 'views_count') {
-            sortBy = {'views_count': 'desc'};
-        } else {
-            sortBy = {'likes': 'desc'};
-        }
-        $.ajax({
-            type: "POST",
-            url: "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo  $catLink; ?>video/<?php echo $videoName; ?>" + page,
-            data: {
-                rowCount: rowCount,
-                sort: sortBy,
-                video_id: <?php echo $video['id']; ?>
-            }
-        }).done(function (result) {
-            $("#videosList").html(result);
-            setBootPage();
-            $("#videosList").removeClass('transparent');
-        });
-    }
 
-    $(document).ready(function () {
-        setBootPage();
-        mouseEffect();
-        $('#rowCount, #sortBy').change(function () {
-            num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
-            loadPage(num);
-        });
-        $('#rowCount, #sortBy').selectpicker();
-    });
+        history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>' + page);
+                $('.pages').slideUp();
+                $('#pageLoader').fadeIn();
+                rowCount = $('#rowCount').val();
+                sortBy = $('#sortBy').val();
+                console.log(sortBy);
+                if (sortBy == 'newest') {
+                    sortBy = {'created': 'desc'};
+                } else
+                if (sortBy == 'oldest') {
+                    sortBy = {'created': 'asc'};
+                } else if (sortBy == 'views_count') {
+                    sortBy = {'views_count': 'desc'};
+                } else {
+                    sortBy = {'likes': 'desc'};
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo $catLink; ?>video/<?php echo $videoName; ?>" + page,
+                                data: {
+                                    rowCount: rowCount,
+                                    sort: sortBy,
+                                    video_id: <?php echo $video['id']; ?>
+                                }
+                            }).done(function (result) {
+                                $("#videosList").html(result);
+                                setBootPage();
+                                $("#videosList").removeClass('transparent');
+                            });
+                        }
+
+                        $(document).ready(function () {
+                            setBootPage();
+                            mouseEffect();
+                            $('#rowCount, #sortBy').change(function () {
+                                num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
+                                loadPage(num);
+                            });
+                            $('#rowCount, #sortBy').selectpicker();
+                        });
 </script>
