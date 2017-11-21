@@ -391,6 +391,26 @@ function parseVideos($videoString = null){
         //the ID of the Vimeo URL: 71673549 
         $id = $matches[2];  
         return '//www.dailymotion.com/embed/video/'.$id;
+    }else if (strpos($link, 'metacafe.com') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//www.metacafe.com/embed/'.$id;
+    }else if (strpos($link, 'vid.me') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?vid.me\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//vid.me/e/'.$id;
     }else if (strpos($link, '/video/') !== FALSE) { 
         //extract the ID
         preg_match(
