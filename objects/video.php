@@ -400,7 +400,7 @@ class Video {
             $_POST['searchPhrase'] = $_GET['search'];
         }
 
-        $sql .= BootGrid::getSqlFromPost(array('title', 'description'), empty($_POST['sort']['likes']) ? "v." : "");
+        $sql .= BootGrid::getSqlFromPost(array('title', 'description', 'c.name'), empty($_POST['sort']['likes']) ? "v." : "");
 
         //echo $sql;
         $res = $global['mysqli']->query($sql);
@@ -437,7 +437,7 @@ class Video {
             $cn .= " c.clean_name as cn,";
         }
         
-        $sql = "SELECT v.id, {$cn} "
+        $sql = "SELECT v.id, c.name as category, {$cn} "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                 . "FROM videos v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
@@ -466,8 +466,8 @@ class Video {
             $sql .= " AND cn = '{$_GET['catName']}'";
         }
 
-        $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description'));
-
+        $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
+        //echo $sql;exit;
         $res = $global['mysqli']->query($sql);
 
         if (!$res) {

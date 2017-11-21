@@ -92,15 +92,34 @@ $userGroups = UserGroups::getAllUsersGroups();
                 <?php
             }
             ?>
-            <div class="pull-left">       
+            <div class="pull-left btn-group">       
                 <button class="btn btn-secondary" id="checkBtn">
                     <i class="fa fa-square-o" aria-hidden="true" id="chk"></i>
                 </button>
-                <button class="btn btn-danger" id="deleteBtn">
-                    <i class="fa fa-trash" aria-hidden="true"></i> <?php echo __('Delete'); ?>
-                </button>
                 <button class="btn btn-danger" id="uploadYouTubeBtn">
                     <i class="fa fa-youtube-play" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
+                </button>                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <?php echo __('Categories'); ?> <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <?php
+                        foreach ($categories as $value) {
+                            echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['name']}</a></li>";
+                        }
+                        ?>
+                    </ul>
+                </div>           
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <?php echo __('Status'); ?> <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" onclick="changeStatus('a');return false;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <?php echo __('Active'); ?></a></li>
+                        <li><a href="#" onclick="changeStatus('i');return false;"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <?php echo __('Inactive'); ?></a></li>
+                    </ul>
+                </div>
+                <button class="btn btn-danger" id="deleteBtn">
+                    <i class="fa fa-trash" aria-hidden="true"></i> <?php echo __('Delete'); ?>
                 </button>
             </div>
             <table id="grid" class="table table-condensed table-hover table-striped">
@@ -289,6 +308,66 @@ $userGroups = UserGroups::getAllUsersGroups();
         <script>
             var timeOut;
             var encodingNowId = "";
+
+            function changeStatus(status) {
+                modal.showPleaseWait();
+                var vals = [];
+                $(".checkboxVideo").each(function (index) {
+                    if ($(this).is(":checked")) {
+                        vals.push($(this).val());
+                    }
+                });
+                $.ajax({
+                    url: 'setStatusVideo',
+                    data: {"id": vals, "status": status},
+                    type: 'post',
+                    success: function (response) {
+                        console.log(response);
+                        modal.hidePleaseWait();
+                        if (!response.status) {
+                            swal({
+                                title: "<?php echo __("Sorry!"); ?>",
+                                text: response.msg,
+                                type: "error",
+                                html: true
+                            });
+                        } else {
+                            $("#grid").bootgrid('reload');
+                        }
+                    }
+                });
+
+            }
+            function changeCategory(category_id) {
+                modal.showPleaseWait();
+                var vals = [];
+                $(".checkboxVideo").each(function (index) {
+                    if ($(this).is(":checked")) {
+                        vals.push($(this).val());
+                    }
+                });
+                $.ajax({
+                    url: 'setCategoryVideo',
+                    data: {"id": vals, "category_id": category_id},
+                    type: 'post',
+                    success: function (response) {
+                        console.log(response);
+                        modal.hidePleaseWait();
+                        if (!response.status) {
+                            swal({
+                                title: "<?php echo __("Sorry!"); ?>",
+                                text: response.msg,
+                                type: "error",
+                                html: true
+                            });
+                        } else {
+                            $("#grid").bootgrid('reload');
+                        }
+                    }
+                });
+
+            }
+
             function checkProgress() {
                 $.ajax({
                     url: '<?php echo $config->getEncoderURL(); ?>status',
@@ -439,6 +518,8 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                 });
 
+
+
                 $("#deleteBtn").click(function () {
                     swal({
                         title: "<?php echo __("Are you sure?"); ?>",
@@ -451,15 +532,15 @@ $userGroups = UserGroups::getAllUsersGroups();
                     },
                             function () {
 
-                                modal.showPleaseWait();                                
-                                
+                                modal.showPleaseWait();
+
                                 var vals = [];
                                 $(".checkboxVideo").each(function (index) {
                                     if ($(this).is(":checked")) {
                                         vals.push($(this).val());
                                     }
                                 });
-                                
+
                                 $.ajax({
                                     url: 'deleteVideo',
                                     data: {"id": vals},
