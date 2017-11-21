@@ -548,7 +548,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     success: function (response) {
                                         if (response.status === "1") {
                                             $("#grid").bootgrid("reload");
-                                            swal("<?php echo __("Success"); ?>", "<?php echo __("Your videos have been deleted"); ?>", "success");
                                         } else {
                                             swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your videos have NOT been deleted!"); ?>", "error");
                                         }
@@ -756,7 +755,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         success: function (response) {
                                             if (response.status === "1") {
                                                 $("#grid").bootgrid("reload");
-                                                swal("<?php echo __("Success"); ?>", "<?php echo __("Your video has been deleted"); ?>", "success");
                                             } else {
                                                 swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been deleted!"); ?>", "error");
                                             }
@@ -942,7 +940,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                             if (response.status === "1") {
                                 $('#videoFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
-                                swal("<?php echo __("Success"); ?>", "<?php echo __("Your video has been saved"); ?>", "success");
                             } else {
                                 swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                             }
