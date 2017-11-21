@@ -25,7 +25,7 @@ foreach ($_POST['id'] as $value) {
         $obj->msg = __("You can not Manage This Video");
         die(json_encode($obj));
     }
-    $obj->setStatus($_POST['status']);
+    $obj->setCategories_id($_POST['category_id']);
     $resp = $obj->save();
 }
 echo '{"status":"' . !empty($resp) . '"}';
