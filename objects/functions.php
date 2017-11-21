@@ -394,11 +394,10 @@ function parseVideos($videoString = null){
     }else if (strpos($link, 'metacafe.com') !== FALSE) { 
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_-]+)$/',
+                '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_\/-]+)$/',
                 $link,
                 $matches
             );
-
         $id = $matches[2];  
         return '//www.metacafe.com/embed/'.$id;
     }else if (strpos($link, 'vid.me') !== FALSE) { 
