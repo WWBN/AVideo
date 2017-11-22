@@ -30,6 +30,7 @@ if(!empty($_POST['videoLink'])){
     $obj->setType('embed');
     $obj->setStatus('a');
 }
+$obj->setNext_videos_id($_POST['next_videos_id']);
 $obj->setDescription($_POST['description']);
 $obj->setCategories_id($_POST['categories_id']);
 $obj->setVideoGroups(empty($_POST['videoGroups'])?array():$_POST['videoGroups']);
