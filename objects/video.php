@@ -26,6 +26,7 @@ class Video {
     private $zoom;
     private $videoDownloadedLink;
     private $videoLink;
+    private $next_videos_id;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
     private $videoGroups;
     private $videoAdsCount;
@@ -111,12 +112,12 @@ class Video {
             }
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                     . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', modified = now()"
+                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, modified = now()"
                     . " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos "
-                    . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, created, modified, videoLink) values "
-                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', now(), now(), '{$this->videoLink}')";
+                    . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, created, next_videos_id, modified, videoLink) values "
+                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}')";
         }
         $insert_row = $global['mysqli']->query($sql);
 
@@ -251,7 +252,12 @@ class Video {
             return false;
         }
 
-        $sql = "SELECT u.*, v.*, c.name as category,c.iconClass,  c.clean_name as clean_category, v.created as videoCreation, "
+        $sql = "SELECT u.*, v.*, "
+                . " nv.title as next_title,"
+                . " nv.clean_title as next_clean_title,"
+                . " nv.filename as next_filename,"
+                . " nv.id as next_id,"
+                . " c.name as category,c.iconClass,  c.clean_name as clean_category, v.created as videoCreation, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes, "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount ";
@@ -263,6 +269,7 @@ class Video {
         $sql .= " FROM videos as v "
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . "LEFT JOIN users u ON v.users_id = u.id "
+                . "LEFT JOIN videos nv ON v.next_videos_id = nv.id "
                 . " WHERE 1=1 ";
         $sql .= static::getVideoQueryFileter();
         if (!$ignoreGroup) {
@@ -1012,6 +1019,14 @@ class Video {
         $this->filename = $filename;
     }
 
+    function getNext_videos_id() {
+        return $this->next_videos_id;
+    }
+
+    function setNext_videos_id($next_videos_id) {
+        $this->next_videos_id = $next_videos_id;
+    }
+        
     function queue($format) {
         global $global;
         $obj = new stdClass();
