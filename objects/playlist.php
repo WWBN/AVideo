@@ -51,9 +51,9 @@ class PlayList extends Object {
 
     static function getVideosFromPlaylist($playlists_id) {
         global $global;
-        $sql = "SELECT * FROM  playlists_has_videos "
+        $sql = "SELECT * FROM  playlists_has_videos p "
                 . "LEFT JOIN videos as v ON videos_id = v.id "
-                . " WHERE playlists_id = {$playlists_id} ";
+                . " WHERE playlists_id = {$playlists_id} ORDER BY p.`order` ASC ";
 
         $res = $global['mysqli']->query($sql);
         $rows = array();
@@ -75,6 +75,19 @@ class PlayList extends Object {
         }
         return $videosId;
     }
+    
+    static function sortVideos($videosList, $listIdOrder){
+        $list = array();
+        foreach ($listIdOrder as $value) {
+            foreach ($videosList as $key => $value2) {
+                if($value2['id']==$value){
+                    $list[] = $value2;
+                    unset($videosList[$key]);
+                }
+            }            
+        }
+        return $list;
+    }
 
     public function save() {
         if (!User::isLogged()) {
@@ -85,14 +98,14 @@ class PlayList extends Object {
         return parent::save();
     }
 
-    public function addVideo($video_id, $add) {
+    public function addVideo($video_id, $add, $order=0) {
         global $global;
-        if(empty($add) || $add == "false"){
+        if(empty($add) || $add === "false"){
             $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = {$this->id} AND videos_id = {$video_id} ";
         }else{
-            $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id ) VALUES ({$this->id}, {$video_id}) ";
+            $this->addVideo($video_id, false);
+            $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES ({$this->id}, {$video_id}, {$order}) ";
         }
-        //echo $sql;
         return $global['mysqli']->query($sql);
     }
 
