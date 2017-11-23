@@ -38,11 +38,6 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <!-- users_id = <?php echo $user_id; ?> -->
-        <style>
-            .gallery li .duration {
-                top: 25px;
-            }
-        </style>
     </head>
 
     <body>
