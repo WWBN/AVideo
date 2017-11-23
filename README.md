@@ -56,6 +56,10 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
+# Version 4.4
+- Next video set-able
+- Play List Sortable
+
 # Version 4.3
 In this version registered users need the YouPHPTube administrator to grant them permission to transmit streams
 
