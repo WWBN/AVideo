@@ -185,11 +185,11 @@ if (!empty($ad)) {
         player.ready(function () {
 <?php
 if ($config->getAutoplay()) {
-    echo "this.play();";
+    echo "setTimeout(function () { this.play();}, 150);";
 } else {
     ?>
                 if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                    this.play();
+                    setTimeout(function () { this.play();}, 150);                    
                 }
 <?php }
 ?>
