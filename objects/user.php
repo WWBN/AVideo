@@ -14,6 +14,7 @@ class User {
     private $password;
     private $isAdmin;
     private $canStream;
+    private $canUpload;
     private $status;
     private $photoURL;
     private $backgroundURL;
@@ -51,8 +52,15 @@ class User {
     function setCanStream($canStream) {
         $this->canStream = $canStream;
     }
+    function getCanUpload() {
+        return $this->canUpload;
+    }
 
-        
+    function setCanUpload($canUpload) {
+        $this->canUpload = $canUpload;
+    }
+
+            
     private function load($id) {
         $user = self::getUserDb($id);
         if (empty($user))
@@ -197,13 +205,16 @@ class User {
         if (empty($this->canStream)) {
             $this->canStream = "false";
         }
+        if (empty($this->canUpload)) {
+            $this->canUpload = "false";
+        }
         if (empty($this->status)) {
             $this->status = 'a';
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},canStream = {$this->canStream}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}' , modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}' , modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
         //echo $sql;
         $insert_row = $global['mysqli']->query($sql);
@@ -482,6 +493,9 @@ class User {
         global $global, $config;
         if ($config->getAuthCanUploadVideos()) {
             return self::isLogged();
+        }
+        if(self::isLogged() && !empty($_SESSION['user']['canUpload'])){
+            return true;
         }
         return self::isAdmin();
     }

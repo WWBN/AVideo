@@ -5,6 +5,16 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
+-- Schema youPHPTube
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema youPHPTube
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `youPHPTube` DEFAULT CHARACTER SET utf8 ;
+USE `youPHPTube` ;
+
+-- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
@@ -22,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `recoverPass` VARCHAR(255) NULL,
   `backgroundURL` VARCHAR(255) NULL,
   `canStream` TINYINT(1) NULL,
+  `canUpload` TINYINT(1) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
