@@ -5,10 +5,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema youPHPTube
--- -----------------------------------------------------
-
--- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
@@ -25,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `lastLogin` DATETIME NULL,
   `recoverPass` VARCHAR(255) NULL,
   `backgroundURL` VARCHAR(255) NULL,
-  `canStream` TINYINT(1) NULL DEFAULT NULL,
+  `canStream` TINYINT(1) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
@@ -69,11 +65,13 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `zoom` FLOAT NULL DEFAULT 1,
   `youtubeId` VARCHAR(45) NULL,
   `videoLink` VARCHAR(255) NULL,
+  `next_videos_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
   INDEX `index5` (`order` ASC),
+  INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC),
   CONSTRAINT `fk_videos_users`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
@@ -82,6 +80,11 @@ CREATE TABLE IF NOT EXISTS `videos` (
   CONSTRAINT `fk_videos_categories1`
     FOREIGN KEY (`categories_id`)
     REFERENCES `categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_videos_videos1`
+    FOREIGN KEY (`next_videos_id`)
+    REFERENCES `videos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -396,6 +399,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `playlists_has_videos` (
   `playlists_id` INT NOT NULL,
   `videos_id` INT NOT NULL,
+  `order` INT NULL,
   PRIMARY KEY (`playlists_id`, `videos_id`),
   INDEX `fk_playlists_has_videos_videos1_idx` (`videos_id` ASC),
   INDEX `fk_playlists_has_videos_playlists1_idx` (`playlists_id` ASC),
@@ -415,13 +419,13 @@ ENGINE = InnoDB;
 -- Table `plugins`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `plugins` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `uuid` VARCHAR(45) NOT NULL,
   `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
-  `created` DATETIME NULL DEFAULT NULL,
-  `modified` DATETIME NULL DEFAULT NULL,
-  `object_data` TEXT NULL DEFAULT NULL,
-  `name` VARCHAR(255) NULL DEFAULT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `object_data` TEXT NULL,
+  `name` VARCHAR(255) NOT NULL,
   `dirName` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC))
