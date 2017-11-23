@@ -43,7 +43,9 @@ if (!empty($_GET['playlist_id'])) {
     } else {
         $playlist_index = 0;
     }
+    $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['playlist_id']);
     $videosPlayList = Video::getAllVideos("viewableNotAd");
+    $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
     $video = Video::getVideo($videosPlayList[$playlist_index]['id']);
     if (!empty($videosPlayList[$playlist_index + 1])) {
         $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id']);
