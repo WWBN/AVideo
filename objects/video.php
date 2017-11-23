@@ -105,6 +105,7 @@ class Video {
         }
         $this->title = $global['mysqli']->real_escape_string(trim($this->title));
         $this->description = $global['mysqli']->real_escape_string($this->description);
+        $this->next_videos_id = intval($this->next_videos_id);
         if (!empty($this->id)) {
             if (!$this->userCanManageVideo()) {
                 header('Content-Type: application/json');
