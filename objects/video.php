@@ -297,7 +297,7 @@ class Video {
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
         } elseif (empty($random) && !empty($_GET['videoName'])) {
-            $sql .= " AND clean_title = '{$_GET['videoName']}' ";
+            $sql .= " AND v.clean_title = '{$_GET['videoName']}' ";
         } elseif (!empty($random)) {
             $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
