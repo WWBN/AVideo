@@ -117,7 +117,7 @@ class Video {
         } else {
             $sql = "INSERT INTO videos "
                     . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, created, next_videos_id, modified, videoLink) values "
-                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}')";
+                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', '{$this->next_videos_id}',now(), now(), '{$this->videoLink}')";
         }
         $insert_row = $global['mysqli']->query($sql);
 
