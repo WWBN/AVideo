@@ -826,7 +826,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     closeOnConfirm: false
                                                 },
                                                         function () {
-
+                                                            swal.close();
                                                             modal.showPleaseWait();
                                                             $.ajax({
                                                                 url: 'deleteVideo',
