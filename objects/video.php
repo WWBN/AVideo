@@ -101,11 +101,19 @@ class Video {
             $this->status = 'e';
         }
         if (empty($this->categories_id)) {
-            $this->categories_id = 1;
+            $o = YouPHPTubePlugin::getObjectDataIfEnabled("PredefinedCategory");
+            if($o){
+                $this->categories_id = $o->defaultCategory;
+            }else{
+                $this->categories_id = 1;
+            }
         }
         $this->title = $global['mysqli']->real_escape_string(trim($this->title));
         $this->description = $global['mysqli']->real_escape_string($this->description);
-        $this->next_videos_id=intval($this->next_videos_id); 
+        $this->next_videos_id=intval($this->next_videos_id);
+        if(empty($this->next_videos_id)){
+            $this->next_videos_id = 'NULL';
+        }
         if (!empty($this->id)) {
             if (!$this->userCanManageVideo()) {
                 header('Content-Type: application/json');
@@ -118,7 +126,7 @@ class Video {
         } else {
             $sql = "INSERT INTO videos "
                     . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink) values "
-                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', '{$this->next_videos_id}',now(), now(), '{$this->videoLink}')";
+                    . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}')";
         }
         $insert_row = $global['mysqli']->query($sql);
 
