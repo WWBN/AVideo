@@ -71,6 +71,17 @@ class YouPHPTubePlugin{
         return false;
     }
     
+    static function loadPluginIfEnabled($name){
+        $p = static::loadPlugin($name);
+        if($p){
+            $uuid = $p->getUUID();
+            if(static::isEnabled($uuid)){
+                return $p;
+            }
+        }
+        return false;
+    }
+    
     static function getObjectData($name){
         $p = static::loadPlugin($name);
         if($p){

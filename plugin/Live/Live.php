@@ -32,7 +32,7 @@ class Live extends PluginAbstract {
         $obj->playerServer = "http://{$server['host']}:8080/live";
         // for secure connections
         //$obj->playerServer = "https://{$server['host']}:444/live";
-        $obj->stats = "http://{$server['host']}/stat";
+        $obj->stats = "http://{$server['host']}:8080/stat";
         $obj->disableGifThumbs = false;
         return $obj;
     }

@@ -101,9 +101,9 @@ class Video {
             $this->status = 'e';
         }
         if (empty($this->categories_id)) {
-            $o = YouPHPTubePlugin::getObjectDataIfEnabled("PredefinedCategory");
-            if($o){
-                $this->categories_id = $o->defaultCategory;
+            $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
+            if($p){
+                $this->categories_id = $p->getCategoryId();
             }else{
                 $this->categories_id = 1;
             }
