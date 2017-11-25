@@ -417,7 +417,7 @@ class User {
 
         $res = $global['mysqli']->query($sql);
         $user = array();
-            require_once './userGroups.php';
+        require_once $global['systemRootPath'] . 'objects/userGroups.php';
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 $row['groups'] = UserGroups::getUserGroups($row['id']);
