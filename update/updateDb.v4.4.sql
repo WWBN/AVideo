@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 
 ALTER TABLE `videos` 
-ADD COLUMN `next_videos_id` INT(11) NOT NULL AFTER `videoLink`,
+ADD COLUMN `next_videos_id` INT(11) NULL AFTER `videoLink`,
 ADD INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC);
 
 ALTER TABLE `playlists_has_videos` 
