@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `zoom` FLOAT NULL DEFAULT 1,
   `youtubeId` VARCHAR(45) NULL,
   `videoLink` VARCHAR(255) NULL,
-  `next_videos_id` INT NOT NULL,
+  `next_videos_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
