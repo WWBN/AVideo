@@ -45,7 +45,8 @@ abstract class PluginAbstract {
         $obj = Plugin::getPluginByUUID($this->getUUID());
         $o = json_decode($obj['object_data']);
         $eo = $this->getEmptyDataObject();
-        //var_dump($obj['object_data'], $o);
+        //var_dump($obj['object_data']);
+        //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         return (object) array_merge((array) $eo, (array) $o);
     }
     

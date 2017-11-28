@@ -213,21 +213,8 @@ class Video {
     static private function getUserGroupsCanSeeSQL() {
         global $global;
 
-        $res = $global['mysqli']->query('select 1 from `videos_group_view` LIMIT 1');
-        if (!$res) {
-            if (User::isAdmin()) {
-                $_GET['error'] = "You need to Update YouPHPTube to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
-            }
-            return "";
-        }
         if (User::isAdmin()) {
             return "";
-        }
-        $result = $global['mysqli']->query("SHOW TABLES LIKE 'videos_group_view'");
-        if (empty($result->num_rows)) {
-            $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.3</a>";
-            header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
-            return false;
         }
         $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
         if (User::isLogged()) {

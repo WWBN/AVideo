@@ -92,16 +92,24 @@ function isPHP($version = "'7.0.0'") {
     }
 }
 
-function modRewriteEnabled() {
+function modEnabled($mod_name){
     if (!function_exists('apache_get_modules')) {
         ob_start();
         phpinfo(INFO_MODULES);
         $contents = ob_get_contents();
         ob_end_clean();
-        return (strpos($contents, 'mod_rewrite') !== false);
+        return (strpos($contents, 'mod_'.$mod_name) !== false); 
     } else {
-        return in_array('mod_rewrite', apache_get_modules());
+        return in_array('mod_'.$mod_name, apache_get_modules());
     }
+}
+
+function modRewriteEnabled() {
+    return modEnabled("rewrite");
+}
+
+function modAliasEnabled() {
+    return modEnabled("alias");
 }
 
 function isFFMPEG() {
