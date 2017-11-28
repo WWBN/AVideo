@@ -34,6 +34,7 @@
     #for the video name
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/?$ view/?videoName=$1    [NC,L]
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/page/([0-9]+)/??$ view/?videoName=$1&page=$2    [NC,L]
+
     #for the video name
     RewriteRule    ^cat/([A-Za-z0-9-]+)/video/([A-Za-z0-9-_.]+)/?$ view/?catName=$1&videoName=$2    [NC,L]
     RewriteRule    ^cat/([A-Za-z0-9-]+)/video/([A-Za-z0-9-_.]+)/page/([0-9]+)/?$ view/?catName=$1&videoName=$2&page=$3   [NC,L]
@@ -159,4 +160,8 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule .*$ img/image404.php [NC,L]
 
+
+    <IfModule mod_xsendfile.c>
+        RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
+    </IfModule>
 </IfModule>
