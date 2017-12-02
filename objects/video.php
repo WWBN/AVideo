@@ -325,11 +325,12 @@ class Video {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $video = $res->fetch_assoc();
-            return self::getVideo($video['id'], "");
+            if(!empty($video['id'])){
+                return self::getVideo($video['id'], "");
+            }
             //$video['groups'] = UserGroups::getVideoGroups($video['id']);
-        } else {
-            return false;
         }
+        return false;
     }
 
     static function getVideoFromCleanTitle($clean_title) {
