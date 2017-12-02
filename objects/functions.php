@@ -445,6 +445,7 @@ function getVideosURL($fileName){
         $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.mp4";
         if(file_exists($file)){
             $files["mp4{$value}"]=array(
+                'filename'=>"{$fileName}{$value}.mp4",
                 'path'=>$file,
                 'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.mp4",
                 'type'=>'video'
@@ -453,6 +454,7 @@ function getVideosURL($fileName){
         $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.webm";
         if(file_exists($file)){
             $files["webm{$value}"]=array(
+                'filename'=>"{$fileName}{$value}.webm",
                 'path'=>$file,
                 'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.webm",
                 'type'=>'video'
@@ -462,6 +464,7 @@ function getVideosURL($fileName){
         $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.jpg";
         if(file_exists($file)){
             $files["jpg{$value}"]=array(
+                'filename'=>"{$fileName}{$value}.jpg",
                 'path'=>$file,
                 'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.jpg",
                 'type'=>'image'
@@ -471,6 +474,7 @@ function getVideosURL($fileName){
         $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.gif";
         if(file_exists($file)){
             $files["gif{$value}"]=array(
+                'filename'=>"{$fileName}{$value}.gif",
                 'path'=>$file,
                 'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.gif",
                 'type'=>'image'
