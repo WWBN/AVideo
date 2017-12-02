@@ -330,6 +330,7 @@ class Video {
             }
             //$video['groups'] = UserGroups::getVideoGroups($video['id']);
         }
+        error_log(" Not Found getVideoFromFileName({$fileName}) ");
         return false;
     }
 
