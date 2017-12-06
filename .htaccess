@@ -165,3 +165,8 @@
         #RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
     </IfModule>
 </IfModule>
+<FilesMatch "\.(ttf|otf|eot|woff)$">
+  <IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+  </IfModule>
+</FilesMatch>
