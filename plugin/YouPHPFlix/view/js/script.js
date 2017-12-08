@@ -91,15 +91,8 @@ $(function () {
         });
         video = $(this).attr('video');
         cat = $(this).attr('cat');
+        $('.playBtn').attr('src', webSiteRootURL+'cat/'+cat+'/video/'+video);
         loadPlayLists();
-    });
-
-    $('.playBtn').click(function () {
-        //$('#ifvideo').fadeIn();
-        //$('#ifvideo').attr('src', iframe);
-        window.location = webSiteRootURL+'cat/'+cat+'/video/'+video;
-        
-
     });
 
     $('.carousel').flickity({
