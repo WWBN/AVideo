@@ -91,7 +91,7 @@ $(function () {
         });
         video = $(this).attr('video');
         cat = $(this).attr('cat');
-        $('.playBtn').attr('src', webSiteRootURL+'cat/'+cat+'/video/'+video);
+        $('.playBtn').attr('href', webSiteRootURL+'cat/'+cat+'/video/'+video);
         loadPlayLists();
     });
 
