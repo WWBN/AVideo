@@ -1,0 +1,236 @@
+html, body{
+    overflow-x: hidden;
+}
+a:link,
+a:hover,
+a:active,
+a:visited {
+    -webkit-transition: color 150ms;
+    transition: color 150ms;
+    text-decoration: none;
+}
+.flickity-viewport {
+    -webkit-transition: 450ms -webkit-transform;
+    transition: 450ms -webkit-transform;
+    transition: 450ms transform;
+    transition: 450ms transform, 450ms -webkit-transform;
+    font-size: 0;
+    white-space: nowrap;
+    margin: 35px 0;
+    padding-bottom: 10px;
+}
+.tile {
+    position: relative;
+    display: inline-block;
+    width: 250px;
+    height: 140.625px;
+    margin-right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    -webkit-transition: 450ms all;
+    transition: 450ms all;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+.tile__img {
+    width: 250px;
+    height: 140.625px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+.tile__details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    opacity: 0;
+    background: -webkit-linear-gradient(bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+    -webkit-transition: 450ms opacity;
+    transition: 450ms opacity;
+}
+.tile__details:after,
+.tile__details:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: #000;
+}
+.tile__details:after {
+    margin-top: -25px;
+    margin-left: -25px;
+    width: 50px;
+    height: 50px;
+    border: 3px solid #ecf0f1;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+.tile__details:before {
+    content: '▶';
+    left: 0;
+    width: 100%;
+    font-size: 30px;
+    margin-left: 2px;
+    margin-top: -20px;
+    text-align: center;
+    z-index: 2;
+}
+.tile:hover .tile__details {
+    opacity: 1;
+}
+.tile__title {
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.flickity-viewport:hover {
+    -webkit-transform: translate3d(-62.5px, 0, 0);
+    transform: translate3d(-62.5px, 0, 0);
+    z-index: 1010;
+}
+.flickity-viewport:hover .tile {
+    opacity: 0.5;
+}
+.flickity-viewport:hover .tile:hover {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+    opacity: 1;
+}
+.tile:hover ~ .tile {
+    -webkit-transform: translate3d(125px, 0, 0);
+    transform: translate3d(125px, 0, 0);
+}
+
+
+.poster{
+    position: relative;
+    height: 370px;
+    width: 100%;
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-1.jpg);
+    background-repeat: no-repeat;
+    background-size: auto 700px;
+    background-position: right 0 center;    
+    -webkit-transition: background 0.5s linear;
+    -moz-transition: background 0.5s linear;
+    -o-transition: background 0.5s linear;
+    transition: background 0.5s linear; 
+    
+}
+
+.posterDetails {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 5px 20px;
+
+    background: -webkit-linear-gradient(left, rgba(14,15,17,1) 40%, rgba(14,15,17,0) 100%);
+    background: -o-linear-gradient(right, rgba(14,15,17,1) 40%, rgba(14,15,17,0) 100%);
+    background: linear-gradient(right, rgba(14,15,17,1) 40%, rgba(14,15,17,0) 100%);
+    background: -moz-linear-gradient(to right, rgba(14,15,17,1) 40%, rgba(14,15,17,0) 100%);
+
+    color: #FFF;
+}
+
+.footerBtn{
+    bottom: 0;
+    position: absolute;
+    height: 15vh;
+}
+
+.infoText{
+    width: 30vw;
+    bottom: 17vh;
+    position: absolute;
+}
+
+.thumbsImage{
+    transition: border 0.8s;
+    position: relative;
+    border: 4px solid #0e0f11;
+    
+}
+.thumbsGIF{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.videoDescription{
+    display: none;
+}
+
+iframe{
+    border-width: 0;
+}
+
+/* carousel height */
+.carousel {
+    height: 160px;
+}
+
+/* cell inherit height from carousel */
+.carousel-cell {
+    height: 100%;
+}
+
+/* fade in image when loaded */
+.carousel-cell-image {
+    transition: opacity 0.4s;
+    opacity: 0;
+}
+
+.carousel-cell-image.flickity-lazyloaded,
+.carousel-cell-image.flickity-lazyerror {
+    opacity: 1;
+}
+.flickity-page-dots .dot {
+    background: #F33;
+}
+.flickity-viewport{
+    overflow: visible;
+}
+.flickity-prev-next-button{
+    z-index: 1020;
+}
+.thumbsImage.active{
+    border: 4px solid #FFF;
+}
+.arrow-down {
+    position: absolute;
+    left: 50%;
+    margin: -2px 0 0 -20px;
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;  
+    border-top: 10px solid #FFF;
+}
+
+
+
+footer {
+    color: #555;
+    background-color: transparent;
+    border-top: 1px solid #555;
+    border-top-color: rgb(50, 50, 50);
+}
+footer .btn-outline {
+    color: #555;
+    border-color: rgb(50, 50, 50);
+}
+
+.navbar-brand {
+    height: auto;
+}

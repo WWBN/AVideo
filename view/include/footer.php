@@ -1,4 +1,3 @@
-<hr>
 <footer>
     <?php
     $custom = "";
