@@ -194,6 +194,11 @@ iframe{
 .carousel-cell-image.flickity-lazyerror {
     opacity: 1;
 }
+
+.flickity-slider{
+    margin-left: 75px;
+}
+
 .flickity-page-dots .dot {
     background: #F33;
 }
