@@ -36,9 +36,9 @@ $category = Category::getAllCategories();
 
 
             <div class="row">
-                <h3>
+                <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); ?>
-                </h3>
+                </h2>
                 <div class="carousel">
                     <?php
                     $_POST['sort']['created'] = "DESC";
@@ -96,9 +96,9 @@ $category = Category::getAllCategories();
 
 
             <div class="row">
-                <h3>
+                <h2>
                     <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); ?>
-                </h3>
+                </h2>
                 <div class="carousel">
                     <?php
                     unset($_POST['sort']);
@@ -154,9 +154,9 @@ $category = Category::getAllCategories();
             </div>
 
             <div class="row">
-                <h3>
+                <h2>
                     <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); ?>
-                </h3>
+                </h2>
                 <div class="carousel">
                     <?php
                     unset($_POST['sort']);
@@ -226,9 +226,9 @@ $category = Category::getAllCategories();
                 }
                 ?>
                 <div class="row">
-                    <h3>
+                    <h2>
                         <i class="<?php echo $cat['iconClass']; ?>"></i> <?php echo $cat['name']; ?> <span class="badge"><?php echo count($videos); ?></span>
-                    </h3>
+                    </h2>
                     <div class="carousel">
                         <?php
                         foreach ($videos as $value) {
