@@ -91,7 +91,11 @@ $(function () {
         });
         video = $(this).attr('video');
         cat = $(this).attr('cat');
-        $('.playBtn').attr('href', webSiteRootURL+'cat/'+cat+'/video/'+video);
+        var href = 'video/'+video;
+        if(cat && typeof cat != 'undefined'){
+            href = 'cat/'+cat+'/'+href;
+        }
+        $('.playBtn').attr('href', webSiteRootURL+href);
         loadPlayLists();
     });
 
