@@ -68,7 +68,8 @@ $(function () {
         if (!img || true) {
             img = $(this).attr('poster');
         }
-        var desc = $(this).find(".videoDescription").text();
+        var desc = $(this).find(".videoDescription").html();
+        var details = $(this).find(".videoInfo").html();
         var title = $(this).find(".tile__title").text();
 
         var row = $(this).closest('.row');
@@ -84,10 +85,12 @@ $(function () {
         $(row).find('.poster').slideDown();
         $(row).find('.footerBtn, .labelPoints').fadeIn();
         $(row).find('.poster').css({'background-image': 'url(' + img + ')'});
-        $(row).find('.infoText, .infoTitle').fadeOut('slow', function () {
-            $(row).find('.infoText').text(desc);
+        $(row).find('.infoText, .infoTitle, .infoDetails').fadeOut('slow', function () {
+            $(row).find('.infoText').html(desc);
             $(row).find('.infoTitle').text(title);
-            $(row).find('.infoText, .infoTitle').fadeIn('slow');
+            $(row).find('.infoDetails').html(details);
+            
+            $(row).find('.infoText, .infoTitle, .infoDetails').fadeIn('slow');
         });
         video = $(this).attr('video');
         cat = $(this).attr('cat');
