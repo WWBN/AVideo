@@ -90,7 +90,7 @@ $category = Category::getAllCategories();
                                 Text
                             </div>
                             <div class="footerBtn" style="display: none;">                             
-                                <button class="btn btn-danger playBtn"><i class="fa fa-play"></i> Play</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
                                 <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
                             </div>
 
