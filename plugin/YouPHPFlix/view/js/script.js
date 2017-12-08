@@ -4,14 +4,13 @@ var videos_id;
 
 function loadPlayLists() {
     $.ajax({
-        url: webSiteRootURL+'playLists.json',
+        url: webSiteRootURL + 'playLists.json',
         success: function (response) {
             $('#searchlist').html('');
             for (var i in response) {
                 if (!response[i].id) {
                     continue;
                 }
-                console.log(response[i]);
                 var icon = "lock"
                 if (response[i].status == "public") {
                     icon = "globe"
@@ -38,7 +37,6 @@ function loadPlayLists() {
                         'playlists_id': $(this).val()
                     },
                     success: function (response) {
-                        console.log(response);
                         modal.hidePleaseWait();
                     }
                 });
@@ -74,31 +72,38 @@ $(function () {
 
         var row = $(this).closest('.row');
         var poster = $(row).find('.poster');
-        $(".arrow-down").fadeOut();
+        var myEleTop = $('.navbar-fixed-top .items-container').outerHeight(true);
 
+        $(".arrow-down").fadeOut();
         $(".thumbsImage").removeClass('active');
         $(this).addClass('active');
         $(this).parent().find(".arrow-down").fadeIn('slow');
 
         $('.poster').not(poster).slideUp();
+        $(row).find('.poster').slideDown('slow', function () {
+            var top = row.offset().top;
+            $('html, body').animate({
+                scrollTop: top - myEleTop
+            }, 'slow');
+        });
 
-        $(row).find('.poster').slideDown();
+
         $(row).find('.footerBtn, .labelPoints').fadeIn();
         $(row).find('.poster').css({'background-image': 'url(' + img + ')'});
         $(row).find('.infoText, .infoTitle, .infoDetails').fadeOut('slow', function () {
             $(row).find('.infoText').html(desc);
             $(row).find('.infoTitle').text(title);
             $(row).find('.infoDetails').html(details);
-            
+
             $(row).find('.infoText, .infoTitle, .infoDetails').fadeIn('slow');
         });
         video = $(this).attr('video');
         cat = $(this).attr('cat');
-        var href = 'video/'+video;
-        if(cat && typeof cat != 'undefined'){
-            href = 'cat/'+cat+'/'+href;
+        var href = 'video/' + video;
+        if (cat && typeof cat != 'undefined') {
+            href = 'cat/' + cat + '/' + href;
         }
-        $('.playBtn').attr('href', webSiteRootURL+href);
+        $('.playBtn').attr('href', webSiteRootURL + href);
         loadPlayLists();
     });
 
@@ -135,7 +140,7 @@ $(function () {
         });
         return false;
     });
-    
+
     $(window).on('resize', function () {
         $('#ifvideo')
     });
