@@ -39,6 +39,9 @@ $category = Category::getAllCategories();
                 //$_POST['rowCount'] = 18;
                 //$_POST['current'] = 1;
                 $videos = Video::getAllVideos();
+                if(empty($videos)){
+                    continue;
+                }
                 ?>
                 <div class="row">
                     <h3>
