@@ -86,7 +86,7 @@ $category = Category::getAllCategories();
                             <h2 class="infoTitle">                        
                                 Title
                             </h2>
-                            <div class="infoText">                        
+                            <div class="infoText col-md-4 col-sm-12">                        
                                 Text
                             </div>
                             <div class="footerBtn" style="display: none;">                             
