@@ -32,7 +32,7 @@ $category = Category::getAllCategories();
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
-        <div class="container-fluid"> 
+        <div class="container-fluid" style="display: none;"> 
 
 
             <div class="row">
@@ -311,7 +311,7 @@ $category = Category::getAllCategories();
             }
             ?>
         </div>
-
+        <div id="loading" class="loader" style="width: 30vh; height: 30vh; position: absolute; left: 50%; top: 50%; margin-left: -15vh; margin-top: -15vh;"></div>
 
         <div class="webui-popover-content" id="popover">
             <?php
@@ -367,8 +367,6 @@ $category = Category::getAllCategories();
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/script.js" type="text/javascript"></script>
         <script>
             $(function () {
-
-
 
             });
         </script>
