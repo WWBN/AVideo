@@ -155,7 +155,7 @@ a:visited {
 .thumbsImage{
     transition: border 0.8s;
     position: relative;
-    border: 4px solid #0e0f11;
+    border: 4px solid #0e0f1122;
     
 }
 .thumbsGIF{
