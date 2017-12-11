@@ -200,7 +200,7 @@ iframe{
 .flickity-page-dots .dot {
     background: #F33;
 }
-.flickity-viewport, .flickity-slider, .carousel-cell{
+.flickity-viewport, .flickity-slider, .carousel-cell, .carousel {
     overflow-y: visible;
 }
 .flickity-prev-next-button{
