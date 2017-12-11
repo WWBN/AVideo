@@ -200,9 +200,6 @@ iframe{
 .flickity-page-dots .dot {
     background: #F33;
 }
-.flickity-viewport{
-    overflow: visible;
-}
 .flickity-prev-next-button{
     z-index: 1020;
 }
