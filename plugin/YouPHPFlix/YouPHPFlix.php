@@ -15,6 +15,13 @@ class YouPHPFlix extends PluginAbstract {
     public function getUUID() {
         return "e2a568e6-ef61-4dcc-aad0-0109e9be8e36";
     }
+    
+    public function getEmptyDataObject() {
+        global $global;
+        $obj = new stdClass();
+        $obj->pageDots = false;
+        return $obj;
+    }
         
     public function getFirstPage(){
         global $global;        

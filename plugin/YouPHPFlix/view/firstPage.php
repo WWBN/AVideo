@@ -11,12 +11,14 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
 $category = Category::getAllCategories();
+$o = YouPHPTubePlugin::getObjectData("VideoLogoOverlay");
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+            var pageDots = <?php echo empty($o->pageDots)?"false":"true"; ?>
         </script>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
