@@ -150,6 +150,13 @@ a:visited {
 .infoText{
     bottom: 17vh;
     position: absolute;
+    height: 150px;
+    overflow: hidden;
+    display: block; /* Fallback for non-webkit */
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
 
 .thumbsImage{
