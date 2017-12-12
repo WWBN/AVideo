@@ -185,7 +185,7 @@ iframe{
 }
 .container-fluid{
     overflow: hidden;
-    margin-bottom: 50px;
+    margin-bottom: 350px;
 }
 
 /* cell inherit height from carousel */
