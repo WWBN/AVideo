@@ -123,7 +123,8 @@ $(function () {
     $carousel = $('.carousel').flickity({
         lazyLoad: 7,
         setGallerySize: false,
-        cellAlign: 'left'
+        cellAlign: 'left',
+        pageDots: pageDots
     });   
     isFlickityEnabled('.carousel');
     
