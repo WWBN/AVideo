@@ -19,7 +19,7 @@ class YouPHPFlix extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->pageDots = false;
+        $obj->pageDots = true;
         return $obj;
     }
         
