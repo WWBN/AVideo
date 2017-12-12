@@ -239,6 +239,7 @@ $category = Category::getAllCategories();
             unset($_POST['rowCount']);
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
+                $_POST['sort']['created'] = "DESC";
                 //$_POST['rowCount'] = 18;
                 //$_POST['current'] = 1;
                 $videos = Video::getAllVideos();
