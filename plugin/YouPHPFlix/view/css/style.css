@@ -154,7 +154,7 @@ a:visited {
     overflow: hidden;
     display: block; /* Fallback for non-webkit */
     display: -webkit-box;
-    -webkit-line-clamp: 8;
+    -webkit-line-clamp: 7;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
 }
