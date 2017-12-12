@@ -176,6 +176,9 @@ iframe{
 .carousel {
     height: 160px;
 }
+.container-fluid{
+    overflow: hidden;
+}
 
 /* cell inherit height from carousel */
 .carousel-cell {
@@ -200,8 +203,8 @@ iframe{
 .flickity-page-dots .dot {
     background: #F33;
 }
-.flickity-viewport, .flickity-slider, .carousel-cell, .carousel, .row {
-    overflow-y: visible;
+.flickity-viewport{
+    overflow: visible;
 }
 .flickity-prev-next-button{
     z-index: 1020;
