@@ -21,4 +21,8 @@ class Gallery extends PluginAbstract {
         return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
     }   
     
+    public function getTags() {
+        return array('free', 'firstPage', 'gallery');
+    }
+    
 }

@@ -27,7 +27,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
 
-        <title>YouPHPFlix</title>
+        <title><?php echo $config->getWebSiteTitle(); ?></title>
     </head>
     <body>
         <?php

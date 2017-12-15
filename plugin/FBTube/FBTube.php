@@ -26,4 +26,9 @@ class FBTube extends PluginAbstract {
         global $global;
         return '<link href="'.$global['webSiteRootURL'].'plugin/FBTube/view/style.css" rel="stylesheet" type="text/css"/>';
     }
+    
+    public function getTags() {
+        return array('free', 'firstPage', 'facebook');
+    }
+
 }

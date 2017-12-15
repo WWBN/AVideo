@@ -92,5 +92,9 @@ class Live extends PluginAbstract {
         curl_close($ch);
         return $data;
     }
+    
+    public function getTags() {
+        return array('free', 'live', 'streaming', 'live stream');
+    }
 
 }

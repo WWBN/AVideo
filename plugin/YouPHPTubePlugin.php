@@ -101,6 +101,16 @@ class YouPHPTubePlugin{
         return false;
     }
     
+    static function xsendfilePreVideoPlay(){
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $str .= $p->xsendfilePreVideoPlay();
+        }
+        return $str;
+    }
+    
     static function getVideosManagerListButton(){
         $plugins = Plugin::getAllEnabled();
         $str = "";
