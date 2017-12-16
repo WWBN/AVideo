@@ -162,7 +162,7 @@
 
 
     <IfModule mod_xsendfile.c>
-        RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
+        #RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
     </IfModule>
 </IfModule>
 <FilesMatch "\.(ttf|otf|eot|woff)$">
