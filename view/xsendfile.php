@@ -12,7 +12,7 @@ $file = $path_parts['basename'];
 $path = "{$global['systemRootPath']}videos/{$file}";
 error_log("Xsend: ".$path);
 YouPHPTubePlugin::xsendfilePreVideoPlay();
-
+error_log("depois Xsend: ".$path);
 header("X-Sendfile: {$path}");
 header("Content-type: " . mime_content_type($path));
 header('Content-Length: ' . filesize($path));
