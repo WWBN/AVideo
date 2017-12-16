@@ -10,7 +10,7 @@ if (empty($_GET['file'])) {
 $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
 $path = "{$global['systemRootPath']}videos/{$file}";
-
+error_log("Xsend: ".$path);
 YouPHPTubePlugin::xsendfilePreVideoPlay();
 
 header("X-Sendfile: {$path}");
