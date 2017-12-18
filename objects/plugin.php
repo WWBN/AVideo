@@ -134,6 +134,7 @@ class Plugin extends Object {
                     $obj->data_object = $p->getDataObject();
                     $obj->databaseScript = !empty(static::getDatabaseFile($value));
                     $obj->pluginMenu = $p->getPluginMenu();        
+                    $obj->tags = $p->getTags();        
                     $result[] = $obj;
                 }
             }

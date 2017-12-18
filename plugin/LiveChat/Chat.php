@@ -40,5 +40,9 @@ class Chat implements MessageComponentInterface {
         echo "An error has occurred: {$e->getMessage()}\n";
 
         $conn->close();
+    }    
+    
+    public function getTags() {
+        return array('free', 'chat', 'live');
     }
 }

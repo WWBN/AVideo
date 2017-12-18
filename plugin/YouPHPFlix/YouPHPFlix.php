@@ -37,6 +37,10 @@ class YouPHPFlix extends PluginAbstract {
         
         return $css;
     }
+    
+    public function getTags() {
+        return array('free', 'firstPage', 'netflix');
+    }
 
     
 }
