@@ -321,7 +321,7 @@ foreach ($tags as $value) {
                                         modal.hidePleaseWait();
                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                                     } else {
-                                        document.location = '<?php echo $global['webSiteRootURL']; ?>'
+                                        document.location = '<?php echo !empty($_SERVER["HTTP_REFERER"])? $_SERVER["HTTP_REFERER"]:$global['webSiteRootURL']; ?>'
                                     }
                                 }
                             });
