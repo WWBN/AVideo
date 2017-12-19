@@ -66,7 +66,7 @@ a:visited {
     line-height: 50px;
     text-align: center;
     border-radius: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(255,255,255,0.5);
     z-index: 1;
 }
 .tile__details:before {
@@ -186,6 +186,10 @@ iframe{
 .container-fluid{
     overflow: hidden;
     padding-bottom: 50px;
+}
+
+.bootgrid-header{
+    overflow: visible;
 }
 
 /* cell inherit height from carousel */

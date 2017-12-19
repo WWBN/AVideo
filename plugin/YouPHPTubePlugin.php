@@ -52,9 +52,9 @@ class YouPHPTubePlugin{
         $firstPage = false;
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
-            $firstPage = $p->getFirstPage();
-            if($firstPage){
-                return $firstPage;
+            $fp = $p->getFirstPage();
+            if(!empty($fp)){
+               $firstPage = $fp; 
             }
         }
         return $firstPage;
