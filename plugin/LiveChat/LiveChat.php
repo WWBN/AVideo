@@ -41,4 +41,9 @@ class LiveChat extends PluginAbstract{
         return $o->websocket;
     }
 
+    
+    public function getTags() {
+        return array('free', 'live', 'streaming', 'live stream', 'chat');
+    }
+
 }
