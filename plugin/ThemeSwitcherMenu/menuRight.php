@@ -20,22 +20,23 @@ $obj = ThemeSwitcherMenu::getCurrent();
 <li>
     <div class="btn-group">
         <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
-            <span class="fa fa-gear"></span> <?php echo __("Themes") ?> <span class="caret"></span>
+            <span class="fa fa-gear"></span> <?php echo __("Style & Themes") ?> <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu" style=" min-width: 165px;">
-            <li class="dropdown-header"><?php echo __("Current Theme") ?></li> 
-            <li  class="dropdown-submenu active">
-                <img style='height: 60px; width: 60px; float: left;' class='img img-responsive  img-thumbnail' src="<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/icons/<?php echo $obj->page; ?>.png"/>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li class="dropdown-header"><?php echo __("Current Style & Theme") ?></li> 
+            <li  class="dropdown-submenu active" style=" min-width: 165px;">
+                <img style='height: 60px; width: 60px; float: left;' class='img img-responsive  img-thumbnail ' src="<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/icons/<?php echo $obj->page; ?>.png"/>
                 <img style='height: 60px; width: 100px;' class='img img-responsive  img-thumbnail' src="<?php echo $global['webSiteRootURL']; ?>view/css/custom/<?php echo $obj->theme; ?>.png"/>
             </li>
             <li class="divider"></li> 
-            <li class="dropdown-header"><?php echo __("Change Theme") ?></li> 
+            <li class="dropdown-header"><?php echo __("Change Style") ?></li> 
             <?php
             foreach ($firstPages as $value) {
                 ?>
                 <li class="dropdown-submenu" data-placement="left" data-toggle="tooltip" title="<img style='height: 100px; width: 100px;' class='img img-responsive  img-thumbnail' src='<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/icons/<?php echo $value; ?>.png' />">
                     <a class="test" tabindex="-1" href="#"><?php echo $value; ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menu-right dropdown-submenu-themes">
+                        <li class="dropdown-header"><?php echo __("Change Theme for Style:") ?> <?php echo $value; ?></li> 
                         <?php
                         foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
                             //echo "$filename size " . filesize($filename) . "\n";
@@ -54,7 +55,7 @@ $obj = ThemeSwitcherMenu::getCurrent();
             }
             ?>
             <li class="divider"></li> 
-            <li>
+            <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/reset.php">
                     <i class="fa fa-repeat" aria-hidden="true"></i>
                     <?php echo __("Reset to Default"); ?>
