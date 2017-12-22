@@ -80,6 +80,15 @@ if(empty($imgw) || empty($imgh)){
         <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> You are not allowed see this streaming</h1>    
             <?php
         }
+        ?>
+        
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <script>
+                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+                        $.widget.bridge('uibutton', $.ui.button);
+                        $.widget.bridge('uitooltip', $.ui.tooltip);
+        </script>    
+        <?php        
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
@@ -89,6 +98,6 @@ if(empty($imgw) || empty($imgh)){
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        
     </body>
 </html>
