@@ -115,5 +115,10 @@ class ThemeSwitcherMenu extends PluginAbstract {
         return $obj;
     }
     
+    public static function reset(){
+        unset($_SESSION['user']['firstPage']);
+        unset($_SESSION['user']['theme']);
+    }
+    
 
 }

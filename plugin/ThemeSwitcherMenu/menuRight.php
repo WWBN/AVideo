@@ -1,5 +1,5 @@
 <?php
-$firstPages = array('Default','FBTube', 'Gallery', 'YouPHPFlix');
+$firstPages = array('Default', 'FBTube', 'Gallery', 'YouPHPFlix');
 $obj = ThemeSwitcherMenu::getCurrent();
 ?>
 <style>
@@ -7,7 +7,7 @@ $obj = ThemeSwitcherMenu::getCurrent();
     .dropdown-submenu {
         position: relative;
     }
-    
+
     .open2{
         z-index: 99999;
     }
@@ -43,7 +43,7 @@ $obj = ThemeSwitcherMenu::getCurrent();
                             $fileEx = basename($filename, ".css"); // $file is set to "index"
                             ?>
                             <li data-toggle="tooltip" title="<img style='height: 60px; width: 100px;' class='img img-responsive  img-thumbnail' src='<?php echo $global['webSiteRootURL']; ?>view/css/custom/<?php echo $fileEx; ?>.png' />">
-                                <a tabindex="-1" href="<?php echo strtok($_SERVER["REQUEST_URI"],'?'); ?>?firstPage=<?php echo $value; ?>&theme=<?php echo $fileEx; ?>"><?php echo ucfirst($fileEx); ?></a>
+                                <a tabindex="-1" href="<?php echo strtok($_SERVER["REQUEST_URI"], '?'); ?>?firstPage=<?php echo $value; ?>&theme=<?php echo $fileEx; ?>"><?php echo ucfirst($fileEx); ?></a>
                             </li>
                             <?php
                         }
@@ -53,7 +53,13 @@ $obj = ThemeSwitcherMenu::getCurrent();
                 <?php
             }
             ?>
-
+            <li class="divider"></li> 
+            <li>
+                <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/reset.php">
+                    <i class="fa fa-repeat" aria-hidden="true"></i>
+                    <?php echo __("Reset to Default"); ?>
+                </a>
+            </li> 
         </ul>
     </div>
 
@@ -62,19 +68,19 @@ $obj = ThemeSwitcherMenu::getCurrent();
 <script>
     $(document).ready(function () {
         $('.dropdown-submenu a.test').on("click", function (e) {
-            
+
             $('.open2').slideUp();
-            if($(this).next('ul').hasClass('open2')){            
+            if ($(this).next('ul').hasClass('open2')) {
                 $(this).next('ul').slideUp();
                 $(this).next('ul').removeClass('open2');
-            }else{
+            } else {
                 $(this).next('ul').slideDown();
                 $(this).next('ul').addClass('open2');
             }
             e.stopPropagation();
             e.preventDefault();
         });
-        
+
         $('li[data-toggle="tooltip"]').tooltip({
             animated: 'fade',
             html: true
