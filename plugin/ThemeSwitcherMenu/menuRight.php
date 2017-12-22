@@ -20,7 +20,7 @@ $obj = ThemeSwitcherMenu::getCurrent();
 <li>
     <div class="btn-group">
         <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
-            <span class="fa fa-gear"></span> <span class="hidden-md"><?php echo __("Style & Themes") ?></span> <span class="caret"></span>
+            <span class="fa fa-gear"></span> <span class="hidden-md hidden-sm"><?php echo __("Style & Themes") ?></span> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu">
             <li class="dropdown-header"><?php echo __("Current Style & Theme") ?></li> 
