@@ -5,6 +5,11 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/script.js" type="text/javascript"></script>
 <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script>
+    /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+    $.widget.bridge('uibutton', $.ui.button);
+    $.widget.bridge('uitooltip', $.ui.tooltip);
+</script>
 <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
 <div class="alert alert-warning" id="chatOffline">
     Trying to establish a chat server connection
@@ -67,7 +72,7 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
         };
         conn.onclose = function (e) {
             console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-            if(attempChatConnections--===0){
+            if (attempChatConnections-- === 0) {
                 $("#chatOffline").removeClass('alert-warning');
                 $("#chatOffline").addClass('alert-danger');
                 $("#chatOffline").text('Chat connection fail');
@@ -84,8 +89,8 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
             conn.close();
         };
     }
-    
-    function alertChat(){
+
+    function alertChat() {
         //var snd = new Audio("<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/notification.wav");
         //snd.play();
         $("#chatOnline .fa-comments-o").addClass('faa-ring');
@@ -103,7 +108,7 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
         var json = {"photo": photo, "name": name, "text": text, "chatId": chatId};
         return json;
     }
-    function makeDrag(){  
+    function makeDrag() {
         //$("#chatOnline").draggable('destroy');
         $("#chatOnline").draggable({
             handle: ".panel-heading"
@@ -111,7 +116,7 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
     }
     $(function () {
         $('#collapseBtn').click(function (e) {
-            $('.colapsibleArea').slideToggle().promise().done(function(){
+            $('.colapsibleArea').slideToggle().promise().done(function () {
                 //makeDrag();
             });
         });
