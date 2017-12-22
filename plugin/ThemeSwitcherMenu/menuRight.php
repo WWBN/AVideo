@@ -36,7 +36,7 @@ $obj = ThemeSwitcherMenu::getCurrent();
                 <li class="dropdown-submenu" data-placement="left" data-toggle="tooltip" title="<img style='height: 100px; width: 100px;' class='img img-responsive  img-thumbnail' src='<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/icons/<?php echo $value; ?>.png' />">
                     <a class="test" tabindex="-1" href="#"><?php echo $value; ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menu-right dropdown-submenu-themes">
-                        <li class="dropdown-header"><?php echo __("Change Theme for Style:") ?> <?php echo $value; ?></li> 
+                        <li class="dropdown-header"><?php echo __("Theme for Style:") ?> <strong><?php echo $value; ?></strong></li> 
                         <?php
                         foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
                             //echo "$filename size " . filesize($filename) . "\n";
