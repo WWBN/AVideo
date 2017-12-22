@@ -286,7 +286,7 @@ class User {
     }
 
     static function isLogged() {
-        return !empty($_SESSION['user']);
+        return !empty($_SESSION['user']['id']);
     }
 
     static function isAdmin() {
