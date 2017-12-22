@@ -31,7 +31,7 @@ if (!empty($_GET['catName'])) {
 }
 
 $video = Video::getVideo("", "viewableNotAd");
-if(empty($_GET['videoName'])){
+if (empty($_GET['videoName'])) {
     $_GET['videoName'] = $video['clean_title'];
 }
 $obj = new Video("", "", $video['id']);
@@ -53,9 +53,9 @@ if (!empty($_GET['playlist_id'])) {
     }
     unset($_GET['playlist_id']);
 } else {
-    if(!empty($video['next_videos_id'])){
+    if (!empty($video['next_videos_id'])) {
         $autoPlayVideo = Video::getVideo($video['next_videos_id']);
-    }else{    
+    } else {
         $autoPlayVideo = Video::getRandom($video['id']);
     }
     if (!empty($autoPlayVideo)) {
@@ -119,7 +119,7 @@ if (!empty($video)) {
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
-        
+
         <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
         <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     </head>
@@ -756,6 +756,12 @@ if (!empty($video)) {
             <?php } ?>
 
         </div>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <script>
+                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+                        $.widget.bridge('uibutton', $.ui.button);
+                        $.widget.bridge('uitooltip', $.ui.tooltip);
+        </script>
         <?php
         include 'include/footer.php';
         ?>
@@ -763,5 +769,6 @@ if (!empty($video)) {
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
+
     </body>
 </html>
