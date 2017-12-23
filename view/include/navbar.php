@@ -7,6 +7,10 @@ if (empty($_SESSION['language'])) {
 } else {
     $lang = $_SESSION['language'];
 }
+
+$json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
+// convert the string to a json object
+$advancedCustom = json_decode($json_file);
 ?>
 <nav class="navbar navbar-default navbar-fixed-top ">
     <ul class="items-container">
@@ -66,32 +70,42 @@ if (empty($_SESSION['language'])) {
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                     <?php
-                                    if (!empty($config->getEncoderURL())) {
-                                        ?>
-                                        <li>
-                                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" >
-                                                <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
-                                            </a>
-                                        </li>
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" ><span class="fa fa-cogs"></span> <?php echo __("Configure an Encoder URL"); ?></a>
-                                        </li>
-                                        <?php
+                                    if(empty($advancedCustom->doNotShowEncoderButton)){
+                                        if (!empty($config->getEncoderURL())) {
+                                            ?>
+                                            <li>
+                                                <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" >
+                                                    <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
+                                                </a>
+                                            </li>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <li>
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" ><span class="fa fa-cogs"></span> <?php echo __("Configure an Encoder URL"); ?></a>
+                                            </li>
+                                            <?php
+                                        }
                                     }
+                                    if(empty($advancedCustom->doNotShowUploadMP4Button)){
                                     ?>
                                     <li>
                                         <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
                                             <span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?>
                                         </a>
                                     </li>
+                                    <?php
+                                    }
+                                    if(empty($advancedCustom->doNotShowEmbedButton)){
+                                    ?>                                    
                                     <li>
                                         <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
                                             <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
                                         </a>
                                     </li>
+                                    <?php
+                                    }
+                                    ?>
                                 </ul>
                             </div>
 
