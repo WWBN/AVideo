@@ -5,9 +5,21 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+
+$obj = new stdClass();
+if(empty($_POST['captcha'])){
+   $obj->error = __("The captcha is empty");
+   die(json_encode($obj));
+}
+require_once $global['systemRootPath'] . 'objects/captcha.php';
+$valid = Captcha::validation($_POST['captcha']);
+if(!$valid){
+   $obj->error = __("The captcha is wrong");
+   die(json_encode($obj));
+}
 // check if user already exists
 $userCheck = new User(0, $_POST['user'], false);
-$obj = new stdClass();
+
 if (!empty($userCheck->getBdId())) {
     $obj->error = __("User already exists");
     die(json_encode($obj));

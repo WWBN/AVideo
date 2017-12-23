@@ -75,7 +75,17 @@ require_once $global['systemRootPath'] . 'objects/user.php';
                                     </div>
                                 </div>
                             </div>
-
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
+                                        <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                                        <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Button -->
                             <div class="form-group">
@@ -92,6 +102,11 @@ require_once $global['systemRootPath'] . 'objects/user.php';
             </div>
             <script>
                 $(document).ready(function () {
+                    
+                    $('#btnReloadCapcha').click(function () {
+                        $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
+                        $('#captchaText').val('');
+                    });
                     $('#updateUserForm').submit(function (evt) {
                         evt.preventDefault();
                         modal.showPleaseWait();
@@ -105,7 +120,13 @@ require_once $global['systemRootPath'] . 'objects/user.php';
                         } else {
                             $.ajax({
                                 url: 'createUser',
-                                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "email": $('#inputEmail').val(), "name": $('#inputName').val()},
+                                data: {
+                                    "user": $('#inputUser').val(), 
+                                    "pass": $('#inputPassword').val(), 
+                                    "email": $('#inputEmail').val(), 
+                                    "name": $('#inputName').val(), 
+                                    "captcha": $('#captchaText').val()
+                                },
                                 type: 'post',
                                 success: function (response) {
                                     if (response.status > 0) {
