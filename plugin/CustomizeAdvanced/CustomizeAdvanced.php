@@ -27,4 +27,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderResolutionHD = false;
         return $obj;
     }
+    
+    public function getTags() {
+        return array('free', 'customization', 'buttons', 'resolutions');
+    }
 }
