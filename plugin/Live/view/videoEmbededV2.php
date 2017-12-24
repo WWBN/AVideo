@@ -77,8 +77,6 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                 ?>
             </div>
         </div>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <script>
             $(function () {
                 $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
@@ -87,10 +85,12 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                 })
             });
         </script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
         echo YouPHPTubePlugin::getFooterCode();
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
     </body>
 </html>
