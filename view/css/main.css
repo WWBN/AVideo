@@ -115,7 +115,13 @@ footer ul.list-inline li {
     -webkit-transition: ease 1s; /* Safari */
     transition: ease 1s;    
 }
-
+/* to fix the click on mobile */
+.rightBar div{
+    z-index: 10;
+}
+.videosList{
+    z-index: 1;
+}
 /* end for main video */
 .form-compact .form-control {
     position: relative;
