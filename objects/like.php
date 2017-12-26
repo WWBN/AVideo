@@ -100,6 +100,31 @@ class Like {
         $obj->dislikes = intval($row['total']);
         return $obj;
     }
+    
+    static function getTotalLikes() {
+        global $global;
+
+        $obj = new stdClass();
+        $obj->likes = 0;
+        $obj->dislikes = 0;
+
+        $sql = "SELECT count(*) as total FROM likes WHERE `like` = 1 "; // like
+        $res = $global['mysqli']->query($sql);
+        if (!$res) {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        $row = $res->fetch_assoc();
+        $obj->likes = intval($row['total']);
+
+        $sql = "SELECT count(*) as total FROM likes WHERE `like` = -1 "; // dislike
+        $res = $global['mysqli']->query($sql);
+        if (!$res) {
+            die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        $row = $res->fetch_assoc();
+        $obj->dislikes = intval($row['total']);
+        return $obj;
+    }
 
     static function getMyVote($videos_id) {
         global $global;

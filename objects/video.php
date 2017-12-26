@@ -481,6 +481,26 @@ class Video {
 
         return $res->num_rows;
     }
+    
+    static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
+        $obj = new stdClass();
+        $obj->likes = 0;
+        $obj->disLikes = 0;
+        $obj->views_count = 0;   
+        $obj->total_minutes = 0;        
+        
+        $videos = static::getAllVideos($status , $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
+        
+        foreach ($videos as $value) {
+            $obj->likes += intval($value['likes']);
+            $obj->disLikes += intval($value['dislikes']);
+            $obj->views_count  += intval($value['views_count']);   
+            $obj->total_minutes += intval(parseDurationToSeconds($value['duration'])/60);  
+        }
+        
+        return $obj;
+        
+    }
 
     static private function getViewableStatus() {
         /**
