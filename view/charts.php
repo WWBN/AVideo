@@ -118,7 +118,7 @@ include 'include/navbar.php';
         <div class="container-fluid">
 
             <div class="row dashboard">
-                <div class="col-lg-3 col-md-4 col-sm-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-blue">
                         <div class="panel-heading">
                             <div class="row">
@@ -140,7 +140,7 @@ include 'include/navbar.php';
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -162,7 +162,7 @@ include 'include/navbar.php';
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-purple">
                         <div class="panel-heading">
                             <div class="row">
@@ -184,7 +184,7 @@ include 'include/navbar.php';
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-wine">
                         <div class="panel-heading">
                             <div class="row">
@@ -208,7 +208,7 @@ include 'include/navbar.php';
                 </div>
 
 
-                <div class="col-lg-3 col-md-4 col-sm-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
@@ -230,7 +230,7 @@ include 'include/navbar.php';
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-orange">
                         <div class="panel-heading">
                             <div class="row">
@@ -252,7 +252,7 @@ include 'include/navbar.php';
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
@@ -274,7 +274,7 @@ include 'include/navbar.php';
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
