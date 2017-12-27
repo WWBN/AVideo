@@ -518,7 +518,7 @@ foreach ($labelsFull as $key => $value) {
             });
 
             $(document).ready(function () {
-                countTo('#totalVideos', <?php echo count($videos); ?>);
+                countTo('#totalVideos', <?php echo count($totalVideos); ?>);
                 countTo('#totalUsers', <?php echo $totalUsers; ?>);
                 countTo('#totalSubscriptions', <?php echo $totalSubscriptions; ?>);
                 countTo('#totalVideosComents', <?php echo $totalComents; ?>);
