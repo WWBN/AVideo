@@ -49,10 +49,12 @@ $advancedCustom = json_decode($json_file);
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="right-menus">
                     <li class="">
-                        <form class="navbar-form navbar-left"  action="<?php echo $global['webSiteRootURL']; ?>" >
+                        <form class="navbar-form navbar-left" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
                             <div class="input-group" >
-                                <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
-                                <span class="input-group-addon"  style="width: 50px;"><span class="glyphicon glyphicon-search"></span></span>
+                                <div class="form-inline">
+                                    <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
+                                    <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                </div>
                             </div>
                         </form>
                     </li>
