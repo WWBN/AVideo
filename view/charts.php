@@ -16,7 +16,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
 
-$totalVideos = Video::getTotalVideos();
+$totalVideos = Video::getTotalVideos("viewableNotAd");
 $totalUsers = User::getTotalUsers();
 $totalSubscriptions = Subscribe::getTotalSubscribes();
 $totalComents = Comment::getTotalComments();
