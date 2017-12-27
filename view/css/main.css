@@ -451,6 +451,10 @@ img.rotate-90 {
 .subscribeButton {
     background-color: #e62117;
     color: #FFF;
+    -webkit-transition: all 1s ease-out;
+    -moz-transition: all 1s ease-out;
+    -o-transition: all 1s ease-out;
+    transition: all 1s ease-out;
 }
 .subscribeButton:hover,
 .subscribeButton:active,

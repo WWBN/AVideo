@@ -17,6 +17,7 @@ if (!empty($_GET['type'])) {
 
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
+require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
 if (empty($_GET['page'])) {
     $_GET['page'] = 1;
@@ -110,6 +111,7 @@ if (!empty($videos)) {
                 </div>
                 <!-- all the stuffs here -->
 
+                <?php echo Subscribe::getButton($video['users_id']); ?>
                 <?php
                 if (!empty($video['id'])) {
                     $video['tags'] = Video::getTags($video['id']);
