@@ -325,6 +325,8 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                         cl = 'success';
                                     }else if(row.tags[i] === 'firstPage'){
                                         cl = 'danger';
+                                    }else if(row.tags[i] === 'login'){
+                                        cl = 'info';
                                     }
                                     
                                     tags += '<span class="label label-'+cl+'">'+row.tags[i]+'</span> ';

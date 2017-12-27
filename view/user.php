@@ -7,6 +7,9 @@ $tagsStr = "";
 foreach ($tags as $value) {
     $tagsStr .= "<span class=\"label label-{$value->type} fix-width\">{$value->text}</span>";
 }
+$json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
+// convert the string to a json object
+$advancedCustom = json_decode($json_file);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -246,58 +249,65 @@ foreach ($tags as $value) {
                                 <legend><?php echo __("Please sign in"); ?></legend>
 
 
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                            <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="text" value="" required >
+                                <?php
+                                if (empty($advancedCustom->disableNativeSignIn)) {
+                                    ?>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
+                                        <div class="col-md-8 inputGroupContainer">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="text" value="" required >
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
 
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("Password"); ?></label>
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                            <input  id="inputPassword" placeholder="<?php echo __("Password"); ?>" class="form-control"  type="password" value="" >
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"><?php echo __("Password"); ?></label>
+                                        <div class="col-md-8 inputGroupContainer">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                <input  id="inputPassword" placeholder="<?php echo __("Password"); ?>" class="form-control"  type="password" value="" >
+                                            </div>
+                                            <?php
+                                            if (empty($advancedCustom->disableNativeSignUp)) {
+                                                ?>
+                                                <small><a href="#" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
+                                                <?php
+                                            }
+                                            ?>
                                         </div>
-                                        <small><a href="#" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
                                     </div>
-                                </div>
-                                <!-- Button -->
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fa fa-sign-in"></span> <?php echo __("Sign in"); ?></button>
+                                    <!-- Button -->
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fa fa-sign-in"></span> <?php echo __("Sign in"); ?></button>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <a href="signUp" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <?php
-                                        if ($config->getAuthFacebook_enabled()) {
-                                            ?>
-                                            <a href="login?type=Facebook" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-facebook-square"></span> Facebook</a>
-                                            <?php
-                                        }
+                                    <?php
+                                    if (empty($advancedCustom->disableNativeSignUp)) {
                                         ?>
-                                    </div>
-                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <a href="signUp" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
+                                            </div>
+                                        </div>
                                         <?php
-                                        if ($config->getAuthGoogle_enabled()) {
-                                            ?>
-                                            <a href="login?type=Google" class="btn btn-danger btn-block" id="googleButton" ><span class="fa fa-google"></span> Google</a>
-                                            <?php
-                                        }
+                                    }
+                                }
+                                ?>
+                                <div class="form-group">
+                                    <?php
+                                    $login = YouPHPTubePlugin::getLogin();
+                                    foreach ($login as $value) {
                                         ?>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <a href="login?type=<?php echo $value['parameters']->type; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </fieldset>
 
@@ -321,7 +331,7 @@ foreach ($tags as $value) {
                                         modal.hidePleaseWait();
                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                                     } else {
-                                        document.location = '<?php echo !empty($_SERVER["HTTP_REFERER"])? $_SERVER["HTTP_REFERER"]:$global['webSiteRootURL']; ?>'
+                                        document.location = '<?php echo!empty($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : $global['webSiteRootURL']; ?>'
                                     }
                                 }
                             });
