@@ -177,15 +177,19 @@ function subscribe(email, user_id) {
         },
         success: function (response) {
             console.log(response);
+            
+            
             if (response.subscribe == "i") {
-                $('.subscribeButton').removeClass("subscribed");
-                $('.subscribeButton b').text("Subscribe");
+                $('.subscribeButton'+user_id).removeClass("subscribed");
+                $('.subscribeButton'+user_id+' b.text').text("Subscribe");
+                $('.subscribeButton'+user_id+' b.textTotal').text(parseInt($('.subscribeButton'+user_id+' b.textTotal').first().text())-1);
             } else {
-                $('.subscribeButton').addClass("subscribed");
-                $('.subscribeButton b').text("Subscribed");
+                $('.subscribeButton'+user_id).addClass("subscribed");
+                $('.subscribeButton'+user_id+' b.text').text("Subscribed");
+                $('.subscribeButton'+user_id+' b.textTotal').text(parseInt($('.subscribeButton'+user_id+' b.textTotal').first().text())+1);
             }
             $('#popover-content #subscribeEmail').val(email);
-            $('.subscribeButton').popover('hide');
+            $('.subscribeButton'+user_id).popover('hide');
         }
     });
 }
