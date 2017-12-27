@@ -149,4 +149,18 @@ class YouPHPTubePlugin{
         return !empty(Plugin::getEnabled($uuid));
     }
     
+    static function getLogin(){
+        $plugins = Plugin::getAllEnabled();
+        $logins = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $l = $p->getLogin();
+            if(empty($l->type)){
+                continue;
+            }
+            $logins[] = array('parameters'=>$l, 'loginObject'=>$p);
+        }
+        return $logins;
+    }
+    
 }
