@@ -16,10 +16,11 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
 
+$totalVideos = Video::getTotalVideos();
 $totalUsers = User::getTotalUsers();
 $totalSubscriptions = Subscribe::getTotalSubscribes();
 $totalComents = Comment::getTotalComments();
-$totalInfos = Video::getTotalVideosInfo("viewableNotAd", true, true, array(), true);
+$totalInfos = Video::getTotalVideosInfo("viewableNotAd", false, false, array(), true);
 
 $labelToday = array();
 for ($i = 0; $i < 24; $i++) {
