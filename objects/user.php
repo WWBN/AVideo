@@ -197,7 +197,7 @@ class User {
     function save($updateUserGroups = false) {
         global $global;
         if (empty($this->user) || empty($this->password)) {
-            echo $this->user." ".  $this->password."<br>";
+            echo "u:".$this->user."|p:".  $this->password;
             die('Error : ' . __("You need a user and passsword to register"));
         }
         if (empty($this->isAdmin)) {
