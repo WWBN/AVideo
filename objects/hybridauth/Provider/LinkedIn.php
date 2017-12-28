@@ -18,50 +18,46 @@ use Hybridauth\User;
 class LinkedIn extends OAuth2
 {
     /**
-    * {@inheritdoc}
-    */
-    public $scope = 'r_basicprofile r_emailaddress';
+     * {@inheritdoc}
+     */
+    public $scope = 'r_basicprofile r_emailaddress w_share';
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     protected $apiBaseUrl = 'https://api.linkedin.com/v1/';
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     protected $authorizeUrl = 'https://www.linkedin.com/uas/oauth2/authorization';
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     protected $accessTokenUrl = 'https://www.linkedin.com/uas/oauth2/accessToken';
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     protected $apiDocumentation = 'https://developer.linkedin.com/docs/oauth2';
 
     /**
-    * {@inheritdoc}
-    */
-    protected function initialize()
-    {
-        parent::initialize();
-
-        $this->apiRequestHeaders = [
-            'Authorization' => 'Bearer ' . $this->getStoredData('access_token')
-        ];
-    }
-
-    /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getUserProfile()
     {
         $fields = [
-            'id', 'email-address', 'first-name', 'last-name', 'headline','location', 'industry',
-            'picture-url', 'public-profile-url',
+            'id',
+            'email-address',
+            'first-name',
+            'last-name',
+            'headline',
+            'location',
+            'industry',
+            'picture-url',
+            'public-profile-url',
+            'num-connections',
         ];
 
         $response = $this->apiRequest('people/~:(' . implode(',', $fields) . ')', 'GET', ['format' => 'json']);
@@ -87,6 +83,30 @@ class LinkedIn extends OAuth2
 
         $userProfile->displayName   = trim($userProfile->firstName . ' ' . $userProfile->lastName);
 
+        $userProfile->data['connections'] = $data->get('numConnections');
+
         return $userProfile;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see https://developer.linkedin.com/docs/share-on-linkedin
+     */
+    public function setUserStatus($status)
+    {
+        $status = is_string($status) ? [ 'comment' => $status ] : $status;
+        if (!isset($status['visibility'])) {
+            $status['visibility']['code'] = 'anyone';
+        }
+
+        $headers = [
+          'Content-Type' => 'application/json',
+          'x-li-format' => 'json',
+        ];
+
+        $response = $this->apiRequest('people/~/shares?format=json', 'POST', $status, $headers);
+
+        return $response;
     }
 }

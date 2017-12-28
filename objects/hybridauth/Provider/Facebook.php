@@ -63,6 +63,17 @@ class Facebook extends OAuth2
     */
     protected $apiDocumentation = 'https://developers.facebook.com/docs/facebook-login/overview';
 
+    protected function initialize()
+    {
+        parent::initialize();
+
+        // Require proof on all Facebook api calls
+        // https://developers.facebook.com/docs/graph-api/securing-requests#appsecret_proof
+        if($accessToken = $this->getStoredData('access_token')) {
+            $this->apiRequestParameters['appsecret_proof'] = hash_hmac('sha256', $accessToken, $this->clientSecret);
+        }
+    }
+
     /**
     * {@inheritdoc}
     */
@@ -128,9 +139,9 @@ class Facebook extends OAuth2
     {
         $result = (new Data\Parser())->parseBirthday($birthday, '/');
 
-        $userProfile->birthDay   = (int) $result[0];
+        $userProfile->birthYear  = (int) $result[0];
         $userProfile->birthMonth = (int) $result[1];
-        $userProfile->birthYear  = (int) $result[2];
+        $userProfile->birthDay   = (int) $result[2];
 
         return $userProfile;
     }
