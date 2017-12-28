@@ -34,6 +34,7 @@ if (!empty($_GET['type'])) {
             $_GET['type'] => [
                 'enabled' => true,
                 'keys' => ['id' => $id, 'secret' => $key, 'key'=>$id],
+                "includeEmail" => true,
             ]
         ],
             /* optional : set debug mode
@@ -50,9 +51,12 @@ if (!empty($_GET['type'])) {
         $userProfile = $adapter->getUserProfile();
 
         //print_r($tokens);
-        //print_r($userProfile);
-
-        $user = $userProfile->email;
+        print_r($userProfile);
+        if(!empty($userProfile->email)){
+            $user = $userProfile->email;
+        }else{
+            $user = $userProfile->displayName;
+        }
         $name = $userProfile->displayName;
         $photoURL = $userProfile->photoURL;
         $email = $userProfile->email;
