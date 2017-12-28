@@ -242,8 +242,8 @@ $advancedCustom = json_decode($json_file);
             } else {
                 ?>
                 <div class="row">
-                    <div class="col-xs-1 col-sm-2 col-lg-4"></div>
-                    <div class="col-xs-10 col-sm-8 col-lg-4">
+                    <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
+                    <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 ">
                         <form class="form-compact well form-horizontal"  id="loginForm">
                             <fieldset>
                                 <legend><?php echo __("Please sign in"); ?></legend>
@@ -297,7 +297,8 @@ $advancedCustom = json_decode($json_file);
                                     }
                                 }
                                 ?>
-                                <?php
+                                <div class="row">
+                                    <?php
                                     $login = YouPHPTubePlugin::getLogin();
                                     foreach ($login as $value) {
                                         ?>
@@ -307,22 +308,22 @@ $advancedCustom = json_decode($json_file);
                                         <?php
                                     }
                                     ?>
+                                </div>
                             </fieldset>
 
                         </form>
-
                     </div>
-                    <div class="col-xs-1 col-sm-2 col-lg-4"></div>
+                    <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
                 </div>
                 <script>
                     $(document).ready(function () {
-                        <?php
-                        if(!empty($_GET['error'])){
-                            ?>
-                            swal("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");    
-                            <?php
-                        }
-                        ?>
+    <?php
+    if (!empty($_GET['error'])) {
+        ?>
+                            swal("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
+        <?php
+    }
+    ?>
                         $('#loginForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
