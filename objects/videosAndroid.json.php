@@ -12,6 +12,8 @@ foreach ($videos as $key => $value) {
     $videos[$key]['Poster'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".jpg";
     $videos[$key]['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename']."_thumbs.jpg";
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
+    $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/".$videos[$key]['clean_title'];
+    $videos[$key]['embedUrl'] = "{$global['webSiteRootURL']}videoEmbeded/".$videos[$key]['clean_title'];
     $videos[$key]['firstVideo'] = "";
     foreach ($videos[$key]['VideoUrl'] as $value2) {
         if($value2["type"] === 'video'){
