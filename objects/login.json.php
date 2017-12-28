@@ -33,7 +33,7 @@ if (!empty($_GET['type'])) {
         'providers' => [
             $_GET['type'] => [
                 'enabled' => true,
-                'keys' => ['id' => $id, 'secret' => $key],
+                'keys' => ['id' => $id, 'secret' => $key, 'key'=>$id],
             ]
         ],
             /* optional : set debug mode
