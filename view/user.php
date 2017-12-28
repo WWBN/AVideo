@@ -318,7 +318,13 @@ $advancedCustom = json_decode($json_file);
                 </div>
                 <script>
                     $(document).ready(function () {
-
+                        <?php
+                        if(!empty($_GET['error'])){
+                            ?>
+                            swal("<?php echo __("Sorry!"); ?>", "<?php echo $_GET['error']; ?>", "error");    
+                            <?php
+                        }
+                        ?>
                         $('#loginForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
