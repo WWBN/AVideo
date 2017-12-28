@@ -14,8 +14,8 @@ foreach ($videos as $key => $value) {
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['firstVideo'] = "";
     foreach ($videos[$key]['VideoUrl'] as $value2) {
-        if($value2.type === 'video'){
-            $videos[$key]['firstVideo'] = $value2.url;
+        if($value2["type"] === 'video'){
+            $videos[$key]['firstVideo'] = $value2["url"];
             break;
         }        
     }
