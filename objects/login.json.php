@@ -51,7 +51,7 @@ if (!empty($_GET['type'])) {
         $userProfile = $adapter->getUserProfile();
 
         //print_r($tokens);
-        print_r($userProfile);
+        //print_r($userProfile);
         if(!empty($userProfile->email)){
             $user = $userProfile->email;
         }else{
