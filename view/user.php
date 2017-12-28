@@ -321,7 +321,7 @@ $advancedCustom = json_decode($json_file);
                         <?php
                         if(!empty($_GET['error'])){
                             ?>
-                            swal("<?php echo __("Sorry!"); ?>", "<?php echo stripslashes($_GET['error']); ?>", "error");    
+                            swal("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");    
                             <?php
                         }
                         ?>
