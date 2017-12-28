@@ -297,8 +297,7 @@ $advancedCustom = json_decode($json_file);
                                     }
                                 }
                                 ?>
-                                <div class="form-group">
-                                    <?php
+                                <?php
                                     $login = YouPHPTubePlugin::getLogin();
                                     foreach ($login as $value) {
                                         ?>
@@ -308,7 +307,6 @@ $advancedCustom = json_decode($json_file);
                                         <?php
                                     }
                                     ?>
-                                </div>
                             </fieldset>
 
                         </form>
