@@ -3,7 +3,15 @@ require_once '../videos/configuration.php';
 require_once 'video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
+if(empty($_POST['current']) && !empty($_GET['current'])){
+    $_POST['current']=$_GET['current'];
+}
+if(empty($_POST['rowCount']) && !empty($_GET['rowCount'])){
+    $_POST['rowCount']=$_GET['rowCount'];
+}
+
 $videos = Video::getAllVideos("viewableNotAd");
+$total = Video::getTotalVideos("viewableNotAd");
 $reversed = array_reverse($videos);
 $videos = $reversed;
 foreach ($videos as $key => $value) {
@@ -29,5 +37,9 @@ foreach ($videos as $key => $value) {
     
 }
 
-
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.count($videos).', "videos":'. json_encode($videos).'}';
+$obj = new stdClass();
+$obj->current = $_POST['current'];
+$obj->rowCount = $_POST['rowCount'];
+$obj->total = $total;
+$obj->videos = $videos;
+echo json_encode($obj);
