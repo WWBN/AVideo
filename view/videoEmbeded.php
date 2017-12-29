@@ -53,6 +53,10 @@ if ($video['type'] !== "audio") {
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/script.js" type="text/javascript"></script>
         <style>
+            body {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
         </style>
     </head>
 
@@ -81,9 +85,9 @@ if ($video['type'] !== "audio") {
                 ?>
                 <video poster="<?php echo $poster; ?>" controls crossorigin  width="auto" height="auto"
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
-                           <?php
-                           echo getSources($video['filename']);
-                           ?>
+                    <?php
+                    echo getSources($video['filename']);
+                    ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                 </video>
 
