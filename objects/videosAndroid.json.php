@@ -21,7 +21,12 @@ foreach ($videos as $key => $value) {
             break;
         }        
     }
-    $videos[$key]['UserPhoto'] = "{$global['webSiteRootURL']}".$videos[$key]['photoURL'];
+    if(preg_match("/^videos/", $videos[$key]['photoURL'])){
+        $videos[$key]['UserPhoto'] = "{$global['webSiteRootURL']}".$videos[$key]['photoURL'];
+    }else{
+        $videos[$key]['UserPhoto'] = $videos[$key]['photoURL'];
+    }
+    
 }
 
 
