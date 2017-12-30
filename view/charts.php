@@ -16,10 +16,11 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
 
+$totalVideos = Video::getTotalVideos("viewableNotAd");
 $totalUsers = User::getTotalUsers();
 $totalSubscriptions = Subscribe::getTotalSubscribes();
 $totalComents = Comment::getTotalComments();
-$totalInfos = Video::getTotalVideosInfo("viewableNotAd", true, true, array(), true);
+$totalInfos = Video::getTotalVideosInfo("viewableNotAd", false, false, array(), true);
 
 $labelToday = array();
 for ($i = 0; $i < 24; $i++) {
@@ -517,7 +518,7 @@ foreach ($labelsFull as $key => $value) {
             });
 
             $(document).ready(function () {
-                countTo('#totalVideos', <?php echo count($videos); ?>);
+                countTo('#totalVideos', <?php echo $totalVideos; ?>);
                 countTo('#totalUsers', <?php echo $totalUsers; ?>);
                 countTo('#totalSubscriptions', <?php echo $totalSubscriptions; ?>);
                 countTo('#totalVideosComents', <?php echo $totalComents; ?>);

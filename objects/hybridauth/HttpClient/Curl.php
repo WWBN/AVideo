@@ -103,7 +103,14 @@ class Curl implements HttpClientInterface
     */
     public function request($uri, $method = 'GET', $parameters = [], $headers = [])
     {
-        $this->requestArguments = [ 'uri' => $uri, 'method' => $method, 'parameters' => $parameters, 'headers' => $headers ];
+        $this->requestHeader = array_replace($this->requestHeader, (array) $headers);
+
+        $this->requestArguments = [
+            'uri' => $uri,
+            'method' => $method,
+            'parameters' => $parameters,
+            'headers' => $this->requestHeader,
+        ];
 
         $curl = curl_init();
 
@@ -115,13 +122,24 @@ class Curl implements HttpClientInterface
         }
 
         if ('POST' == $method) {
-            $this->curlOptions[CURLOPT_POST]       = true;
-            $this->curlOptions[CURLOPT_POSTFIELDS] = http_build_query($parameters);
+            $body_content = http_build_query($parameters);
+            if (isset($this->requestHeader['Content-Type']) && $this->requestHeader['Content-Type'] == 'application/json') {
+                $body_content = json_encode($parameters);
+            }
+
+            $this->curlOptions[CURLOPT_POST] = true;
+            $this->curlOptions[CURLOPT_POSTFIELDS] = $body_content;
         }
 
-        $this->requestHeader = array_merge($this->requestHeader, (array)$headers);
+        if ('PUT' == $method) {
+            $body_content = http_build_query($parameters);
+            if (isset($this->requestHeader['Content-Type']) && $this->requestHeader['Content-Type'] == 'application/json') {
+                $body_content = json_encode($parameters);
+            }
 
-        $this->requestArguments['headers'] = $this->requestHeader;
+            $this->curlOptions[CURLOPT_CUSTOMREQUEST] = 'PUT';
+            $this->curlOptions[CURLOPT_POSTFIELDS] = $body_content;
+        }
 
         $this->curlOptions[CURLOPT_URL]            = $uri;
         $this->curlOptions[CURLOPT_HTTPHEADER]     = $this->prepareRequestHeaders();

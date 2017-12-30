@@ -11,26 +11,15 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
 
-if (!empty($_GET['type'])) {
-    switch ($_GET['type']) {
-        case "Google":
-            if(!$config->getAuthGoogle_enabled()){
-                die(__("Google Login is not enabled"));
-            }
-            $id = $config->getAuthGoogle_id();
-            $key = $config->getAuthGoogle_key();
+if (!empty($_GET['type'])) {    
+    $login = YouPHPTubePlugin::getLogin();
+    foreach ($login as $value) {
+        $obj = $value['loginObject']->getDataObject();
+        if($value['parameters']->type === $_GET['type']){
+            $id = $obj->id;
+            $key = $obj->key;
             break;
-        case "Facebook":
-            if(!$config->getAuthFacebook_enabled()){
-                die(__("Facebook Login is not enabled"));
-            }
-            $id = $config->getAuthFacebook_id();
-            $key = $config->getAuthFacebook_key();
-            break;
-
-        default:
-            die(__("Login error"));
-            break;
+        }
     }
     if(empty($id)){
         die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
@@ -44,7 +33,8 @@ if (!empty($_GET['type'])) {
         'providers' => [
             $_GET['type'] => [
                 'enabled' => true,
-                'keys' => ['id' => $id, 'secret' => $key],
+                'keys' => ['id' => $id, 'secret' => $key, 'key'=>$id],
+                "includeEmail" => true,
             ]
         ],
             /* optional : set debug mode
@@ -62,8 +52,11 @@ if (!empty($_GET['type'])) {
 
         //print_r($tokens);
         //print_r($userProfile);
-
-        $user = $userProfile->email;
+        if(!empty($userProfile->email)){
+            $user = $userProfile->email;
+        }else{
+            $user = $userProfile->displayName;
+        }
         $name = $userProfile->displayName;
         $photoURL = $userProfile->photoURL;
         $email = $userProfile->email;

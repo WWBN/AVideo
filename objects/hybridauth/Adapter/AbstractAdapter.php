@@ -127,6 +127,14 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
+    public function apiRequest($url, $method = 'GET', $parameters = [], $headers = [])
+    {
+        throw new NotImplementedException('Provider does not support this feature.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getUserProfile()
     {
         throw new NotImplementedException('Provider does not support this feature.');
@@ -325,7 +333,9 @@ abstract class AbstractAdapter implements AdapterInterface
             return;
         }
 
-        if (200 != $this->httpClient->getResponseHttpCode()) {
+        $status = $this->httpClient->getResponseHttpCode();
+
+        if ($status < 200 || $status > 299 ) {
             throw new HttpRequestFailedException(
                 $error . 'HTTP error '.$this->httpClient->getResponseHttpCode().
                 '. Raw Provider API response: '.$this->httpClient->getResponseBody().'.'

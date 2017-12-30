@@ -502,7 +502,7 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
     * @param array  $parameters
     * @param array  $headers
     *
-    * @return object
+    * @return mixed
     */
     public function apiRequest($url, $method = 'GET', $parameters = [], $headers = [])
     {
@@ -563,5 +563,16 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
         $this->validateApiResponse('Signed API request has returned an error');
 
         return $response;
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function setAccessToken($tokens = [])
+    {
+        parent::setAccessToken($tokens);
+
+        // Refresh OAuth Consumer.
+        $this->initialize();
     }
 }
