@@ -244,14 +244,15 @@ $advancedCustom = json_decode($json_file);
                 <div class="row">
                     <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
                     <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 ">
-                        <form class="form-compact well form-horizontal"  id="loginForm">
-                            <fieldset>
-                                <legend><?php echo __("Please sign in"); ?></legend>
+                        <fieldset>
+                            <legend><?php echo __("Please sign in"); ?></legend>
 
 
-                                <?php
-                                if (empty($advancedCustom->disableNativeSignIn)) {
-                                    ?>
+                            <?php
+                            if (empty($advancedCustom->disableNativeSignIn)) {
+                                ?>
+                                <form class="form-compact well form-horizontal"  id="loginForm">
+
                                     <div class="form-group">
                                         <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
                                         <div class="col-md-8 inputGroupContainer">
@@ -285,33 +286,38 @@ $advancedCustom = json_decode($json_file);
                                             <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fa fa-sign-in"></span> <?php echo __("Sign in"); ?></button>
                                         </div>
                                     </div>
-                                    <?php
-                                    if (empty($advancedCustom->disableNativeSignUp)) {
-                                        ?>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <a href="signUp" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
-                                            </div>
+
+                                </form>
+                                <?php
+                                if (empty($advancedCustom->disableNativeSignUp)) {
+                                    ?>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <a href="signUp" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
                                         </div>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                                <div class="row">
+                                    </div>
                                     <?php
-                                    $login = YouPHPTubePlugin::getLogin();
-                                    foreach ($login as $value) {
+                                }
+                            }
+                            ?>
+                            <div class="row">
+                                <?php
+                                $login = YouPHPTubePlugin::getLogin();
+                                foreach ($login as $value) {
+                                    if (is_string($value) && file_exists($value)) { // it is a include path for a form
+                                        include $value;
+                                    } else if (is_array($value)) {
                                         ?>
                                         <div class="col-md-6">
                                             <a href="login?type=<?php echo $value['parameters']->type; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
                                         </div>
                                         <?php
                                     }
-                                    ?>
-                                </div>
-                            </fieldset>
+                                }
+                                ?>
+                            </div>
+                        </fieldset>
 
-                        </form>
                     </div>
                     <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
                 </div>

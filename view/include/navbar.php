@@ -72,11 +72,20 @@ $advancedCustom = json_decode($json_file);
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                     <?php
+                                    if (!empty($advancedCustom->encoderNetwork)) {
+                                        ?>
+                                            <li>
+                                                <a href="<?php echo $advancedCustom->encoderNetwork, "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" target="encoder" >
+                                                    <span class="fa fa-cogs"></span> <?php echo __("Encoder Network"); ?>
+                                                </a>
+                                            </li>
+                                        <?php
+                                    }
                                     if (empty($advancedCustom->doNotShowEncoderButton)) {
                                         if (!empty($config->getEncoderURL())) {
                                             ?>
                                             <li>
-                                                <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" >
+                                                <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" target="encoder" >
                                                     <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
                                                 </a>
                                             </li>
