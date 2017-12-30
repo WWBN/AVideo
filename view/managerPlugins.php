@@ -180,11 +180,22 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                         <h4 class="modal-title"><?php echo __("Plugin Form"); ?></h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-compact"  id="updatePluginForm" onsubmit="">
-                                            <input type="hidden" id="inputPluginId"  >
-                                            <label for="inputData" class="sr-only">Object Data</label>
-                                            <textarea class="form-control" id="inputData"  rows="5"  placeholder="Object Data"></textarea>
-                                        </form>
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a data-toggle="tab" href="#visual">Visual</a></li>
+                                            <li><a data-toggle="tab" href="#code">Code</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="visual" class="tab-pane fade in active">
+                                                <div id="jsonElements">Some content.</div>
+                                            </div>
+                                            <div id="code" class="tab-pane fade">
+                                                <form class="form-compact"  id="updatePluginForm" onsubmit="">
+                                                    <input type="hidden" id="inputPluginId"  >
+                                                    <label for="inputData" class="sr-only">Object Data</label>
+                                                    <textarea class="form-control" id="inputData"  rows="5"  placeholder="Object Data"></textarea>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
@@ -277,7 +288,50 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
         <?php
         include 'include/footer.php';
         ?>
+
         <script>
+            function jsonToForm(json) {
+                $('#jsonElements').empty();
+                $.each(json, function (i, val) {
+                    var div;
+                    var label;
+                    var input;
+                    if (typeof (val) === "boolean") {// checkbox
+                        div = $('<div />', {"class": 'form-group'});
+                        label = $('<label />', {"class": "checkbox-inline"});
+                        input = $('<input />', {"class": 'jsonElement', "type": 'checkbox', "name": i, "value": 1, "checked": val});
+                        label.append(input);
+                        label.append(" " + i);
+                        div.append(label);
+                    } else {
+                        div = $('<div />', {"class": 'form-group'});
+                        label = $('<label />', {"text": i + ": "});
+                        input = $('<input />', {"class": 'form-control jsonElement', "name": i, "type": 'text', "value": val});
+                        div.append(label);
+                        div.append(input);
+                    }
+                    $('#jsonElements').append(div);
+                    $('.jsonElement').change(function(){
+                        var json = formToJson();
+                        json = JSON.stringify(json);
+                        $('#inputData').val(json);
+                    });
+                })
+            }
+
+            function formToJson() {
+                var json = {};
+                $(".jsonElement").each(function (index) {
+                    var name = $(this).attr("name");
+                    var type = $(this).attr("type");
+                    if (type === 'checkbox') {
+                        json [name] = $(this).is(":checked");
+                    } else {
+                        json [name] = $(this).val();
+                    }
+                });
+                return json;
+            }
 
             function createPluginStoreList(src, name, price, description) {
                 var intPrice = Math.floor(price);
@@ -290,9 +344,9 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 $li.find('.desc').text(description);
                 $li.find('.img').attr("src", src);
                 $('#pluginStoreList').append($li);
-
             }
             $(document).ready(function () {
+                var myTextarea = document.getElementById("inputData");
                 var grid = $("#grid").bootgrid({
                     navigation: 0,
                     ajax: true,
@@ -300,7 +354,8 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     formatters: {
                         "commands": function (column, row) {
                             var editBtn = '';
-                            if (row.id) {
+
+                            if (row.id && !$.isEmptyObject(row.data_object)) {
                                 editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit parameters</button>';
                             }
                             var sqlBtn = '';
@@ -315,19 +370,19 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                 checked = " checked='checked' ";
                             }
                             var switchBtn = '<div class="material-switch"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
-
                             var tags = '';
-                            if(row.tags){
-                                for(i = 0; i<row.tags.length;i++){
+                            if (row.tags) {
+                                for (i = 0; i < row.tags.length; i++) {
                                     var cl = "primary";
-                                    
-                                    if(row.tags[i] === 'free'){
+                                    if (row.tags[i] === 'free') {
                                         cl = 'success';
-                                    }else if(row.tags[i] === 'firstPage'){
+                                    } else if (row.tags[i] === 'firstPage') {
                                         cl = 'danger';
+                                    } else if (row.tags[i] === 'login') {
+                                        cl = 'info';
                                     }
-                                    
-                                    tags += '<span class="label label-'+cl+'">'+row.tags[i]+'</span> ';
+
+                                    tags += '<span class="label label-' + cl + '">' + row.tags[i] + '</span> ';
                                 }
                             }
 
@@ -342,7 +397,6 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     grid.find(".pluginSwitch").on("change", function (e) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                        console.log(row);
                         modal.showPleaseWait();
                         $.ajax({
                             url: 'switchPlugin',
@@ -354,21 +408,18 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                             }
                         });
                     });
-
                     grid.find(".command-edit").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                        console.log(row);
                         $('#inputPluginId').val(row.id);
-                        $('#inputData').val(JSON.stringify(row.data_object));
-
+                        var json = JSON.stringify(row.data_object);
+                        jsonToForm(row.data_object);
+                        $('#inputData').val(json);
                         $('#pluginsFormModal').modal();
                     });
-
                     grid.find(".command-sql").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                        console.log(row);
                         $('#inputPluginId').val(row.id);
                         $('#inputData').val(JSON.stringify(row.data_object));
                         modal.showPleaseWait();
@@ -382,8 +433,6 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         });
                     });
                 });
-
-
                 $('#savePluginBtn').click(function (evt) {
                     modal.showPleaseWait();
                     $.ajax({
@@ -400,26 +449,16 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 $('#upload').click(function (evt) {
                     $('#pluginsImportFormModal').modal();
                 });
-
                 $('#input-b1').fileinput({
                     uploadUrl: '<?php echo $global['webSiteRootURL']; ?>pluginImport.json',
                     allowedFileExtensions: ['zip']
                 }).on('fileuploaded', function (event, data, id, index) {
                     $("#grid").bootgrid('reload');
-                    console.log('fileuploaded');
-                    console.log(event);
-                    console.log(data);
-                    console.log(id);
-                    console.log(index);
                 });
-
-
-
                 $.ajax({
                     url: 'https://easytube.club/plugins.json?jsonp=1',
                     dataType: 'jsonp',
                     success: function (response) {
-                        console.log(response);
                         for (i = 0; i < response.rows.length; i++) {
                             var r = response.rows[i];
                             createPluginStoreList(r.images[0], r.name, r.price, r.description);

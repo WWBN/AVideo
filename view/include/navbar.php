@@ -49,10 +49,12 @@ $advancedCustom = json_decode($json_file);
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="right-menus">
                     <li class="">
-                        <form class="navbar-form navbar-left"  action="<?php echo $global['webSiteRootURL']; ?>" >
+                        <form class="navbar-form navbar-left" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
                             <div class="input-group" >
-                                <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
-                                <span class="input-group-addon"  style="width: 50px;"><span class="glyphicon glyphicon-search"></span></span>
+                                <div class="form-inline">
+                                    <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
+                                    <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                </div>
                             </div>
                         </form>
                     </li>
@@ -70,7 +72,7 @@ $advancedCustom = json_decode($json_file);
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                     <?php
-                                    if(empty($advancedCustom->doNotShowEncoderButton)){
+                                    if (empty($advancedCustom->doNotShowEncoderButton)) {
                                         if (!empty($config->getEncoderURL())) {
                                             ?>
                                             <li>
@@ -87,23 +89,23 @@ $advancedCustom = json_decode($json_file);
                                             <?php
                                         }
                                     }
-                                    if(empty($advancedCustom->doNotShowUploadMP4Button)){
-                                    ?>
-                                    <li>
-                                        <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
-                                            <span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?>
-                                        </a>
-                                    </li>
-                                    <?php
+                                    if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                                        ?>
+                                        <li>
+                                            <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
+                                                <span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?>
+                                            </a>
+                                        </li>
+                                        <?php
                                     }
-                                    if(empty($advancedCustom->doNotShowEmbedButton)){
-                                    ?>                                    
-                                    <li>
-                                        <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
-                                            <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
-                                        </a>
-                                    </li>
-                                    <?php
+                                    if (empty($advancedCustom->doNotShowEmbedButton)) {
+                                        ?>                                    
+                                        <li>
+                                            <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
+                                                <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
+                                            </a>
+                                        </li>
+                                        <?php
                                     }
                                     ?>
                                 </ul>
@@ -164,7 +166,7 @@ $advancedCustom = json_decode($json_file);
                     ?>
                     <li>
                         <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-xs btn-block">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-block" >
                                 <span class="glyphicon glyphicon-log-out"></span>
                                 <?php echo __("Logoff"); ?>
                             </a>
@@ -183,7 +185,7 @@ $advancedCustom = json_decode($json_file);
                     <li>
 
                         <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-xs btn-block">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-block" style="border-radius: 4px 4px 0 0;">
                                 <span class="fa fa-user-circle"></span>
                                 <?php echo __("My Account"); ?>
                             </a>
@@ -194,7 +196,7 @@ $advancedCustom = json_decode($json_file);
                     <li>
 
                         <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo User::getId(); ?>" class="btn btn-danger btn-xs btn-block">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo User::getId(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
                                 <span class="fa fa-youtube-play"></span>
                                 <?php echo __("My Channel"); ?>
                             </a>
@@ -207,7 +209,7 @@ $advancedCustom = json_decode($json_file);
                         ?>
                         <li>
                             <div>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-xs btn-block">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-block" style="border-radius: 0;">
                                     <span class="glyphicon glyphicon-film"></span>
                                     <span class="glyphicon glyphicon-headphones"></span>
                                     <?php echo __("My videos"); ?>
@@ -216,15 +218,15 @@ $advancedCustom = json_decode($json_file);
                         </li>
                         <li>
                             <div>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-xs btn-block">
-                                    <span class="fa fa-bar-chart"></span>
-                                    <?php echo __("Video Statistics"); ?>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-block" style="border-radius: 0;">
+                                    <span class="fa fa-dashboard"></span>
+                                    <?php echo __("Dashboard"); ?>
                                 </a>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-xs btn-block">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-block" style="border-radius: 0 0 4px 4px;">
                                     <span class="fa fa-check"></span>
                                     <?php echo __("Subscriptions"); ?>
                                 </a>
@@ -239,56 +241,59 @@ $advancedCustom = json_decode($json_file);
 
                         <li>
                             <hr>
-                            <h3 class="text-danger"><?php echo __("Admin Menu"); ?></h3>
+                            <h2 class="text-danger"><?php echo __("Admin Menu"); ?></h2>
+                            <ul  class="nav navbar" style="margin-bottom: 10px;">
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>users">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        <?php echo __("Users"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups">
+                                        <span class="fa fa-users"></span>
+                                        <?php echo __("Users Groups"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>ads">
+                                        <span class="fa fa-money"></span>
+                                        <?php echo __("Video Advertising"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>categories">
+                                        <span class="glyphicon glyphicon-list"></span>
+                                        <?php echo __("Categories"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>update">
+                                        <span class="glyphicon glyphicon-refresh"></span>
+                                        <?php echo __("Update version"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">
+                                        <span class="glyphicon glyphicon-cog"></span>
+                                        <?php echo __("Site Configurations"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>locale">
+                                        <span class="glyphicon glyphicon-flag"></span>
+                                        <?php echo __("Create more translations"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>plugins">
+                                        <span class="fa fa-plug"></span> 
+                                        <?php echo __("Plugins"); ?>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>users">
-                                <span class="glyphicon glyphicon-user"></span>
-                                <?php echo __("Users"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups">
-                                <span class="fa fa-users"></span>
-                                <?php echo __("Users Groups"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>ads">
-                                <span class="fa fa-money"></span>
-                                <?php echo __("Video Advertising"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>categories">
-                                <span class="glyphicon glyphicon-list"></span>
-                                <?php echo __("Categories"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>update">
-                                <span class="glyphicon glyphicon-refresh"></span>
-                                <?php echo __("Update version"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">
-                                <span class="glyphicon glyphicon-cog"></span>
-                                <?php echo __("Site Configurations"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>locale">
-                                <span class="glyphicon glyphicon-flag"></span>
-                                <?php echo __("Create more translations"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>plugins">
-                                <span class="fa fa-plug"></span> 
-                                <?php echo __("Plugins"); ?>
-                            </a>
-                        </li>
+
                         <?php
                     }
                     ?>

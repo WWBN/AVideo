@@ -115,7 +115,7 @@ class Subscribe {
 
     static function getTotalSubscribes($user_id = "") {
         global $global;
-        $sql = "SELECT id FROM subscribes WHERE 1=1  ";
+        $sql = "SELECT id FROM subscribes WHERE status = 'a' ";
         if (!empty($user_id)) {
             $sql .= " AND users_id = {$user_id} ";
         }
@@ -142,18 +142,23 @@ class Subscribe {
     }
 
     static function getButton($user_id) {
-        $subscribe = "<button class='btn btn-xs subscribeButton'><span class='fa'></span> <b>" . __("Subscribe") . "</b></button>";
+        $total = static::getTotalSubscribes($user_id);
+        
+        $subscribe = "<div class=\"btn-group\">"
+                . "<button class='btn btn-xs subscribeButton{$user_id}'><span class='fa'></span> <b class='text'>" . __("Subscribe") . "</b></button>"
+                . "<button class='btn btn-xs subscribeButton{$user_id}'><b class='textTotal'>{$total}</b></button>"
+                . "</div>";
         //show subscribe button with mail field
         $popover = "<div id=\"popover-content\" class=\"hide\">
         <div class=\"input-group\">
           <input type=\"text\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail\">
           <span class=\"input-group-btn\">
-          <button class=\"btn btn-primary\" id=\"subscribeButton2\">" . __("Subscribe") . "</button>
+          <button class=\"btn btn-primary\" id=\"subscribeButton{$user_id}2\">" . __("Subscribe") . "</button>
           </span>
         </div>
     </div><script>
 $(document).ready(function () {
-$(\".subscribeButton\").popover({
+$(\".subscribeButton{$user_id}\").popover({
 placement: 'bottom',
 trigger: 'manual',
     html: true,
@@ -165,15 +170,16 @@ trigger: 'manual',
 </script>";
         $script = "<script>
             $(document).ready(function () {
-                $(\".subscribeButton\").click(function () {
+                $(\".subscribeButton{$user_id}\").off(\"click\");
+                $(\".subscribeButton{$user_id}\").click(function () {
                     email = $('#subscribeEmail').val();
                     console.log(email);
                     if (validateEmail(email)) {
                         subscribe(email, {$user_id});
                     } else {
-                        $('.subscribeButton').popover(\"toggle\");
-                        $(\"#subscribeButton2\").click(function () {
-                            $(\".subscribeButton\").trigger(\"click\");
+                        $('.subscribeButton{$user_id}').popover(\"toggle\");
+                        $(\"#subscribeButton{$user_id}2\").click(function () {
+                            $(\".subscribeButton{$user_id}\").trigger(\"click\");
                         });
                     }
                 });
@@ -187,7 +193,10 @@ trigger: 'manual',
                 $popover = "<input type=\"hidden\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail\" value=\"{$email}\">";
                 if (!empty($subs)) {
                     // show unsubscribe Button
-                    $subscribe = "<button class='btn btn-xs subscribeButton subscribed'><span class='fa'></span> <b>" . __("Subscribed") . "</b></button>";
+                    $subscribe = "<div class=\"btn-group\">"
+                . "<button class='btn btn-xs subscribeButton subscribed'><span class='fa'></span> <b class='text'>" . __("Subscribed") . "</b></button>"
+                . "<button class='btn btn-xs subscribeButton subscribed'><b class='text'>$total</b></button>"
+                . "</div>";
                 }
             }
         }

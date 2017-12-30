@@ -143,7 +143,7 @@ $userGroups = UserGroups::getAllUsersGroups();
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                        <th data-formatter="checkbox" data-width="20px" ></th>
+                        <th data-formatter="checkbox" data-width="25px" ></th>
                         <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Title"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px"><?php echo __("Tags"); ?></th>
                         <th data-column-id="duration" data-width="100px"><?php echo __("Duration"); ?></th>
