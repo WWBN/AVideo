@@ -186,7 +186,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                         </ul>
                                         <div class="tab-content">
                                             <div id="visual" class="tab-pane fade in active">
-                                                <div id="jsonElements">Some content.</div>
+                                                <div class="row" id="jsonElements">Some content.</div>
                                             </div>
                                             <div id="code" class="tab-pane fade">
                                                 <form class="form-compact"  id="updatePluginForm" onsubmit="">
