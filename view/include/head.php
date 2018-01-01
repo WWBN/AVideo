@@ -31,7 +31,9 @@ $theme = $config->getTheme();
 <?php
 if (!$config->getDisable_analytics()) {
 ?>
-<script>
+<?php
+if($global['googleAnalyticsEnabled']){
+echo "<script>
     // YouPHPTube Analytics
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -47,7 +49,10 @@ if (!$config->getDisable_analytics()) {
 
     ga('create', 'UA-96597943-1', 'auto', 'youPHPTube');
     ga('youPHPTube.send', 'pageview');
-</script>
+</script>";
+}
+?>
+
 <?php
 }
 echo $config->getHead();
