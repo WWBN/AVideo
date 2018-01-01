@@ -153,7 +153,7 @@ class Subscribe {
         <div class=\"input-group\">
           <input type=\"text\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail\">
           <span class=\"input-group-btn\">
-          <button class=\"btn btn-primary\" id=\"subscribeButton{$user_id}2\">" . __("Subscribe") . "</button>
+          <button class=\"btn btn-danger\" id=\"subscribeButton{$user_id}2\"><i class=\"fa fa-check\"></i></button>
           </span>
         </div>
     </div><script>
