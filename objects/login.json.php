@@ -91,4 +91,13 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->streamServerURL = "";
+$object->streamKey = "";
+$p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
+if($object->isLogged && !empty($p)){
+    require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
+    $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
+    $object->streamServerURL = $p->getServer()."?p=".User::getUserPass();
+    $object->streamKey = $trasnmition['key'];
+}
 echo json_encode($object);
