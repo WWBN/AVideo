@@ -155,10 +155,12 @@ class YouPHPTubePlugin{
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
             $l = $p->getLogin();
-            if(empty($l->type)){
-                continue;
+            if(is_string($l) && file_exists($l)){ // it is a login form
+                $logins[] = $l;
+            }else if(!empty($l->type)){ // it is a hybridauth
+                $logins[] = array('parameters'=>$l, 'loginObject'=>$p);
             }
-            $logins[] = array('parameters'=>$l, 'loginObject'=>$p);
+            
         }
         return $logins;
     }
