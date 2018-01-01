@@ -243,7 +243,7 @@ $advancedCustom = json_decode($json_file);
                 ?>
                 <div class="row">
                     <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
-                    <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 ">
+                    <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 list-group-item ">
                         <fieldset>
                             <legend><?php echo __("Please sign in"); ?></legend>
 
@@ -291,7 +291,7 @@ $advancedCustom = json_decode($json_file);
                                 <?php
                                 if (empty($advancedCustom->disableNativeSignUp)) {
                                     ?>
-                                    <div class="form-group">
+                                    <div class="row">
                                         <div class="col-md-12">
                                             <a href="signUp" class="btn btn-primary btn-block"  id="facebookButton"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
                                         </div>
@@ -300,6 +300,7 @@ $advancedCustom = json_decode($json_file);
                                 }
                             }
                             ?>
+                            <hr>
                             <div class="row">
                                 <?php
                                 $login = YouPHPTubePlugin::getLogin();
@@ -316,6 +317,7 @@ $advancedCustom = json_decode($json_file);
                                 }
                                 ?>
                             </div>
+                            <hr>
                         </fieldset>
 
                     </div>
