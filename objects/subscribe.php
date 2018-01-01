@@ -151,7 +151,7 @@ class Subscribe {
         //show subscribe button with mail field
         $popover = "<div id=\"popover-content\" class=\"hide\">
         <div class=\"input-group\">
-          <input type=\"text\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail\">
+          <input type=\"text\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail\" style=\"min-width: 100px;\">
           <span class=\"input-group-btn\">
           <button class=\"btn btn-danger\" id=\"subscribeButton{$user_id}2\"><i class=\"fa fa-check\"></i></button>
           </span>
