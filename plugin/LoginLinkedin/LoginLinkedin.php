@@ -31,7 +31,7 @@ class LoginLinkedin extends PluginAbstract {
     }
     
     public function getTags() {
-        return array('free', 'login', 'facebook');
+        return array('free', 'login', 'linkedin');
     }
     
     public function getLogin() {
