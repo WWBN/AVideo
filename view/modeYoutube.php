@@ -762,6 +762,7 @@ if (!empty($video)) {
                         $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs.hotkeys.min.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <?php
         include 'include/footer.php';
