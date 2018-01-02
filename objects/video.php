@@ -133,6 +133,7 @@ class Video {
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
+                $this->id = $id;
             } else {
                 $id = $this->id;
             }
