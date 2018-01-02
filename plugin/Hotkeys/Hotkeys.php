@@ -33,8 +33,6 @@ class Hotkeys extends PluginAbstract {
     public function getFooterCode() {
         global $global;
         $obj = $this->getDataObject();
-        echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        echo $global['webSiteRootURL'];
         if(("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL'])&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL'])&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."cat/")&&("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."cat/")&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."login/")&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."login/")&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."mvideos")&&("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."mvideos")){
         return "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script>
                 <script>
