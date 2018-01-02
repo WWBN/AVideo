@@ -145,7 +145,8 @@ class LiveTransmition extends Object {
 
     static function keyExists($key) {
         global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = '$key' LIMIT 1";
+        $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
+                . " LEFT JOIN users u ON u.id = users_id WHERE  `key` = '$key' LIMIT 1";
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $row = $res->fetch_assoc();
