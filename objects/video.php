@@ -133,6 +133,7 @@ class Video {
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
+                $this->id = $id;
             } else {
                 $id = $this->id;
             }
@@ -1045,19 +1046,25 @@ class Video {
         $this->next_videos_id = $next_videos_id;
     }
         
-    function queue($format) {
+    function queue() {
+        global $config;
+        if(!User::canUpload()){
+            return false;
+        }
         global $global;
         $obj = new stdClass();
         $obj->error = true;
 
-        $target = $global['YouPHPTubeURL-encoder'] . "queue.php";
+        $target = $config->getEncoderURL(). "queue";
         $postFields = array(
+            'user' => User::getUserName(),
+            'pass' => User::getUserPass(), 
             'fileURI' => $global['webSiteRootURL'] . "videos/original_{$this->getFilename()}",
             'filename' => $this->getFilename(),
             'videos_id' => $this->getId(),
-            "notifyURL" => "{$global['webSiteRootURL']}",
-            'format' => $format
+            "notifyURL" => "{$global['webSiteRootURL']}"
         );
+        error_log("SEND To QUEUE: " . print_r($postFields, true));
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $target);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -1075,6 +1082,7 @@ class Video {
         } else {
             $obj->error = false;
         }
+        error_log("QUEUE CURL: " . print_r($obj, true));
         curl_close($curl);
         return $obj;
     }
