@@ -27,6 +27,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderResolutionHD = false;
         $obj->disableNativeSignUp = false;
         $obj->disableNativeSignIn = false;
+        $obj->newUsersCanStream = false;
         $obj->encoderNetwork = "";// an url for encoder network
         return $obj;
     }
