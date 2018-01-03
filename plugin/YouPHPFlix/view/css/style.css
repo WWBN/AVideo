@@ -90,6 +90,11 @@ a:visited {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: black;
+    color: white;
+    opacity: 0.25; 
+    font-weight: bold;
+    border-radius: 15px;
 }
 .flickity-viewport:hover {
     -webkit-transform: translate3d(-62.5px, 0, 0);

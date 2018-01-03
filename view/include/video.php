@@ -180,7 +180,6 @@ if (!empty($ad)) {
         // Register the new component
         videojs.registerComponent('teater', teater);
         player.getChild('controlBar').addChild('teater', {}, 8);
-
         player.zoomrotate(<?php echo $transformation; ?>);
         player.ready(function () {
 <?php
