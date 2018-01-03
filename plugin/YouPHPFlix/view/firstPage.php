@@ -250,9 +250,10 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 }
                 ?>
                 <div class="row">
-                    <h2>
-                        <i class="<?php echo $cat['iconClass']; ?>"></i> <?php echo $cat['name']; ?> <span class="badge"><?php echo count($videos); ?></span>
-                    </h2>
+                <a style="z-index: 9999;" href='<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']."'>"; ?><h2>
+                        <i class="<?php echo $cat['iconClass']; ?>"></i><?php echo $cat['name']; ?>
+                        <span class="badge"><?php echo count($videos); ?></span>
+                </h2></a>
                     <div class="carousel">
                         <?php
                         foreach ($videos as $value) {
