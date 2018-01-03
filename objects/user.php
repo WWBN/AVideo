@@ -204,7 +204,16 @@ class User {
             $this->isAdmin = "false";
         }
         if (empty($this->canStream)) {
-            $this->canStream = "false";
+            if(empty($this->id)){ // it is a new user
+                $obj = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+                if(empty($obj->newUsersCanStream)){
+                    $this->canStream = "false";
+                }else{
+                    $this->canStream = "true";
+                }
+            }else{
+                $this->canStream = "false";
+            }
         }
         if (empty($this->canUpload)) {
             $this->canUpload = "false";
