@@ -448,7 +448,7 @@ img.rotate-90 {
     -o-transform: rotate(270deg);
     /* Opera */
 }
-.subscribeButton {
+.subsB  {
     background-color: #e62117;
     color: #FFF;
     -webkit-transition: all 1s ease-out;
@@ -456,23 +456,17 @@ img.rotate-90 {
     -o-transition: all 1s ease-out;
     transition: all 1s ease-out;
 }
-.subscribeButton:hover,
-.subscribeButton:active,
-.subscribeButton:focus {
-    background-color: #CC0000;
-    color: #FFF;
-}
-.subscribeButton span:before {
+.subsB  span:before {
     content: "\f16a";
 }
-.subscribeButton.subscribed {
+.subscribed {
     background-color: #DDD;
     color: #777;
 }
-.subscribeButton.subscribed span:before {
+.subscribed span:before {
     content: "\f00c";
 }
-.subscribeButton.subscribed:hover span:before {
+.subscribed:hover span:before {
     content: "\f057";
 }
 .profileBg {

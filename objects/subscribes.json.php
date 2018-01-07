@@ -1,5 +1,9 @@
 <?php
 require_once 'subscribe.php';
+if(!empty($_GET['user']) && !empty($_GET['pass'])){
+    $user = new User(0, $_GET['user'], $_GET['pass']);
+    $user->login(false, true);
+}
 if (!User::isLogged()) {
     return false;
 }

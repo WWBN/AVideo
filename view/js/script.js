@@ -180,13 +180,13 @@ function subscribe(email, user_id) {
             
             
             if (response.subscribe == "i") {
-                $('.subscribeButton'+user_id).removeClass("subscribed");
-                $('.subscribeButton'+user_id+' b.text').text("Subscribe");
-                $('.subscribeButton'+user_id+' b.textTotal').text(parseInt($('.subscribeButton'+user_id+' b.textTotal').first().text())-1);
+                $('.subs'+user_id).removeClass("subscribed");
+                $('.subs'+user_id+' b.text').text("Subscribe");
+                $('b.textTotal').text(parseInt($('b.textTotal').first().text())-1);
             } else {
-                $('.subscribeButton'+user_id).addClass("subscribed");
-                $('.subscribeButton'+user_id+' b.text').text("Subscribed");
-                $('.subscribeButton'+user_id+' b.textTotal').text(parseInt($('.subscribeButton'+user_id+' b.textTotal').first().text())+1);
+                $('.subs'+user_id).addClass("subscribed");
+                $('.subs'+user_id+' b.text').text("Subscribed");
+                $('b.textTotal').text(parseInt($('b.textTotal').first().text())+1);
             }
             $('#popover-content #subscribeEmail').val(email);
             $('.subscribeButton'+user_id).popover('hide');
