@@ -5,7 +5,6 @@ header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'plugin/LoginLDAP/LoginLDAP.php';
 $object = new stdClass();
 $object->error = true;
 
