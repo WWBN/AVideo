@@ -30,7 +30,7 @@ class PlayList extends Object {
         $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
                 . " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
         if ($publicOnly) {
-            $sql .= " AND status = 'public' ";
+            $sql .= " AND pl.status = 'public' ";
         }
         if (!empty($userId)) {
             $sql .= " AND users_id = {$userId} ";
