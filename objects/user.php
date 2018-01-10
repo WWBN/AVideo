@@ -489,7 +489,7 @@ class User {
             $userId = $userObject->save();
             return $userId;
         }
-        return false;
+        return $userId;
     }
 
     function getRecoverPass() {
