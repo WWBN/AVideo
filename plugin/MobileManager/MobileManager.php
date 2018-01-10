@@ -4,7 +4,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 class MobileManager extends PluginAbstract {
-
+    
+    public static function getVersion(){
+        return 1;
+    }
+    
     public function getDescription() {
         return "Manage the Mobile App";
     }
