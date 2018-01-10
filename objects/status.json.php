@@ -11,4 +11,6 @@ $obj->max_file_size = get_max_file_size();
 $obj->file_upload_max_size = file_upload_max_size();
 $obj->videoStorageLimitMinutes = $global['videoStorageLimitMinutes'];
 $obj->currentStorageUsage = getSecondsTotalVideosLength();
+$obj->webSiteLogo = $config->getLogo();
+$obj->webSiteTitle = $config->getWebSiteTitle();
 echo json_encode($obj);
