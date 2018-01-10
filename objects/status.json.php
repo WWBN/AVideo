@@ -4,6 +4,7 @@ if (empty($global['systemRootPath'])) {
 }
 header('Access-Control-Allow-Origin: *');
 require_once $global['systemRootPath'] . 'videos/configuration.php';
+require_once $global['systemRootPath'] . 'plugin/MobileManager/MobileManager.php';
 require_once 'functions.php';
 header('Content-Type: application/json');
 $obj = new stdClass();
@@ -13,4 +14,6 @@ $obj->videoStorageLimitMinutes = $global['videoStorageLimitMinutes'];
 $obj->currentStorageUsage = getSecondsTotalVideosLength();
 $obj->webSiteLogo = $config->getLogo();
 $obj->webSiteTitle = $config->getWebSiteTitle();
+$obj->version = $config->getVersion();
+$obj->mobileSreamerVersion = MobileManager::getVersion();
 echo json_encode($obj);
