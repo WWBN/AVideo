@@ -40,6 +40,11 @@ class Comment {
         }
         $this->comment = htmlentities($this->comment);
         $this->comment = $global['mysqli']->real_escape_string($this->comment);
+        
+        if(empty($this->comment)){
+            return false;
+        }
+        
         if (!empty($this->id)) {
             $sql = "UPDATE comments SET comment = '{$this->comment}', modified = now() WHERE id = {$this->id}";
         } else {
@@ -94,6 +99,7 @@ class Comment {
         $comment = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
+                $row['commentHTML'] = nl2br($row['comment']);
                 $comment[] = $row;
             }
             //$comment = $res->fetch_all(MYSQLI_ASSOC);

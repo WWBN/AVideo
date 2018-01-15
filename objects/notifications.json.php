@@ -21,10 +21,11 @@ if(!empty($_POST['user']) && !empty($_POST['pass'])){
     $user->login(false, true);
 }
 
-if (!User::canComment()) {
-    die('{"error":"'.__("Permission denied").'"}');
+
+$obj = new stdClass();
+if(YouPHPTubePlugin::loadPluginIfEnabled("Live")){
+    $liveStats = file_get_contents("{$global['webSiteRootURL']}plugin/Live/stats.json.php");
+    $obj->live = json_decode($liveStats);
 }
 
-require_once 'comment.php';
-$obj = new Comment($_POST['comment'], $_POST['video']);
-echo '{"status":"'.$obj->save().'"}';
+echo json_encode($obj);
