@@ -1,25 +1,37 @@
 <?php
-require_once '../videos/configuration.php';
-require_once 'video.php';
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Content-Type");
+header('Content-Type: application/json');
+if (empty($global['systemRootPath'])) {
+    $global['systemRootPath'] = '../';
+}
+require_once $global['systemRootPath'] . 'videos/configuration.php';
+require_once $global['systemRootPath'] . 'objects/user.php';
 require_once 'comment.php';
 require_once 'subscribe.php';
-require_once $global['systemRootPath'] . 'objects/functions.php';
-header('Content-Type: application/json');
-if(empty($_POST['current']) && !empty($_GET['current'])){
-    $_POST['current']=$_GET['current'];
+
+// gettig the mobile submited value
+$inputJSON = file_get_contents('php://input');
+$input = json_decode($inputJSON, TRUE); //convert JSON into array
+if(!empty($input) && empty($_POST)){
+    foreach ($input as $key => $value) {
+        $_POST[$key]=$value;
+    }
 }
-if(empty($_POST['rowCount']) && !empty($_GET['rowCount'])){
-    $_POST['rowCount']=$_GET['rowCount'];
+if(!empty($_GET) && empty($_POST)){
+    $_POST = $_GET;
 }
-if(empty($_POST['sort']) && !empty($_GET['sort'])){
-    $_POST['sort']=$_GET['sort'];
+if(!empty($_POST['user']) && !empty($_POST['pass'])){
+    $user = new User(0, $_POST['user'], $_POST['pass']);
+    $user->login(false, true);
 }
-if(empty($_POST['searchPhrase']) && !empty($_GET['searchPhrase'])){
-    $_POST['searchPhrase']=$_GET['searchPhrase'];
+if(empty($_POST['playlists_id'])){
+    die('Play List can not be empty');
 }
 
-$videos = Video::getAllVideos("viewableNotAd");
-$total = Video::getTotalVideos("viewableNotAd");
+require_once './playlist.php';
+$videos = PlayList::getVideosFromPlaylist($_POST['playlists_id']);
+
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);
@@ -58,9 +70,4 @@ foreach ($videos as $key => $value) {
     
 }
 
-$obj = new stdClass();
-$obj->current = $_POST['current'];
-$obj->rowCount = $_POST['rowCount'];
-$obj->total = $total;
-$obj->videos = $videos;
-echo json_encode($obj);
+echo json_encode($videos);

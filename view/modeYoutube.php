@@ -431,7 +431,7 @@ if (!empty($video)) {
                                                             <div class="col-md-8 inputGroupContainer">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                                    <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo _("I would like to share this video with you:"); ?> <?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $video['clean_title']; ?></textarea>
+                                                                    <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo __("I would like to share this video with you:"); ?> <?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $video['clean_title']; ?></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>

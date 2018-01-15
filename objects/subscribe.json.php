@@ -1,4 +1,10 @@
 <?php
+// gettig the mobile submited value
+if(empty($_POST) && !empty($_GET)){
+    foreach ($_GET as $key => $value) {
+        $_POST[$key]=$value;
+    }
+}
 require_once 'subscribe.php';
 header('Content-Type: application/json');
 $obj = new stdClass();

@@ -93,6 +93,8 @@
 
     #manager playList
     RewriteRule    ^playLists.json$ objects/playlists.json.php    [NC,L]
+    RewriteRule    ^playListsVideos.json$ objects/playlistsVideos.json.php    [NC,L]
+    RewriteRule    ^playListsFromUser.json/([0-9]+)/?$ objects/playlistsFromUser.json.php?users_id=$1    [NC,L]
     RewriteRule    ^addNewPlayList$ objects/playlistAddNew.json.php    [NC,L]
     RewriteRule    ^playListAddVideo.json$ objects/playListAddVideo.json.php    [NC,L]
     RewriteRule    ^playlist/([0-9]+)/([0-9]+)/?$ view/?playlist_id=$1&playlist_index=$2    [NC,L]
@@ -137,8 +139,8 @@
     RewriteRule    ^login$ objects/login.json.php    [NC,L]
     RewriteRule    ^logoff$ objects/logoff.php    [NC,L]
 
-    RewriteRule    ^like$ objects/like.json.php?like=1    [NC,L]
-    RewriteRule    ^dislike$ objects/like.json.php?like=-1    [NC,L]
+    RewriteRule    ^like$ objects/like.json.php?like=1    [QSA] 
+    RewriteRule    ^dislike$ objects/like.json.php?like=-1    [QSA] 
 
 
     #manager configuration
@@ -153,6 +155,8 @@
     RewriteRule    ^youtubeUpload$ objects/youtubeUpload.json.php    [NC,L]
 
     RewriteRule    ^googleAdView$ view/googleAdView.php    [NC,L]
+
+    RewriteRule    ^notifications.json$ objects/notifications.json.php    [NC,L]
 
     # if image do not exists
     RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png|ico)$ [NC]

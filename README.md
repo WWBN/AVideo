@@ -14,6 +14,10 @@ I don´t want to read I just want you to show me how to install!!
 
 Ok, check this out! https://tutorials.youphptube.com/video/streamer-and-encoder
 
+### Mobile APP 
+Android: https://play.google.com/store/apps/details?id=mobile.youphptube.com
+
+
 ### Are you having a hard time to configure or install YouPHPTube or any of its resources? fell free to ask us for help:
 
 https://www.youphptube.com/services

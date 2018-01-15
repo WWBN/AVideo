@@ -145,8 +145,8 @@ class Subscribe {
         $total = static::getTotalSubscribes($user_id);
         
         $subscribe = "<div class=\"btn-group\">"
-                . "<button class='btn btn-xs subscribeButton{$user_id}'><span class='fa'></span> <b class='text'>" . __("Subscribe") . "</b></button>"
-                . "<button class='btn btn-xs'><b class='textTotal'>{$total}</b></button>"
+                . "<button class='btn btn-xs subsB subs{$user_id} subscribeButton{$user_id}'><span class='fa'></span> <b class='text'>" . __("Subscribe") . "</b></button>"
+                . "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal'>{$total}</b></button>"
                 . "</div>";
         //show subscribe button with mail field
         $popover = "<div id=\"popover-content\" class=\"hide\">
@@ -194,8 +194,8 @@ trigger: 'manual',
                 if (!empty($subs)) {
                     // show unsubscribe Button
                     $subscribe = "<div class=\"btn-group\">"
-                . "<button class='btn btn-xs subscribeButton subscribed'><span class='fa'></span> <b class='text'>" . __("Subscribed") . "</b></button>"
-                . "<button class='btn btn-xs subscribed'><b class='text'>$total</b></button>"
+                . "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><span class='fa'></span> <b class='text'>" . __("Subscribed") . "</b></button>"
+                . "<button class='btn btn-xs subsB subscribed subs{$user_id}'><b class='textTotal'>$total</b></button>"
                 . "</div>";
                 }
             }

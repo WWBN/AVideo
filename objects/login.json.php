@@ -1,6 +1,17 @@
 <?php
 header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
+
+// gettig the mobile submited value
+$inputJSON = file_get_contents('php://input');
+$input = json_decode($inputJSON, TRUE); //convert JSON into array
+if(!empty($input) && empty($_POST)){
+    foreach ($input as $key => $value) {
+        $_POST[$key]=$value;
+    }
+}
+
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
 }
@@ -81,23 +92,40 @@ if(!empty($_GET['user'])){
 if(!empty($_GET['pass'])){
     $_POST['pass'] = $_GET['pass'];
 }
+if(!empty($_GET['encodedPass'])){
+    $_POST['encodedPass'] = $_GET['encodedPass'];
+}
 if(empty($_POST['user']) || empty($_POST['pass'])){
     $object->error = __("User and Password can not be blank");
      die(json_encode($object));
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
 $user->login(false, @$_POST['encodedPass']);
+$object->id = User::getId();
+$object->user = User::getUserName();
+$object->pass = User::getUserPass();
+$object->email = User::getMail();
+$object->photo = User::getPhoto();
+$object->backgroundURL = $user->getBackgroundURL();
 $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
 $object->streamServerURL = "";
 $object->streamKey = "";
-$p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
-if($object->isLogged && !empty($p)){
-    require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
-    $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
-    $object->streamServerURL = $p->getServer()."?p=".User::getUserPass();
-    $object->streamKey = $trasnmition['key'];
+if($object->isLogged){
+    $p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
+    if(!empty($p)){
+        require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
+        $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
+        $object->streamServerURL = $p->getServer()."?p=".User::getUserPass();
+        $object->streamKey = $trasnmition['key'];
+    }
+    $p = YouPHPTubePlugin::loadPluginIfEnabled("MobileManager");
+    if(!empty($p)){
+        $object->streamer = json_decode(file_get_contents($global['webSiteRootURL']."status"));
+        $object->plugin = $p->getDataObject();
+        $object->encoder = $config->getEncoderURL();
+    }
 }
 echo json_encode($object);

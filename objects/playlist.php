@@ -27,9 +27,10 @@ class PlayList extends Object {
      */
     static function getAllFromUser($userId, $publicOnly = true) {
         global $global;
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
+        $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
+                . " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
         if ($publicOnly) {
-            $sql .= " AND status = 'public' ";
+            $sql .= " AND pl.status = 'public' ";
         }
         if (!empty($userId)) {
             $sql .= " AND users_id = {$userId} ";
@@ -52,9 +53,11 @@ class PlayList extends Object {
     static function getVideosFromPlaylist($playlists_id) {
         global $global;
         $sql = "SELECT * FROM  playlists_has_videos p "
-                . "LEFT JOIN videos as v ON videos_id = v.id "
+                . " LEFT JOIN videos as v ON videos_id = v.id "
+                . " LEFT JOIN users u ON u.id = v.users_id "
                 . " WHERE playlists_id = {$playlists_id} ORDER BY p.`order` ASC ";
 
+        $sql .= self::getSqlFromPost();
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
