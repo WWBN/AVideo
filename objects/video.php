@@ -628,13 +628,13 @@ class Video {
             foreach (self::$types as $value) {
                 $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
                 if (file_exists($file)) {
-                    unlink($file);
+                    @unlink($file);
                 }
                 // Streamlined for less coding space.
                 $files = glob("{$global['systemRootPath']}videos/{$video['filename']}.*");
                 foreach ($files as $file) {
                     if (file_exists($file)) {
-                        unlink($file);
+                        @unlink($file);
                     }
                 }
             }
