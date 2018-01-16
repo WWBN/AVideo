@@ -672,7 +672,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     }
                                                     var status;
                                                     var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getVideosManagerListButton(); ?>';
-
+                                                    
+                                                    var download = "";
+                                                    for (var k in row.videosURL) {
+                                                        download += '<a href="'+row.videosURL[k].url+'?download=1" class="btn btn-default btn-xs" ><span class="fa fa-download " aria-hidden="true"></span> '+k+'</a><br>';
+                                                    }
 
                                                     if (row.status == "i") {
                                                         status = activeBtn;
@@ -685,7 +689,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     } else {
                                                         return editBtn + deleteBtn;
                                                     }
-                                                    return editBtn + deleteBtn + status + rotateBtn + pluginsButtons;
+                                                    return editBtn + deleteBtn + status + rotateBtn + pluginsButtons+download;
                                                 },
                                                 "tags": function (column, row) {
                                                     var tags = "";
