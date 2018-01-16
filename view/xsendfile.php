@@ -10,8 +10,6 @@ if (empty($_GET['file'])) {
 $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
 $path = "{$global['systemRootPath']}videos/{$file}";
-YouPHPTubePlugin::xsendfilePreVideoPlay();
-header("X-Sendfile: {$path}");
 if(!empty($_GET['download'])){
     $quoted = sprintf('"%s"', addcslashes(basename($_GET['file']), '"\\'));
     $size   = filesize($file);
@@ -23,7 +21,10 @@ if(!empty($_GET['download'])){
     header('Expires: 0');
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Pragma: public');
-}else{
+}
+YouPHPTubePlugin::xsendfilePreVideoPlay();
+header("X-Sendfile: {$path}");
+if(empty($_GET['download'])){
     header("Content-type: " . mime_content_type($path));
 }
 header('Content-Length: ' . filesize($path));
