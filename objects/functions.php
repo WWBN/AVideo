@@ -421,11 +421,10 @@ function parseVideos($videoString = null){
     }else if (strpos($link, 'rutube.ru') !== FALSE) { 
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)$/',
+                '/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)\/.*/',
                 $link,
                 $matches
             );
-
         $id = $matches[2];  
         return '//rutube.ru/play/embed/'.$id;
     }else if (strpos($link, 'ok.ru') !== FALSE) { 
