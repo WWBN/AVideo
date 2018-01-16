@@ -91,6 +91,9 @@ class Video {
             header('Content-Type: application/json');
             die('{"error":"' . __("Permission denied") . '"}');
         }
+        if(empty($this->title)){
+            $this->title = uniqid();
+        }
         if (empty($this->clean_title)) {
             $this->setClean_title($this->title);
         }

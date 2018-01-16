@@ -418,6 +418,36 @@ function parseVideos($videoString = null){
 
         $id = $matches[2];  
         return '//vid.me/e/'.$id;
+    }else if (strpos($link, 'rutube.ru') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//rutube.ru/play/embed/'.$id;
+    }else if (strpos($link, 'ok.ru') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?ok.ru\/video\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//ok.ru/videoembed/'.$id;
+    }else if (strpos($link, 'streamable.com') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?streamable.com\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//streamable.com/s/'.$id;
     }else if (strpos($link, '/video/') !== FALSE) { 
         //extract the ID
         preg_match(
