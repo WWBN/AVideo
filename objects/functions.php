@@ -468,7 +468,7 @@ function parseVideos($videoString = null){
         //the YouPHPTube site 
         $site = $matches[1];  
         $id = $matches[2];  
-        return $site.'/videoEmbeded/'.$id;
+        return $site.'/videoEmbeded/'.$id.'#';
     }
     return $videoString;
     // return data
