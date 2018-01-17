@@ -52,7 +52,7 @@ if (!empty($video['clean_title'])) {
     $videoName = $_GET['videoName'];
 }
 ?>
-<div class="col-md-8 col-sm-12 " style="position: relative; z-index: 9999;" >
+<div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
         <option value="newest" data-icon="glyphicon-sort-by-attributes" value="desc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'desc') ? "selected='selected'" : "" ?>> <?php echo __("Date Added (newest)"); ?></option>
         <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" value="asc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Date Added (oldest)"); ?></option>
