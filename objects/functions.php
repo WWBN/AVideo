@@ -447,6 +447,16 @@ function parseVideos($videoString = null){
 
         $id = $matches[2];  
         return '//streamable.com/s/'.$id;
+    }else if (strpos($link, 'twitch.tv') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//player.twitch.tv/?channel='.$id;
     }else if (strpos($link, '/video/') !== FALSE) { 
         //extract the ID
         preg_match(
