@@ -60,7 +60,7 @@ if (!empty($video['clean_title'])) {
         <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most Watched"); ?></option>
     </select>
 </div>
-<div class="col-md-4 col-sm-12" style="position: relative; z-index: 9999;">
+<div class="col-md-4 col-sm-12" style="position: relative; z-index: 2;">
     <select class="form-control" id="rowCount">
         <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '10') ? "selected='selected'" : "" ?>>10</option>
         <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '20') ? "selected='selected'" : "" ?>>20</option>
