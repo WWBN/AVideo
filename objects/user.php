@@ -178,7 +178,11 @@ class User {
             $photo = $_SESSION['user']['photoURL'];
         }
         if(!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)){
-            $photo = $global['webSiteRootURL'].$photo;
+            if(file_exists($global['systemRootPath'].$photo)){
+                $photo = $global['webSiteRootURL'].$photo;
+            }else{
+                $photo = "";
+            }
         }
         if (empty($photo)) {
             $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
