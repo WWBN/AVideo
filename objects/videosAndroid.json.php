@@ -51,6 +51,7 @@ foreach ($videos as $key => $value) {
         }        
     }
     $videos[$key]['UserPhoto'] = User::getPhoto($videos[$key]['users_id']);
+    $videos[$key]['backgroundURL'] = User::getBackground($videos[$key]['users_id']);
     
 }
 
