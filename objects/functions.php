@@ -336,7 +336,9 @@ function parseVideos($videoString = null){
         $link = $videoString;
     }    
 
-    if (strpos($link, 'youtube.com') !== FALSE) { 
+    if (strpos($link, 'embed') !== FALSE) { 
+        return $link;
+    }else if (strpos($link, 'youtube.com') !== FALSE) { 
 
         preg_match(
         '/[\\?\\&]v=([^\\?\\&]+)/',
