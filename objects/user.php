@@ -189,6 +189,29 @@ class User {
         }
         return $photo;
     }
+    
+    static function getBackground($id = "") {
+        global $global;
+        if (!empty($id)) {
+            $user = self::findById($id);
+            if (!empty($user)) {
+                $photo = $user['backgroundURL'];
+            }
+        } elseif (self::isLogged()) {
+            $photo = $_SESSION['user']['backgroundURL'];
+        }
+        if(!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)){
+            if(file_exists($global['systemRootPath'].$photo)){
+                $photo = $global['webSiteRootURL'].$photo;
+            }else{
+                $photo = "";
+            }
+        }
+        if (empty($photo)) {
+            $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
+        }
+        return $photo;
+    }
 
     static function getMail() {
         if (self::isLogged()) {
