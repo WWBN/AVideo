@@ -208,7 +208,7 @@ class User {
             }
         }
         if (empty($photo)) {
-            $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
+            $photo = $global['webSiteRootURL'] . "img/background.png";
         }
         return $photo;
     }
