@@ -516,6 +516,9 @@ if (!empty($video)) {
                             });
                         </script>
                         <div class="row bgWhite list-group-item">
+                            <?php 
+                            if(User::canSeeCommentTextarea()){
+                            ?>
                             <div class="input-group">
                                 <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php
                                 if (!User::canComment()) {
@@ -548,6 +551,9 @@ if (!empty($video)) {
                                     });
                                 });
                             </script>
+                            <?php
+                            }
+                            ?>
                             <h4><?php echo __("Comments"); ?>:</h4>
                             <table id="grid" class="table table-condensed table-hover table-striped nowrapCell">
                                 <thead>
