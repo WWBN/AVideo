@@ -545,6 +545,16 @@ class User {
         }
         return self::isAdmin();
     }
+    
+    static function canSeeCommentTextarea() {
+        global $global, $config;
+        if (!$config->getAuthCanComment()) {
+            if(!self::isAdmin()){
+                return false;
+            }
+        }
+        return true;
+    }
 
     function getUserGroups() {
         return $this->userGroups;
