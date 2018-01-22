@@ -188,7 +188,7 @@ if ($config->getAutoplay()) {
 } else {
     ?>
                 if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                    setTimeout(function () { if(typeof player === 'undefined'){}} player = videojs('mainVideo');} player.play();}, 150);                    
+                    setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play();}, 150);                    
                 }
 <?php }
 ?>
