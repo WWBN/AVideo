@@ -184,11 +184,11 @@ if (!empty($ad)) {
         player.ready(function () {
 <?php
 if ($config->getAutoplay()) {
-    echo "setTimeout(function () { if(typeof player === 'undefined')} player = videojs('mainVideo');}player.play();}, 150);";
+    echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');}player.play();}, 150);";
 } else {
     ?>
                 if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                    setTimeout(function () { if(typeof player === 'undefined')} player = videojs('mainVideo');} player.play();}, 150);                    
+                    setTimeout(function () { if(typeof player === 'undefined'){}} player = videojs('mainVideo');} player.play();}, 150);                    
                 }
 <?php }
 ?>
