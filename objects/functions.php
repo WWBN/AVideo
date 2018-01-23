@@ -47,20 +47,43 @@ function humanTiming($time) {
     $time = time() - $time; // to get the time since that moment
     $time = ($time < 1) ? 1 : $time;
     $tokens = array(
-        31536000 => __('year'),
-        2592000 => __('month'),
-        604800 => __('week'),
-        86400 => __('day'),
-        3600 => __('hour'),
-        60 => __('minute'),
-        1 => __('second')
+        31536000 => 'year',
+        2592000 => 'month',
+        604800 => 'week',
+        86400 => 'day',
+        3600 => 'hour',
+        60 => 'minute',
+        1 => 'second'
     );
 
+    /**
+     * For detection propouse only
+     */
+    __('year');
+    __('month');
+    __('week');
+    __('day');
+    __('hour');
+    __('minute');
+    __('second');
+    __('years');
+    __('months');
+    __('weeks');
+    __('days');
+    __('hours');
+    __('minutes');
+    __('seconds');
+    
     foreach ($tokens as $unit => $text) {
         if ($time < $unit)
             continue;
+        
         $numberOfUnits = floor($time / $unit);
-        return $numberOfUnits . ' ' . $text . (($numberOfUnits > 1) ? 's' : '');
+        if($numberOfUnits > 1){
+            $text = __($text."s");
+        }
+        
+        return $numberOfUnits . ' ' . $text;
     }
 }
 
