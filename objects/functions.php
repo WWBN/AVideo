@@ -81,6 +81,8 @@ function humanTiming($time) {
         $numberOfUnits = floor($time / $unit);
         if($numberOfUnits > 1){
             $text = __($text."s");
+        }else{
+            $text = __($text);
         }
         
         return $numberOfUnits . ' ' . $text;
