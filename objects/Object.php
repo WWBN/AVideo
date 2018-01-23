@@ -5,7 +5,7 @@ interface ObjectInterface{
     static function getSearchFieldsNames();
 }
 
-abstract class Object implements ObjectInterface{
+abstract class ObjectYPT implements ObjectInterface{
 
     protected $fieldsName = array();
 

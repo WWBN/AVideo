@@ -6,7 +6,7 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-class Plugin extends Object {
+class Plugin extends ObjectYPT {
 
     protected $id, $status, $object_data, $name, $uuid, $dirName;
 
