@@ -202,6 +202,6 @@ abstract class ObjectYPT implements ObjectInterface{
         error_log("Id for table ".static::getTableName()." not defined for deletion");
         return false;
     }
-}
+};
 
-class Object extends ObjectYPT{};
+abstract class Object extends ObjectYPT{};
