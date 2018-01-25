@@ -30,7 +30,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->newUsersCanStream = false;
         $o = new stdClass();
         $o->type = "textarea";
-        $o->value = "textarea";        
+        $o->value = "";        
         $obj->underMenuBarHTMLCode = $o;// an url for encoder network
         $obj->encoderNetwork = "";// an url for encoder network
         return $obj;
