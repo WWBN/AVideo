@@ -54,6 +54,7 @@ abstract class PluginAbstract {
 
     public function getDataObject() {
         $obj = Plugin::getPluginByUUID($this->getUUID());
+        //echo $obj['object_data'];
         $o = json_decode($obj['object_data']);
         $eo = $this->getEmptyDataObject();
         //var_dump($obj['object_data']);
