@@ -301,6 +301,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         label = $('<label />', {"text": i + ": "});
                         if(val.type === 'textarea'){
                             input = $('<textarea />', {"class": 'form-control jsonElement', "name": i, "pluginType":"object"});
+                            
                             input.text(val.value);
                         }else{
                             input = $('<input />', {"class": 'form-control jsonElement', "type": val.type, "name": i, "value": val.value, "pluginType":"object"});
