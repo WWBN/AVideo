@@ -203,4 +203,4 @@ abstract class ObjectYPT implements ObjectInterface{
         return false;
     }
 };
-abstract class Object extends ObjectYPT{};
+//abstract class Object extends ObjectYPT{};
