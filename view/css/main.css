@@ -242,7 +242,7 @@ footer ul.list-inline li {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     padding: 10px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     text-overflow: ellipsis;
 }
 .no-outline {
@@ -749,4 +749,7 @@ z-index:100;
 .transparent{
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
+}
+.principalContainer{
+    position: relative;
 }
