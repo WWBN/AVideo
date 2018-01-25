@@ -186,7 +186,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                         </ul>
                                         <div class="tab-content">
                                             <div id="visual" class="tab-pane fade in active">
-                                                <div class="row" id="jsonElements">Some content.</div>
+                                                <div class="row" id="jsonElements" style="padding: 10px;">Some content.</div>
                                             </div>
                                             <div id="code" class="tab-pane fade">
                                                 <form class="form-compact"  id="updatePluginForm" onsubmit="">
@@ -296,7 +296,18 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     var div;
                     var label;
                     var input;
-                    if (typeof (val) === "boolean") {// checkbox
+                    if (typeof (val) === "object") {// checkbox
+                        div = $('<div />', {"class": 'form-group'});
+                        label = $('<label />', {"text": i + ": "});
+                        if(val.type === 'textarea'){
+                            input = $('<textarea />', {"class": 'form-control jsonElement', "name": i, "pluginType":"object"});
+                            input.text(val.value);
+                        }else{
+                            input = $('<input />', {"class": 'form-control jsonElement', "type": val.type, "name": i, "value": val.value, "pluginType":"object"});
+                        }
+                        div.append(label);
+                        div.append(input);
+                    } else if (typeof (val) === "boolean") {// checkbox
                         div = $('<div />', {"class": 'form-group'});
                         label = $('<label />', {"class": "checkbox-inline"});
                         input = $('<input />', {"class": 'jsonElement', "type": 'checkbox', "name": i, "value": 1, "checked": val});
@@ -324,12 +335,19 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 $(".jsonElement").each(function (index) {
                     var name = $(this).attr("name");
                     var type = $(this).attr("type");
-                    if (type === 'checkbox') {
+                    var pluginType = $(this).attr("pluginType");
+                    if(pluginType==='object'){
+                        if(typeof type === 'undefined'){
+                            type = 'textarea';
+                        }
+                        json [name] = {type:type, value:$(this).val()};
+                    }else if (type === 'checkbox') {
                         json [name] = $(this).is(":checked");
                     } else {
                         json [name] = $(this).val();
                     }
                 });
+                console.log(json);
                 return json;
             }
 

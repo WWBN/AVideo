@@ -382,3 +382,8 @@ $advancedCustom = json_decode($json_file);
         </div>
     </div>
 </nav>
+<?php
+if (!empty($advancedCustom->underMenuBarHTMLCode->value)) {
+    echo $advancedCustom->underMenuBarHTMLCode->value;
+}
+?>

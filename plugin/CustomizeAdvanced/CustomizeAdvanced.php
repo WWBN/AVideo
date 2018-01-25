@@ -28,6 +28,10 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableNativeSignUp = false;
         $obj->disableNativeSignIn = false;
         $obj->newUsersCanStream = false;
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = "textarea";        
+        $obj->underMenuBarHTMLCode = $o;// an url for encoder network
         $obj->encoderNetwork = "";// an url for encoder network
         return $obj;
     }
