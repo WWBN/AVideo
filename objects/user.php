@@ -4,9 +4,6 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
-$json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
-// convert the string to a json object
-$advancedCustom = json_decode($json_file);
 
 class User {
 
@@ -127,7 +124,7 @@ class User {
      * @return String
      */
     static function getNameIdentification(){
-        global $advancedCustom;
+        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         if(self::isLogged()){
             if(!empty(self::getName()) && empty($advancedCustom->doNotIndentifyByName)){
                 return self::getName();
@@ -147,7 +144,7 @@ class User {
      * @return String
      */
     function getNameIdentificationBd(){
-        global $advancedCustom;
+        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         if(!empty($this->name) && empty($advancedCustom->doNotIndentifyByName)){
             return $this->name;
         }
