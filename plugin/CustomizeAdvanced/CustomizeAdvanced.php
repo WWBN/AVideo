@@ -28,6 +28,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableNativeSignUp = false;
         $obj->disableNativeSignIn = false;
         $obj->newUsersCanStream = false;
+        $obj->doNotIndentifyByEmail = false;
+        $obj->doNotIndentifyByName = false;
+        $obj->doNotIndentifyByUserName = false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
