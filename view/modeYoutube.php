@@ -59,7 +59,7 @@ if (!empty($_GET['playlist_id'])) {
         $autoPlayVideo = Video::getRandom($video['id']);
     }
     if (!empty($autoPlayVideo)) {
-        $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
+        $name2 = User::getNameIdentificationById($autoPlayVideo['users_id']);
         $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
         $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . $catLink . "video/" . $autoPlayVideo['clean_title'];
@@ -68,7 +68,7 @@ if (!empty($_GET['playlist_id'])) {
 
 if (!empty($video)) {
     $ad = Video_ad::getAdFromCategory($video['categories_id']);
-    $name = empty($video['name']) ? substr($video['user'], 0, 5) . "..." : $video['name'];
+    $name = User::getNameIdentificationById($video['users_id']);
     $name = "<a href='{$global['webSiteRootURL']}channel/{$video['users_id']}/' class='btn btn-xs btn-default'>{$name}</a>";
     $subscribe = Subscribe::getButton($video['users_id']);
 
@@ -306,7 +306,10 @@ if (!empty($video)) {
                                     </script>
                                     <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                         <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                                    </a>
+                                    </a>                                    
+                                    <?php
+                                    echo YouPHPTubePlugin::getWatchActionButton();
+                                    ?>                                    
                                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn"
                                     <?php
                                     if (!User::isLogged()) {
