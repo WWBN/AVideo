@@ -89,6 +89,9 @@ class Live extends PluginAbstract {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
         $data = curl_exec($ch);
+        if($data===false){
+            error_log(curl_error($ch));
+        }
         curl_close($ch);
         return $data;
     }
