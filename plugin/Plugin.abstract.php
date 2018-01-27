@@ -84,5 +84,9 @@ abstract class PluginAbstract {
         
         return $obj;
     }
+    
+    public function getWatchActionButton(){
+        return "";
+    }
 
 }
