@@ -156,6 +156,14 @@ class User {
         }
         return __("Unknown User");
     }
+    
+    static function getNameIdentificationById($id = "") {
+        if (!empty($id)) {
+            $user = new User($id);
+            return $user->getNameIdentificationBd();
+        } 
+        return __("Unknown User");
+    }
 
     static function getUserPass() {
         if (self::isLogged()) {
