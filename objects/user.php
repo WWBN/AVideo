@@ -4,6 +4,9 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
+$json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
+// convert the string to a json object
+$advancedCustom = json_decode($json_file);
 
 class User {
 
@@ -124,14 +127,15 @@ class User {
      * @return String
      */
     static function getNameIdentification(){
+        global $advancedCustom;
         if(self::isLogged()){
-            if(!empty(self::getName())){
+            if(!empty(self::getName()) && empty($advancedCustom->doNotIndentifyByName)){
                 return self::getName();
             }
-            if(!empty(self::getMail())){
+            if(!empty(self::getMail()) && empty($advancedCustom->doNotIndentifyByEmail)){
                 return self::getMail();
             }
-            if(!empty(self::getUserName())){
+            if(!empty(self::getUserName()) && empty($advancedCustom->doNotIndentifyByUserName)){
                 return self::getUserName();
             }
         }
@@ -143,13 +147,14 @@ class User {
      * @return String
      */
     function getNameIdentificationBd(){
-        if(!empty($this->name)){
+        global $advancedCustom;
+        if(!empty($this->name) && empty($advancedCustom->doNotIndentifyByName)){
             return $this->name;
         }
-        if(!empty($this->email)){
+        if(!empty($this->email) && empty($advancedCustom->doNotIndentifyByEmail)){
             return $this->email;
         }
-        if(!empty($this->user)){
+        if(!empty($this->user) && empty($advancedCustom->doNotIndentifyByUserName)){
             return $this->user;
         }
         return __("Unknown User");
