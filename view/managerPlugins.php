@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager plugins"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage plugins"));
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/plugin.php';
