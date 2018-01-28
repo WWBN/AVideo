@@ -132,7 +132,13 @@ if (User::canSeeCommentTextarea()) {
                         return formatRow(row);
                     },
                     "video": function (column, row) {
-                        var image = '<img src="'+row.poster.thumbsJpg+'" class="img img-thumbnail img-responsive"><br><a href="<?php echo $global['webSiteRootURL']; ?>video/'+row.video.clean_title+'" class="btn btn-default btn-xs">'+row.video.title+'</a>';
+                        var image;
+                        if(row.video){
+                            image = '<img src="'+row.poster.thumbsJpg+'" class="img img-thumbnail img-responsive"><br><a href="<?php echo $global['webSiteRootURL']; ?>video/'+row.video.clean_title+'" class="btn btn-default btn-xs">'+row.video.title+'</a>';
+                        }else{
+                            image = 'Not found';
+                        }
+                        
                         return image;
                     }
                 }
