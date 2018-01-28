@@ -72,7 +72,7 @@ abstract class ObjectYPT implements ObjectInterface{
     }
 
 
-     static function getSqlFromPost() {
+     static function getSqlFromPost($keyPrefix = "") {
          global $global;
         $sql = self::getSqlSearchFromPost();
 
@@ -81,7 +81,7 @@ abstract class ObjectYPT implements ObjectInterface{
             foreach ($_POST['sort'] as $key => $value) {
                 $key = $global['mysqli']->real_escape_string($key);
                 $value = $global['mysqli']->real_escape_string($value);
-                $orderBy[] = " {$key} {$value} ";
+                $orderBy[] = " {$keyPrefix}{$key} {$value} ";
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
         } else {

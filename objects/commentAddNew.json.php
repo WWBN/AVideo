@@ -26,5 +26,11 @@ if (!User::canComment()) {
 }
 
 require_once 'comment.php';
-$obj = new Comment($_POST['comment'], $_POST['video']);
+if(!empty($_POST['id'])){
+    $obj = new Comment("", 0, $_POST['id']);
+    $obj->setComment($_POST['comment']);
+}else{
+    $obj = new Comment($_POST['comment'], $_POST['video']);
+    $obj->setComments_id_pai($_POST['comments_id']);
+}
 echo '{"status":"'.$obj->save().'"}';

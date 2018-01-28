@@ -191,7 +191,11 @@ class Video {
     function getRotation() {
         return $this->rotation;
     }
-
+    
+    function getUsers_id() {
+        return $this->users_id;
+    }
+    
     function setZoom($zoom) {
         $saneZoom = abs(floatval($zoom));
 
