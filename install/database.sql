@@ -101,9 +101,12 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `users_id` INT NOT NULL,
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
+  `comments_id_pai` INT NULL,
+  `pin` INT(1) NOT NULL DEFAULT 0 COMMENT 'If = 1 will be on the top',
   PRIMARY KEY (`id`),
   INDEX `fk_comments_videos1_idx` (`videos_id` ASC),
   INDEX `fk_comments_users1_idx` (`users_id` ASC),
+  INDEX `fk_comments_comments1_idx` (`comments_id_pai` ASC),
   CONSTRAINT `fk_comments_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
@@ -112,6 +115,11 @@ CREATE TABLE IF NOT EXISTS `comments` (
   CONSTRAINT `fk_comments_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_comments_comments1`
+    FOREIGN KEY (`comments_id_pai`)
+    REFERENCES `comments` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -416,6 +424,7 @@ CREATE TABLE IF NOT EXISTS `playlists_has_videos` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+
 -- -----------------------------------------------------
 -- Table `plugins`
 -- -----------------------------------------------------
@@ -430,6 +439,33 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `dirName` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `comments_likes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comments_likes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `like` INT(1) NOT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `comments_likescol` VARCHAR(45) NULL,
+  `users_id` INT NOT NULL,
+  `comments_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_comments_likes_users1_idx` (`users_id` ASC),
+  INDEX `fk_comments_likes_comments1_idx` (`comments_id` ASC),
+  CONSTRAINT `fk_comments_likes_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_comments_likes_comments1`
+    FOREIGN KEY (`comments_id`)
+    REFERENCES `comments` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

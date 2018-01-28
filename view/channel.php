@@ -245,8 +245,6 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 modal.showPleaseWait();
                                 var playlist_id = $(currentObject).attr('playlist_id');
                                 var video_id = $(currentObject).attr('video_id');
-                                console.log(playlist_id);
-                                console.log(video_id);
                                 $.ajax({
                                     url: '<?php echo $global['webSiteRootURL']; ?>removeVideoFromPlaylist',
                                     data: {

@@ -468,7 +468,6 @@ if (!empty($video)) {
                                                 </form>
                                                 <script>
                                                     $(document).ready(function () {
-
                                                         $('#btnReloadCapcha').click(function () {
                                                             $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
                                                             $('#captchaText').val('');
@@ -525,92 +524,10 @@ if (!empty($video)) {
                             });
                         </script>
                         <div class="row bgWhite list-group-item">
-                            <?php 
-                            if(User::canSeeCommentTextarea()){
-                            ?>
-                            <div class="input-group">
-                                <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php
-                                if (!User::canComment()) {
-                                    echo "disabled";
-                                }
-                                ?>><?php
-                                              if (!User::canComment()) {
-                                                  echo __("You cannot comment on videos");
-                                              }
-                                              ?></textarea>
-                                <?php if (User::canComment()) { ?>
-                                    <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php
-                                    if (!User::canComment()) {
-                                        echo "disabled='disabled'";
-                                    }
-                                    ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
-                                      <?php } else { ?>
-                                    <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You must login to be able to comment on videos"); ?></a>
-                                <?php } ?>
-                            </div>
-                            <div class="pull-right" id="count_message"></div>
-                            <script>
-                                $(document).ready(function () {
-                                    var text_max = 200;
-                                    $('#count_message').html(text_max + ' <?php echo __("remaining"); ?>');
-                                    $('#comment').keyup(function () {
-                                        var text_length = $(this).val().length;
-                                        var text_remaining = text_max - text_length;
-                                        $('#count_message').html(text_remaining + ' <?php echo __("remaining"); ?>');
-                                    });
-                                });
-                            </script>
                             <?php
-                            }
+                                include './videoComments.php';
                             ?>
-                            <h4><?php echo __("Comments"); ?>:</h4>
-                            <table id="grid" class="table table-condensed table-hover table-striped nowrapCell">
-                                <thead>
-                                    <tr>
-                                        <th data-column-id="comment" ><?php echo __("Comment"); ?></th>
-                                    </tr>
-                                </thead>
-                            </table>
-
-                            <script>
-                                $(document).ready(function () {
-                                    var grid = $("#grid").bootgrid({
-                                        ajax: true,
-                                        url: "<?php echo $global['webSiteRootURL'] . "comments.json/" . $video['id']; ?>",
-                                        sorting: false,
-                                        templates: {
-                                            header: ""
-                                        }
-                                    });
-                                    $('#saveCommentBtn').click(function () {
-                                        if ($(this).attr('disabled') === 'disabled') {
-                                            return false;
-                                        }
-                                        if ($('#comment').val().length > 5) {
-                                            modal.showPleaseWait();
-                                            $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>saveComment',
-                                                method: 'POST',
-                                                data: {'comment': $('#comment').val(), 'video': "<?php echo $video['id']; ?>"},
-                                                success: function (response) {
-                                                    if (response.status === "1") {
-                                                        swal("<?php echo __("Congratulations"); ?>!", "<?php echo __("Your comment has been saved!"); ?>", "success");
-                                                        $('#comment').val('');
-                                                        $('#grid').bootgrid('reload');
-                                                    } else {
-                                                        swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
-                                                    }
-                                                    modal.hidePleaseWait();
-                                                }
-                                            });
-                                        } else {
-                                            swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
-                                        }
-                                    });
-                                });
-                            </script>
                         </div>
-
                     </div>
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
                         <?php

@@ -235,9 +235,17 @@ $advancedCustom = json_decode($json_file);
                         </li>
                         <li>
                             <div>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-block" style="border-radius: 0 0 4px 4px;">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-block" style="border-radius: 0">
                                     <span class="fa fa-check"></span>
                                     <?php echo __("Subscriptions"); ?>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>comments" class="btn btn-default btn-block" style="border-radius: 0 0 4px 4px;">
+                                    <span class="fa fa-comment"></span>
+                                    <?php echo __("Comments"); ?>
                                 </a>
                             </div>
                         </li>
