@@ -222,7 +222,7 @@ include 'include/navbar.php';
                                 </div>
                             </div>
                         </div>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>videos">
+                        <a href="<?php echo $global['webSiteRootURL']; ?>comments">
                             <div class="panel-footer">
                                 <span class="pull-left"><?php echo __("View Details"); ?></span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
