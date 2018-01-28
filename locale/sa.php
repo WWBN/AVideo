@@ -111,9 +111,9 @@ $t['Welcome %s, update your informations'] = "مرحبا %s، تحديث الم�
 $t['Word Translations'] = "ترجمة الكلمات";
 $t['Yes, delete it!'] = "نعم، حذفه!";
 $t['You are running YouPHPTube version %s!'] = "أنت تقوم بتشغيل٪ يوفبتيوب الإصدار %s!";
-$t['You can not manager categories'] = "لا يمكنك إدارة الفئات";
-$t['You can not manager users'] = "لا يمكنك إدارة المستخدمين";
-$t['You can not manager videos'] = "لا يمكنك إدارة مقاطع الفيديو";
+$t['You can not manage categories'] = "لا يمكنك إدارة الفئات";
+$t['You can not manage users'] = "لا يمكنك إدارة المستخدمين";
+$t['You can not manage videos'] = "لا يمكنك إدارة مقاطع الفيديو";
 $t['You need a user and passsword to register'] = "كنت في حاجة الى مستخدم و باسورد للتسجيل";
 $t['You need to make your locale folder writable'] = "تحتاج إلى جعل مجلد اللغة للكتابة";
 $t['You will not be able to recover this category!'] = "لن تكون قادرا على استرداد هذه الفئة!";
