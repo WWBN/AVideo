@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager subscribes"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage subscribes"));
     exit;
 }
 ?>
