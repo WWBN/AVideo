@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager videos"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage videos"));
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/category.php';

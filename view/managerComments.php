@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isLogged()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager comments"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage comments"));
     exit;
 }
 require_once $global['systemRootPath'] . 'objects/comment.php';
