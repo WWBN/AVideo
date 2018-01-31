@@ -30,6 +30,7 @@ $apiContext = new \PayPal\Rest\ApiContext(
 // Step 2.1 : Between Step 2 and Step 3
 $apiContext->setConfig(
       array(
+        'mode' => ($obj->disableSandbox?'live':'sandbox'),
         'log.LogEnabled' => true,
         'log.FileName' => $global['systemRootPath'].'videos/PayPal.log',
         'log.LogLevel' => 'DEBUG'
