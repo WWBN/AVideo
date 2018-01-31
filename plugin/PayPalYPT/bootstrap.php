@@ -33,6 +33,6 @@ $apiContext->setConfig(
         'mode' => ($obj->disableSandbox?'LIVE':'sandbox'),
         'log.LogEnabled' => true,
         'log.FileName' => $global['systemRootPath'].'videos/PayPal.log',
-        'log.LogLevel' => ($obj->disableSandbox?'INFO':'DEBUG')
+        'log.LogLevel' => 'DEBUG'
       )
 );
