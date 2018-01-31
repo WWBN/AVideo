@@ -130,12 +130,12 @@ if (User::canStream()) {
                         title = response.applications[i].title;
                         name = response.applications[i].name;
                         user = response.applications[i].user;
-                        photo = response.applications[i].photo;
+                        photo = response.applications[i].UserPhoto;
                         online = response.applications[i].users.online;
                         views = response.applications[i].users.views;
                         key = response.applications[i].key;
-                        createLiveItem(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, false, online, views, key);
-                        createExtraVideos(href, title, name, "<?php echo $global['webSiteRootURL']; ?>" + photo, user, online, views, key, disableGif);
+                        createLiveItem(href, title, name, photo, false, online, views, key);
+                        createExtraVideos(href, title, name, photo, user, online, views, key, disableGif);
                     }
                     mouseEffect();
                 } else {
