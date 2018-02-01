@@ -243,3 +243,16 @@ function copyToClipboard(text) {
   document.execCommand("copy");
   $temp.remove();
 }
+
+function addView(videos_id){
+    $.ajax({
+        url: webSiteRootURL + 'addViewCountVideo',
+        method: 'POST',
+        data: {
+            'id': videos_id
+        },
+        success: function (response) {
+            console.log(response);
+        }
+    });
+}

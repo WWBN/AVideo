@@ -30,6 +30,10 @@ if ($video['type'] !== "audio") {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
+        
+        <script>
+            var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+        </script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
         echo YouPHPTubePlugin::getHeadCode();
@@ -113,6 +117,10 @@ if ($video['type'] !== "audio") {
                         $('#mainVideo').bind('contextmenu', function () {
                             return false;
                         });
+                        player = videojs('mainVideo');
+                        player.on('play', function () {
+                            addView(<?php echo $video['id']; ?>);
+                          });
                     });
                 </script>
                 <?php

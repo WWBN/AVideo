@@ -181,6 +181,9 @@ if (!empty($ad)) {
         videojs.registerComponent('teater', teater);
         player.getChild('controlBar').addChild('teater', {}, 8);
         player.zoomrotate(<?php echo $transformation; ?>);
+        player.on('play', function () {
+            addView(<?php echo $playNowVideo['id']; ?>);
+          });
         player.ready(function () {
 <?php
 if ($config->getAutoplay()) {
