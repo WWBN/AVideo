@@ -61,7 +61,7 @@ class Cache extends PluginAbstract {
         if (!file_exists($obj->cacheDir)) {
             mkdir($obj->cacheDir, 0777, true);
         }
-        if(empty(User) || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){
+        if(!class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){
             file_put_contents($cachefile, $c);
         }
         if ($obj->logPageLoadTime) {
