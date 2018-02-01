@@ -42,20 +42,22 @@ class Cache extends PluginAbstract {
 
     public function getStart() {
         global $global;
-        $obj = $this->getDataObject();
+        $obj = $this->getDataObject();       
         if ($obj->logPageLoadTime) {
             $this->start();
         }
-        $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.cache
-        if (file_exists($cachefile) && time() - $obj->cacheTimeInSeconds <= filemtime($cachefile)) {
-            $c = @file_get_contents($cachefile);
-            echo $c;
-            if ($obj->logPageLoadTime) {
-                $this->end("Cache");
+        if(!class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){ 
+            $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.cache
+            if (file_exists($cachefile) && time() - $obj->cacheTimeInSeconds <= filemtime($cachefile)) {
+                $c = @file_get_contents($cachefile);
+                echo $c;
+                if ($obj->logPageLoadTime) {
+                    $this->end("Cache");
+                }
+                exit;
+            } else if(file_exists($cachefile)){
+                unlink($cachefile);
             }
-            exit;
-        } else if(file_exists($cachefile)){
-            unlink($cachefile);
         }
         ob_start();
     }
