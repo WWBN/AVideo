@@ -35,7 +35,7 @@ if (empty($_GET['videoName'])) {
     $_GET['videoName'] = $video['clean_title'];
 }
 $obj = new Video("", "", $video['id']);
-$resp = $obj->addView();
+//$resp = $obj->addView();
 if (!empty($_GET['playlist_id'])) {
     $playlist_id = $_GET['playlist_id'];
     if (!empty($_GET['playlist_index'])) {
