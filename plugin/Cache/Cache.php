@@ -19,6 +19,7 @@ class Cache extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
+        $obj->enableCacheForUser = false;
         $obj->enableCacheForLoggedUsers = false;
         $obj->cacheTimeInSeconds = 600;
         $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
@@ -31,7 +32,12 @@ class Cache extends PluginAbstract {
     }
     
     private function getFileName(){
-        return md5($_SERVER['REQUEST_URI'].json_encode($_SESSION)) . '.cache';
+        $obj = $this->getDataObject();
+        $user = "";
+        if(!empty($obj->enableCacheForUser)){
+            $user = json_encode($_SESSION);
+        }
+        return md5($_SERVER['REQUEST_URI'].$user) . '.cache';
     }
 
     public function getStart() {
