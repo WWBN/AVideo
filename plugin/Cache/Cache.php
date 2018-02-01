@@ -19,6 +19,7 @@ class Cache extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
+        $obj->enableCacheForLoggedUsers = false;
         $obj->cacheTimeInSeconds = 600;
         $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
         $obj->logPageLoadTime = false;
@@ -60,7 +61,9 @@ class Cache extends PluginAbstract {
         if (!file_exists($obj->cacheDir)) {
             mkdir($obj->cacheDir, 0777, true);
         }
-        file_put_contents($cachefile, $c);
+        if(empty(User) || !User::isLogged() || $obj->enableCacheForLoggedUsers){
+            file_put_contents($cachefile, $c);
+        }
         if ($obj->logPageLoadTime) {
             $this->end();
         }
