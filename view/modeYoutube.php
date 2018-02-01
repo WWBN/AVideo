@@ -706,3 +706,6 @@ if (!empty($video)) {
 
     </body>
 </html>
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>

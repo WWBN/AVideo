@@ -178,4 +178,20 @@ class YouPHPTubePlugin{
         return $logins;
     }
     
+    public static function getStart() {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $p->getStart();
+        }
+    }
+    
+    public static function getEnd() {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $p->getEnd();
+        }
+    }
+    
 }

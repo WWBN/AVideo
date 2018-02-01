@@ -88,5 +88,13 @@ abstract class PluginAbstract {
     public function getWatchActionButton(){
         return "";
     }
+    
+    public function getStart() {
+        return false;
+    }
+    
+    public function getEnd() {
+        return false;
+    }
 
 }

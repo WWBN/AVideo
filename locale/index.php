@@ -1,7 +1,7 @@
 <?php
 $vars = array();
 require_once '../videos/configuration.php';
-
+ini_set('max_execution_time', 300);
 function listAll($dir) {
     global $vars;
     if ($handle = opendir($dir)) {
