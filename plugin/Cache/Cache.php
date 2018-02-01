@@ -28,6 +28,10 @@ class Cache extends PluginAbstract {
     public function getTags() {
         return array('free', 'cache', 'speed up');
     }
+    
+    private function getFileName(){
+        return md5($_SERVER['REQUEST_URI'].json_encode($_SESSION)) . '.cache';
+    }
 
     public function getStart() {
         global $global;
@@ -35,7 +39,7 @@ class Cache extends PluginAbstract {
         if ($obj->logPageLoadTime) {
             $this->start();
         }
-        $cachefile = $obj->cacheDir . base64_encode($_SERVER['REQUEST_URI']) . '.cache'; // e.g. cache/index.php.cache
+        $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.cache
         if (file_exists($cachefile) && time() - $obj->cacheTimeInSeconds <= filemtime($cachefile)) {
             $c = @file_get_contents($cachefile);
             echo $c;
@@ -51,7 +55,7 @@ class Cache extends PluginAbstract {
 
     public function getEnd() {
         $obj = $this->getDataObject();
-        $cachefile = $obj->cacheDir . base64_encode($_SERVER['REQUEST_URI']) . '.cache';
+        $cachefile = $obj->cacheDir . $this->getFileName();
         $c = ob_get_contents();
         if (!file_exists($obj->cacheDir)) {
             mkdir($obj->cacheDir, 0777, true);
