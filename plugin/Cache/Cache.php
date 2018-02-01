@@ -19,7 +19,6 @@ class Cache extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->enableCacheForLoggedUsers = false;
         $obj->cacheTimeInSeconds = 600;
         $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
         $obj->logPageLoadTime = false;
