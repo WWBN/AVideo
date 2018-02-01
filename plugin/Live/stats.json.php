@@ -16,6 +16,7 @@ $obj->applications = array();
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
+session_write_close();
 $p = YouPHPTubePlugin::loadPlugin("Live");
 $xml = $p->getStatsObject();
 $xml = json_encode($xml);
