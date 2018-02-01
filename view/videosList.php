@@ -211,3 +211,6 @@ foreach ($videos as $key => $value) {
                             }
                         });
 </script>
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>
