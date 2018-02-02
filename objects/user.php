@@ -200,6 +200,10 @@ class User {
         return $photo;
     }
     
+    function getPhotoDB(){
+        return self::getPhoto($this->id);
+    }
+    
     static function getBackground($id = "") {
         global $global;
         if (!empty($id)) {
