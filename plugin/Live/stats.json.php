@@ -61,7 +61,7 @@ foreach ($lifeStream as $value){
         $u = new User($row['users_id']);
         $userName = $u->getNameIdentificationBd();
         $user = $u->getUser();
-        $photo = User::getPhoto($row['users_id']);
+        $photo = $u->getPhotoDB();
         $UserPhoto = $u->getPhoto();
         $obj->applications[] = array("key"=>$value->name, "users"=>$users, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>$row['title']);
         if($value->name === $_POST['name']){

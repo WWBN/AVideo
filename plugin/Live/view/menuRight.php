@@ -130,7 +130,7 @@ if (User::canStream()) {
                         title = response.applications[i].title;
                         name = response.applications[i].name;
                         user = response.applications[i].user;
-                        photo = response.applications[i].UserPhoto;
+                        photo = response.applications[i].photo;
                         online = response.applications[i].users.online;
                         views = response.applications[i].users.views;
                         key = response.applications[i].key;
