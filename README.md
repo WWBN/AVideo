@@ -66,6 +66,10 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
+# Version 4.7
+- Add Channels Browser
+- Add User about field, to be used in their channels
+
 # Version 4.6
 - Improve comments system.
 - like/dislike comments
