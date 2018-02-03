@@ -47,6 +47,7 @@ $channels = Channel::getChannels();
                             <?php
                             $_POST['current'] = 1;
                             $_POST['rowCount'] = 6;
+                            $_POST['sort']['created'] = "DESC";
                             $uploadedVideos = Video::getAllVideos("viewable", $value['id']);
                             foreach ($uploadedVideos as $value2) {
                                 $imgs = Video::getImageFromFilename($value2['filename']);
