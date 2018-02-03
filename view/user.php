@@ -93,6 +93,12 @@ $advancedCustom = json_decode($json_file);
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-md-12 ">
                                         <div id="croppie"></div>
                                         <a id="upload-btn" class="btn btn-primary btn-xs btn-block"><?php echo __("Upload a Photo"); ?></a>
@@ -196,7 +202,13 @@ $advancedCustom = json_decode($json_file);
                             } else {
                                 $.ajax({
                                     url: 'updateUser',
-                                    data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "email": $('#inputEmail').val(), "name": $('#inputName').val()},
+                                    data: {
+                                        "user": $('#inputUser').val(), 
+                                        "pass": $('#inputPassword').val(), 
+                                        "email": $('#inputEmail').val(), 
+                                        "name": $('#inputName').val(), 
+                                        "about": $('#textAbout').val()
+                                    },
                                     type: 'post',
                                     success: function (response) {
                                         if (response.status > "0") {

@@ -19,6 +19,7 @@ class User {
     private $photoURL;
     private $backgroundURL;
     private $recoverPass;
+    private $about;
     private $userGroups = array();
 
     function __construct($id, $user = "", $password = "") {
@@ -43,6 +44,16 @@ class User {
     function getUser() {
         return $this->user;
     }
+    
+    function getAbout() {
+        return $this->about;
+    }
+
+    function setAbout($about) {
+        $this->about = $about;
+    }
+
+        
     function getPassword() {
         return $this->password;
     }
@@ -263,7 +274,7 @@ class User {
             $this->status = 'a';
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}' , modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}', about = '{$this->about}' , modified = now() WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }

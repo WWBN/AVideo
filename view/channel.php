@@ -51,7 +51,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         ?>
 
         <div class="container">
-            <div class="bgWhite list-group-item gallery" >
+            <div class="bgWhite list-group-item gallery clear clearfix" >
                 <div class="row bg-info profileBg" style="background-image: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(); ?>')">
                     <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
                 </div>
@@ -62,6 +62,9 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                         echo Subscribe::getButton($user_id);
                         ?>
                     </span>
+                </div>
+                <div class="col-md-12">
+                    <?php echo $user->getAbout(); ?>
                 </div>
                 <div class="col-md-12">
                     <?php
