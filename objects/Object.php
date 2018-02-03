@@ -96,7 +96,7 @@ abstract class ObjectYPT implements ObjectInterface{
         } else {
             $_POST['current'] = 0;
             $_POST['rowCount'] = 0;
-            $sql .= " LIMIT 12 ";
+            $sql .= " LIMIT 1000 ";
         }
         return $sql;
     }
