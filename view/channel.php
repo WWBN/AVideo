@@ -64,7 +64,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                     </span>
                 </div>
                 <div class="col-md-12">
-                    <?php echo $user->getAbout(); ?>
+                    <?php echo nl2br($user->getAbout()); ?>
                 </div>
                 <div class="col-md-12">
                     <?php
