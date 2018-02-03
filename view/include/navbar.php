@@ -124,7 +124,6 @@ $advancedCustom = json_decode($json_file);
                         <?php
                     }
                     ?>
-
                     <li>
                         <?php
                         $flags = getEnabledLangs();
@@ -351,8 +350,21 @@ $advancedCustom = json_decode($json_file);
                         <?php echo __("Audios"); ?>
                     </a>
                 </li>
+                
+                
+                <!-- Channels -->
+                <li>
+                    <hr>
+                    <h3 class="text-danger"><?php echo __("Channels"); ?></h3>
+                </li>
+                <li>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>channels">
+                        <i class="fa fa-search"></i>
+                        <?php echo __("Browse Channels"); ?>
+                    </a>
+                </li>
+                
                 <!-- categories -->
-
                 <li>
                     <hr>
                     <h3 class="text-danger"><?php echo __("Categories"); ?></h3>

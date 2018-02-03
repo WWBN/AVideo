@@ -182,11 +182,11 @@ function subscribe(email, user_id) {
             if (response.subscribe == "i") {
                 $('.subs'+user_id).removeClass("subscribed");
                 $('.subs'+user_id+' b.text').text("Subscribe");
-                $('b.textTotal').text(parseInt($('b.textTotal').first().text())-1);
+                $('b.textTotal'+user_id).text(parseInt($('b.textTotal'+user_id).first().text())-1);
             } else {
                 $('.subs'+user_id).addClass("subscribed");
                 $('.subs'+user_id+' b.text').text("Subscribed");
-                $('b.textTotal').text(parseInt($('b.textTotal').first().text())+1);
+                $('b.textTotal'+user_id).text(parseInt($('b.textTotal'+user_id).first().text())+1);
             }
             $('#popover-content #subscribeEmail').val(email);
             $('.subscribeButton'+user_id).popover('hide');

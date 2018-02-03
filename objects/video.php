@@ -91,7 +91,7 @@ class Video {
             header('Content-Type: application/json');
             die('{"error":"' . __("Permission denied") . '"}');
         }
-        if(empty($this->title)){
+        if (empty($this->title)) {
             $this->title = uniqid();
         }
         if (empty($this->clean_title)) {
@@ -105,16 +105,16 @@ class Video {
         }
         if (empty($this->categories_id)) {
             $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
-            if($p){
+            if ($p) {
                 $this->categories_id = $p->getCategoryId();
-            }else{
+            } else {
                 $this->categories_id = 1;
             }
         }
         $this->title = $global['mysqli']->real_escape_string(trim($this->title));
         $this->description = $global['mysqli']->real_escape_string($this->description);
-        $this->next_videos_id=intval($this->next_videos_id);
-        if(empty($this->next_videos_id)){
+        $this->next_videos_id = intval($this->next_videos_id);
+        if (empty($this->next_videos_id)) {
             $this->next_videos_id = 'NULL';
         }
         if (!empty($this->id)) {
@@ -191,11 +191,11 @@ class Video {
     function getRotation() {
         return $this->rotation;
     }
-    
+
     function getUsers_id() {
         return $this->users_id;
     }
-    
+
     function setZoom($zoom) {
         $saneZoom = abs(floatval($zoom));
 
@@ -333,7 +333,7 @@ class Video {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $video = $res->fetch_assoc();
-            if(!empty($video['id'])){
+            if (!empty($video['id'])) {
                 return self::getVideo($video['id'], "");
             }
             //$video['groups'] = UserGroups::getVideoGroups($video['id']);
@@ -449,7 +449,7 @@ class Video {
         if (!empty($_GET['catName'])) {
             $cn .= " c.clean_name as cn,";
         }
-        
+
         $sql = "SELECT v.id, c.name as category, {$cn} "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                 . "FROM videos v "
@@ -489,25 +489,24 @@ class Video {
 
         return $res->num_rows;
     }
-    
+
     static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
         $obj = new stdClass();
         $obj->likes = 0;
         $obj->disLikes = 0;
-        $obj->views_count = 0;   
-        $obj->total_minutes = 0;        
-        
-        $videos = static::getAllVideos($status , $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
-        
+        $obj->views_count = 0;
+        $obj->total_minutes = 0;
+
+        $videos = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
+
         foreach ($videos as $value) {
             $obj->likes += intval($value['likes']);
             $obj->disLikes += intval($value['dislikes']);
-            $obj->views_count  += intval($value['views_count']);   
-            $obj->total_minutes += intval(parseDurationToSeconds($value['duration'])/60);  
+            $obj->views_count += intval($value['views_count']);
+            $obj->total_minutes += intval(parseDurationToSeconds($value['duration']) / 60);
         }
-        
+
         return $obj;
-        
     }
 
     static private function getViewableStatus() {
@@ -693,14 +692,14 @@ class Video {
         $parts = explode(':', $duration);
         return 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
     }
-    
+
     static function getItemDurationSeconds($duration = '') {
-        if($duration=="EE:EE:EE"){
+        if ($duration == "EE:EE:EE") {
             return 0;
         }
         $duration = static::getCleanDuration($duration);
         $parts = explode(':', $duration);
-        return intval($parts[0]*60*60) + intval($parts[1]*60) + intval($parts[2]);
+        return intval($parts[0] * 60 * 60) + intval($parts[1] * 60) + intval($parts[2]);
     }
 
     static function getDurationFromFile($file) {
@@ -1052,20 +1051,20 @@ class Video {
     function setNext_videos_id($next_videos_id) {
         $this->next_videos_id = $next_videos_id;
     }
-        
+
     function queue() {
         global $config;
-        if(!User::canUpload()){
+        if (!User::canUpload()) {
             return false;
         }
         global $global;
         $obj = new stdClass();
         $obj->error = true;
 
-        $target = $config->getEncoderURL(). "queue";
+        $target = $config->getEncoderURL() . "queue";
         $postFields = array(
             'user' => User::getUserName(),
-            'pass' => User::getUserPass(), 
+            'pass' => User::getUserPass(),
             'fileURI' => $global['webSiteRootURL'] . "videos/original_{$this->getFilename()}",
             'filename' => $this->getFilename(),
             'videos_id' => $this->getId(),
@@ -1121,7 +1120,7 @@ class Video {
                 if (!file_exists($thumbsSource)) {
                     im_resize($jpegSource, $thumbsSource, 250, 140);
                 }
-            }else{
+            } else {
                 $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
                 $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfound.jpg";
             }
