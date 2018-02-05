@@ -94,7 +94,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </div>
                             <div class="col-md-8">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
-                                    <h2><?php echo $video['title']; ?></h2>
+                                    <h1><?php echo $video['title']; ?></h1>
                                 </a>
                                 <h4><?php echo $video['description']; ?></h4>
                                 <span class="watch-view-count" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
