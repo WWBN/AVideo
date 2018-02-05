@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `youtubeId` VARCHAR(45) NULL,
   `videoLink` VARCHAR(255) NULL,
   `next_videos_id` INT NULL,
+  `isSuggested` INT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
