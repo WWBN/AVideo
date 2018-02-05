@@ -27,6 +27,7 @@ class Video {
     private $videoDownloadedLink;
     private $videoLink;
     private $next_videos_id;
+    private $isSuggested;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
     private $videoGroups;
     private $videoAdsCount;
@@ -103,6 +104,13 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'e';
         }
+        
+        if(empty($this->isSuggested)){
+            $this->isSuggested = 0;
+        }else{
+            $this->isSuggested = 1;
+        }
+        
         if (empty($this->categories_id)) {
             $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
             if ($p) {
@@ -124,7 +132,7 @@ class Video {
             }
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                     . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, modified = now()"
+                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, modified = now()"
                     . " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos "
@@ -158,6 +166,19 @@ class Video {
 
     function setDuration($duration) {
         $this->duration = $duration;
+    }
+    
+    function getIsSuggested() {
+        return $this->isSuggested;
+    }
+
+    function setIsSuggested($isSuggested) {
+        if(empty($isSuggested) || $isSuggested==="false"){
+            $this->isSuggested = 0;
+        }else{            
+            $this->isSuggested = 1;
+        }
+        
     }
 
     function setStatus($status) {
@@ -238,8 +259,8 @@ class Video {
         }
         return " AND " . $sql;
     }
-
-    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false) {
+    
+    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
         global $global;
         $id = intval($id);
 
@@ -281,6 +302,10 @@ class Video {
         }
         if (!empty($_SESSION['type'])) {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
+        }
+        
+        if($suggetedOnly){
+            $sql .= " AND v.isSuggested = 1 ";
         }
 
 

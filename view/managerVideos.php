@@ -667,6 +667,16 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
                                                     var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fa fa-repeat " aria-hidden="true"></span></button>';
                                                     var rotateBtn = "<br>" + rotateLeft + rotateRight;
+                                                    
+                                                    
+                                                    var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="fa fa-star" aria-hidden="true"></i></button>';
+                                                    var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fa fa-star-o" aria-hidden="true"></i></button>';
+                                                    var suggestBtn =  unsuggest;
+                                                    
+                                                    if (row.isSuggested == "1") {
+                                                        suggestBtn =  suggest;
+                                                    }
+                                                    
                                                     if (row.type == "audio") {
                                                         rotateBtn = "";
                                                     }
@@ -689,7 +699,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     } else {
                                                         return editBtn + deleteBtn;
                                                     }
-                                                    return editBtn + deleteBtn + status + rotateBtn + pluginsButtons+download;
+                                                    return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons+ "<br>"+download;
                                                 },
                                                 "tags": function (column, row) {
                                                     var tags = "";
@@ -956,6 +966,25 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     }
                                                 });
                                             });
+                                            
+                                            
+                                            grid.find(".command-suggest").on("click", function (e) {
+                                                var row_index = $(this).closest('tr').index();
+                                                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                                                
+                                                var isSuggested = $(this).hasClass('unsuggest');
+                                                
+                                                modal.showPleaseWait();
+                                                $.ajax({
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoSuggest.php',
+                                                    data: {"id": row.id, "isSuggested": isSuggested},
+                                                    type: 'post',
+                                                    success: function (response) {
+                                                        $("#grid").bootgrid("reload");
+                                                        modal.hidePleaseWait();
+                                                    }
+                                                });
+                                            })
                                             setTimeout(function () {
                                                 checkProgress()
                                             }, 500);
