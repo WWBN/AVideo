@@ -30,7 +30,7 @@ if (!empty($_GET['catName'])) {
     $catLink = "cat/{$_GET['catName']}/";
 }
 
-$video = Video::getVideo("", "viewableNotAd", false, true, true) ;
+$video = Video::getVideo("", "viewableNotAd", false, false, true) ;
 if(empty($video)){
     $video = Video::getVideo("", "viewableNotAd") ;
 }

@@ -25,7 +25,7 @@ if (!empty($_GET['type'])) {
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 
-$video = Video::getVideo("", "viewableNotAd", false, true, true);
+$video = Video::getVideo("", "viewableNotAd", false, false, true);
 if(empty($video)){
     $video = Video::getVideo("", "viewableNotAd") ;
 }

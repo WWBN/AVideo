@@ -326,12 +326,11 @@ class Video {
         } elseif (!empty($random)) {
             $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
-        } else {
-            $sql .= " ORDER BY v.Created DESC ";
-        }
-
-        if ($suggetedOnly && empty($_GET['videoName'])) {
+        } else if ($suggetedOnly && empty($_GET['videoName'])) {
             $sql .= " AND v.isSuggested = 1 ";
+            $sql .= " ORDER BY RAND() ";
+        }else {
+            $sql .= " ORDER BY v.Created DESC ";
         }
         $sql .= " LIMIT 1";
         /*
