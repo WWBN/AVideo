@@ -96,5 +96,10 @@ abstract class PluginAbstract {
     public function getEnd() {
         return false;
     }
+    
+    public function canEditPlugin(){
+        global $global;
+        return empty($global['disableAdvancedConfigurations']);
+    }
 
 }
