@@ -101,5 +101,9 @@ abstract class PluginAbstract {
         global $global;
         return empty($global['disableAdvancedConfigurations']);
     }
+    
+    public function hidePlugin(){
+        return false;
+    }
 
 }
