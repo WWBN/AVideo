@@ -104,13 +104,13 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'e';
         }
-        
-        if(empty($this->isSuggested)){
+
+        if (empty($this->isSuggested)) {
             $this->isSuggested = 0;
-        }else{
+        } else {
             $this->isSuggested = 1;
         }
-        
+
         if (empty($this->categories_id)) {
             $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
             if ($p) {
@@ -167,18 +167,17 @@ class Video {
     function setDuration($duration) {
         $this->duration = $duration;
     }
-    
+
     function getIsSuggested() {
         return $this->isSuggested;
     }
 
     function setIsSuggested($isSuggested) {
-        if(empty($isSuggested) || $isSuggested==="false"){
+        if (empty($isSuggested) || $isSuggested === "false") {
             $this->isSuggested = 0;
-        }else{            
+        } else {
             $this->isSuggested = 1;
         }
-        
     }
 
     function setStatus($status) {
@@ -259,7 +258,7 @@ class Video {
         }
         return " AND " . $sql;
     }
-    
+
     static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
         global $global;
         $id = intval($id);
@@ -303,7 +302,7 @@ class Video {
         if (!empty($_SESSION['type'])) {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
-        
+
 
 
         if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
@@ -319,10 +318,6 @@ class Video {
 
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
-        }else{            
-            if($suggetedOnly){
-                $sql .= " AND v.isSuggested = 1 ";
-            }
         }
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
@@ -333,6 +328,10 @@ class Video {
             $sql .= " ORDER BY RAND() ";
         } else {
             $sql .= " ORDER BY v.Created DESC ";
+        }
+
+        if ($suggetedOnly && empty($_GET['videoName'])) {
+            $sql .= " AND v.isSuggested = 1 ";
         }
         $sql .= " LIMIT 1";
         /*
