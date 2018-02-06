@@ -304,9 +304,6 @@ class Video {
             $sql .= " AND v.type = '{$_SESSION['type']}' ";
         }
         
-        if($suggetedOnly){
-            $sql .= " AND v.isSuggested = 1 ";
-        }
 
 
         if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
@@ -322,6 +319,10 @@ class Video {
 
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
+        }else{            
+            if($suggetedOnly){
+                $sql .= " AND v.isSuggested = 1 ";
+            }
         }
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
