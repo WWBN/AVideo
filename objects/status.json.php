@@ -20,5 +20,5 @@ $obj->oauthLogin = array();
 $obj->oauthLogin[] = array('type'=>'Facebook', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginFacebook')));
 $obj->oauthLogin[] = array('type'=>'Google', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginGoogle')));
 $obj->oauthLogin[] = array('type'=>'Twitter', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginTwitter')));
-$obj->oauthLogin[] = array('type'=>'LinkedIn', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginLinkedIn')));
+$obj->oauthLogin[] = array('type'=>'LinkedIn', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginLinkedin')));
 echo json_encode($obj);
