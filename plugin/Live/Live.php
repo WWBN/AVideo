@@ -34,6 +34,7 @@ class Live extends PluginAbstract {
         //$obj->playerServer = "https://{$server['host']}:444/live";
         $obj->stats = "http://{$server['host']}:8080/stat";
         $obj->disableGifThumbs = false;
+        $obj->useLowResolution = false;
         return $obj;
     }
 
@@ -54,7 +55,11 @@ class Live extends PluginAbstract {
 
     public function getPlayerServer() {
         $o = $this->getDataObject();
-        return $o->playerServer;
+        $playerServer = $o->playerServer;
+        if(!empty($o->useLowResolution)){
+            $playerServer = str_replace("/live", "/low", $playerServer);
+        }
+        return $playerServer;
     }
 
     public function getDisableGifThumbs() {
