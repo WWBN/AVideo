@@ -1,3 +1,10 @@
 body{
     background-color: #EEE;
 }
+/* The right sidebar CSS modification */  
+
+.compress { 
+
+top: 1px !important; 
+
+}
