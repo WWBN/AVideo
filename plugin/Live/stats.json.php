@@ -13,7 +13,7 @@ if(empty($_POST['name']) && !empty($_GET['name'])){
 }
 $obj->name = $_POST['name'];
 $obj->applications = array();
-$_GET['lifetime'] = "5";
+$_GET['lifetime'] = "20";
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
