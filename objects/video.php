@@ -1005,6 +1005,53 @@ class Video {
         }
         return $clean_title;
     }
+    
+    /**
+     * 
+     * @global type $global
+     * @param type $videos_id
+     * @param type $users_id if is empty will use the logged user
+     * @return boolean
+     */
+    static function isOwner($videos_id, $users_id=0) {
+        global $global;
+        if(empty($users_id)){
+            $users_id = User::getId();
+            if(empty($users_id)){
+                return false;
+            }
+        }
+        $sql = "SELECT * FROM videos WHERE id = {$videos_id} AND users_id = $users_id ";
+        $sql .= " LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        return !empty($res);
+    }
+    
+    /**
+     * 
+     * @param type $videos_id
+     * @param type $users_id if is empty will use the logged user
+     * @return boolean
+     */
+    static function canEdit($videos_id, $users_id=0) {
+        if(empty($users_id)){
+            $users_id = User::getId();
+            if(empty($users_id)){
+                return false;
+            }
+        }
+        $user = new User($users_id);
+        if(empty($user)){
+            return false;
+        }
+        
+        if($user->getIsAdmin()){
+            return true;
+        }
+        
+        return self::isOwner($videos_id, $users_id);        
+        
+    }
 
     static function getRandom($excludeVideoId = false) {
         return static::getVideo("", "viewableNotAd", false, $excludeVideoId);

@@ -1,5 +1,5 @@
 /*!
- * bootstrap-fileinput v4.4.4
+ * bootstrap-fileinput v4.4.7
  * http://plugins.krajee.com/file-input
  *
  * Krajee Explorer Font Awesome theme configuration for bootstrap-fileinput. 
@@ -7,7 +7,7 @@
  * font awesome assets and CSS are loaded on the page as well.
  *
  * Author: Kartik Visweswaran
- * Copyright: 2014 - 2017, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014 - 2018, Kartik Visweswaran, Krajee.com
  *
  * Licensed under the BSD 3-Clause
  * https://github.com/kartik-v/bootstrap-fileinput/blob/master/LICENSE.md
@@ -33,7 +33,7 @@
             actions: '{drag}\n' +
             '<div class="file-actions">\n' +
             '    <div class="file-footer-buttons">\n' +
-            '        {upload} {delete} {zoom} {other} ' +
+            '        {upload} {download} {delete} {zoom} {other} ' +
             '    </div>\n' +
             '</div>',
             zoomCache: '<tr style="display:none" class="kv-zoom-cache-theme"><td>' +
@@ -58,15 +58,15 @@
         },
         frameClass: 'explorer-frame',
         fileActionSettings: {
-            removeIcon: '<i class="fa fa-trash text-danger"></i>',
-            uploadIcon: '<i class="fa fa-upload text-info"></i>',
-            uploadRetryIcon: '<i class="fa fa-repeat text-info"></i>',
+            removeIcon: '<i class="fa fa-trash"></i>',
+            uploadIcon: '<i class="fa fa-upload"></i>',
+            uploadRetryIcon: '<i class="fa fa-repeat"></i>',
             zoomIcon: '<i class="fa fa-search-plus"></i>',
-            dragIcon: '<i class="fa fa-bars"></i>',
-            indicatorNew: '<i class="fa fa-hand-o-down text-warning"></i>',
+            dragIcon: '<i class="fa fa-arrows"></i>',
+            indicatorNew: '<i class="fa fa-plus-circle text-warning"></i>',
             indicatorSuccess: '<i class="fa fa-check-circle text-success"></i>',
             indicatorError: '<i class="fa fa-exclamation-circle text-danger"></i>',
-            indicatorLoading: '<i class="fa fa-hand-o-up text-muted"></i>'
+            indicatorLoading: '<i class="fa fa-hourglass text-muted"></i>'
         },
         previewZoomButtonIcons: {
             prev: '<i class="fa fa-caret-left fa-lg"></i>',
