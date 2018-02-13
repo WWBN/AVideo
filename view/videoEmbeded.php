@@ -132,3 +132,7 @@ if ($video['type'] !== "audio") {
         ?>
     </body>
 </html>
+
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>
