@@ -39,5 +39,5 @@ require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'].'objects/plugin.php';
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
 if(class_exists("Plugin")){YouPHPTubePlugin::getStart();}
-else{error_log("Class Plugin Not found");}
+else{error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");}
 $global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm');
