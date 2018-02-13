@@ -82,7 +82,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                        $poster = $images->thumbsJpg;
                                        ?>
                                     <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" 
-                                         class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $video['rotation']; ?>"
+                                         class="thumbsJPG img img-responsive "
                                          />
     <?php
     if (!empty($imgGif)) {
