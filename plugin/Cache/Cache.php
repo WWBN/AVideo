@@ -47,7 +47,11 @@ class Cache extends PluginAbstract {
             $this->start();
         }
         if(!class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){ 
-            $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.cache
+            $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
+            $lifetime = $obj->cacheTimeInSeconds;
+            if(!empty($_GET['lifetime'])){
+                $lifetime = intval($_GET['lifetime']);
+            }            
             if (file_exists($cachefile) && time() - $obj->cacheTimeInSeconds <= filemtime($cachefile)) {
                 $c = @file_get_contents($cachefile);
                 echo $c;

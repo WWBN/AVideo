@@ -13,6 +13,7 @@ if(empty($_POST['name']) && !empty($_GET['name'])){
 }
 $obj->name = $_POST['name'];
 $obj->applications = array();
+$_GET['lifetime'] = "5";
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
@@ -74,3 +75,5 @@ foreach ($lifeStream as $value){
     }
 }
 echo json_encode($obj);
+
+include $global['systemRootPath'].'objects/include_end.php';
