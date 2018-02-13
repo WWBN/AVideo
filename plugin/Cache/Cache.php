@@ -52,7 +52,7 @@ class Cache extends PluginAbstract {
             if(!empty($_GET['lifetime'])){
                 $lifetime = intval($_GET['lifetime']);
             }            
-            if (file_exists($cachefile) && time() - $obj->cacheTimeInSeconds <= filemtime($cachefile)) {
+            if (file_exists($cachefile) && time() - $lifetime <= filemtime($cachefile)) {
                 $c = @file_get_contents($cachefile);
                 echo $c;
                 if ($obj->logPageLoadTime) {
