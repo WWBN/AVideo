@@ -87,10 +87,18 @@ class Cache extends PluginAbstract {
 
     private function end($type = "No Cache") {
         global $global;
+        require_once $global['systemRootPath'] . 'objects/user.php';
         $time = microtime();
         $time = explode(' ', $time);
         $time = $time[1] + $time[0];
         $finish = $time;
+        
+        if(User::isLogged()){
+            $type = "User: ".User::getUserName()." - ".$type;
+        }else{
+            $type = "User: Not Logged - ".$type;            
+        }
+        
         $total_time = round(($finish - $global['start']), 4);
         error_log("{$type}: Page generated in {$total_time} seconds. ({$_SERVER['REQUEST_URI']})");
     }
