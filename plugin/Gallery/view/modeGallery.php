@@ -188,3 +188,6 @@ include 'include/footer.php';
 
     </body>
 </html>
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>
