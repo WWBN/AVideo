@@ -7,7 +7,7 @@ if (!file_exists('../videos/configuration.php')) {
 }
 
 require_once '../videos/configuration.php';
-
+session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
