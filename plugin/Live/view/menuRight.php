@@ -143,7 +143,7 @@ if (User::canStream()) {
                 }
                 setTimeout(function () {
                     getStatsMenu();
-                }, 2000);
+                }, 10000);
             }
         });
     }
