@@ -12,6 +12,10 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
+$img = "{$global['webSiteRootURL']}img/notfound.jpg";
+$imgw = 1280;
+$imgh = 720;
+
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
         $_SESSION['type'] = 'audio';
