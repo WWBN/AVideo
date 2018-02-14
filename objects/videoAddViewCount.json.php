@@ -19,5 +19,5 @@ if(!in_array($_POST['id'],$_SESSION['addViewCount'])){
 }else{
     $resp = 0;
 }
-$count = $obj->getView_count();
+$count = $obj->getViews_count();
 echo '{"status":"'.!empty($resp).'","count":"'.$count.'"}';
