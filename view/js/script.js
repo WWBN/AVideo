@@ -252,6 +252,7 @@ function addView(videos_id){
             'id': videos_id
         },
         success: function (response) {
+            $('.view-count'+videos_id).text(response.count);
             console.log(response);
         }
     });

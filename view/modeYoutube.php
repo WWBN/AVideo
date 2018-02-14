@@ -178,7 +178,7 @@ if (!empty($video)) {
                                         </small>
                                     </h1>
                                     <div class="col-xs-12 col-sm-12 col-md-12"><?php echo $video['creator']; ?></div>
-                                    <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
+                                    <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
                                 </div>
                             </div>
 

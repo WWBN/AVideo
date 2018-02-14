@@ -72,6 +72,7 @@ class Video {
 
         if ($insert_row) {
             VideoStatistic::save($this->id);
+            $this->view_count++;
             return $this->id;
         } else {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -1200,5 +1201,11 @@ class Video {
         }
         return $obj;
     }
+    
+    function getView_count() {
+        return intval($this->view_count);
+    }
+
+
 
 }
