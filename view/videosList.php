@@ -117,7 +117,7 @@ foreach ($videos as $key => $value) {
                         <?php echo $value['category']; ?>
                     </div>
                     <div>
-                        <strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                        <strong class="view-count<?php echo $value['id']; ?>"><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
                     </div>
                     <div><?php echo $value['creator']; ?></div>
 
