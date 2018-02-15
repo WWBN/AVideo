@@ -46,6 +46,10 @@ class SeekButton extends PluginAbstract {
                     . '</script>';
             return $js;
         }
+    }    
+        
+    public function getTags() {
+        return array('free', 'buttons', 'video player');
     }
 
 
