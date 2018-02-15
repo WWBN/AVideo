@@ -257,3 +257,13 @@ function addView(videos_id){
         }
     });
 }
+
+function getPlayerButtonIndex(name){
+    var children = player.getChild('controlBar').children();
+    for(i=0;i<children.length;i++){
+        if(children[0].name_ === name){
+            return i;
+        }
+    }
+    return children.length;
+}
