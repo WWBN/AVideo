@@ -749,3 +749,6 @@ z-index:100;
 .principalContainer{
     position: relative;
 }
+.vjs-button-fa-size{
+    font-size: 14px !important;
+}
