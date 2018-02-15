@@ -1,7 +1,7 @@
 <?php
 global $t;
 $t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<p> YouPHPTube！是一个视频分享网站，该服务由Daniel Neto于2017年3月制作。</p><p>该软件允许您上传，查看，分享和评论视频，并利用WebM和H.264 / MPEG-4 AVC显示各种用户生成的和企业的媒体视频。 </p><p>最重要的是，YouPHPTube！是一个免费提供给大家的开源解决方案。</p>";
-$t['About YouPHPTube!'] = "关于你PHPTube！";
+$t['About YouPHPTube!'] = "关于YouPHPTube！";
 $t['About'] = "关于";
 $t['Activate'] = "启用";
 $t['Active'] = "活性";
