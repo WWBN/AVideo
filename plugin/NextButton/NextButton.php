@@ -26,6 +26,11 @@ class NextButton extends PluginAbstract {
             return $js;
         }
     }
+        
+    public function getTags() {
+        return array('free', 'buttons', 'video player');
+    }
+
 
 
 }
