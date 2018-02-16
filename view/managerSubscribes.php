@@ -33,8 +33,7 @@ if (!User::canUpload()) {
             <table id="grid" class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                        <th data-column-id="name" ><?php echo __("Subscribed to user"); ?></th>
-                        <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
+                        <th data-column-id="identification" ><?php echo __("Subscribed to user"); ?></th>
                         <th data-column-id="created" ><?php echo __("Created"); ?></th>
                         <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
                         <th data-column-id="status" data-formatter="status" data-sortable="false"><?php echo __("Status"); ?></th>
