@@ -103,6 +103,7 @@ class Subscribe {
         $subscribe = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
+                $row['identification'] = User::getNameIdentificationById($row['users_id']);
                 $subscribe[] = $row;
             }
             //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
