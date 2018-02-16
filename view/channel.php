@@ -51,17 +51,20 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         ?>
 
         <div class="container">
-            <div class="bgWhite list-group-item gallery" >
+            <div class="bgWhite list-group-item gallery clear clearfix" >
                 <div class="row bg-info profileBg" style="background-image: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(); ?>')">
                     <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
                 </div>
                 <div class="col-md-12">
-                    <h1 class="pull-left"><?php echo $user->_getName(); ?></h1>
+                    <h1 class="pull-left"><?php echo $user->getNameIdentificationBd(); ?></h1>
                     <span class="pull-right">
                         <?php
                         echo Subscribe::getButton($user_id);
                         ?>
                     </span>
+                </div>
+                <div class="col-md-12">
+                    <?php echo nl2br($user->getAbout()); ?>
                 </div>
                 <div class="col-md-12">
                     <?php
@@ -245,8 +248,6 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 modal.showPleaseWait();
                                 var playlist_id = $(currentObject).attr('playlist_id');
                                 var video_id = $(currentObject).attr('video_id');
-                                console.log(playlist_id);
-                                console.log(video_id);
                                 $.ajax({
                                     url: '<?php echo $global['webSiteRootURL']; ?>removeVideoFromPlaylist',
                                     data: {

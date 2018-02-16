@@ -105,3 +105,7 @@ if(empty($imgw) || empty($imgh)){
         
     </body>
 </html>
+
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>

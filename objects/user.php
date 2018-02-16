@@ -19,6 +19,7 @@ class User {
     private $photoURL;
     private $backgroundURL;
     private $recoverPass;
+    private $about;
     private $userGroups = array();
 
     function __construct($id, $user = "", $password = "") {
@@ -43,6 +44,16 @@ class User {
     function getUser() {
         return $this->user;
     }
+    
+    function getAbout() {
+        return $this->about;
+    }
+
+    function setAbout($about) {
+        $this->about = $about;
+    }
+
+        
     function getPassword() {
         return $this->password;
     }
@@ -124,14 +135,15 @@ class User {
      * @return String
      */
     static function getNameIdentification(){
+        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         if(self::isLogged()){
-            if(!empty(self::getName())){
+            if(!empty(self::getName()) && empty($advancedCustom->doNotIndentifyByName)){
                 return self::getName();
             }
-            if(!empty(self::getMail())){
+            if(!empty(self::getMail()) && empty($advancedCustom->doNotIndentifyByEmail)){
                 return self::getMail();
             }
-            if(!empty(self::getUserName())){
+            if(!empty(self::getUserName()) && empty($advancedCustom->doNotIndentifyByUserName)){
                 return self::getUserName();
             }
         }
@@ -143,15 +155,24 @@ class User {
      * @return String
      */
     function getNameIdentificationBd(){
-        if(!empty($this->name)){
+        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+        if(!empty($this->name) && empty($advancedCustom->doNotIndentifyByName)){
             return $this->name;
         }
-        if(!empty($this->email)){
+        if(!empty($this->email) && empty($advancedCustom->doNotIndentifyByEmail)){
             return $this->email;
         }
-        if(!empty($this->user)){
+        if(!empty($this->user) && empty($advancedCustom->doNotIndentifyByUserName)){
             return $this->user;
         }
+        return __("Unknown User");
+    }
+    
+    static function getNameIdentificationById($id = "") {
+        if (!empty($id)) {
+            $user = new User($id);
+            return $user->getNameIdentificationBd();
+        } 
         return __("Unknown User");
     }
 
@@ -178,10 +199,41 @@ class User {
             $photo = $_SESSION['user']['photoURL'];
         }
         if(!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)){
-            $photo = $global['webSiteRootURL'].$photo;
+            if(file_exists($global['systemRootPath'].$photo)){
+                $photo = $global['webSiteRootURL'].$photo;
+            }else{
+                $photo = "";
+            }
         }
         if (empty($photo)) {
             $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
+        }
+        return $photo;
+    }
+    
+    function getPhotoDB(){
+        return self::getPhoto($this->id);
+    }
+    
+    static function getBackground($id = "") {
+        global $global;
+        if (!empty($id)) {
+            $user = self::findById($id);
+            if (!empty($user)) {
+                $photo = $user['backgroundURL'];
+            }
+        } elseif (self::isLogged()) {
+            $photo = $_SESSION['user']['backgroundURL'];
+        }
+        if(!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)){
+            if(file_exists($global['systemRootPath'].$photo)){
+                $photo = $global['webSiteRootURL'].$photo;
+            }else{
+                $photo = "";
+            }
+        }
+        if (empty($photo)) {
+            $photo = $global['webSiteRootURL'] . "img/background.png";
         }
         return $photo;
     }
@@ -222,7 +274,7 @@ class User {
             $this->status = 'a';
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}' , modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}', about = '{$this->about}' , modified = now() WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
@@ -517,6 +569,16 @@ class User {
             return self::isLogged();
         }
         return self::isAdmin();
+    }
+    
+    static function canSeeCommentTextarea() {
+        global $global, $config;
+        if (!$config->getAuthCanComment()) {
+            if(!self::isAdmin()){
+                return false;
+            }
+        }
+        return true;
     }
 
     function getUserGroups() {

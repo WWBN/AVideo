@@ -166,6 +166,7 @@ footer ul.list-inline li {
 }
 .commentDetails {
     margin: 0 0 0 60px;
+    min-height: 50px;
 }
 /* End Comments */
 
@@ -242,7 +243,7 @@ footer ul.list-inline li {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     padding: 10px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     text-overflow: ellipsis;
 }
 .no-outline {
@@ -268,15 +269,10 @@ footer ul.list-inline li {
     padding: -5px;
     border-bottom: 2px solid #167ac6;
 }
-#likeBtn.myVote span,
-#likeBtn.myVote small {
+.myVote span,
+.myVote small {
     color: #167ac6;
 }
-#dislikeBtn.myVote span,
-#dislikeBtn.myVote small {
-    color: #444;
-}
-
 /* fancy checkbox */
 .material-switch > input[type="checkbox"] {
     display: none;
@@ -749,4 +745,10 @@ z-index:100;
 .transparent{
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
+}
+.principalContainer{
+    position: relative;
+}
+.vjs-button-fa-size{
+    font-size: 14px !important;
 }

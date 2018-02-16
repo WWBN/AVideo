@@ -47,20 +47,45 @@ function humanTiming($time) {
     $time = time() - $time; // to get the time since that moment
     $time = ($time < 1) ? 1 : $time;
     $tokens = array(
-        31536000 => __('year'),
-        2592000 => __('month'),
-        604800 => __('week'),
-        86400 => __('day'),
-        3600 => __('hour'),
-        60 => __('minute'),
-        1 => __('second')
+        31536000 => 'year',
+        2592000 => 'month',
+        604800 => 'week',
+        86400 => 'day',
+        3600 => 'hour',
+        60 => 'minute',
+        1 => 'second'
     );
 
+    /**
+     * For detection propouse only
+     */
+    __('year');
+    __('month');
+    __('week');
+    __('day');
+    __('hour');
+    __('minute');
+    __('second');
+    __('years');
+    __('months');
+    __('weeks');
+    __('days');
+    __('hours');
+    __('minutes');
+    __('seconds');
+    
     foreach ($tokens as $unit => $text) {
         if ($time < $unit)
             continue;
+        
         $numberOfUnits = floor($time / $unit);
-        return $numberOfUnits . ' ' . $text . (($numberOfUnits > 1) ? 's' : '');
+        if($numberOfUnits > 1){
+            $text = __($text."s");
+        }else{
+            $text = __($text);
+        }
+        
+        return $numberOfUnits . ' ' . $text;
     }
 }
 
@@ -336,7 +361,9 @@ function parseVideos($videoString = null){
         $link = $videoString;
     }    
 
-    if (strpos($link, 'youtube.com') !== FALSE) { 
+    if (strpos($link, 'embed') !== FALSE) { 
+        return $link;
+    }else if (strpos($link, 'youtube.com') !== FALSE) { 
 
         preg_match(
         '/[\\?\\&]v=([^\\?\\&]+)/',
@@ -418,6 +445,45 @@ function parseVideos($videoString = null){
 
         $id = $matches[2];  
         return '//vid.me/e/'.$id;
+    }else if (strpos($link, 'rutube.ru') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)\/.*/',
+                $link,
+                $matches
+            );
+        $id = $matches[2];  
+        return '//rutube.ru/play/embed/'.$id;
+    }else if (strpos($link, 'ok.ru') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?ok.ru\/video\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//ok.ru/videoembed/'.$id;
+    }else if (strpos($link, 'streamable.com') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?streamable.com\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//streamable.com/s/'.$id;
+    }else if (strpos($link, 'twitch.tv') !== FALSE) { 
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/',
+                $link,
+                $matches
+            );
+
+        $id = $matches[2];  
+        return '//player.twitch.tv/?channel='.$id.'#';
     }else if (strpos($link, '/video/') !== FALSE) { 
         //extract the ID
         preg_match(
@@ -486,8 +552,9 @@ function getVideosURL($fileName){
 }
 
 function getSources($fileName, $returnArray=false){
+    $videoSources = $audioTracks = $subtitleTracks = "";
     if(function_exists('getVRSSources')){
-        return getVRSSources($fileName, $returnArray);
+        $videoSources = getVRSSources($fileName, $returnArray);
     }else{
         $files = getVideosURL($fileName);
         $sources = "";
@@ -502,8 +569,12 @@ function getSources($fileName, $returnArray=false){
                 $sourcesArray[] = $obj;
             }
         }
-        return $returnArray?$sourcesArray:$sources;
+        $videoSources = $returnArray?$sourcesArray:$sources;
     }
+    if(function_exists('getVTTTracks')){
+        $subtitleTracks = getVTTTracks($fileName, $returnArray);
+    }
+    return $videoSources.$audioTracks.$subtitleTracks;
 }
 
 function im_resize($file_src, $file_dest, $wd, $hd) {

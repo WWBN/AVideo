@@ -54,6 +54,7 @@ abstract class PluginAbstract {
 
     public function getDataObject() {
         $obj = Plugin::getPluginByUUID($this->getUUID());
+        //echo $obj['object_data'];
         $o = json_decode($obj['object_data']);
         $eo = $this->getEmptyDataObject();
         //var_dump($obj['object_data']);
@@ -82,6 +83,27 @@ abstract class PluginAbstract {
         $obj->linkToDevelopersPage = ""; //https://console.developers.google.com/apis/credentials , https://developers.facebook.com/apps
         
         return $obj;
+    }
+    
+    public function getWatchActionButton(){
+        return "";
+    }
+    
+    public function getStart() {
+        return false;
+    }
+    
+    public function getEnd() {
+        return false;
+    }
+    
+    public function canEditPlugin(){
+        global $global;
+        return empty($global['disableAdvancedConfigurations']);
+    }
+    
+    public function hidePlugin(){
+        return false;
     }
 
 }

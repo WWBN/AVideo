@@ -52,15 +52,16 @@ if (!empty($video['clean_title'])) {
     $videoName = $_GET['videoName'];
 }
 ?>
-<div class="col-md-8 col-sm-12 " style="position: relative; z-index: 9999;" >
+<div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
+        <option value="title" data-icon="glyphicon-text-height" value="desc" <?php echo (!empty($_POST['sort']['title']) && $_POST['sort']['title'] == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Title"); ?></option>
         <option value="newest" data-icon="glyphicon-sort-by-attributes" value="desc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'desc') ? "selected='selected'" : "" ?>> <?php echo __("Date Added (newest)"); ?></option>
         <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" value="asc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Date Added (oldest)"); ?></option>
         <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo (!empty($_POST['sort']['likes'])) ? "selected='selected'" : "" ?>> <?php echo __("Most Popular"); ?></option>
         <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most Watched"); ?></option>
     </select>
 </div>
-<div class="col-md-4 col-sm-12" style="position: relative; z-index: 9999;">
+<div class="col-md-4 col-sm-12" style="position: relative; z-index: 2;">
     <select class="form-control" id="rowCount">
         <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '10') ? "selected='selected'" : "" ?>>10</option>
         <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '20') ? "selected='selected'" : "" ?>>20</option>
@@ -75,7 +76,7 @@ foreach ($videos as $key => $value) {
     if (!empty($video['id']) && $video['id'] == $value['id']) {
         continue; // skip video
     }
-    $name = empty($value['name']) ? $value['user'] : $value['name'];
+    $name = User::getNameIdentificationById($value['users_id']);
     $value['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
     ?>
     <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" id="divVideo-<?php echo $value['id']; ?>" itemscope itemtype="http://schema.org/VideoObject">
@@ -116,7 +117,7 @@ foreach ($videos as $key => $value) {
                         <?php echo $value['category']; ?>
                     </div>
                     <div>
-                        <strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                        <strong class="view-count<?php echo $value['id']; ?>"><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
                     </div>
                     <div><?php echo $value['creator']; ?></div>
 
@@ -179,6 +180,8 @@ foreach ($videos as $key => $value) {
                     sortBy = {'created': 'asc'};
                 } else if (sortBy == 'views_count') {
                     sortBy = {'views_count': 'desc'};
+                } else if (sortBy == 'title') {
+                    sortBy = {'title': 'asc'};
                 } else {
                     sortBy = {'likes': 'desc'};
                 }
@@ -211,3 +214,6 @@ foreach ($videos as $key => $value) {
                             }
                         });
 </script>
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>

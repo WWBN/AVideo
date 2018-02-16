@@ -50,11 +50,7 @@ foreach ($videos as $key => $value) {
             break;
         }        
     }
-    if(preg_match("/^videos/", $videos[$key]['photoURL'])){
-        $videos[$key]['UserPhoto'] = "{$global['webSiteRootURL']}".$videos[$key]['photoURL'];
-    }else{
-        $videos[$key]['UserPhoto'] = $videos[$key]['photoURL'];
-    }
+    $videos[$key]['UserPhoto'] = User::getPhoto($videos[$key]['users_id']);
     
 }
 

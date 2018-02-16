@@ -182,11 +182,11 @@ function subscribe(email, user_id) {
             if (response.subscribe == "i") {
                 $('.subs'+user_id).removeClass("subscribed");
                 $('.subs'+user_id+' b.text').text("Subscribe");
-                $('b.textTotal').text(parseInt($('b.textTotal').first().text())-1);
+                $('b.textTotal'+user_id).text(parseInt($('b.textTotal'+user_id).first().text())-1);
             } else {
                 $('.subs'+user_id).addClass("subscribed");
                 $('.subs'+user_id+' b.text').text("Subscribed");
-                $('b.textTotal').text(parseInt($('b.textTotal').first().text())+1);
+                $('b.textTotal'+user_id).text(parseInt($('b.textTotal'+user_id).first().text())+1);
             }
             $('#popover-content #subscribeEmail').val(email);
             $('.subscribeButton'+user_id).popover('hide');
@@ -242,4 +242,28 @@ function copyToClipboard(text) {
   $temp.val(text).select();
   document.execCommand("copy");
   $temp.remove();
+}
+
+function addView(videos_id){
+    $.ajax({
+        url: webSiteRootURL + 'addViewCountVideo',
+        method: 'POST',
+        data: {
+            'id': videos_id
+        },
+        success: function (response) {
+            $('.view-count'+videos_id).text(response.count);
+            console.log(response);
+        }
+    });
+}
+
+function getPlayerButtonIndex(name){
+    var children = player.getChild('controlBar').children();
+    for(i=0;i<children.length;i++){
+        if(children[i].name_ === name){
+            return i;
+        }
+    }
+    return children.length;
 }

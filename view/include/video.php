@@ -160,14 +160,15 @@ if (!empty($ad)) {
 
         // Extend default
         var Button = videojs.getComponent('Button');
-        var teater = videojs.extend(Button, {
+        var Theater = videojs.extend(Button, {
             //constructor: function(player, options) {
             constructor: function () {
                 Button.apply(this, arguments);
                 //this.addClass('vjs-chapters-button');
-                this.addClass('fa-compress');
                 this.addClass('fa');
-                this.controlText("<?php echo __("Teater"); ?>");
+                this.addClass('fa-compress');
+                this.addClass('vjs-button-fa-size');
+                this.controlText("<?php echo __("Theater"); ?>");
                 if (Cookies.get('compress') === "true") {
                     toogleEC(this);
                 }
@@ -178,17 +179,20 @@ if (!empty($ad)) {
         });
 
         // Register the new component
-        videojs.registerComponent('teater', teater);
-        player.getChild('controlBar').addChild('teater', {}, 8);
+        videojs.registerComponent('Theater', Theater);
+        player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('RemainingTimeDisplay')+1);
         player.zoomrotate(<?php echo $transformation; ?>);
+        player.on('play', function () {
+            addView(<?php echo $playNowVideo['id']; ?>);
+          });
         player.ready(function () {
 <?php
 if ($config->getAutoplay()) {
-    echo "setTimeout(function () { player.play();}, 150);";
+    echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');}player.play();}, 150);";
 } else {
     ?>
                 if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                    setTimeout(function () { player.play();}, 150);                    
+                    setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play();}, 150);                    
                 }
 <?php }
 ?>

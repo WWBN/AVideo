@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
-class LiveTransmition extends Object {
+class LiveTransmition extends ObjectYPT {
 
     protected $id, $title, $public, $saveTransmition, $users_id, $categories_id, $key, $description;
 

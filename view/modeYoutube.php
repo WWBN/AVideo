@@ -7,10 +7,14 @@ if (!file_exists('../videos/configuration.php')) {
 }
 
 require_once '../videos/configuration.php';
-
+session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
+
+$img = "{$global['webSiteRootURL']}img/notfound.jpg";
+$imgw = 1280;
+$imgh = 720;
 
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
@@ -30,12 +34,15 @@ if (!empty($_GET['catName'])) {
     $catLink = "cat/{$_GET['catName']}/";
 }
 
-$video = Video::getVideo("", "viewableNotAd");
+$video = Video::getVideo("", "viewableNotAd", false, false, true) ;
+if(empty($video)){
+    $video = Video::getVideo("", "viewableNotAd") ;
+}
 if (empty($_GET['videoName'])) {
     $_GET['videoName'] = $video['clean_title'];
 }
 $obj = new Video("", "", $video['id']);
-$resp = $obj->addView();
+//$resp = $obj->addView();
 if (!empty($_GET['playlist_id'])) {
     $playlist_id = $_GET['playlist_id'];
     if (!empty($_GET['playlist_index'])) {
@@ -59,7 +66,7 @@ if (!empty($_GET['playlist_id'])) {
         $autoPlayVideo = Video::getRandom($video['id']);
     }
     if (!empty($autoPlayVideo)) {
-        $name2 = empty($autoPlayVideo['name']) ? substr($autoPlayVideo['user'], 0, 5) . "..." : $autoPlayVideo['name'];
+        $name2 = User::getNameIdentificationById($autoPlayVideo['users_id']);
         $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
         $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . $catLink . "video/" . $autoPlayVideo['clean_title'];
@@ -68,7 +75,7 @@ if (!empty($_GET['playlist_id'])) {
 
 if (!empty($video)) {
     $ad = Video_ad::getAdFromCategory($video['categories_id']);
-    $name = empty($video['name']) ? substr($video['user'], 0, 5) . "..." : $video['name'];
+    $name = User::getNameIdentificationById($video['users_id']);
     $name = "<a href='{$global['webSiteRootURL']}channel/{$video['users_id']}/' class='btn btn-xs btn-default'>{$name}</a>";
     $subscribe = Subscribe::getButton($video['users_id']);
 
@@ -171,7 +178,7 @@ if (!empty($video)) {
                                         </small>
                                     </h1>
                                     <div class="col-xs-12 col-sm-12 col-md-12"><?php echo $video['creator']; ?></div>
-                                    <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
+                                    <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
                                 </div>
                             </div>
 
@@ -241,12 +248,18 @@ if (!empty($video)) {
 
                                                         var checked = "";
                                                         for (var x in response[i].videos) {
-                                                            if (response[i].videos[x].id ==<?php echo $video['id']; ?>) {
+                                                            if (
+                                                                    typeof(response[i].videos[x]) === 'object' 
+                                                                    && response[i].videos[x].videos_id ==<?php echo $video['id']; ?>) {
                                                                 checked = "checked";
                                                             }
                                                         }
 
-                                                        $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>' + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + response[i].id + '" class="label-success"></label></div></a>');
+                                                        $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>' 
+                                                                + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' 
+                                                                + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' 
+                                                                + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' 
+                                                                + response[i].id + '" class="label-success"></label></div></a>');
                                                     }
                                                     $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
                                                     $('.playListsIds').change(function () {
@@ -300,7 +313,10 @@ if (!empty($video)) {
                                     </script>
                                     <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                         <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                                    </a>
+                                    </a>                                    
+                                    <?php
+                                    echo YouPHPTubePlugin::getWatchActionButton();
+                                    ?>                                    
                                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn"
                                     <?php
                                     if (!User::isLogged()) {
@@ -459,7 +475,6 @@ if (!empty($video)) {
                                                 </form>
                                                 <script>
                                                     $(document).ready(function () {
-
                                                         $('#btnReloadCapcha').click(function () {
                                                             $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
                                                             $('#captchaText').val('');
@@ -516,86 +531,10 @@ if (!empty($video)) {
                             });
                         </script>
                         <div class="row bgWhite list-group-item">
-                            <div class="input-group">
-                                <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php
-                                if (!User::canComment()) {
-                                    echo "disabled";
-                                }
-                                ?>><?php
-                                              if (!User::canComment()) {
-                                                  echo __("You cannot comment on videos");
-                                              }
-                                              ?></textarea>
-                                <?php if (User::canComment()) { ?>
-                                    <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php
-                                    if (!User::canComment()) {
-                                        echo "disabled='disabled'";
-                                    }
-                                    ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
-                                      <?php } else { ?>
-                                    <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You must login to be able to comment on videos"); ?></a>
-                                <?php } ?>
-                            </div>
-                            <div class="pull-right" id="count_message"></div>
-                            <script>
-                                $(document).ready(function () {
-                                    var text_max = 200;
-                                    $('#count_message').html(text_max + ' <?php echo __("remaining"); ?>');
-                                    $('#comment').keyup(function () {
-                                        var text_length = $(this).val().length;
-                                        var text_remaining = text_max - text_length;
-                                        $('#count_message').html(text_remaining + ' <?php echo __("remaining"); ?>');
-                                    });
-                                });
-                            </script>
-                            <h4><?php echo __("Comments"); ?>:</h4>
-                            <table id="grid" class="table table-condensed table-hover table-striped nowrapCell">
-                                <thead>
-                                    <tr>
-                                        <th data-column-id="comment" ><?php echo __("Comment"); ?></th>
-                                    </tr>
-                                </thead>
-                            </table>
-
-                            <script>
-                                $(document).ready(function () {
-                                    var grid = $("#grid").bootgrid({
-                                        ajax: true,
-                                        url: "<?php echo $global['webSiteRootURL'] . "comments.json/" . $video['id']; ?>",
-                                        sorting: false,
-                                        templates: {
-                                            header: ""
-                                        }
-                                    });
-                                    $('#saveCommentBtn').click(function () {
-                                        if ($(this).attr('disabled') === 'disabled') {
-                                            return false;
-                                        }
-                                        if ($('#comment').val().length > 5) {
-                                            modal.showPleaseWait();
-                                            $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>saveComment',
-                                                method: 'POST',
-                                                data: {'comment': $('#comment').val(), 'video': "<?php echo $video['id']; ?>"},
-                                                success: function (response) {
-                                                    if (response.status === "1") {
-                                                        swal("<?php echo __("Congratulations"); ?>!", "<?php echo __("Your comment has been saved!"); ?>", "success");
-                                                        $('#comment').val('');
-                                                        $('#grid').bootgrid('reload');
-                                                    } else {
-                                                        swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
-                                                    }
-                                                    modal.hidePleaseWait();
-                                                }
-                                            });
-                                        } else {
-                                            swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
-                                        }
-                                    });
-                                });
-                            </script>
+                            <?php
+                                include './videoComments.php';
+                            ?>
                         </div>
-
                     </div>
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
                         <?php
@@ -774,3 +713,6 @@ if (!empty($video)) {
 
     </body>
 </html>
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>

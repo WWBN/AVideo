@@ -1,5 +1,4 @@
 <?php
-
 $configFile = '../videos/configuration.php';
 if (!file_exists($configFile)) {
     if (!file_exists('../install/index.php')) {
@@ -23,3 +22,4 @@ if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['playlist_id
 }else{
     require $firstPage;
 }
+include $global['systemRootPath'].'objects/include_end.php';

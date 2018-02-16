@@ -105,6 +105,7 @@
     RewriteRule    ^sortPlaylist/?$ objects/playlistSort.php    [NC,L]
     RewriteRule    ^channel/([0-9]+)/?$ view/channel.php?user_id=$1    [NC,L]
     RewriteRule    ^channel/?$ view/channel.php    [NC,L]
+    RewriteRule    ^channels/?$ view/channels.php    [NC,L]
 
     #manager videos
     RewriteRule    ^orphanFiles$ view/orphanFiles.php    [NC,L]
@@ -133,6 +134,7 @@
     RewriteRule    ^youPHPTubeEncoder.json$ objects/youPHPTubeEncoder.json.php    [NC,L]
 
     #comment
+    RewriteRule    ^comments$ view/managerComments.php    [NC,L]
     RewriteRule    ^saveComment$ objects/commentAddNew.json.php    [NC,L]
     RewriteRule    ^comments.json/([0-9]+)$ objects/comments.json.php?video_id=$1    [NC,L]
 
