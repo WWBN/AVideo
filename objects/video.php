@@ -320,6 +320,14 @@ class Video {
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
+              
+        
+        if (!empty($_GET['search'])) {
+            $_POST['searchPhrase'] = $_GET['search'];
+        }
+
+        $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
+        
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
         } elseif (empty($random) && !empty($_GET['videoName'])) {
@@ -334,15 +342,11 @@ class Video {
             $sql .= " ORDER BY v.Created DESC ";
         }
         
-        
-        if (!empty($_GET['search'])) {
-            $_POST['searchPhrase'] = $_GET['search'];
-        }
-
-        $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
 
         
         $sql .= " LIMIT 1";
+        echo $sql;exit;
+        
         /*
           if (!empty($random)) {
           echo '<hr />'.$sql;
