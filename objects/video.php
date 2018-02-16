@@ -345,7 +345,6 @@ class Video {
 
         
         $sql .= " LIMIT 1";
-        echo $sql;exit;
         
         /*
           if (!empty($random)) {
