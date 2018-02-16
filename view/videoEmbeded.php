@@ -30,6 +30,10 @@ if ($video['type'] !== "audio") {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
+
+        <script>
+            var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+        </script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
         echo YouPHPTubePlugin::getHeadCode();
@@ -71,15 +75,27 @@ if ($video['type'] !== "audio") {
                     echo "?autoplay=1";
                 }
                 ?>"></iframe>
-                        <?php
-                    } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
-                        ?>
+
+                <script>
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>);
+            });
+                </script>
+                <?php
+            } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+                ?>
                 <audio controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
                        poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
                 </audio>
+
+                <script>
+                    $(document).ready(function () {
+                        addView(<?php echo $video['id']; ?>);
+                    });
+                </script>
                 <?php
             } else {
                 ?>
@@ -113,6 +129,10 @@ if ($video['type'] !== "audio") {
                         $('#mainVideo').bind('contextmenu', function () {
                             return false;
                         });
+                        player = videojs('mainVideo');
+                        player.on('play', function () {
+                            addView(<?php echo $video['id']; ?>);
+                        });
                     });
                 </script>
                 <?php
@@ -124,3 +144,7 @@ if ($video['type'] !== "audio") {
         ?>
     </body>
 </html>
+
+<?php
+include $global['systemRootPath'] . 'objects/include_end.php';
+?>

@@ -5,7 +5,7 @@ interface ObjectInterface{
     static function getSearchFieldsNames();
 }
 
-abstract class Object implements ObjectInterface{
+abstract class ObjectYPT implements ObjectInterface{
 
     protected $fieldsName = array();
 
@@ -72,7 +72,7 @@ abstract class Object implements ObjectInterface{
     }
 
 
-     static function getSqlFromPost() {
+     static function getSqlFromPost($keyPrefix = "") {
          global $global;
         $sql = self::getSqlSearchFromPost();
 
@@ -81,7 +81,7 @@ abstract class Object implements ObjectInterface{
             foreach ($_POST['sort'] as $key => $value) {
                 $key = $global['mysqli']->real_escape_string($key);
                 $value = $global['mysqli']->real_escape_string($value);
-                $orderBy[] = " {$key} {$value} ";
+                $orderBy[] = " {$keyPrefix}{$key} {$value} ";
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
         } else {
@@ -96,7 +96,7 @@ abstract class Object implements ObjectInterface{
         } else {
             $_POST['current'] = 0;
             $_POST['rowCount'] = 0;
-            $sql .= " LIMIT 12 ";
+            $sql .= " LIMIT 1000 ";
         }
         return $sql;
     }
@@ -202,4 +202,5 @@ abstract class Object implements ObjectInterface{
         error_log("Id for table ".static::getTableName()." not defined for deletion");
         return false;
     }
-}
+};
+//abstract class Object extends ObjectYPT{};

@@ -11,6 +11,7 @@ $user->setUser($_POST['user']);
 $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
+$user->setAbout($_POST['about']);
 if (User::isAdmin() && !empty($_POST['status'])) {
     $user->setStatus($_POST['status']);
 }

@@ -16,7 +16,7 @@ class Video {
     private $clean_title;
     private $filename;
     private $description;
-    private $view_count;
+    private $views_count;
     private $status;
     private $duration;
     private $users_id;
@@ -27,6 +27,7 @@ class Video {
     private $videoDownloadedLink;
     private $videoLink;
     private $next_videos_id;
+    private $isSuggested;
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
     private $videoGroups;
     private $videoAdsCount;
@@ -121,6 +122,7 @@ class Video {
 
         if ($insert_row) {
             VideoStatistic::save($this->id);
+            $this->views_count++;
             return $this->id;
         } else {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -141,6 +143,9 @@ class Video {
             header('Content-Type: application/json');
             die('{"error":"' . __("Permission denied") . '"}');
         }
+        if (empty($this->title)) {
+            $this->title = uniqid();
+        }
         if (empty($this->clean_title)) {
             $this->setClean_title($this->title);
         }
@@ -150,18 +155,25 @@ class Video {
         if (empty($this->status)) {
             $this->status = 'e';
         }
+
+        if (empty($this->isSuggested)) {
+            $this->isSuggested = 0;
+        } else {
+            $this->isSuggested = 1;
+        }
+
         if (empty($this->categories_id)) {
             $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
-            if($p){
+            if ($p) {
                 $this->categories_id = $p->getCategoryId();
-            }else{
+            } else {
                 $this->categories_id = 1;
             }
         }
         $this->title = $global['mysqli']->real_escape_string(trim($this->title));
         $this->description = $global['mysqli']->real_escape_string($this->description);
-        $this->next_videos_id=intval($this->next_videos_id);
-        if(empty($this->next_videos_id)){
+        $this->next_videos_id = intval($this->next_videos_id);
+        if (empty($this->next_videos_id)) {
             $this->next_videos_id = 'NULL';
         }
         if (!empty($this->id)) {
@@ -171,7 +183,7 @@ class Video {
             }
             $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                     . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, modified = now()"
+                    . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, modified = now()"
                     . " WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO videos "
@@ -207,6 +219,18 @@ class Video {
         $this->duration = $duration;
     }
 
+    function getIsSuggested() {
+        return $this->isSuggested;
+    }
+
+    function setIsSuggested($isSuggested) {
+        if (empty($isSuggested) || $isSuggested === "false") {
+            $this->isSuggested = 0;
+        } else {
+            $this->isSuggested = 1;
+        }
+    }
+
     function setStatus($status) {
         if (!empty($this->id)) {
             global $global;
@@ -237,6 +261,10 @@ class Video {
 
     function getRotation() {
         return $this->rotation;
+    }
+
+    function getUsers_id() {
+        return $this->users_id;
     }
 
     function setZoom($zoom) {
@@ -282,7 +310,7 @@ class Video {
         return " AND " . $sql;
     }
 
-    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false) {
+    static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
         global $global;
         $id = intval($id);
 
@@ -327,6 +355,7 @@ class Video {
         }
 
 
+
         if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
             if ($status == "viewableNotAd") {
@@ -341,6 +370,14 @@ class Video {
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
+              
+        
+        if (!empty($_GET['search'])) {
+            $_POST['searchPhrase'] = $_GET['search'];
+        }
+
+        $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
+        
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
         } elseif (empty($random) && !empty($_GET['videoName'])) {
@@ -348,10 +385,17 @@ class Video {
         } elseif (!empty($random)) {
             $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
-        } else {
+        } else if ($suggetedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
+            $sql .= " AND v.isSuggested = 1 ";
+            $sql .= " ORDER BY RAND() ";
+        }else {
             $sql .= " ORDER BY v.Created DESC ";
         }
+        
+
+        
         $sql .= " LIMIT 1";
+        
         /*
           if (!empty($random)) {
           echo '<hr />'.$sql;
@@ -376,7 +420,7 @@ class Video {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $video = $res->fetch_assoc();
-            if(!empty($video['id'])){
+            if (!empty($video['id'])) {
                 return self::getVideo($video['id'], "");
             }
             //$video['groups'] = UserGroups::getVideoGroups($video['id']);
@@ -492,7 +536,7 @@ class Video {
         if (!empty($_GET['catName'])) {
             $cn .= " c.clean_name as cn,";
         }
-        
+
         $sql = "SELECT v.id, c.name as category, {$cn} "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                 . "FROM videos v "
@@ -532,25 +576,24 @@ class Video {
 
         return $res->num_rows;
     }
-    
+
     static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
         $obj = new stdClass();
         $obj->likes = 0;
         $obj->disLikes = 0;
-        $obj->views_count = 0;   
-        $obj->total_minutes = 0;        
-        
-        $videos = static::getAllVideos($status , $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
-        
+        $obj->views_count = 0;
+        $obj->total_minutes = 0;
+
+        $videos = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
+
         foreach ($videos as $value) {
             $obj->likes += intval($value['likes']);
             $obj->disLikes += intval($value['dislikes']);
-            $obj->views_count  += intval($value['views_count']);   
-            $obj->total_minutes += intval(parseDurationToSeconds($value['duration'])/60);  
+            $obj->views_count += intval($value['views_count']);
+            $obj->total_minutes += intval(parseDurationToSeconds($value['duration']) / 60);
         }
-        
+
         return $obj;
-        
     }
 
     static private function getViewableStatus() {
@@ -678,13 +721,13 @@ class Video {
             foreach (self::$types as $value) {
                 $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
                 if (file_exists($file)) {
-                    unlink($file);
+                    @unlink($file);
                 }
                 // Streamlined for less coding space.
                 $files = glob("{$global['systemRootPath']}videos/{$video['filename']}.*");
                 foreach ($files as $file) {
                     if (file_exists($file)) {
-                        unlink($file);
+                        @unlink($file);
                     }
                 }
             }
@@ -736,14 +779,14 @@ class Video {
         $parts = explode(':', $duration);
         return 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
     }
-    
+
     static function getItemDurationSeconds($duration = '') {
-        if($duration=="EE:EE:EE"){
+        if ($duration == "EE:EE:EE") {
             return 0;
         }
         $duration = static::getCleanDuration($duration);
         $parts = explode(':', $duration);
-        return intval($parts[0]*60*60) + intval($parts[1]*60) + intval($parts[2]);
+        return intval($parts[0] * 60 * 60) + intval($parts[1] * 60) + intval($parts[2]);
     }
 
     static function getDurationFromFile($file) {
@@ -1025,6 +1068,53 @@ class Video {
         }
         return $clean_title;
     }
+    
+    /**
+     * 
+     * @global type $global
+     * @param type $videos_id
+     * @param type $users_id if is empty will use the logged user
+     * @return boolean
+     */
+    static function isOwner($videos_id, $users_id=0) {
+        global $global;
+        if(empty($users_id)){
+            $users_id = User::getId();
+            if(empty($users_id)){
+                return false;
+            }
+        }
+        $sql = "SELECT * FROM videos WHERE id = {$videos_id} AND users_id = $users_id ";
+        $sql .= " LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        return !empty($res);
+    }
+    
+    /**
+     * 
+     * @param type $videos_id
+     * @param type $users_id if is empty will use the logged user
+     * @return boolean
+     */
+    static function canEdit($videos_id, $users_id=0) {
+        if(empty($users_id)){
+            $users_id = User::getId();
+            if(empty($users_id)){
+                return false;
+            }
+        }
+        $user = new User($users_id);
+        if(empty($user)){
+            return false;
+        }
+        
+        if($user->getIsAdmin()){
+            return true;
+        }
+        
+        return self::isOwner($videos_id, $users_id);        
+        
+    }
 
     static function getRandom($excludeVideoId = false) {
         return static::getVideo("", "viewableNotAd", false, $excludeVideoId);
@@ -1095,20 +1185,20 @@ class Video {
     function setNext_videos_id($next_videos_id) {
         $this->next_videos_id = $next_videos_id;
     }
-        
+
     function queue() {
         global $config;
-        if(!User::canUpload()){
+        if (!User::canUpload()) {
             return false;
         }
         global $global;
         $obj = new stdClass();
         $obj->error = true;
 
-        $target = $config->getEncoderURL(). "queue";
+        $target = $config->getEncoderURL() . "queue";
         $postFields = array(
             'user' => User::getUserName(),
-            'pass' => User::getUserPass(), 
+            'pass' => User::getUserPass(),
             'fileURI' => $global['webSiteRootURL'] . "videos/original_{$this->getFilename()}",
             'filename' => $this->getFilename(),
             'videos_id' => $this->getId(),
@@ -1164,7 +1254,7 @@ class Video {
                 if (!file_exists($thumbsSource)) {
                     im_resize($jpegSource, $thumbsSource, 250, 140);
                 }
-            }else{
+            } else {
                 $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
                 $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfound.jpg";
             }
@@ -1173,5 +1263,11 @@ class Video {
         }
         return $obj;
     }
+    
+    function getViews_count() {
+        return intval($this->views_count);
+    }
+
+
 
 }

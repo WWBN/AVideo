@@ -6,7 +6,7 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-class Plugin extends Object {
+class Plugin extends ObjectYPT {
 
     protected $id, $status, $object_data, $name, $uuid, $dirName;
 
@@ -123,6 +123,9 @@ class Plugin extends Object {
             if (!in_array($value, array(".", ".."))) {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
                     $p = YouPHPTubePlugin::loadPlugin($value);
+                    if(!is_object($p)|| $p->hidePlugin()){
+                        continue;
+                    }
                     $obj = new stdClass();
                     $obj->name = $p->getName();
                     $obj->dir = $value;

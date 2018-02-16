@@ -13,9 +13,11 @@ if(empty($_POST['name']) && !empty($_GET['name'])){
 }
 $obj->name = $_POST['name'];
 $obj->applications = array();
+$_GET['lifetime'] = "20";
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
+session_write_close();
 $p = YouPHPTubePlugin::loadPlugin("Live");
 $xml = $p->getStatsObject();
 $xml = json_encode($xml);
@@ -60,7 +62,7 @@ foreach ($lifeStream as $value){
         $u = new User($row['users_id']);
         $userName = $u->getNameIdentificationBd();
         $user = $u->getUser();
-        $photo = $u->getPhotoURL();
+        $photo = $u->getPhotoDB();
         $UserPhoto = $u->getPhoto();
         $obj->applications[] = array("key"=>$value->name, "users"=>$users, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>$row['title']);
         if($value->name === $_POST['name']){
@@ -73,3 +75,5 @@ foreach ($lifeStream as $value){
     }
 }
 echo json_encode($obj);
+
+include $global['systemRootPath'].'objects/include_end.php';

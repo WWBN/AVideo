@@ -75,6 +75,9 @@ class YouPHPTubePlugin{
         $firstPage = false;
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
+            if(!is_object($p)){
+                continue;
+            }
             $fp = $p->getFirstPage();
             if(!empty($fp)){
                $firstPage = $fp; 
@@ -144,6 +147,16 @@ class YouPHPTubePlugin{
         return $str;
     }
     
+    static function getWatchActionButton(){
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $str .= $p->getWatchActionButton();
+        }
+        return $str;
+    }
+    
     
     public static function isEnabled($uuid){
         return !empty(Plugin::getEnabled($uuid));
@@ -163,6 +176,22 @@ class YouPHPTubePlugin{
             
         }
         return $logins;
+    }
+    
+    public static function getStart() {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $p->getStart();
+        }
+    }
+    
+    public static function getEnd() {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $p->getEnd();
+        }
     }
     
 }

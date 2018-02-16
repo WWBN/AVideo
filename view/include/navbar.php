@@ -124,7 +124,6 @@ $advancedCustom = json_decode($json_file);
                         <?php
                     }
                     ?>
-
                     <li>
                         <?php
                         $flags = getEnabledLangs();
@@ -235,9 +234,17 @@ $advancedCustom = json_decode($json_file);
                         </li>
                         <li>
                             <div>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-block" style="border-radius: 0 0 4px 4px;">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-block" style="border-radius: 0">
                                     <span class="fa fa-check"></span>
                                     <?php echo __("Subscriptions"); ?>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>comments" class="btn btn-default btn-block" style="border-radius: 0 0 4px 4px;">
+                                    <span class="fa fa-comment"></span>
+                                    <?php echo __("Comments"); ?>
                                 </a>
                             </div>
                         </li>
@@ -343,8 +350,21 @@ $advancedCustom = json_decode($json_file);
                         <?php echo __("Audios"); ?>
                     </a>
                 </li>
+                
+                
+                <!-- Channels -->
+                <li>
+                    <hr>
+                    <h3 class="text-danger"><?php echo __("Channels"); ?></h3>
+                </li>
+                <li>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>channels">
+                        <i class="fa fa-search"></i>
+                        <?php echo __("Browse Channels"); ?>
+                    </a>
+                </li>
+                
                 <!-- categories -->
-
                 <li>
                     <hr>
                     <h3 class="text-danger"><?php echo __("Categories"); ?></h3>
@@ -382,3 +402,8 @@ $advancedCustom = json_decode($json_file);
         </div>
     </div>
 </nav>
+<?php
+if (!empty($advancedCustom->underMenuBarHTMLCode->value)) {
+    echo $advancedCustom->underMenuBarHTMLCode->value;
+}
+?>

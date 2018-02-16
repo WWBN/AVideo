@@ -5,7 +5,7 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-class PlayList extends Object {
+class PlayList extends ObjectYPT {
 
     protected $id, $name, $users_id, $status;
 
@@ -74,7 +74,7 @@ class PlayList extends Object {
         $videosId = array();
         $rows = static::getVideosFromPlaylist($playlists_id);
         foreach ($rows as $value) {
-            $videosId[] = $value['id'];
+            $videosId[] = $value['videos_id'];
         }
         return $videosId;
     }

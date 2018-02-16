@@ -8,5 +8,16 @@ $obj = new Video("", "", $_POST['id']);
 if(empty($obj)){
     die("Object not found");
 }
-$resp = $obj->addView();
-echo '{"status":"'.!empty($resp).'"}';
+
+if(empty($_SESSION['addViewCount'])){
+    $_SESSION['addViewCount'] = array();
+}
+
+if(!in_array($_POST['id'],$_SESSION['addViewCount'])){
+    $resp = $obj->addView();
+    $_SESSION['addViewCount'][] = $_POST['id'];
+}else{
+    $resp = 0;
+}
+$count = $obj->getViews_count();
+echo '{"status":"'.!empty($resp).'","count":"'.$count.'"}';
