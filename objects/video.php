@@ -327,12 +327,21 @@ class Video {
         } elseif (!empty($random)) {
             $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
-        } else if ($suggetedOnly && empty($_GET['videoName']) && empty($_GET['search'])) {
+        } else if ($suggetedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
             $sql .= " AND v.isSuggested = 1 ";
             $sql .= " ORDER BY RAND() ";
         }else {
             $sql .= " ORDER BY v.Created DESC ";
         }
+        
+        
+        if (!empty($_GET['search'])) {
+            $_POST['searchPhrase'] = $_GET['search'];
+        }
+
+        $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
+
+        
         $sql .= " LIMIT 1";
         /*
           if (!empty($random)) {
