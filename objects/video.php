@@ -327,7 +327,7 @@ class Video {
         } elseif (!empty($random)) {
             $sql .= " AND v.id != {$random} ";
             $sql .= " ORDER BY RAND() ";
-        } else if ($suggetedOnly && empty($_GET['videoName'])) {
+        } else if ($suggetedOnly && empty($_GET['videoName']) && empty($_GET['search'])) {
             $sql .= " AND v.isSuggested = 1 ";
             $sql .= " ORDER BY RAND() ";
         }else {
