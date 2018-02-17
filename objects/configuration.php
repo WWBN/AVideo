@@ -1,4 +1,5 @@
 <?php
+
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
 }
@@ -26,10 +27,8 @@ class Configuration {
     private $disable_analytics;
     private $session_timeout;
     private $autoplay;
-
     // version 3.1
     private $theme;
-
     //version 3.3
     private $smtp;
     private $smtpAuth;
@@ -38,7 +37,6 @@ class Configuration {
     private $smtpUsername;
     private $smtpPassword;
     private $smtpPort;
-
     // version 4
     private $encoderURL;
 
@@ -186,7 +184,6 @@ class Configuration {
         $this->authCanComment = $authCanComment;
     }
 
-
     function getHead() {
         return $this->head;
     }
@@ -244,6 +241,7 @@ class Configuration {
     function getSession_timeout() {
         return $this->session_timeout;
     }
+
     function setDisable_analytics($disable_analytics) {
         $this->disable_analytics = ($disable_analytics == 'true' || $disable_analytics == '1') ? 1 : 0;
     }
@@ -288,7 +286,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function getTheme() {
-        if(empty($this->theme)){
+        if (empty($this->theme)) {
             return "default";
         }
         return $this->theme;
@@ -355,8 +353,11 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function getEncoderURL() {
-        if(empty($this->encoderURL)){
+        if (empty($this->encoderURL)) {
             return "https://encoder.youphptube.com/";
+        }
+        if (substr($this->encoderURL, -1) !== '/') {
+            $this->encoderURL .= "/";
         }
         return $this->encoderURL;
     }
@@ -364,7 +365,5 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     function setEncoderURL($encoderURL) {
         $this->encoderURL = $encoderURL;
     }
-
-
 
 }
