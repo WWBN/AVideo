@@ -1032,8 +1032,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 selectedVideoGroups.push($(this).val());
                                             });
                                             if (!isPublic && selectedVideoGroups.length === 0) {
-                                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("You must make this video public or select a group to see your video!"); ?>", "error");
-                                                return false;
+                                                //swal("<?php echo __("Sorry!"); ?>", "<?php echo __("You must make this video public or select a group to see your video!"); ?>", "error");
+                                                //return false;
+                                                isPublic = true;
                                             }
                                             if (isPublic) {
                                                 selectedVideoGroups = [];
