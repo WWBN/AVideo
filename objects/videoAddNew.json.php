@@ -24,6 +24,7 @@ if(!empty($_POST['videoLink'])){
         $obj->setTitle($infoObj->title);
         $obj->setClean_title($infoObj->title);
         $obj->setDuration($infoObj->duration);
+        $obj->setDescription($infoObj->description);
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
     }
     $obj->setVideoLink($_POST['videoLink']);
