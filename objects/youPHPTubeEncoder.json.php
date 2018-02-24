@@ -40,6 +40,7 @@ if (empty($title) && !empty($_POST['title'])) {
     $video->setTitle("Automatic Title");
 }
 $video->setDuration($_POST['duration']);
+$video->setDescription($_POST['description']);
 // set active
 $video->setStatus('a');
 
