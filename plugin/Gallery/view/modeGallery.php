@@ -123,55 +123,60 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </div>
 
                         </div>
-                        <?php
-                        foreach ($videos as $value) {
-                            $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
-                            $name = User::getNameIdentificationById($value['users_id']);
-                            ?>
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-                                <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
-                                    <?php
-                                    $images = Video::getImageFromFilename($value['filename'], $value['type']);
-                                    $imgGif = $images->thumbsGif;
-                                    $poster = $images->thumbsJpg;
-                                    ?>
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
-                                    <?php
-                                    if (!empty($imgGif)) {
-                                        ?>
-                                        <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
-                                    <?php } ?>
-                                    <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                </a>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                    <h2><?php echo $value['title']; ?></h2>
-                                </a>
-                                <div class="clear clearfix text-muted">
-                                    <span class="watch-view-count col-lg-6" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
-                                    <?php
-                                    $value['tags'] = Video::getTags($value['id']);
-                                    foreach ($value['tags'] as $value2) {
-                                        if ($value2->label === __("Group")) {
-                                            ?>
-                                            <span class="label label-<?php echo $value2->type; ?> col-lg-6 group"><?php echo $value2->text; ?></span>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </div>   
-                                <div class="clear clearfix text-muted watch-view-count">
-                                    <?php
-                                    echo $name;
-                                    ?> - 
-                                    <?php
-                                    echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                    ?>
-                                </div>
-                            </div>
-                            <?php
-                        }
-                        ?>
 
+                        <div class="clear clearfix">
+                            <h3 class="galleryTitle">
+                                <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Date Added (newest)"); ?>
+                            </h3>
+                            <?php
+                            foreach ($videos as $value) {
+                                $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
+                                $name = User::getNameIdentificationById($value['users_id']);
+                                ?>
+                                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
+                                        <?php
+                                        $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                                        $imgGif = $images->thumbsGif;
+                                        $poster = $images->thumbsJpg;
+                                        ?>
+                                        <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
+                                        <?php
+                                        if (!empty($imgGif)) {
+                                            ?>
+                                            <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                                        <?php } ?>
+                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                    </a>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                        <h2><?php echo $value['title']; ?></h2>
+                                    </a>
+                                    <div class="clear clearfix text-muted">
+                                        <span class="watch-view-count col-lg-6" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
+                                        <?php
+                                        $value['tags'] = Video::getTags($value['id']);
+                                        foreach ($value['tags'] as $value2) {
+                                            if ($value2->label === __("Group")) {
+                                                ?>
+                                                <span class="label label-<?php echo $value2->type; ?> col-lg-6 group"><?php echo $value2->text; ?></span>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </div>   
+                                    <div class="clear clearfix text-muted watch-view-count">
+                                        <?php
+                                        echo $name;
+                                        ?> - 
+                                        <?php
+                                        echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
+                                        ?>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
                     </div>
                     <div class="row">
 
