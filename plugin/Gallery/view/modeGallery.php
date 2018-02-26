@@ -81,7 +81,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                            <?php
                                            $images = Video::getImageFromFilename($video['filename'], $video['type']);
                                            $imgGif = $images->thumbsGif;
-                                           $poster = $images->thumbsJpg;
+                                           $poster = $images->poster;
                                            ?>
                                         <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" 
                                              class="thumbsJPG img img-responsive "
