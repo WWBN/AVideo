@@ -33,6 +33,7 @@
     RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L]
     #for the video name
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/?$ view/?videoName=$1    [QSA]
+    RewriteRule    ^v/([0-9]+)/?$ view/?v=$1    [QSA]
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/page/([0-9]+)/??$ view/?videoName=$1&page=$2    [QSA]
 
     #for the video name
@@ -40,6 +41,8 @@
     RewriteRule    ^cat/([A-Za-z0-9-]+)/video/([A-Za-z0-9-_.]+)/page/([0-9]+)/?$ view/?catName=$1&videoName=$2&page=$3   [QSA]
     #for the embeded video name
     RewriteRule    ^videoEmbeded/([A-Za-z0-9-_.]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
+    RewriteRule    ^videoEmbed/([A-Za-z0-9-_.]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
+    RewriteRule    ^vEmbed/([0-9]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
 
     RewriteRule    ^plugin/([A-Za-z0-9-_.]+)/(.*)?$ plugin/$1/$2    [NC,L]
 
