@@ -63,7 +63,8 @@ class Cache extends PluginAbstract {
                 unlink($cachefile);
             }
         }
-        ob_start('sanitize_output');
+        //ob_start('sanitize_output');
+        ob_start();
     }
 
     public function getEnd() {
