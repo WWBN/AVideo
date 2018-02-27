@@ -126,9 +126,11 @@ function sanitize_output($buffer) {
         ''
     );
     
-    error_log("Before Sanitize: ".strlen($buffer));
-    $buffer = preg_replace($search, $replace, $buffer);    
-    error_log("After Sanitize: ".strlen($buffer));
-    
+    $len = strlen($buffer);
+    if($len){
+        error_log("Before Sanitize: ".strlen($buffer));
+        $buffer = preg_replace($search, $replace, $buffer);    
+        error_log("After Sanitize: ".strlen($buffer));
+    }
     return $buffer;
 }
