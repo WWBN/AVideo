@@ -1218,6 +1218,104 @@ class Video {
         return intval($this->views_count);
     }
 
+    static function get_clean_title($videos_id){
+        global $global;
 
+        $sql = "SELECT * FROM videos WHERE id = {$videos_id} LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        
+        if ($res) {
+            if ($row = $res->fetch_assoc()) {
+                return $row['clean_title'];
+            }
+        } else {
+            $videos = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return false;
+    }
+    
+    static function get_id_from_clean_title($clean_title){
+        global $global;
 
+        $sql = "SELECT * FROM videos WHERE clean_title = {$clean_title} LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        
+        if ($res) {
+            if ($row = $res->fetch_assoc()) {
+                return $row['id'];
+            }
+        } else {
+            $videos = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * @global type $global
+     * @param type $videos_id
+     * @param type $clean_title
+     * @param type $embed
+     * @param type $type URLFriendly or permalink
+     * @return String a web link
+     */
+    static function getLinkToVideo($videos_id, $clean_title="", $embed = false, $type="URLFriendly"){
+        global $global;
+        if($type=="URLFriendly"){
+            if(!empty($videos_id) && empty(empty($clean_title))){
+                $clean_title = self::get_clean_title($videos_id);
+            }
+            if($embed){
+                return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}";
+            }else{
+                return "{$global['webSiteRootURL']}video/{$clean_title}";
+            }
+        }else{
+            if(empty($videos_id) && !empty(empty($clean_title))){
+                $videos_id = self::get_id_from_clean_title($clean_title);
+            }
+            if($embed){
+                return "{$global['webSiteRootURL']}vEmbed/{$videos_id}";
+            }else{
+                return "{$global['webSiteRootURL']}v/{$videos_id}";
+            }
+            
+        }
+        
+    }
+    
+    static function getPermaLink($videos_id, $embed = false){
+        return self::getLinkToVideo($videos_id, "", $embed, "permalink");
+    }
+    
+    static function getURLFriendly($videos_id, $embed = false){
+        return self::getLinkToVideo($videos_id, "", $embed, "URLFriendly");
+    }
+    
+    static function getPermaLinkFromCleanTitle($clean_title, $embed = false){
+        return self::getLinkToVideo("", $clean_title, $embed, "permalink");
+    }
+    
+    static function getURLFriendlyFromCleanTitle($clean_title, $embed = false){
+        return self::getLinkToVideo("", $clean_title, $embed, "URLFriendly");
+    }
+    
+    static function getLink($videos_id, $clean_title, $embed = false){        
+        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+        if(!empty($advancedCustom->usePermalinks)){
+            $type = "permalink";
+        }else{
+            $type = "URLFriendly";
+        }
+        
+        return self::getLinkToVideo($videos_id, $clean_title, $embed, $type);
+    }
+
+}
+
+// just to convert permalink into clean_title
+if(!empty($_GET['v']) && empty($_GET['videoName'])){
+    $_GET['videoName'] = Video::get_clean_title($_GET['v']);
 }

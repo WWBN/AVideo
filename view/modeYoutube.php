@@ -152,8 +152,8 @@ if (!empty($video)) {
                                     <img src="<?php echo $poster; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
                                     <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
                                     <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                    <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
-                                    <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $video['clean_title']; ?>" />
+                                    <meta itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>" />
+                                    <meta itemprop="embedURL" content="<?php echo Video::getLink($video['id'], $video['clean_title'], true); ?>" />
                                     <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
                                     <meta itemprop="description" content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo $video['description']; ?>" />
                                 </div>
@@ -386,15 +386,21 @@ if (!empty($video)) {
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="#tabEmbeded" data-toggle="tab">
+                                            <a class="nav-link " href="#tabEmbed" data-toggle="tab">
                                                 <span class="fa fa-code"></span>
-                                                <?php echo __("Embeded"); ?>
+                                                <?php echo __("Embed"); ?>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#tabEmail" data-toggle="tab">
                                                 <span class="fa fa-envelope"></span>
                                                 <?php echo __("E-mail"); ?>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#tabPermaLink" data-toggle="tab">
+                                                <span class="fa fa-link"></span>
+                                                <?php echo __("Permanent Link"); ?>
                                             </a>
                                         </li>
                                     </ul>
@@ -406,13 +412,13 @@ if (!empty($video)) {
                                             include './include/social.php';
                                             ?>
                                         </div>
-                                        <div class="tab-pane" id="tabEmbeded">
+                                        <div class="tab-pane" id="tabEmbed">
                                             <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
                                             <textarea class="form-control" style="min-width: 100%" rows="5"><?php
                                                 if ($video['type'] == 'video' || $video['type'] == 'embed') {
-                                                    $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                    $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' .Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
                                                 } else {
-                                                    $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . $global['webSiteRootURL'] . 'videoEmbeded/' . $video['clean_title'] . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                    $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
                                                 }
                                                 echo htmlentities($code);
                                                 ?></textarea>
@@ -447,7 +453,7 @@ if (!empty($video)) {
                                                             <div class="col-md-8 inputGroupContainer">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                                    <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo __("I would like to share this video with you:"); ?> <?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $video['clean_title']; ?></textarea>
+                                                                    <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo __("I would like to share this video with you:"); ?> <?php echo Video::getLink($video['id'], $video['clean_title']); ?></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -503,6 +509,10 @@ if (!empty($video)) {
                                                 <?php
                                             }
                                             ?>
+                                        </div>
+                                        
+                                        <div class="tab-pane" id="tabPermaLink">
+                                            <input value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"/>
                                         </div>
                                     </div>
                                 </div>
@@ -594,8 +604,8 @@ if (!empty($video)) {
                                             <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" id="thumbsGIF<?php echo $autoPlayVideo['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130" />
                                         <?php } ?>
                                         <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                        <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $autoPlayVideo['clean_title']; ?>" />
-                                        <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $autoPlayVideo['clean_title']; ?>" />
+                                        <meta itemprop="contentURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title']); ?>" />
+                                        <meta itemprop="embedURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], true); ?>" />
                                         <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
 
                                         <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($autoPlayVideo['duration']); ?>"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></time>
