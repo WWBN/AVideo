@@ -55,17 +55,10 @@ h3.galleryTitle{
 }
 
 .aspectRatio16_9 {
-    position: relative;
     width: 100%;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    min-height: 56.25%; /* 16:9 Aspect Ratio */
     background-image: url(../../view/img/video-placeholder.png);
     background-size: cover;
-}
-
-.aspectRatio16_9 img{
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 @media (max-width: 1200px) {
