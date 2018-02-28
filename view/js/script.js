@@ -27,7 +27,6 @@ function clean_name(str) {
     str = str.stripAccents().toLowerCase();
     return str.replace(/\W+/g, "-");
 }
-
 $(document).ready(function () {
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
@@ -115,10 +114,30 @@ $(document).ready(function () {
         }
     });
 });
+
+function removeTracks(){
+    var oldTracks = player.remoteTextTracks();
+    var i = oldTracks.length;
+    while (i--) {
+      player.removeRemoteTextTrack(oldTracks[i]);
+    }
+}
+
 function changeVideoSrc(vid_obj, source) {
-    vid_obj.src(source);
+    var srcs = [];
+    var traks = [];    
+    removeTracks();
+    for(i=0;i<source.length;i++){
+        if(source[i].type){
+            srcs.push(source[i]);
+        }else if(source[i].srclang){
+            player.addRemoteTextTrack(source[i]);
+        }
+    }
+    player.updateSrc(srcs);
     vid_obj.load();
-    vid_obj.play();
+    player.play();
+                    
 }
 
 /**

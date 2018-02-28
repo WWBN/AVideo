@@ -91,6 +91,7 @@ if (!empty($ad)) {
             return false;
         });
         fullDuration = strToSeconds('<?php echo @$ad['duration']; ?>');
+        
         player = videojs('mainVideo');
         
         player.zoomrotate(<?php echo $transformation; ?>);
