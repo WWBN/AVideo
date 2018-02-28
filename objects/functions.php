@@ -552,7 +552,11 @@ function getVideosURL($fileName){
 }
 
 function getSources($fileName, $returnArray=false){ 
-    $videoSources = "";
+    if($returnArray){
+        $videoSources = $audioTracks = $subtitleTracks = array();
+    }else{
+        $videoSources = $audioTracks = $subtitleTracks = "";
+    }
     if(function_exists('getVRSSources')){
         $videoSources = getVRSSources($fileName, $returnArray);
     }else{
@@ -575,7 +579,11 @@ function getSources($fileName, $returnArray=false){
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
     }
     
-    return $videoSources;
+    if($returnArray){
+        return array_merge($videoSources, $audioTracks, $subtitleTracks);
+    }
+    
+    return $videoSources.$audioTracks.$subtitleTracks;
 }
 
 function im_resize($file_src, $file_dest, $wd, $hd) {
