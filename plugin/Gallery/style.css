@@ -61,6 +61,10 @@ h3.galleryTitle{
     background-size: cover;   
 }
 
+.aspectRatio16_9 img{
+    text-indent:-9999px;
+}
+
 @media (max-width: 1200px) {
     .galleryVideo {
         height: 195px;
