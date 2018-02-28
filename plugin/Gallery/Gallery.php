@@ -18,8 +18,10 @@ class Gallery extends PluginAbstract {
         
     public function getHeadCode() {
         global $global;
+        // preload image
+        $js = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder.png\";</script>";
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>';
-        return $css;
+        return $js.$css;
     }
 
     
