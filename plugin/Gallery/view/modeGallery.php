@@ -74,7 +74,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     ?>
                     <div class="row mainArea">
                         <div class="clear clearfix" style="margin-bottom: 15px;">
-                            <div class="clear clearfix">
+                            <div class="clear clearfix thumbsImage">
                                 <div class="col-sm-4 fixPadding">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/video/<?php echo $video['clean_title']; ?>" 
                                        title="<?php echo $video['title']; ?>" style="" >

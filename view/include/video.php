@@ -161,12 +161,15 @@ if ($config->getAutoplay()) {
         player.persistvolume({
             namespace: "YouPHPTube"
         });
-<?php if (!empty($logId)) { ?>
+<?php 
+if (!empty($logId)) { 
+    $sources = getSources($video['filename'], true);
+    ?>
             $('#adButton').click(function () {
                 isPlayingAd = false;
                 console.log("Change Video");
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
-                changeVideoSrc(player, <?php echo json_encode(getSources($video['filename'], true)); ?>);
+                changeVideoSrc(player, <?php echo json_encode($sources); ?>);
                 $(".ad").removeClass("ad");
                 return false;
             });
