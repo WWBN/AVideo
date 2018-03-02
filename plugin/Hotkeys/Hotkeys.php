@@ -35,12 +35,12 @@ class Hotkeys extends PluginAbstract {
         $obj = $this->getDataObject();
         
         $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        
+        echo $url;
         if(("https://".$url!=$global['webSiteRootURL'])&&("http://".$url!=$global['webSiteRootURL'])&&
            ("http://".$url!=$global['webSiteRootURL']."cat/")&&("https://".$url!=$global['webSiteRootURL']."cat/")&&
            ("http://".$url!=$global['webSiteRootURL']."login/")&&("http://".$url!=$global['webSiteRootURL']."login/")&&
            ("http://".$url!=$global['webSiteRootURL']."mvideos")&&("https://".$url!=$global['webSiteRootURL']."mvideos")&&
-           ("http://".$url!=$global['webSiteRootURL']."plugins")&&("https://".$url!=$global['webSiteRootURL']."plugins")){
+           ("http://".$url!=$global['webSiteRootURL']."plugins")&&("https://".$url!=$global['webSiteRootURL']."plugins")&&(strpos($url,"/cat/")===false)){
             
             $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script>
                     <script>
