@@ -99,7 +99,7 @@ if ($video['type'] !== "audio") {
                 <?php
             } else {
                 ?>
-                <video poster="<?php echo $poster; ?>" controls crossorigin  width="auto" height="auto"
+                <video poster="<?php echo $poster; ?>" controls  width="auto" height="auto"
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                     <?php
                     echo getSources($video['filename']);
