@@ -82,7 +82,7 @@ if (!empty($videos)) {
                         <?php
                     } else {
                         ?>
-                        <video poster="<?php echo $poster; ?>" controls crossorigin 
+                        <video poster="<?php echo $poster; ?>" controls 
                                class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                                id="mainVideo<?php echo $video['id']; ?>"  data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
                                    <?php
