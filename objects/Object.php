@@ -138,6 +138,8 @@ abstract class ObjectYPT implements ObjectInterface{
                     $fields[] = " {$value} = now() ";
                 }else if(is_numeric($this->$value)) {
                     $fields[] = " `{$value}` = {$this->$value} ";
+                }else if(strtolower($this->$value) == 'null') {
+                    $fields[] = " `{$value}` = NULL ";
                 } else {
                     $fields[] = " `{$value}` = '{$this->$value}' ";
                 }                
@@ -151,7 +153,7 @@ abstract class ObjectYPT implements ObjectInterface{
             foreach ($fieldsName as $value) {
                 if (strtolower($value) == 'created' || strtolower($value) == 'modified') {
                     $fields[] = " now() ";
-                } elseif (!isset($this->$value)) {
+                } elseif (!isset($this->$value) || strtolower($this->$value) == 'null') {
                     $fields[] = " NULL ";
                 } else {
                     $fields[] = " '{$this->$value}' ";

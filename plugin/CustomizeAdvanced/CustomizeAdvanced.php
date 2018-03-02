@@ -31,6 +31,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotIndentifyByEmail = false;
         $obj->doNotIndentifyByName = false;
         $obj->doNotIndentifyByUserName = false;
+        $obj->usePermalinks = false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        

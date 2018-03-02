@@ -63,6 +63,7 @@ class Cache extends PluginAbstract {
                 unlink($cachefile);
             }
         }
+        //ob_start('sanitize_output');
         ob_start();
     }
 
@@ -104,7 +105,34 @@ class Cache extends PluginAbstract {
         }
         
         $total_time = round(($finish - $global['start']), 4);
-        error_log("{$type}: Page generated in {$total_time} seconds. ({$_SERVER['REQUEST_URI']})");
+        error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']})");
     }
 
+}
+
+
+function sanitize_output($buffer) {
+
+    $search = array(
+        '/\>[^\S ]+/s',     // strip whitespaces after tags, except space
+        '/[^\S ]+\</s',     // strip whitespaces before tags, except space
+        '/(\s)+/s',         // shorten multiple whitespace sequences
+        '/<!--(.|\s)*?-->/' // Remove HTML comments
+    );
+
+    $replace = array(
+        '>',
+        '<',
+        '\\1',
+        ''
+    );
+    
+    $len = strlen($buffer);
+    if($len){
+        error_log("Before Sanitize: ".strlen($buffer));
+        $buffer = preg_replace($search, $replace, $buffer);  
+        $lenAfter = strlen($buffer);
+        error_log("After Sanitize: {$lenAfter} = ".(($len/$lenAfter)*100)."%");
+    }
+    return $buffer;
 }

@@ -92,7 +92,8 @@ class Subscribe {
 
     static function getAllSubscribes($user_id = "") {
         global $global;
-        $sql = "SELECT u.* , s.* FROM subscribes as s "
+        $sql = "SELECT su.id as subscriber_id, s.* FROM subscribes as s "
+                . " LEFT JOIN users as su ON s.email = su.email   "
                 . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 ";
         if (!empty($user_id)) {
             $sql .= " AND users_id = {$user_id} ";
@@ -103,6 +104,11 @@ class Subscribe {
         $subscribe = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
+                $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
+                if($row['identification'] === __("Unknown User")){
+                    $row['identification'] = $row['email'];
+                }
+                
                 $subscribe[] = $row;
             }
             //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
