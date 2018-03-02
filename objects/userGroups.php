@@ -225,6 +225,9 @@ class UserGroups {
     }
 
     static function getVideoGroups($videos_id) {
+        if(empty($videos_id)){
+            return array();
+        }
         global $global;
         //check if table exists if not you need to update
         $res = $global['mysqli']->query('select 1 from `videos_group_view` LIMIT 1');
