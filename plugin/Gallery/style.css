@@ -31,19 +31,9 @@
     margin: 0;
     padding: 0;
 }
-.galleryVideo {
-    overflow: hidden;
-    height: 190px;
-    border-bottom: solid 1px #EEE;
-    margin-bottom: 10px; 
-}
 .galleryVideo .group {
     overflow: hidden;
     text-overflow: ellipsis;
-}
-.fixPadding{    
-    padding-left: 5px;
-    padding-right: 5px;
 }
 
 .mainArea{
@@ -63,40 +53,38 @@ h3.galleryTitle{
 
 .aspectRatio16_9 img{
     text-indent:-9999px;
+    width: 100%;
 }
 
-@media (max-width: 1200px) {
-    .galleryVideo {
-        height: 195px;
-    }
+.firstRow{
+    margin-bottom: 10px;
+    padding-bottom: 25px;
+    border-bottom: solid 1px #EEE;
 }
-@media (max-width: 992px) {
-    .galleryVideo {
-        height: 220px;
-    }
+
+.aligned-row {
+    overflow: hidden;
+    border-bottom: solid 1px #EEE;
+    margin-bottom: 10px; 
+    padding-bottom: 10px; 
 }
-@media (max-width: 850px) {
-    .galleryVideo {
-        height: 180px;
-    }
+
+.galeryDetails div{
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+    font-size: 0.7em;
 }
-@media (max-width: 768px) {
-    .galleryVideo {
-        height: 290px;
-    }
+
+.firstRow .galeryDetails div{
+    font-size: 1em;
 }
-@media (max-width: 650px) {
-    .galleryVideo {
-        height: 250px;
-    }
+
+.galeryDetails div.userName{
+    width: 100%;
 }
-@media (max-width: 500px) {
-    .galleryVideo {
-        height: 200px;
-    }
-}
-@media (max-width: 400px) {
-    .galleryVideo {
-        height: 180px;
-    }
+.fixPadding{
+    padding: 0 5px;
 }
