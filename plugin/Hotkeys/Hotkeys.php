@@ -6,7 +6,7 @@ class Hotkeys extends PluginAbstract {
 
     public function getDescription() {
         global $global;
-        return "Enable hotkeys for videos (experimental)";
+        return "Enable hotkeys for videos, like F for fullscreen, space for play/pause, etc..";
     }
 
     public function getName() {
@@ -21,6 +21,7 @@ class Hotkeys extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->Volume = True;
+        $obj->ReplaceVolumeWithPlusMinus = True;
         $obj->Fullscreen = True;
         return $obj;
     }
@@ -59,11 +60,17 @@ class Hotkeys extends PluginAbstract {
             } else {
                 $tmp .= "enableFullscreen: false,";
             }
-        
-        $tmp .= "enableModifiersForNumbers: false
+            if($obj->ReplaceVolumeWithPlusMinus==1){
+                $tmp .= "volumeUpKey: function(event, player) { return (event.which === 107); },
+                         volumeDownKey: function(event, player) { return (event.which === 109);},";
+            }
+            
+            $tmp .= "enableModifiersForNumbers: false
                       });  
-                   });  </script>";
-                   return $tmp;
+            });";
+
+            $tmp .= "</script>";
+            return $tmp;
         }
         return "";
     }
