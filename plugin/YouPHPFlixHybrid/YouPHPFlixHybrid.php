@@ -5,7 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class YouPHPFlixHybrid extends PluginAbstract {
 
     public function getDescription() {
-        return "This is a merge of YouPHPFlix-Plugin and the Gallery-Plugin, which are also dependencies. <br /> For a proper work of the plugin, disable YouPHPFlix and Gallery, but do not remove them.";
+        return "This is a merge of YouPHPFlix-Plugin and the Gallery-Plugin, which are also dependencies. <br /> For a proper work of the plugin, disable YouPHPFlix and Gallery, but do not remove them. Else, there will be small style-issues.";
     }
 
     public function getName() {
@@ -39,7 +39,6 @@ class YouPHPFlixHybrid extends PluginAbstract {
         
         // When first page at all
         if(("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])||("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])){
-            echo "helohelo";
             $youphpflixTmp = "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix/view/css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             return $youphpflixTmp;
         } else {
