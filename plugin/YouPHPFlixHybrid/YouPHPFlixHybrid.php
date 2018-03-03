@@ -25,7 +25,7 @@ class YouPHPFlixHybrid extends PluginAbstract {
         
     public function getFirstPage(){
         global $global;        
-        if("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL']){
+        if(("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])||("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])){
             return $global['systemRootPath'].'plugin/YouPHPFlix/view/firstPage.php';
         }
         else {
@@ -38,7 +38,7 @@ class YouPHPFlixHybrid extends PluginAbstract {
         $obj = $this->getDataObject();
         $css = "";
         //$css .= "<link href=\"{$global['webSiteRootURL']}view/css/custom/".$obj->theme.".css\" rel=\"stylesheet\" type=\"text/css\"/>";
-        if("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL']){
+        if(("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])||("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])){
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix/view/css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
         }
         return $css;
