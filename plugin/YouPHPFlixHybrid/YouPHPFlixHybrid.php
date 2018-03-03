@@ -5,7 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class YouPHPFlixHybrid extends PluginAbstract {
 
     public function getDescription() {
-        return "This is a merge of YouPHPFlix-Plugin and the Gallery-Plugin, which are also dependencies.";
+        return "This is a merge of YouPHPFlix-Plugin and the Gallery-Plugin, which are also dependencies. <br /> For a proper work of the plugin, disable YouPHPFlix and Gallery, but do not remove them.";
     }
 
     public function getName() {
@@ -36,12 +36,18 @@ class YouPHPFlixHybrid extends PluginAbstract {
     public function getHeadCode() {
         global $global;
         $obj = $this->getDataObject();
-        $css = "";
-        //$css .= "<link href=\"{$global['webSiteRootURL']}view/css/custom/".$obj->theme.".css\" rel=\"stylesheet\" type=\"text/css\"/>";
+        
+        // When first page at all
         if(("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])||("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])){
-            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix/view/css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            echo "helohelo";
+            $youphpflixTmp = "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix/view/css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            return $youphpflixTmp;
+        } else {
+        // When category or search or everything else is browsed
+            $galleryTmp = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder.png\";</script>";
+            $galleryTmp .= '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>';
+            return $galleryTmp;
         }
-        return $css;
     }
     
     public function getTags() {
