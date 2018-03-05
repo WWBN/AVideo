@@ -31,6 +31,7 @@ class Video {
     static $types = array('webm', 'mp4', 'mp3', 'ogg');
     private $videoGroups;
     private $videoAdsCount;
+    private $subtitles = array();
     static $statusDesc = array(
         'a' => 'active',
         'i' => 'inactive',
@@ -58,8 +59,57 @@ class Video {
         if (!empty($filename)) {
             $this->filename = $filename;
         }
+
     }
 
+    function getSubtitlesList(){
+        
+        $subtitle_ids = array();
+        $sql = "SELECT subtitle_id FROM video_has_subtitles WHERE video_id = ".$this->id."; ";
+        $res = $global['mysqli']->query($sql);
+        if ($res->num_rows > 0) {
+            while($row = $res->fetch_assoc()){
+                $subtitle_ids[] = $row['subtitle_id'];
+            }
+        }
+        $countedSubs = count($subtitle_ids);
+        if($countedSubs>0){
+            require_once $global['systemRootPath'] . 'objects/subtitle.php';
+            $ii = 0;
+            $sql = "SELECT * FROM subtitle WHERE ";
+            while($countedSubs>$ii){
+                $sql .= "id = ".$subtitle_ids[$ii];
+                if(($countedSubs-1)>$ii){
+                    $sql .= " OR ";
+                } else {
+                    // Last subtitle
+                    $sql .= ";";
+                }
+                $ii++;
+            }
+            $res = $global['mysqli']->query($sql);
+            if ($res->num_rows > 0) {
+                while($row = $res->fetch_assoc()){
+                    $this->subtitles[] = new Subtitle($row['id'],$row['language'],$row['filename']);
+                }
+            }
+            
+            // This is for testing only
+            /*$ii = 0;
+            while(count($this->subtitles)>$ii){
+                echo "blablablu ".$this->subtitles[$ii]->getLanguage();
+                echo "blablablu ".$this->subtitles[$ii]->getFilename();
+                $ii++;
+            }*/
+            // End of testing
+            
+        }
+        
+        return $this->subtitles;
+        
+        
+    }
+    
     function addView() {
         global $global;
         if (empty($this->id)) {
