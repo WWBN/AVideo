@@ -224,7 +224,8 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     page: <?php echo $_GET['page']; ?>,
                                     maxVisible: 10
                                 }).on('page', function (event, num) {
-                                    window.location.replace("<?php echo $global['webSiteRootURL']; ?>page/" + num);
+                                    <?php $url = ''; if(strpos($_SERVER['REQUEST_URI'],"cat")===false){ $url = $global['webSiteRootURL']."page/"; } else { $url = $global['webSiteRootURL']."cat/".$video['clean_category']."/page/"; } ?>
+                                    window.location.replace("<?php echo $url; ?>" + num);
                                 });
                             });
                         </script>

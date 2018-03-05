@@ -6,7 +6,7 @@ class Hotkeys extends PluginAbstract {
 
     public function getDescription() {
         global $global;
-        return "Enable hotkeys for videos (experimental)";
+        return "Enable hotkeys for videos, like F for fullscreen, space for play/pause, etc..";
     }
 
     public function getName() {
@@ -21,6 +21,7 @@ class Hotkeys extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->Volume = True;
+        $obj->ReplaceVolumeWithPlusMinus = True;
         $obj->Fullscreen = True;
         return $obj;
     }
@@ -33,29 +34,43 @@ class Hotkeys extends PluginAbstract {
     public function getFooterCode() {
         global $global;
         $obj = $this->getDataObject();
-        if(("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL'])&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL'])&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."cat/")&&("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."cat/")&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."login/")&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."login/")&&("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."mvideos")&&("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']!=$global['webSiteRootURL']."mvideos")){
-        $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script>
-                <script>
-                   videojs('mainVideo').ready(function() {
-                   this.hotkeys({
-                      seekStep: 5,";
-               if($obj->Volume==1){
-                    $tmp .= "enableVolumeScroll: true,";
-               } else {
-                    // Could not use Up/Down-Keys as excepted. What's the right option?
-                    $tmp .= "enableVolumeScroll: false,";
-               }
-               
-               if($obj->Fullscreen==1){
-                    $tmp .= "enableFullscreen: true,";
-               } else {
-                    $tmp .= "enableFullscreen: false,";
-               }
         
-        $tmp .= "enableModifiersForNumbers: false
+        $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        if(("https://".$url!=$global['webSiteRootURL'])&&("http://".$url!=$global['webSiteRootURL'])&&
+           ("http://".$url!=$global['webSiteRootURL']."cat/")&&("https://".$url!=$global['webSiteRootURL']."cat/")&&
+           ("http://".$url!=$global['webSiteRootURL']."login/")&&("http://".$url!=$global['webSiteRootURL']."login/")&&
+           ("http://".$url!=$global['webSiteRootURL']."mvideos")&&("https://".$url!=$global['webSiteRootURL']."mvideos")&&
+           ("http://".$url!=$global['webSiteRootURL']."plugins")&&("https://".$url!=$global['webSiteRootURL']."plugins")&&(strpos($url,"/cat/")===false)){
+            
+            $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script>
+                    <script>
+                        videojs('mainVideo').ready(function() {
+                            this.hotkeys({
+                            seekStep: 5,";
+               
+            if($obj->Volume==1){
+                $tmp .= "enableVolumeScroll: true,";
+            } else {
+                // Could not use Up/Down-Keys as excepted. What's the right option?
+                $tmp .= "enableVolumeScroll: false,";
+            }
+               
+            if($obj->Fullscreen==1){
+                $tmp .= "enableFullscreen: true,";
+            } else {
+                $tmp .= "enableFullscreen: false,";
+            }
+            if($obj->ReplaceVolumeWithPlusMinus==1){
+                $tmp .= "volumeUpKey: function(event, player) { return (event.which === 107); },
+                         volumeDownKey: function(event, player) { return (event.which === 109);},";
+            }
+            
+            $tmp .= "enableModifiersForNumbers: false
                       });  
-                   });  </script>";
-                   return $tmp;
+            });";
+
+            $tmp .= "</script>";
+            return $tmp;
         }
         return "";
     }
