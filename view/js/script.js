@@ -134,7 +134,7 @@ function changeVideoSrc(vid_obj, source) {
             player.addRemoteTextTrack(source[i]);
         }
     }
-    player.updateSrc(srcs);
+    player.src(srcs);
     vid_obj.load();
     player.play();
                     
