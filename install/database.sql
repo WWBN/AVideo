@@ -238,26 +238,6 @@ CREATE TABLE IF NOT EXISTS `users_groups` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `video_has_subtitles`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `video_has_subtitles` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `video_id` INT NOT NULL,
-  `subtitle_id` INT NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `subtitle`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `subtitle` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `language` VARCHAR(20) NOT NULL,
-  `filename` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
 -- Table `users_has_users_groups`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users_has_users_groups` (
