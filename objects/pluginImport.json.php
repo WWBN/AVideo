@@ -12,6 +12,10 @@ $obj = new stdClass();
 $obj->uploaded = false;
 $obj->filename = $_FILES['input-b1']['name'];
 
+if (!empty($global['disableAdvancedConfigurations'])) {
+    die(json_encode($obj));
+}
+
 if (!User::isAdmin()) {
     $obj->msg = "You are not admin";
     die(json_encode($obj));
