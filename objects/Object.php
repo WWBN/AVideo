@@ -1,11 +1,13 @@
 <?php
-interface ObjectInterface{
-    
+
+interface ObjectInterface {
+
     static function getTableName();
+
     static function getSearchFieldsNames();
 }
 
-abstract class ObjectYPT implements ObjectInterface{
+abstract class ObjectYPT implements ObjectInterface {
 
     protected $fieldsName = array();
 
@@ -29,7 +31,7 @@ abstract class ObjectYPT implements ObjectInterface{
     static protected function getFromDb($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM ".static::getTableName()." WHERE  id = $id LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = $id LIMIT 1";
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $row = $res->fetch_assoc();
@@ -41,7 +43,7 @@ abstract class ObjectYPT implements ObjectInterface{
 
     static function getAll() {
         global $global;
-        $sql = "SELECT * FROM  ".static::getTableName()." WHERE 1=1 ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 
         $sql .= self::getSqlFromPost();
 
@@ -61,7 +63,7 @@ abstract class ObjectYPT implements ObjectInterface{
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
-        $sql = "SELECT id FROM  ".static::getTableName()." WHERE 1=1  ";
+        $sql = "SELECT id FROM  " . static::getTableName() . " WHERE 1=1  ";
 
         $sql .= self::getSqlSearchFromPost();
 
@@ -71,9 +73,8 @@ abstract class ObjectYPT implements ObjectInterface{
         return $res->num_rows;
     }
 
-
-     static function getSqlFromPost($keyPrefix = "") {
-         global $global;
+    static function getSqlFromPost($keyPrefix = "") {
+        global $global;
         $sql = self::getSqlSearchFromPost();
 
         if (!empty($_POST['sort'])) {
@@ -83,15 +84,15 @@ abstract class ObjectYPT implements ObjectInterface{
                 $value = $global['mysqli']->real_escape_string($value);
                 $orderBy[] = " {$keyPrefix}{$key} {$value} ";
             }
-            $sql .= " ORDER BY ".implode(",", $orderBy);
+            $sql .= " ORDER BY " . implode(",", $orderBy);
         } else {
             //$sql .= " ORDER BY CREATED DESC ";
         }
 
-        if (!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount']>0) {
+        if (!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount'] > 0) {
             $_POST['rowCount'] = intval($_POST['rowCount']);
             $_POST['current'] = intval($_POST['current']);
-            $current = ($_POST['current']-1)*$_POST['rowCount'];
+            $current = ($_POST['current'] - 1) * $_POST['rowCount'];
             $sql .= " LIMIT $current, {$_POST['rowCount']} ";
         } else {
             $_POST['current'] = 0;
@@ -115,9 +116,9 @@ abstract class ObjectYPT implements ObjectInterface{
             foreach ($searchFields as $value) {
                 $like[] = " {$value} LIKE '%{$search}%' ";
             }
-            if(!empty($like)){
-                $sql .= " AND (". implode(" OR ", $like).")";
-            }else{
+            if (!empty($like)) {
+                $sql .= " AND (" . implode(" OR ", $like) . ")";
+            } else {
                 $sql .= " AND 1=1 ";
             }
         }
@@ -129,26 +130,26 @@ abstract class ObjectYPT implements ObjectInterface{
         global $global;
         $fieldsName = $this->getAllFields();
         if (!empty($this->id)) {
-            $sql = "UPDATE ".static::getTableName()." SET ";
+            $sql = "UPDATE " . static::getTableName() . " SET ";
             $fields = array();
             foreach ($fieldsName as $value) {
                 if (strtolower($value) == 'created') {
                     // do nothing
                 } elseif (strtolower($value) == 'modified') {
                     $fields[] = " {$value} = now() ";
-                }else if(is_numeric($this->$value)) {
+                } else if (is_numeric($this->$value)) {
                     $fields[] = " `{$value}` = {$this->$value} ";
-                }else if(strtolower($this->$value) == 'null') {
+                } else if (strtolower($this->$value) == 'null') {
                     $fields[] = " `{$value}` = NULL ";
                 } else {
                     $fields[] = " `{$value}` = '{$this->$value}' ";
-                }                
+                }
             }
             $sql .= implode(", ", $fields);
             $sql .= " WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO ".static::getTableName()." ( ";
-            $sql .= "`".implode("`,`", $fieldsName). "` )";            
+            $sql = "INSERT INTO " . static::getTableName() . " ( ";
+            $sql .= "`" . implode("`,`", $fieldsName) . "` )";
             $fields = array();
             foreach ($fieldsName as $value) {
                 if (strtolower($value) == 'created' || strtolower($value) == 'modified') {
@@ -159,7 +160,7 @@ abstract class ObjectYPT implements ObjectInterface{
                     $fields[] = " '{$this->$value}' ";
                 }
             }
-            $sql .= " VALUES (".implode(", ", $fields).")";
+            $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
         //echo $sql;
         $insert_row = $global['mysqli']->query($sql);
@@ -178,7 +179,7 @@ abstract class ObjectYPT implements ObjectInterface{
 
     private function getAllFields() {
         global $global, $mysqlDatabase;
-        $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{$mysqlDatabase}' AND TABLE_NAME = '".static::getTableName()."'";
+        $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{$mysqlDatabase}' AND TABLE_NAME = '" . static::getTableName() . "'";
 
         $res = $global['mysqli']->query($sql);
         $rows = array();
@@ -191,18 +192,45 @@ abstract class ObjectYPT implements ObjectInterface{
         }
         return $rows;
     }
-    
-    function delete(){
+
+    function delete() {
         global $global;
         if (!empty($this->id)) {
-            $sql = "DELETE FROM ".static::getTableName()." ";
+            $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE id = {$this->id}";
             $global['lastQuery'] = $sql;
             //error_log("Delete Query: ".$sql);
             return $global['mysqli']->query($sql);
-        } 
-        error_log("Id for table ".static::getTableName()." not defined for deletion");
+        }
+        error_log("Id for table " . static::getTableName() . " not defined for deletion");
         return false;
     }
-};
+
+    static function setCache($name, $value) {
+        $tmpDir = sys_get_temp_dir();
+        $uniqueHash = md5(__FILE__);
+
+        $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
+        file_put_contents($cachefile, json_encode($value));
+    }
+
+    static function getCache($name, $lifetime = 60) {
+        $tmpDir = sys_get_temp_dir();
+        $uniqueHash = md5(__FILE__);
+
+        $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
+        if (!empty($_GET['lifetime'])) {
+            $lifetime = intval($_GET['lifetime']);
+        }
+        if (file_exists($cachefile) && time() - $lifetime <= filemtime($cachefile)) {
+            $c = @file_get_contents($cachefile);
+            return json_decode($c);
+        } else if (file_exists($cachefile)) {
+            unlink($cachefile);
+        }
+    }
+
+}
+
+;
 //abstract class Object extends ObjectYPT{};

@@ -58,10 +58,8 @@ class Video {
         if (!empty($filename)) {
             $this->filename = $filename;
         }
-
     }
 
-    
     function addView() {
         global $global;
         if (empty($this->id)) {
@@ -322,14 +320,14 @@ class Video {
         if (!empty($_GET['catName'])) {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
-              
-        
+
+
         if (!empty($_GET['search'])) {
             $_POST['searchPhrase'] = $_GET['search'];
         }
 
         $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
-        
+
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
         } elseif (empty($random) && !empty($_GET['videoName'])) {
@@ -340,14 +338,14 @@ class Video {
         } else if ($suggetedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
             $sql .= " AND v.isSuggested = 1 ";
             $sql .= " ORDER BY RAND() ";
-        }else {
+        } else {
             $sql .= " ORDER BY v.Created DESC ";
         }
-        
 
-        
+
+
         $sql .= " LIMIT 1";
-        
+
         /*
           if (!empty($random)) {
           echo '<hr />'.$sql;
@@ -670,13 +668,14 @@ class Video {
         if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
+            $path = self::getStoragePath();
             foreach (self::$types as $value) {
-                $file = "{$global['systemRootPath']}videos/original_{$video['filename']}";
+                $file = "{$path}original_{$video['filename']}";
                 if (file_exists($file)) {
                     @unlink($file);
                 }
                 // Streamlined for less coding space.
-                $files = glob("{$global['systemRootPath']}videos/{$video['filename']}.*");
+                $files = glob("{$path}{$video['filename']}.*");
                 foreach ($files as $file) {
                     if (file_exists($file)) {
                         @unlink($file);
@@ -758,7 +757,9 @@ class Video {
 
     function updateDurationIfNeed($fileExtension = ".mp4") {
         global $global;
-        $file = $global['systemRootPath'] . "videos/" . $this->filename . $fileExtension;
+        $source = self::getSourceFile($this->filename, $fileExtension);
+        $file = $source['path'];
+        
         if (!empty($this->id) && $this->duration == "EE:EE:EE" && file_exists($file)) {
             $this->duration = Video::getDurationFromFile($file);
             error_log("Duration Updated: " . print_r($this, true));
@@ -1020,7 +1021,7 @@ class Video {
         }
         return $clean_title;
     }
-    
+
     /**
      * 
      * @global type $global
@@ -1028,11 +1029,11 @@ class Video {
      * @param type $users_id if is empty will use the logged user
      * @return boolean
      */
-    static function isOwner($videos_id, $users_id=0) {
+    static function isOwner($videos_id, $users_id = 0) {
         global $global;
-        if(empty($users_id)){
+        if (empty($users_id)) {
             $users_id = User::getId();
-            if(empty($users_id)){
+            if (empty($users_id)) {
                 return false;
             }
         }
@@ -1041,31 +1042,30 @@ class Video {
         $res = $global['mysqli']->query($sql);
         return !empty($res);
     }
-    
+
     /**
      * 
      * @param type $videos_id
      * @param type $users_id if is empty will use the logged user
      * @return boolean
      */
-    static function canEdit($videos_id, $users_id=0) {
-        if(empty($users_id)){
+    static function canEdit($videos_id, $users_id = 0) {
+        if (empty($users_id)) {
             $users_id = User::getId();
-            if(empty($users_id)){
+            if (empty($users_id)) {
                 return false;
             }
         }
         $user = new User($users_id);
-        if(empty($user)){
+        if (empty($user)) {
             return false;
         }
-        
-        if($user->getIsAdmin()){
+
+        if ($user->getIsAdmin()) {
             return true;
         }
-        
-        return self::isOwner($videos_id, $users_id);        
-        
+
+        return self::isOwner($videos_id, $users_id);
     }
 
     static function getRandom($excludeVideoId = false) {
@@ -1187,24 +1187,66 @@ class Video {
         $this->videoLink = $videoLink;
     }
 
+    /**
+     * 
+     * @param type $filename
+     * @param type $type
+     * @return type .jpg .gif _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
+     */
+    static function getSourceFile($filename, $type=".jpg") {
+        global $global;
+        $name = "getSourceFile_{$filename}{$type}_";
+        $cached = ObjectYPT::getCache($name, 86400);//one day
+        if(!empty($cached)){
+            return (array) $cached;
+        }
+        $source = array();
+        $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
+        $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}";
+        if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
+            $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+            if (!empty($aws_s3)) {
+                $source = $aws_s3->getAddress("{$filename}{$type}");
+            }
+        }
+        ObjectYPT::setCache($name, $source);
+        return $source;
+    }
+    
+    static function getStoragePath(){
+        global $global;
+        $path = "{$global['systemRootPath']}videos/";
+        $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+        if (!empty($aws_s3)) {
+            $path = $aws_s3->getStoragePath();
+        }
+        return $path;
+    }
+
     static function getImageFromFilename($filename, $type = "video") {
         global $global;
+        $name = "getImageFromFilename_{$filename}{$type}_";
+        $cached = ObjectYPT::getCache($name, 86400);//one day
+        if(!empty($cached)){
+            return $cached;
+        }
         $obj = new stdClass();
-        $jpegSource = "{$global['systemRootPath']}videos/{$filename}.jpg";
-        $thumbsSource = "{$global['systemRootPath']}videos/{$filename}_thumbs.jpg";
+        $gifSource = self::getSourceFile($filename, ".gif");
+        $jpegSource = self::getSourceFile($filename, ".jpg");
+        $thumbsSource =  self::getSourceFile($filename, "_thumbs.jpg");
         $obj->poster = "";
         $obj->thumbsGif = "";
         $obj->thumbsJpg = "";
         if ($type !== "audio") {
-            if (file_exists("{$global['systemRootPath']}videos/{$filename}.gif")) {
-                $obj->thumbsGif = "{$global['webSiteRootURL']}videos/{$filename}.gif";
+            if (file_exists($gifSource['path'])) {
+                $obj->thumbsGif = $gifSource['url'];
             }
-            if (file_exists($jpegSource) && filesize($jpegSource) > 0) {
-                $obj->poster = "{$global['webSiteRootURL']}videos/{$filename}.jpg";
-                $obj->thumbsJpg = "{$global['webSiteRootURL']}videos/{$filename}_thumbs.jpg";
+            if (file_exists($jpegSource['path']) && filesize($jpegSource['path']) > 1024) {
+                $obj->poster = $jpegSource['url'];
+                $obj->thumbsJpg = $thumbsSource['url'];
                 // create thumbs
-                if (!file_exists($thumbsSource)) {
-                    im_resize($jpegSource, $thumbsSource, 250, 140);
+                if (!file_exists($thumbsSource['path'])) {
+                    im_resize($jpegSource['path'], $thumbsSource['path'], 250, 140);
                 }
             } else {
                 $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
@@ -1213,19 +1255,20 @@ class Video {
         } else {
             $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
         }
+        ObjectYPT::setCache($name, $obj);
         return $obj;
     }
-    
+
     function getViews_count() {
         return intval($this->views_count);
     }
 
-    static function get_clean_title($videos_id){
+    static function get_clean_title($videos_id) {
         global $global;
 
         $sql = "SELECT * FROM videos WHERE id = {$videos_id} LIMIT 1";
         $res = $global['mysqli']->query($sql);
-        
+
         if ($res) {
             if ($row = $res->fetch_assoc()) {
                 return $row['clean_title'];
@@ -1236,13 +1279,13 @@ class Video {
         }
         return false;
     }
-    
-    static function get_id_from_clean_title($clean_title){
+
+    static function get_id_from_clean_title($clean_title) {
         global $global;
 
         $sql = "SELECT * FROM videos WHERE clean_title = {$clean_title} LIMIT 1";
         $res = $global['mysqli']->query($sql);
-        
+
         if ($res) {
             if ($row = $res->fetch_assoc()) {
                 return $row['id'];
@@ -1253,7 +1296,7 @@ class Video {
         }
         return false;
     }
-    
+
     /**
      * 
      * @global type $global
@@ -1263,61 +1306,59 @@ class Video {
      * @param type $type URLFriendly or permalink
      * @return String a web link
      */
-    static function getLinkToVideo($videos_id, $clean_title="", $embed = false, $type="URLFriendly"){
+    static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly") {
         global $global;
-        if($type=="URLFriendly"){
-            if(!empty($videos_id) && empty(empty($clean_title))){
+        if ($type == "URLFriendly") {
+            if (!empty($videos_id) && empty(empty($clean_title))) {
                 $clean_title = self::get_clean_title($videos_id);
             }
-            if($embed){
+            if ($embed) {
                 return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}";
-            }else{
+            } else {
                 return "{$global['webSiteRootURL']}video/{$clean_title}";
             }
-        }else{
-            if(empty($videos_id) && !empty(empty($clean_title))){
+        } else {
+            if (empty($videos_id) && !empty(empty($clean_title))) {
                 $videos_id = self::get_id_from_clean_title($clean_title);
             }
-            if($embed){
+            if ($embed) {
                 return "{$global['webSiteRootURL']}vEmbed/{$videos_id}";
-            }else{
+            } else {
                 return "{$global['webSiteRootURL']}v/{$videos_id}";
             }
-            
         }
-        
     }
-    
-    static function getPermaLink($videos_id, $embed = false){
+
+    static function getPermaLink($videos_id, $embed = false) {
         return self::getLinkToVideo($videos_id, "", $embed, "permalink");
     }
-    
-    static function getURLFriendly($videos_id, $embed = false){
+
+    static function getURLFriendly($videos_id, $embed = false) {
         return self::getLinkToVideo($videos_id, "", $embed, "URLFriendly");
     }
-    
-    static function getPermaLinkFromCleanTitle($clean_title, $embed = false){
+
+    static function getPermaLinkFromCleanTitle($clean_title, $embed = false) {
         return self::getLinkToVideo("", $clean_title, $embed, "permalink");
     }
-    
-    static function getURLFriendlyFromCleanTitle($clean_title, $embed = false){
+
+    static function getURLFriendlyFromCleanTitle($clean_title, $embed = false) {
         return self::getLinkToVideo("", $clean_title, $embed, "URLFriendly");
     }
-    
-    static function getLink($videos_id, $clean_title, $embed = false){        
+
+    static function getLink($videos_id, $clean_title, $embed = false) {
         $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-        if(!empty($advancedCustom->usePermalinks)){
+        if (!empty($advancedCustom->usePermalinks)) {
             $type = "permalink";
-        }else{
+        } else {
             $type = "URLFriendly";
         }
-        
+
         return self::getLinkToVideo($videos_id, $clean_title, $embed, $type);
     }
 
 }
 
 // just to convert permalink into clean_title
-if(!empty($_GET['v']) && empty($_GET['videoName'])){
+if (!empty($_GET['v']) && empty($_GET['videoName'])) {
     $_GET['videoName'] = Video::get_clean_title($_GET['v']);
 }
