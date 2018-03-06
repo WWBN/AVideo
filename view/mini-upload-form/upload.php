@@ -3,6 +3,7 @@ $configFile = '../../videos/configuration.php';
 if (!file_exists($configFile)) {
     $configFile = '../videos/configuration.php';
 }
+session_write_close();
 $obj = new stdClass();
 $obj->error = true;
 require_once $configFile;
@@ -34,9 +35,17 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     /**
      * This is when is using in a non uploaded movie
      */
-    if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/" . $filename.".mp4")) {
-        $obj->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename.".mp4)";
+    
+    $path = Video::getStoragePath();
+    
+    if (!move_uploaded_file($_FILES['upl']['tmp_name'], $path . $filename.".mp4")) {
+        $obj->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . $path . $filename.".mp4)";
         die(json_encode($obj));
+    }
+    
+    $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+    if(!empty($aws_s3)){
+        file_put_contents( "{$global['systemRootPath']}videos/{$filename}.mp4" , "Dummy File" );
     }
     
     
