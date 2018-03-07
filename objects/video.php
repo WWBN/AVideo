@@ -668,22 +668,38 @@ class Video {
         if (empty($resp)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         } else {
-            $path = self::getStoragePath();
-            foreach (self::$types as $value) {
-                $file = "{$path}original_{$video['filename']}";
-                if (file_exists($file)) {
-                    @unlink($file);
-                }
-                // Streamlined for less coding space.
-                $files = glob("{$path}{$video['filename']}.*");
-                foreach ($files as $file) {
-                    if (file_exists($file)) {
-                        @unlink($file);
-                    }
-                }
+            $this->removeFiles($video['filename']);
+            $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+            if(!empty($aws_s3)){
+                $aws_s3->removeFiles($video['filename']);
             }
         }
         return $resp;
+    }
+    
+    private function removeFiles($filename){
+        if(empty($filename)){
+            return false;
+        }
+        global $global;
+        $file = "{$global['systemRootPath']}videos/original_{$filename}";
+        $this->removeFilePath($file);
+        
+        $files = "{$global['systemRootPath']}videos/{$filename}";
+        $this->removeFilePath($files);
+    }
+    
+    private function removeFilePath($filePath){
+        if(empty($filePath)){
+            return false;
+        }
+        // Streamlined for less coding space.
+        $files = glob("{$filePath}.*");
+        foreach ($files as $file) {
+            if (file_exists($file)) {
+                @unlink($file);
+            }
+        }
     }
 
     function setDescription($description) {
@@ -752,12 +768,12 @@ class Video {
         $getID3 = new getID3;
         // Analyze file and store returned data in $ThisFileInfo
         $ThisFileInfo = $getID3->analyze($file);
-        return static::getCleanDuration($ThisFileInfo['playtime_string']);
+        return static::getCleanDuration(@$ThisFileInfo['playtime_string']);
     }
 
     function updateDurationIfNeed($fileExtension = ".mp4") {
         global $global;
-        $source = self::getSourceFile($this->filename, $fileExtension);
+        $source = self::getSourceFile($this->filename, $fileExtension, true);
         $file = $source['path'];
         
         if (!empty($this->id) && $this->duration == "EE:EE:EE" && file_exists($file)) {
@@ -1193,7 +1209,7 @@ class Video {
      * @param type $type
      * @return type .jpg .gif _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
      */
-    static function getSourceFile($filename, $type=".jpg") {
+    static function getSourceFile($filename, $type=".jpg", $includeS3 = false) {
         global $global;
         $name = "getSourceFile_{$filename}{$type}_";
         $cached = ObjectYPT::getCache($name, 86400);//one day
@@ -1203,10 +1219,13 @@ class Video {
         $source = array();
         $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
         $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}";
-        if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
-            $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
-            if (!empty($aws_s3)) {
-                $source = $aws_s3->getAddress("{$filename}{$type}");
+        /* need it because getDurationFromFile*/
+        if($includeS3){
+            if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
+                $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+                if (!empty($aws_s3)) {
+                    $source = $aws_s3->getAddress("{$filename}{$type}");
+                }
             }
         }
         ObjectYPT::setCache($name, $source);
@@ -1234,18 +1253,18 @@ class Video {
         $gifSource = self::getSourceFile($filename, ".gif");
         $jpegSource = self::getSourceFile($filename, ".jpg");
         $thumbsSource =  self::getSourceFile($filename, "_thumbs.jpg");
-        $obj->poster = "";
-        $obj->thumbsGif = "";
-        $obj->thumbsJpg = "";
+        $obj->poster = $jpegSource['url'];
+        $obj->thumbsGif = $gifSource['url'];
+        $obj->thumbsJpg = $thumbsSource['url'];
         if ($type !== "audio") {
             if (file_exists($gifSource['path'])) {
                 $obj->thumbsGif = $gifSource['url'];
             }
-            if (file_exists($jpegSource['path']) && filesize($jpegSource['path']) > 1024) {
+            if (file_exists($jpegSource['path'])) {
                 $obj->poster = $jpegSource['url'];
                 $obj->thumbsJpg = $thumbsSource['url'];
                 // create thumbs
-                if (!file_exists($thumbsSource['path'])) {
+                if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
                     im_resize($jpegSource['path'], $thumbsSource['path'], 250, 140);
                 }
             } else {
