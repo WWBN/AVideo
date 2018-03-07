@@ -616,7 +616,15 @@ function getimgsize($file_src){
     $name = "getimgsize_". md5($file_src);
     $cached = ObjectYPT::getCache($name, 86400);//one day
     if(!empty($cached)){
-        return (Array) $cached;
+        $c = (Array) $cached;
+        $size = array();
+        foreach ($c as $key => $value) {
+            if(preg_match("/^[0-9]+$/", $key)){
+                $key = intval($key);
+            }
+            $size[$key] = $value;
+        }
+        return $size;
     }
     
     $size = @getimagesize($file_src);
@@ -701,4 +709,30 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
     @chmod($file_dest, 0666);
 
     return true;
+}
+
+function decideMoveUploadedToVideos($tmp_name, $filename){
+    global $global;
+    $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+    if (!empty($aws_s3)) {
+        $aws_s3->move_uploaded_file($tmp_name, $filename);
+    } else {
+        if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
+            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+            die(json_encode($obj));
+        }
+    }
+}
+
+function decideFile_put_contentsToVideos($tmp_name, $filename){
+    global $global;
+    $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+    if (!empty($aws_s3)) {
+        $aws_s3->move_uploaded_file($tmp_name, $filename);
+    } else {
+        if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
+            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+            die(json_encode($obj));
+        }
+    }
 }

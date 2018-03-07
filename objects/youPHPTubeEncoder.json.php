@@ -66,53 +66,30 @@ if (empty($videoFileName)) {
 
 $destination_local = "{$global['systemRootPath']}videos/{$videoFileName}";
 // get video file from encoder
-$aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
-if(empty($aws_s3)){
-    $destination = $destination_local;
-    error_log("Using Local Storage: {$destination}");
-}else{
-    $address = $aws_s3->getAddress($filename);
-    $destination = "{$address['path']}";
-    error_log("Using AWS Storage: {$destination}");
-}
-
 if (!empty($_FILES['video']['tmp_name'])) {
     $resolution = "";
     if (!empty($_POST['resolution'])) {
         $resolution = "_{$_POST['resolution']}";
     }
-    $destination_resolution_file = "{$destination}{$resolution}.{$_POST['format']}";
-    if (!move_uploaded_file($_FILES['video']['tmp_name'], $destination_resolution_file)) {
-        $obj->msg = print_r(sprintf(__("Could not move video file [%s] => [%s %s %s]"), $_FILES['video']['tmp_name'], $destination, $_POST['format'], $resolution), true);
-        error_log($obj->msg);
-        die(json_encode($obj));
-    }    
-    if(!empty($aws_s3)){
-        file_put_contents( "{$destination_local}{$resolution}.{$_POST['format']}" , "Dummy File for $destination_resolution_file " );
-    }
+    $filename = "{$videoFileName}{$resolution}.{$_POST['format']}";
+    decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
 } else {
     // set encoding
     $video->setStatus('e');
 }
-if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination}.jpg")) {
-    if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination}.jpg")) {
-        $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination), true);
-        error_log($obj->msg);
-        die(json_encode($obj));
-    }   
-    if(!empty($aws_s3)){
-        file_put_contents( "{$destination_local}.jpg" , "Dummy File" );
-    }
-}
-if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination}.gif")) {
-    if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination}.gif")) {
-        $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination), true);
+if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.jpg")) {
+    if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination_local}.jpg")) {
+        $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
         error_log($obj->msg);
         die(json_encode($obj));
     } 
-    if(!empty($aws_s3)){
-        file_put_contents( "{$destination_local}.gif" , "Dummy File" );
-    }
+}
+if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local}.gif")) {
+    if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination_local}.gif")) {
+        $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
+        error_log($obj->msg);
+        die(json_encode($obj));
+    } 
 }
 $video_id = $video->save();
 $video->updateDurationIfNeed();

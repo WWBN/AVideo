@@ -162,6 +162,11 @@ class YouPHPTubePlugin{
         return !empty(Plugin::getEnabled($uuid));
     }
     
+    static function isEnabledByName($name){
+        $p = static::loadPluginIfEnabled($name);
+        return !empty($p);
+    }
+    
     static function getLogin(){
         $plugins = Plugin::getAllEnabled();
         $logins = array();
