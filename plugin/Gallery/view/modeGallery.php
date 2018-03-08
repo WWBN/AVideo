@@ -58,17 +58,19 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <style>
             .popover {
                 left: 5px !important;
+                color: inherit !important;
             }
             .popover-content {
-                  height: 140px !important;        
+                height: 140px !important;
             }
             .popover-content, .popover-content>div{
                 font-size: 1.3em !important;
                 white-space: normal !important;
-                width: auto;               
+                width: auto;
+                color: inherit !important;
             }
             .popover-content>div{
-                 overflow-y: auto;
+                overflow-y: auto;
                 height: 125px;
             }
         </style>
