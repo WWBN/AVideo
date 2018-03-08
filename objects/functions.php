@@ -752,8 +752,9 @@ if (!function_exists('mime_content_type')) {
             'odt' => 'application/vnd.oasis.opendocument.text',
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         );
-
-        $ext = strtolower(array_pop(explode('.', $filename)));
+        
+        $explode = explode('.', $filename);
+        $ext = strtolower(array_pop($explode));
         if (array_key_exists($ext, $mime_types)) {
             return $mime_types[$ext];
         } elseif (function_exists('finfo_open')) {
