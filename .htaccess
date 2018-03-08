@@ -168,7 +168,7 @@
 
     # It must be before image not found
     <IfModule mod_xsendfile.c>
-       RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
+       #RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
     </IfModule>
 
     # if image do not exists
