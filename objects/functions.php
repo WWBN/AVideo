@@ -702,13 +702,12 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
 }
 
 if (!function_exists('mime_content_type')) {
+
     function mime_content_type($filename) {
-        $result = new finfo();
-
-        if (is_resource($result) === true) {
-            return $result->file($filename, FILEINFO_MIME_TYPE);
-        }
-
-        return false;
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($finfo, $filename);
+        finfo_close($finfo);
+        return $mime_type;
     }
+
 }
