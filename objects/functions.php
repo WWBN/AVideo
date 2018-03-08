@@ -528,10 +528,13 @@ function getVideosURL($fileName) {
 
 function getSources($fileName, $returnArray = false) {
     $name = "getSources_{$fileName}_" . intval($returnArray);
+    /*
     $cached = ObjectYPT::getCache($name, 86400); //one day
     if (!empty($cached)) {
         return $cached->result;
     }
+     * 
+     */
     if ($returnArray) {
         $videoSources = $audioTracks = $subtitleTracks = array();
     } else {
@@ -567,7 +570,7 @@ function getSources($fileName, $returnArray = false) {
 
     $obj = new stdClass();
     $obj->result = $return;
-    ObjectYPT::setCache($name, $obj);
+    //ObjectYPT::setCache($name, $obj);
     return $return;
 }
 
