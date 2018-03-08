@@ -54,6 +54,25 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+
+        <style>
+            .popover {
+                left: 5px !important;
+            }
+            .popover-content {
+                  height: 140px !important;        
+            }
+            .popover-content, .popover-content>div{
+                font-size: 1.3em !important;
+                white-space: normal !important;
+                width: auto;               
+            }
+            .popover-content>div{
+                 overflow-y: auto;
+                height: 125px;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -201,7 +220,10 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
+                                                if(!empty($value['description'])){
                                                 ?>
+                                                <button type="button" class="btn btn-xs"  data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -302,8 +324,12 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
+                                                if(!empty($value['description'])){
                                                 ?>
+                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
+                                                <?php } ?>
                                             </div>
+                       
                                         </div>
                                 </div>
                                 <?php
@@ -379,7 +405,10 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
+                                                if(!empty($value['description'])){
                                                 ?>
+                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                 </div>
