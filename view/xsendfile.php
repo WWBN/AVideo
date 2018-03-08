@@ -24,9 +24,15 @@ if(!empty($_GET['download'])){
     header('Pragma: public');
 }
 YouPHPTubePlugin::xsendfilePreVideoPlay();
-header("X-Sendfile: {$path}");
+$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+if(!empty($advancedCustom->doNotUseXsendFile)){
+    header("X-Sendfile: {$path}");
+}
 if(empty($_GET['download'])){
     header("Content-type: " . mime_content_type($path));
 }
 header('Content-Length: ' . filesize($path));
+if(!empty($advancedCustom->doNotUseXsendFile)){
+    echo file_get_contents($path);
+}
 die();
