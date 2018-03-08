@@ -88,7 +88,7 @@ a:visited {
     padding: 10px;
     width: 100%;
     white-space: nowrap;
-    overflow: scroll;
+    overflow: hidden;
     text-overflow: ellipsis;
     background-color: black;
     color: white;
