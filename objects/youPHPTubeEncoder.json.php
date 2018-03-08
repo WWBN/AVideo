@@ -4,11 +4,6 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
-if (empty($_POST)) {
-    $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
-    error_log($obj->msg);
-    die(json_encode($obj));
-}
 
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
@@ -16,6 +11,12 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
+
+if (empty($_POST)) {
+    $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
+    error_log($obj->msg);
+    die(json_encode($obj));
+}
 
 if (empty($_POST['format']) || !in_array($_POST['format'], $global['allowedExtension'])) {
     error_log("Extension not allowed File " . __FILE__ . ": " . print_r($_POST, true));
@@ -62,35 +63,33 @@ if (empty($videoFileName)) {
     $video->setFilename($videoFileName);
 }
 
+
+$destination_local = "{$global['systemRootPath']}videos/{$videoFileName}";
 // get video file from encoder
-$destination = "{$global['systemRootPath']}videos/{$videoFileName}";
 if (!empty($_FILES['video']['tmp_name'])) {
     $resolution = "";
     if (!empty($_POST['resolution'])) {
         $resolution = "_{$_POST['resolution']}";
     }
-    if (!move_uploaded_file($_FILES['video']['tmp_name'], "{$destination}{$resolution}.{$_POST['format']}")) {
-        $obj->msg = print_r(__("Could not move video file [%s] => [%s %s %s]"), $_FILES['video']['tmp_name'], $destination, $_POST['format'], $resolution);
-        error_log($obj->msg);
-        die(json_encode($obj));
-    }
+    $filename = "{$videoFileName}{$resolution}.{$_POST['format']}";
+    decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
 } else {
     // set encoding
     $video->setStatus('e');
 }
-if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination}.jpg")) {
-    if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination}.jpg")) {
-        $obj->msg = print_r(__("Could not move image file [%s.jpg]"), $destination);
+if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.jpg")) {
+    if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination_local}.jpg")) {
+        $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
         error_log($obj->msg);
         die(json_encode($obj));
-    }
+    } 
 }
-if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination}.gif")) {
-    if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination}.gif")) {
-        $obj->msg = print_r(__("Could not move gif image file [%s.gif]"), $destination);
+if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local}.gif")) {
+    if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination_local}.gif")) {
+        $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
         error_log($obj->msg);
         die(json_encode($obj));
-    }
+    } 
 }
 $video_id = $video->save();
 $video->updateDurationIfNeed();

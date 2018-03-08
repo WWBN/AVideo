@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../videos/configuration.php';
+session_write_close();
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 
 if (empty($_GET['file'])) {

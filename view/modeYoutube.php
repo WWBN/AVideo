@@ -93,8 +93,9 @@ if ($video['type'] !== "audio") {
 
 if (!empty($video)) {
     if ($video['type'] !== "audio") {
-        $img = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
-        $data = @getimagesize("{$global['systemRootPath']}videos/{$video['filename']}.jpg");
+        $source = Video::getSourceFile($video['filename']);
+        $img = $source['url'];
+        $data = getimgsize($source['path']);
         $imgw = $data[0];
         $imgh = $data[1];
     } else {
@@ -137,7 +138,7 @@ if (!empty($video)) {
         <div class="container-fluid principalContainer" itemscope itemtype="http://schema.org/VideoObject">
             <?php
             if (!empty($video)) {
-                if (empty($video['type']) || file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+                if (empty($video['type'])) {
                     $video['type'] = "video";
                 }
                 require "{$global['systemRootPath']}view/include/{$video['type']}.php";
