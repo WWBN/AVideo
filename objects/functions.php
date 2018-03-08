@@ -1,4 +1,5 @@
 <?php
+
 // Returns a file size limit in bytes based on the PHP upload_max_filesize
 // and post_max_size
 function file_upload_max_size() {
@@ -73,18 +74,18 @@ function humanTiming($time) {
     __('hours');
     __('minutes');
     __('seconds');
-    
+
     foreach ($tokens as $unit => $text) {
         if ($time < $unit)
             continue;
-        
+
         $numberOfUnits = floor($time / $unit);
-        if($numberOfUnits > 1){
-            $text = __($text."s");
-        }else{
+        if ($numberOfUnits > 1) {
+            $text = __($text . "s");
+        } else {
             $text = __($text);
         }
-        
+
         return $numberOfUnits . ' ' . $text;
     }
 }
@@ -117,15 +118,15 @@ function isPHP($version = "'7.0.0'") {
     }
 }
 
-function modEnabled($mod_name){
+function modEnabled($mod_name) {
     if (!function_exists('apache_get_modules')) {
         ob_start();
         phpinfo(INFO_MODULES);
         $contents = ob_get_contents();
         ob_end_clean();
-        return (strpos($contents, 'mod_'.$mod_name) !== false); 
+        return (strpos($contents, 'mod_' . $mod_name) !== false);
     } else {
-        return in_array('mod_'.$mod_name, apache_get_modules());
+        return in_array('mod_' . $mod_name, apache_get_modules());
     }
 }
 
@@ -141,11 +142,9 @@ function isFFMPEG() {
     return trim(shell_exec('which ffmpeg'));
 }
 
-
 function isUnzip() {
     return trim(shell_exec('which unzip'));
 }
-
 
 function isExifToo() {
     return trim(shell_exec('which exiftool'));
@@ -311,9 +310,9 @@ function getMinutesTotalVideosLength() {
 
 function parseDurationToSeconds($str) {
     $durationParts = explode(":", $str);
-    if (empty($durationParts[1]) || $durationParts[0]=="EE")
+    if (empty($durationParts[1]) || $durationParts[0] == "EE")
         return 0;
-    if(empty($durationParts[2])){
+    if (empty($durationParts[2])) {
         $durationParts[2] = 0;
     }
     $minutes = intval(($durationParts[0]) * 60) + intval($durationParts[1]);
@@ -344,243 +343,209 @@ function setSiteSendMessage(&$mail) {
     }
 }
 
-function parseVideos($videoString = null){   
-    if (strpos($videoString, 'youtube.com/embed') !== FALSE)     {
+function parseVideos($videoString = null) {
+    if (strpos($videoString, 'youtube.com/embed') !== FALSE) {
         return $videoString;
     }
-    if (strpos($videoString, 'iframe') !== FALSE)     {
+    if (strpos($videoString, 'iframe') !== FALSE) {
         // retrieve the video url
         $anchorRegex = '/src="(.*)?"/isU';
         $results = array();
-        if (preg_match($anchorRegex, $video, $results)) 
-        {
+        if (preg_match($anchorRegex, $video, $results)) {
             $link = trim($results[1]);
         }
     } else {
         // we already have a url
         $link = $videoString;
-    }    
+    }
 
-    if (strpos($link, 'embed') !== FALSE) { 
+    if (strpos($link, 'embed') !== FALSE) {
         return $link;
-    }else if (strpos($link, 'youtube.com') !== FALSE) { 
+    } else if (strpos($link, 'youtube.com') !== FALSE) {
 
         preg_match(
-        '/[\\?\\&]v=([^\\?\\&]+)/',
-        $link,
-        $matches
-        );  
+                '/[\\?\\&]v=([^\\?\\&]+)/', $link, $matches
+        );
         //the ID of the YouTube URL: x6qe_kVaBpg
         $id = $matches[1];
-        return '//www.youtube.com/embed/'.$id;
-    }
-    else if (strpos($link, 'youtu.be') !== FALSE) { 
+        return '//www.youtube.com/embed/' . $id;
+    } else if (strpos($link, 'youtu.be') !== FALSE) {
         preg_match(
-        '/youtu.be\/([a-zA-Z0-9_]+)\??/i',
-        $link,
-        $matches
-        );  
+                '/youtu.be\/([a-zA-Z0-9_]+)\??/i', $link, $matches
+        );
         $id = $matches[1];
-        return '//www.youtube.com/embed/'.$id;
-    }
-    else if (strpos($link, 'player.vimeo.com') !== FALSE) {
+        return '//www.youtube.com/embed/' . $id;
+    } else if (strpos($link, 'player.vimeo.com') !== FALSE) {
         // works on:
         // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
         $videoIdRegex = '/player.vimeo.com\/video\/([0-9]+)\??/i';
         preg_match($videoIdRegex, $link, $matches);
-        $id = $matches[1];  
-        return '//player.vimeo.com/video/'.$id;
-    }
-    else if (strpos($link, 'vimeo.com/channels') !== FALSE) { 
+        $id = $matches[1];
+        return '//player.vimeo.com/video/' . $id;
+    } else if (strpos($link, 'vimeo.com/channels') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i',
-                $link,
-                $matches
-            );
+                '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i', $link, $matches
+        );
 
         //the ID of the Vimeo URL: 71673549 
-        $id = $matches[2];  
-        return '//player.vimeo.com/video/'.$id;
-    }
-    else if (strpos($link, 'vimeo.com') !== FALSE) { 
+        $id = $matches[2];
+        return '//player.vimeo.com/video/' . $id;
+    } else if (strpos($link, 'vimeo.com') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/',
-                $link,
-                $matches
-            );
+                '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/', $link, $matches
+        );
 
         //the ID of the Vimeo URL: 71673549 
-        $id = $matches[2];  
-        return '//player.vimeo.com/video/'.$id;
-    }
-    else if (strpos($link, 'dailymotion.com') !== FALSE) { 
+        $id = $matches[2];
+        return '//player.vimeo.com/video/' . $id;
+    } else if (strpos($link, 'dailymotion.com') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/',
-                $link,
-                $matches
-            );
+                '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/', $link, $matches
+        );
 
         //the ID of the Vimeo URL: 71673549 
-        $id = $matches[2];  
-        return '//www.dailymotion.com/embed/video/'.$id;
-    }else if (strpos($link, 'metacafe.com') !== FALSE) { 
+        $id = $matches[2];
+        return '//www.dailymotion.com/embed/video/' . $id;
+    } else if (strpos($link, 'metacafe.com') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_\/-]+)$/',
-                $link,
-                $matches
-            );
-        $id = $matches[2];  
-        return '//www.metacafe.com/embed/'.$id;
-    }else if (strpos($link, 'vid.me') !== FALSE) { 
+                '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_\/-]+)$/', $link, $matches
+        );
+        $id = $matches[2];
+        return '//www.metacafe.com/embed/' . $id;
+    } else if (strpos($link, 'vid.me') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?vid.me\/([a-zA-Z0-9_-]+)$/',
-                $link,
-                $matches
-            );
+                '/\/\/(www\.)?vid.me\/([a-zA-Z0-9_-]+)$/', $link, $matches
+        );
 
-        $id = $matches[2];  
-        return '//vid.me/e/'.$id;
-    }else if (strpos($link, 'rutube.ru') !== FALSE) { 
+        $id = $matches[2];
+        return '//vid.me/e/' . $id;
+    } else if (strpos($link, 'rutube.ru') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)\/.*/',
-                $link,
-                $matches
-            );
-        $id = $matches[2];  
-        return '//rutube.ru/play/embed/'.$id;
-    }else if (strpos($link, 'ok.ru') !== FALSE) { 
+                '/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)\/.*/', $link, $matches
+        );
+        $id = $matches[2];
+        return '//rutube.ru/play/embed/' . $id;
+    } else if (strpos($link, 'ok.ru') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?ok.ru\/video\/([a-zA-Z0-9_-]+)$/',
-                $link,
-                $matches
-            );
+                '/\/\/(www\.)?ok.ru\/video\/([a-zA-Z0-9_-]+)$/', $link, $matches
+        );
 
-        $id = $matches[2];  
-        return '//ok.ru/videoembed/'.$id;
-    }else if (strpos($link, 'streamable.com') !== FALSE) { 
+        $id = $matches[2];
+        return '//ok.ru/videoembed/' . $id;
+    } else if (strpos($link, 'streamable.com') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?streamable.com\/([a-zA-Z0-9_-]+)$/',
-                $link,
-                $matches
-            );
+                '/\/\/(www\.)?streamable.com\/([a-zA-Z0-9_-]+)$/', $link, $matches
+        );
 
-        $id = $matches[2];  
-        return '//streamable.com/s/'.$id;
-    }else if (strpos($link, 'twitch.tv') !== FALSE) { 
+        $id = $matches[2];
+        return '//streamable.com/s/' . $id;
+    } else if (strpos($link, 'twitch.tv') !== FALSE) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/',
-                $link,
-                $matches
-            );
+                '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches
+        );
 
-        $id = $matches[2];  
-        return '//player.twitch.tv/?channel='.$id.'#';
-    }else if (strpos($link, '/video/') !== FALSE) { 
+        $id = $matches[2];
+        return '//player.twitch.tv/?channel=' . $id . '#';
+    } else if (strpos($link, '/video/') !== FALSE) {
         //extract the ID
         preg_match(
-                '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i',
-                $link,
-                $matches
-            );
+                '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches
+        );
 
         //the YouPHPTube site 
-        $site = $matches[1];  
-        $id = $matches[2];  
-        return $site.'/videoEmbeded/'.$id;
+        $site = $matches[1];
+        $id = $matches[2];
+        return $site . '/videoEmbeded/' . $id;
     }
     return $videoString;
     // return data
-
 }
 
-function getVideosURL($fileName){
+function getVideosURL($fileName) {
     global $global;
     $types = array('', '_Low', '_SD', '_HD');
     $files = array();
     // old
     require_once $global['systemRootPath'] . 'objects/video.php';
-    
+
     foreach ($types as $key => $value) {
         $filename = "{$fileName}{$value}";
-        $source = Video::getSourceFile($filename,".mp4");
+        $source = Video::getSourceFile($filename, ".mp4");
         $file = $source['path'];
-        if(file_exists($file)){
-            $files["mp4{$value}"]=array(
-                'filename'=>"{$fileName}{$value}.mp4",
-                'path'=>$file,
-                'url'=>$source['url'],
-                'type'=>'video'
+        if (file_exists($file)) {
+            $files["mp4{$value}"] = array(
+                'filename' => "{$fileName}{$value}.mp4",
+                'path' => $file,
+                'url' => $source['url'],
+                'type' => 'video'
             );
         }
         $filename = "{$fileName}{$value}";
-        $source = Video::getSourceFile($filename,".webm");
+        $source = Video::getSourceFile($filename, ".webm");
         $file = $source['path'];
-        if(file_exists($file)){
-            $files["webm{$value}"]=array(
-                'filename'=>"{$fileName}{$value}.webm",
-                'path'=>$file,
-                'url'=>$source['url'],
-                'type'=>'video'
-
+        if (file_exists($file)) {
+            $files["webm{$value}"] = array(
+                'filename' => "{$fileName}{$value}.webm",
+                'path' => $file,
+                'url' => $source['url'],
+                'type' => 'video'
             );
         }
         $filename = "{$fileName}{$value}";
-        $source = Video::getSourceFile($filename,".jpg");
+        $source = Video::getSourceFile($filename, ".jpg");
         $file = $source['path'];
-        if(file_exists($file)){
-            $files["jpg{$value}"]=array(
-                'filename'=>"{$fileName}{$value}.jpg",
-                'path'=>$file,
-                'url'=>$source['url'],
-                'type'=>'image'
-
+        if (file_exists($file)) {
+            $files["jpg{$value}"] = array(
+                'filename' => "{$fileName}{$value}.jpg",
+                'path' => $file,
+                'url' => $source['url'],
+                'type' => 'image'
             );
         }
         $filename = "{$fileName}{$value}";
-        $source = Video::getSourceFile($filename,".gif");
+        $source = Video::getSourceFile($filename, ".gif");
         $file = $source['path'];
-        if(file_exists($file)){
-            $files["gif{$value}"]=array(
-                'filename'=>"{$fileName}{$value}.gif",
-                'path'=>$file,
-                'url'=>$source['url'],
-                'type'=>'image'
-
+        if (file_exists($file)) {
+            $files["gif{$value}"] = array(
+                'filename' => "{$fileName}{$value}.gif",
+                'path' => $file,
+                'url' => $source['url'],
+                'type' => 'image'
             );
         }
-    } 
+    }
     return $files;
 }
 
-function getSources($fileName, $returnArray=false){ 
-    $name = "getSources_{$fileName}_".intval($returnArray);
-    $cached = ObjectYPT::getCache($name, 86400);//one day
-    if(!empty($cached)){
+function getSources($fileName, $returnArray = false) {
+    $name = "getSources_{$fileName}_" . intval($returnArray);
+    $cached = ObjectYPT::getCache($name, 86400); //one day
+    if (!empty($cached)) {
         return $cached->result;
     }
-    if($returnArray){
+    if ($returnArray) {
         $videoSources = $audioTracks = $subtitleTracks = array();
-    }else{
+    } else {
         $videoSources = $audioTracks = $subtitleTracks = "";
     }
-    if(function_exists('getVRSSources')){
+    if (function_exists('getVRSSources')) {
         $videoSources = getVRSSources($fileName, $returnArray);
-    }else{
+    } else {
         $files = getVideosURL($fileName);
         $sources = "";
         $sourcesArray = array();
         foreach ($files as $key => $value) {
             $path_parts = pathinfo($value['path']);
-            if($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4"){
+            if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4") {
                 $sources .= "<source src=\"{$value['url']}\" type=\"video/{$path_parts['extension']}\">";
                 $obj = new stdClass();
                 $obj->type = "video/{$path_parts['extension']}";
@@ -588,23 +553,22 @@ function getSources($fileName, $returnArray=false){
                 $sourcesArray[] = $obj;
             }
         }
-        $videoSources = $returnArray?$sourcesArray:$sources;
+        $videoSources = $returnArray ? $sourcesArray : $sources;
     }
-    if(function_exists('getVTTTracks')){
+    if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
     }
-    
-    if($returnArray){
+
+    if ($returnArray) {
         $return = array_merge($videoSources, $audioTracks, $subtitleTracks);
-    }else{
-        $return = $videoSources.$audioTracks.$subtitleTracks;
+    } else {
+        $return = $videoSources . $audioTracks . $subtitleTracks;
     }
-    
+
     $obj = new stdClass();
     $obj->result = $return;
     ObjectYPT::setCache($name, $obj);
     return $return;
-    
 }
 
 /**
@@ -612,27 +576,27 @@ function getSources($fileName, $returnArray=false){
  * @param type $file_src
  * @return typeget image size with cache
  */
-function getimgsize($file_src){
-    $name = "getimgsize_". md5($file_src);
-    $cached = ObjectYPT::getCache($name, 86400);//one day
-    if(!empty($cached)){
+function getimgsize($file_src) {
+    $name = "getimgsize_" . md5($file_src);
+    $cached = ObjectYPT::getCache($name, 86400); //one day
+    if (!empty($cached)) {
         $c = (Array) $cached;
         $size = array();
         foreach ($c as $key => $value) {
-            if(preg_match("/^[0-9]+$/", $key)){
+            if (preg_match("/^[0-9]+$/", $key)) {
                 $key = intval($key);
             }
             $size[$key] = $value;
         }
         return $size;
     }
-    
+
     $size = @getimagesize($file_src);
-    
-    if(empty($size)){
-        $size = array(1024,768);
+
+    if (empty($size)) {
+        $size = array(1024, 768);
     }
-    
+
     ObjectYPT::setCache($name, $size);
     return $size;
 }
@@ -711,7 +675,7 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
     return true;
 }
 
-function decideMoveUploadedToVideos($tmp_name, $filename){
+function decideMoveUploadedToVideos($tmp_name, $filename) {
     global $global;
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
     if (!empty($aws_s3)) {
@@ -724,7 +688,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename){
     }
 }
 
-function decideFile_put_contentsToVideos($tmp_name, $filename){
+function decideFile_put_contentsToVideos($tmp_name, $filename) {
     global $global;
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
     if (!empty($aws_s3)) {
@@ -734,5 +698,17 @@ function decideFile_put_contentsToVideos($tmp_name, $filename){
             $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
             die(json_encode($obj));
         }
+    }
+}
+
+if (function_exists('mime_content_type')) {
+    function mime_content_type($filename) {
+        $result = new finfo();
+
+        if (is_resource($result) === true) {
+            return $result->file($filename, FILEINFO_MIME_TYPE);
+        }
+
+        return false;
     }
 }
