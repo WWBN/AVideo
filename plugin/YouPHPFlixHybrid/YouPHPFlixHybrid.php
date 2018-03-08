@@ -24,8 +24,9 @@ class YouPHPFlixHybrid extends PluginAbstract {
     }
         
     public function getFirstPage(){
-        global $global;        
-        if(("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])||("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])){
+        global $global; 
+        $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        if(("http://".$url===$global['webSiteRootURL'])||("https://".$url===$global['webSiteRootURL'])){
             return $global['systemRootPath'].'plugin/YouPHPFlix/view/firstPage.php';
         }
         else {
@@ -36,9 +37,9 @@ class YouPHPFlixHybrid extends PluginAbstract {
     public function getHeadCode() {
         global $global;
         $obj = $this->getDataObject();
-        
+        $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         // When first page at all
-        if((("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL'])||("https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']==$global['webSiteRootURL']))&&YouPHPTubePlugin::isEnabled("e2a568e6-ef61-4dcc-aad0-0109e9be8e36")==false){
+        if((("http://".$url===$global['webSiteRootURL'])||("https://".$url===$global['webSiteRootURL']))&&YouPHPTubePlugin::isEnabled("e2a568e6-ef61-4dcc-aad0-0109e9be8e36")===false){
             $youphpflixTmp = "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix/view/css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             return $youphpflixTmp;
         } else if (YouPHPTubePlugin::isEnabled("a06505bf-3570-4b1f-977a-fd0e5cab205d")==false) {
