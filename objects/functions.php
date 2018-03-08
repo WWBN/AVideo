@@ -507,42 +507,52 @@ function getVideosURL($fileName){
     $types = array('', '_Low', '_SD', '_HD');
     $files = array();
     // old
+    require_once $global['systemRootPath'] . 'objects/video.php';
+    
     foreach ($types as $key => $value) {
-        $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.mp4";
+        $filename = "{$fileName}{$value}";
+        $source = Video::getSourceFile($filename,".mp4");
+        $file = $source['path'];
         if(file_exists($file)){
             $files["mp4{$value}"]=array(
                 'filename'=>"{$fileName}{$value}.mp4",
                 'path'=>$file,
-                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.mp4",
+                'url'=>$source['url'],
                 'type'=>'video'
             );
         }
-        $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.webm";
+        $filename = "{$fileName}{$value}";
+        $source = Video::getSourceFile($filename,".webm");
+        $file = $source['path'];
         if(file_exists($file)){
             $files["webm{$value}"]=array(
                 'filename'=>"{$fileName}{$value}.webm",
                 'path'=>$file,
-                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.webm",
+                'url'=>$source['url'],
                 'type'=>'video'
 
             );
         }
-        $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.jpg";
+        $filename = "{$fileName}{$value}";
+        $source = Video::getSourceFile($filename,".jpg");
+        $file = $source['path'];
         if(file_exists($file)){
             $files["jpg{$value}"]=array(
                 'filename'=>"{$fileName}{$value}.jpg",
                 'path'=>$file,
-                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.jpg",
+                'url'=>$source['url'],
                 'type'=>'image'
 
             );
         }
-        $file = "{$global['systemRootPath']}videos/{$fileName}{$value}.gif";
+        $filename = "{$fileName}{$value}";
+        $source = Video::getSourceFile($filename,".gif");
+        $file = $source['path'];
         if(file_exists($file)){
             $files["gif{$value}"]=array(
                 'filename'=>"{$fileName}{$value}.gif",
                 'path'=>$file,
-                'url'=>"{$global['webSiteRootURL']}videos/{$fileName}{$value}.gif",
+                'url'=>$source['url'],
                 'type'=>'image'
 
             );
@@ -552,6 +562,11 @@ function getVideosURL($fileName){
 }
 
 function getSources($fileName, $returnArray=false){ 
+    $name = "getSources_{$fileName}_".intval($returnArray);
+    $cached = ObjectYPT::getCache($name, 86400);//one day
+    if(!empty($cached)){
+        return $cached->result;
+    }
     if($returnArray){
         $videoSources = $audioTracks = $subtitleTracks = array();
     }else{
@@ -580,16 +595,52 @@ function getSources($fileName, $returnArray=false){
     }
     
     if($returnArray){
-        return array_merge($videoSources, $audioTracks, $subtitleTracks);
+        $return = array_merge($videoSources, $audioTracks, $subtitleTracks);
+    }else{
+        $return = $videoSources.$audioTracks.$subtitleTracks;
     }
     
-    return $videoSources.$audioTracks.$subtitleTracks;
+    $obj = new stdClass();
+    $obj->result = $return;
+    ObjectYPT::setCache($name, $obj);
+    return $return;
+    
+}
+
+/**
+ * 
+ * @param type $file_src
+ * @return typeget image size with cache
+ */
+function getimgsize($file_src){
+    $name = "getimgsize_". md5($file_src);
+    $cached = ObjectYPT::getCache($name, 86400);//one day
+    if(!empty($cached)){
+        $c = (Array) $cached;
+        $size = array();
+        foreach ($c as $key => $value) {
+            if(preg_match("/^[0-9]+$/", $key)){
+                $key = intval($key);
+            }
+            $size[$key] = $value;
+        }
+        return $size;
+    }
+    
+    $size = @getimagesize($file_src);
+    
+    if(empty($size)){
+        $size = array(1024,768);
+    }
+    
+    ObjectYPT::setCache($name, $size);
+    return $size;
 }
 
 function im_resize($file_src, $file_dest, $wd, $hd) {
     if (!file_exists($file_src))
         return false;
-    $size = getimagesize($file_src);
+    $size = getimgsize($file_src);
     if ($size === false)
         return false;
     if ($size['mime'] == 'image/pjpeg')
@@ -658,4 +709,30 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
     @chmod($file_dest, 0666);
 
     return true;
+}
+
+function decideMoveUploadedToVideos($tmp_name, $filename){
+    global $global;
+    $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+    if (!empty($aws_s3)) {
+        $aws_s3->move_uploaded_file($tmp_name, $filename);
+    } else {
+        if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
+            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+            die(json_encode($obj));
+        }
+    }
+}
+
+function decideFile_put_contentsToVideos($tmp_name, $filename){
+    global $global;
+    $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+    if (!empty($aws_s3)) {
+        $aws_s3->move_uploaded_file($tmp_name, $filename);
+    } else {
+        if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
+            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+            die(json_encode($obj));
+        }
+    }
 }

@@ -166,16 +166,17 @@
 
     RewriteRule    ^notifications.json$ objects/notifications.json.php    [NC,L]
 
+    # It must be before image not found
+    <IfModule mod_xsendfile.c>
+       #RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
+    </IfModule>
+
     # if image do not exists
     RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png|ico)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule .*$ img/image404.php [NC,L]
 
-
-    <IfModule mod_xsendfile.c>
-        #RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
-    </IfModule>
 </IfModule>
 <FilesMatch "\.(ttf|otf|eot|woff)$">
   <IfModule mod_headers.c>
