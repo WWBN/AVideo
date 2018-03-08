@@ -20,9 +20,10 @@ class Hotkeys extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->Volume = True;
-        $obj->ReplaceVolumeWithPlusMinus = True;
-        $obj->Fullscreen = True;
+        $obj->Volume = true;
+        $obj->ReplaceVolumeWithPlusMinus = true;
+        $obj->Fullscreen = true;
+        $obj->AlwaysCaptureHotkeys = false;
         return $obj;
     }
     
@@ -49,19 +50,23 @@ class Hotkeys extends PluginAbstract {
                             this.hotkeys({
                             seekStep: 5,";
                
-            if($obj->Volume==1){
+            if($obj->Volume){
                 $tmp .= "enableVolumeScroll: true,";
             } else {
                 // Could not use Up/Down-Keys as excepted. What's the right option?
                 $tmp .= "enableVolumeScroll: false,";
             }
-               
-            if($obj->Fullscreen==1){
+            if($obj->AlwaysCaptureHotkeys){
+                $tmp .= "alwaysCaptureHotkeys: true,";
+            } else {
+                $tmp .= "alwaysCaptureHotkeys: false,";
+            }     
+            if($obj->Fullscreen){
                 $tmp .= "enableFullscreen: true,";
             } else {
                 $tmp .= "enableFullscreen: false,";
             }
-            if($obj->ReplaceVolumeWithPlusMinus==1){
+            if($obj->ReplaceVolumeWithPlusMinus){
                 $tmp .= "volumeUpKey: function(event, player) { return (event.which === 107); },
                          volumeDownKey: function(event, player) { return (event.which === 109);},";
             }
