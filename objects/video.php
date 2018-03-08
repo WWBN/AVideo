@@ -1235,10 +1235,6 @@ class Video {
     static function getStoragePath(){
         global $global;
         $path = "{$global['systemRootPath']}videos/";
-        $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
-        if (!empty($aws_s3)) {
-            $path = $aws_s3->getStoragePath();
-        }
         return $path;
     }
 
