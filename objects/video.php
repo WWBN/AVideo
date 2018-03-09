@@ -1231,6 +1231,11 @@ class Video {
                 }
             }
         }
+        
+        if(!file_exists($source['path'])){
+            return array('path'=>false, 'url'=>false);
+        }
+        
         //ObjectYPT::setCache($name, $source);
         return $source;
     }
