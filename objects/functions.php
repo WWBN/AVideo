@@ -605,6 +605,9 @@ function getimgsize($file_src) {
 }
 
 function im_resize($file_src, $file_dest, $wd, $hd) {
+    if(empty($file_dest)){
+        return false;
+    }
     if (!file_exists($file_src)){
         error_log("im_resize: Source not found: {$file_src}");
         return false;
