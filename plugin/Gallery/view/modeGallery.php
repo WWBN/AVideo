@@ -63,7 +63,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                 color: inherit !important;
             }
             .popover-content {
-                height: 140px !important;
+                height: 160px !important;
             }
             .popover-content, .popover-content>div{
                 font-size: 1.3em !important;
@@ -73,7 +73,10 @@ $totalPages = ceil($total / $_POST['rowCount']);
             }
             .popover-content>div{
                 overflow-y: auto;
-                height: 125px;
+                height: 140px;
+            }
+            .aligned-row{
+                overflow: visible !important;
             }
         </style>
 
@@ -226,7 +229,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 echo $name;
                                                 if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
-                                                <button type="button" class="btn btn-xs"  data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
+                                                <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
                                                 <?php } ?>
                                             </div>
                                         </div>
