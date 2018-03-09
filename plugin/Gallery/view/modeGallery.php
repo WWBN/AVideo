@@ -11,6 +11,8 @@ require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
+$obj = YouPHPTubePlugin::getObjectData("Gallery");
+
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
         $_SESSION['type'] = 'audio';
@@ -222,7 +224,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
-                                                if(!empty($value['description'])){
+                                                if((!empty($value['description']))&&($obj->description)){
                                                 ?>
                                                 <button type="button" class="btn btn-xs"  data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
                                                 <?php } ?>
@@ -326,7 +328,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
-                                                if(!empty($value['description'])){
+                                                if((!empty($value['description']))&&($obj->description)){
                                                 ?>
                                                 <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
                                                 <?php } ?>
@@ -407,7 +409,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
-                                                if(!empty($value['description'])){
+                                                if((!empty($value['description']))&&($obj->description)){
                                                 ?>
                                                 <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
                                                 <?php } ?>
