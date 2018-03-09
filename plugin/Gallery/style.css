@@ -59,6 +59,13 @@ h3.galleryTitle{
     margin-right: auto;
 }
 
+.thumbsGIF{
+    text-indent:-9999px;
+    height: 82px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .firstRow{
     margin-bottom: 10px;
     padding-bottom: 25px;

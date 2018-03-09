@@ -84,7 +84,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                            $poster = $images->poster;
                                            ?>                                        
                                         <div class="aspectRatio16_9">
-                                            <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="thumbsJPG img img-responsive " style="height: auto; width: 100%;"  />
+                                            <img src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="thumbsJPG img img-responsive " style="height: auto; width: 100%;" id="thumbsJPG<?php echo $video['id']; ?>"  />
                                         </div>
                                         <?php
                                         if (!empty($imgGif)) {
@@ -160,7 +160,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                             $poster = $images->thumbsJpg;
                                             ?>
                                             <div class="aspectRatio16_9">
-                                                <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
+                                                <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>"  id="thumbsJPG<?php echo $value['id']; ?>"/>
                                             </div>
                                             <?php
                                             if (!empty($imgGif)) {
@@ -260,7 +260,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                         $poster = $images->thumbsJpg;
                                         ?>
                                         <div class="aspectRatio16_9">
-                                            <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
+                                            <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                                         </div>
                                         <?php
                                         if (!empty($imgGif)) {
@@ -337,7 +337,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                         $poster = $images->thumbsJpg;
                                         ?>
                                         <div class="aspectRatio16_9">
-                                            <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
+                                            <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>"/>
                                         </div>
                                         <?php
                                         if (!empty($imgGif)) {
