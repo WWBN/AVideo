@@ -1211,16 +1211,19 @@ class Video {
      */
     static function getSourceFile($filename, $type=".jpg", $includeS3 = false) {
         global $global;
+        /*
         $name = "getSourceFile_{$filename}{$type}_";
         $cached = ObjectYPT::getCache($name, 86400);//one day
         if(!empty($cached)){
             return (array) $cached;
         }
+         * 
+         */
         $source = array();
         $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
         $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}";
         /* need it because getDurationFromFile*/
-        if($includeS3){
+        if($includeS3 && ($type==".mp4" || $type==".webm")){
             if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
                 if (!empty($aws_s3)) {
@@ -1228,7 +1231,7 @@ class Video {
                 }
             }
         }
-        ObjectYPT::setCache($name, $source);
+        //ObjectYPT::setCache($name, $source);
         return $source;
     }
     
@@ -1240,11 +1243,14 @@ class Video {
 
     static function getImageFromFilename($filename, $type = "video") {
         global $global;
+        /*
         $name = "getImageFromFilename_{$filename}{$type}_";
         $cached = ObjectYPT::getCache($name, 86400);//one day
         if(!empty($cached)){
             return $cached;
         }
+         * 
+         */
         $obj = new stdClass();
         $gifSource = self::getSourceFile($filename, ".gif");
         $jpegSource = self::getSourceFile($filename, ".jpg");
@@ -1261,6 +1267,7 @@ class Video {
                 $obj->thumbsJpg = $thumbsSource['url'];
                 // create thumbs
                 if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
+                    error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
                     im_resize($jpegSource['path'], $thumbsSource['path'], 250, 140);
                 }
             } else {
@@ -1270,7 +1277,7 @@ class Video {
         } else {
             $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
         }
-        ObjectYPT::setCache($name, $obj);
+        //ObjectYPT::setCache($name, $obj);
         return $obj;
     }
 
