@@ -682,7 +682,7 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
     if ($destformat == '.jpg')
         $saved = imagejpeg($dest, $file_dest, $q);
     if (!$saved)
-        my_error_log('saving failed');
+        error_log('saving failed');
 
     imagedestroy($dest);
     imagedestroy($src);
