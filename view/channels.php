@@ -14,21 +14,6 @@ $channels = Channel::getChannels();
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>   
-        <style>
-            .galleryVideo  h2, .videosDetails .title {
-                font-size: 1em;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                line-height: 16px;
-                max-height: 32px;
-                min-height: 32px;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-            }
-        </style>
     </head>
 
     <body>
