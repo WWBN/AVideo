@@ -38,27 +38,13 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                        $.widget.bridge('uibutton', $.ui.button);
-                        $.widget.bridge('uitooltip', $.ui.tooltip);
+            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+            $.widget.bridge('uibutton', $.ui.button);
+            $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
         <!-- users_id = <?php echo $user_id; ?> -->
-        
-        <style>
-            .galleryVideo  h2, .videosDetails .title {
-                font-size: 1em;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                line-height: 16px;
-                max-height: 32px;
-                min-height: 32px;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-            }
-        </style>
+        <link href="<?php echo $global['webSiteRootURL']; ?>/plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
+
     </head>
 
     <body>
@@ -138,16 +124,14 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                     <?php
                                     foreach ($videos as $value) {
                                         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
+                                        $name = User::getNameIdentificationById($value['users_id']);
+
+                                        $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                                        $imgGif = $images->thumbsGif;
+                                        $poster = $images->thumbsJpg;
                                         ?>
                                         <li class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo " id="<?php echo $value['id']; ?>">
                                             <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" style="padding: 0; margin: 0;" >
-                                                <?php
-                                                if ($value['type'] !== "audio") {
-                                                    $poster = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
-                                                } else {
-                                                    $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                                                }
-                                                ?>
                                                 <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                             </a>
@@ -163,17 +147,38 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                                 <?php
                                             }
                                             ?>
-                                            <span class="watch-view-count col-lg-6" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
-                                            <?php
-                                            $value['tags'] = Video::getTags($value['id']);
-                                            foreach ($value['tags'] as $value2) {
-                                                if ($value2->label === __("Group")) {
-                                                    ?>
-                                                    <span class="label label-<?php echo $value2->type; ?> col-lg-6 group"><?php echo $value2->text; ?></span>
+                                            <div class="text-muted galeryDetails">
+                                                <div>
                                                     <?php
-                                                }
-                                            }
-                                            ?>
+                                                    $value['tags'] = Video::getTags($value['id']);
+                                                    foreach ($value['tags'] as $value2) {
+                                                        if ($value2->label === __("Group")) {
+                                                            ?>
+                                                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-eye"></i>
+                                                    <span itemprop="interactionCount">
+                                                        <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-clock-o"></i>
+                                                    <?php
+                                                    echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
+                                                    ?>
+                                                </div>
+                                                <div class="userName">
+                                                    <i class="fa fa-user"></i>
+                                                    <?php
+                                                    echo $name;
+                                                    ?>
+                                                </div>
+                                            </div>
                                         </li>
                                         <?php
                                     }
@@ -206,33 +211,52 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                             <?php
                             foreach ($uploadedVideos as $value) {
                                 $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
+                                $name = User::getNameIdentificationById($value['users_id']);
+
+                                $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                                $imgGif = $images->thumbsGif;
+                                $poster = $images->thumbsJpg;
                                 ?>
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo ">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
-                                        <?php
-                                        if ($value['type'] !== "audio") {
-                                            $poster = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
-                                        } else {
-                                            $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                                        }
-                                        ?>
                                         <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                         <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                     </a>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <h2><?php echo $value['title']; ?></h2>
                                     </a>
-                                    <span class="watch-view-count col-lg-6" itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
-                                    <?php
-                                    $value['tags'] = Video::getTags($value['id']);
-                                    foreach ($value['tags'] as $value2) {
-                                        if ($value2->label === __("Group")) {
-                                            ?>
-                                            <span class="label label-<?php echo $value2->type; ?> col-lg-6 group"><?php echo $value2->text; ?></span>
+                                    <div class="text-muted galeryDetails">
+                                        <div>
                                             <?php
-                                        }
-                                    }
-                                    ?>
+                                            $value['tags'] = Video::getTags($value['id']);
+                                            foreach ($value['tags'] as $value2) {
+                                                if ($value2->label === __("Group")) {
+                                                    ?>
+                                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-eye"></i>
+                                            <span itemprop="interactionCount">
+                                                <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-clock-o"></i>
+                                            <?php
+                                            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
+                                            ?>
+                                        </div>
+                                        <div class="userName">
+                                            <i class="fa fa-user"></i>
+                                            <?php
+                                            echo $name;
+                                            ?>
+                                        </div>
+                                    </div>
                                 </div>
                                 <?php
                             }
