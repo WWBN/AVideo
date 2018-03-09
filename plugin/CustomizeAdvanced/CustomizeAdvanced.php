@@ -32,6 +32,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotIndentifyByName = false;
         $obj->doNotIndentifyByUserName = false;
         $obj->doNotUseXsendFile = false;
+        $obj->makeVideosInactiveAfterEncode = false;
         $obj->usePermalinks = false;
         $o = new stdClass();
         $o->type = "textarea";

@@ -30,7 +30,13 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $video = new Video(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4), $filename, @$_FILES['upl']['videoId']);
     $video->setDuration($duration);
     $video->setType("video");
-    $video->setStatus('a');
+    $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+    if (empty($obj->makeVideosInactiveAfterEncode)) {
+        // set active
+        $video->setStatus('a');
+    } else {
+        $video->setStatus('i');
+    }
     $id = $video->save();
 
     /**
