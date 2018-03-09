@@ -1211,8 +1211,8 @@ class Video {
      */
     static function getSourceFile($filename, $type=".jpg", $includeS3 = false) {
         global $global;
-        $name = "getSourceFile_{$filename}{$type}_";
         /*
+        $name = "getSourceFile_{$filename}{$type}_";
         $cached = ObjectYPT::getCache($name, 86400);//one day
         if(!empty($cached)){
             return (array) $cached;
@@ -1243,8 +1243,8 @@ class Video {
 
     static function getImageFromFilename($filename, $type = "video") {
         global $global;
-        $name = "getImageFromFilename_{$filename}{$type}_";
         /*
+        $name = "getImageFromFilename_{$filename}{$type}_";
         $cached = ObjectYPT::getCache($name, 86400);//one day
         if(!empty($cached)){
             return $cached;
@@ -1267,6 +1267,7 @@ class Video {
                 $obj->thumbsJpg = $thumbsSource['url'];
                 // create thumbs
                 if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
+                    error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
                     im_resize($jpegSource['path'], $thumbsSource['path'], 250, 140);
                 }
             } else {
