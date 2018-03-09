@@ -42,9 +42,14 @@ if (empty($title) && !empty($_POST['title'])) {
 }
 $video->setDuration($_POST['duration']);
 $video->setDescription($_POST['description']);
-// set active
-$video->setStatus('a');
 
+$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+if(empty($obj->makeVideosInactiveAfterEncode)){
+    // set active
+    $video->setStatus('a');
+}else{
+    $video->setStatus('i');
+}
 $video->setVideoDownloadedLink($_POST['videoDownloadedLink']);
 error_log("Encoder receiving post");
 error_log(print_r($_POST, true));
