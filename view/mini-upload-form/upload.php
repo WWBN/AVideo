@@ -31,7 +31,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $video->setDuration($duration);
     $video->setType("video");
     $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-    if (empty($obj->makeVideosInactiveAfterEncode)) {
+    if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
         // set active
         $video->setStatus('a');
     } else {
