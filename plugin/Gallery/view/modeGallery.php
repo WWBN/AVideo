@@ -241,7 +241,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                 ?>
                             </div>
                         </div>
-                    </div>
+                    
                     <div class="row">
 
                         <ul class="pages">
@@ -365,11 +365,11 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                 ?>
                                         </div>
                                     </div>
-                                </div>
+                                
         <?php
     }
     ?>
-                        </div>
+                        </div></div>
                     </div>
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
@@ -464,13 +464,13 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                 <?php
                                 echo $name;
                                 ?>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                         <?php
                     }
                     ?>
-                        </div>
+                        </div></div>
                     </div>
                     <?php
                 } else {
@@ -484,7 +484,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
             <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
 
 
-        </div>
+        </div></div>
 <?php
 include 'include/footer.php';
 ?>
