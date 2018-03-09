@@ -21,7 +21,7 @@ if (User::isLogged() && $user_id == User::getId()) {
 }
 
 $user = new User($user_id);
-$uploadedVideos = Video::getAllVideos("viewable", $user_id);
+$uploadedVideos = Video::getAllVideos("a", $user_id);
 $publicOnly = true;
 if (User::isLogged() && $user_id == User::getId()) {
     $publicOnly = false;
@@ -79,7 +79,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                         if (empty($videosArrayId)) {
                             continue;
                         }
-                        $videos = Video::getAllVideos("viewable", false, false, $videosArrayId);
+                        $videos = Video::getAllVideos("a", false, false, $videosArrayId);
                         $videos = PlayList::sortVideos($videos, $videosArrayId);
                         ?>
 
@@ -134,7 +134,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                         $imgGif = $images->thumbsGif;
                                         $poster = $images->thumbsJpg;
                                         ?>
-                                        <li class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo " id="<?php echo $value['id']; ?>">
+                                        <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo " id="<?php echo $value['id']; ?>">
                                             <a class="aspectRatio16_9" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" style="padding: 0; margin: 0;" >
                                                 <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
@@ -221,7 +221,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 $imgGif = $images->thumbsGif;
                                 $poster = $images->thumbsJpg;
                                 ?>
-                                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 galleryVideo ">
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo ">
                                     <a class="aspectRatio16_9" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
                                         <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                         <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
