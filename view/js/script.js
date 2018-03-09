@@ -54,8 +54,20 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     $(".thumbsImage").on("mouseenter", function () {
+        gifId = $(this).find(".thumbsGIF").attr('id');
+        id = gifId.replace('thumbsGIF','');        
         $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
         $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
+        
+        /*
+        try {            
+            l1 = $('#thumbsJPG'+id).offset().left;
+            l2 = $('#thumbsJPG'+id).closest('.thumbsImage').offset().left;
+            left = l1-l2;
+            $(this).find(".thumbsGIF").css({"left": left});  
+        } catch (e) {}
+      
+        */
         $(this).find(".thumbsGIF").stop(true, true).fadeIn();
     });
 
