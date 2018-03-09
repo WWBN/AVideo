@@ -44,7 +44,7 @@ $video->setDuration($_POST['duration']);
 $video->setDescription($_POST['description']);
 
 $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-if(empty($obj->makeVideosInactiveAfterEncode)){
+if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
     // set active
     $video->setStatus('a');
 }else{
