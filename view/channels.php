@@ -15,7 +15,7 @@ $channels = Channel::getChannels();
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>   
         <style>
-            .gallery h2, .videosDetails .title {
+            .galleryVideo  h2, .videosDetails .title {
                 font-size: 1em;
                 margin: 0;
                 padding: 0;
