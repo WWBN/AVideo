@@ -59,7 +59,7 @@ $(document).ready(function () {
         $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
         $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
         
-        
+        /*
         try {            
             l1 = $('#thumbsJPG'+id).offset().left;
             l2 = $('#thumbsJPG'+id).closest('.thumbsImage').offset().left;
@@ -67,7 +67,7 @@ $(document).ready(function () {
             $(this).find(".thumbsGIF").css({"left": left});  
         } catch (e) {}
       
-        
+        */
         $(this).find(".thumbsGIF").stop(true, true).fadeIn();
     });
 

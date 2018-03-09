@@ -45,15 +45,18 @@ h3.galleryTitle{
 }
 
 .aspectRatio16_9 {
+    display: block;
     width: 100%;
-    height: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    padding-bottom: 56.25%;
+    overflow: hidden;
     background-image: url(../../view/img/video-placeholder.png);
     background-size: cover; 
 }
 
 .aspectRatio16_9 img{
     text-indent:-9999px;
-    height: 82px;
+    width: 100%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -61,7 +64,7 @@ h3.galleryTitle{
 
 .thumbsGIF{
     text-indent:-9999px;
-    height: 82px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
