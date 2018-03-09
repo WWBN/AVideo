@@ -26,7 +26,7 @@ if(!empty($_GET['download'])){
 }
 YouPHPTubePlugin::xsendfilePreVideoPlay();
 $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-if(!empty($advancedCustom->doNotUseXsendFile)){
+if(empty($advancedCustom->doNotUseXsendFile)){
     header("X-Sendfile: {$path}");
 }
 if(empty($_GET['download'])){
