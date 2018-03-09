@@ -79,7 +79,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                         if (empty($videosArrayId)) {
                             continue;
                         }
-                        $videos = Video::getAllVideos("viewable", false, false, $videosArrayId);
+                        $videos = Video::getAllVideos("a", false, false, $videosArrayId);
                         $videos = PlayList::sortVideos($videos, $videosArrayId);
                         ?>
 
