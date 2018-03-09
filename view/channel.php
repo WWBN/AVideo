@@ -46,7 +46,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         <link href="<?php echo $global['webSiteRootURL']; ?>/plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
         <style>
             .galleryVideo {
-                padding-bottom: 5px;
+                padding-bottom: 10px;
             }
         </style>
     </head>
