@@ -21,7 +21,7 @@ if (User::isLogged() && $user_id == User::getId()) {
 }
 
 $user = new User($user_id);
-$uploadedVideos = Video::getAllVideos("viewable", $user_id);
+$uploadedVideos = Video::getAllVideos("a", $user_id);
 $publicOnly = true;
 if (User::isLogged() && $user_id == User::getId()) {
     $publicOnly = false;
