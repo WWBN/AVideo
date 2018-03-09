@@ -48,12 +48,15 @@ h3.galleryTitle{
     width: 100%;
     height: 56.25%; /* 16:9 Aspect Ratio */
     background-image: url(../../view/img/video-placeholder.png);
-    background-size: cover;   
+    background-size: cover; 
 }
 
 .aspectRatio16_9 img{
     text-indent:-9999px;
     height: 82px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .firstRow{
