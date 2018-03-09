@@ -622,6 +622,10 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
         $format = 'jpeg';
     }
     $destformat = strtolower(substr($file_dest, -4));
+    if(empty($destformat)){
+        error_log("destformat not found {$file_dest}");
+        $destformat = ".jpg";
+    }
     $icfunc = "imagecreatefrom" . $format;
     if (!function_exists($icfunc)){
         error_log("im_resize: Function does not exists: {$icfunc}");
@@ -670,7 +674,7 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
     }
 
     imagecopyresampled($dest, $src, 0, 0, ($ws - $wc) / 2, ($hs - $hc) / 2, $wd, $hd, $wc, $hc);
-
+    $saved = false;
     if (!isset($q))
         $q = 100;
     if ($destformat == '.png')
