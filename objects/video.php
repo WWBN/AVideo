@@ -1223,7 +1223,7 @@ class Video {
         $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
         $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}";
         /* need it because getDurationFromFile*/
-        if($includeS3){
+        if($includeS3 && ($type==".mp4" || $type==".webm")){
             if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
                 if (!empty($aws_s3)) {
