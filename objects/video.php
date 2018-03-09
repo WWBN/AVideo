@@ -1233,7 +1233,9 @@ class Video {
         }
         
         if(!file_exists($source['path'])){
-            return array('path'=>false, 'url'=>false);
+            if($type!="_thumbs.jpg"){
+                return array('path'=>false, 'url'=>false);
+            }
         }
         
         //ObjectYPT::setCache($name, $source);
@@ -1281,6 +1283,9 @@ class Video {
             }
         } else {
             $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        }
+        if(empty($obj->thumbsJpg)){
+            $obj->thumbsJpg = $obj->poster;
         }
         //ObjectYPT::setCache($name, $obj);
         return $obj;
