@@ -224,7 +224,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
-                                                if((!empty($value['description']))&&($obj->description)){
+                                                if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
                                                 <button type="button" class="btn btn-xs"  data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
                                                 <?php } ?>
@@ -328,7 +328,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
-                                                if((!empty($value['description']))&&($obj->description)){
+                                                if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
                                                 <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
                                                 <?php } ?>
@@ -409,7 +409,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
-                                                if((!empty($value['description']))&&($obj->description)){
+                                                if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
                                                 <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
                                                 <?php } ?>
