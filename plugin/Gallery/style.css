@@ -46,7 +46,7 @@ h3.galleryTitle{
 
 .aspectRatio16_9 {
     width: 100%;
-    min-height: 56.25%; /* 16:9 Aspect Ratio */
+    height: 56.25%; /* 16:9 Aspect Ratio */
     background-image: url(../../view/img/video-placeholder.png);
     background-size: cover;   
 }
