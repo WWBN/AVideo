@@ -605,19 +605,25 @@ function getimgsize($file_src) {
 }
 
 function im_resize($file_src, $file_dest, $wd, $hd) {
-    if (!file_exists($file_src))
+    if (!file_exists($file_src)){
+        error_log("im_resize: Source not found: {$file_src}");
         return false;
+    }
     $size = getimgsize($file_src);
-    if ($size === false)
-        return false;
+    if ($size === false){
+        error_log("im_resize: Could not get image size: {$file_src}");
+        return false;        
+    }
     if ($size['mime'] == 'image/pjpeg')
         $size['mime'] = 'image/jpeg';
 
     $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
     $destformat = strtolower(substr($file_dest, -4));
     $icfunc = "imagecreatefrom" . $format;
-    if (!function_exists($icfunc))
-        return false;
+    if (!function_exists($icfunc)){
+        error_log("im_resize: Function does not exists: {$icfunc}");
+        return false;        
+    }
 
     $src = $icfunc($file_src);
 
