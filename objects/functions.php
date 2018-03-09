@@ -618,6 +618,9 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
         $size['mime'] = 'image/jpeg';
 
     $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
+    if(empty($format)){
+        $format = 'jpeg';
+    }
     $destformat = strtolower(substr($file_dest, -4));
     $icfunc = "imagecreatefrom" . $format;
     if (!function_exists($icfunc)){
