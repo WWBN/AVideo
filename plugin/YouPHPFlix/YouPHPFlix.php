@@ -20,6 +20,7 @@ class YouPHPFlix extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->pageDots = true;
+        $obj->LiteDesign = false;
         return $obj;
     }
         
