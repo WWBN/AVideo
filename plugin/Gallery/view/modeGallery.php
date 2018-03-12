@@ -126,7 +126,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
                                         <h1><?php echo $video['title']; ?></h1>
                                     </a>
-                                    <h4 itemprop="description"><?php echo nl2br(textToLink($video['description'])); ?></h4>
+                                    <h4 itemprop="description"><?php echo str_replace('"','&quot;',nl2br(textToLink($video['description'])));  ?></h4>
 
                                     <div class="text-muted galeryDetails">
                                         <div>
@@ -166,7 +166,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
 
                         <div class="clear clearfix">
                             <h3 class="galleryTitle">
-                                <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); ?>
+                                <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
                             </h3>
                             <div class="row">
                                 <?php
@@ -231,7 +231,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 echo $name;
                                                 if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
-                                                <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
+                                                <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"','&quot;',nl2br(textToLink($value['description'])));  ?></div>">Description</button>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -256,7 +256,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     maxVisible: 10
                                 }).on('page', function (event, num) {
     <?php $url = '';
-    if (strpos($_SERVER['REQUEST_URI'], "cat") === false) {
+    if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
         $url = $global['webSiteRootURL'] . "page/";
     } else {
         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
@@ -270,14 +270,14 @@ $totalPages = ceil($total / $_POST['rowCount']);
 
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
-                            <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); ?>
+                            <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
                         </h3>
                         <div class="row">
                             <?php
                             $countCols = 0;
                             unset($_POST['sort']);
                             $_POST['sort']['views_count'] = "DESC";
-                            $_POST['current'] = 1;
+                            $_POST['current'] = $_GET['page'];
                             $_POST['rowCount'] = 12;
                             $videos = Video::getAllVideos();
                             foreach ($videos as $value) {
@@ -341,7 +341,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 echo $name;
                                                 if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
-                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
+                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"','&quot;',nl2br(textToLink($value['description'])));  ?></div>">Description</button>
                                                 <?php } ?>
                                             </div>
                 
@@ -369,17 +369,22 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <?php
     }
     ?>
-                        </div></div>
+                        </div>
+                        <div class="row">
+                            <ul class="pages">
+                            </ul>
+                        </div>
                     </div>
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
-                            <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); ?>
+                            <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
                         </h3>
                         <div class="row">
                             <?php
                             $countCols = 0;
                             unset($_POST['sort']);
                             $_POST['sort']['likes'] = "DESC";
+                            $_POST['current'] = $_GET['page'];
                             $videos = Video::getAllVideos();
                             foreach ($videos as $value) {
                                 $name = User::getNameIdentificationById($value['users_id']);
@@ -442,7 +447,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 echo $name;
                                                 if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
-                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo nl2br(textToLink($value['description'])); ?></div>">Description</button>
+                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"','&quot;',nl2br(textToLink($value['description'])));  ?></div>">Description</button>
                                                 <?php } ?>
                                             </div>
 
@@ -484,7 +489,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
             <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
 
 
-        </div></div>
+        </div>
 <?php
 include 'include/footer.php';
 ?>
