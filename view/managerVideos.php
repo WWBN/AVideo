@@ -374,6 +374,8 @@ $userGroups = UserGroups::getAllUsersGroups();
         <script>
                                     var timeOut;
                                     var encodingNowId = "";
+                                    var waitToSubmit = true;
+                                    
                                     function changeStatus(status) {
                                         modal.showPleaseWait();
                                         var vals = [];
@@ -804,7 +806,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 $('#input-jpg, #input-gif').on('fileuploaded', function (event, data, previewId, index) {
                                                     $("#grid").bootgrid("reload");
                                                 })
-
+                                                waitToSubmit = true;
+                                                setTimeout(function(){waitToSubmit = false;}, 3000);
                                                 $('#videoFormModal').modal();
                                             }).end().find(".command-delete").on("click", function (e) {
                                                 var row_index = $(this).closest('tr').index();
@@ -977,6 +980,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         });
                                         $('#updateCategoryForm').submit(function (evt) {
                                             evt.preventDefault();
+                                            if(waitToSubmit){
+                                                return false;
+                                            }
                                             var isPublic = $('#public').is(':checked');
                                             var selectedVideoGroups = [];
                                             var isAd = $('#videoIsAd').is(':checked');
