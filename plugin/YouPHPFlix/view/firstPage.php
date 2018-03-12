@@ -291,6 +291,9 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                 <div class="arrow-down" style="display: none;"></div>
                             </div>
                             <?php
+                            if($o->LiteDesign){
+                                continue;
+                            }
                         }
                         ?>
                     </div>
@@ -313,7 +316,9 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                         </div>
                     </div>
                 </div>
+            
                 <?php
+
             }
             ?>
         </div>
