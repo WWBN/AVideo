@@ -292,7 +292,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             </div>
                             <?php
                             if($o->LiteDesign){
-                                continue;
+                                break;
                             }
                         }
                         ?>
@@ -383,3 +383,4 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         </script>
     </body>
 </html>
+
