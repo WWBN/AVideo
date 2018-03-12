@@ -86,7 +86,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="row text-center" style="padding: 10px;">
+        <div class="text-center" style="padding: 10px;">
             <?php
             echo $config->getAdsense();
             ?>
@@ -126,7 +126,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
                                         <h1><?php echo $video['title']; ?></h1>
                                     </a>
-                                    <h4 itemprop="description"><?php echo str_replace('"','&quot;',nl2br(textToLink($video['description'])));  ?></h4>
+                                    <h4 itemprop="description" style="max-height: 300px; overflow: auto;"><?php echo str_replace('"','&quot;',nl2br(textToLink($video['description'])));  ?></h4>
 
                                     <div class="text-muted galeryDetails">
                                         <div>
