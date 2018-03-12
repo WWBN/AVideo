@@ -25,9 +25,9 @@ $userGroups = UserGroups::getAllUsersGroups();
         <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                        $.widget.bridge('uibutton', $.ui.button);
-                        $.widget.bridge('uitooltip', $.ui.tooltip);
+            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+            $.widget.bridge('uibutton', $.ui.button);
+            $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
 
         <style>
@@ -132,8 +132,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <?php echo __('Status'); ?> <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" onclick="changeStatus('a');return false;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <?php echo __('Active'); ?></a></li>
-                        <li><a href="#" onclick="changeStatus('i');return false;"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <?php echo __('Inactive'); ?></a></li>
+                        <li><a href="#" onclick="changeStatus('a'); return false;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <?php echo __('Active'); ?></a></li>
+                        <li><a href="#" onclick="changeStatus('i'); return false;"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <?php echo __('Inactive'); ?></a></li>
                     </ul>
                 </div>
                 <button class="btn btn-danger" id="deleteBtn">
@@ -282,7 +282,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     <?php
                                 }
                                 ?>
-                                
+
                                 <div class="row">
                                     <h3><?php echo __("Autoplay Next Video"); ?> <button class="btn btn-danger btn-sm" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button></h3>
                                     <div class="col-md-4">
@@ -318,10 +318,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             },
                                             select: function (event, ui) {
                                                 $("#inputNextVideo").val(ui.item.title);
-                                                $("#inputNextVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/'+ui.item.clean_title);
+                                                $("#inputNextVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + ui.item.clean_title);
                                                 $("#inputNextVideo-id").val(ui.item.id);
                                                 $("#inputNextVideo-poster").attr("src", "videos/" + ui.item.filename + ".jpg");
-
                                                 return false;
                                             }
                                         }).autocomplete("instance")._renderItem = function (ul, item) {
@@ -375,7 +374,8 @@ $userGroups = UserGroups::getAllUsersGroups();
         <script>
                                     var timeOut;
                                     var encodingNowId = "";
-
+                                    var waitToSubmit = true;
+                                    
                                     function changeStatus(status) {
                                         modal.showPleaseWait();
                                         var vals = [];
@@ -403,7 +403,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 }
                                             }
                                         });
-
                                     }
                                     function changeCategory(category_id) {
                                         modal.showPleaseWait();
@@ -432,7 +431,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 }
                                             }
                                         });
-
                                     }
 
                                     function checkProgress() {
@@ -459,7 +457,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     }
 
                                                     $("#downloadProgress" + id).slideDown();
-
                                                     if (response.download_status && !response.encoding_status.progress) {
                                                         $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
                                                     } else {
@@ -509,7 +506,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"><span class="sr-only">0% Complete</span></div>';
                                         item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> ' + position + '</span></span><span class="progress-completed">' + queueItem.name + '</span>';
                                         item += '</div><div class="progress progress-striped active " id="downloadProgress' + queueItem.id + '" style="height: 10px;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
-
                                         $('#encodeProgress' + id).html(item);
                                     }
                                     $(document).ready(function () {
@@ -523,18 +519,14 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             $('.videoGroups').prop('checked', false);
                                             $('#public').prop('checked', true);
                                             $('#public').trigger("change");
-
                                             $('#videoIsAd').prop('checked', false);
                                             $('#videoIsAd').trigger("change");
-
                                             $('#input-jpg, #input-gif').fileinput('destroy');
                                             $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                             $('#videoLinkContent').slideDown();
                                             $('#videoLink').val('');
-
                                             $('#videoFormModal').modal();
                                         });
-
                                         $("#checkBtn").click(function () {
                                             var chk = $("#chk").hasClass('fa-check-square-o');
                                             $(".checkboxVideo").each(function (index) {
@@ -547,9 +539,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 }
                                                 $(this).prop('checked', !chk);
                                             });
-
                                         });
-
                                         $("#uploadYouTubeBtn").click(function () {
                                             modal.showPleaseWait();
                                             var vals = [];
@@ -582,11 +572,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     }
                                                 }
                                             });
-
                                         });
-
-
-
                                         $("#deleteBtn").click(function () {
                                             swal({
                                                 title: "<?php echo __("Are you sure?"); ?>",
@@ -600,14 +586,12 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     function () {
                                                         swal.close();
                                                         modal.showPleaseWait();
-
                                                         var vals = [];
                                                         $(".checkboxVideo").each(function (index) {
                                                             if ($(this).is(":checked")) {
                                                                 vals.push($(this).val());
                                                             }
                                                         });
-
                                                         $.ajax({
                                                             url: 'deleteVideo',
                                                             data: {"id": vals},
@@ -622,9 +606,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                             }
                                                         });
                                                     });
-
                                         });
-
                                         $('.datepicker').datetimepicker({
                                             format: 'yyyy-mm-dd hh:ii',
                                             autoclose: true
@@ -636,7 +618,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 $('.non-public').slideDown();
                                             }
                                         });
-
                                         $('#videoIsAd').change(function () {
                                             if (!$('#videoIsAd').is(':checked')) {
                                                 $('.videoIsAdContent').slideUp();
@@ -644,16 +625,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 $('.videoIsAdContent').slideDown();
                                             }
                                         });
-
                                         $('[data-toggle="tooltip"]').tooltip();
-                                        
-                                        $('#removeAutoplay').click(function () {                                            
+                                        $('#removeAutoplay').click(function () {
                                             $('#inputNextVideo-poster').attr('src', "img/notfound.jpg");
                                             $('#inputNextVideo').val("");
                                             $('#inputNextVideoClean').val("");
                                             $('#inputNextVideo-id').val("");
                                         });
-                                        
                                         var grid = $("#grid").bootgrid({
                                             ajax: true,
                                             url: "<?php echo $global['webSiteRootURL'] . "videos.json"; ?>",
@@ -667,25 +645,21 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
                                                     var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fa fa-repeat " aria-hidden="true"></span></button>';
                                                     var rotateBtn = "<br>" + rotateLeft + rotateRight;
-                                                    
-                                                    
                                                     var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="fa fa-star" aria-hidden="true"></i></button>';
                                                     var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fa fa-star-o" aria-hidden="true"></i></button>';
-                                                    var suggestBtn =  unsuggest;
-                                                    
+                                                    var suggestBtn = unsuggest;
                                                     if (row.isSuggested == "1") {
-                                                        suggestBtn =  suggest;
+                                                        suggestBtn = suggest;
                                                     }
-                                                    
+
                                                     if (row.type == "audio") {
                                                         rotateBtn = "";
                                                     }
                                                     var status;
                                                     var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getVideosManagerListButton(); ?>';
-                                                    
                                                     var download = "";
                                                     for (var k in row.videosURL) {
-                                                        download += '<a href="'+row.videosURL[k].url+'?download=1" class="btn btn-default btn-xs" ><span class="fa fa-download " aria-hidden="true"></span> '+k+'</a><br>';
+                                                        download += '<a href="' + row.videosURL[k].url + '?download=1" class="btn btn-default btn-xs" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
                                                     }
 
                                                     if (row.status == "i") {
@@ -699,11 +673,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     } else {
                                                         return editBtn + deleteBtn;
                                                     }
-						    var nextIsSet="<span style='background-color: green;'>Next video done</span>";
-						    if(row.next_videos_id == null){
-							nextIsSet="<span style='background-color: red;'>Next video NOT set</span>";
-						    }
+
+						                            var nextIsSet="<span style='background-color: green;'>Next video done</span>";
+						                            if(row.next_videos_id == null){
+							                            nextIsSet="<span style='background-color: red;'>Next video NOT set</span>";
+						                            }
                                                     return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons+ "<br>"+download+nextIsSet;
+
                                                 },
                                                 "tags": function (column, row) {
                                                     var tags = "";
@@ -717,7 +693,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 },
                                                 "checkbox": function (column, row) {
                                                     var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";
-
                                                     return tags;
                                                 },
                                                 "titleTag": function (column, row) {
@@ -740,7 +715,6 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                                                     } else if (row.status == 'd') {
                                                         tags += '<div class="progress progress-striped active" style="margin:5px;"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
-
                                                     }
                                                     var type, img, is_portrait;
                                                     if (row.type === "audio") {
@@ -755,14 +729,23 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 }
 
 
-                                            }
+                                            },
+                                            post: function () {
+                                                var page = $("#grid").bootgrid("getCurrentPage");
+                                                    console.log('prepare post');
+                                                if(!page){
+                                                    page = 1;
+                                                }
+                                                var ret = {current:page};
+                                                return ret;
+                                            },
                                         }).on("loaded.rs.jquery.bootgrid", function () {
                                             /* Executes after data is loaded and rendered */
                                             grid.find(".command-edit").on("click", function (e) {
+                                                waitToSubmit = true;
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 console.log(row);
-
                                                 $('#postersImage, #videoIsAdControl, .titles').slideDown();
                                                 if (row.type !== 'embed') {
                                                     $('#videoLinkContent').slideUp();
@@ -773,16 +756,15 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 $('#inputCleanTitle').val(row.clean_title);
                                                 $('#inputDescription').val(row.description);
                                                 $('#inputCategory').val(row.categories_id);
-                                                
-                                                if(row.next_video.id){
-                                                    $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/"+row.next_video.filename+".jpg");
+                                                if (row.next_video.id) {
+                                                    $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_video.filename + ".jpg");
                                                     $('#inputNextVideo').val(row.next_video.title);
-                                                    $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/"+row.next_video.clean_title);
+                                                    $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
                                                     $('#inputNextVideo-id').val(row.next_video.id);
-                                                }else{
+                                                } else {
                                                     $('#removeAutoplay').trigger('click');
                                                 }
-                                                
+
                                                 $('.videoGroups').prop('checked', false);
                                                 if (row.groups.length === 0) {
                                                     $('#public').prop('checked', true);
@@ -793,10 +775,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     }
                                                 }
                                                 $('#public').trigger("change");
-
                                                 $('#videoIsAd').prop('checked', false);
                                                 $('#videoIsAd').trigger("change");
-
                                                 $('#input-jpg, #input-gif').fileinput('destroy');
                                                 $("#input-jpg").fileinput({
                                                     uploadUrl: "uploadPoster/" + row.id + "/jpg",
@@ -833,7 +813,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 $('#input-jpg, #input-gif').on('fileuploaded', function (event, data, previewId, index) {
                                                     $("#grid").bootgrid("reload");
                                                 })
-
+                                                waitToSubmit = true;
+                                                setTimeout(function(){waitToSubmit = false;}, 3000);
                                                 $('#videoFormModal').modal();
                                             }).end().find(".command-delete").on("click", function (e) {
                                                 var row_index = $(this).closest('tr').index();
@@ -970,14 +951,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     }
                                                 });
                                             });
-                                            
-                                            
                                             grid.find(".command-suggest").on("click", function (e) {
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                                                
                                                 var isSuggested = $(this).hasClass('unsuggest');
-                                                
                                                 modal.showPleaseWait();
                                                 $.ajax({
                                                     url: '<?php echo $global['webSiteRootURL']; ?>objects/videoSuggest.php',
@@ -993,29 +970,26 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 checkProgress()
                                             }, 500);
                                         });
-
                                         $('#inputCleanTitle').keyup(function (evt) {
                                             $('#inputCleanTitle').val(clean_name($('#inputCleanTitle').val()));
                                         });
-
                                         $('#inputTitle').keyup(function (evt) {
                                             $('#inputCleanTitle').val(clean_name($('#inputTitle').val()));
                                         });
-
                                         $('#addCategoryBtn').click(function (evt) {
                                             $('#inputCategoryId').val('');
                                             $('#inputName').val('');
                                             $('#inputCleanName').val('');
-
                                             $('#videoFormModal').modal();
                                         });
-
                                         $('#saveCategoryBtn').click(function (evt) {
                                             $('#updateCategoryForm').submit();
                                         });
-
                                         $('#updateCategoryForm').submit(function (evt) {
                                             evt.preventDefault();
+                                            if(waitToSubmit){
+                                                return false;
+                                            }
                                             var isPublic = $('#public').is(':checked');
                                             var selectedVideoGroups = [];
                                             var isAd = $('#videoIsAd').is(':checked');
@@ -1068,12 +1042,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                                                     }
                                                     modal.hidePleaseWait();
+                                                    waitToSubmit = true;
                                                 }
                                             });
                                             return false;
                                         });
-
-
 <?php
 if (!empty($_GET['link'])) {
     ?>
