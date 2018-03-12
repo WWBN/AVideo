@@ -736,6 +736,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         }).on("loaded.rs.jquery.bootgrid", function () {
                                             /* Executes after data is loaded and rendered */
                                             grid.find(".command-edit").on("click", function (e) {
+                                                waitToSubmit = true;
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 console.log(row);
@@ -1035,6 +1036,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                                                     }
                                                     modal.hidePleaseWait();
+                                                    waitToSubmit = true;
                                                 }
                                             });
                                             return false;
