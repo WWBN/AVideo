@@ -78,7 +78,22 @@ class ThemeSwitcherMenu extends PluginAbstract {
         
         $return .= '<link href="'.$global['webSiteRootURL'].'css/main.css" rel="stylesheet" type="text/css"/>';
 
-        
+        $return .= '<style>
+
+    .dropdown-submenu {
+        position: relative;
+    }
+
+    .open2{
+        z-index: 99999;
+    }
+
+    .dropdown-submenu .dropdown-menu {
+        margin-right: 50px;
+        margin-left: -200px;
+    }
+</style>
+';
         return $return;
     }
 
