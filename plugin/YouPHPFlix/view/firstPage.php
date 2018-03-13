@@ -50,6 +50,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     if($o->LiteDesign){
                       $_POST['rowCount'] = $o->LiteDesignGenericNrOfRows;  
                     }
+
                     $videos = Video::getAllVideos();
                     foreach ($videos as $value) {
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -259,6 +260,9 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
                 $_POST['sort']['created'] = "DESC";
+                if($o->SortByName){
+                       $_POST['sort']['title'] = "ASC";
+                    }
                 //$_POST['rowCount'] = 18;
                 //$_POST['current'] = 1;
                 $videos = Video::getAllVideos();
