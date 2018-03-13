@@ -27,6 +27,7 @@ class Gallery extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->Description = false;
+        $obj->SortByName = false;
         return $obj;
     }
     
