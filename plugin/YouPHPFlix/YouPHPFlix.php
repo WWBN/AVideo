@@ -21,6 +21,7 @@ class YouPHPFlix extends PluginAbstract {
         $obj = new stdClass();
         $obj->pageDots = true;
         $obj->LiteDesign = false;
+        $obj->LiteDesignGenericNrOfRows = 10;
         return $obj;
     }
         
