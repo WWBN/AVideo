@@ -319,7 +319,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <div class="videoInfo">
                                         <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo count($videos); ?></span>
                                     </div>
-                                    <div class="tile__title" style="bottom: 40% !important; opacity: 0.8 !important;">
+                                    <div class="tile__title" style="bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
                                     </div>
                                     <?php } else { ?>
