@@ -262,7 +262,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 $_POST['sort']['created'] = "DESC";
                 if($o->SortByName){
                        $_POST['sort']['title'] = "ASC";
-                    }
+                    } 
                 //$_POST['rowCount'] = 18;
                 //$_POST['current'] = 1;
                 $videos = Video::getAllVideos();
@@ -307,12 +307,13 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                         <?php }  ?>
                                     </div>
                                 <div class="tile__details">
+                                    <?php if(!$o->LiteDesign){ ?>
                                     <div class="videoInfo">
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                                     </div>
-                                    <?php if($o->LiteDesign){ ?>
-                                    <div class="tile__title">
+                                    <?php } if($o->LiteDesign){ ?>
+                                    <div class="tile__title" style="bottom: 40% !important; opacity: 0.8 !important;">
                                         <?php echo $cat['name']; ?>
                                     </div>
                                     <?php } else { ?>
@@ -359,8 +360,10 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 </div>
             
                 <?php
-                }
-            }
+                } 
+            } if($o->LiteDesign){  ?>
+                </div>
+                <?php }
             ?>
         </div>
         <div id="loading" class="loader" style="width: 30vh; height: 30vh; position: absolute; left: 50%; top: 50%; margin-left: -15vh; margin-top: -15vh;"></div>
