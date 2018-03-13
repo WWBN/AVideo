@@ -263,7 +263,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 if($o->SortByName){
                        $_POST['sort']['title'] = "ASC";
                     } 
-                } else {
+             else {
 		       $_POST['sort']['created'] = "DESC";
 		}
                 //$_POST['rowCount'] = 18;
