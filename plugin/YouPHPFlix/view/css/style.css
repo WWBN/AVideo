@@ -92,7 +92,7 @@ a:visited {
     text-overflow: ellipsis;
     background-color: black;
     color: white;
-    opacity: 0.25; 
+    opacity: 0.4; 
     font-weight: bold;
     border-radius: 15px;
 }
