@@ -259,10 +259,13 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             }
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
-                $_POST['sort']['created'] = "DESC";
+                //$_POST['sort']['created'] = "DESC";
                 if($o->SortByName){
                        $_POST['sort']['title'] = "ASC";
                     } 
+                } else {
+		       $_POST['sort']['created'] = "DESC";
+		}
                 //$_POST['rowCount'] = 18;
                 //$_POST['current'] = 1;
                 $videos = Video::getAllVideos();
