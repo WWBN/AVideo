@@ -284,7 +284,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="row">
                                 <?php
                                 $countCols = 0;
+                                unset($_POST['sort']);
                                 $_POST['sort']['created'] = 'desc';
+                                $videos = Video::getAllVideos();
                                 foreach ($videos as $value) {
                                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                                     $name = User::getNameIdentificationById($value['users_id']);
