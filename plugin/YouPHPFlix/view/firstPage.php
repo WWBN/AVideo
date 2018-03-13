@@ -307,8 +307,10 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                             <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image"  data-flickity-lazyload="<?php echo $imgGif; ?>"/>
                                         <?php }  ?>
                                     </div>
-                                <div class="tile__details">
-                                    <?php if(!$o->LiteDesign){ ?>
+                                    <?php if($o->LiteDesign){ ?>
+                                <div class="">
+                                    <?php } if(!$o->LiteDesign){ ?>
+                                    <div class="tile__details">
                                     <div class="videoInfo">
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
