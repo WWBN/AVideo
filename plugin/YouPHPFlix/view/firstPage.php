@@ -26,8 +26,15 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.min.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
+        
+        if($o->LiteDesign){ 
         ?>
-
+        <style>
+            footer {
+                margin-top: 50px !important;
+            }
+        </style>
+        <?php } ?>
         <title><?php echo $config->getWebSiteTitle(); ?></title>
     </head>
     <body>
