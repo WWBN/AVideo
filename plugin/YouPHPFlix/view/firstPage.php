@@ -248,12 +248,10 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 
                 ?>
                             <div class="row">
-                <a style="z-index: 9999;" href='<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>'>
                     <h2 style="margin-top: 30px;">
-                        <i class="<?php echo $cat['iconClass']; ?>"></i>Categorys
-                        <span class="badge"><?php echo count($videos); ?></span>
+                        Categorys
+                        <span class="badge"><?php echo count($category); ?></span>
                     </h2>
-                </a>
                     <div class="carousel">
             <?php
             }
@@ -330,17 +328,20 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                 </div>
                                 </div>
                                 <div class="arrow-down" style="display: none;"></div>
-                            </div>
+                            
                                     <?php if($o->LiteDesign){ ?>
-                                        </a>
+                                    </a></div>
                                         <?php } ?>
                             <?php
                             if($o->LiteDesign){
                                 break;
                             }
-                        }
-                if(!$o->LiteDesign){
+                            if(!$o->LiteDesign){
                         ?>
+                                
+                                <?php
+                        }
+                ?>
                     </div>
                     <div class="poster list-group-item" style="display: none;">
                         <div class="posterDetails ">
@@ -365,7 +366,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 <?php
                 } 
             } if($o->LiteDesign){  ?>
-                </div>
+                
                 <?php }
             ?>
         </div>
