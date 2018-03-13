@@ -28,6 +28,7 @@ class Gallery extends PluginAbstract {
         $obj = new stdClass();
         $obj->Description = false;
         $obj->SortByName = false;
+        $obj->BigVideo = true;
         return $obj;
     }
     

@@ -99,7 +99,12 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                     ?>
+                                        <?php if(!$obj->BigVideo) { ?>
+                        <h1 style="text-align: center;"><?php echo $video['category']; ?></h1>
+                 <?php } ?>
                     <div class="row mainArea">
+
+                        <?php if($obj->BigVideo) { ?>
                         <div class="clear clearfix firstRow">
                             <div class="row thumbsImage">
                                 <div class="col-sm-6">
@@ -164,7 +169,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </div>
                         </div>
 
-                     <?php if($obj->SortByName) { ?>   
+                     <?php  } if($obj->SortByName) { ?>   
                         
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
