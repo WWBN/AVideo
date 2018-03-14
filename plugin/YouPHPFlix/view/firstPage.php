@@ -247,7 +247,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             } else {
 		        $_POST['sort']['created'] = "DESC";
 		    }
-            if(!$o->LiteDesign){
+            if($o->DefaultDesign){
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
                 //$_POST['rowCount'] = 18;
