@@ -449,24 +449,6 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                             </div>
                 
                                         </div>
-                                        <div>
-                                            <i class="fa fa-eye"></i>
-                                            <span itemprop="interactionCount">
-                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-clock-o"></i>
-                                            <?php
-                                            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                            ?>
-                                        </div>
-                                        <div class="userName">
-                                            <i class="fa fa-user"></i>
-                                <?php
-                                echo $name;
-                                ?>
-                                        </div>
                                     </div>
                                 
         <?php
@@ -555,25 +537,6 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                             </div>
 
                                         </div>
-                                        <div>
-                                            <i class="fa fa-eye"></i>
-                                            <span itemprop="interactionCount">
-                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-clock-o"></i>
-                                            <?php
-                                            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                            ?>
-                                        </div>
-                                        <div class="userName">
-                                            <i class="fa fa-user"></i>
-                                <?php
-                                echo $name;
-                                ?>
-                                        
-                                    </div>
                                 </div>
                         <?php
                     }
