@@ -239,6 +239,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             unset($_POST['sort']);
             unset($_POST['current']);
             unset($_POST['rowCount']);
+            if(!$o->LiteDesign){
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
                 $_POST['sort']['created'] = "DESC";
@@ -314,7 +315,64 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     </div>
                 </div>
                 <?php
-            }
+            } } else { ?>
+                <div class="row">
+                    <h2 style="margin-top: 30px;">
+                        Categorys
+                        <span class="badge"><?php echo count($category); ?></span>
+                    </h2>
+<div class="carousel">
+    <?php
+            
+                foreach ($category as $cat) {
+                    $_GET['catName'] = $cat['clean_name'];
+                    $_POST['sort']['created'] = "DESC";
+                    //$_POST['rowCount'] = 18;
+                    //$_POST['current'] = 1;
+                    $videos = Video::getAllVideos();
+                    if (empty($videos)) {
+                        continue;
+                    }
+                ?>
+                        <?php
+                        foreach ($videos as $value) {
+                            $images = Video::getImageFromFilename($value['filename'], $value['type']);
+
+                            $imgGif = $images->thumbsGif;
+                            $img = $images->thumbsJpg;
+                            $poster = $images->poster;
+                            ?>
+                            <div class="carousel-cell tile " >
+                                <a href="<?php echo $global['webSiteRootURL']."cat/".$cat['clean_name']; ?>" ><div class="slide" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" cat="<?php echo $cat['clean_name']; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+                                    <div class="tile__media ">
+                                        <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image"  data-flickity-lazyload="<?php echo $img; ?>" />
+                                        <?php
+                                        if (!empty($imgGif)) {
+                                            ?>
+                                            <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image"  data-flickity-lazyload="<?php echo $imgGif; ?>"/>
+                                        <?php } ?>
+                                    </div>
+                                <div class="">
+                                    <div class="videoInfo">
+                                        <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo count($videos); ?></span>
+                                    </div>
+                                    <div class="tile__title" style="bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                        <?php echo $cat['name']; ?>
+                                    </div>
+                                    <div class="videoDescription">
+                                        <?php echo nl2br(textToLink($value['description'])); ?>
+                                    </div>
+                                </div>
+                                    </div></a>
+                                <div class="arrow-down" style="display: none;"></div>
+                            </div>
+                            <?php
+                            break;
+                        }
+                    } ?> 
+                    </div>
+            </div> 
+            <?php }
             ?>
         </div>
         <div id="loading" class="loader" style="width: 30vh; height: 30vh; position: absolute; left: 50%; top: 50%; margin-left: -15vh; margin-top: -15vh;"></div>
