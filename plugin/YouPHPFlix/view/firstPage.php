@@ -330,15 +330,18 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                            <div class="clear clearfix">
 
                         <div class="row">
+                    <h2 style="margin-top: 30px;">
+                        <i class="<?php echo $cat['iconClass']; ?>"></i>Category-Gallery
+                        <span class="badge"><?php echo count($category); ?></span>
+                    </h2>
                             <?php
                             $countCols = 0;
                             unset($_POST['sort']);
                             $_POST['sort']['title'] = "ASC";
                             $_POST['rowCount'] = 12;
-                            $_GET['catName'] = '';
-                            $videos = Video::getAllVideos();
                 foreach ($category as $cat) {
                     $_GET['catName'] = $cat['clean_name'];
+                    $videos = Video::getAllVideos();
                             foreach ($videos as $value) {
                                 $name = User::getNameIdentificationById($value['users_id']);
                                 // make a row each 6 cols
@@ -397,7 +400,6 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     $_GET['catName'] = $cat['clean_name'];
                     //$_POST['rowCount'] = 18;
                     //$_POST['current'] = 1;
-                    $_GET['catName'] = '';
                     $videos = Video::getAllVideos();
                     if (empty($videos)) {
                         continue;
