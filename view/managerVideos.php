@@ -674,10 +674,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                         return editBtn + deleteBtn;
                                                     }
 
-						                            var nextIsSet="<span style='background-color: green;'>Next video done</span>";
-						                            if(row.next_videos_id == null){
-							                            nextIsSet="<span style='background-color: red;'>Next video NOT set</span>";
-						                            }
+                                                    var nextIsSet="<span class='label label-success'>Next video done</span>";
+                                                    if(row.next_videos_id == null){
+                                                            nextIsSet="<span class='label label-danger'>Next video NOT set</span>";
+                                                    }
                                                     return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons+ "<br>"+download+nextIsSet;
 
                                                 },
