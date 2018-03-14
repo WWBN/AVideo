@@ -56,8 +56,8 @@ $(document).ready(function () {
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
         id = gifId.replace('thumbsGIF','');        
-        //$(this).find(".thumbsGIF").height($(this).find(".aspectRatio16_9").height());
-        //(this).find(".thumbsGIF").width($(this).find(".aspectRatio16_9").width());
+        $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
+        $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
         
         /*
         try {            
@@ -251,8 +251,8 @@ function closeFloatVideo() {
 function mouseEffect(){
 
     $(".thumbsImage").on("mouseenter", function () {
-        //$(this).find(".thumbsGIF").height($(this).find(".aspectRatio16_9").height());
-        //$(this).find(".thumbsGIF").width($(this).find(".aspectRatio16_9").width());
+        $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
+        $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
         $(this).find(".thumbsGIF").stop(true, true).fadeIn();
     });
 
