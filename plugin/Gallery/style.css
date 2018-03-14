@@ -101,3 +101,25 @@ h3.galleryTitle{
 .fixPadding{
     padding: 0 5px;
 }
+
+
+.popover {
+    left: 5px !important;
+    color: inherit !important;
+}
+.popover-content {
+    height: 160px !important;
+}
+.popover-content, .popover-content>div{
+    font-size: 1.3em !important;
+    white-space: normal !important;
+    width: auto;
+    color: inherit !important;
+}
+.popover-content>div{
+    overflow-y: auto;
+    height: 140px;
+}
+.aligned-row{
+    overflow: visible !important;
+}
