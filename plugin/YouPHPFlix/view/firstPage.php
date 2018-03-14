@@ -319,7 +319,74 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     </div>
                 </div>
                 <?php
-            } } else { ?>
+            } } 
+            
+            
+            
+            
+            
+            else if(($o->LiteDesign)&&($o->LiteGallery)){
+                ?>
+                           <div class="clear clearfix">
+
+                        <div class="row">
+                            <?php
+                            $countCols = 0;
+                            unset($_POST['sort']);
+                            $_POST['sort']['title'] = "ASC";
+                            $_POST['rowCount'] = 12;
+                            $_GET['catName'] = '';
+                            $videos = Video::getAllVideos();
+                foreach ($category as $cat) {
+                    $_GET['catName'] = $cat['clean_name'];
+                            foreach ($videos as $value) {
+                                $name = User::getNameIdentificationById($value['users_id']);
+                                // make a row each 6 cols
+                                if ($countCols % 6 === 0) {
+                                    echo '</div><div class="row aligned-row ">';
+                                }
+                                $countCols++;
+                                ?>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>" title="<?php $value['category']; ?>" >
+        <?php
+        $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        $imgGif = $images->thumbsGif;
+        $poster = $images->thumbsJpg;
+        ?>
+                                        <div class="aspectRatio16_9">
+                                            <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+
+        <?php
+        if (!empty($imgGif)) {
+            ?>
+                                                <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+        <?php } ?>
+                                        </div>
+                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                    </a>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                        <h2><?php echo $value['category']; ?></h2>
+                                    </a>
+                                     
+
+                                    </div>
+                                
+        <?php
+    
+                            }
+                    break;
+                }
+    ?>
+                        </div>
+                    </div>                
+            <?php
+            }
+            
+            
+            
+            
+            else { ?>
                 <div class="row">
                     <h2 style="margin-top: 30px;">
                         Categorys
@@ -331,6 +398,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     $_GET['catName'] = $cat['clean_name'];
                     //$_POST['rowCount'] = 18;
                     //$_POST['current'] = 1;
+                    $_GET['catName'] = '';
                     $videos = Video::getAllVideos();
                     if (empty($videos)) {
                         continue;
