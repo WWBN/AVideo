@@ -74,8 +74,11 @@ header('Content-Length: ' . filesize($path));
 if(!empty($advancedCustom->doNotUseXsendFile)){
     if(strtolower($path_parts['extension'])==="mp4" || strtolower($path_parts['extension'])==="webm"){
         // Not working yet
-        //send_video($path);
-        echo file_get_contents($path);
+        if(!empty($_SERVER['HTTP_RANGE'])){
+            send_video($path);
+        }else{
+            echo file_get_contents($path);
+        }
     }else{
         if(empty($_GET['download'])){
             header("Content-type: " . mime_content_type($path));
