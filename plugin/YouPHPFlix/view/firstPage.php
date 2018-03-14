@@ -239,10 +239,14 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             unset($_POST['sort']);
             unset($_POST['current']);
             unset($_POST['rowCount']);
+            if($o->SortByName){
+                $_POST['sort']['title'] = "ASC";
+            } else {
+		        $_POST['sort']['created'] = "DESC";
+		    }
             if(!$o->LiteDesign){
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
-                $_POST['sort']['created'] = "DESC";
                 //$_POST['rowCount'] = 18;
                 //$_POST['current'] = 1;
                 $videos = Video::getAllVideos();
@@ -321,12 +325,10 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                         Categorys
                         <span class="badge"><?php echo count($category); ?></span>
                     </h2>
-<div class="carousel">
-    <?php
-            
+                    <div class="carousel">
+                <?php
                 foreach ($category as $cat) {
                     $_GET['catName'] = $cat['clean_name'];
-                    $_POST['sort']['created'] = "DESC";
                     //$_POST['rowCount'] = 18;
                     //$_POST['current'] = 1;
                     $videos = Video::getAllVideos();
