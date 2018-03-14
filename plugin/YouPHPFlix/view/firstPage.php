@@ -376,7 +376,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                                                     <?php } ?>
                                     </div>
                                         
-                                    <div class="tile__title" style="width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                    <div class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
                                     </div>
                                     </a>
