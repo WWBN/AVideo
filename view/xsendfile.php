@@ -76,7 +76,9 @@ if(empty($_GET['download'])){
 header('Content-Length: ' . filesize($path));
 if(!empty($advancedCustom->doNotUseXsendFile)){
     if(strtolower($path_parts['extension'])==="mp4" || strtolower($path_parts['extension'])==="webm"){
-        send_video($path);
+        // Not working yet
+        //send_video($path);
+        echo file_get_contents($path);
     }else{
         echo file_get_contents($path);
     }
