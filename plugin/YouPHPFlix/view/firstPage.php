@@ -429,11 +429,13 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                         if (!empty($imgGif)) {
                                             ?>
                                             <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image"  data-flickity-lazyload="<?php echo $imgGif; ?>"/>
-                                        <?php } ?>
+                                        <?php }
+                                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = ".$value['categories_id'].";");
+                                        ?>
                                     </div>
                                 <div class="">
                                     <div class="videoInfo">
-                                        <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo count($videos); ?></span>
+                                        <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
                                     </div>
                                     <div class="tile__title" style="bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
