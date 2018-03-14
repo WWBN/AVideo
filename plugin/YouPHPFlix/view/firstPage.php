@@ -366,7 +366,6 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                                 <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
         <?php } ?>
                                         </div>
-                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                     </a>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <h2><?php echo $cat['name']; ?></h2>
