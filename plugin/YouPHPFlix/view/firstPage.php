@@ -341,6 +341,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             $_POST['rowCount'] = 12;
                 foreach ($category as $cat) {
                     $_GET['catName'] = $cat['clean_name'];
+                    $_GET['limitOnceToOne'] = "1";
                     $videos = Video::getAllVideos();
                             foreach ($videos as $value) {
                                 $name = User::getNameIdentificationById($value['users_id']);
@@ -399,6 +400,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     $_GET['catName'] = $cat['clean_name'];
                     //$_POST['rowCount'] = 18;
                     //$_POST['current'] = 1;
+                    $_GET['limitOnceToOne'] = "1";
                     $videos = Video::getAllVideos();
                     if (empty($videos)) {
                         continue;
