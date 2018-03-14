@@ -68,6 +68,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <div class="videoInfo">
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                                        <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL']."cat/".$value['clean_category']; ?>" ><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                                     </div>
                                     <div class="tile__title">
                                         <?php echo $value['title']; ?>
@@ -134,6 +135,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <div class="videoInfo">
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                                        <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL']."cat/".$value['clean_category']; ?>" ><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                                     </div>
                                     <div class="tile__title">
                                         <?php echo $value['title']; ?>
@@ -199,6 +201,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <div class="videoInfo">
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                                        <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL']."cat/".$value['clean_category']; ?>" ><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                                     </div>
                                     <div class="tile__title">
                                         <?php echo $value['title']; ?>
@@ -284,6 +287,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <div class="videoInfo">
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                                        <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL']."cat/".$value['clean_category']; ?>" ><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                                     </div>
                                     <div class="tile__title">
                                         <?php echo $value['title']; ?>
