@@ -675,7 +675,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     }
 
                                                     var nextIsSet="<span class='label label-success'>Next video done</span>";
-                                                    if(row.next_videos_id == null){
+                                                    if(row.next_video == null || row.next_video.length==0){
                                                             nextIsSet="<span class='label label-danger'>Next video NOT set</span>";
                                                     }
                                                     return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons+ "<br>"+download+nextIsSet;
@@ -756,7 +756,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 $('#inputCleanTitle').val(row.clean_title);
                                                 $('#inputDescription').val(row.description);
                                                 $('#inputCategory').val(row.categories_id);
-                                                if (row.next_video.id) {
+                                                if (row.next_video && row.next_video.id) {
                                                     $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_video.filename + ".jpg");
                                                     $('#inputNextVideo').val(row.next_video.title);
                                                     $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
