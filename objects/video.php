@@ -446,12 +446,18 @@ class Video {
             $sql .= " AND c.clean_name = '{$_GET['catName']}'";
         }
 
+       
+        
         if (!empty($_GET['search'])) {
             $_POST['searchPhrase'] = $_GET['search'];
         }
 
         $sql .= BootGrid::getSqlFromPost(array('title', 'description', 'c.name'), empty($_POST['sort']['likes']) ? "v." : "");
-
+        
+        if (!empty($_GET['limitOnceToOne'])) {
+            $sql .= " LIMIT 1";
+            unset($_GET['limitOnceToOne']);
+        }
         //echo $sql;
         $res = $global['mysqli']->query($sql);
         $videos = array();
