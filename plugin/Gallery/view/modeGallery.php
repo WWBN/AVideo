@@ -11,8 +11,6 @@ require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
-$obj = YouPHPTubePlugin::getObjectData("Gallery");
-
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
         $_SESSION['type'] = 'audio';
@@ -56,37 +54,13 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-
-        <style>
-            .popover {
-                left: 5px !important;
-                color: inherit !important;
-            }
-            .popover-content {
-                height: 160px !important;
-            }
-            .popover-content, .popover-content>div{
-                font-size: 1.3em !important;
-                white-space: normal !important;
-                width: auto;
-                color: inherit !important;
-            }
-            .popover-content>div{
-                overflow-y: auto;
-                height: 140px;
-            }
-            .aligned-row{
-                overflow: visible !important;
-            }
-        </style>
-
     </head>
 
     <body>
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="text-center" style="padding: 10px;">
+        <div class="row text-center" style="padding: 10px;">
             <?php
             echo $config->getAdsense();
             ?>
@@ -99,12 +73,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                     ?>
-                                        <?php if(!$obj->BigVideo) { ?>
-                        <h1 style="text-align: center;"><?php echo $video['category']; ?></h1>
-                 <?php } ?>
                     <div class="row mainArea">
-
-                        <?php if($obj->BigVideo) { ?>
                         <div class="clear clearfix firstRow">
                             <div class="row thumbsImage">
                                 <div class="col-sm-6">
@@ -131,7 +100,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
                                         <h1><?php echo $video['title']; ?></h1>
                                     </a>
-                                    <h4 itemprop="description" style="max-height: 300px; overflow: auto;"><?php echo str_replace('"','&quot;',nl2br(textToLink($video['description'])));  ?></h4>
+                                    <h4 itemprop="description"><?php echo nl2br(textToLink($video['description'])); ?></h4>
 
                                     <div class="text-muted galeryDetails">
                                         <div>
@@ -169,129 +138,13 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </div>
                         </div>
 
-                     <?php  } if($obj->SortByName) { ?>   
-                        
-                    <div class="clear clearfix">
-                        <h3 class="galleryTitle">
-                            <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Sort by name"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
-                        </h3>
-                        <div class="row">
-                            <?php
-                            $countCols = 0;
-                            unset($_POST['sort']);
-                            $_POST['sort']['title'] = "ASC";
-                            $_POST['current'] = $_GET['page'];
-                            $_POST['rowCount'] = 12;
-                            $videos = Video::getAllVideos();
-                            foreach ($videos as $value) {
-                                $name = User::getNameIdentificationById($value['users_id']);
-                                // make a row each 6 cols
-                                if ($countCols % 6 === 0) {
-                                    echo '</div><div class="row aligned-row ">';
-                                }
-                                $countCols++;
-                                ?>
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
-        <?php
-        $images = Video::getImageFromFilename($value['filename'], $value['type']);
-        $imgGif = $images->thumbsGif;
-        $poster = $images->thumbsJpg;
-        ?>
-                                        <div class="aspectRatio16_9">
-                                            <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
-
-        <?php
-        if (!empty($imgGif)) {
-            ?>
-                                                <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
-        <?php } ?>
-                                        </div>
-                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                    </a>
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                        <h2><?php echo $value['title']; ?></h2>
-                                    </a>
-                                     
-                                        <div class="text-muted galeryDetails">
-                                            <div>
-                                                <?php
-                                                $value['tags'] = Video::getTags($value['id']);
-                                                foreach ($value['tags'] as $value2) {
-                                                    if ($value2->label === __("Group")) {
-                                                        ?>
-                                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-eye"></i>
-                                                <span itemprop="interactionCount">
-                                                    <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-clock-o"></i>
-                                                <?php
-                                                echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                                ?>
-                                            </div>
-                                            <div class="userName">
-                                                <i class="fa fa-user"></i>
-                                                <?php
-                                                echo $name;
-                                                if((!empty($value['description']))&&($obj->Description)){
-                                                ?>
-                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"','&quot;',nl2br(textToLink($value['description'])));  ?></div>">Description</button>
-                                                <?php } ?>
-                                            </div>
-                
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-eye"></i>
-                                            <span itemprop="interactionCount">
-                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-clock-o"></i>
-                                            <?php
-                                            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                            ?>
-                                        </div>
-                                        <div class="userName">
-                                            <i class="fa fa-user"></i>
-                                <?php
-                                echo $name;
-                                ?>
-                                        </div>
-                                    </div>
-                                
-        <?php
-    }
-    ?>
-                        </div>
-                        <div class="row">
-                            <ul class="pages">
-                            </ul>
-                        </div>
-                    </div>
-                        
-                        <?php } ?> 
-                        
-                        
                         <div class="clear clearfix">
                             <h3 class="galleryTitle">
-                                <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
+                                <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); ?>
                             </h3>
                             <div class="row">
                                 <?php
                                 $countCols = 0;
-                                unset($_POST['sort']);
-                                $_POST['sort']['created'] = 'desc';
-                                $videos = Video::getAllVideos();
                                 foreach ($videos as $value) {
                                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                                     $name = User::getNameIdentificationById($value['users_id']);
@@ -350,10 +203,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
-                                                if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
-                                                <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"','&quot;',nl2br(textToLink($value['description'])));  ?></div>">Description</button>
-                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -362,7 +212,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                 ?>
                             </div>
                         </div>
-                    
+                    </div>
                     <div class="row">
 
                         <ul class="pages">
@@ -377,7 +227,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     maxVisible: 10
                                 }).on('page', function (event, num) {
     <?php $url = '';
-    if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
+    if (strpos($_SERVER['REQUEST_URI'], "cat") === false) {
         $url = $global['webSiteRootURL'] . "page/";
     } else {
         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
@@ -391,14 +241,14 @@ $totalPages = ceil($total / $_POST['rowCount']);
 
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
-                            <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
+                            <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); ?>
                         </h3>
                         <div class="row">
                             <?php
                             $countCols = 0;
                             unset($_POST['sort']);
                             $_POST['sort']['views_count'] = "DESC";
-                            $_POST['current'] = $_GET['page'];
+                            $_POST['current'] = 1;
                             $_POST['rowCount'] = 12;
                             $videos = Video::getAllVideos();
                             foreach ($videos as $value) {
@@ -430,42 +280,19 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <h2><?php echo $value['title']; ?></h2>
                                     </a>
-                                     
-                                        <div class="text-muted galeryDetails">
-                                            <div>
-                                                <?php
-                                                $value['tags'] = Video::getTags($value['id']);
-                                                foreach ($value['tags'] as $value2) {
-                                                    if ($value2->label === __("Group")) {
-                                                        ?>
-                                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-eye"></i>
-                                                <span itemprop="interactionCount">
-                                                    <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-clock-o"></i>
-                                                <?php
-                                                echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                                ?>
-                                            </div>
-                                            <div class="userName">
-                                                <i class="fa fa-user"></i>
-                                                <?php
-                                                echo $name;
-                                                if((!empty($value['description']))&&($obj->Description)){
-                                                ?>
-                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"','&quot;',nl2br(textToLink($value['description'])));  ?></div>">Description</button>
-                                                <?php } ?>
-                                            </div>
-                
+
+                                    <div class="text-muted galeryDetails">
+                                        <div>
+                                            <?php
+                                            $value['tags'] = Video::getTags($value['id']);
+                                            foreach ($value['tags'] as $value2) {
+                                                if ($value2->label === __("Group")) {
+                                                    ?>
+                                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                <?php
+            }
+        }
+        ?>
                                         </div>
                                         <div>
                                             <i class="fa fa-eye"></i>
@@ -486,26 +313,21 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                 ?>
                                         </div>
                                     </div>
-                                
+                                </div>
         <?php
     }
     ?>
                         </div>
-                        <div class="row">
-                            <ul class="pages">
-                            </ul>
-                        </div>
                     </div>
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
-                            <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
+                            <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); ?>
                         </h3>
                         <div class="row">
                             <?php
                             $countCols = 0;
                             unset($_POST['sort']);
                             $_POST['sort']['likes'] = "DESC";
-                            $_POST['current'] = $_GET['page'];
                             $videos = Video::getAllVideos();
                             foreach ($videos as $value) {
                                 $name = User::getNameIdentificationById($value['users_id']);
@@ -536,42 +358,19 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <h2><?php echo $value['title']; ?></h2>
                                     </a>
-                                     
-                                        <div class="text-muted galeryDetails">
-                                            <div>
-                                                <?php
-                                                $value['tags'] = Video::getTags($value['id']);
-                                                foreach ($value['tags'] as $value2) {
-                                                    if ($value2->label === __("Group")) {
-                                                        ?>
-                                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-eye"></i>
-                                                <span itemprop="interactionCount">
-                                                    <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-clock-o"></i>
-                                                <?php
-                                                echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                                ?>
-                                            </div>
-                                            <div class="userName">
-                                                <i class="fa fa-user"></i>
-                                                <?php
-                                                echo $name;
-                                                if((!empty($value['description']))&&($obj->Description)){
-                                                ?>
-                                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"','&quot;',nl2br(textToLink($value['description'])));  ?></div>">Description</button>
-                                                <?php } ?>
-                                            </div>
 
+                                    <div class="text-muted galeryDetails">
+                                        <div>
+                                            <?php
+                                            $value['tags'] = Video::getTags($value['id']);
+                                            foreach ($value['tags'] as $value2) {
+                                                if ($value2->label === __("Group")) {
+                                                    ?>
+                                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                <?php
+            }
+        }
+        ?>
                                         </div>
                                         <div>
                                             <i class="fa fa-eye"></i>
@@ -590,13 +389,13 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                 <?php
                                 echo $name;
                                 ?>
-                                        
+                                        </div>
                                     </div>
                                 </div>
                         <?php
                     }
                     ?>
-                        </div></div>
+                        </div>
                     </div>
                     <?php
                 } else {
