@@ -325,7 +325,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             
             
             
-            else if(($o->LiteDesign)&&($o->LiteGallery)){
+            if($o->LiteGallery){
                 ?>
                            <div class="clear clearfix">
 
@@ -348,7 +348,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                 $countCols++;
                                 ?>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>" title="<?php $value['category']; ?>" >
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>" >
         <?php
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
         $imgGif = $images->thumbsGif;
@@ -366,16 +366,15 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                         <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                     </a>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                        <h2><?php echo $value['category']; ?></h2>
+                                        <h2><?php echo $cat['name']; ?></h2>
                                     </a>
                                      
 
                                     </div>
                                 
         <?php
-    
+                            break;
                             }
-                    break;
                 }
     ?>
                         </div>
@@ -386,7 +385,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             
             
             
-            else { ?>
+            if($o->LiteDesign) { ?>
                 <div class="row">
                     <h2 style="margin-top: 30px;">
                         Categorys
