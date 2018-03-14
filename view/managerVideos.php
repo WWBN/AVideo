@@ -673,7 +673,13 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     } else {
                                                         return editBtn + deleteBtn;
                                                     }
-                                                    return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + "<br>" + download;
+
+						                            var nextIsSet="<span style='background-color: green;'>Next video done</span>";
+						                            if(row.next_videos_id == null){
+							                            nextIsSet="<span style='background-color: red;'>Next video NOT set</span>";
+						                            }
+                                                    return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons+ "<br>"+download+nextIsSet;
+
                                                 },
                                                 "tags": function (column, row) {
                                                     var tags = "";

@@ -19,14 +19,22 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
             var pageDots = <?php echo empty($o->pageDots)?"false":"true"; ?>;
+
         </script>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.min.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
+        
+        if($o->LiteDesign){ 
         ?>
-
+        <style>
+            footer {
+                margin-top: 50px !important;
+            }
+        </style>
+        <?php } ?>
         <title><?php echo $config->getWebSiteTitle(); ?></title>
     </head>
     <body>
@@ -46,6 +54,10 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     $_POST['sort']['created'] = "DESC";
                     $_POST['current'] = 1;
                     $_POST['rowCount'] = 20;
+                    if($o->LiteDesign){
+                      $_POST['rowCount'] = $o->LiteDesignGenericNrOfRows;  
+                    }
+
                     $videos = Video::getAllVideos();
                     foreach ($videos as $value) {
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -239,15 +251,33 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             unset($_POST['sort']);
             unset($_POST['current']);
             unset($_POST['rowCount']);
+            if($o->LiteDesign){
+                
+                ?>
+                            <div class="row">
+                    <h2 style="margin-top: 30px;">
+                        Categorys
+                        <span class="badge"><?php echo count($category); ?></span>
+                    </h2>
+                    <div class="carousel">
+            <?php
+            }
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
-                $_POST['sort']['created'] = "DESC";
+                //$_POST['sort']['created'] = "DESC";
+                if($o->SortByName){
+                       $_POST['sort']['title'] = "ASC";
+                    } 
+             else {
+		       $_POST['sort']['created'] = "DESC";
+		}
                 //$_POST['rowCount'] = 18;
                 //$_POST['current'] = 1;
                 $videos = Video::getAllVideos();
                 if (empty($videos)) {
                     continue;
                 }
+                if(!$o->LiteDesign){
                 ?>
                 <div class="row">
                 <a style="z-index: 9999;" href='<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>'>
@@ -258,6 +288,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 </a>
                     <div class="carousel">
                         <?php
+                }
                         foreach ($videos as $value) {
                             $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
@@ -266,33 +297,63 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             $poster = $images->poster;
                             ?>
                             <div class="carousel-cell tile " >
+                                <?php if($o->LiteDesign){ ?>
+                                <a href="<?php echo $global['webSiteRootURL']."cat/".$cat['clean_name']; ?>" ><div class="slide" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" cat="<?php echo $cat['clean_name']; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+                                    <?php } ?> 
+                                    <?php if(!$o->LiteDesign){ ?>
                                 <div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" cat="<?php echo $cat['clean_name']; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+                                    <?php } ?>
                                     <div class="tile__media ">
+                                        <?php if($o->LiteDesign){ ?>
+                                        
+                                        <?php } ?>    
                                         <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image"  data-flickity-lazyload="<?php echo $img; ?>" />
                                         <?php
                                         if (!empty($imgGif)) {
                                             ?>
                                             <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image"  data-flickity-lazyload="<?php echo $imgGif; ?>"/>
-                                        <?php } ?>
+                                        <?php }  ?>
                                     </div>
-                                <div class="tile__details">
+                                    
+                                    <?php if(!$o->LiteDesign){ ?>
+                                    <div class="tile__details">
                                     <div class="videoInfo">
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                                     </div>
+                                    <?php } if($o->LiteDesign){ ?>
+                                        <div class="">
+                                    <div class="videoInfo">
+                                        <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo count($videos); ?></span>
+                                    </div>
+                                    <div class="tile__title" style="bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                        <?php echo $cat['name']; ?>
+                                    </div>
+                                    <?php } else { ?>
                                     <div class="tile__title">
                                         <?php echo $value['title']; ?>
                                     </div>
+                                    <?php } ?>
                                     <div class="videoDescription">
                                         <?php echo nl2br(textToLink($value['description'])); ?>
                                     </div>
                                 </div>
                                 </div>
                                 <div class="arrow-down" style="display: none;"></div>
-                            </div>
+                            
+                                    <?php if($o->LiteDesign){ ?>
+                                    </a></div>
+                                        <?php } ?>
                             <?php
-                        }
+                            if($o->LiteDesign){
+                                break;
+                            }
+                            if(!$o->LiteDesign){
                         ?>
+                                
+                                <?php
+                        }
+                ?>
                     </div>
                     <div class="poster list-group-item" style="display: none;">
                         <div class="posterDetails ">
@@ -313,8 +374,12 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                         </div>
                     </div>
                 </div>
+            
                 <?php
-            }
+                } 
+            } if($o->LiteDesign){  ?>
+                
+                <?php }
             ?>
         </div>
         <div id="loading" class="loader" style="width: 30vh; height: 30vh; position: absolute; left: 50%; top: 50%; margin-left: -15vh; margin-top: -15vh;"></div>
@@ -371,6 +436,11 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.pkgd.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/script.js" type="text/javascript"></script>
+                                            <?php if($o->LiteDesign){ ?>
+        <script>
+           // $(".thumbsImage").on("click", function () { alert("fofo"+$(this)); });
+        </script>
+            <?php } ?>
         <script>
             $(function () {
 
@@ -378,3 +448,4 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         </script>
     </body>
 </html>
+

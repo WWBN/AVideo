@@ -20,9 +20,12 @@ class Hotkeys extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->Volume = True;
-        $obj->ReplaceVolumeWithPlusMinus = True;
-        $obj->Fullscreen = True;
+        $obj->Volume = true;
+        $obj->ReplaceVolumeWithPlusMinus = true;
+        $obj->Fullscreen = true;
+        $obj->FullscreenKey = "F";
+        $obj->PlayPauseKey = " ";
+        $obj->AlwaysCaptureHotkeys = false;
         return $obj;
     }
     
@@ -36,11 +39,14 @@ class Hotkeys extends PluginAbstract {
         $obj = $this->getDataObject();
         
         $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        if(("https://".$url!=$global['webSiteRootURL'])&&("http://".$url!=$global['webSiteRootURL'])&&
-           ("http://".$url!=$global['webSiteRootURL']."cat/")&&("https://".$url!=$global['webSiteRootURL']."cat/")&&
-           ("http://".$url!=$global['webSiteRootURL']."login/")&&("http://".$url!=$global['webSiteRootURL']."login/")&&
-           ("http://".$url!=$global['webSiteRootURL']."mvideos")&&("https://".$url!=$global['webSiteRootURL']."mvideos")&&
-           ("http://".$url!=$global['webSiteRootURL']."plugins")&&("https://".$url!=$global['webSiteRootURL']."plugins")&&(strpos($url,"/cat/")===false)){
+        
+        $httpSpacer = 7;
+        if(strpos($global['webSiteRootURL'],"https://")!==false){
+           $httpSpacer = 8;    
+        }
+        $catUrlResult;
+        preg_match("/cat\/(.*)\/video\/(.*)/", $url, $catUrlResult);
+        if((strpos($url,substr($global['webSiteRootURL'],$httpSpacer)."video/")!==false)||(sizeof($catUrlResult)>0)){
             
             $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script>
                     <script>
@@ -48,19 +54,29 @@ class Hotkeys extends PluginAbstract {
                             this.hotkeys({
                             seekStep: 5,";
                
-            if($obj->Volume==1){
+            if($obj->Volume){
                 $tmp .= "enableVolumeScroll: true,";
             } else {
                 // Could not use Up/Down-Keys as excepted. What's the right option?
                 $tmp .= "enableVolumeScroll: false,";
             }
-               
-            if($obj->Fullscreen==1){
+            if($obj->AlwaysCaptureHotkeys){
+                $tmp .= "alwaysCaptureHotkeys: true,";
+            } else {
+                $tmp .= "alwaysCaptureHotkeys: false,";
+            }     
+            if($obj->Fullscreen){
                 $tmp .= "enableFullscreen: true,";
             } else {
                 $tmp .= "enableFullscreen: false,";
             }
-            if($obj->ReplaceVolumeWithPlusMinus==1){
+            if(($obj->FullscreenKey!=="F")||($obj->FullscreenKey!=="")){
+                $tmp .= "fullscreenKey: function(event, player) { return (event.which ===".ord($obj->FullscreenKey)."); },";
+            }
+            if(($obj->PlayPauseKey!==" ")||($obj->PlayPauseKey!=="")){
+                $tmp .= "playPauseKey: function(event, player) { return (event.which ===".ord($obj->PlayPauseKey)."); },";
+            }
+            if($obj->ReplaceVolumeWithPlusMinus){
                 $tmp .= "volumeUpKey: function(event, player) { return (event.which === 107); },
                          volumeDownKey: function(event, player) { return (event.which === 109);},";
             }

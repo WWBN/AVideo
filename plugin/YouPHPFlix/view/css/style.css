@@ -92,7 +92,7 @@ a:visited {
     text-overflow: ellipsis;
     background-color: black;
     color: white;
-    opacity: 0.25; 
+    opacity: 0.4; 
     font-weight: bold;
     border-radius: 15px;
 }
@@ -156,7 +156,8 @@ a:visited {
     bottom: 17vh;
     position: absolute;
     height: 140px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     display: block; /* Fallback for non-webkit */
     display: -webkit-box;
     -webkit-line-clamp: 7;
