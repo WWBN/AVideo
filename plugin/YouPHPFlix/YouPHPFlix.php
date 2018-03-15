@@ -23,6 +23,9 @@ class YouPHPFlix extends PluginAbstract {
         $obj->LiteDesign = false;
         $obj->LiteGallery = false;
         $obj->DefaultDesign = true;
+        $obj->MostPopular = true;
+        $obj->MostWatched = true;
+        $obj->DateAdded = true;
         $obj->LiteDesignGenericNrOfRows = 10;
         $obj->SortByName = false;
         return $obj;

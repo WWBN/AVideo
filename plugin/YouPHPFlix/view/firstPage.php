@@ -36,7 +36,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 
         <div class="container-fluid" style="display: none;"> 
 
-
+<?php  if($o->DateAdded) { ?>
             <div class="row">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); ?>
@@ -104,7 +104,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 </div>
             </div>
 
-
+<?php } if($o->MostWatched) { ?>
             <div class="row">
                 <h2>
                     <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); ?>
@@ -170,7 +170,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     </div>
                 </div>
             </div>
-
+        <?php } if($o->MostPopular) { ?>
             <div class="row">
                 <h2>
                     <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); ?>
@@ -239,6 +239,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 
 
             <?php
+            }
             unset($_POST['sort']);
             unset($_POST['current']);
             unset($_POST['rowCount']);
@@ -331,83 +332,70 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             
             if($o->LiteGallery){
                 ?>
-                           <div class="clear clearfix">
-
-                        <div class="row">
-                    <h2 style="margin-top: 30px;">
-                        <i class="<?php echo $cat['iconClass']; ?>"></i>Category-Gallery
-                        <span class="badge"><?php echo count($category); ?></span>
-                    </h2>
-                            <?php
+               <div class="clear clearfix">
+                    <div class="row">
+                        <h2 style="margin-top: 30px;">
+                            <i class="<?php echo $cat['iconClass']; ?>"></i>Category-Gallery
+                            <span class="badge"><?php echo count($category); ?></span>
+                        </h2>
+                        <?php
                             $countCols = 0;
                             unset($_POST['sort']);
                             $_POST['sort']['title'] = "ASC";
-                            $_POST['rowCount'] = 12;
-                foreach ($category as $cat) {
-                    $_GET['catName'] = $cat['clean_name'];
-                    $_GET['limitOnceToOne'] = "1";
-                    $videos = Video::getAllVideos();
-                            foreach ($videos as $value) {
-
-                                $name = User::getNameIdentificationById($value['users_id']);
-                                // make a row each 6 cols
-                                if ($countCols % 6 === 0) {
-                                    echo '</div><div class="row aligned-row ">';
-                                }
-                                $countCols++;
-                                ?>
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>" >
-        <?php
-        $images = Video::getImageFromFilename($value['filename'], $value['type']);
-        $imgGif = $images->thumbsGif;
-        $poster = $images->thumbsJpg;
-        ?>
-                                        <div class="aspectRatio16_9">
-                                            <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
-
-        <?php
-        if (!empty($imgGif)) {
-            ?>
-                                                <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
-        <?php }
-                                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = ".$value['categories_id'].";");
-                                            ?>
-                                        </div>
-                                                                <div class="videoInfo">
-                                                                    <?php if ($videoCount) { ?>
-                                        <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
-                                                                    <?php } ?>
-                                    </div>
-                                        
-                                    <div class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                            //$_POST['rowCount'] = 12;
+                            foreach ($category as $cat) {
+                                $_GET['catName'] = $cat['clean_name'];
+                                $_GET['limitOnceToOne'] = "1";
+                                $videos = Video::getAllVideos();
+                                foreach ($videos as $value) {
+                                    $name = User::getNameIdentificationById($value['users_id']);
+                                    // make a row each 6 cols
+                                    if ($countCols % 6 === 0) {
+                                        echo '</div><div class="row aligned-row ">';
+                                    }
+                                    $countCols++;
+                        ?>
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>" >
+                            <?php
+                                $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                                $imgGif = $images->thumbsGif;
+                                $poster = $images->thumbsJpg;
+                            ?>
+                                <div class="aspectRatio16_9">
+                                    <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+                            <?php
+                                if (!empty($imgGif)) {
+                            ?>
+                                    <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                            <?php   }
+                                    $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = ".$value['categories_id'].";");
+                            ?>
+                                </div>
+                                <div class="videoInfo">
+                            <?php if ($videoCount) { ?>
+                                    <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
+                            <?php } ?>
+                                </div>        
+                                <div class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
-                                    </div>
-                                    </a>
-                                     
-
-                                    </div>
-                                
-        <?php
-                            break;
+                                </div>
+                            </a>
+                        </div>        
+                    <?php
+                        break;
+                                }
                             }
-                }
-    ?>
-                        </div>
-                    </div>                
-            <?php
-            }
-            
-            
-            
-            
-            if($o->LiteDesign) { ?>
-                <div class="row">
-                    <h2 style="margin-top: 30px;">
-                        Categorys
-                        <span class="badge"><?php echo count($category); ?></span>
-                    </h2>
-                    <div class="carousel">
+                    ?>
+                </div>
+        </div>                
+            <?php } if($o->LiteDesign) { ?>
+        <div class="row">
+            <h2 style="margin-top: 30px;">
+                Categorys
+                <span class="badge"><?php echo count($category); ?></span>
+            </h2>
+        <div class="carousel">
                 <?php
                 foreach ($category as $cat) {
                     $_GET['catName'] = $cat['clean_name'];
