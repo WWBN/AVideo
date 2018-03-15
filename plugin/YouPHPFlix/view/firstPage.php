@@ -359,13 +359,15 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>" >
                             <?php
                                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
-                                $imgGif = $images->thumbsGif;
+                                if(!$o->LiteGalleryNoGifs){
+                                    $imgGif = $images->thumbsGif;
+                                }
                                 $poster = $images->thumbsJpg;
                             ?>
                                 <div class="aspectRatio16_9">
                                     <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                             <?php
-                                if (!empty($imgGif)) {
+                                if ((!empty($imgGif))&&(!$o->LiteGalleryNoGifs)) {
                             ?>
                                     <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                             <?php   }
@@ -410,8 +412,9 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                         <?php
                         foreach ($videos as $value) {
                             $images = Video::getImageFromFilename($value['filename'], $value['type']);
-
-                            $imgGif = $images->thumbsGif;
+                            if(!$o->LiteDesignNoGifs){
+                                $imgGif = $images->thumbsGif;
+                            }
                             $img = $images->thumbsJpg;
                             $poster = $images->poster;
                             ?>
@@ -420,7 +423,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <div class="tile__media ">
                                         <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image"  data-flickity-lazyload="<?php echo $img; ?>" />
                                         <?php
-                                        if (!empty($imgGif)) {
+                                        if ((!empty($imgGif))&&(!$o->LiteDesignNoGifs)) {
                                             ?>
                                             <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image"  data-flickity-lazyload="<?php echo $imgGif; ?>"/>
                                         <?php }
