@@ -16,6 +16,7 @@
     RewriteRule    ^videoOnly/?$ view/?type=video    [NC,L]
     RewriteRule    ^audioOnly/?$ view/?type=audio    [NC,L]
     RewriteRule    ^download$ view/downloadExternalVideo.php    [NC,L]
+    RewriteRule    ^info$ view/info.php    [NC,L]
     RewriteRule    ^downloadNow$ objects/downloadVideo.php    [NC,L]
     RewriteRule    ^getDownloadProgress$ objects/downloadVideoProgress.php    [NC,L]
     RewriteRule    ^status$ objects/status.json.php    [NC,L]

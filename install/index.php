@@ -13,7 +13,7 @@ require_once '../objects/functions.php';
         <link href="../view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/js/seetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
-        <script src="../view/js/jquery-3.2.0.min.js" type="text/javascript"></script>
+        <script src="../view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
     </head>
 
     <body>

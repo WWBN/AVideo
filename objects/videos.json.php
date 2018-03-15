@@ -17,6 +17,7 @@ foreach ($videos as $key => $value) {
     $videos[$key]['creator'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong>'.$name.'</strong> <small>'.humanTiming(strtotime($value['videoCreation'])).'</small></div></div>';
     $videos[$key]['next_video'] = array();
     if(!empty($videos[$key]['next_videos_id'])){
+        unset($_POST['searchPhrase']);
         $videos[$key]['next_video'] = Video::getVideo($videos[$key]['next_videos_id']);
     }
     $videos[$key]['videosURL'] = getVideosURL($videos[$key]['filename']);
