@@ -22,6 +22,8 @@ class YouPHPFlix extends PluginAbstract {
         $obj->pageDots = true;
         $obj->LiteDesign = false;
         $obj->LiteGallery = false;
+        $obj->LiteGalleryNoGifs = false;
+        $obj->LiteDesignNoGifs = false;
         $obj->DefaultDesign = true;
         $obj->MostPopular = true;
         $obj->MostWatched = true;
