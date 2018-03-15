@@ -29,6 +29,9 @@ class Gallery extends PluginAbstract {
         $obj->Description = false;
         $obj->SortByName = false;
         $obj->BigVideo = true;
+        $obj->MostPopular = true;
+        $obj->MostWatched = true;
+        $obj->DateAdded = true;
         return $obj;
     }
     

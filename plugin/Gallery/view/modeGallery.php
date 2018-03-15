@@ -56,7 +56,25 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+                        <script>
+                            $(document).ready(function () {
+                                // Total Itens <?php echo $total; ?>
 
+                                $('.pages').bootpag({
+                                    total: <?php echo $totalPages; ?>,
+                                    page: <?php echo $_GET['page']; ?>,
+                                    maxVisible: 10
+                                }).on('page', function (event, num) {
+    <?php $url = '';
+    if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
+        $url = $global['webSiteRootURL'] . "page/";
+    } else {
+        $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
+    } ?>
+                                    window.location.replace("<?php echo $url; ?>" + num);
+                                });
+                            });
+                        </script>
         <style>
             .popover {
                 left: 5px !important;
@@ -261,7 +279,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                         </div>
                     </div>
                         
-                        <?php } ?> 
+                        <?php } if($obj->DateAdded) { ?> 
                         
                         
                         <div class="clear clearfix">
@@ -343,34 +361,17 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                 }
                                 ?>
                             </div>
-                        </div>
-                    
-                    <div class="row">
+                                                <div class="row">
 
                         <ul class="pages">
                         </ul>
-                        <script>
-                            $(document).ready(function () {
-                                // Total Itens <?php echo $total; ?>
 
-                                $('.pages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
-                                    page: <?php echo $_GET['page']; ?>,
-                                    maxVisible: 10
-                                }).on('page', function (event, num) {
-    <?php $url = '';
-    if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
-        $url = $global['webSiteRootURL'] . "page/";
-    } else {
-        $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
-    } ?>
-                                    window.location.replace("<?php echo $url; ?>" + num);
-                                });
-                            });
-                        </script>
                     </div>
+                        </div>
+                    
 
 
+                    <?php } if($obj->MostWatched) { ?>
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
                             <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
@@ -460,6 +461,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </ul>
                         </div>
                     </div>
+                    <?php } if($obj->MostPopular) { ?>    
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
                             <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
@@ -541,7 +543,12 @@ $totalPages = ceil($total / $_POST['rowCount']);
                         <?php
                     }
                     ?>
+                        </div>                        
+                        <div class="row">
+                            <ul class="pages">
+                            </ul>
                         </div></div>
+                        <?php } ?>
                     </div>
                     <?php
                 } else {
