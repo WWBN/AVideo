@@ -23,10 +23,17 @@ class Gallery extends PluginAbstract {
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>';
         return $js.$css;
     }
-
+    public function getEmptyDataObject() {
+        global $global;
+        $obj = new stdClass();
+        $obj->Description = false;
+        $obj->SortByName = false;
+        $obj->BigVideo = true;
+        return $obj;
+    }
     
     public function getFirstPage(){
-        global $global;        
+        global $global;
         return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
     }   
     
