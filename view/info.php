@@ -1,4 +1,4 @@
-s<?php
+<?php
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
@@ -26,6 +26,7 @@ foreach ($videos as $key => $value) {
     $vid->duration = $value['duration'];
     $vid->description = $value['description'];
     $vid->type = $value['type'];
+    $vid->image_url = Video::getImageFromFilename($value['filename']);
     $obj->videos[] = $vid;
 }
 

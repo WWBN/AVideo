@@ -100,8 +100,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
                                         <h1><?php echo $video['title']; ?></h1>
                                     </a>
-                                    <h4 itemprop="description"><?php echo nl2br(textToLink($video['description'])); ?></h4>
-
+                                    <div class="mainAreaDescriptionContainer">
+                                        <h4 class="mainAreaDescription"  itemprop="description"><?php echo nl2br(textToLink($video['description'])); ?></h4>
+                                    </div>
                                     <div class="text-muted galeryDetails">
                                         <div>
                                             <?php
@@ -127,7 +128,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                             echo humanTiming(strtotime($video['videoCreation'])), " ", __('ago');
                                             ?>
                                         </div>
-                                        <div class="userName">
+                                        <div>
                                             <i class="fa fa-user"></i>
                                             <?php
                                             echo $name;
@@ -199,7 +200,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
                                                 ?>
                                             </div>
-                                            <div class="userName">
+                                            <div>
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
@@ -306,7 +307,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                             echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
                                             ?>
                                         </div>
-                                        <div class="userName">
+                                        <div>
                                             <i class="fa fa-user"></i>
                                 <?php
                                 echo $name;
@@ -384,7 +385,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                             echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
                                             ?>
                                         </div>
-                                        <div class="userName">
+                                        <div>
                                             <i class="fa fa-user"></i>
                                 <?php
                                 echo $name;
