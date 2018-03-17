@@ -147,6 +147,11 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
                 if (!empty($advancedCustom->showAdsenseBannerOnTop)) {
                     ?>
+                    <style>
+                        .compress {
+                            top: 100px;
+                        }
+                    </style>
                     <div class="row" style="margin:5px;">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <?php
