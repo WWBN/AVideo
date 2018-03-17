@@ -149,7 +149,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                     ?>
                     <style>
                         .compress {
-                            top: 100px;
+                            top: 100px !important;
                         }
                     </style>
                     <div class="row">
