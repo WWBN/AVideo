@@ -143,7 +143,6 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                 if (empty($video['type'])) {
                     $video['type'] = "video";
                 }
-                require "{$global['systemRootPath']}view/include/{$video['type']}.php";
                 $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
 
                 if (!empty($advancedCustom->showAdsenseBannerOnTop)) {
@@ -157,6 +156,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                     </div>
                     <?php
                 }
+                require "{$global['systemRootPath']}view/include/{$video['type']}.php";
                 ?>
                 <div class="row">
                     <div class="col-sm-1 col-md-1"></div>
