@@ -152,11 +152,13 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                             top: 100px;
                         }
                     </style>
-                    <div class="row" style="margin:5px;">
+                    <div class="row">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <center style="margin:5px;">
                             <?php
                             echo $config->getAdsense();
                             ?>
+                            </center>
                         </div>
                     </div>
                     <?php
