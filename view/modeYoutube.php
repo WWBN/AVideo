@@ -34,9 +34,9 @@ if (!empty($_GET['catName'])) {
     $catLink = "cat/{$_GET['catName']}/";
 }
 
-$video = Video::getVideo("", "viewableNotAd", false, false, true) ;
-if(empty($video)){
-    $video = Video::getVideo("", "viewableNotAd") ;
+$video = Video::getVideo("", "viewableNotAd", false, false, true);
+if (empty($video)) {
+    $video = Video::getVideo("", "viewableNotAd");
 }
 if (empty($_GET['videoName'])) {
     $_GET['videoName'] = $video['clean_title'];
@@ -102,6 +102,8 @@ if (!empty($video)) {
         $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
     }
 }
+
+$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -141,8 +143,27 @@ if (!empty($video)) {
                 if (empty($video['type'])) {
                     $video['type'] = "video";
                 }
-                require "{$global['systemRootPath']}view/include/{$video['type']}.php";
                 $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
+
+                if (!empty($advancedCustom->showAdsenseBannerOnTop)) {
+                    ?>
+                    <style>
+                        .compress {
+                            top: 100px !important;
+                        }
+                    </style>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <center style="margin:5px;">
+                            <?php
+                            echo $config->getAdsense();
+                            ?>
+                            </center>
+                        </div>
+                    </div>
+                    <?php
+                }
+                require "{$global['systemRootPath']}view/include/{$video['type']}.php";
                 ?>
                 <div class="row">
                     <div class="col-sm-1 col-md-1"></div>
@@ -250,16 +271,16 @@ if (!empty($video)) {
                                                         var checked = "";
                                                         for (var x in response[i].videos) {
                                                             if (
-                                                                    typeof(response[i].videos[x]) === 'object' 
+                                                                    typeof (response[i].videos[x]) === 'object'
                                                                     && response[i].videos[x].videos_id ==<?php echo $video['id']; ?>) {
                                                                 checked = "checked";
                                                             }
                                                         }
 
-                                                        $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>' 
-                                                                + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' 
-                                                                + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' 
-                                                                + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' 
+                                                        $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
+                                                                + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
+                                                                + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="'
+                                                                + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
                                                                 + response[i].id + '" class="label-success"></label></div></a>');
                                                     }
                                                     $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
@@ -417,7 +438,7 @@ if (!empty($video)) {
                                             <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
                                             <textarea class="form-control" style="min-width: 100%" rows="5"><?php
                                                 if ($video['type'] == 'video' || $video['type'] == 'embed') {
-                                                    $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' .Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                    $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
                                                 } else {
                                                     $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
                                                 }
@@ -511,7 +532,7 @@ if (!empty($video)) {
                                             }
                                             ?>
                                         </div>
-                                        
+
                                         <div class="tab-pane" id="tabPermaLink">
                                             <input value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"/>
                                         </div>
@@ -543,7 +564,7 @@ if (!empty($video)) {
                         </script>
                         <div class="row bgWhite list-group-item">
                             <?php
-                                include './videoComments.php';
+                            include './videoComments.php';
                             ?>
                         </div>
                     </div>
@@ -644,12 +665,16 @@ if (!empty($video)) {
                             </div>
                             <?php
                         }
-                        ?>
-                        <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <?php
-                            echo $config->getAdsense();
+                        if (!empty($advancedCustom->showAdsenseBannerOnLeft)) {
                             ?>
-                        </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <?php
+                                echo $config->getAdsense();
+                                ?>
+                            </div>
+                            <?php
+                        }
+                        ?>
                         <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding">
 
                         </div>
@@ -725,5 +750,5 @@ if (!empty($video)) {
     </body>
 </html>
 <?php
-include $global['systemRootPath'].'objects/include_end.php';
+include $global['systemRootPath'] . 'objects/include_end.php';
 ?>

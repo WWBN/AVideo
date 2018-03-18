@@ -149,8 +149,12 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
                                         <h1><?php echo $video['title']; ?></h1>
                                     </a>
+
                                     <h4 itemprop="description" style="max-height: 300px; overflow: auto;"><?php echo str_replace('"','&quot;',nl2br(textToLink($video['description'])));  ?></h4>
 
+                                    <div class="mainAreaDescriptionContainer">
+                                        <h4 class="mainAreaDescription"  itemprop="description"><?php echo nl2br(textToLink($video['description'])); ?></h4>
+                                    </div>
                                     <div class="text-muted galeryDetails">
                                         <div>
                                             <?php
@@ -176,7 +180,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                             echo humanTiming(strtotime($video['videoCreation'])), " ", __('ago');
                                             ?>
                                         </div>
-                                        <div class="userName">
+                                        <div>
                                             <i class="fa fa-user"></i>
                                             <?php
                                             echo $name;
@@ -346,7 +350,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                 echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
                                                 ?>
                                             </div>
-                                            <div class="userName">
+                                            <div>
                                                 <i class="fa fa-user"></i>
                                                 <?php
                                                 echo $name;
@@ -413,42 +417,42 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                         <h2><?php echo $value['title']; ?></h2>
                                     </a>
-                                     
-                                        <div class="text-muted galeryDetails">
-                                            <div>
-                                                <?php
-                                                $value['tags'] = Video::getTags($value['id']);
-                                                foreach ($value['tags'] as $value2) {
-                                                    if ($value2->label === __("Group")) {
-                                                        ?>
-                                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-eye"></i>
-                                                <span itemprop="interactionCount">
-                                                    <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <i class="fa fa-clock-o"></i>
-                                                <?php
-                                                echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                                ?>
-                                            </div>
-                                            <div class="userName">
-                                                <i class="fa fa-user"></i>
-                                                <?php
-                                                echo $name;
-                                                if((!empty($value['description']))&&($obj->Description)){
+
+
+                                    <div class="text-muted galeryDetails">
+                                        <div>
+                                            <?php
+                                            $value['tags'] = Video::getTags($value['id']);
+                                            foreach ($value['tags'] as $value2) {
+                                                if ($value2->label === __("Group")) {
+                                                    ?>
+                                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                <?php
+            }
+        }
+        ?>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-eye"></i>
+                                            <span itemprop="interactionCount">
+                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-clock-o"></i>
+                                            <?php
+                                            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
+                                            ?>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-user"></i>
+                                <?php
+                                echo $name;
+                                if((!empty($value['description']))&&($obj->Description)){
                                                 ?>
                                                 <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"','&quot;',nl2br(textToLink($value['description'])));  ?></div>">Description</button>
                                                 <?php } ?>
-                                            </div>
-                
+                                ?>
                                         </div>
                                     </div>
                                 
@@ -456,11 +460,11 @@ $totalPages = ceil($total / $_POST['rowCount']);
     }
     ?>
                         </div>
-                        <div class="row">
+
+                    </div>                        <div class="row">
                             <ul class="pages">
                             </ul>
-                        </div>
-                    </div>
+                        </div></div>
                     <?php } if($obj->MostPopular) { ?>    
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
@@ -539,6 +543,25 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                             </div>
 
                                         </div>
+                                        <div>
+                                            <i class="fa fa-eye"></i>
+                                            <span itemprop="interactionCount">
+                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-clock-o"></i>
+                                            <?php
+                                            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
+                                            ?>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-user"></i>
+                                <?php
+                                echo $name;
+                                ?>
+                                        </div>
+                                    </div>
                                 </div>
                         <?php
                     }
@@ -547,7 +570,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                         <div class="row">
                             <ul class="pages">
                             </ul>
-                        </div></div>
+                        </div>
                         <?php } ?>
                     </div>
                     <?php
