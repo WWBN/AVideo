@@ -2,21 +2,6 @@
 $firstPages = array('Default', 'FBTube', 'Gallery', 'YouPHPFlix');
 $obj = ThemeSwitcherMenu::getCurrent();
 ?>
-<style>
-
-    .dropdown-submenu {
-        position: relative;
-    }
-
-    .open2{
-        z-index: 99999;
-    }
-
-    .dropdown-submenu .dropdown-menu {
-        margin-right: 50px;
-        margin-left: -200px;
-    }
-</style>
 <li>
     <div class="btn-group">
         <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
@@ -25,8 +10,8 @@ $obj = ThemeSwitcherMenu::getCurrent();
         <ul class="dropdown-menu dropdown-menu-right" role="menu">
             <li class="dropdown-header"><?php echo __("Current Style & Theme") ?></li> 
             <li  class="dropdown-submenu active" style=" min-width: 165px;">
-                <img style='height: 60px; width: 60px; float: left;' class='img img-responsive  img-thumbnail ' src="<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/icons/<?php echo $obj->page; ?>.png"/>
-                <img style='height: 60px; width: 100px;' class='img img-responsive  img-thumbnail' src="<?php echo $global['webSiteRootURL']; ?>view/css/custom/<?php echo $obj->theme; ?>.png"/>
+                <img style='height: 60px; width: 60px; float: left;' alt='' class='img img-responsive  img-thumbnail ' src="<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/icons/<?php echo $obj->page; ?>.png"/>
+                <img style='height: 60px; width: 100px;' alt='' class='img img-responsive  img-thumbnail' src="<?php echo $global['webSiteRootURL']; ?>view/css/custom/<?php echo $obj->theme; ?>.png"/>
             </li>
             <li class="divider"></li> 
             <li class="dropdown-header"><?php echo __("Change Style") ?></li> 
