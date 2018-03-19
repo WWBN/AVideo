@@ -195,7 +195,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                         
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
-                            <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Sort by name"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
+                            <i class="glyphicon glyphicon-list-alt"></i> <?php echo __("Sort by name"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
                         </h3>
                         <div class="row">
                             <?php
@@ -469,7 +469,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     <?php } if($obj->MostPopular) { ?>    
                     <div class="clear clearfix">
                         <h3 class="galleryTitle">
-                            <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most popular"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
+                            <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); if(!empty($_GET['page'])){ echo " (Page ".$_GET['page'].")"; } ?>
                         </h3>
                         <div class="row">
                             <?php
