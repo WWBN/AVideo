@@ -19,7 +19,7 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.2.0.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <style>
         </style>
     </head>
