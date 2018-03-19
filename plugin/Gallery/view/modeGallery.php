@@ -104,12 +104,12 @@ $totalPages = ceil($total / $_POST['rowCount']);
         <?php
         include 'include/navbar.php';
         ?>
-        <div class="text-center" style="padding: 10px;">
-            <?php
-            echo $config->getAdsense();
-            ?>
-        </div>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
+            <div class="row text-center" style="padding: 10px;">
+                <?php
+                echo $config->getAdsense();
+                ?>
+            </div>
             <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
             <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 list-group-item">
                 <?php
