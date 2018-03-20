@@ -1255,6 +1255,7 @@ class Video {
 
     static function getImageFromFilename($filename, $type = "video") {
         global $global;
+        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         /*
         $name = "getImageFromFilename_{$filename}{$type}_";
         $cached = ObjectYPT::getCache($name, 86400);//one day
@@ -1293,6 +1294,9 @@ class Video {
             $obj->thumbsJpg = $obj->poster;
         }
         //ObjectYPT::setCache($name, $obj);
+        if(!empty($advancedCustom->disableAnimatedGif)){
+            $obj->thumbsGif = false;
+        }
         return $obj;
     }
 
