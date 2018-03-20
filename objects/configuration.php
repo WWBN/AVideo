@@ -25,6 +25,7 @@ class Configuration {
     private $mode;
     // version 2.7
     private $disable_analytics;
+    private $disable_rightclick;
     private $session_timeout;
     private $autoplay;
     // version 3.1
@@ -88,6 +89,7 @@ class Configuration {
                 . "logo = '{$global['mysqli']->real_escape_string($this->getLogo())}',"
                 . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}',"
                 . "disable_analytics = '{$this->getDisable_analytics()}',"
+                . "disable_rightclick = '{$this->getDisable_rightclick()}',"
                 . "session_timeout = '{$this->getSession_timeout()}',"
                 . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}',"
                 . "theme = '{$global['mysqli']->real_escape_string($this->getTheme())}',"
@@ -238,12 +240,20 @@ class Configuration {
         return $this->disable_analytics;
     }
 
+    function getDisable_rightclick() {
+        return $this->disable_rightclick;
+    }
+    
     function getSession_timeout() {
         return $this->session_timeout;
     }
 
     function setDisable_analytics($disable_analytics) {
         $this->disable_analytics = ($disable_analytics == 'true' || $disable_analytics == '1') ? 1 : 0;
+    }
+    
+    function setDisable_rightclick($disable_rightclick) {
+        $this->disable_rightclick = ($disable_rightclick == 'true' || $disable_rightclick == '1') ? 1 : 0;
     }
 
     function setSession_timeout($session_timeout) {

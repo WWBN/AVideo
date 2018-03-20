@@ -433,7 +433,16 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
                                                         </div>
                                                     </div>
-
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Disable right-click-prevention on video"); ?></label>
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="disable_rightclick" id="disable_rightclick" value="1" <?php
+                                                            if (!empty($config->getDisable_rightclick())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?> >
+                                                        </div>
+                                                    </div>
 
 
                                                     <div class="form-group">
@@ -661,6 +670,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "adsense": $('#adsense').val(),
                                             "mode": $('#mode').val(),
                                             "disable_analytics": $('#disable_analytics').prop("checked"),
+                                            "disable_rightclick": $("#disable_rightclick").prop("checked"),
                                             "session_timeout": $('#session_timeout').val(),
                                             "autoplay": $('#autoplay').prop("checked"),
                                             "theme": theme,

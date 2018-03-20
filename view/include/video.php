@@ -86,10 +86,12 @@ if (!empty($ad)) {
 <script>
     var player;
     $(document).ready(function () {
+        <?php if (!$config->getDisable_rightclick()) { ?>
         //Prevent HTML5 video from being downloaded (right-click saved)?
         $('#mainVideo').bind('contextmenu', function () {
             return false;
         });
+        <?php } ?>
         fullDuration = strToSeconds('<?php echo @$ad['duration']; ?>');
         
         player = videojs('mainVideo');
