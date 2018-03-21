@@ -28,7 +28,14 @@ class Gallery extends PluginAbstract {
         $obj = new stdClass();
         $obj->Description = false;
         $obj->SortByName = false;
+        $obj->SortByNameRowCount = 12;
         $obj->BigVideo = true;
+        $obj->MostPopular = true;
+        $obj->MostPopularRowCount = 12;
+        $obj->MostWatched = true;
+        $obj->MostWatchedRowCount = 12;
+        $obj->DateAdded = true;
+        $obj->DateAddedRowCount = 12;
         return $obj;
     }
     
