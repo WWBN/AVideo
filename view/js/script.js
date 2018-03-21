@@ -55,9 +55,10 @@ $(document).ready(function () {
 
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
-        id = gifId.replace('thumbsGIF','');        
-        $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
-        $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
+        if(gifId!=undefined){
+            id = gifId.replace('thumbsGIF','');        
+            $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
+            $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
         
         /*
         try {            
@@ -68,7 +69,8 @@ $(document).ready(function () {
         } catch (e) {}
       
         */
-        $(this).find(".thumbsGIF").stop(true, true).fadeIn();
+            $(this).find(".thumbsGIF").stop(true, true).fadeIn();
+        }
     });
 
     $(".thumbsImage").on("mouseleave", function () {
