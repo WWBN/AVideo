@@ -15,7 +15,7 @@ $theme = $config->getTheme();
 <meta name="description" content="<?php echo $custom; ?>">
 <meta name="author" content="Daniel Neto">
 <link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>img/favicon.png">
-<link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 <?php
     $cssFiles = array();
