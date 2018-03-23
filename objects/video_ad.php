@@ -290,7 +290,7 @@ class Video_ad {
                 . " AND (finish_max_prints = 0 OR finish_max_prints > (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id)) ";
 
 
-        $sql .= " LIMIT 1";
+        $sql .= "ORDER BY RAND() LIMIT 1";
         //echo $sql;exit;
         $res = $global['mysqli']->query($sql);
         if ($res) {
