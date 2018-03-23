@@ -434,10 +434,10 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-2"><?php echo __("Disable right-click-prevention on video"); ?></label>
+                                                        <label class="col-md-2"><?php echo __("Disable right-click-prevention on video and allow downloading"); ?></label>
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="disable_rightclick" id="disable_rightclick" value="1" <?php
-                                                            if (!empty($config->getDisable_rightclick())) {
+                                                            <input data-toggle="toggle" type="checkbox" name="disable_rightclick" id="allow_download" value="1" <?php
+                                                            if (!empty($config->getAllow_download())) {
                                                                 echo "checked";
                                                             }
                                                             ?> >
@@ -670,7 +670,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "adsense": $('#adsense').val(),
                                             "mode": $('#mode').val(),
                                             "disable_analytics": $('#disable_analytics').prop("checked"),
-                                            "disable_rightclick": $("#disable_rightclick").prop("checked"),
+                                            "allow_download": $("#allow_download").prop("checked"),
                                             "session_timeout": $('#session_timeout').val(),
                                             "autoplay": $('#autoplay').prop("checked"),
                                             "theme": theme,

@@ -20,7 +20,7 @@ $config->setAuthCanComment($_POST['authCanComment']);
 $config->setAuthCanUploadVideos($_POST['authCanUploadVideos']);
 if (empty($global['disableAdvancedConfigurations'])) {
     $config->setDisable_analytics($_POST['disable_analytics']);
-    $config->setDisable_rightclick($_POST['disable_rightclick']);
+    $config->setAllow_download($_POST['allow_download']);
     $config->setSession_timeout($_POST['session_timeout']);
     $config->setEncoderURL($_POST['encoder_url']);
     $config->setSmtp($_POST['smtp']);

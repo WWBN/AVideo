@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `adsense` TEXT NULL,
   `mode` ENUM('Youtube', 'Gallery') NULL DEFAULT 'Youtube',
   `disable_analytics` TINYINT(1) NULL DEFAULT 0,
-  `disable_rightclick` TINYINT(1) NULL DEFAULT 0,
+  `allow_download` TINYINT(1) NULL DEFAULT 0,
   `session_timeout` INT NULL DEFAULT 3600,
   `autoplay` TINYINT(1) NULL,
   `theme` VARCHAR(45) NULL DEFAULT 'default',
