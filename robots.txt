@@ -1,0 +1,14 @@
+User-Agent: *
+Disallow: 
+Disallow: /user
+Disallow: /plugin
+Disallow: /mvideos
+Disallow: /usersGroups
+Disallow: /charts
+Disallow: /upload
+Disallow: /ads
+Disallow: /comments
+Disallow: /subscribes
+Disallow: /update
+Disallow: /locale
+

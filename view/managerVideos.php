@@ -525,6 +525,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                             $('#videoLinkContent').slideDown();
                                             $('#videoLink').val('');
+                                            setTimeout(function(){waitToSubmit = false;}, 2000);
                                             $('#videoFormModal').modal();
                                         });
                                         $("#checkBtn").click(function () {
