@@ -36,6 +36,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->usePermalinks = false;
         $obj->showAdsenseBannerOnTop = false;
         $obj->showAdsenseBannerOnLeft = true;
+        $obj->disableAnimatedGif = false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
