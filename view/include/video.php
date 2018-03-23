@@ -48,7 +48,9 @@ if (!empty($ad)) {
                     </p>
 
                 </video>
+
                 <?php
+                
                 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
                 // the live users plugin
                 if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {                   
@@ -77,7 +79,11 @@ if (!empty($ad)) {
                     <a id="adButton" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
                 <?php } ?>
             </div>
+
         </div>
+            <?php if ($config->getAllow_download()) { ?>
+                <a class="btn btn-xs btn-default " role="button" href="<?php echo $playNowVideo['filename']; ?>" download="<?php echo $playNowVideo['title'].".mp4"; ?>" >Download video</a>
+            <?php } ?>
     </div>
 
     <div class="col-sm-2 col-md-2"></div>
@@ -86,10 +92,18 @@ if (!empty($ad)) {
 <script>
     var player;
     $(document).ready(function () {
+        <?php if (!$config->getAllow_download()) { ?>
         //Prevent HTML5 video from being downloaded (right-click saved)?
         $('#mainVideo').bind('contextmenu', function () {
             return false;
         });
+        <?php } /* else { ?>
+         $('#mainVideo').bind('contextmenu', function (event) {
+             event.preventDefault();
+            return '<a href="blubb">Hallo Welt!</a>';
+        });       
+        
+        <?php } */ ?>
         fullDuration = strToSeconds('<?php echo @$ad['duration']; ?>');
         
         player = videojs('mainVideo');
