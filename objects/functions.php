@@ -447,7 +447,23 @@ function parseVideos($videoString = null) {
 
         $id = $matches[2];
         return '//streamable.com/s/' . $id;
-    } else if (strpos($link, 'twitch.tv') !== FALSE) {
+    } else if (strpos($link, 'twitch.tv/videos') !== FALSE) {
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches
+        );
+
+        $id = $matches[2];
+        return '//player.twitch.tv/?video=' . $id . '#';
+    } else if (strpos($link, 'twitch.tv/videos') !== FALSE) {
+        //extract the ID
+        preg_match(
+                '/\/\/(www\.)?twitch.tv\/[a-zA-Z0-9_-]+\/v\/([a-zA-Z0-9_-]+)$/', $link, $matches
+        );
+
+        $id = $matches[2];
+        return '//player.twitch.tv/?video=' . $id . '#';
+    }else if (strpos($link, 'twitch.tv') !== FALSE) {
         //extract the ID
         preg_match(
                 '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches
@@ -455,7 +471,7 @@ function parseVideos($videoString = null) {
 
         $id = $matches[2];
         return '//player.twitch.tv/?channel=' . $id . '#';
-    } else if (strpos($link, '/video/') !== FALSE) {
+    }   else if (strpos($link, '/video/') !== FALSE) {
         //extract the ID
         preg_match(
                 '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches
