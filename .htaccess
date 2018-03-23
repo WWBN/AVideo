@@ -209,9 +209,3 @@
     RewriteRule .*$ img/image404.php [NC,L]
 
 </IfModule>
-<FilesMatch "\.(ttf|otf|eot|woff)$">
-  <IfModule mod_headers.c>
-    #make sure you enabled it with "sudo a2enmod headers"
-    Header set Access-Control-Allow-Origin "*"
-  </IfModule>
-</FilesMatch>
