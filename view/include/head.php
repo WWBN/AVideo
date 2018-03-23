@@ -17,12 +17,13 @@ $theme = $config->getTheme();
 <link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>img/favicon.png">
 <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
 <?php
     $cssFiles = array();
     //$cssFiles[] = "{$global['webSiteRootURL']}bootstrap/css/bootstrap.css";
     $cssFiles[] = "{$global['webSiteRootURL']}js/seetalert/sweetalert.css";
     $cssFiles[] = "{$global['webSiteRootURL']}bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
-    $cssFiles[] = "{$global['webSiteRootURL']}css/flagstrap/css/flags.css";
+    //$cssFiles[] = "{$global['webSiteRootURL']}css/flagstrap/css/flags.css";
     $cssFiles[] = "{$global['webSiteRootURL']}js/bootgrid/jquery.bootgrid.css";
     $cssFiles[] = "{$global['webSiteRootURL']}css/custom/{$theme}.css";
     $cssFiles[] = "{$global['webSiteRootURL']}css/main.css";
