@@ -114,9 +114,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                 <button class="btn btn-secondary" id="checkBtn">
                     <i class="fa fa-square-o" aria-hidden="true" id="chk"></i>
                 </button>
+                <?php if (!$config->getDisable_youtubeupload()) { ?>
                 <button class="btn btn-danger" id="uploadYouTubeBtn">
                     <i class="fa fa-youtube-play" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
-                </button>                
+                </button>
+                <?php } ?>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <?php echo __('Categories'); ?> <span class="caret"></span></button>
@@ -339,7 +341,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <?php
-            if (User::isAdmin()) {
+            if ((User::isAdmin())&&(!$config->getDisable_youtubeupload())) {
                 ?>
                 <div class="alert alert-info">
                     <h1><span class="fa fa-youtube"></span> Let us upload your video to YouTube</h1>
@@ -541,6 +543,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 $(this).prop('checked', !chk);
                                             });
                                         });
+                                        <?php if (!$config->getDisable_youtubeupload()) { ?>
                                         $("#uploadYouTubeBtn").click(function () {
                                             modal.showPleaseWait();
                                             var vals = [];
@@ -574,6 +577,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 }
                                             });
                                         });
+                                        <?php } ?>
                                         $("#deleteBtn").click(function () {
                                             swal({
                                                 title: "<?php echo __("Are you sure?"); ?>",
@@ -699,7 +703,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 "titleTag": function (column, row) {
                                                     var tags = "";
                                                     var youTubeLink = "", youTubeUpload = "";
+                                                    <?php if (!$config->getDisable_youtubeupload()) { ?>
                                                     youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
+                                                    <?php } ?>
                                                     if (row.youtubeId) {
                                                         //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                                                     }
