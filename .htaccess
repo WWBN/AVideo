@@ -1,6 +1,36 @@
-<IfModule mod_headers.c>
+# BEGIN Expires Don't forget to enable mod_headers and mod_expires, you can do so by running a2enmod rewrite and a2enmod headers
+<ifModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 seconds"
+    ExpiresByType text/html "access plus 1 seconds"
+    ExpiresByType image/gif "access plus 2592000 seconds"
+    ExpiresByType image/jpeg "access plus 2592000 seconds"
+    ExpiresByType image/png "access plus 2592000 seconds"
+    ExpiresByType text/css "access plus 604800 seconds"
+    ExpiresByType text/javascript "access plus 216000 seconds"
+    ExpiresByType application/x-javascript "access plus 216000 seconds"
+</ifModule>
+# END Expires
+# BEGIN Caching
+<ifModule mod_headers.c>
     Header set Access-Control-Allow-Origin: *
-</IfModule>
+    <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
+        Header set Cache-Control "max-age=2592000, public"
+    </filesMatch>
+    <filesMatch "\.(css)$">
+        Header set Cache-Control "max-age=604800, public"
+    </filesMatch>
+    <filesMatch "\.(js)$">
+        Header set Cache-Control "max-age=216000, private"
+    </filesMatch>
+    <filesMatch "\.(xml|txt)$">
+        Header set Cache-Control "max-age=216000, public, must-revalidate"
+    </filesMatch>
+    <filesMatch "\.(html|htm|php)$">
+        Header set Cache-Control "max-age=1, private, must-revalidate"
+    </filesMatch>
+</ifModule>
+# END Caching
 <IfModule mod_rewrite.c>
     RewriteEngine on
 
