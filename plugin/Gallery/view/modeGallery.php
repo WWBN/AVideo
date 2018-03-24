@@ -97,8 +97,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                     ?>
-                    <?php if (!$obj->BigVideo) { ?>
+                    <?php if (($obj->CategoryDescription)&&(!empty($_GET['catName']))) { ?>
                         <h1 style="text-align: center;"><?php echo $video['category']; ?></h1>
+                        <p style="margin-left: 10%; margin-right: 10%; max-height: 200px; overflow-x:auto;"><?php echo $video['category_description']; ?></p>
                     <?php } ?>
                     <div class="row mainArea">
 

@@ -9,6 +9,7 @@ class Category {
     private $id;
     private $name;
     private $clean_name;
+    private $description;
     private $iconClass;
 
     function setName($name) {
@@ -18,6 +19,10 @@ class Category {
     function setClean_name($clean_name) {
         preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
         $this->clean_name = $clean_name;
+    }
+    
+    function setDescription($description) {
+        $this->description = $description;
     }
 
     function __construct($id, $name = '') {
@@ -46,9 +51,9 @@ class Category {
             $this->isAdmin = "false";
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',description = '{$this->description}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO categories ( name,clean_name,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}', '{$this->getIconClass()}',now(), now())";
+            $sql = "INSERT INTO categories ( name,clean_name,description,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}','{$this->description}', '{$this->getIconClass()}',now(), now())";
         }
         $resp = $global['mysqli']->query($sql);
         if (empty($resp)) {
