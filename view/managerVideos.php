@@ -675,11 +675,17 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                         return editBtn + deleteBtn;
                                                     }
 
-                                                    var nextIsSet="";
+                                                    var nextIsSet;
                                                     if(row.next_video == null || row.next_video.length==0){
                                                             nextIsSet="<span class='label label-danger'>Next video NOT set</span>";
                                                     } else {
-                                                        nextIsSet="<span class='label label-success'>Next video: "+row.next_video.title+"</span>";
+                                                        var nextVideoTitle;
+                                                        if(row.next_video.title.length>20){
+                                                            nextVideoTitle = row.next_video.title.substring(0,18)+"..";
+                                                        } else {
+                                                           nextVideoTitle = row.next_video.title; 
+                                                        }
+                                                        nextIsSet="<span class='label label-success' data-toggle='tooltip' title='"+row.next_video.title+"'>Next video: "+nextVideoTitle+"</span>";
                                                     }
                                                     return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons+ "<br>"+download+nextIsSet;
 
