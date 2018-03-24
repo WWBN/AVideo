@@ -695,7 +695,7 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
     imagecopyresampled($dest, $src, 0, 0, ($ws - $wc) / 2, ($hs - $hc) / 2, $wd, $hd, $wc, $hc);
     $saved = false;
     if (!isset($q))
-        $q = 100;
+        $q = 50;
     if ($destformat == '.png')
         $saved = imagepng($dest, $file_dest);
     if ($destformat == '.jpg')
@@ -802,4 +802,26 @@ if (!function_exists('mime_content_type')) {
         }
     }
 
+}
+
+function combineFiles($filesArray, $extension = "js"){
+    global $global;
+    $cacheDir = $global['systemRootPath'] . 'videos/cache/';
+    if(!is_dir($cacheDir)){
+        mkdir($cacheDir, 0777, true);
+    }
+    $str = "";
+    $fileName = "";
+    foreach ($filesArray as $value) {
+        $fileName .= $value;
+    }    
+    $md5FileName = md5($fileName).".{$extension}";
+    if(!file_exists($cacheDir.$md5FileName)){
+        foreach ($filesArray as $value) {
+            $str .= "\n/*{$value}*/\n".file_get_contents($value);
+        }
+        file_put_contents($cacheDir.$md5FileName, $str);
+    }
+    return  $global['webSiteRootURL'] . 'videos/cache/'.$md5FileName;
+    
 }
