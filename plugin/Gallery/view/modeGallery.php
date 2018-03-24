@@ -26,10 +26,12 @@ if (!empty($_GET['type'])) {
 
 require_once $global['systemRootPath'] . 'objects/video.php';
 if(strpos($_SERVER['REQUEST_URI'],"?")!=false){
-   $orderString = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],"?")-1);
+   $orderString = $_SERVER['REQUEST_URI']."&";
 } else {
-   $orderString =  $_SERVER['REQUEST_URI'];
+   $orderString =  $_SERVER['REQUEST_URI']."/?";
 }
+$orderString = str_replace("&&","&",$orderString);
+$orderString = str_replace("//","/",$orderString);
 $video = Video::getVideo("", "viewableNotAd", false, false, true);
 if (empty($video)) {
     $video = Video::getVideo("", "viewableNotAd");
@@ -177,24 +179,33 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-list-alt"></i> <?php
-                                    if(!strpos($orderString,"?")){
-                                        $orderString .="/?";
-                                    } else {
-                                        $orderString .="&";
-                                    }
+                                    //if(!strpos($orderString,"?")){
+                                      //  $orderString .="?";
+                                    //} else {
+                                      //  $orderString .="&";
+                                    //}
                                     $upDown = "";
                                     if(empty($_GET['sortByNameOrder'])){
                                         $_GET['sortByNameOrder']="ASC";
                                     }
+                                    $tmpOrderString = $orderString;
                                     if($_GET['sortByNameOrder']=="ASC"){
-                                        $orderString .= "sortByNameOrder=DESC"; 
+                                        if(strpos($orderString,"sortByNameOrder=ASC")){
+                                           $tmpOrderString =  substr($orderString,0,strpos($orderString,"sortByNameOrder=ASC"))."sortByNameOrder=DESC".substr($orderString,strpos($orderString,"sortByNameOrder=ASC")+19,strlen($orderString));
+                                        } else {
+                                            $tmpOrderString .= "sortByNameOrder=DESC";
+                                        }
                                         $upDown = __("Up");    
                                     } else {
-                                       $orderString .= "sortByNameOrder=ASC"; 
+                                        if(strpos($orderString,"sortByNameOrder=DESC")){
+                                           $tmpOrderString =  substr($orderString,0,strpos($orderString,"sortByNameOrder=DESC"))."sortByNameOrder=ASC".substr($orderString,strpos($orderString,"sortByNameOrder=DESC")+20,strlen($orderString));
+                                        } else {
+                                            $tmpOrderString .= "sortByNameOrder=ASC";
+                                        }
                                        $upDown = __("Down"); 
                                     }
                                     
-                                    echo __("Sort by name")." (Page " . $_GET['page'] . ") <a href='".$orderString."' >".$upDown."</a>";
+                                    echo __("Sort by name")." (Page " . $_GET['page'] . ") <a href='".$tmpOrderString."' >".$upDown."</a>";
                                     ?>
                                 </h3>
                                 <div class="row">
@@ -290,7 +301,35 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                                    echo __("Date Added (newest).")." (Page " . $_GET['page'] . ")";
+          
+                                    $upDown = "";
+                                    $oldNew = "";
+                                    $tmpOrderString = $orderString;
+                                    if(empty($_GET['dateAddedOrder'])){
+                                        $_GET['dateAddedOrder']="ASC";
+                                    }
+                                    if($_GET['dateAddedOrder']=="ASC"){
+                                        if(strpos($orderString,"dateAddedOrder=ASC")){
+                                           $tmpOrderString =  substr($orderString,0,strpos($orderString,"dateAddedOrder=ASC"))."dateAddedOrder=DESC".substr($orderString,strpos($orderString,"dateAddedOrder=ASC")+18,strlen($orderString));
+                                        } else {
+                                            $tmpOrderString .= "dateAddedOrder=DESC";
+                                        }
+                                        $upDown = __("Up");  
+                                        
+                                        $oldNew = __("oldest");
+                                    } else {
+                                        if(strpos($orderString,"dateAddedOrder=DESC")){
+                                           $tmpOrderString =  substr($orderString,0,strpos($orderString,"dateAddedOrder=DESC"))."dateAddedOrder=ASC".substr($orderString,strpos($orderString,"dateAddedOrder=DESC")+19,strlen($orderString));
+                                        } else {
+                                            $tmpOrderString .= "dateAddedOrder=ASC";
+                                        }
+                                       $upDown = __("Down"); 
+                                        $oldNew = __("newest");
+                                    }
+                                    
+                                    echo __("Date Added (").$oldNew.") (Page " . $_GET['page'] . ") <a href='".$tmpOrderString."' >".$upDown."</a>";
+                        
+                        
                                     ?>
                                 </h3>
                                 <div class="row">
@@ -383,14 +422,39 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-eye-open"></i> <?php
-                            echo __("Most watched")." (Page " . $_GET['page'] . ")";
+                                    $upDown = "";
+                                    $mostLess = "";
+                                    $tmpOrderString = $orderString;
+                                    if(empty($_GET['mostWatchedOrder'])){
+                                        $_GET['mostWatchedOrder']="DESC";
+                                    }
+                                    if($_GET['mostWatchedOrder']=="DESC"){
+                                        if(strpos($orderString,"mostWatchedOrder=DESC")){
+                                           $tmpOrderString =  substr($orderString,0,strpos($orderString,"mostWatchedOrder=DESC"))."mostWatchedOrder=ASC".substr($orderString,strpos($orderString,"mostWatchedOrder=DESC")+21,strlen($orderString));
+                                        } else {
+                                            $tmpOrderString .= "mostWatchedOrder=ASC";
+                                        }
+                                        $upDown = __("Up");
+                                        $mostLess = "Most";
+                                    } else {
+                                        if(strpos($orderString,"mostWatchedOrder=ASC")){
+                                           $tmpOrderString =  substr($orderString,0,strpos($orderString,"mostWatchedOrder=ASC"))."mostWatchedOrder=DESC".substr($orderString,strpos($orderString,"mostWatchedOrder=ASC")+20,strlen($orderString));
+                                        } else {
+                                            $tmpOrderString .= "mostWatchedOrder=DESC";
+                                        }
+                                       $upDown = __("Down");
+                                        
+                                        $mostLess = "Less";
+                                    }
+                                    
+                                    echo $mostLess.__(" watched")." (Page " . $_GET['page'] . ") <a href='".$tmpOrderString."' >".$upDown."</a>";
                                     ?>
                                 </h3>
                                 <div class="row">
                                     <?php
                                     $countCols = 0;
                                     unset($_POST['sort']);
-                                    $_POST['sort']['views_count'] = "desc";
+                                    $_POST['sort']['views_count'] = $_GET['mostWatchedOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostWatchedRowCount;
                                     $videos = Video::getAllVideos();
@@ -475,14 +539,35 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-thumbs-up"></i> <?php
-                                    echo __("Most popular")." (Page " . $_GET['page'] . ")";
+                                    $upDown = "";
+                                    $tmpOrderString = $orderString;
+                                    if(empty($_GET['mostPopularOrder'])){
+                                        $_GET['mostPopularOrder']="ASC";
+                                    }
+                                    if($_GET['mostPopularOrder']=="ASC"){
+                                        if(strpos($orderString,"mostPopularOrder=ASC")){
+                                           $tmpOrderString =  substr($orderString,0,strpos($orderString,"mostPopularOrder=ASC"))."mostPopularOrder=DESC".substr($orderString,strpos($orderString,"mostPopularOrder=ASC")+20,strlen($orderString));
+                                        } else {
+                                            $tmpOrderString .= "mostPopularOrder=DESC";
+                                        }
+                                        $upDown = __("Up");  
+                                    } else {
+                                        if(strpos($orderString,"mostPopularOrder=DESC")){
+                                           $tmpOrderString =  substr($orderString,0,strpos($orderString,"mostPopularOrder=DESC"))."mostPopularOrder=ASC".substr($orderString,strpos($orderString,"mostPopularOrder=DESC")+21,strlen($orderString));
+                                        } else {
+                                            $tmpOrderString .= "mostPopularOrder=ASC";
+                                        }
+                                       $upDown = __("Down");
+                                    }
+                                    
+                                    echo __("Most popular")." (Page " . $_GET['page'] . ") <a href='".$tmpOrderString."' >".$upDown."</a>";
                                     ?>
                                 </h3>
                                 <div class="row">
                                     <?php
                                     $countCols = 0;
                                     unset($_POST['sort']);
-                                    $_POST['sort']['likes'] = "desc";
+                                    $_POST['sort']['likes'] = $_GET['mostPopularOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostPopularRowCount;
                                     $videos = Video::getAllVideos();
