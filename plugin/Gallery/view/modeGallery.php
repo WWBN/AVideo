@@ -126,7 +126,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                         </a>
                                     </div>
                                     <div class="col-sm-6">
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
+                                        <a class="h6" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
                                             <h1><?php echo $video['title']; ?></h1>
                                         </a>
                                         <div class="mainAreaDescriptionContainer">
@@ -216,7 +216,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                 </div>
                                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                             </a>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                            <a class="h6" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                                 <h2><?php echo $value['title']; ?></h2>
                                             </a>
 
@@ -317,7 +317,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                 </div>
                                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                             </a>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                            <a class="h6" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                                 <h2><?php echo $value['title']; ?></h2>
                                             </a>  
                                             <div class="text-muted galeryDetails">
@@ -418,7 +418,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                 </div>
                                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                             </a>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                            <a class="h6" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                                 <h2><?php echo $value['title']; ?></h2>
                                             </a>
 
@@ -517,7 +517,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                 </div>
                                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                             </a>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                            <a class="h6" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                                 <h2><?php echo $value['title']; ?></h2>
                                             </a>
 
