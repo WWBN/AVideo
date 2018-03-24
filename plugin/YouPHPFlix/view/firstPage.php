@@ -379,7 +379,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
                             <?php } ?>
                                 </div>        
-                                <div class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                <div data-toggle="tooltip" title="<?php echo $cat['description']; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
                                 </div>
                             </a>
