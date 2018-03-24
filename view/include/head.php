@@ -15,15 +15,23 @@ $theme = $config->getTheme();
 <meta name="description" content="<?php echo $custom; ?>">
 <meta name="author" content="Daniel Neto">
 <link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>img/favicon.png">
-<link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>js/seetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>js/bootgrid/jquery.bootgrid.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>css/custom/<?php echo $theme; ?>.css" rel="stylesheet" type="text/css" id="theme"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>css/main.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
+<?php
+    $cssFiles = array();
+    //$cssFiles[] = "{$global['webSiteRootURL']}bootstrap/css/bootstrap.css";
+    $cssFiles[] = "{$global['webSiteRootURL']}js/seetalert/sweetalert.css";
+    $cssFiles[] = "{$global['webSiteRootURL']}bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
+    //$cssFiles[] = "{$global['webSiteRootURL']}css/flagstrap/css/flags.css";
+    $cssFiles[] = "{$global['webSiteRootURL']}js/bootgrid/jquery.bootgrid.css";
+    $cssFiles[] = "{$global['webSiteRootURL']}css/custom/{$theme}.css";
+    $cssFiles[] = "{$global['webSiteRootURL']}css/main.css";
+    //$cssFiles[] = "{$global['webSiteRootURL']}css/font-awesome-4.7.0/css/font-awesome.min.css";
+    $cssFiles[] = "{$global['webSiteRootURL']}js/bootstrap-toggle/bootstrap-toggle.min.css";
+    $cssURL =  combineFiles($cssFiles, "css");
+?>
+<link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.3.1.min.js"></script>
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
