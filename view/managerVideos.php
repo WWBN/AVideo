@@ -48,7 +48,9 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <div class="container">
-
+        <?php
+        include 'include/updateCheck.php';
+        ?>
             <div class="btn-group" >
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>

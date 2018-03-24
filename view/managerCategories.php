@@ -25,7 +25,9 @@ require_once $global['systemRootPath'] . 'objects/category.php';
         ?>
 
         <div class="container">
-
+        <?php
+        include 'include/updateCheck.php';
+        ?>
             <button type="button" class="btn btn-default" id="addCategoryBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New Category"); ?>
             </button>
