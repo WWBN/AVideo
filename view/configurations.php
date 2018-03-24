@@ -27,6 +27,9 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
         ?>
 
         <div class="container">
+                    <?php
+        include 'include/updateCheck.php';
+        ?>
             <?php
             if (User::isAdmin()) {
                 ?>
