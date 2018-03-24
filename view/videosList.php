@@ -102,7 +102,7 @@ foreach ($videos as $key => $value) {
                 <?php
                 if (!empty($imgGif)) {
                     ?>
-                    <img src="<?php echo $global['webSiteRootURL']; ?>img/loading.gif" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                    <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                 <?php } ?>
                 <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                 <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
