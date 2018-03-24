@@ -25,8 +25,11 @@ if (!empty($_GET['type'])) {
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
-
-
+if(strpos($_SERVER['REQUEST_URI'],"?")!=false){
+   $orderString = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],"?")-1);
+} else {
+   $orderString =  $_SERVER['REQUEST_URI'];
+}
 $video = Video::getVideo("", "viewableNotAd", false, false, true);
 if (empty($video)) {
     $video = Video::getVideo("", "viewableNotAd");
@@ -174,17 +177,31 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-list-alt"></i> <?php
-                                    echo __("Sort by name");
-                                    if (!empty($_GET['page'])) {
-                                        echo " (Page " . $_GET['page'] . ")";
+                                    if(!strpos($orderString,"?")){
+                                        $orderString .="/?";
+                                    } else {
+                                        $orderString .="&";
                                     }
+                                    $upDown = "";
+                                    if(empty($_GET['sortByNameOrder'])){
+                                        $_GET['sortByNameOrder']="ASC";
+                                    }
+                                    if($_GET['sortByNameOrder']=="ASC"){
+                                        $orderString .= "sortByNameOrder=DESC"; 
+                                        $upDown = __("Up");    
+                                    } else {
+                                       $orderString .= "sortByNameOrder=ASC"; 
+                                       $upDown = __("Down"); 
+                                    }
+                                    
+                                    echo __("Sort by name")." (Page " . $_GET['page'] . ") <a href='".$orderString."' >".$upDown."</a>";
                                     ?>
                                 </h3>
                                 <div class="row">
                                     <?php
                                     $countCols = 0;
                                     unset($_POST['sort']);
-                                    $_POST['sort']['title'] = "ASC";
+                                    $_POST['sort']['title'] = $_GET['sortByNameOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->SortByNameRowCount;
                                     $videos = Video::getAllVideos();
@@ -273,10 +290,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                                    echo __("Date Added (newest)");
-                                    if (!empty($_GET['page'])) {
-                                        echo " (Page " . $_GET['page'] . ")";
-                                    }
+                                    echo __("Date Added (newest).")." (Page " . $_GET['page'] . ")";
                                     ?>
                                 </h3>
                                 <div class="row">
@@ -369,10 +383,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-eye-open"></i> <?php
-                            echo __("Most watched");
-                            if (!empty($_GET['page'])) {
-                                echo " (Page " . $_GET['page'] . ")";
-                            }
+                            echo __("Most watched")." (Page " . $_GET['page'] . ")";
                                     ?>
                                 </h3>
                                 <div class="row">
@@ -464,10 +475,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-thumbs-up"></i> <?php
-                                    echo __("Most popular");
-                                    if (!empty($_GET['page'])) {
-                                        echo " (Page " . $_GET['page'] . ")";
-                                    }
+                                    echo __("Most popular")." (Page " . $_GET['page'] . ")";
                                     ?>
                                 </h3>
                                 <div class="row">
