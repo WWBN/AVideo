@@ -30,6 +30,7 @@ class Gallery extends PluginAbstract {
         $obj->SortByName = false;
         $obj->SortByNameRowCount = 12;
         $obj->BigVideo = true;
+        $obj->CategoryDescription = false;
         $obj->MostPopular = true;
         $obj->MostPopularRowCount = 12;
         $obj->MostWatched = true;

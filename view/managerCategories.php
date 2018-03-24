@@ -37,6 +37,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         <th data-column-id="iconHtml" data-sortable="false"><?php echo __("Icon"); ?></th>
                         <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
                         <th data-column-id="clean_name"><?php echo __("Clean Name"); ?></th>
+                        <th data-column-id="description"><?php echo __("Description"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
                     </tr>
                 </thead>
@@ -56,6 +57,8 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                 <input type="text" id="inputName" class="form-control first" placeholder="<?php echo __("Name"); ?>" required autofocus>
                                 <label for="inputCleanName" class="sr-only"><?php echo __("Clean Name"); ?></label>
                                 <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
+                                <label for="description" class="sr-only"><?php echo __("Description"); ?></label>
+                                <input type="text" id="description" class="form-control last" placeholder="<?php echo __("Description"); ?>" required>
 
                                 <div class="btn-group">
                                     <button data-selected="graduation-cap" type="button" class="icp iconCat btn btn-default dropdown-toggle iconpicker-component" data-toggle="dropdown">
@@ -111,6 +114,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         $('#inputCategoryId').val(row.id);
                         $('#inputName').val(row.name);
                         $('#inputCleanName').val(row.clean_name);
+                        $('#description').val(row.description);
                         $(".iconCat i").attr("class", row.iconClass);
 
                         $('#categoryFormModal').modal();
@@ -162,6 +166,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     $('#inputCategoryId').val('');
                     $('#inputName').val('');
                     $('#inputCleanName').val('');
+                    $('#description').val('');
 
                     $('#categoryFormModal').modal();
                 });
@@ -175,7 +180,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'addNewCategory',
-                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "iconClass": $(".iconCat i").attr("class")},
+                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#description').val(), "iconClass": $(".iconCat i").attr("class")},
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {

@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `clean_name` VARCHAR(45) NOT NULL,
+  `description` TEXT NOT NULL DEFAULT '\"\"',
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder',

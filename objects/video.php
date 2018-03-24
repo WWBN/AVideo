@@ -282,7 +282,7 @@ class Video {
                 . " nv.clean_title as next_clean_title,"
                 . " nv.filename as next_filename,"
                 . " nv.id as next_id,"
-                . " c.name as category,c.iconClass,  c.clean_name as clean_category, v.created as videoCreation, "
+                . " c.name as category,c.iconClass,  c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes, "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount ";
