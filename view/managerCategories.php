@@ -59,8 +59,9 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                 <input type="text" id="inputName" class="form-control first" placeholder="<?php echo __("Name"); ?>" required autofocus>
                                 <label for="inputCleanName" class="sr-only"><?php echo __("Clean Name"); ?></label>
                                 <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
-                                <label for="description" class="sr-only"><?php echo __("Description"); ?></label>
-                                <input type="text" id="description" class="form-control last" placeholder="<?php echo __("Description"); ?>" required>
+                                    <label class="sr-only" for="description"><?php echo __("Description"); ?></label>
+                                    <textarea class="form-control" rows="5" id="description" placeholder="<?php echo __("Description"); ?>"></textarea>
+
 
                                 <div class="btn-group">
                                     <button data-selected="graduation-cap" type="button" class="icp iconCat btn btn-default dropdown-toggle iconpicker-component" data-toggle="dropdown">
