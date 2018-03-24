@@ -326,7 +326,7 @@ class Video {
             $_POST['searchPhrase'] = $_GET['search'];
         }
 
-        $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
+        $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
 
         if (!empty($id)) {
             $sql .= " AND v.id = $id ";
@@ -405,7 +405,7 @@ class Video {
      */
     static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
         global $global;
-        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category, v.created as videoCreation, v.modified as videoModified, "
+        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified, "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
@@ -457,7 +457,7 @@ class Video {
             $sql .= " AND v.modified >= '{$_GET['modified']}'";
         }
 
-        $sql .= BootGrid::getSqlFromPost(array('title', 'description', 'c.name'), empty($_POST['sort']['likes']) ? "v." : "");
+        $sql .= BootGrid::getSqlFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), empty($_POST['sort']['likes']) ? "v." : "");
         
         if (!empty($_GET['limitOnceToOne'])) {
             $sql .= " LIMIT 1";
