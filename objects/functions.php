@@ -695,7 +695,7 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
     imagecopyresampled($dest, $src, 0, 0, ($ws - $wc) / 2, ($hs - $hc) / 2, $wd, $hd, $wc, $hc);
     $saved = false;
     if (!isset($q))
-        $q = 100;
+        $q = 50;
     if ($destformat == '.png')
         $saved = imagepng($dest, $file_dest);
     if ($destformat == '.jpg')
