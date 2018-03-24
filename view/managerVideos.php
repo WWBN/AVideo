@@ -679,9 +679,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                         return editBtn + deleteBtn;
                                                     }
 
-                                                    var nextIsSet="<span class='label label-success'>Next video done</span>";
+                                                    var nextIsSet="";
                                                     if(row.next_video == null || row.next_video.length==0){
                                                             nextIsSet="<span class='label label-danger'>Next video NOT set</span>";
+                                                    } else {
+                                                        nextIsSet="<span class='label label-success'>Next video: "+row.next_video.title+"</span>";
                                                     }
                                                     return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons+ "<br>"+download+nextIsSet;
 
