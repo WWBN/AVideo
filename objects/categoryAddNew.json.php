@@ -13,6 +13,6 @@ require_once 'category.php';
 $obj = new Category(@$_POST['id']);
 $obj->setName($_POST['name']);
 $obj->setClean_name($_POST['clean_name']);
-$obj->setDescription($_POST['description']);
+$obj->setDescription(nl2br ($_POST['description']));
 $obj->setIconClass($_POST['iconClass']);
 echo '{"status":"'.$obj->save().'"}';
