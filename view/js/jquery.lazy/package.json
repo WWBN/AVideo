@@ -1,0 +1,68 @@
+{
+  "name": "jquery-lazy",
+  "title": "jQuery & Zepto Lazy - Delayed Content, Image and Background Loader",
+  "version": "1.7.7",
+  "description": "Lazy is a fast, feature-rich and lightweight delayed content loading plugin for jQuery and Zepto. It's designed to speed up page loading times and decrease traffic to your users by only loading the content in view.",
+  "main": "jquery.lazy.js",
+  "homepage": "http://jquery.eisbehr.de/lazy",
+  "bugs": "http://github.com/eisbehr-/jquery.lazy/issues",
+  "author": {
+    "name": "Daniel 'Eisbehr' Kern",
+    "email": "jquery@eisbehr.de",
+    "url": "http://eisbehr.de/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:eisbehr-/jquery.lazy.git"
+  },
+  "keywords": [
+    "lazy",
+    "lazyload",
+    "load",
+    "loader",
+    "image",
+    "images",
+    "background",
+    "content",
+    "speed",
+    "delay",
+    "delayed",
+    "pageload",
+    "performance",
+    "retina",
+    "placeholder",
+    "jquery",
+    "jquery-plugin",
+    "zepto",
+    "zepto-plugin"
+  ],
+  "licenses": [{
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/mit-license.php"
+  },{
+    "type": "GPL-2.0",
+    "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+  }],
+  "dependencies": {
+    "jquery": ">=1.7.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat-util": "^0.5.5",
+    "gulp-data": "^1.2.1",
+    "gulp-header": "^1.8.9",
+    "gulp-jshint": "^2.0.4",
+    "gulp-noop": "^1.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.1.2",
+    "gulp-util": "^3.0.8",
+    "jshint": "^2.9.5",
+    "jshint-stylish": "^2.2.1"
+  },
+  "scripts": {
+    "validate": "gulp validate",
+    "start": "gulp watch",
+    "watch": "gulp watch",
+    "build": "gulp build"
+  }
+}
