@@ -614,6 +614,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                         logoCrop = $('#croppieLogo').croppie({
                             url: '<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>',
                             enableExif: true,
+                            enforceBoundary: false,
+                            mouseWheelZoom: false,
                             viewport: {
                                 width: 250,
                                 height: 70
@@ -623,6 +625,9 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                 height: 120
                             }
                         });
+                        setTimeout(function(){
+                            logoCrop.croppie('setZoom', 1);
+                        },1000);
                         // END croppie logo
                         // start croppie logoSmall
                         $('#logoSmall').on('change', function () {
@@ -643,6 +648,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                         logoSmallCrop = $('#croppieLogoSmall').croppie({
                             url: '<?php echo $global['webSiteRootURL'], $config->getLogo_small(); ?>',
                             enableExif: true,
+                            enforceBoundary: false,
+                            mouseWheelZoom: false,
                             viewport: {
                                 width: 32,
                                 height: 32
@@ -652,6 +659,10 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                 height: 60
                             }
                         });
+                        setTimeout(function(){
+                            logoSmallCrop.croppie('setZoom', 1);
+                        },1000);
+                        
 
                         // END croppie logoSmall
 
