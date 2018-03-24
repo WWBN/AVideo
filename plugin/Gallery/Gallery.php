@@ -37,6 +37,7 @@ class Gallery extends PluginAbstract {
         $obj->MostWatchedRowCount = 12;
         $obj->DateAdded = true;
         $obj->DateAddedRowCount = 12;
+        $obj->sortReverseable = false;
         return $obj;
     }
     

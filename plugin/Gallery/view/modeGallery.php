@@ -188,6 +188,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     if(empty($_GET['sortByNameOrder'])){
                                         $_GET['sortByNameOrder']="ASC";
                                     }
+                                if($obj->sortReverseable){
                                     $tmpOrderString = $orderString;
                                     if($_GET['sortByNameOrder']=="ASC"){
                                         if(strpos($orderString,"sortByNameOrder=ASC")){
@@ -206,6 +207,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     }
                                     
                                     echo __("Sort by name")." (Page " . $_GET['page'] . ") <a href='".$tmpOrderString."' >".$upDown."</a>";
+                                } else {
+                                   echo __("Sort by name"); 
+                                }
                                     ?>
                                 </h3>
                                 <div class="row">
@@ -306,8 +310,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     $oldNew = "";
                                     $tmpOrderString = $orderString;
                                     if(empty($_GET['dateAddedOrder'])){
-                                        $_GET['dateAddedOrder']="ASC";
+                                        $_GET['dateAddedOrder']="DESC";
                                     }
+                                    if($obj->sortReverseable){
                                     if($_GET['dateAddedOrder']=="ASC"){
                                         if(strpos($orderString,"dateAddedOrder=ASC")){
                                            $tmpOrderString =  substr($orderString,0,strpos($orderString,"dateAddedOrder=ASC"))."dateAddedOrder=DESC".substr($orderString,strpos($orderString,"dateAddedOrder=ASC")+18,strlen($orderString));
@@ -328,6 +333,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     }
                                     
                                     echo __("Date Added (").$oldNew.") (Page " . $_GET['page'] . ") <a href='".$tmpOrderString."' >".$upDown."</a>";
+                                    } else {
+                                      echo __("Date Added (newest)");  
+                                    }
                         
                         
                                     ?>
@@ -336,7 +344,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     <?php
                                     $countCols = 0;
                                     unset($_POST['sort']);
-                                    $_POST['sort']['created'] = 'desc';
+                                    $_POST['sort']['created'] = $_GET['dateAddedOrder'];
                                     $_POST['rowCount'] = $obj->DateAddedRowCount;
                                     $videos = Video::getAllVideos();
                                     foreach ($videos as $value) {
@@ -428,6 +436,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     if(empty($_GET['mostWatchedOrder'])){
                                         $_GET['mostWatchedOrder']="DESC";
                                     }
+                                    if($obj->sortReverseable){
                                     if($_GET['mostWatchedOrder']=="DESC"){
                                         if(strpos($orderString,"mostWatchedOrder=DESC")){
                                            $tmpOrderString =  substr($orderString,0,strpos($orderString,"mostWatchedOrder=DESC"))."mostWatchedOrder=ASC".substr($orderString,strpos($orderString,"mostWatchedOrder=DESC")+21,strlen($orderString));
@@ -448,6 +457,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     }
                                     
                                     echo $mostLess.__(" watched")." (Page " . $_GET['page'] . ") <a href='".$tmpOrderString."' >".$upDown."</a>";
+                                    } else {
+                                        echo __("Most watched");
+                                    }
                                     ?>
                                 </h3>
                                 <div class="row">
@@ -544,6 +556,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     if(empty($_GET['mostPopularOrder'])){
                                         $_GET['mostPopularOrder']="ASC";
                                     }
+                                    if($obj->sortReverseable){
                                     if($_GET['mostPopularOrder']=="ASC"){
                                         if(strpos($orderString,"mostPopularOrder=ASC")){
                                            $tmpOrderString =  substr($orderString,0,strpos($orderString,"mostPopularOrder=ASC"))."mostPopularOrder=DESC".substr($orderString,strpos($orderString,"mostPopularOrder=ASC")+20,strlen($orderString));
@@ -561,6 +574,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                     }
                                     
                                     echo __("Most popular")." (Page " . $_GET['page'] . ") <a href='".$tmpOrderString."' >".$upDown."</a>";
+                                    } else {
+                                        echo __("Most popular");
+                                    }
                                     ?>
                                 </h3>
                                 <div class="row">
