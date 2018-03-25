@@ -55,6 +55,7 @@ $(document).ready(function () {
 
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
+        $(".thumbsGIF").fadeOut();
         if (gifId != undefined) {
             id = gifId.replace('thumbsGIF', '');
             $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
