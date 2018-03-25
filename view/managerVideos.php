@@ -843,6 +843,7 @@ if(!empty($_GET['video_id'])){
                                         }).on("loaded.rs.jquery.bootgrid", function () {
                                             /* Executes after data is loaded and rendered */
                                             grid.find(".command-edit").on("click", function (e) {
+                                                waitToSubmit = true;
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 editVideo(row);
