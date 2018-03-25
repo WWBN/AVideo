@@ -193,7 +193,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             </div>
                         </div>
                         <script>
-                            afterExtraVideos($liveLi){
+                            function afterExtraVideos($liveLi){
                                 $liveLi.removeClass('col-lg-12');
                                 $liveLi.removeClass('col-sm-12');
                                 $liveLi.removeClass('col-xs-12');
