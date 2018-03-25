@@ -71,7 +71,9 @@ if (User::canStream()) {
     </a>
 </div>
 <script>
-
+    /* Use this funtion to display live videos dynamic on pages*/
+    function afterExtraVideos($liveLi){return $liveLi}
+    
     function createLiveItem(href, title, name, photo, offline, online, views, key) {
         var $liveLi = $('.liveModel').clone();
         if (offline) {
@@ -112,6 +114,7 @@ if (User::canStream()) {
             }else{
                 $liveLi.find('.thumbsGIF').remove();
             }
+            $liveLi = afterExtraVideos($liveLi);
             $('.extraVideos').append($liveLi);
             $liveLi.slideDown();
         }
