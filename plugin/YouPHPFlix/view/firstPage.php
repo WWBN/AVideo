@@ -39,7 +39,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 <?php  if($o->DateAdded) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); ?>
+                    <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date added (newest)"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
@@ -96,8 +96,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -107,7 +107,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 <?php } if($o->MostWatched) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); ?>
+                    <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
@@ -163,8 +163,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -173,7 +173,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         <?php } if($o->MostPopular) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); ?>
+                    <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
@@ -229,8 +229,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -316,8 +316,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                 Text
                             </div>
                             <div class="footerBtn" style="display: none;">                             
-                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                             </div>
 
                         </div>
@@ -335,7 +335,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                <div class="clear clearfix">
                     <div class="row">
                         <h2 style="margin-top: 30px;">
-                            <i class="<?php echo $cat['iconClass']; ?>"></i>Category-Gallery
+                            <i class="<?php echo $cat['iconClass']; ?>"></i><?php echo __("Category-Gallery"); ?>
                             <span class="badge"><?php echo count($category); ?></span>
                         </h2>
                         <?php
