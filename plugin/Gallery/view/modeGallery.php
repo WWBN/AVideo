@@ -197,7 +197,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 $liveLi.removeClass('col-lg-12 col-sm-12 col-xs-12 bottom-border');
                                 $liveLi.find('.thumbsImage').removeClass('col-lg-5 col-sm-5 col-xs-5');
                                 $liveLi.find('.videosDetails').removeClass('col-lg-7 col-sm-7 col-xs-7');
-                                $liveLi.addClass('col-lg-2 col-md-4 col-sm-4 fixPadding');
+                                $liveLi.addClass('col-lg-2 col-md-4 col-sm-4 col-xs-2 fixPadding');
                                 $('#liveVideos').slideDown();
                                 return $liveLi;
                             }
