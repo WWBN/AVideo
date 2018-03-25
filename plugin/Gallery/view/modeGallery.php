@@ -323,9 +323,9 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     }
                                 if($obj->sortReverseable){   
                                    $info = createOrderInfo("dateAddedOrder","newest","oldest",$orderString);
-                                    echo __("Date Added (".$info[2].")")." (Page " . $_GET['page'] . ") <a href='".$info[0]."' >".$info[1]."</a>";
+                                    echo __("Date added (".$info[2].")")." (Page " . $_GET['page'] . ") <a href='".$info[0]."' >".$info[1]."</a>";
                                 } else {
-                                   echo __("Date Added (newest)"); 
+                                   echo __("Date added (newest)"); 
                                 }
                         
                         

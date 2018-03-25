@@ -39,7 +39,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 <?php  if($o->DateAdded) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); ?>
+                    <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date added (newest)"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
@@ -107,7 +107,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 <?php } if($o->MostWatched) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); ?>
+                    <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
@@ -173,7 +173,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         <?php } if($o->MostPopular) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); ?>
+                    <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
