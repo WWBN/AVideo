@@ -74,7 +74,6 @@ $(document).ready(function () {
 
     $('.thumbsJPG, .thumbsGIF').lazy({
         effect: 'fadeIn',
-        effectTime:500,
         visibleOnly: true
     });
 
