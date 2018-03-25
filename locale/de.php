@@ -31,6 +31,7 @@ $t['Autoplay Video on Load Page'] = "Autoplay bei ladender Seite";
 $t['Browse'] = "Durchsuchen";
 $t['By associating groups with this user, they will be able to see all the videos that are related to this group'] = "Durch die Zuordnung von Gruppen zu diesem Benutzer können sie alle Videos sehen, die mit dieser Gruppe verwandt sind";
 $t['By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video'] = "Durch die Verknüpfung von Gruppen zu diesem Video wird es nicht mehr öffentlich und nur Benutzer in derselben Gruppe können dieses Video ansehen";
+$t['Category-Gallery'] = "Kategorien-Gallerie";
 $t['Categories'] = "Kategorien";
 $t['Category'] = "Kategorie";
 $t['Category Form'] = "Kategorien Formular";
