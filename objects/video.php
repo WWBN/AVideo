@@ -355,7 +355,9 @@ class Video {
         if ($res) {
             require_once 'userGroups.php';
             $video = $res->fetch_assoc();
-            //$video['groups'] = UserGroups::getVideoGroups($video['id']);
+            if(!empty($video)){
+                $video['groups'] = UserGroups::getVideoGroups($video['id']);
+            }
         } else {
             $video = false;
         }
