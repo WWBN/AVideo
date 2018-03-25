@@ -48,8 +48,8 @@ if (User::canStream()) {
             <span class="label label-danger liveNow faa-flash faa-slow animated">LIVE NOW</span>
         </div>
         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
-            <div class="text-uppercase"><strong itemprop="name" class="title liveTitle">Title</strong></div>
-            <div class="details" itemprop="description">
+            <div class="text-uppercase row"><strong itemprop="name" class="title liveTitle">Title</strong></div>
+            <div class="details row" itemprop="description">
                 <div class="pull-left">
                     <img src="" class="photoImg img img-circle img-responsive" style="max-width: 20px;">
                 </div>

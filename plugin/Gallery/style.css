@@ -141,3 +141,6 @@ h3.galleryTitle{
 .mainAreaDescriptionContainer{
     position: relative;
 }
+a.h6{
+    text-decoration: none !important;
+}
