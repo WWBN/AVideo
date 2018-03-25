@@ -165,6 +165,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     ?>
                                                 </a>
                                             </div>
+                                            <?php
+                                            if(Video::canEdit($video['id'])){
+                                                ?>
+                                                <div>
+                                                    <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
                                         </div>
                                     </div> 
                                 </div>
@@ -258,6 +267,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                         <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
+                                                <?php
+                                                if(Video::canEdit($video['id'])){
+                                                    ?>
+                                                    <div>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
 
                                             </div>
                                         </div>
@@ -358,6 +376,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                         <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
+                                                <?php
+                                                if(Video::canEdit($video['id'])){
+                                                    ?>
+                                                    <div>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                         <?php
@@ -460,6 +487,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                         <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
+                                                <?php
+                                                if(Video::canEdit($video['id'])){
+                                                    ?>
+                                                    <div>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
 
                                             </div>
                                         </div>
@@ -559,6 +595,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                         <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
+                                                <?php
+                                                if(Video::canEdit($video['id'])){
+                                                    ?>
+                                                    <div>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
 
                                             </div>
                                         </div>
