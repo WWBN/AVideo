@@ -335,7 +335,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                <div class="clear clearfix">
                     <div class="row">
                         <h2 style="margin-top: 30px;">
-                            <i class="<?php echo $cat['iconClass']; ?>"></i>Category-Gallery
+                            <i class="<?php echo $cat['iconClass']; ?>"></i><?php echo __("Category-Gallery"); ?>
                             <span class="badge"><?php echo count($category); ?></span>
                         </h2>
                         <?php
