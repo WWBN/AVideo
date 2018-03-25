@@ -600,7 +600,8 @@ if(!empty($_GET['video_id'])){
                                         if(!empty($row)){
                                             $json = json_encode($row);
                                             if(!empty($json)){
-                                            ?>
+                                            ?>  
+                                                waitToSubmit = true;
                                                 editVideo(<?php echo $json; ?>);
                                             <?php
                                             }else{
