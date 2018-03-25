@@ -46,6 +46,9 @@ if(!empty($_GET['video_id'])){
             .ui-autocomplete{
                 z-index: 9999999;
             }
+            .krajee-default.file-preview-frame {
+                min-width: 300px;
+            }
         </style>
 
     </head>
