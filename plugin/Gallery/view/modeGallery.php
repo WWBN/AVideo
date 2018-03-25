@@ -193,7 +193,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             </div>
                         </div>
                         <script>
-                            function afterExtraVideos($liveLi){
+                            function afterExtraVideos($liveLi){return $liveLi;
                                 $liveLi.removeClass('col-lg-12');
                                 $liveLi.removeClass('col-sm-12');
                                 $liveLi.removeClass('col-xs-12');
@@ -205,7 +205,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 $liveLi.removeClass('thumbsImage');
                                 $liveLi.removeClass('fixPadding');
                                 $('#liveVideos').slideDown();
-                                return $liveLi
+                                return $liveLi;
                             }
                         </script>
                         <!-- For Live Videos End -->    
