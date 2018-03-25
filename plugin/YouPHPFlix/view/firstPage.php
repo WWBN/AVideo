@@ -96,8 +96,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -163,8 +163,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -229,8 +229,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -316,8 +316,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                 Text
                             </div>
                             <div class="footerBtn" style="display: none;">                             
-                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                             </div>
 
                         </div>
