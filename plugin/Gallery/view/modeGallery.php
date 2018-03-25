@@ -201,7 +201,9 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 $liveLi.removeClass('col-lg-2');
                                 $liveLi.removeClass('col-md-4');
                                 $liveLi.removeClass('col-sm-4');
-                                $liveLi.removeClass('col-xs-6');
+                                $liveLi.removeClass('galleryVideo');
+                                $liveLi.removeClass('thumbsImage');
+                                $liveLi.removeClass('fixPadding');
                                 $('#liveVideos').slideDown();
                                 return $liveLi
                             }
