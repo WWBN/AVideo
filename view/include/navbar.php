@@ -11,6 +11,8 @@ if (empty($_SESSION['language'])) {
 $json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
+
+$updateFiles = getUpdatesFilesArray();
 ?>
 <nav class="navbar navbar-default navbar-fixed-top ">
     <ul class="items-container">
@@ -287,6 +289,11 @@ $advancedCustom = json_decode($json_file);
                                     <a href="<?php echo $global['webSiteRootURL']; ?>update">
                                         <span class="glyphicon glyphicon-refresh"></span>
                                         <?php echo __("Update version"); ?>
+                                        <?php
+                                        if(!empty($updateFiles)){
+                                            ?><span class="label label-danger"><?php echo count($updateFiles); ?></span><?php
+                                        }
+                                        ?>
                                     </a>
                                 </li>
                                 <li>
