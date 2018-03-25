@@ -145,5 +145,5 @@ h3.galleryTitle{
     position: relative;
 }
 .galeryDetails a:hover{
-    text-decoration: none;
+    text-decoration: none !important;
 }
