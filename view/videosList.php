@@ -85,7 +85,7 @@ foreach ($videos as $key => $value) {
         if (!empty($_GET['page']) && $_GET['page'] > 1) {
             echo "/page/{$_GET['page']}";
         }
-        ?>" title="<?php echo $value['title']; ?>" class="videoLink">
+        ?>" title="<?php echo $value['title']; ?>" class="videoLink h6">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -215,7 +215,6 @@ foreach ($videos as $key => $value) {
 
                             $('.thumbsJPG, .thumbsGIF').lazy({
                                 effect: 'fadeIn',
-                                effectTime: 500,
                                 visibleOnly: true
                             });
                         });

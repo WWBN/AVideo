@@ -825,3 +825,21 @@ function combineFiles($filesArray, $extension = "js"){
     return  $global['webSiteRootURL'] . 'videos/cache/'.$md5FileName;
     
 }
+
+function getUpdatesFilesArray(){
+    global $config, $global;
+    if(!class_exists('User') || !User::isAdmin()){
+        return array();
+    }
+    $files1 = scandir($global['systemRootPath']."update");
+    $updateFiles = array();
+    foreach ($files1 as $value) {
+        preg_match("/updateDb.v([0-9.]*).sql/", $value, $match);
+        if (!empty($match)) {
+            if ($config->currentVersionLowerThen($match[1])) {
+                $updateFiles[] = array('filename' => $match[0], 'version' => $match[1]);
+            }
+        }
+    }
+    return $updateFiles;
+}
