@@ -179,7 +179,36 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 </div>
                             </div>
 
-                        <?php } if ($obj->SortByName) { ?>   
+                        <?php } 
+                        ?>
+                        <!-- For Live Videos -->
+                        <div id="liveVideos" class="clear clearfix" style="display: none;">
+                            <h3 class="galleryTitle text-danger">
+                                <i class="fa fa-youtube-play"></i> <?php
+                                echo __("Live");
+                                ?>
+                            </h3>
+                            <div class="row extraVideos">
+
+                            </div>
+                        </div>
+                        <script>
+                            afterExtraVideos($liveLi){
+                                $liveLi.removeClass('col-lg-12');
+                                $liveLi.removeClass('col-sm-12');
+                                $liveLi.removeClass('col-xs-12');
+                                
+                                $liveLi.removeClass('col-lg-2');
+                                $liveLi.removeClass('col-md-4');
+                                $liveLi.removeClass('col-sm-4');
+                                $liveLi.removeClass('col-xs-6');
+                                $('#liveVideos').slideDown();
+                                return $liveLi
+                            }
+                        </script>
+                        <!-- For Live Videos End -->    
+                        <?php
+                        if ($obj->SortByName) { ?>   
 
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
