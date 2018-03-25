@@ -167,6 +167,8 @@ $advancedCustom = json_decode($json_file);
                         uploadCrop = $('#croppie').croppie({
                             url: '<?php echo $user->getPhoto(); ?>',
                             enableExif: true,
+                            enforceBoundary: false,
+                            mouseWheelZoom: false,
                             viewport: {
                                 width: 150,
                                 height: 150
@@ -176,10 +178,15 @@ $advancedCustom = json_decode($json_file);
                                 height: 300
                             }
                         });
+                        setTimeout(function(){
+                            uploadCrop.croppie('setZoom', 1);
+                        },1000);
 
                         uploadCropBg = $('#croppieBg').croppie({
                             url: '<?php echo $user->getBackgroundURL(); ?>',
                             enableExif: true,
+                            enforceBoundary: false,
+                            mouseWheelZoom: false,
                             viewport: {
                                 width: 1250,
                                 height: 250
@@ -189,6 +196,9 @@ $advancedCustom = json_decode($json_file);
                                 height: 300
                             }
                         });
+                        setTimeout(function(){
+                            uploadCropBg.croppie('setZoom', 1);
+                        },1000);
                         $('#updateUserForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
