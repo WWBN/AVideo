@@ -440,7 +440,6 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-eye-open"></i> <?php
-<<<<<<< HEAD
                                     $upDown = "";
                                     $mostLess = "";
                                     $tmpOrderString = $orderString;
