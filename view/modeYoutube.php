@@ -182,6 +182,13 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                 <div class="col-xs-8 col-sm-8 col-md-8">
                                     <h1 itemprop="name">
                                         <?php echo $video['title']; ?>
+                                        <?php
+                                        if(Video::canEdit($video['id'])){
+                                            ?>
+                                            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="btn btn-primary btn-xs" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                            <?php
+                                        }
+                                        ?>
                                         <small>
                                             <?php
                                             if (!empty($video['id'])) {
@@ -199,7 +206,9 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                             ?>
                                         </small>
                                     </h1>
-                                    <div class="col-xs-12 col-sm-12 col-md-12"><?php echo $video['creator']; ?></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <?php echo $video['creator']; ?>
+                                    </div>
                                     <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
                                 </div>
                             </div>
@@ -604,7 +613,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                 </span>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" style="display: none;" >
-                                <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink">
+                                <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                                         <?php
                                         $imgGif = "";

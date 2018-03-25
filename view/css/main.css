@@ -685,3 +685,6 @@ z-index:100;
 .vjs-button-fa-size{
     font-size: 14px !important;
 }
+a.h6 h2, a.h6 h1{
+    font-weight: bold;
+}
