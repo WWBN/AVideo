@@ -144,3 +144,6 @@ h3.galleryTitle{
 .mainAreaDescriptionContainer{
     position: relative;
 }
+.galeryDetails a:hover{
+    text-decoration: none;
+}
