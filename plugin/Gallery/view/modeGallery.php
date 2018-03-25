@@ -268,10 +268,10 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php } ?>
                                                 </div>
                                                 <?php
-                                                if(Video::canEdit($video['id'])){
+                                                if(Video::canEdit($value['id'])){
                                                     ?>
                                                     <div>
-                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                                     </div>
                                                 <?php
                                                 }
@@ -377,10 +377,10 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php } ?>
                                                 </div>
                                                 <?php
-                                                if(Video::canEdit($video['id'])){
+                                                if(Video::canEdit($value['id'])){
                                                     ?>
                                                     <div>
-                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                                     </div>
                                                 <?php
                                                 }
@@ -488,10 +488,10 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php } ?>
                                                 </div>
                                                 <?php
-                                                if(Video::canEdit($video['id'])){
+                                                if(Video::canEdit($value['id'])){
                                                     ?>
                                                     <div>
-                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                                     </div>
                                                 <?php
                                                 }
@@ -596,10 +596,10 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php } ?>
                                                 </div>
                                                 <?php
-                                                if(Video::canEdit($video['id'])){
+                                                if(Video::canEdit($value['id'])){
                                                     ?>
                                                     <div>
-                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                                     </div>
                                                 <?php
                                                 }
