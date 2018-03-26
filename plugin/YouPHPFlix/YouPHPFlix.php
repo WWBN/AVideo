@@ -5,7 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class YouPHPFlix extends PluginAbstract {
 
     public function getDescription() {
-        return "Make the first page looks like a Netflix site";
+        return "Make the first page looks like a Netflix site<br /><b>LiteGalleryMaxTooltipChars: </b>0 disable the Tooltip";
     }
 
     public function getName() {
@@ -22,6 +22,7 @@ class YouPHPFlix extends PluginAbstract {
         $obj->pageDots = true;
         $obj->LiteDesign = false;
         $obj->LiteGallery = false;
+        $obj->LiteGalleryMaxTooltipChars = 250;
         $obj->LiteGalleryNoGifs = false;
         $obj->LiteDesignNoGifs = false;
         $obj->DefaultDesign = true;
