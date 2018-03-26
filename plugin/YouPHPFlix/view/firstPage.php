@@ -363,10 +363,14 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     $imgGif = $images->thumbsGif;
                                 }
                                 $poster = $images->thumbsJpg;
-                                $description = $cat['description']; 
-                                    if(strlen($description)>400){
-                                        $description = substr($description,0,397)."...";
+                                $description = $cat['description'];
+                                if($o->LiteGalleryMaxTooltipChars > 4){ 
+                                    if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
+                                        $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
                                     }
+                                } else {
+                                    $description = "";
+                                }
                             ?>
                                 <div class="aspectRatio16_9">
                                     <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
