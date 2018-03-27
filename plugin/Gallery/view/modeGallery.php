@@ -44,7 +44,7 @@ if($obj->sortReverseable){
             } else {
                 $tmpOrderString .= $getName."=ASC";
             }
-                $upDown = __("Up");
+                $upDown = "<span class='glyphicon glyphicon-arrow-up' >".__("Up")."</span>";
                 $mostLess = $mostWord;
         } else {
             if(strpos($orderString,$getName."=ASC")){
@@ -52,7 +52,7 @@ if($obj->sortReverseable){
             } else {
                 $tmpOrderString .= $getName."=DESC";
             }
-            $upDown = __("Down");
+            $upDown = "<span class='glyphicon glyphicon-arrow-down'>".__("Down")."</span>";
             $mostLess = $lessWord;
         }
         if(substr($tmpOrderString,strlen($tmpOrderString)-1,strlen($tmpOrderString))=="&"){
