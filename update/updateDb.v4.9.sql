@@ -10,6 +10,9 @@ ADD COLUMN `disable_youtubeupload` INT(1) NOT NULL DEFAULT 0;
 ALTER TABLE `categories` 
 ADD `description` TEXT NOT NULL AFTER `clean_name`;
 
+ALTER TABLE `categories` 
+ADD `nextVideoOrder` INT(2) NOT NULL DEFAULT '0' AFTER `description`;
+
 CHANGE COLUMN `smtpSecure` `smtpSecure` VARCHAR(255) NULL DEFAULT NULL COMMENT '\'ssl\'; // secure transfer enabled REQUIRED for Gmail' ,
 CHANGE COLUMN `smtpHost` `smtpHost` VARCHAR(255) NULL DEFAULT NULL COMMENT '\"smtp.gmail.com\"' ,
 CHANGE COLUMN `smtpUsername` `smtpUsername` VARCHAR(255) NULL DEFAULT NULL COMMENT '\"email@gmail.com\"' ,
