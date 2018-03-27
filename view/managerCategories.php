@@ -40,6 +40,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
                         <th data-column-id="clean_name"><?php echo __("Clean Name"); ?></th>
                         <th data-column-id="description"><?php echo __("Description"); ?></th>
+                        <th data-column-id="nextVideoOrder"><?php echo __("Next video order"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
                     </tr>
                 </thead>
@@ -61,6 +62,10 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                 <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
                                     <label class="sr-only" for="description"><?php echo __("Description"); ?></label>
                                     <textarea class="form-control" rows="5" id="description" placeholder="<?php echo __("Description"); ?>"></textarea>
+                                  <select class="form-control" id="nextVideoOrder">
+                                        <option value="0"><?php echo __("Random"); ?></option>
+                                        <option value="1"><?php echo __("By name"); ?></option>
+                                  </select>
 
 
                                 <div class="btn-group">
@@ -118,6 +123,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         $('#inputName').val(row.name);
                         $('#inputCleanName').val(row.clean_name);
                         $('#description').val(row.description);
+                        $('#nextVideoOrder').val(row.nextVideoOrder);
                         $(".iconCat i").attr("class", row.iconClass);
 
                         $('#categoryFormModal').modal();
@@ -170,6 +176,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     $('#inputName').val('');
                     $('#inputCleanName').val('');
                     $('#description').val('');
+                    $('#nextVideoOrder').val('');
 
                     $('#categoryFormModal').modal();
                 });
@@ -183,7 +190,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'addNewCategory',
-                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#description').val(), "iconClass": $(".iconCat i").attr("class")},
+                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#description').val(),"nextVideoOrder": $('#nextVideoOrder').val(), "iconClass": $(".iconCat i").attr("class")},
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {

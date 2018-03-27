@@ -9,6 +9,7 @@ if (!file_exists('../videos/configuration.php')) {
 require_once '../videos/configuration.php';
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
@@ -63,7 +64,29 @@ if (!empty($_GET['playlist_id'])) {
     if (!empty($video['next_videos_id'])) {
         $autoPlayVideo = Video::getVideo($video['next_videos_id']);
     } else {
-        $autoPlayVideo = Video::getRandom($video['id']);
+        if($video['category_order']==1){
+            unset($_POST['sort']);
+            $category = Category::getAllCategories();
+            $_POST['sort']['title'] = "ASC";
+            $videos = Video::getAllVideos();
+            $videoFound = false;
+            $autoPlayVideo;// = Video::getRandom($video['id']);
+            foreach ($videos as $value) {
+                if($videoFound){
+                    $autoPlayVideo = $value;
+                    break;
+                }
+                if($value['id']==$video['id']){
+                    $videoFound=true;
+                }    
+            }
+
+            //$autoPlayVideo = Video::getVideo($video['id']+1);
+            //$autoPlayVideo = Video::getAllVideos()[$playlist_index+1];
+            
+        } else {
+            $autoPlayVideo = Video::getRandom($video['id']);
+        }
     }
     if (!empty($autoPlayVideo)) {
         $name2 = User::getNameIdentificationById($autoPlayVideo['users_id']);
@@ -592,7 +615,26 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                             </script>
 
                             <?php
-                        } else if (!empty($autoPlayVideo)) {
+                            } else if (empty($autoPlayVideo)) { ?>
+                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" >
+                                <strong>
+                                    <?php
+                                    echo __("Autoplay ended");
+                                    ?>
+                                </strong>
+                                <span class="pull-right">
+                                    <span>
+                                        <?php
+                                        echo __("Autoplay");
+                                        ?>
+                                    </span>
+                                    <span>
+                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
+                                    </span>
+                                    <input type="checkbox" data-toggle="toggle" data-size="mini" class="saveCookie" name="autoplay">
+                                </span>
+                            </div>
+                            <?php } else if (!empty($autoPlayVideo)) {
                             ?>
                             <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="display: none;">
                                 <strong>
