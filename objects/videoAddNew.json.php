@@ -12,6 +12,13 @@ if (!User::canUpload()) {
 $msg = "";
 $info = $infoObj = "";
 require_once 'video.php';
+
+if(!empty($_POST['id'])){
+    if(!Video::canEdit($_POST['id'])){
+        die('{"error":"'.__("Permission denied").'"}');
+    }
+}
+
 $obj = new Video($_POST['title'], "", @$_POST['id']);
 $obj->setClean_Title($_POST['clean_title']);
 if(!empty($_POST['videoLink'])){    

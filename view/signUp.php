@@ -8,6 +8,8 @@ $advancedCustom = json_decode($json_file);
 if(!empty($advancedCustom->disableNativeSignUp)){
     die("Sign Up Disabled");
 }
+
+$agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -83,6 +85,12 @@ if(!empty($advancedCustom->disableNativeSignUp)){
                                 </div>
                             </div>
                             
+                            <?php
+                            if(!empty($agreement)){
+                                $agreement->getSignupCheckBox();
+                            }
+                            ?>
+                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
@@ -93,7 +101,8 @@ if(!empty($advancedCustom->disableNativeSignUp)){
                                     </div>
                                 </div>
                             </div>
-
+                            
+                            
                             <!-- Button -->
                             <div class="form-group">
                                 <label class="col-md-4 control-label"></label>
