@@ -363,13 +363,21 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     $imgGif = $images->thumbsGif;
                                 }
                                 $poster = $images->thumbsJpg;
+                                $description = $cat['description'];
+                                if($o->LiteGalleryMaxTooltipChars > 4){ 
+                                    if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
+                                        $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
+                                    }
+                                } else {
+                                    $description = "";
+                                }
                             ?>
                                 <div class="aspectRatio16_9">
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo $cat['description']; ?>" data-toggle="tooltip" title="<?php echo $cat['description']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+                                    <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                             <?php
                                 if ((!empty($imgGif))&&(!$o->LiteGalleryNoGifs)) {
                             ?>
-                                    <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $cat['description']; ?>" data-toggle="tooltip" title="<?php echo $cat['description']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                                    <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                             <?php   }
                                     $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = ".$value['categories_id'].";");
                             ?>
@@ -379,7 +387,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
                             <?php } ?>
                                 </div>        
-                                <div data-toggle="tooltip" title="<?php echo $cat['description']; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                <div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
                                 </div>
                             </a>
