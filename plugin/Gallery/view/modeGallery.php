@@ -111,6 +111,11 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                 });
             });
         </script>
+        
+        <style>
+.popover-title{color: inherit !important;}
+.popover-content{color: inherit !important;}
+        </style>
 
     </head>
 
@@ -562,7 +567,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php
                                                     if ((!empty($value['description'])) && ($obj->Description)) {
                                                         ?>
-                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div style='color: white;' ><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
                                                 <?php
