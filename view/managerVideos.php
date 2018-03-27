@@ -816,7 +816,7 @@ if(!empty($_GET['video_id'])){
                                                     var youTubeLink = "", youTubeUpload = "";
                                                     <?php if (!$config->getDisable_youtubeupload()) { ?>
                                                     youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
-                                                    <?php } ?>
+                                                    
                                                     if (row.youtubeId) {
                                                         //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                                                     }
@@ -824,6 +824,7 @@ if(!empty($_GET['video_id'])){
                                                     if (row.status == "d" || row.status == "e") {
                                                         yt = "";
                                                     }
+                                                    <?php } else { echo "yt='';"; } ?>
                                                     if (row.status !== "a") {
                                                         tags += '<div id="encodeProgress' + row.id + '"></div>';
                                                     }
