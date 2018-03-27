@@ -21,7 +21,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'?>
 	xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
 	
 <channel>
-    <title>RSS YOUPHPTube</title>
+    <title>RSS YouPHPTube</title>
     <description>Rss Feed</description>
     <link><?php echo $global['webSiteRootURL'] ;?></link>
     <sy:updatePeriod>hourly</sy:updatePeriod>
