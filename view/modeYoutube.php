@@ -68,21 +68,20 @@ if (!empty($_GET['playlist_id'])) {
             unset($_POST['sort']);
             $category = Category::getAllCategories();
             $_POST['sort']['title'] = "ASC";
+            // maybe there's a more slim method?
             $videos = Video::getAllVideos();
             $videoFound = false;
-            $autoPlayVideo;// = Video::getRandom($video['id']);
+            $autoPlayVideo;
             foreach ($videos as $value) {
                 if($videoFound){
                     $autoPlayVideo = $value;
                     break;
                 }
                 if($value['id']==$video['id']){
+                    // if the video is found, make another round to have the next video properly.
                     $videoFound=true;
                 }    
             }
-
-            //$autoPlayVideo = Video::getVideo($video['id']+1);
-            //$autoPlayVideo = Video::getAllVideos()[$playlist_index+1];
             
         } else {
             $autoPlayVideo = Video::getRandom($video['id']);
