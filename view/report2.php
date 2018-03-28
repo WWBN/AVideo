@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="form-group col-sm-3">
-        <button class="btn btn-primary" id="refresh1"><i class="fa fa-refresh"></i> <?php echo __('Refresh'); ?></button>
+        <button class="btn btn-primary" id="refresh2"><i class="fa fa-refresh"></i> <?php echo __('Refresh'); ?></button>
     </div>
 </div>
 <table id="dt2" class="table table-striped table-bordered" style="width:100%">
