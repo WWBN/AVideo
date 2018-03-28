@@ -23,6 +23,9 @@ foreach ($channels as $key => $value) {
     foreach ($videos as $key2 => $value2) {
         $views+=VideoStatistic::getStatisticTotalViews($value2['id'], false, $from, $to);
     }
+    if(empty($views)){
+        continue;;
+    }
     $item = array(
         'views'=>$views,
         'channel'=>"<a href='{$global['webSiteRootURL']}channel/{$value['id']}'>{$identification}</a>"
