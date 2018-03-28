@@ -111,7 +111,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                 });
             });
         </script>
-        <style> .popover-title { color: inherit !important; filter: brightness(100%); } .popover-content{ color: inherit !important; filter: brightness(200%); }        </style>
+        <style>         </style>
 
     </head>
 
@@ -446,7 +446,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php
                                                     if ((!empty($value['description'])) && ($obj->Description)) {
                                                         ?>
-                                                        <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                                        <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
                                                 <?php
@@ -563,7 +563,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php
                                                     if ((!empty($value['description'])) && ($obj->Description)) {
                                                         ?>
-                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div style='color: white;' ><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div style='color: white;' ><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
                                                 <?php
@@ -676,7 +676,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php
                                                     if ((!empty($value['description'])) && ($obj->Description)) {
                                                         ?>
-                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
                                                 <?php

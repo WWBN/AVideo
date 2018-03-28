@@ -146,3 +146,11 @@ h3.galleryTitle{
 a.h6{
     text-decoration: none !important;
 }
+
+.popover-title { 
+    color: inherit !important; filter: brightness(100%); 
+} 
+
+.popover-content{
+    color: inherit !important; filter: brightness(200%); 
+}
