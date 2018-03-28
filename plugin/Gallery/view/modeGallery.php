@@ -125,8 +125,8 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                 echo $config->getAdsense();
                 ?>
             </div>
-            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
-            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 list-group-item">
+            
+            <div class="col-sm-10 col-sm-offset-1 list-group-item">
                 <?php
                 if (!empty($videos)) {
                     $name = User::getNameIdentificationById($video['users_id']);
@@ -391,7 +391,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                         }
                                         $countCols++;
                                         ?>
-                                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                                        <div class="col-lg-2 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
                                             <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
                                                 <?php
                                                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -506,7 +506,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                         }
                                         $countCols++;
                                         ?>
-                                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                                        <div class="col-lg-2 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
                                             <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
                                                 <?php
                                                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -619,7 +619,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                         }
                                         $countCols++;
                                         ?>
-                                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                                        <div class="col-lg-2 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
                                             <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
                                                 <?php
                                                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -712,7 +712,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                 <?php } ?>
             </div>
 
-            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
+            
 
 
         </div>
