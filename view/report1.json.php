@@ -12,10 +12,16 @@ $from = date("Y-m-d 00:00:00", strtotime($_POST['dateFrom']));
 $to = date('Y-m-d 23:59:59', strtotime($_POST['dateTo']));
 
 // list all channels
-$channels = Channel::getChannels();
+if(User::isAdmin()){
+    $users = Channel::getChannels();
+}else if(User::isLogged()){
+    $users = array(array('id'=> User::getId()));
+}else{
+    $users = array();
+}
 
 $rows = array();
-foreach ($channels as $key => $value) {
+foreach ($users as $key => $value) {
     // list all videos on that channel
     $videos = Video::getAllVideos("a", $value['id']);
     $identification = User::getNameIdentificationById($value['id']);

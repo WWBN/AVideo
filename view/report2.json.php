@@ -11,7 +11,13 @@ $from = date("Y-m-d 00:00:00", strtotime($_POST['dateFrom']));
 $to = date('Y-m-d 23:59:59', strtotime($_POST['dateTo']));
 
 // list all channels
-$users = User::getAllUsers();
+if(User::isAdmin()){
+    $users = User::getAllUsers();
+}else if(User::isLogged()){
+    $users = array(array('id'=> User::getId()));
+}else{
+    $users = array();
+}
 
 $rows = array();
 foreach ($users as $key => $value) {
