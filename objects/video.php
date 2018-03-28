@@ -1408,7 +1408,7 @@ class Video {
     static function getTotalVideosThumbsUpFromUser($users_id, $startDate, $endDate) {
         global $global;
         
-        $sql = "SELECT id from video  WHERE users_id = {$users_id}  ";
+        $sql = "SELECT id from videos  WHERE users_id = {$users_id}  ";
 
         $res = $global['mysqli']->query($sql);
         
@@ -1416,7 +1416,7 @@ class Video {
         
         if ($res) {
             while ($row = $res->fetch_assoc()) {
-                $sql = "SELECT id from likes WHERE comments_id = {$row['id']} AND `like` = 1  ";
+                $sql = "SELECT id from likes WHERE videos_id = {$row['id']} AND `like` = 1  ";
                 if (!empty($startDate)) {
                     $sql .= " AND `created` >= '{$startDate}' ";
                 }
@@ -1424,11 +1424,12 @@ class Video {
                 if (!empty($endDate)) {
                     $sql .= " AND `created` <= '{$endDate}' ";
                 }
+                
                 $res2 = $global['mysqli']->query($sql);
                 
                 $r['thumbsUp']+=$res2->num_rows;
                 
-                $sql = "SELECT id from likes WHERE comments_id = {$row['id']} AND `like` = -1  ";
+                $sql = "SELECT id from likes WHERE videos_id = {$row['id']} AND `like` = -1  ";
                 if (!empty($startDate)) {
                     $sql .= " AND `created` >= '{$startDate}' ";
                 }
