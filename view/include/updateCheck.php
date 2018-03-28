@@ -14,7 +14,7 @@ if (User::isAdmin()) {
         //not updated system
         ?>
 <div class="alert alert-danger">
-  <strong>Database-update needed</strong> <a href="<?php echo $global['webSiteRootURL']; ?>update">You have version <?php echo $updateFiles[0]['version']; ?>, but your database is not up to date. This could lead to bugs.</a>
+  <strong><?php echo __('Database-update needed'); ?> </strong> <a href="<?php echo $global['webSiteRootURL']; ?>update"><?php echo __('You have version ').$updateFiles[0]['version']." ".__('installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'); ?></a>
 </div>
 <?php
     }
