@@ -251,3 +251,218 @@
         </div>
     </div>
 </div>
+<script>
+
+    function countTo(selector, total) {
+        current = parseInt($(selector).text());
+        total = parseInt(total);
+        if (!total || current >= total) {
+            $(selector).removeClass('loading');
+            return;
+        }
+        var rest = (total - current);
+        var step = parseInt(rest / 100);
+        if (step < 1) {
+            step = 1;
+        }
+        current += step;
+        $(selector).text(current);
+        var timeout = (500 / rest);
+        setTimeout(function () {
+            countTo(selector, total);
+        }, timeout);
+    }
+
+    var ctx = document.getElementById("myChart");
+    var ctxPie = document.getElementById("myChartPie");
+    var ctxLine = document.getElementById("myChartLine");
+    var ctxLineToday = document.getElementById("myChartLineToday");
+    var chartData = {
+        labels: <?php echo json_encode($labelsFull); ?>,
+        datasets: [{
+                label: '# <?php echo __("Total Views"); ?>',
+                data: <?php echo json_encode($datas); ?>,
+                backgroundColor: <?php echo json_encode($bg); ?>,
+                borderColor: <?php echo json_encode($bc); ?>,
+                borderWidth: 1
+            }]
+    };
+
+    var lineChartData = {
+        labels: <?php echo json_encode($label90Days); ?>,
+        datasets: [{
+                backgroundColor: 'rgba(255, 0, 0, 0.3)',
+                borderColor: 'rgba(255, 0, 0, 0.5)',
+                label: '# <?php echo __("Total Views (90 Days)"); ?>',
+                data: <?php echo json_encode($statistc_last90Days); ?>
+            }]
+    };
+
+    var lineChartDataToday = {
+        labels: <?php echo json_encode($labelToday); ?>,
+        datasets: [{
+                backgroundColor: 'rgba(0, 0, 255, 0.3)',
+                borderColor: 'rgba(0, 0, 255, 0.5)',
+                label: '# <?php echo __("Total Views (Today)"); ?>',
+                data: <?php echo json_encode($statistc_lastToday); ?>
+            }]
+    };
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            scales: {
+                yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        }
+                    }],
+                xAxes: [{
+                        display: false
+                    }]
+            },
+            legend: {
+                display: false
+            },
+            responsive: true
+        }
+    });
+    var myChartPie = new Chart(ctxPie, {
+        type: 'pie',
+        data: chartData,
+        options: {
+            legend: {
+                display: false
+            },
+            responsive: true
+        }
+    });
+
+    var myChartLine = new Chart(ctxLine, {
+        type: 'line',
+        data: lineChartData,
+        fill: false,
+        options: {
+            scales: {
+                yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        }
+                    }]
+            },
+            legend: {
+                display: false
+            },
+            responsive: true,
+            title: {
+                display: true
+            }
+        }
+    });
+
+    var myChartLineToday = new Chart(ctxLineToday, {
+        type: 'line',
+        data: lineChartDataToday,
+        fill: false,
+        options: {
+            scales: {
+                yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        }
+                    }]
+            },
+            legend: {
+                display: false
+            },
+            responsive: true,
+            title: {
+                display: true
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        countTo('#totalVideos', <?php echo $totalVideos; ?>);
+        countTo('#totalUsers', <?php echo $totalUsers; ?>);
+        countTo('#totalSubscriptions', <?php echo $totalSubscriptions; ?>);
+        countTo('#totalVideosComents', <?php echo $totalComents; ?>);
+        countTo('#totalVideosLikes', <?php echo $totalInfos->likes; ?>);
+        countTo('#totalVideosDislikes', <?php echo $totalInfos->disLikes; ?>);
+        countTo('#totalVideosViews', <?php echo $totalInfos->views_count; ?>);
+        countTo('#totalDurationVideos', <?php echo $totalInfos->total_minutes; ?>);
+
+        $('#btnAll').click(function () {
+            $('.nav-chart .btn').removeClass('active');
+            $(this).addClass('active');
+            chartData.datasets[0].data = <?php echo json_encode($datas); ?>;
+            chartData.datasets[0].label = '# <?php echo __("Total Views"); ?>';
+            lineChartData.labels = <?php echo json_encode($label90Days); ?>;
+            lineChartData.datasets[0].data = <?php echo json_encode($statistc_last90Days); ?>;
+            lineChartData.datasets[0].label = '# <?php echo __("Total Views (90 Days)"); ?>';
+            myChart.update();
+            myChartPie.update();
+            myChartLine.update();
+        });
+        $('#btnToday').click(function () {
+            $('.nav-chart .btn').removeClass('active');
+            $(this).addClass('active');
+            chartData.datasets[0].data = <?php echo json_encode($datasToday); ?>;
+            chartData.datasets[0].label = '# <?php echo __("Today"); ?>';
+            lineChartData.labels = <?php echo json_encode($labelToday); ?>;
+            lineChartData.datasets[0].data = <?php echo json_encode($statistc_lastToday); ?>;
+            lineChartData.datasets[0].label = '# <?php echo __("Today"); ?>';
+            myChart.update();
+            myChartPie.update();
+            myChartLine.update();
+        });
+        $('#btn7').click(function () {
+            $('.nav-chart .btn').removeClass('active');
+            $(this).addClass('active');
+            chartData.datasets[0].data = <?php echo json_encode($datas7); ?>;
+            chartData.datasets[0].label = '# <?php echo __("Last 7 Days"); ?>';
+            lineChartData.labels = <?php echo json_encode($label7Days); ?>;
+            lineChartData.datasets[0].data = <?php echo json_encode($statistc_last7Days); ?>;
+            lineChartData.datasets[0].label = '# <?php echo __("Last 7 Days"); ?>';
+            myChart.update();
+            myChartPie.update();
+            myChartLine.update();
+        });
+        $('#btn30').click(function () {
+            $('.nav-chart .btn').removeClass('active');
+            $(this).addClass('active');
+            chartData.datasets[0].data = <?php echo json_encode($datas30); ?>;
+            chartData.datasets[0].label = '# <?php echo __("Last 30 Days"); ?>';
+            lineChartData.labels = <?php echo json_encode($label30Days); ?>;
+            lineChartData.datasets[0].data = <?php echo json_encode($statistc_last30Days); ?>;
+            lineChartData.datasets[0].label = '# <?php echo __("Last 30 Days"); ?>';
+            myChart.update();
+            myChartPie.update();
+            myChartLine.update();
+        });
+        $('#btnUnique').click(function () {
+            $('.nav-chart .btn').removeClass('active');
+            $(this).addClass('active');
+            chartData.datasets[0].data = <?php echo json_encode($datasUnique); ?>;
+            chartData.datasets[0].label = '# <?php echo __("Unique Users"); ?>';
+            myChart.update();
+            myChartPie.update();
+        });
+    });
+</script>
