@@ -1416,7 +1416,7 @@ class Video {
         
         if ($res) {
             while ($row = $res->fetch_assoc()) {
-                $sql = "SELECT id from likes WHERE comments_id = {$row['id']} AND like = 1  ";
+                $sql = "SELECT id from likes WHERE comments_id = {$row['id']} AND `like` = 1  ";
                 if (!empty($startDate)) {
                     $sql .= " AND `created` >= '{$startDate}' ";
                 }
@@ -1428,7 +1428,7 @@ class Video {
                 
                 $r['thumbsUp']=$res2->num_rows;
                 
-                $sql = "SELECT id from likes WHERE comments_id = {$row['id']} AND like = -1  ";
+                $sql = "SELECT id from likes WHERE comments_id = {$row['id']} AND `like` = -1  ";
                 if (!empty($startDate)) {
                     $sql .= " AND `created` >= '{$startDate}' ";
                 }
