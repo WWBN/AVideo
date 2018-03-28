@@ -2,7 +2,7 @@
 header("Content-Type: application/rss+xml; charset=UTF8");
 
 
-require_once '../videos/configuration.php';
+require_once 'videos/configuration.php';
 
  $db = mysqli_connect($mysqlHost,$mysqlUser,$mysqlPass,$mysqlDatabase);
 
@@ -23,7 +23,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'?>
 <channel>
     <title>RSS YouPHPTube</title>
     <description>Rss Feed</description>
-    <link><?php echo $global['webSiteRootURL'] ;?></link>
+    <link><?php echo $global['webSiteRootURL']; ?></link>
     <sy:updatePeriod>hourly</sy:updatePeriod>
     <sy:updateFrequency>1</sy:updateFrequency>
  
@@ -50,7 +50,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'?>
        </item>
      
      <?php
-	   }   
+	   }  } 
     ?>
 </channel>
 </rss>
