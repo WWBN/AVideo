@@ -226,7 +226,7 @@ class Comment {
         
         if ($res) {
             while ($row = $res->fetch_assoc()) {
-                $sql = "SELECT id from comments_likes WHERE comments_id = {$row['id']} AND like = 1  ";
+                $sql = "SELECT id from comments_likes WHERE comments_id = {$row['id']} AND `like` = 1  ";
                 if (!empty($startDate)) {
                     $sql .= " AND `created` >= '{$startDate}' ";
                 }
@@ -236,9 +236,9 @@ class Comment {
                 }
                 $res2 = $global['mysqli']->query($sql);
                 
-                $r['thumbsUp']=$res2->num_rows;
+                $r['thumbsUp']+=$res2->num_rows;
                 
-                $sql = "SELECT id from comments_likes WHERE comments_id = {$row['id']} AND like = -1  ";
+                $sql = "SELECT id from comments_likes WHERE comments_id = {$row['id']} AND `like` = -1  ";
                 if (!empty($startDate)) {
                     $sql .= " AND `created` >= '{$startDate}' ";
                 }
@@ -247,7 +247,7 @@ class Comment {
                     $sql .= " AND `created` <= '{$endDate}' ";
                 }
                 $res2 = $global['mysqli']->query($sql);
-                $r['thumbsDown']=$res2->num_rows;
+                $r['thumbsDown']+=$res2->num_rows;
             }
         } 
         
