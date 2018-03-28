@@ -34,7 +34,7 @@ if (!empty($ad)) {
                 echo " ad";
             }
             ?>">
-                <video poster="<?php echo $poster; ?>" controls 
+                <video preload="auto" poster="<?php echo $poster; ?>" controls 
                        class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                        id="mainVideo"  data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
                     <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
