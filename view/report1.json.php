@@ -31,12 +31,12 @@ foreach ($channels as $key => $value) {
         'channel'=>"<a href='{$global['webSiteRootURL']}channel/{$value['id']}'>{$identification}</a>"
 
     );
-    $row[] = $item;
+    $rows[] = $item;
 }
 
 $obj = new stdClass();
 
-$obj->data = $row;
+$obj->data = $rows;
 
 echo json_encode($obj);
 
