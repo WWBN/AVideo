@@ -1426,7 +1426,7 @@ class Video {
                 }
                 $res2 = $global['mysqli']->query($sql);
                 
-                $r['thumbsUp']=$res2->num_rows;
+                $r['thumbsUp']+=$res2->num_rows;
                 
                 $sql = "SELECT id from likes WHERE comments_id = {$row['id']} AND `like` = -1  ";
                 if (!empty($startDate)) {
@@ -1437,7 +1437,7 @@ class Video {
                     $sql .= " AND `created` <= '{$endDate}' ";
                 }
                 $res2 = $global['mysqli']->query($sql);
-                $r['thumbsDown']=$res2->num_rows;
+                $r['thumbsDown']+=$res2->num_rows;
             }
         } 
         
