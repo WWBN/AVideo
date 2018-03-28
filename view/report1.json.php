@@ -8,9 +8,8 @@ require_once $global['systemRootPath'] . 'objects/Channel.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 
-$previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
-$previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
-$today = date('Y-m-d 23:59:59');
+$from = date("Y-m-d 00:00:00", strtotime($_POST['dateFrom']));
+$to = date('Y-m-d 23:59:59', strtotime($_POST['dateTo']));
 
 // list all channels
 $channels = Channel::getChannels();
@@ -22,7 +21,7 @@ foreach ($channels as $key => $value) {
     $identification = User::getNameIdentificationById($value['id']);
     $views = 0;
     foreach ($videos as $key2 => $value2) {
-        $views+=VideoStatistic::getStatisticTotalViews($value2['id'], false, $previewsMonth, $today);
+        $views+=VideoStatistic::getStatisticTotalViews($value2['id'], false, $from, $to);
     }
     $item = array(
         'views'=>$views,
