@@ -13,12 +13,11 @@ require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();
 
 
-if(!empty($_GET['video_id'])){
-    if(Video::canEdit($_GET['video_id'])){
+if (!empty($_GET['video_id'])) {
+    if (Video::canEdit($_GET['video_id'])) {
         $row = Video::getVideo($_GET['video_id']);
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -71,19 +70,38 @@ if(!empty($_GET['video_id'])){
                     <span class="fa fa-bar-chart"></span>
                     <?php echo __("Video Chart"); ?>
                 </a>
-                <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
-                    <span class="fa fa-upload"></span>
-                    <?php echo __("Encoder Site"); ?>
-                </a>
-                <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
-                    <span class="fa fa-video-camera"></span>
-                    <?php echo __("Upload a MP4 File"); ?>
-                </a>
+                <?php
+                if (empty($advancedCustom->doNotShowEncoderButton)) {
+                    if (!empty($config->getEncoderURL())) {
+                        ?>
+                        <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
+                            <span class="fa fa-cog"></span>
+                            <?php echo __("Encode video and audio"); ?>
+                        </a>
+                        <?php
+                    }
+                }
+                if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                    ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
+                        <span class="fa fa-upload"></span>
+                        <?php echo __("Upload a MP4 File"); ?>
+                    </a>
+                    <?php
+                }
+                if (empty($advancedCustom->doNotShowEmbedButton)) {
+                    ?>                                    
+                    <button class="btn btn-default" id="linkExternalVideo">
+                        <span class="fa fa-link"></span>
+                        <?php echo __("Embed a video link"); ?>
+                    </button>
+                    <?php
+                }
+                ?>
 
-                <button class="btn btn-default" id="linkExternalVideo">
-                    <span class="fa fa-link"></span>
-                    <?php echo __("Embed a video link"); ?>
-                </button>
+
+
+
                 <?php
                 if (User::isAdmin()) {
                     ?>
@@ -596,19 +614,19 @@ if(!empty($_GET['video_id'])){
                                         $('#encodeProgress' + id).html(item);
                                     }
                                     $(document).ready(function () {
-                                        <?php
-                                        if(!empty($row)){
-                                            $json = json_encode($row);
-                                            if(!empty($json)){
-                                            ?>  
+<?php
+if (!empty($row)) {
+    $json = json_encode($row);
+    if (!empty($json)) {
+        ?>
                                                 waitToSubmit = true;
                                                 editVideo(<?php echo $json; ?>);
-                                            <?php
-                                            }else{
-                                                echo "/*Json error for Video ID*/";
-                                            }
-                                        }
-                                        ?>
+        <?php
+    } else {
+        echo "/*Json error for Video ID*/";
+    }
+}
+?>
                                         $('#linkExternalVideo').click(function () {
                                             $('#inputVideoId').val("");
                                             $('#inputTitle').val("");

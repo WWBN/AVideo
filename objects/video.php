@@ -1069,7 +1069,7 @@ class Video {
         $sql = "SELECT * FROM videos WHERE id = {$videos_id} AND users_id = $users_id ";
         $sql .= " LIMIT 1";
         $res = $global['mysqli']->query($sql);
-        return !empty($res);
+        return !empty($res->num_rows);
     }
 
     /**
