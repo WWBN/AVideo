@@ -62,6 +62,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                 <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
                                     <label class="sr-only" for="inputDescription"><?php echo __("Description"); ?></label>
                                     <textarea class="form-control" rows="5" id="inputDescription" placeholder="<?php echo __("Description"); ?>"></textarea>
+                                <label for="inputNextVideoOrder"><?php echo __("Autoplay next-video-order"); ?></label>
                                   <select class="form-control" id="inputNextVideoOrder">
                                         <option value="0"><?php echo __("Random"); ?></option>
                                         <option value="1"><?php echo __("By name"); ?></option>
@@ -183,7 +184,6 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     $('#inputName').val('');
                     $('#inputCleanName').val('');
                     $('#inputDescription').val('');
-                    $('#inputNextVideoOrder').val('');
 
                     $('#categoryFormModal').modal();
                 });
