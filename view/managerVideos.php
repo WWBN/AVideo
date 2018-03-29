@@ -11,6 +11,13 @@ $categories = Category::getAllCategories();
 
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();
+
+
+if (!empty($_GET['video_id'])) {
+    if (Video::canEdit($_GET['video_id'])) {
+        $row = Video::getVideo($_GET['video_id']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -38,6 +45,9 @@ $userGroups = UserGroups::getAllUsersGroups();
             .ui-autocomplete{
                 z-index: 9999999;
             }
+            .krajee-default.file-preview-frame {
+                min-width: 300px;
+            }
         </style>
 
     </head>
@@ -48,7 +58,9 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <div class="container">
-
+        <?php
+        include 'include/updateCheck.php';
+        ?>
             <div class="btn-group" >
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
@@ -60,19 +72,38 @@ $userGroups = UserGroups::getAllUsersGroups();
                     <span class="fa fa-bar-chart"></span>
                     <?php echo __("Video Chart"); ?>
                 </a>
-                <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
-                    <span class="fa fa-upload"></span>
-                    <?php echo __("Encoder Site"); ?>
-                </a>
-                <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
-                    <span class="fa fa-video-camera"></span>
-                    <?php echo __("Upload a MP4 File"); ?>
-                </a>
+                <?php
+                if (empty($advancedCustom->doNotShowEncoderButton)) {
+                    if (!empty($config->getEncoderURL())) {
+                        ?>
+                        <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
+                            <span class="fa fa-cog"></span>
+                            <?php echo __("Encode video and audio"); ?>
+                        </a>
+                        <?php
+                    }
+                }
+                if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                    ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
+                        <span class="fa fa-upload"></span>
+                        <?php echo __("Upload a MP4 File"); ?>
+                    </a>
+                    <?php
+                }
+                if (empty($advancedCustom->doNotShowEmbedButton)) {
+                    ?>                                    
+                    <button class="btn btn-default" id="linkExternalVideo">
+                        <span class="fa fa-link"></span>
+                        <?php echo __("Embed a video link"); ?>
+                    </button>
+                    <?php
+                }
+                ?>
 
-                <button class="btn btn-default" id="linkExternalVideo">
-                    <span class="fa fa-link"></span>
-                    <?php echo __("Embed a video link"); ?>
-                </button>
+
+
+
                 <?php
                 if (User::isAdmin()) {
                     ?>
@@ -114,9 +145,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                 <button class="btn btn-secondary" id="checkBtn">
                     <i class="fa fa-square-o" aria-hidden="true" id="chk"></i>
                 </button>
+                <?php if (!$config->getDisable_youtubeupload()) { ?>
                 <button class="btn btn-danger" id="uploadYouTubeBtn">
                     <i class="fa fa-youtube-play" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
-                </button>                
+                </button>
+                <?php } ?>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <?php echo __('Categories'); ?> <span class="caret"></span></button>
@@ -339,7 +372,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <?php
-            if (User::isAdmin()) {
+            if ((User::isAdmin())&&(!$config->getDisable_youtubeupload())) {
                 ?>
                 <div class="alert alert-info">
                     <h1><span class="fa fa-youtube"></span> Let us upload your video to YouTube</h1>
@@ -375,7 +408,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                     var timeOut;
                                     var encodingNowId = "";
                                     var waitToSubmit = true;
-                                    
+
                                     function changeStatus(status) {
                                         modal.showPleaseWait();
                                         var vals = [];
@@ -497,6 +530,82 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         });
                                     }
 
+                                    function editVideo(row) {
+                                        waitToSubmit = true;
+                                        $('#postersImage, #videoIsAdControl, .titles').slideDown();
+                                        if (row.type !== 'embed') {
+                                            $('#videoLinkContent').slideUp();
+                                            $('#videoLink').val(row.videoLink);
+                                        }
+                                        $('#inputVideoId').val(row.id);
+                                        $('#inputTitle').val(row.title);
+                                        $('#inputCleanTitle').val(row.clean_title);
+                                        $('#inputDescription').val(row.description);
+                                        $('#inputCategory').val(row.categories_id);
+                                        if (row.next_video && row.next_video.id) {
+                                            $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_video.filename + ".jpg");
+                                            $('#inputNextVideo').val(row.next_video.title);
+                                            $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
+                                            $('#inputNextVideo-id').val(row.next_video.id);
+                                        } else {
+                                            $('#removeAutoplay').trigger('click');
+                                        }
+
+                                        $('.videoGroups').prop('checked', false);
+                                        if (row.groups.length === 0) {
+                                            $('#public').prop('checked', true);
+                                        } else {
+                                            $('#public').prop('checked', false);
+                                            for (var index in row.groups) {
+                                                $('#videoGroup' + row.groups[index].id).prop('checked', true);
+                                            }
+                                        }
+                                        $('#public').trigger("change");
+                                        $('#videoIsAd').prop('checked', false);
+                                        $('#videoIsAd').trigger("change");
+                                        $('#input-jpg, #input-gif').fileinput('destroy');
+                                        $("#input-jpg").fileinput({
+                                            uploadUrl: "uploadPoster/" + row.id + "/jpg",
+                                            autoReplace: true,
+                                            overwriteInitial: true,
+                                            showUploadedThumbs: false,
+                                            maxFileCount: 1,
+                                            initialPreview: [
+                                                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'>",
+                                            ],
+                                            initialCaption: row.clean_title + '.jpg',
+                                            initialPreviewShowDelete: false,
+                                            showRemove: false,
+                                            showClose: false,
+                                            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                                            allowedFileExtensions: ["jpg"]
+                                        });
+                                        $("#input-gif").fileinput({
+                                            uploadUrl: "uploadPoster/" + row.id + "/gif",
+                                            autoReplace: true,
+                                            overwriteInitial: true,
+                                            showUploadedThumbs: false,
+                                            maxFileCount: 1,
+                                            initialPreview: [
+                                                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".gif'>",
+                                            ],
+                                            initialCaption: row.clean_title + '.gif',
+                                            initialPreviewShowDelete: false,
+                                            showRemove: false,
+                                            showClose: false,
+                                            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                                            allowedFileExtensions: ["gif"]
+                                        });
+                                        $('#input-jpg, #input-gif').on('fileuploaded', function (event, data, previewId, index) {
+                                            $("#grid").bootgrid("reload");
+                                        })
+                                        waitToSubmit = true;
+                                        setTimeout(function () {
+                                            waitToSubmit = false;
+                                        }, 3000);
+                                        $('#videoFormModal').modal();
+                                    }
+
                                     function createQueueItem(queueItem, position) {
                                         var id = queueItem.return_vars.videos_id;
                                         if ($('#encodeProgress' + id).children().length) {
@@ -509,7 +618,19 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         $('#encodeProgress' + id).html(item);
                                     }
                                     $(document).ready(function () {
-
+<?php
+if (!empty($row)) {
+    $json = json_encode($row);
+    if (!empty($json)) {
+        ?>
+                                                waitToSubmit = true;
+                                                editVideo(<?php echo $json; ?>);
+        <?php
+    } else {
+        echo "/*Json error for Video ID*/";
+    }
+}
+?>
                                         $('#linkExternalVideo').click(function () {
                                             $('#inputVideoId').val("");
                                             $('#inputTitle').val("");
@@ -525,7 +646,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                             $('#videoLinkContent').slideDown();
                                             $('#videoLink').val('');
-                                            setTimeout(function(){waitToSubmit = false;}, 2000);
+                                            setTimeout(function () {
+                                                waitToSubmit = false;
+                                            }, 2000);
                                             $('#videoFormModal').modal();
                                         });
                                         $("#checkBtn").click(function () {
@@ -541,6 +664,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 $(this).prop('checked', !chk);
                                             });
                                         });
+                                        <?php if (!$config->getDisable_youtubeupload()) { ?>
                                         $("#uploadYouTubeBtn").click(function () {
                                             modal.showPleaseWait();
                                             var vals = [];
@@ -574,6 +698,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 }
                                             });
                                         });
+                                        <?php } ?>
                                         $("#deleteBtn").click(function () {
                                             swal({
                                                 title: "<?php echo __("Are you sure?"); ?>",
@@ -687,7 +812,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                         }
                                                         nextIsSet="<span class='label label-success' data-toggle='tooltip' title='"+row.next_video.title+"'>Next video: "+nextVideoTitle+"</span>";
                                                     }
-                                                    return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons+ "<br>"+download+nextIsSet;
+                                                    return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + "<br>" + download + nextIsSet;
 
                                                 },
                                                 "tags": function (column, row) {
@@ -707,7 +832,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 "titleTag": function (column, row) {
                                                     var tags = "";
                                                     var youTubeLink = "", youTubeUpload = "";
+                                                    <?php if (!$config->getDisable_youtubeupload()) { ?>
                                                     youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
+                                                    
                                                     if (row.youtubeId) {
                                                         //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                                                     }
@@ -715,6 +842,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                     if (row.status == "d" || row.status == "e") {
                                                         yt = "";
                                                     }
+                                                    <?php } else { echo "yt='';"; } ?>
                                                     if (row.status !== "a") {
                                                         tags += '<div id="encodeProgress' + row.id + '"></div>';
                                                     }
@@ -741,11 +869,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             },
                                             post: function () {
                                                 var page = $("#grid").bootgrid("getCurrentPage");
-                                                    console.log('prepare post');
-                                                if(!page){
+                                                console.log('prepare post');
+                                                if (!page) {
                                                     page = 1;
                                                 }
-                                                var ret = {current:page};
+                                                var ret = {current: page};
                                                 return ret;
                                             },
                                         }).on("loaded.rs.jquery.bootgrid", function () {
@@ -754,77 +882,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                                 waitToSubmit = true;
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                                                console.log(row);
-                                                $('#postersImage, #videoIsAdControl, .titles').slideDown();
-                                                if (row.type !== 'embed') {
-                                                    $('#videoLinkContent').slideUp();
-                                                    $('#videoLink').val(row.videoLink);
-                                                }
-                                                $('#inputVideoId').val(row.id);
-                                                $('#inputTitle').val(row.title);
-                                                $('#inputCleanTitle').val(row.clean_title);
-                                                $('#inputDescription').val(row.description);
-                                                $('#inputCategory').val(row.categories_id);
-                                                if (row.next_video && row.next_video.id) {
-                                                    $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_video.filename + ".jpg");
-                                                    $('#inputNextVideo').val(row.next_video.title);
-                                                    $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
-                                                    $('#inputNextVideo-id').val(row.next_video.id);
-                                                } else {
-                                                    $('#removeAutoplay').trigger('click');
-                                                }
-
-                                                $('.videoGroups').prop('checked', false);
-                                                if (row.groups.length === 0) {
-                                                    $('#public').prop('checked', true);
-                                                } else {
-                                                    $('#public').prop('checked', false);
-                                                    for (var index in row.groups) {
-                                                        $('#videoGroup' + row.groups[index].id).prop('checked', true);
-                                                    }
-                                                }
-                                                $('#public').trigger("change");
-                                                $('#videoIsAd').prop('checked', false);
-                                                $('#videoIsAd').trigger("change");
-                                                $('#input-jpg, #input-gif').fileinput('destroy');
-                                                $("#input-jpg").fileinput({
-                                                    uploadUrl: "uploadPoster/" + row.id + "/jpg",
-                                                    autoReplace: true,
-                                                    overwriteInitial: true,
-                                                    showUploadedThumbs: false,
-                                                    maxFileCount: 1,
-                                                    initialPreview: [
-                                                        "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'>",
-                                                    ],
-                                                    initialCaption: row.clean_title + '.jpg',
-                                                    initialPreviewShowDelete: false,
-                                                    showRemove: false,
-                                                    showClose: false,
-                                                    layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                                    allowedFileExtensions: ["jpg"]
-                                                });
-                                                $("#input-gif").fileinput({
-                                                    uploadUrl: "uploadPoster/" + row.id + "/gif",
-                                                    autoReplace: true,
-                                                    overwriteInitial: true,
-                                                    showUploadedThumbs: false,
-                                                    maxFileCount: 1,
-                                                    initialPreview: [
-                                                        "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".gif'>",
-                                                    ],
-                                                    initialCaption: row.clean_title + '.gif',
-                                                    initialPreviewShowDelete: false,
-                                                    showRemove: false,
-                                                    showClose: false,
-                                                    layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                                    allowedFileExtensions: ["gif"]
-                                                });
-                                                $('#input-jpg, #input-gif').on('fileuploaded', function (event, data, previewId, index) {
-                                                    $("#grid").bootgrid("reload");
-                                                })
-                                                waitToSubmit = true;
-                                                setTimeout(function(){waitToSubmit = false;}, 3000);
-                                                $('#videoFormModal').modal();
+                                                editVideo(row);
                                             }).end().find(".command-delete").on("click", function (e) {
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
@@ -996,7 +1054,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         });
                                         $('#updateCategoryForm').submit(function (evt) {
                                             evt.preventDefault();
-                                            if(waitToSubmit){
+                                            if (waitToSubmit) {
                                                 return false;
                                             }
                                             var isPublic = $('#public').is(':checked');

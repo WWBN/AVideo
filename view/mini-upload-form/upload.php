@@ -53,6 +53,11 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $videoFileName = $video->getFilename();
         MP4ThumbsAndGif::getImage($videoFileName, 'jpg');
         MP4ThumbsAndGif::getImage($videoFileName, 'gif');
+    } else if(YouPHPTubePlugin::isEnabled("916c9afb-css90e-26fa-97fd-864856180cc9")) {
+        require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGifLocal/MP4ThumbsAndGifLocal.php';
+        $videoFileName = $video->getFilename();
+        MP4ThumbsAndGifLocal::getImage($videoFileName, 'jpg');
+        MP4ThumbsAndGifLocal::getImage($videoFileName, 'gif');
     }
 
 

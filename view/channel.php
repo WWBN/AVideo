@@ -176,12 +176,21 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                                     echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
                                                     ?>
                                                 </div>
-                                                <div class="userName">
+                                                <div>
                                                     <i class="fa fa-user"></i>
                                                     <?php
                                                     echo $name;
                                                     ?>
                                                 </div>
+                                                    <?php
+                                                    if(Video::canEdit($value['id'])){
+                                                        ?>
+                                                        <div>
+                                                            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                        </div>
+                                                    <?php
+                                                    }
+                                                    ?>
                                             </div>
                                         </li>
                                         <?php
@@ -254,12 +263,21 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                             echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
                                             ?>
                                         </div>
-                                        <div class="userName">
+                                        <div>
                                             <i class="fa fa-user"></i>
                                             <?php
                                             echo $name;
                                             ?>
                                         </div>
+                                        <?php
+                                        if(Video::canEdit($value['id'])){
+                                            ?>
+                                            <div>
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                                 <?php

@@ -128,6 +128,7 @@ h3.galleryTitle{
     overflow: hidden;
     max-height: 17vw;
 }
+/*
 .mainAreaDescription:before {
   content:'';
   width:100%;
@@ -138,6 +139,18 @@ h3.galleryTitle{
   top:0;
   background:linear-gradient(transparent 150px, white);
 }
+*/
 .mainAreaDescriptionContainer{
     position: relative;
+}
+a.h6{
+    text-decoration: none !important;
+}
+
+.popover-title { 
+    color: inherit !important; filter: brightness(100%); 
+} 
+
+.popover-content{
+    color: inherit !important; filter: brightness(200%); 
 }

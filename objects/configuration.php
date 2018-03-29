@@ -25,6 +25,8 @@ class Configuration {
     private $mode;
     // version 2.7
     private $disable_analytics;
+    private $disable_youtubeupload;
+    private $allow_download;
     private $session_timeout;
     private $autoplay;
     // version 3.1
@@ -88,6 +90,8 @@ class Configuration {
                 . "logo = '{$global['mysqli']->real_escape_string($this->getLogo())}',"
                 . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}',"
                 . "disable_analytics = '{$this->getDisable_analytics()}',"
+                . "disable_youtubeupload = '{$this->getDisable_youtubeupload()}',"
+                . "allow_download = '{$this->getAllow_download()}',"
                 . "session_timeout = '{$this->getSession_timeout()}',"
                 . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}',"
                 . "theme = '{$global['mysqli']->real_escape_string($this->getTheme())}',"
@@ -237,13 +241,29 @@ class Configuration {
     function getDisable_analytics() {
         return $this->disable_analytics;
     }
+    
+    function getDisable_youtubeupload() {
+        return $this->disable_youtubeupload;
+    }
 
+    function getAllow_download() {
+        return $this->allow_download;
+    }
+    
     function getSession_timeout() {
         return $this->session_timeout;
     }
 
     function setDisable_analytics($disable_analytics) {
         $this->disable_analytics = ($disable_analytics == 'true' || $disable_analytics == '1') ? 1 : 0;
+    }
+    
+    function setDisable_youtubeupload($disable_youtubeupload) {
+        $this->disable_youtubeupload = ($disable_youtubeupload == 'true' || $disable_youtubeupload == '1') ? 1 : 0;
+    }
+    
+    function setAllow_download($allow_download) {
+        $this->allow_download = ($allow_download == 'true' || $allow_download == '1') ? 1 : 0;
     }
 
     function setSession_timeout($session_timeout) {

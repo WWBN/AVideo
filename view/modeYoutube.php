@@ -9,6 +9,7 @@ if (!file_exists('../videos/configuration.php')) {
 require_once '../videos/configuration.php';
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
@@ -63,7 +64,28 @@ if (!empty($_GET['playlist_id'])) {
     if (!empty($video['next_videos_id'])) {
         $autoPlayVideo = Video::getVideo($video['next_videos_id']);
     } else {
-        $autoPlayVideo = Video::getRandom($video['id']);
+        if($video['category_order']==1){
+            unset($_POST['sort']);
+            $category = Category::getAllCategories();
+            $_POST['sort']['title'] = "ASC";
+            // maybe there's a more slim method?
+            $videos = Video::getAllVideos();
+            $videoFound = false;
+            $autoPlayVideo;
+            foreach ($videos as $value) {
+                if($videoFound){
+                    $autoPlayVideo = $value;
+                    break;
+                }
+                if($value['id']==$video['id']){
+                    // if the video is found, make another round to have the next video properly.
+                    $videoFound=true;
+                }    
+            }
+            
+        } else {
+            $autoPlayVideo = Video::getRandom($video['id']);
+        }
     }
     if (!empty($autoPlayVideo)) {
         $name2 = User::getNameIdentificationById($autoPlayVideo['users_id']);
@@ -182,6 +204,13 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                 <div class="col-xs-8 col-sm-8 col-md-8">
                                     <h1 itemprop="name">
                                         <?php echo $video['title']; ?>
+                                        <?php
+                                        if(Video::canEdit($video['id'])){
+                                            ?>
+                                            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="btn btn-primary btn-xs" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                            <?php
+                                        }
+                                        ?>
                                         <small>
                                             <?php
                                             if (!empty($video['id'])) {
@@ -199,7 +228,9 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                             ?>
                                         </small>
                                     </h1>
-                                    <div class="col-xs-12 col-sm-12 col-md-12"><?php echo $video['creator']; ?></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <?php echo $video['creator']; ?>
+                                    </div>
                                     <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
                                 </div>
                             </div>
@@ -583,7 +614,26 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                             </script>
 
                             <?php
-                        } else if (!empty($autoPlayVideo)) {
+                            } else if (empty($autoPlayVideo)) { ?>
+                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" >
+                                <strong>
+                                    <?php
+                                    echo __("Autoplay ended");
+                                    ?>
+                                </strong>
+                                <span class="pull-right">
+                                    <span>
+                                        <?php
+                                        echo __("Autoplay");
+                                        ?>
+                                    </span>
+                                    <span>
+                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
+                                    </span>
+                                    <input type="checkbox" data-toggle="toggle" data-size="mini" class="saveCookie" name="autoplay">
+                                </span>
+                            </div>
+                            <?php } else if (!empty($autoPlayVideo)) {
                             ?>
                             <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="display: none;">
                                 <strong>
@@ -604,7 +654,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                 </span>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" style="display: none;" >
-                                <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink">
+                                <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                                         <?php
                                         $imgGif = "";
