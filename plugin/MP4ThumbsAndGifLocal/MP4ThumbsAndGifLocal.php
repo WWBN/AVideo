@@ -7,7 +7,7 @@ class MP4ThumbsAndGifLocal extends PluginAbstract {
     public function getDescription() {
         return "This is a standalone-thumbnailer.<br />You need to have imagemagick (convert-command must be avaible) and ffmpeg installed to make this working.
         <ul><li><b>videoStartTime:</b> Time in the video where the thumb is created and the gif start.</li>
-        </ul>";                                                                                             
+        </ul><br />Author: <a href='http://hersche.github.io' target='_blank' >Vinzenz Hersche</a>";                                                                                             
     }                                                                                                                                                                                                                                       
                                                                                                                                                                                                                                             
     public function getName() {                                                                                                                                                                                                             
