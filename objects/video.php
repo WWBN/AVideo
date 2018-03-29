@@ -1072,7 +1072,7 @@ class Video {
         $sql = "SELECT * FROM videos WHERE id = {$videos_id} AND users_id = $users_id ";
         $sql .= " LIMIT 1";
         $res = $global['mysqli']->query($sql);
-        return !empty($res);
+        return !empty($res->num_rows);
     }
 
     /**
@@ -1406,6 +1406,46 @@ class Video {
         }
 
         return self::getLinkToVideo($videos_id, $clean_title, $embed, $type);
+    }
+    
+    static function getTotalVideosThumbsUpFromUser($users_id, $startDate, $endDate) {
+        global $global;
+        
+        $sql = "SELECT id from videos  WHERE users_id = {$users_id}  ";
+
+        $res = $global['mysqli']->query($sql);
+        
+        $r = array('thumbsUp'=>0, 'thumbsDown'=>0 );
+        
+        if ($res) {
+            while ($row = $res->fetch_assoc()) {
+                $sql = "SELECT id from likes WHERE videos_id = {$row['id']} AND `like` = 1  ";
+                if (!empty($startDate)) {
+                    $sql .= " AND `created` >= '{$startDate}' ";
+                }
+
+                if (!empty($endDate)) {
+                    $sql .= " AND `created` <= '{$endDate}' ";
+                }
+                
+                $res2 = $global['mysqli']->query($sql);
+                
+                $r['thumbsUp']+=$res2->num_rows;
+                
+                $sql = "SELECT id from likes WHERE videos_id = {$row['id']} AND `like` = -1  ";
+                if (!empty($startDate)) {
+                    $sql .= " AND `created` >= '{$startDate}' ";
+                }
+
+                if (!empty($endDate)) {
+                    $sql .= " AND `created` <= '{$endDate}' ";
+                }
+                $res2 = $global['mysqli']->query($sql);
+                $r['thumbsDown']+=$res2->num_rows;
+            }
+        } 
+        
+        return $r;
     }
 
 }
