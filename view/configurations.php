@@ -455,7 +455,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             if (!empty($config->getAllow_download())) {
                                                                 echo "checked";
                                                             }
-                                                            ?> >
+                                                            ?> aria-describedby="allow_downloadHelp">
+                                                            <small id="allow_downloadHelp" class="form-text text-muted"><?php echo __("This creates a download-button under your video, suggest you title.mp4 as download-name."); ?></small>
                                                         </div>
                                                     </div>
 
