@@ -150,6 +150,9 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
         ?>
 
         <div class="container-fluid">
+                    <?php
+        include 'include/updateCheck.php';
+        ?>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#menu0"><i class="fa fa-plug"></i> Installed Plugins</a></li>
                 <li><a data-toggle="tab" href="#menu1"><i class="fa fa-cart-plus"></i> Plugins Store</a></li>
@@ -381,7 +384,11 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                             if (row.databaseScript) {
                                 sqlBtn = '<button type="button" class="btn btn-xs btn-default command-sql" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> Install tables</button>';
                             }
-                            return  editBtn + "<br>" + sqlBtn + "<br>" + row.pluginMenu;
+                            menu = '';
+                            if(row.installedPlugin && row.installedPlugin.status == 'active'){
+                                menu = row.pluginMenu;
+                            }
+                            return  editBtn + "<br>" + sqlBtn + "<br>" + menu;
                         },
                         "name": function (column, row) {
                             var checked = "";

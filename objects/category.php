@@ -9,7 +9,9 @@ class Category {
     private $id;
     private $name;
     private $clean_name;
+    private $description;
     private $iconClass;
+    private $nextVideoOrder;
 
     function setName($name) {
         $this->name = $name;
@@ -19,7 +21,15 @@ class Category {
         preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
         $this->clean_name = $clean_name;
     }
+    
+    function setNextVideoOrder($nextVideoOrder) {
+        $this->nextVideoOrder = $nextVideoOrder;
+    }
 
+    function setDescription($description) {
+        $this->description = $description;
+    }
+    
     function __construct($id, $name = '') {
         if (empty($id)) {
             // get the category data from category and pass
@@ -46,9 +56,9 @@ class Category {
             $this->isAdmin = "false";
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',description = '{$this->description}',nextVideoOrder = '{$this->nextVideoOrder}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO categories ( name,clean_name,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}', '{$this->getIconClass()}',now(), now())";
+            $sql = "INSERT INTO categories ( name,clean_name,description,nextVideoOrder,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}','{$this->description}','{$this->nextVideoOrder}', '{$this->getIconClass()}',now(), now())";
         }
         $resp = $global['mysqli']->query($sql);
         if (empty($resp)) {

@@ -41,8 +41,8 @@ if (User::canStream()) {
     </a>
 </li>
 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo" itemscope itemtype="http://schema.org/VideoObject">
-    <a href="" class="videoLink">
-        <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" style="min-height: 70px;" >
+    <a href="" class="h6 videoLink">
+        <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" style="min-height: 70px; position:relative;" >
             <img src="" class="thumbsJPG img-responsive" height="130" />
             <img src="" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
             <span class="label label-danger liveNow faa-flash faa-slow animated">LIVE NOW</span>
@@ -71,7 +71,9 @@ if (User::canStream()) {
     </a>
 </div>
 <script>
-
+    /* Use this funtion to display live videos dynamic on pages*/
+    function afterExtraVideos($liveLi){return $liveLi}
+    
     function createLiveItem(href, title, name, photo, offline, online, views, key) {
         var $liveLi = $('.liveModel').clone();
         if (offline) {
@@ -112,6 +114,7 @@ if (User::canStream()) {
             }else{
                 $liveLi.find('.thumbsGIF').remove();
             }
+            $liveLi = afterExtraVideos($liveLi);
             $('.extraVideos').append($liveLi);
             $liveLi.slideDown();
         }

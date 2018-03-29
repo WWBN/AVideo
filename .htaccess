@@ -51,6 +51,7 @@
     RewriteRule    ^getDownloadProgress$ objects/downloadVideoProgress.php    [NC,L]
     RewriteRule    ^status$ objects/status.json.php    [NC,L]
 
+    RewriteRule    ^feed$ feed.php    [NC,L]
     RewriteRule    ^about$ view/about.php    [NC,L]
     RewriteRule    ^contact$ view/contact.php    [NC,L]
     RewriteRule    ^sendEmail$ objects/sendEmail.json.php    [NC,L]
@@ -61,8 +62,8 @@
     RewriteRule    ^videosList/cat/([A-Za-z0-9-]+)/video/([A-Za-z0-9-_.]+)/page/([0-9]+)/?$ view/videosList.php?catName=$1&videoName=$2&page=$3    [QSA]
 
     #for the category name
-    RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L]
-    RewriteRule    ^cat/([A-Za-z0-9-]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L]
+    RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L,QSA]
+    RewriteRule    ^cat/([A-Za-z0-9-]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L,QSA]
 
     
     #for the video name
