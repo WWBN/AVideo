@@ -72,6 +72,7 @@ $t['Do not forget to save after choose your theme'] = "Nicht vergessen zu speich
 $t['Don´t like this video? Sign in to make your opinion count.'] = "Magst Du dieses Video nicht? Melden Dich an, um Deine Meinung mitzuteilen.";
 $t['Down'] = "Runter";
 $t['Download'] = "Download";
+$t['Download video'] = "Video herunterladen";
 $t['Download Video'] = "Video herunterladen";
 $t['Downloading'] = "Herunterladen";
 $t['Drop Here'] = "Hier her ziehen";
