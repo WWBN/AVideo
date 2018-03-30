@@ -82,7 +82,7 @@ if (!empty($ad)) {
 
         </div>
             <?php if ($config->getAllow_download()) { ?>
-                <a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL']."videos/".$playNowVideo['filename']; ?>.mp4" download="<?php echo $playNowVideo['title'].".mp4"; ?>" >Download video</a>
+                <a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL']."videos/".$playNowVideo['filename']; ?>.mp4" download="<?php echo $playNowVideo['title'].".mp4"; ?>" ><?php echo __("Download video"); ?></a>
             <?php } ?>
     </div>
 
