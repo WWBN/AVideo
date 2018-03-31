@@ -402,7 +402,7 @@ class User {
         return $user;
     }
     
-    static private function findByEmail($email) {
+    static function findByEmail($email) {
         global $global;
 
         $sql = "SELECT * FROM users WHERE email = '$email'  LIMIT 1";
