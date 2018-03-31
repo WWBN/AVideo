@@ -382,8 +382,12 @@ class Video {
     }
 
     static function getVideoFromCleanTitle($clean_title) {
-        global $global;
-
+        // for some reason in some servers (CPanel) we got the error "Error while sending QUERY packet centos on a select"
+        // even increasing the max_allowed_packet it only goes away when close and reopen the connection
+        global $global, $mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,$mysqlPort;
+        $global['mysqli']->close();
+        $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
+        
         $sql = "SELECT id  FROM videos  WHERE clean_title = '{$clean_title}' LIMIT 1";
         //echo $sql;
         $res = $global['mysqli']->query($sql);
