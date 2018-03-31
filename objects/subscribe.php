@@ -103,7 +103,12 @@ class Subscribe {
         $res = $global['mysqli']->query($sql);
         $subscribe = array();
         if ($res) {
+            $emails = array();
             while ($row = $res->fetch_assoc()) {
+                if(in_array($row['email'], $emails)){
+                    continue;
+                }
+                $emails[] = $row['email'];
                 $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
                 if($row['identification'] === __("Unknown User")){
                     $row['identification'] = $row['email'];
