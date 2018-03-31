@@ -108,8 +108,9 @@ class Subscribe {
                 if($row['identification'] === __("Unknown User")){
                     $row['identification'] = $row['email'];
                 }
-                $row['backgroundURL'] = User::getBackground($row['users_id']);
-                $row['photoURL'] = User::getPhoto($row['users_id']);
+                $user = User::findByEmail($row['email']);
+                $row['backgroundURL'] = User::getBackground($user['id']);
+                $row['photoURL'] = User::getPhoto($user['id']);
                 
                 $subscribe[] = $row;
             }
