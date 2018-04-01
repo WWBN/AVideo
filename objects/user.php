@@ -401,6 +401,20 @@ class User {
         }
         return $user;
     }
+    
+    static function findByEmail($email) {
+        global $global;
+
+        $sql = "SELECT * FROM users WHERE email = '$email'  LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+
+        if ($res) {
+            $user = $res->fetch_assoc();
+        } else {
+            $user = false;
+        }
+        return $user;
+    }
 
     static private function getUserDb($id) {
         global $global;
