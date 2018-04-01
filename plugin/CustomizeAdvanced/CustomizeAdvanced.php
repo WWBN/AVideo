@@ -39,6 +39,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableAnimatedGif = false;
         $obj->uploadButtonDropdownIcon = "fa fa-video-camera";
         $obj->uploadButtonDropdownText = "";
+        $obj->commentsMaxLength = 200;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
