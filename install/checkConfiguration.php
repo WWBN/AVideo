@@ -2,6 +2,7 @@
 
 $installationVersion = "4.10";
 
+
 header('Content-Type: application/json');
 
 $obj = new stdClass();
