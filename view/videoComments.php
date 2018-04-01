@@ -3,7 +3,7 @@ if (User::canSeeCommentTextarea()) {
     if (!empty($video['id'])) {
         ?>
         <div class="input-group">
-            <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php
+            <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="<?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>" <?php
             if (!User::canComment()) {
                 echo "disabled";
             }
@@ -25,7 +25,7 @@ if (User::canSeeCommentTextarea()) {
         <div class="pull-right" id="count_message"></div>
         <script>
             $(document).ready(function () {
-                var text_max = 200;
+                var text_max = <?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>;
                 $('#count_message').html(text_max + ' <?php echo __("remaining"); ?>');
                 $('#comment').keyup(function () {
                     var text_length = $(this).val().length;

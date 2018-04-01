@@ -51,7 +51,6 @@
     RewriteRule    ^getDownloadProgress$ objects/downloadVideoProgress.php    [NC,L]
     RewriteRule    ^status$ objects/status.json.php    [NC,L]
 
-    RewriteRule    ^feed$ feed.php    [NC,L]
     RewriteRule    ^about$ view/about.php    [NC,L]
     RewriteRule    ^contact$ view/contact.php    [NC,L]
     RewriteRule    ^sendEmail$ objects/sendEmail.json.php    [NC,L]
