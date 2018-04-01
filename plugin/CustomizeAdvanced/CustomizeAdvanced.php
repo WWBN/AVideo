@@ -37,6 +37,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showAdsenseBannerOnTop = false;
         $obj->showAdsenseBannerOnLeft = true;
         $obj->disableAnimatedGif = false;
+        $obj->uploadButtonDropdownIcon = "fa fa-video-camera";
+        $obj->uploadButtonDropdownText = "";
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
