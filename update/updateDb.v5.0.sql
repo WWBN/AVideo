@@ -19,4 +19,4 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-UPDATE configurations SET  version = '4.10', modified = now() WHERE id = 1;
+UPDATE configurations SET  version = '5.0', modified = now() WHERE id = 1;
