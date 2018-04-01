@@ -100,7 +100,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `comment` VARCHAR(255) NOT NULL,
+  `comment` TEXT NOT NULL,
   `videos_id` INT NOT NULL,
   `users_id` INT NOT NULL,
   `created` DATETIME NOT NULL,
