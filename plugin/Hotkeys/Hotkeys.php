@@ -6,7 +6,7 @@ class Hotkeys extends PluginAbstract {
 
     public function getDescription() {
         global $global;
-        return "Enable hotkeys for videos, like F for fullscreen, space for play/pause, etc..";
+        return "Enable hotkeys for videos, like F for fullscreen, space for play/pause, etc..<br />Author: <a href='http://hersche.github.io' target='_blank' >Vinzenz Hersche</a>";
     }
 
     public function getName() {

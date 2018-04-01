@@ -148,9 +148,11 @@ a.h6{
 }
 
 .popover-title { 
-    color: inherit !important; filter: brightness(100%); 
+    color: black;
+    background-color: lightgray;
 } 
 
 .popover-content{
-    color: inherit !important; filter: brightness(200%); 
+    color: black !important; 
+    background-color: lightgray;
 }
