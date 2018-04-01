@@ -53,7 +53,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         decideMoveUploadedToVideos($tmp_name, $filenameMP4);
 
 
-    /*    if (YouPHPTubePlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) {
+        if ((YouPHPTubePlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9"))&&($extension=="mp4")) {
             require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
             $videoFileName = $video->getFilename();
             MP4ThumbsAndGif::getImage($videoFileName, 'jpg');
@@ -63,7 +63,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
             $videoFileName = $video->getFilename();
             MP4ThumbsAndGifLocal::getImage($videoFileName, 'jpg');
             MP4ThumbsAndGifLocal::getImage($videoFileName, 'gif');
-        }*/
+        }
 //    } else if(($extension=="mp3")||($extension=="ogg")){
         
   //  }
