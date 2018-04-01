@@ -101,13 +101,18 @@ $totalPages = ceil($total / $_POST['rowCount']);
                 }).on('page', function (event, num) {
                 <?php
                     $url = '';
+                    $args = '';
+                    if(strpos($_SERVER['REQUEST_URI'],"?")!=false){
+                        $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'],"?"), strlen($_SERVER['REQUEST_URI']));
+                    }
+		    echo 'var args = "'.$args.'";';
                     if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                         $url = $global['webSiteRootURL'] . "page/";
                     } else {
                         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
                     }
                 ?>
-                    window.location.replace("<?php echo $url; ?>" + num);
+                    window.location.replace("<?php echo $url; ?>" + num + args);
                 });
             });
         </script>
