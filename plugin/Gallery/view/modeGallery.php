@@ -132,7 +132,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
             <div class="col-sm-10 col-sm-offset-1 list-group-item">
   
                 <?php
-                if (!empty($videos)) {
+                if ((!empty($videos))||($obj->SubCategorys)) {
                     $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                     ?>
@@ -158,18 +158,24 @@ $totalPages = ceil($total / $_POST['rowCount']);
                <div class="clear clearfix" >
                     <div class="row">
                         <h2 style="margin-top: 30px;">
-                            <?php echo __("Category-Gallery"); ?>
+                            <?php echo __("Sub-Category-Gallery"); ?>
                             <span class="badge"><?php echo count($category); ?></span>
                         </h2>
                         <?php
                             $countCols = 0;
+                            $originalCat = $_GET['catName'];
                             unset($_POST['sort']);
                             $_POST['sort']['title'] = "ASC";
                             //$_POST['rowCount'] = 12;
                             foreach ($category as $cat) {
+                                
                                 $_GET['catName'] = $cat['clean_name'];
+                                $description = $cat['description'];
                                 //$_GET['limitOnceToOne'] = "1";
                                 $videos = Video::getAllVideos();
+                                //
+                                unset($_GET['catName']);
+                                if(!empty($videos)){
                                 foreach ($videos as $value) {
                                     $name = User::getNameIdentificationById($value['users_id']);
                                     // make a row each 6 cols
@@ -186,7 +192,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                  //   $imgGif = $images->thumbsGif;
                                 //}
                                 $poster = $images->thumbsJpg;
-                                $description = $cat['description'];
+                                
                                 /*if($o->LiteGalleryMaxTooltipChars > 4){ 
                                     if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
                                         $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
@@ -217,12 +223,48 @@ $totalPages = ceil($total / $_POST['rowCount']);
                         </div>        
                     <?php
                         break;
-                                }
+                                } } else { ?>
+                                                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>" >
+                            <?php
+                               // $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                               // if(!$o->LiteGalleryNoGifs){
+                                 //   $imgGview/img/notfound.jpgif = $images->thumbsGif;
+                                //}
+                                $poster = $global['webSiteRootURL']."view/img/notfound.jpg";
+                                $description = $cat['description'];
+                                /*if($o->LiteGalleryMaxTooltipChars > 4){ 
+                                    if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
+                                        $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
+                                    }
+                                } else {
+                                    $description = "";
+                                } */
+                            ?>
+                                <div class="aspectRatio16_9">
+                                    <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $cat['id']; ?>" />
+                            <?php
+                                    $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = ".$cat['id'].";");
+                            ?>
+                                </div>
+                                <div class="videoInfo">
+                            <?php if ($videoCount) { ?>
+                                    <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
+                            <?php } ?>
+                                </div>        
+                                <div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                        <?php echo $cat['name']; ?>
+                                </div>
+                            </a>
+                        </div>    
+                            <?php    }
                             }
+                            unset($_POST['sort']);
+                            $_GET['catName'] = $originalCat;
                     ?>
                 </div>
         </div>
-                                                                     
+                                                                  
                                                                      
                                                                      
                                                                      
@@ -238,9 +280,23 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                                      
                                                                      
                             
-      <?php      } ?>
+      <?php      } } 
+                
+                $videos = Video::getAllVideos("viewableNotAd");
+foreach ($videos as $key => $value) {
+    $name = empty($value['name']) ? $value['user'] : $value['name'];
+    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
+}
+                if (!empty($videos)) { 
+                    $name = User::getNameIdentificationById($video['users_id']);
+                    $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
+                    ?>
+                        <?php if($obj->SubCategorys==false){ ?>
+                    <div class="row mainArea">
                         
-                        <?php if ($obj->BigVideo) { ?>
+                        
+                        
+                        <?php } if ($obj->BigVideo) { ?>
                             <div class="clear clearfix">
                                 <div class="row thumbsImage">
                                     <div class="col-sm-6">
