@@ -122,9 +122,10 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     <?php
                     unset($_POST['sort']);
                     $_POST['sort']['views_count'] = "DESC";
+		    $_SESSION['type'] = "audio";
                     $videos = Video::getAllVideos();
+		    unset($_SESSION['type']);
                     foreach ($videos as $value) {
-                        if(($o->separateAudio)&&($value['type']=="audio")){
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
                         $imgGif = $images->thumbsGif;
@@ -158,7 +159,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             <div class="arrow-down" style="display: none;"></div>
                         </div>
                         <?php
-                    } }
+                    }
                     ?>
                 </div>
                 <div class="poster list-group-item" style="display: none;">
