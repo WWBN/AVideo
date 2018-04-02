@@ -9,7 +9,7 @@ ALTER TABLE `configurations`
 ADD COLUMN `disable_youtubeupload` INT(1) NOT NULL DEFAULT 0;
 
 ALTER TABLE `categories` 
-ADD `description` TEXT NOT NULL AFTER `clean_name`;
+ADD `description` TEXT NULL AFTER `clean_name`;
 
 ALTER TABLE `categories` 
 ADD `nextVideoOrder` INT(2) NOT NULL DEFAULT '0' AFTER `description`;
