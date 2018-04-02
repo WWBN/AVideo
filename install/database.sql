@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `clean_name` VARCHAR(45) NOT NULL,
-  `description` TEXT NOT NULL, 
+  `description` TEXT NULL, 
   `nextVideoOrder` INT(2) NOT NULL DEFAULT '0',
   `parentId` INT NOT NULL DEFAULT '0',
   `created` DATETIME NOT NULL,
