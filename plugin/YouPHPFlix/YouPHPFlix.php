@@ -32,6 +32,7 @@ class YouPHPFlix extends PluginAbstract {
         $obj->LiteDesignGenericNrOfRows = 10;
         $obj->SortByName = false;
         $obj->separateAudio = false;
+        $obj->SubCategorys = false;
         return $obj;
     }
         

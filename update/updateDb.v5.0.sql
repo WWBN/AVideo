@@ -14,6 +14,8 @@ ADD `description` TEXT NOT NULL AFTER `clean_name`;
 ALTER TABLE `categories` 
 ADD `nextVideoOrder` INT(2) NOT NULL DEFAULT '0' AFTER `description`;
 
+ALTER TABLE `categories` 
+ADD `parentId` INT NOT NULL DEFAULT '0' AFTER `nextVideoOrder`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

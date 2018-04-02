@@ -41,6 +41,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         <th data-column-id="clean_name"><?php echo __("Clean Name"); ?></th>
                         <th data-column-id="description"><?php echo __("Description"); ?></th>
                         <th data-column-id="nextVideoOrder" data-formatter="nextVideoOrder"><?php echo __("Next video order"); ?></th>
+                        <th data-column-id="parentId"><?php echo __("Parent ID"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
                     </tr>
                 </thead>
@@ -67,8 +68,18 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                         <option value="0"><?php echo __("Random"); ?></option>
                                         <option value="1"><?php echo __("By name"); ?></option>
                                   </select>
-
-
+                                <div><label for="inputNextVideoOrder"><?php echo __("Parent-Category"); ?></label>
+                                <select class="form-control" id="inputParentId">
+                                    <option value="0">None</option>
+                                <?php
+                                    $cats = Category::getAllCategories();
+                                    foreach($cats as $cat){
+                                        echo "<option value='".$cat['id']."' >".$cat['name']."</option>";
+                                    }
+                                    
+                                    ?>
+                                </select>
+                                </div>
                                 <div class="btn-group">
                                     <button data-selected="graduation-cap" type="button" class="icp iconCat btn btn-default dropdown-toggle iconpicker-component" data-toggle="dropdown">
                                         <?php echo __("Select an icon for the category"); ?>  <i class="fa fa-fw"></i>
@@ -132,6 +143,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         $('#inputCleanName').val(row.clean_name);
                         $('#inputDescription').val(row.description);
                         $('#inputNextVideoOrder').val(row.nextVideoOrder);
+                        $('#inputParentId').val(row.parentId);
                         $(".iconCat i").attr("class", row.iconClass);
 
                         $('#categoryFormModal').modal();
@@ -184,6 +196,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     $('#inputName').val('');
                     $('#inputCleanName').val('');
                     $('#inputDescription').val('');
+                    $('#inputParentId').val('0');
 
                     $('#categoryFormModal').modal();
                 });
@@ -197,7 +210,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'addNewCategory',
-                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#inputDescription').val(),"nextVideoOrder": $('#inputNextVideoOrder').val(), "iconClass": $(".iconCat i").attr("class")},
+                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#inputDescription').val(),"nextVideoOrder": $('#inputNextVideoOrder').val(),"parentId": $('#inputParentId').val(), "iconClass": $(".iconCat i").attr("class")},
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {
