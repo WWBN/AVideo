@@ -50,11 +50,11 @@ unset($_SESSION['type']);
                              $currentCat;
                              foreach($category as $cat){
                                  if($cat['clean_name']==$_GET['catName']){
-                                     $currentCat=$cat['id'];
+                                     $currentCat=$cat;
                                  }
                              }
                       //      echo "<ul>";
-                            $category = Category::getChildCategories($currentCat);
+                            $category = Category::getChildCategories($currentCat['id']);
                         //  foreach(Category::getChildCategories($currentCat) as $subCat){
                           //    echo "<li><a href='".$global['webSiteRootURL']."cat/".$subCat['clean_name']."'>".$subCat['name']."</li>";
                           //}
@@ -73,6 +73,12 @@ unset($_SESSION['type']);
                             <span class="badge"><?php echo count($category); ?></span>
                         </h2>
                         <?php
+                        if(($currentCat['parentId']!="0")&&($currentCat['parentId']!="-1")){
+                            $parentCat = new Category($currentCat['parentId']);
+                            ?>
+                        <a style="margin-bottom: 20px;" class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat->getClean_name(); ?>"><?php echo __("Back to")." ".$parentCat->getName(); ?> </a>
+                        <?php
+                        }
                             $countCols = 0;
                             $originalCat = $_GET['catName'];
                             unset($_POST['sort']);

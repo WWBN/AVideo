@@ -153,6 +153,8 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                      $currentCat=$cat;
                                  }
                              }
+                        // -1 is a personal workaround only
+
                             $category = Category::getChildCategories($currentCat['id']);
         		    if(!empty($category)){
                                 ?>                                                          
@@ -163,6 +165,12 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             <span class="badge"><?php echo count($category); ?></span>
                         </h2>
                         <?php
+                        if(($currentCat['parentId']!="0")&&($currentCat['parentId']!="-1")){
+                            $parentCat = new Category($currentCat['parentId']);
+                            ?>
+                        <a style="margin-bottom: 20px;" class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat->getClean_name(); ?>"><?php echo __("Back to")." ".$parentCat->getName(); ?> </a>
+                        <?php
+                        }
                             $countCols = 0;
                             $originalCat = $_GET['catName'];
                             unset($_POST['sort']);
