@@ -12,6 +12,70 @@
             <?php } ?>
         </audio>
     </div>
+    <script>
+        $(document).ready(function () {
+        player = videojs('mainAudio');
+ player.ready(function () {
+<?php
+if ($config->getAutoplay()) {
+    echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainAudio');}player.play();}, 150);";
+} else {
+    ?>
+                if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                    setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainAudio');} player.play();}, 150);                    
+                }
+<?php }
+?>
+<?php if (!empty($logId)) { ?>
+                isPlayingAd = true;
+                this.on('ended', function () {
+                    console.log("Finish Audio");
+                    if (isPlayingAd) {
+                        isPlayingAd = false;
+                        $('#adButton').trigger("click");
+                    }
+    <?php
+    // if autoplay play next video
+    if (!empty($autoPlayVideo)) {
+        ?>
+                        else if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                            document.location = '<?php echo $autoPlayVideo['url']; ?>';
+                        }
+        <?php
+    }
+    ?>
 
+                });
+                this.on('timeupdate', function () {
+                    var durationLeft = fullDuration - this.currentTime();
+                    $("#adUrl .time").text(secondsToStr(durationLeft + 1, 2));
+    <?php if (!empty($ad['skip_after_seconds'])) {
+        ?>
+                        if (isPlayingAd && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
+                            $('#adButton').fadeIn();
+                        }
+    <?php }
+    ?>
+                });
+<?php } else {
+    ?>
+                this.on('ended', function () {
+                    console.log("Finish Audio");
+    <?php
+    // if autoplay play next video
+    if (!empty($autoPlayVideo)) {
+        ?>
+                        if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                            document.location = '<?php echo $autoPlayVideo['url']; ?>';
+                        }
+        <?php
+    }
+    ?>
+
+                });
+<?php }
+?>
+        }); });
+    </script>
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
 </div><!--/row-->
