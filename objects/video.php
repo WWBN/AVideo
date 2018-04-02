@@ -261,7 +261,11 @@ class Video {
     }
 
     static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
-        global $global;
+        global $global, $config;
+        // there is no c.description 
+        if($config->currentVersionLowerThen('5')){
+            return false;
+        }
         $id = intval($id);
 
         $result = $global['mysqli']->query("SHOW TABLES LIKE 'likes'");
@@ -410,8 +414,12 @@ class Video {
      * @return boolean
      */
     static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
-        global $global;
-        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description,c.parentId as category_parentId, v.created as videoCreation, v.modified as videoModified, "
+        global $global, $config;
+        // there is no c.description
+        if($config->currentVersionLowerThen('5')){
+            return false;
+        }
+        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified, "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
