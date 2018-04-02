@@ -145,6 +145,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     <?php } ?>
                         
         <?php  if(($obj->SubCategorys)&&(!empty($_GET['catName']))) {
+                            unset($_POST['rowCount']);
                             $category = Category::getAllCategories();
                              $currentCat;
                              foreach($category as $cat){
@@ -153,7 +154,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                  }
                              }
                             $category = Category::getChildCategories($currentCat);
-        
+        		    if(!empty($category)){
                                 ?>                                                          
                <div class="clear clearfix" >
                     <div class="row">
@@ -258,7 +259,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                             </a>
                         </div>    
                             <?php    }
-                            }
+                            } 
                             unset($_POST['sort']);
                             $_GET['catName'] = $originalCat;
                     ?>
@@ -280,7 +281,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                                      
                                                                      
                             
-      <?php      } } 
+      <?php      } } }
                 
                 $videos = Video::getAllVideos("viewableNotAd");
 foreach ($videos as $key => $value) {
