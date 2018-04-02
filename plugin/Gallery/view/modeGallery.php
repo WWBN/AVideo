@@ -150,10 +150,10 @@ $totalPages = ceil($total / $_POST['rowCount']);
                              $currentCat;
                              foreach($category as $cat){
                                  if($cat['clean_name']==$_GET['catName']){
-                                     $currentCat=$cat['id'];
+                                     $currentCat=$cat;
                                  }
                              }
-                            $category = Category::getChildCategories($currentCat);
+                            $category = Category::getChildCategories($currentCat['id']);
         		    if(!empty($category)){
                                 ?>                                                          
                <div class="clear clearfix" >
