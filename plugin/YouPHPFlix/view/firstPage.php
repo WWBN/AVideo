@@ -92,7 +92,9 @@ unset($_SESSION['type']);
                                 
                                 $_GET['catName'] = $cat['clean_name'];
                                 $description = $cat['description'];
-                                //$_GET['limitOnceToOne'] = "1";
+                                unset($_POST['sort']);
+                                $_POST['sort']['title'] = "ASC";
+                                $_GET['limitOnceToOne'] = "1";
                                 $videos = Video::getAllVideos();
                                 //
                                 unset($_GET['catName']);
@@ -610,15 +612,16 @@ unset($_SESSION['type']);
                             foreach ($category as $cat) {
                                 // -1 is only a personal workaround
 				if(($cat['parentId']=="0")||($cat['parentId']=="-1")){
+                    
                                 $_GET['catName'] = $cat['clean_name'];
                                 $_GET['limitOnceToOne'] = "1";
                                 $videos = Video::getAllVideos();
                                 $i = 0;
-                                $subcats
                                 if(empty($videos)){
                                     $subcats = Category::getChildCategories($cat['parentId']);
                                     foreach($subcats as $sCat){
                                         $i = $i + 1;
+                                        $_POST['sort']['title'] = "ASC";
                                         $_GET['catName'] = $sCat['clean_name'];
                                         $_GET['limitOnceToOne'] = "1";
                                         $videos = Video::getAllVideos();
