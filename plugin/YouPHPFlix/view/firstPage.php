@@ -613,6 +613,20 @@ unset($_SESSION['type']);
                                 $_GET['catName'] = $cat['clean_name'];
                                 $_GET['limitOnceToOne'] = "1";
                                 $videos = Video::getAllVideos();
+                                $i = 0;
+                                $subcats
+                                if(empty($videos)){
+                                    $subcats = Category::getChildCategories($cat['parentId']);
+                                    foreach($subcats as $sCat){
+                                        $i = $i + 1;
+                                        $_GET['catName'] = $sCat['clean_name'];
+                                        $_GET['limitOnceToOne'] = "1";
+                                        $videos = Video::getAllVideos();
+                                        if((!empty($videos))||($i>10)){
+                                            break;
+                                        }
+                                    }
+                                }
                                 foreach ($videos as $value) {
                                     $name = User::getNameIdentificationById($value['users_id']);
                                     // make a row each 6 cols
