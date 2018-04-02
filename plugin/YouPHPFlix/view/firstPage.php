@@ -20,6 +20,7 @@ if(("http://".$url===$global['webSiteRootURL']."videoOnly")||("https://".$url===
 }
 $category = Category::getAllCategories();
 $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
+unset($_SESSION['type']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,14 +60,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             //echo "</ul></div>";
         
                                 ?>                                     
-                                                                     
-                                                                     
-                                                                     
-                                                                     
-                                                                     
-                                                                     
-                                                                     
-                                                                     
+                                         
                                                                      
                                                                      
                <div class="clear clearfix" >
@@ -77,13 +71,19 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                         </h2>
                         <?php
                             $countCols = 0;
+                            $originalCat = $_GET['catName'];
                             unset($_POST['sort']);
                             $_POST['sort']['title'] = "ASC";
                             //$_POST['rowCount'] = 12;
                             foreach ($category as $cat) {
+                                
                                 $_GET['catName'] = $cat['clean_name'];
+                                $description = $cat['description'];
                                 //$_GET['limitOnceToOne'] = "1";
                                 $videos = Video::getAllVideos();
+                                //
+                                unset($_GET['catName']);
+                                if(!empty($videos)){
                                 foreach ($videos as $value) {
                                     $name = User::getNameIdentificationById($value['users_id']);
                                     // make a row each 6 cols
@@ -100,7 +100,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                  //   $imgGif = $images->thumbsGif;
                                 //}
                                 $poster = $images->thumbsJpg;
-                                $description = $cat['description'];
+                                
                                 /*if($o->LiteGalleryMaxTooltipChars > 4){ 
                                     if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
                                         $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
@@ -131,8 +131,44 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                         </div>        
                     <?php
                         break;
-                                }
+                                } } else { ?>
+                                                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>" >
+                            <?php
+                               // $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                               // if(!$o->LiteGalleryNoGifs){
+                                 //   $imgGview/img/notfound.jpgif = $images->thumbsGif;
+                                //}
+                                $poster = $global['webSiteRootURL']."view/img/notfound.jpg";
+                                $description = $cat['description'];
+                                /*if($o->LiteGalleryMaxTooltipChars > 4){ 
+                                    if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
+                                        $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
+                                    }
+                                } else {
+                                    $description = "";
+                                } */
+                            ?>
+                                <div class="aspectRatio16_9">
+                                    <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $cat['id']; ?>" />
+                            <?php
+                                    $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = ".$cat['id'].";");
+                            ?>
+                                </div>
+                                <div class="videoInfo">
+                            <?php if ($videoCount) { ?>
+                                    <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
+                            <?php } ?>
+                                </div>        
+                                <div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                        <?php echo $cat['name']; ?>
+                                </div>
+                            </a>
+                        </div>    
+                            <?php    }
                             }
+                            unset($_POST['sort']);
+                            $_GET['catName'] = $originalCat;
                     ?>
                 </div>
         </div>
