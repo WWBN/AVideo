@@ -43,8 +43,116 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         ?>
 
         <div class="container-fluid" style="display: none;"> 
-
-<?php  if($o->DateAdded) { ?>
+        <?php  if(($o->SubCategorys)&&(!empty($_GET['catName']))) {
+                            $category = Category::getAllCategories();
+                             $currentCat;
+                             foreach($category as $cat){
+                                 if($cat['clean_name']==$_GET['catName']){
+                                     $currentCat=$cat['id'];
+                                 }
+                             }
+                      //      echo "<ul>";
+                            $category = Category::getChildCategories($currentCat);
+                        //  foreach(Category::getChildCategories($currentCat) as $subCat){
+                          //    echo "<li><a href='".$global['webSiteRootURL']."cat/".$subCat['clean_name']."'>".$subCat['name']."</li>";
+                          //}
+                            //echo "</ul></div>";
+        
+                                ?>                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+               <div class="clear clearfix" >
+                    <div class="row">
+                        <h2 style="margin-top: 30px;">
+                            <?php echo __("Sub-Category-Gallery"); ?>
+                            <span class="badge"><?php echo count($category); ?></span>
+                        </h2>
+                        <?php
+                            $countCols = 0;
+                            unset($_POST['sort']);
+                            $_POST['sort']['title'] = "ASC";
+                            //$_POST['rowCount'] = 12;
+                            foreach ($category as $cat) {
+                                $_GET['catName'] = $cat['clean_name'];
+                                //$_GET['limitOnceToOne'] = "1";
+                                $videos = Video::getAllVideos();
+                                foreach ($videos as $value) {
+                                    $name = User::getNameIdentificationById($value['users_id']);
+                                    // make a row each 6 cols
+                                    if ($countCols % 6 === 0) {
+                                        echo '</div><div class="row aligned-row ">';
+                                    }
+                                    $countCols++;
+                        ?>
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>" >
+                            <?php
+                                $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                               // if(!$o->LiteGalleryNoGifs){
+                                 //   $imgGif = $images->thumbsGif;
+                                //}
+                                $poster = $images->thumbsJpg;
+                                $description = $cat['description'];
+                                /*if($o->LiteGalleryMaxTooltipChars > 4){ 
+                                    if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
+                                        $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
+                                    }
+                                } else {
+                                    $description = "";
+                                } */
+                            ?>
+                                <div class="aspectRatio16_9">
+                                    <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+                            <?php
+                                if ((!empty($imgGif))&&(!$o->LiteGalleryNoGifs)) {
+                            ?>
+                                    <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                            <?php   }
+                                    $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = ".$value['categories_id'].";");
+                            ?>
+                                </div>
+                                <div class="videoInfo">
+                            <?php if ($videoCount) { ?>
+                                    <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
+                            <?php } ?>
+                                </div>        
+                                <div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                        <?php echo $cat['name']; ?>
+                                </div>
+                            </a>
+                        </div>        
+                    <?php
+                        break;
+                                }
+                            }
+                    ?>
+                </div>
+        </div>
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                            
+      <?php      }  if($o->DateAdded) { ?>
             <div class="row">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date added (newest)"); ?>
@@ -431,7 +539,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
             
             
             
-            if($o->LiteGallery){
+            if(($o->LiteGallery)&&(empty($_GET['catName']))){
                 ?>
                <div class="clear clearfix">
                     <div class="row">

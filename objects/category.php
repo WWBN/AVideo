@@ -12,6 +12,7 @@ class Category {
     private $description;
     private $iconClass;
     private $nextVideoOrder;
+    private $parentId;
 
     function setName($name) {
         $this->name = $name;
@@ -26,6 +27,10 @@ class Category {
         $this->nextVideoOrder = $nextVideoOrder;
     }
 
+    function setParentId($parentId) {
+        $this->parentId = $parentId;
+    }
+    
     function setDescription($description) {
         $this->description = $description;
     }
@@ -56,9 +61,9 @@ class Category {
             $this->isAdmin = "false";
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',description = '{$this->description}',nextVideoOrder = '{$this->nextVideoOrder}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',description = '{$this->description}',nextVideoOrder = '{$this->nextVideoOrder}',parentId = '{$this->parentId}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO categories ( name,clean_name,description,nextVideoOrder,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}','{$this->description}','{$this->nextVideoOrder}', '{$this->getIconClass()}',now(), now())";
+            $sql = "INSERT INTO categories ( name,clean_name,description,nextVideoOrder,parentId,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}','{$this->description}','{$this->nextVideoOrder}','{$this->parentId}', '{$this->getIconClass()}',now(), now())";
         }
         $resp = $global['mysqli']->query($sql);
         if (empty($resp)) {
@@ -100,6 +105,26 @@ class Category {
     static function getAllCategories() {
         global $global;
         $sql = "SELECT * FROM categories WHERE 1=1 ";         
+        
+        $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
+        
+        $res = $global['mysqli']->query($sql);
+        $category = array();
+        if ($res) {
+            while ($row = $res->fetch_assoc()) {
+                $category[] = $row;
+            }
+            //$category = $res->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $category = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $category;
+    }
+    
+    static function getChildCategories($parentId) {
+        global $global;
+        $sql = "SELECT * FROM categories WHERE parentId=".$parentId." AND id != ".$parentId." ";         
         
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
         
