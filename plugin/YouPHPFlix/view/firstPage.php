@@ -10,6 +10,7 @@ require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$haveVideos = false;
 $isAudioOnly = false;
 if(("http://".$url===$global['webSiteRootURL']."audioOnly")||("https://".$url===$global['webSiteRootURL']."audioOnly")){
     $isAudioOnly = true;
@@ -43,7 +44,7 @@ unset($_SESSION['type']);
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
-        <div class="container-fluid" style="display: none;"> 
+        <div class="container-fluid" id="mainContainer" style="display: none;"> 
         <?php  if(($o->SubCategorys)&&(!empty($_GET['catName']))) {
                             $category = Category::getAllCategories();
                              $currentCat;
@@ -62,7 +63,11 @@ unset($_SESSION['type']);
                                 ?>                                     
                                          
                                                                      
-                                                                     
+                         <script>
+
+    setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
+
+</script>                                            
                <div class="clear clearfix" >
                     <div class="row">
                         <h2 style="margin-top: 30px;">
@@ -188,7 +193,14 @@ unset($_SESSION['type']);
                                                                      
                                                                      
                             
-      <?php      }  if($o->DateAdded) { ?>
+      <?php      }
+
+            $videos = Video::getAllVideos();
+           
+            unset($_SESSION['type']);
+            if(!empty($videos)){
+            $haveVideos = true;
+            if($o->DateAdded) { ?>
             <div class="row">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date added (newest)"); ?>
@@ -569,8 +581,7 @@ unset($_SESSION['type']);
                     </div>
                 </div>
                 <?php
-            } } 
-            
+            } } } 
             
             
             
@@ -705,11 +716,11 @@ unset($_SESSION['type']);
                     } ?> 
                     </div>
             </div> 
-            <?php }
+            <?php } //if($haveVideos){
             ?>
         </div>
         <div id="loading" class="loader" style="width: 30vh; height: 30vh; position: absolute; left: 50%; top: 50%; margin-left: -15vh; margin-top: -15vh;"></div>
-
+        <?php //} ?>
         <div class="webui-popover-content" id="popover">
             <?php
             if (User::isLogged()) {
@@ -761,7 +772,9 @@ unset($_SESSION['type']);
 
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.pkgd.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
+        <?php if($haveVideos){ ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/script.js" type="text/javascript"></script>
+        <?php } ?>
         <script>
             $(function () {
 
