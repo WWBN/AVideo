@@ -124,7 +124,7 @@ class Category {
     
     static function getChildCategories($parentId) {
         global $global;
-        $sql = "SELECT * FROM categories WHERE parentId=".$parentId." AND id != ".$parentId." ";         
+        $sql = "SELECT * FROM categories WHERE parentId=".$parentId." AND id!=".$parentId." ";         
         
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
         
