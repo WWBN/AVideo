@@ -27,6 +27,9 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
         ?>
 
         <div class="container">
+                    <?php
+        include 'include/updateCheck.php';
+        ?>
             <?php
             if (User::isAdmin()) {
                 ?>
@@ -433,7 +436,29 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
                                                         </div>
                                                     </div>
-
+                                                    
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Disable Youtube-Upload"); ?></label>
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="disable_youtubeupload" id="disable_youtubeupload" value="1" <?php
+                                                            if (!empty($config->getDisable_youtubeupload())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?> >
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
+                                                        <label class="col-md-2"><?php echo __("Disable right-click-prevention on video and allow downloading"); ?></label>
+                                                        <div class="col-md-10">
+                                                            <input data-toggle="toggle" type="checkbox" name="disable_rightclick" id="allow_download" value="1" <?php
+                                                            if (!empty($config->getAllow_download())) {
+                                                                echo "checked";
+                                                            }
+                                                            ?> aria-describedby="allow_downloadHelp">
+                                                            <small id="allow_downloadHelp" class="form-text text-muted"><?php echo __("This creates a download-button under your video, suggest you title.mp4 as download-name."); ?></small>
+                                                        </div>
+                                                    </div>
 
 
                                                     <div class="form-group">
@@ -672,6 +697,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "adsense": $('#adsense').val(),
                                             "mode": $('#mode').val(),
                                             "disable_analytics": $('#disable_analytics').prop("checked"),
+                                            "disable_youtubeupload": $('#disable_youtubeupload').prop("checked"),
+                                            "allow_download": $("#allow_download").prop("checked"),
                                             "session_timeout": $('#session_timeout').val(),
                                             "autoplay": $('#autoplay').prop("checked"),
                                             "theme": theme,

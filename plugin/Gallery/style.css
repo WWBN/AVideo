@@ -146,3 +146,13 @@ h3.galleryTitle{
 a.h6{
     text-decoration: none !important;
 }
+
+.popover-title { 
+    color: black;
+    background-color: lightgray;
+} 
+
+.popover-content{
+    color: black !important; 
+    background-color: lightgray;
+}

@@ -150,6 +150,9 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
         ?>
 
         <div class="container-fluid">
+                    <?php
+        include 'include/updateCheck.php';
+        ?>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#menu0"><i class="fa fa-plug"></i> Installed Plugins</a></li>
                 <li><a data-toggle="tab" href="#menu1"><i class="fa fa-cart-plus"></i> Plugins Store</a></li>
