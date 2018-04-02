@@ -262,7 +262,7 @@ class Video {
 
     static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
         global $global, $config;
-        // there is no c.description
+        // there is no c.description 
         if($config->currentVersionLowerThen('5')){
             return false;
         }
