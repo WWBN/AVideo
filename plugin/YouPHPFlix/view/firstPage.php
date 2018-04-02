@@ -54,9 +54,14 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     $_POST['sort']['created'] = "DESC";
                     $_POST['current'] = 1;
                     $_POST['rowCount'] = 20;
+                    if(($isVideoOnly)||(($o->separateAudio)&&($isAudioOnly==false))){
+                        $_SESSION['type'] = "video";
+                    } else if($isAudioOnly) {
+                        $_SESSION['type'] = "audio";
+                    }
                     $videos = Video::getAllVideos();
+                    unset($_SESSION['type']);
                     foreach ($videos as $value) {
-                        if((($o->separateAudio==false)&&($isAudioOnly==false)&&($isVideoOnly==false))||(($isAudioOnly)&&($value['type']=="audio"))||(($isVideoOnly)&&($value['type']=="video"))||(($o->separateAudio)&&($isAudioOnly==false)&&($isVideoOnly==false)&&($value['type']=="video"))){
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
                         $imgGif = $images->thumbsGif;
@@ -90,7 +95,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             <div class="arrow-down" style="display: none;"></div>
                         </div>
                         <?php
-                    } }
+                    } 
                     ?>
                 </div>
                 <div class="poster list-group-item" style="display: none;">
@@ -191,9 +196,14 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     <?php
                     unset($_POST['sort']);
                     $_POST['sort']['views_count'] = "DESC";
+                    if(($isVideoOnly)||(($o->separateAudio)&&($isAudioOnly==false))){
+                        $_SESSION['type'] = "video";
+                    } else if($isAudioOnly) {
+                        $_SESSION['type'] = "audio";
+                    }
                     $videos = Video::getAllVideos();
+                    unset($_SESSION['type']);
                     foreach ($videos as $value) {
-                        if((($o->separateAudio==false)&&($isAudioOnly==false)&&($isVideoOnly==false))||(($isAudioOnly)&&($value['type']=="audio"))||(($isVideoOnly)&&($value['type']=="video"))||(($o->separateAudio)&&($isAudioOnly==false)&&($isVideoOnly==false)&&($value['type']=="video"))){
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
                         $imgGif = $images->thumbsGif;
@@ -227,7 +237,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             <div class="arrow-down" style="display: none;"></div>
                         </div>
                         <?php
-                    } }
+                    } 
                     ?>
                 </div>
                 <div class="poster list-group-item" style="display: none;">
@@ -258,9 +268,14 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     <?php
                     unset($_POST['sort']);
                     $_POST['sort']['likes'] = "DESC";
+                    if(($isVideoOnly)||(($o->separateAudio)&&($isAudioOnly==false))){
+                        $_SESSION['type'] = "video";
+                    } else if($isAudioOnly) {
+                        $_SESSION['type'] = "audio";
+                    }
                     $videos = Video::getAllVideos();
+                    unset($_SESSION['type']);
                     foreach ($videos as $value) {
-                        if((($o->separateAudio==false)&&($isAudioOnly==false)&&($isVideoOnly==false))||(($isAudioOnly)&&($value['type']=="audio"))||(($isVideoOnly)&&($value['type']=="video"))||(($o->separateAudio)&&($isAudioOnly==false)&&($isVideoOnly==false)&&($value['type']=="video"))){
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
                         $imgGif = $images->thumbsGif;
@@ -294,7 +309,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             <div class="arrow-down" style="display: none;"></div>
                         </div>
                         <?php
-                    } }
+                    } 
                     ?>
                 </div>
                 <div class="poster list-group-item" style="display: none;">
@@ -333,7 +348,13 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                 $_GET['catName'] = $cat['clean_name'];
                 //$_POST['rowCount'] = 18;
                 //$_POST['current'] = 1;
+                if(($isVideoOnly)||(($o->separateAudio)&&($isAudioOnly==false))){
+                    $_SESSION['type'] = "video";
+                } else if($isAudioOnly) {
+                    $_SESSION['type'] = "audio";
+                }
                 $videos = Video::getAllVideos();
+                unset($_SESSION['type']);
                 if (empty($videos)) {
                     continue;
                 }
@@ -348,7 +369,6 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                     <div class="carousel">
                         <?php
                         foreach ($videos as $value) {
-                        if((($o->separateAudio==false)&&($isAudioOnly==false)&&($isVideoOnly==false))||(($isAudioOnly)&&($value['type']=="audio"))||(($isVideoOnly)&&($value['type']=="video"))||(($o->separateAudio)&&($isAudioOnly==false)&&($isVideoOnly==false)&&($value['type']=="video"))){
                             $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
                             $imgGif = $images->thumbsGif;
@@ -382,7 +402,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                 <div class="arrow-down" style="display: none;"></div>
                             </div>
                             <?php
-                        } }
+                        } 
                         ?>
                     </div>
                     <div class="poster list-group-item" style="display: none;">
