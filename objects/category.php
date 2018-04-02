@@ -22,13 +22,24 @@ class Category {
         preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
         $this->clean_name = $clean_name;
     }
+    function getClean_name() {
+        return $this->clean_name;
+    }
     
+    function getName() {
+        return $this->name;
+    }
     function setNextVideoOrder($nextVideoOrder) {
         $this->nextVideoOrder = $nextVideoOrder;
     }
 
     function setParentId($parentId) {
         $this->parentId = $parentId;
+    }
+   
+    
+    function getParentId() {
+        return $parentId;
     }
     
     function setDescription($description) {
@@ -49,6 +60,7 @@ class Category {
         $category = self::getCategory($id);
         $this->id = $category['id'];
         $this->name = $category['name'];
+        $this->setClean_name(strtolower($category['name']));
     }
 
     function loadSelfCategory() {
