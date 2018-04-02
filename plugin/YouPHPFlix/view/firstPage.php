@@ -63,11 +63,9 @@ unset($_SESSION['type']);
                                 ?>                                     
                                          
                                                                      
-                         <script>
-
-    setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
-
-</script>                                            
+        <script>
+    		setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
+	</script>                                            
                <div class="clear clearfix" >
                     <div class="row">
                         <h2 style="margin-top: 30px;">
@@ -600,6 +598,8 @@ unset($_SESSION['type']);
                             $_POST['sort']['title'] = "ASC";
                             //$_POST['rowCount'] = 12;
                             foreach ($category as $cat) {
+                                // -1 is only a personal workaround
+				if(($cat['parentId']=="0")||($cat['parentId']=="-1")){
                                 $_GET['catName'] = $cat['clean_name'];
                                 $_GET['limitOnceToOne'] = "1";
                                 $videos = Video::getAllVideos();
@@ -651,7 +651,7 @@ unset($_SESSION['type']);
                     <?php
                         break;
                                 }
-                            }
+                            } }
                     ?>
                 </div>
         </div>                
@@ -772,9 +772,9 @@ unset($_SESSION['type']);
 
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.pkgd.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
-        <?php if($haveVideos){ ?>
+        <?php // if($haveVideos){ ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/script.js" type="text/javascript"></script>
-        <?php } ?>
+        <?php // } ?>
         <script>
             $(function () {
 
