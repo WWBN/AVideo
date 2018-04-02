@@ -58,7 +58,9 @@ if (!empty($_GET['video_id'])) {
         ?>
 
         <div class="container">
-
+        <?php
+        include 'include/updateCheck.php';
+        ?>
             <div class="btn-group" >
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
@@ -143,9 +145,11 @@ if (!empty($_GET['video_id'])) {
                 <button class="btn btn-secondary" id="checkBtn">
                     <i class="fa fa-square-o" aria-hidden="true" id="chk"></i>
                 </button>
+                <?php if (!$config->getDisable_youtubeupload()) { ?>
                 <button class="btn btn-danger" id="uploadYouTubeBtn">
                     <i class="fa fa-youtube-play" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
-                </button>                
+                </button>
+                <?php } ?>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <?php echo __('Categories'); ?> <span class="caret"></span></button>
@@ -368,7 +372,7 @@ if (!empty($_GET['video_id'])) {
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <?php
-            if (User::isAdmin()) {
+            if ((User::isAdmin())&&(!$config->getDisable_youtubeupload())) {
                 ?>
                 <div class="alert alert-info">
                     <h1><span class="fa fa-youtube"></span> Let us upload your video to YouTube</h1>
@@ -660,6 +664,7 @@ if (!empty($row)) {
                                                 $(this).prop('checked', !chk);
                                             });
                                         });
+                                        <?php if (!$config->getDisable_youtubeupload()) { ?>
                                         $("#uploadYouTubeBtn").click(function () {
                                             modal.showPleaseWait();
                                             var vals = [];
@@ -693,6 +698,7 @@ if (!empty($row)) {
                                                 }
                                             });
                                         });
+                                        <?php } ?>
                                         $("#deleteBtn").click(function () {
                                             swal({
                                                 title: "<?php echo __("Are you sure?"); ?>",
@@ -794,9 +800,17 @@ if (!empty($row)) {
                                                         return editBtn + deleteBtn;
                                                     }
 
-                                                    var nextIsSet = "<span class='label label-success'>Next video done</span>";
-                                                    if (row.next_video == null || row.next_video.length == 0) {
-                                                        nextIsSet = "<span class='label label-danger'>Next video NOT set</span>";
+                                                    var nextIsSet;
+                                                    if(row.next_video == null || row.next_video.length==0){
+                                                            nextIsSet="<span class='label label-danger'>Next video NOT set</span>";
+                                                    } else {
+                                                        var nextVideoTitle;
+                                                        if(row.next_video.title.length>20){
+                                                            nextVideoTitle = row.next_video.title.substring(0,18)+"..";
+                                                        } else {
+                                                           nextVideoTitle = row.next_video.title; 
+                                                        }
+                                                        nextIsSet="<span class='label label-success' data-toggle='tooltip' title='"+row.next_video.title+"'>Next video: "+nextVideoTitle+"</span>";
                                                     }
                                                     return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + "<br>" + download + nextIsSet;
 
@@ -818,7 +832,9 @@ if (!empty($row)) {
                                                 "titleTag": function (column, row) {
                                                     var tags = "";
                                                     var youTubeLink = "", youTubeUpload = "";
+                                                    <?php if (!$config->getDisable_youtubeupload()) { ?>
                                                     youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
+                                                    
                                                     if (row.youtubeId) {
                                                         //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                                                     }
@@ -826,6 +842,7 @@ if (!empty($row)) {
                                                     if (row.status == "d" || row.status == "e") {
                                                         yt = "";
                                                     }
+                                                    <?php } else { echo "yt='';"; } ?>
                                                     if (row.status !== "a") {
                                                         tags += '<div id="encodeProgress' + row.id + '"></div>';
                                                     }

@@ -25,8 +25,42 @@ if (!empty($_GET['type'])) {
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
+if($obj->sortReverseable){
+    if(strpos($_SERVER['REQUEST_URI'],"?")!=false){
+        $orderString = $_SERVER['REQUEST_URI']."&";
+    } else {
+        $orderString =  $_SERVER['REQUEST_URI']."/?";
+    }
+    $orderString = str_replace("&&","&",$orderString);
+    $orderString = str_replace("//","/",$orderString);
 
-
+    function createOrderInfo($getName,$mostWord,$lessWord,$orderString){
+        $upDown = "";
+        $mostLess = "";
+        $tmpOrderString = $orderString;
+        if($_GET[$getName]=="DESC"){
+            if(strpos($orderString,$getName."=DESC")){
+                $tmpOrderString =  substr($orderString,0,strpos($orderString,$getName."=DESC")).$getName."=ASC".substr($orderString,strpos($orderString,$getName."=DESC")+strlen($getName."=DESC"),strlen($orderString));
+            } else {
+                $tmpOrderString .= $getName."=ASC";
+            }
+                $upDown = "<span class='glyphicon glyphicon-arrow-up' >".__("Up")."</span>";
+                $mostLess = $mostWord;
+        } else {
+            if(strpos($orderString,$getName."=ASC")){
+                $tmpOrderString =  substr($orderString,0,strpos($orderString,$getName."=ASC")).$getName."=DESC".substr($orderString,strpos($orderString,$getName."=ASC")+strlen($getName."=ASC"),strlen($orderString));
+            } else {
+                $tmpOrderString .= $getName."=DESC";
+            }
+            $upDown = "<span class='glyphicon glyphicon-arrow-down'>".__("Down")."</span>";
+            $mostLess = $lessWord;
+        }
+        if(substr($tmpOrderString,strlen($tmpOrderString)-1,strlen($tmpOrderString))=="&"){
+                $tmpOrderString = substr($tmpOrderString,0,strlen($tmpOrderString)-1);
+        }
+        return array($tmpOrderString,$upDown,$mostLess);
+    }
+}
 $video = Video::getVideo("", "viewableNotAd", false, false, true);
 if (empty($video)) {
     $video = Video::getVideo("", "viewableNotAd");
@@ -65,19 +99,23 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     page: <?php echo $_GET['page']; ?>,
                     maxVisible: 10
                 }).on('page', function (event, num) {
-<?php
-$url = '';
-if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
-    $url = $global['webSiteRootURL'] . "page/";
-} else {
-    $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
-}
-?>
-                    window.location.replace("<?php echo $url; ?>" + num);
+                <?php
+                    $url = '';
+                    $args = '';
+                    if(strpos($_SERVER['REQUEST_URI'],"?")!=false){
+                        $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'],"?"), strlen($_SERVER['REQUEST_URI']));
+                    }
+		    echo 'var args = "'.$args.'";';
+                    if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
+                        $url = $global['webSiteRootURL'] . "page/";
+                    } else {
+                        $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
+                    }
+                ?>
+                    window.location.replace("<?php echo $url; ?>" + num + args);
                 });
             });
         </script>
-
     </head>
 
     <body>
@@ -97,8 +135,9 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                     $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                     ?>
-                    <?php if (!$obj->BigVideo) { ?>
+                    <?php if (($obj->CategoryDescription)&&(!empty($_GET['catName']))) { ?>
                         <h1 style="text-align: center;"><?php echo $video['category']; ?></h1>
+                        <p style="margin-left: 10%; margin-right: 10%; max-height: 200px; overflow-x:auto;"><?php echo $video['category_description']; ?></p>
                     <?php } ?>
                     <div class="row mainArea">
 
@@ -209,17 +248,22 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-list-alt"></i> <?php
-                                    echo __("Sort by name");
-                                    if (!empty($_GET['page'])) {
-                                        echo " (Page " . $_GET['page'] . ")";
+                                    if(empty($_GET["sortByNameOrder"])){
+                                        $_GET["sortByNameOrder"]="ASC";
                                     }
+                                 if($obj->sortReverseable){   
+                                   $info = createOrderInfo("sortByNameOrder","zyx","abc",$orderString);
+                                    echo __("Sort by name (".$info[2].")")." (Page " . $_GET['page'] . ") <a href='".$info[0]."' >".$info[1]."</a>";
+                                } else {
+                                   echo __("Sort by name (abc)"); 
+                                }
                                     ?>
                                 </h3>
                                 <div class="row">
                                     <?php
                                     $countCols = 0;
                                     unset($_POST['sort']);
-                                    $_POST['sort']['title'] = "ASC";
+                                    $_POST['sort']['title'] = $_GET['sortByNameOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->SortByNameRowCount;
                                     $videos = Video::getAllVideos();
@@ -289,7 +333,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php
                                                     if ((!empty($value['description'])) && ($obj->Description)) {
                                                         ?>
-                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                                        <button type="button" data-trigger="focus"  class="btn btn-xs" style="background-color: inherit; color: inherit;"  data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
                                                 <?php
@@ -321,17 +365,24 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                                    echo __("Date Added (newest)");
-                                    if (!empty($_GET['page'])) {
-                                        echo " (Page " . $_GET['page'] . ")";
+                                    if(empty($_GET["dateAddedOrder"])){
+                                        $_GET["dateAddedOrder"]="DESC";
                                     }
+                                if($obj->sortReverseable){   
+                                   $info = createOrderInfo("dateAddedOrder","newest","oldest",$orderString);
+                                    echo __("Date added (".$info[2].")")." (Page " . $_GET['page'] . ") <a href='".$info[0]."' >".$info[1]."</a>";
+                                } else {
+                                   echo __("Date added (newest)"); 
+                                }
+                        
+                        
                                     ?>
                                 </h3>
                                 <div class="row">
                                     <?php
                                     $countCols = 0;
                                     unset($_POST['sort']);
-                                    $_POST['sort']['created'] = 'desc';
+                                    $_POST['sort']['created'] = $_GET['dateAddedOrder'];
                                     $_POST['rowCount'] = $obj->DateAddedRowCount;
                                     $videos = Video::getAllVideos();
                                     foreach ($videos as $value) {
@@ -398,7 +449,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php
                                                     if ((!empty($value['description'])) && ($obj->Description)) {
                                                         ?>
-                                                        <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                                        <button type="button" class="btn btn-xs"   data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
                                                 <?php
@@ -430,17 +481,23 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-eye-open"></i> <?php
-                                    echo __("Most watched");
-                                    if (!empty($_GET['page'])) {
-                                        echo " (Page " . $_GET['page'] . ")";
+
+                                    if(empty($_GET['mostWatchedOrder'])){
+                                        $_GET['mostWatchedOrder']="DESC";
                                     }
+                                if($obj->sortReverseable){   
+                                   $info = createOrderInfo("mostWatchedOrder","Most","Lessest",$orderString);
+                                    echo __($info[2]." watched")." (Page " . $_GET['page'] . ") <a href='".$info[0]."' >".$info[1]."</a>";
+                                } else {
+                                   echo __("Most watched"); 
+                                }
                                     ?>
                                 </h3>
                                 <div class="row">
                                     <?php
                                     $countCols = 0;
                                     unset($_POST['sort']);
-                                    $_POST['sort']['views_count'] = "desc";
+                                    $_POST['sort']['views_count'] = $_GET['mostWatchedOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostWatchedRowCount;
                                     $videos = Video::getAllVideos();
@@ -509,7 +566,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php
                                                     if ((!empty($value['description'])) && ($obj->Description)) {
                                                         ?>
-                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div style='color: white;' ><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
                                                 <?php
@@ -538,17 +595,22 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-thumbs-up"></i> <?php
-                                    echo __("Most popular");
-                                    if (!empty($_GET['page'])) {
-                                        echo " (Page " . $_GET['page'] . ")";
+                                    if(empty($_GET['mostPopularOrder'])){
+                                        $_GET['mostPopularOrder']="DESC";
                                     }
+                                if($obj->sortReverseable){   
+                                   $info = createOrderInfo("mostPopularOrder","Most","Lessest",$orderString);
+                                    echo __($info[2]." popular")." (Page " . $_GET['page'] . ") <a href='".$info[0]."' >".$info[1]."</a>";
+                                } else {
+                                   echo __("Most popular"); 
+                                }
                                     ?>
                                 </h3>
                                 <div class="row">
                                     <?php
                                     $countCols = 0;
                                     unset($_POST['sort']);
-                                    $_POST['sort']['likes'] = "desc";
+                                    $_POST['sort']['likes'] = $_GET['mostPopularOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostPopularRowCount;
                                     $videos = Video::getAllVideos();
@@ -617,7 +679,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                                     <?php
                                                     if ((!empty($value['description'])) && ($obj->Description)) {
                                                         ?>
-                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                                        <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
                                                     <?php } ?>
                                                 </div>
                                                 <?php

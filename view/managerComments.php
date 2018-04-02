@@ -25,6 +25,9 @@ require_once $global['systemRootPath'] . 'objects/comment.php';
         ?>
 
         <div class="container">
+                    <?php
+        include 'include/updateCheck.php';
+        ?>
             <?php
             include './videoComments.php';
             ?>

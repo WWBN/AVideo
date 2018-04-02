@@ -39,7 +39,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 <?php  if($o->DateAdded) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date Added (newest)"); ?>
+                    <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php echo __("Date added (newest)"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
@@ -96,8 +96,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -107,7 +107,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 <?php } if($o->MostWatched) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most Watched"); ?>
+                    <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
@@ -163,8 +163,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -173,7 +173,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
         <?php } if($o->MostPopular) { ?>
             <div class="row">
                 <h2>
-                    <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most Popular"); ?>
+                    <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); ?>
                 </h2>
                 <div class="carousel">
                     <?php
@@ -229,8 +229,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                             Text
                         </div>
                         <div class="footerBtn" style="display: none;">                             
-                            <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                            <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                         </div>
 
                     </div>
@@ -316,8 +316,8 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                 Text
                             </div>
                             <div class="footerBtn" style="display: none;">                             
-                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> Play</a>
-                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> My List</button>
+                                <a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                                <button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
                             </div>
 
                         </div>
@@ -335,7 +335,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                <div class="clear clearfix">
                     <div class="row">
                         <h2 style="margin-top: 30px;">
-                            <i class="<?php echo $cat['iconClass']; ?>"></i>Category-Gallery
+                            <i class="<?php echo $cat['iconClass']; ?>"></i><?php echo __("Category-Gallery"); ?>
                             <span class="badge"><?php echo count($category); ?></span>
                         </h2>
                         <?php
@@ -363,13 +363,21 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     $imgGif = $images->thumbsGif;
                                 }
                                 $poster = $images->thumbsJpg;
+                                $description = $cat['description'];
+                                if($o->LiteGalleryMaxTooltipChars > 4){ 
+                                    if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
+                                        $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
+                                    }
+                                } else {
+                                    $description = "";
+                                }
                             ?>
                                 <div class="aspectRatio16_9">
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+                                    <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                             <?php
                                 if ((!empty($imgGif))&&(!$o->LiteGalleryNoGifs)) {
                             ?>
-                                    <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                                    <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                             <?php   }
                                     $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = ".$value['categories_id'].";");
                             ?>
@@ -379,7 +387,7 @@ $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
                                     <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
                             <?php } ?>
                                 </div>        
-                                <div class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                <div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
                                 </div>
                             </a>

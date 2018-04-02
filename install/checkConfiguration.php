@@ -1,6 +1,7 @@
 <?php
 
-$installationVersion = "4.91";
+$installationVersion = "5.0";
+
 
 header('Content-Type: application/json');
 

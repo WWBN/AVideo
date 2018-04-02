@@ -23,6 +23,9 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <div class="container">
+                    <?php
+        include 'include/updateCheck.php';
+        ?>
             <div class="btn-group" >
                 <button type="button" class="btn btn-default" id="addUserBtn">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User"); ?>
