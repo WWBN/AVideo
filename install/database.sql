@@ -479,7 +479,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE `category_type_cache` (
   `categoryId` int(11) NOT NULL,
-  `type` int(2) NOT NULL COMMENT '0=both, 1=audio, 2=video',
+  `type` int(2) NOT NULL COMMENT '0=both, 1=audio, 2=video' DEFAULT 0,
   `manualSet` int(1) NOT NULL COMMENT '0=auto, 1=manual' DEFAULT 0
     
 ) ENGINE=InnoDB;
