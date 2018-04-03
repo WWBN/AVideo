@@ -211,34 +211,34 @@ echo $config->getWebSiteTitle();
                         if ((! empty($category)) || (($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1"))) {
                             ?>                                                          
                <div class="clear clearfix">
-					<div class="row">
+					
                         <?php
                             if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
                                 $parentCat = Category::getCategory($currentCat['parentId']);
                                 ?>
-                        <a class="btn btn-primary"
+                        <div><a class="btn btn-primary"
 							href="<?php
                                 echo $global['webSiteRootURL'];
                                 ?>cat/<?php
                                 echo $parentCat['clean_name'];
                                 ?>"><?php
                                 echo __("Back to") . " " . $parentCat['name'];
-                                ?> </a>
+                                ?> </a></div>
                         <?php
                             }
                             
                             if (! empty($category)) {
-                                ?> <h2 style="margin-top: 30px;">
+                                ?> <h3 class="galleryTitle"><i class="glyphicon glyphicon-download"></i>
                             <?php
                                 echo __("Sub-Category-Gallery");
                                 ?>
                             <span class="badge"><?php
                                 echo count($category);
                                 ?></span>
-						</h2>
+						</h3>
                         <?php
                             }
-                            
+                            echo '<div class="row">';
                             $countCols = 0;
                             $originalCat = $_GET['catName'];
                             unset($_POST['sort']);
