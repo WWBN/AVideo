@@ -472,8 +472,26 @@ echo $global['webSiteRootURL'];
 
             <?php
             }
-            
             if (($o->separateAudio) && ($isAudioOnly == false) && ($isVideoOnly == false)) {
+                
+                   unset($_POST['sort']);
+		        $_POST['sort']['created'] = "DESC";
+                $_SESSION['type'] = "audio";
+                $videos = Video::getAllVideos();
+                unset($_SESSION['type']);
+                
+                // check, if we are in a 
+                $ok = true;
+                if((!empty($_GET['catName']))){
+                    if(!empty($videos)){
+                $catType = Category::getCategoryType($videos[0]['id']);
+                if(($catType['type']!="1")||($catType['type']!="0")){
+                    // echo "hidden cause of video-type";
+                    $ok = false;
+                }} else {
+                   $ok = false; 
+                } }
+                if($ok){
                 ?>
             <div class="row">
 			<h2>
@@ -483,11 +501,7 @@ echo $global['webSiteRootURL'];
                 </h2>
 			<div class="carousel">
                     <?php
-                unset($_POST['sort']);
-		$_POST['sort']['created'] = "DESC";
-                $_SESSION['type'] = "audio";
-                $videos = Video::getAllVideos();
-                unset($_SESSION['type']);
+
                 foreach ($videos as $value) {
                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
                     $imgGif = $images->thumbsGif;
@@ -591,8 +605,8 @@ echo $global['webSiteRootURL'];
 			</div>
 		</div>
             
-<?php
-            }
+<?php } 
+            } //there
             
             if ($o->MostWatched) {
                 ?>
@@ -1038,9 +1052,8 @@ echo $global['webSiteRootURL'];
             // $_POST['rowCount'] = 12;
             
             foreach ($category as $cat) {
-                
+                $catType = Category::getCategoryType($cat['id']);
                 // -1 is only a personal workaround
-                
                 if (($cat['parentId'] == "0") || ($cat['parentId'] == "-1")) {
                     $_GET['catName'] = $cat['clean_name'];
                     $_GET['limitOnceToOne'] = "1";
@@ -1185,8 +1198,16 @@ echo $global['webSiteRootURL'];
                         if ($videoCount) {
                             ?>
                                     <span class="label label-default"
-								style="top: 10px !important; position: absolute;"><i
-								class="glyphicon glyphicon-cd"></i> <?php
+								style="top: 10px !important; position: absolute;"> <?php
+                            
+                            if($catType){
+                            if(($catType['type']==0)||($catType['type']==2)){
+                                echo '<i class="glyphicon glyphicon-cd"></i>';
+                            } else {
+                               echo '<i class="glyphicon glyphicon-music"></i>'; 
+                            }
+                            }
+                            
                             echo $videoCount->fetch_array()[0];
                             ?></span>
                             <?php

@@ -13,6 +13,7 @@ class Category {
     private $iconClass;
     private $nextVideoOrder;
     private $parentId;
+    private $type;
 
     function setName($name) {
         $this->name = $name;
@@ -31,7 +32,32 @@ class Category {
         $this->parentId = $parentId;
     }
    
-    
+    function setType($type){
+        global $global;
+        $exist = false;
+        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$this->id."';";
+        $res = $global['mysqli']->query($sql);
+        $catTypeCache = $res->fetch_assoc();
+        if($catTypeCache){
+            $exist = true;
+        }
+
+        if($type=="3"){ 
+            if($exist){
+                $sql = "UPDATE `category_type_cache` SET `type` = '0', `manualSet` = '0' WHERE `category_type_cache`.`categoryId` = '".$this->id."';";
+            } else {
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES ('".$this->id."', '0','0')";
+            }
+            $res = $global['mysqli']->query($sql);
+        } else {
+            if($exist){
+                $sql = "UPDATE `category_type_cache` SET `type` = '".$type."', `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = '".$this->id."';";
+            } else {
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES ('".$this->id."', '".$type."','1')";
+            }
+            $res = $global['mysqli']->query($sql);
+        }
+    }
     
     function setDescription($description) {
         $this->description = $description;
@@ -96,6 +122,12 @@ class Category {
         return $resp;
     }
 
+    static function getCategoryType($categoryId){
+        global $global;
+        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$categoryId."';";
+        $res = $global['mysqli']->query($sql);
+        return ($res) ? $res->fetch_assoc() : false;
+    }
     static function getCategory($id) {
         global $global;
         $id = intval($id);

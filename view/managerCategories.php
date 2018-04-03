@@ -42,6 +42,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         <th data-column-id="description"><?php echo __("Description"); ?></th>
                         <th data-column-id="nextVideoOrder" data-formatter="nextVideoOrder"><?php echo __("Next video order"); ?></th>
                         <th data-column-id="parentId"><?php echo __("Parent ID"); ?></th>
+                        <th data-column-id="type" data-formatter="type"><?php echo __("Type"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
                     </tr>
                 </thead>
@@ -68,7 +69,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                         <option value="0"><?php echo __("Random"); ?></option>
                                         <option value="1"><?php echo __("By name"); ?></option>
                                   </select>
-                                <div><label for="inputNextVideoOrder"><?php echo __("Parent-Category"); ?></label>
+                                <div><label for="inputParentId"><?php echo __("Parent-Category"); ?></label>
                                 <select class="form-control" id="inputParentId">
                                     <option value="0">None</option>
                                 <?php
@@ -78,6 +79,14 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                     }
                                     
                                     ?>
+                                </select>
+                                </div>
+                                <div><label for="inputType"><?php echo __("Type"); ?></label>
+                                <select class="form-control" id="inputType">
+                                    <option value="3"><?php echo __("Auto"); ?></option>
+                                    <option value="0"><?php echo __("Both"); ?></option>
+                                    <option value="1"><?php echo __("Audio"); ?></option>
+                                    <option value="2"><?php echo __("Video"); ?></option>
                                 </select>
                                 </div>
                                 <div class="btn-group">
@@ -124,6 +133,19 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                 return "<?php echo __("By name"); ?>";
                             }
                         },
+                        "type": function(column, row){
+                            if(row.type=='3'){
+                                return "<?php echo __("Auto"); ?>";
+                            } else if(row.type=='0'){
+                                return "<?php echo __("Both"); ?>";
+                            } else if(row.type=='1'){
+                                return "<?php echo __("Audio"); ?>";
+                            } else if(row.type=='2'){
+                                return "<?php echo __("Video"); ?>";
+                            } else {
+                                return "<?php echo __("Invalid"); ?>";
+                            }
+                        },
                         "commands": function (column, row)
                         {
                             var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
@@ -144,6 +166,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         $('#inputDescription').val(row.description);
                         $('#inputNextVideoOrder').val(row.nextVideoOrder);
                         $('#inputParentId').val(row.parentId);
+                        $('#inputType').val(row.type);
                         $(".iconCat i").attr("class", row.iconClass);
 
                         $('#categoryFormModal').modal();
@@ -197,7 +220,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     $('#inputCleanName').val('');
                     $('#inputDescription').val('');
                     $('#inputParentId').val('0');
-
+                    $('#inputType').val('3');
                     $('#categoryFormModal').modal();
                 });
 
@@ -210,7 +233,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'addNewCategory',
-                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#inputDescription').val(),"nextVideoOrder": $('#inputNextVideoOrder').val(),"parentId": $('#inputParentId').val(), "iconClass": $(".iconCat i").attr("class")},
+                        data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#inputDescription').val(),"nextVideoOrder": $('#inputNextVideoOrder').val(),"parentId": $('#inputParentId').val(),"type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {
