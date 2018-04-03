@@ -598,10 +598,13 @@ unset($_SESSION['type']);
             
             if(($o->LiteGallery)&&(empty($_GET['catName']))){
                 ?>
+                    <script>
+    		setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
+	</script>
                <div class="clear clearfix">
                     <div class="row">
                         <h2 style="margin-top: 30px;">
-                            <i class="<?php echo $cat['iconClass']; ?>"></i><?php echo __("Category-Gallery"); ?>
+                            <?php echo __("Category-Gallery"); ?>
                             <span class="badge"><?php echo count($category); ?></span>
                         </h2>
                         <?php
@@ -610,25 +613,59 @@ unset($_SESSION['type']);
                             $_POST['sort']['title'] = "ASC";
                             //$_POST['rowCount'] = 12;
                             foreach ($category as $cat) {
+                                
                                 // -1 is only a personal workaround
 				if(($cat['parentId']=="0")||($cat['parentId']=="-1")){
-                    
                                 $_GET['catName'] = $cat['clean_name'];
                                 $_GET['limitOnceToOne'] = "1";
+                                $_SESSION['type']="video";
                                 $videos = Video::getAllVideos();
                                 $i = 0;
+                                // when this cat has no video for preview..
                                 if(empty($videos)){
-                                    $subcats = Category::getChildCategories($cat['parentId']);
+                                    
+                                    // First: search in subcats for videos for preview. Makes more sense since audio has none
+                                    // if, after 10 tries nothing is media is found, it gives up.
+                                    unset($_POST['sort']);
+                                    $subcats = Category::getChildCategories($cat['id']);
                                     foreach($subcats as $sCat){
                                         $i = $i + 1;
                                         $_POST['sort']['title'] = "ASC";
                                         $_GET['catName'] = $sCat['clean_name'];
                                         $_GET['limitOnceToOne'] = "1";
                                         $videos = Video::getAllVideos();
-                                        if((!empty($videos))||($i>10)){
+                                        if((!empty($videos))||($i>10)){  
                                             break;
                                         }
                                     }
+                                    $i=0;
+                                    // if still empty, take a audio for the same
+                                    // this can be done much easier, but it's a good place to make a diffrent between pure audio-cat's and video/mixed and separate them (collect in array), other foreach after = audio-cat-gallery
+                                    if(empty($videos)){
+                                        $_POST['sort']['title'] = "ASC";
+                                        $_GET['catName'] = $cat['clean_name'];
+                                        $_GET['limitOnceToOne'] = "1";
+                                        $_SESSION['type']="audio";
+                                        $videos = Video::getAllVideos();
+                                    }
+                                    
+                                    $i=0;
+                                    // maybe sub-cat's have audio? eventually i will remove this.. 
+                                    if(empty($videos)){
+                                        foreach($subcats as $sCat){
+                                        $i = $i + 1;
+                                        $_POST['sort']['title'] = "ASC";
+                                        $_GET['catName'] = $sCat['clean_name'];
+                                        $_GET['limitOnceToOne'] = "1";
+                                        $_SESSION['type']="audio";
+                                        $videos = Video::getAllVideos();
+                                        if((!empty($videos))||($i>10)){
+                                            
+                                            break;
+                                        }
+                                    }
+                                    }
+                                    
                                 }
                                 foreach ($videos as $value) {
                                     $name = User::getNameIdentificationById($value['users_id']);
