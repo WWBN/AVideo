@@ -355,7 +355,7 @@ $advancedCustom = json_decode($json_file);
 
     }
         $refererUrl = $_SERVER["HTTP_REFERER"];
-        if(strpos($_SERVER["HTTP_REFERER"],"?error=You%20can%20not%20manage")!=false){
+        if(strpos($_SERVER["HTTP_REFERER"],"?error=".__("You%20can%20not%20manage"))!=false){
             $refererUrl = substr($_SERVER["HTTP_REFERER"],0,strpos($_SERVER["HTTP_REFERER"],"?"));
         }
     ?>
