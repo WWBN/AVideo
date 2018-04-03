@@ -178,31 +178,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             }
                                             ?>
 
-
-                                            <?php
-                                            if (modRewriteEnabled()) {
-                                                ?>
-                                                <div class="alert alert-success">
-                                                    <span class="glyphicon glyphicon-check"></span>
-                                                    <strong>Mod Rewrite module is Present</strong>
-                                                </div>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <div class="alert alert-danger">
-                                                    <span class="glyphicon glyphicon-unchecked"></span>
-                                                    <strong>Mod Rewrite is not enabled</strong>
-                                                    <details>
-                                                        In order to use mod_rewrite you can type the following command in the terminal:<br>
-                                                        <pre><code>a2enmod rewrite</code></pre><br>
-                                                        Restart apache2 after<br>
-                                                        <pre><code>/etc/init.d/apache2 restart</code></pre>
-                                                    </details>
-                                                </div>
-                                                <?php
-                                            }
-                                            ?>
-
                                             <?php
                                             if (checkVideosDir()) {
                                                 ?>

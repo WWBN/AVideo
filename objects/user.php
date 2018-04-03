@@ -499,6 +499,7 @@ class User {
             while ($row = $res->fetch_assoc()) {
                 $row['groups'] = UserGroups::getUserGroups($row['id']);
                 $row['tags'] = self::getTags($row['id']);
+                $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
                 $user[] = $row;
             }
             //$user = $res->fetch_all(MYSQLI_ASSOC);
