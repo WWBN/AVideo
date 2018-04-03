@@ -484,7 +484,7 @@ echo $global['webSiteRootURL'];
 			<div class="carousel">
                     <?php
                 unset($_POST['sort']);
-                $_POST['sort']['views_count'] = "DESC";
+		$_POST['sort']['created'] = "DESC";
                 $_SESSION['type'] = "audio";
                 $videos = Video::getAllVideos();
                 unset($_SESSION['type']);
