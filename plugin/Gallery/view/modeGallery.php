@@ -162,9 +162,9 @@ $totalPages = ceil($total / $_POST['rowCount']);
                     <div class="row">
                         <?php 
                         if(($currentCat['parentId']!=0)&&($currentCat['parentId']!=-1)){
-                            $parentCat = new Category($currentCat['parentId']);
+                            $parentCat = Category::getCategory($currentCat['parentId']);
                             ?>
-                        <a  class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat->getClean_name(); ?>"><?php echo __("Back to")." ".$parentCat->getName(); ?> </a>
+                        <a  class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to")." ".$parentCat['name']; ?> </a>
                         <?php
                         }
                          if(!empty($category)) { ?> <h2 style="margin-top: 30px;">
@@ -884,7 +884,7 @@ foreach ($videos as $key => $value) {
             
 
 
-        </div>
+            </div> </div>
         <?php
         include 'include/footer.php';
         ?>

@@ -70,9 +70,9 @@ unset($_SESSION['type']);
                     <div class="row">
 
                         <?php if(($currentCat['parentId']!="0")&&($currentCat['parentId']!="-1")){
-                            $parentCat = new Category($currentCat['parentId']);
+                            $parentCat = Category::getCategory($currentCat['parentId']);
                             ?>
-                        <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat->getClean_name(); ?>"><?php echo __("Back to")." ".$parentCat->getName(); ?> </a>
+                        <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to")." ".$parentCat['name']; ?> </a>
                         <?php
                         }
     
@@ -597,6 +597,8 @@ unset($_SESSION['type']);
             
             
             if(($o->LiteGallery)&&(empty($_GET['catName']))){
+                //$catCount = $global['mysqli']->query("SELECT COUNT(name) FROM categories WHERE parentId = 0 OR parentId = -1;");
+                $_GET['parentsOnly']="1";
                 ?>
                     <script>
     		setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
@@ -605,7 +607,7 @@ unset($_SESSION['type']);
                     <div class="row">
                         <h2 style="margin-top: 30px;">
                             <?php echo __("Category-Gallery"); ?>
-                            <span class="badge"><?php echo count($category); ?></span>
+                            <span class="badge"><?php echo Category::getTotalCategories() ?></span>
                         </h2>
                         <?php
                             $countCols = 0;
