@@ -1433,7 +1433,7 @@ echo $global['webSiteRootURL'];
 echo $global['webSiteRootURL'];
 ?>plugin/YouPHPFlix/view/js/script.js"
 		type="text/javascript"></script>
-        <?php 
+        <?php unset($_SESSION['type']);
 // }
         
         ?>
