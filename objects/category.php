@@ -156,7 +156,10 @@ class Category {
 
     static function getTotalCategories() {
         global $global;
-        $sql = "SELECT id FROM categories WHERE 1=1  ";
+        $sql = "SELECT id, parentId FROM categories WHERE 1=1 ";
+        if(!empty($_GET['parentsOnly'])){
+            $sql .= "AND parentId = 0 OR parentId = -1 ";
+        }
         $sql .= BootGrid::getSqlSearchFromPost(array('name'));
 
         $res = $global['mysqli']->query($sql);
