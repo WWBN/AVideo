@@ -856,6 +856,10 @@ echo $global['webSiteRootURL'];
             }
             
             if ($o->DefaultDesign) {
+                $catNameEmpty = false;
+                if(empty($_GET['catName'])){
+                    $catNameEmpty = true;
+                }
                 foreach ($category as $cat) {
                     $_GET['catName'] = $cat['clean_name'];
                     
@@ -1001,6 +1005,9 @@ echo $global['webSiteRootURL'];
 			</div>
 		</div>
                 <?php
+                }
+                if($catNameEmpty){
+                    unset($_GET['catName']);
                 }
             }
         }
