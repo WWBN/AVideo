@@ -17,4 +17,5 @@ $obj->setDescription(nl2br ($_POST['description']));
 $obj->setIconClass($_POST['iconClass']);
 $obj->setNextVideoOrder($_POST['nextVideoOrder']);
 $obj->setParentId($_POST['parentId']);
+$obj->setType($_POST['type']);
 echo '{"status":"'.$obj->save().'"}';
