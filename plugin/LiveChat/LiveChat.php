@@ -31,7 +31,8 @@ class LiveChat extends PluginAbstract{
         global $global;
         $server = parse_url($global['webSiteRootURL']);
         $obj = new stdClass();
-        $obj->websocket = "ws://{$server['host']}:8888";
+        $obj->port = "8888";
+        $obj->websocket = "ws://{$server['host']}:{$obj->port}";
         return $obj;
     }
     
