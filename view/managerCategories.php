@@ -41,7 +41,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         <th data-column-id="clean_name"><?php echo __("Clean Name"); ?></th>
                         <th data-column-id="description"><?php echo __("Description"); ?></th>
                         <th data-column-id="nextVideoOrder" data-formatter="nextVideoOrder"><?php echo __("Next video order"); ?></th>
-                        <th data-column-id="parentId"><?php echo __("Parent ID"); ?></th>
+                        <th data-column-id="parentId" data-formatter="parentId" ><?php echo __("Parent ID"); ?></th>
                         <th data-column-id="type" data-formatter="type"><?php echo __("Type"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
                     </tr>
@@ -64,21 +64,13 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                 <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
                                     <label class="sr-only" for="inputDescription"><?php echo __("Description"); ?></label>
                                     <textarea class="form-control" rows="5" id="inputDescription" placeholder="<?php echo __("Description"); ?>"></textarea>
-                                <label for="inputNextVideoOrder"><?php echo __("Autoplay next-video-order"); ?></label>
+                                <label><?php echo __("Autoplay next-video-order"); ?></label>
                                   <select class="form-control" id="inputNextVideoOrder">
                                         <option value="0"><?php echo __("Random"); ?></option>
                                         <option value="1"><?php echo __("By name"); ?></option>
                                   </select>
-                                <div><label for="inputParentId"><?php echo __("Parent-Category"); ?></label>
+                                <div><label><?php echo __("Parent-Category"); ?></label>
                                 <select class="form-control" id="inputParentId">
-                                    <option value="0">None</option>
-                                <?php
-                                    /*$cats = Category::getAllCategories();
-                                    foreach($cats as $cat){
-                                        echo "<option value='".$cat['id']."' >".$cat['name']."</option>";
-                                    }*/
-                                    
-                                    ?>
                                 </select>
                                 </div>
                                 <div><label for="inputType"><?php echo __("Type"); ?></label>
@@ -110,6 +102,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
         include 'include/footer.php';
         ?>
         <script>
+            var fullCatList;
             $(document).ready(function () {
 
 
@@ -121,7 +114,8 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 
                 function refreshSubCategoryList(){
                     $.getJSON( "<?php echo $global['webSiteRootURL'] . "categories.json"; ?>", function( data ) {
-  		                var tmpHtml = "<option value='0' >None</option>";
+  		                var tmpHtml = "<option value='0' ><?php echo __("None (Parent)"); ?></option>";
+                        fullCatList = data;
                         $.each( data.rows, function( key, val ) {
                             console.log(val.id+" "+val.name)
                             tmpHtml += "<option id='subcat"+val.id+"' value='"+val.id+"' >"+val.name+"</option>";
@@ -134,6 +128,11 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     // do temporary, ressource-intensive variant.. but should prevent bugging
                     refreshSubCategoryList();
                 })
+                
+                // this is needed for subcategory-table-labels instead of id's
+                // still too much work, too much used...!
+                // at least, after this additional init, it will use the cached values, shared with the form-list.
+                refreshSubCategoryList();
 
                 var grid = $("#grid").bootgrid({
                     ajax: true,
@@ -145,6 +144,27 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                             } else {
                                 return "<?php echo __("By name"); ?>";
                             }
+                        },
+                        "parentId": function(column, row){
+                            if(fullCatList!=undefined){
+                                var returnValue;
+                                $.each( fullCatList.rows, function( key, val ) {
+                                    //console.log(val.id + " = "+row.id);
+                                    if(val.id==row.parentId){
+                                        console.log("found sub "+val.name);
+                                        returnValue = val.name;
+                                    } else if((row.parentId=="0")||(row.parentId=="-1")){
+                                        console.log("found parent");
+                                        returnValue = "<?php echo __("None (Parent)"); ?>";
+                                    }
+                                    //tmpHtml += "<option id='subcat"+val.id+"' value='"+val.id+"' >"+val.name+"</option>";
+                                });
+                                if(returnValue!=undefined){
+                                    return returnValue;
+                                }
+                            }
+                                return "Don't worry";
+                            
                         },
                         "type": function(column, row){
                             if(row.type=='3'){
