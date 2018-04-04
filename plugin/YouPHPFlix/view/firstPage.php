@@ -945,7 +945,7 @@ echo $global['webSiteRootURL'];
             $countCols = 0;
             unset($_POST['sort']);
             $_POST['sort']['title'] = "ASC";
-            
+            $audioReplacePicture;
             // $_POST['rowCount'] = 12;
             
             foreach ($category as $cat) {
@@ -978,6 +978,10 @@ echo $global['webSiteRootURL'];
                                         break;
                                     }
                                 }
+                                if(! empty($videos)){
+                                    break;
+                                }
+                                
                         }
                         
                         $i = 0;
@@ -986,37 +990,19 @@ echo $global['webSiteRootURL'];
                         // this can be done much easier, but it's a good place to make a diffrent between pure audio-cat's and video/mixed and separate them (collect in array), other foreach after = audio-cat-gallery
                         
                         if (empty($videos)) {
-                            $_POST['sort']['title'] = "ASC";
-                            $_GET['catName'] = $cat['clean_name'];
-                            $_GET['limitOnceToOne'] = "1";
-                            $_SESSION['type'] = "audio";
-                            $videos = Video::getAllVideos();
-                        }
-                        
-                        $i = 0;
-                        
-                        // maybe sub-cat's have audio? eventually i will remove this..
-                       
-                        if (empty($videos)) {
-                            unset($_POST['sort']);
-                            $subcats = Category::getChildCategories($cat['id']);
-                            foreach ($subcats as $sCat) {
-                                $intsubcats = Category::getChildCategories($sCat['id']);
-                                foreach ($intsubcats as $intSubCat) {
-                                    
-                                    $i = $i + 1;
-                                    $_POST['sort']['title'] = "ASC";
-                                    $_GET['catName'] = $intSubCat['clean_name'];
-                                    $_GET['limitOnceToOne'] = "1";
-                                    $_SESSION['type'] = "audio";
-                                    $videos = Video::getAllVideos();
-                                    if ((! empty($videos)) || ($i > 10)) {
-                                        break;
-                                    }
-                                }
-                            }
+                            $audioReplacePicture = "view/img/audio_wave.jpg";   
                         }
                     }
+                    if(!empty($audioReplacePicture)){
+                        ?>
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+					       <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
+                            <div class="aspectRatio16_9">
+                                <img src="<?php echo $global['webSiteRootURL'].$audioReplacePicture; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" />
+                            </div>
+                            </a></div>
+                    <?php
+                    } else {
                     
                     foreach ($videos as $value) {
                         $name = User::getNameIdentificationById($value['users_id']);
@@ -1081,6 +1067,7 @@ echo $global['webSiteRootURL'];
 				</div>        
                     <?php
                         break;
+                    }
                     }
                 }
             }
