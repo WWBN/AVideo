@@ -1,8 +1,15 @@
 <div class="row main-video" style="padding: 10px;">
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8 ">
+        <?php
+        
+            $poster = $global['webSiteRootURL']."img/recorder.gif";
+            if(file_exists($global['systemRootPath']."videos/".$video['filename'].".jpg")){
+               $poster = $global['webSiteRootURL']."videos/".$video['filename'].".jpg"; 
+            }
+        ?>
         <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay data-setup='{}'
-               poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
+               poster="<?php echo $poster; ?>">
             <?php
             $ext = "";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>
