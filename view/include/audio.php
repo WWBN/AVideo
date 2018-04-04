@@ -30,6 +30,7 @@
     </div>
     <script>
         $(document).ready(function () {
+$(".vjs-big-play-button").hide();
         player = videojs('mainAudio');
  player.ready(function () {
 <?php
