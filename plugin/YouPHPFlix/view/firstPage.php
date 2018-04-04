@@ -97,28 +97,15 @@ echo $global['webSiteRootURL'];
 	</script>
 		<div class="clear clearfix">
 			<div class="row">
-
-                        <?php
-            if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) {
+            <?php
+            if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) { 
                 $parentCat = Category::getCategory($currentCat['parentId']);
                 ?>
-                        <a class="btn btn-primary"
-					href="<?php
-                echo $global['webSiteRootURL'];
-                ?>cat/<?php
-                echo $parentCat['clean_name'];
-                ?>"><?php
-                echo __("Back to") . " " . $parentCat['name'];
-                ?> </a>
-                        <?php
+                <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
+            <?php
             }
-            
-            if (! empty($category)) {
-                ?>
-                        <h2 style="margin-top: 30px;">
-                            <?php
-                echo __("Sub-Category-Gallery");
-                ?>
+            if(!empty($category)) { ?>
+                        <h2 style="margin-top: 30px;"><?php echo __("Sub-Category-Gallery"); ?>
                             <span class="badge"><?php
                 echo count($category);
                 ?></span>
@@ -1007,6 +994,10 @@ echo $global['webSiteRootURL'];
                         } else {
                             $description = "";
                         }
+                        if ($countCols % 6 === 0) {
+                            echo '</div><div class="row aligned-row ">';
+                        }
+                        $countCols ++;
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
 					       <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
@@ -1037,10 +1028,7 @@ echo $global['webSiteRootURL'];
                         </div>
                             </a></div>
                     <?php
-                        if ($countCols % 6 === 0) {
-                            echo '</div><div class="row aligned-row ">';
-                        }
-                        $countCols ++;
+
 
 			unset($audioReplacePicture);
                     } else {
