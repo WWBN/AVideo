@@ -17,15 +17,21 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 if(!User::isLogged()){
     header("Location: ".$global['webSiteRootURL']);
 }
-
-$videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
-
-$totalVideos = Video::getTotalVideos("", true);
-$totalUsers = User::getTotalUsers();
-$totalSubscriptions = Subscribe::getTotalSubscribes(User::getId());
-$totalComents = Comment::getTotalComments(0, 'NULL', User::getId());
-$totalInfos = Video::getTotalVideosInfo("", true, false, array(), true);
-
+if(User::isAdmin()){
+    $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
+    $totalVideos = Video::getTotalVideos("viewableNotAd");
+    $totalUsers = User::getTotalUsers();
+    $totalSubscriptions = Subscribe::getTotalSubscribes();
+    $totalComents = Comment::getTotalComments();
+    $totalInfos = Video::getTotalVideosInfo("viewableNotAd", false, false, array(), true);
+}else{
+    $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
+    $totalVideos = Video::getTotalVideos("", true);
+    $totalUsers = User::getTotalUsers();
+    $totalSubscriptions = Subscribe::getTotalSubscribes(User::getId());
+    $totalComents = Comment::getTotalComments(0, 'NULL', User::getId());
+    $totalInfos = Video::getTotalVideosInfo("", true, false, array(), true);
+}
 $labelToday = array();
 for ($i = 0; $i < 24; $i++) {
     $labelToday[] = "{$i} h";
