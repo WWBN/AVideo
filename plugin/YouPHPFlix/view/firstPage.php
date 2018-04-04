@@ -484,8 +484,8 @@ echo $global['webSiteRootURL'];
                 $ok = true;
                 if((!empty($_GET['catName']))){
                     if(!empty($videos)){
-                $catType = Category::getCategoryType($videos[0]['id']);
-                if(($catType['type']!="1")||($catType['type']!="0")){
+                $catType = Category::getCategoryType($videos[0]['categories_id']);
+                if(($catType['type']!="1")&&($catType['type']!="0")){
                     // echo "hidden cause of video-type";
                     $ok = false;
                 }} else {
