@@ -119,12 +119,20 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                     //showFooter:true
                 });
 
-
+                function refreshSubCategoryList(){
+                    $.getJSON( "<?php echo $global['webSiteRootURL'] . "categories.json"; ?>", function( data ) {
+  		                var tmpHtml = "<option value='0' >None</option>";
+                        $.each( data.rows, function( key, val ) {
+                            console.log(val.id+" "+val.name)
+                            tmpHtml += "<option value='"+val.id+"' >"+val.name+"</option>";
+                        });
+                        $("#inputParentId").html(tmpHtml);
+                    });
+                }
 
 
                 var grid = $("#grid").bootgrid({
                     ajax: true,
-		    rowCount: -1,
                     url: "<?php echo $global['webSiteRootURL'] . "categories.json"; ?>",
                     formatters: {
                         "nextVideoOrder": function(column, row){
@@ -155,17 +163,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         }
                     }
                 }).on("loaded.rs.jquery.bootgrid", function () {
-                    /* Executes after data is loaded and rendered */
-                    var fullList = $("#grid").bootgrid("getCurrentRows");
-		console.log($("#grid").bootgrid("getCurrentRows").length);
-		var tmpHtml = "<option value='0' >None</option>";
-		var i = 0;
-		while(fullList[i]){
-			tmpHtml += "<option value='"+fullList[i].id+"' >"+fullList[i].name+"</option>";
-			i++;
-		}
-		console.log(tmpHtml);
-                $("#inputParentId").html(tmpHtml);
+                    refreshSubCategoryList();
                     grid.find(".command-edit").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
