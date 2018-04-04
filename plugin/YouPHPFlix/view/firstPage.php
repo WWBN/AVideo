@@ -2,15 +2,12 @@
 if (! file_exists('../videos/configuration.php')) {
     if (! file_exists('../install/index.php')) {
         die("No Configuration and no Installation");
-    }
-    
+    }    
     header("Location: install/index.php");
 }
 
 require_once '../videos/configuration.php';
-
 require_once $global['systemRootPath'] . 'objects/video.php';
-
 require_once $global['systemRootPath'] . 'objects/category.php';
 
 $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -33,7 +30,7 @@ unset($_SESSION['type']);
 <!DOCTYPE html>
 <html>
 <head>
-<script>
+        <script>
             var webSiteRootURL = '<?php
             echo $global['webSiteRootURL'];
             ?>';
@@ -42,35 +39,16 @@ unset($_SESSION['type']);
             ?>;
         </script>
 
-<link
-	href="<?php
-echo $global['webSiteRootURL'];
-?>js/webui-popover/jquery.webui-popover.min.css"
-	rel="stylesheet" type="text/css" />
-<link
-	href="<?php
-echo $global['webSiteRootURL'];
-?>plugin/YouPHPFlix/view/js/flickty/flickity.min.css"
-	rel="stylesheet" type="text/css" />
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        
-        ?>
-
-        <title><?php
-        echo $config->getWebSiteTitle();
-        ?></title>
+        <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.min.css" rel="stylesheet" type="text/css" />
+        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
+        <title><?php echo $config->getWebSiteTitle(); ?></title>
 </head>
 <body>
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        
-        ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
-        <div class="container-fluid" id="mainContainer"
-		style="display: none;"> 
+        <div class="container-fluid" id="mainContainer" style="display: none;"> 
         <?php
-        
         if (($o->SubCategorys) && (! empty($_GET['catName']))) {
             $category = Category::getAllCategories();
             $currentCat;
@@ -79,46 +57,28 @@ echo $global['webSiteRootURL'];
                     $currentCat = $cat;
                 }
             }
-            
-            // echo "<ul>";
-            
             $category = Category::getChildCategories($currentCat['id']);
-            
-            // foreach(Category::getChildCategories($currentCat) as $subCat){
-            // echo "<li><a href='".$global['webSiteRootURL']."cat/".$subCat['clean_name']."'>".$subCat['name']."</li>";
-            // }
-            // echo "</ul></div>";
-            
             ?>                                     
-                                         
-                                                                     
-        <script>
+       <script>
     		setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
-	</script>
+	   </script>
 		<div class="clear clearfix">
 			<div class="row">
-            <?php
-            if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) { 
-                $parentCat = Category::getCategory($currentCat['parentId']);
-                ?>
+            <?php if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) { 
+                $parentCat = Category::getCategory($currentCat['parentId']); ?>
                 <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
             <?php
             }
             if(!empty($category)) { ?>
-                        <h2 style="margin-top: 30px;"><?php echo __("Sub-Category-Gallery"); ?>
-                            <span class="badge"><?php
-                echo count($category);
-                ?></span>
+                <h2 style="margin-top: 30px;"><?php echo __("Sub-Category-Gallery"); ?>
+                            <span class="badge"><?php echo count($category); ?></span>
 				</h2>
-                        <?php
+            <?php
             }
-            
             $countCols = 0;
             $originalCat = $_GET['catName'];
             unset($_POST['sort']);
             $_POST['sort']['title'] = "ASC";
-            
-            // $_POST['rowCount'] = 12;
             
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
@@ -127,135 +87,49 @@ echo $global['webSiteRootURL'];
                 $_POST['sort']['title'] = "ASC";
                 $_GET['limitOnceToOne'] = "1";
                 $videos = Video::getAllVideos();
-                
-                //
-                
+  
                 unset($_GET['catName']);
                 if (! empty($videos)) {
                     foreach ($videos as $value) {
-                        $name = User::getNameIdentificationById($value['users_id']);
-                        
+                        $name = User::getNameIdentificationById($value['users_id']); 
                         // make a row each 6 cols
-                        
                         if ($countCols % 6 === 0) {
                             echo '</div><div class="row aligned-row ">';
                         }
                         
-                        $countCols ++;
-                        ?>
-                        <div
-					class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-					<a
-						href="<?php
-                        echo $global['webSiteRootURL'];
-                        ?>cat/<?php
-                        echo $cat['clean_name'];
-                        ?>"
-						title="<?php
-                        $cat['name'];
-                        ?>">
-                            <?php
+                        $countCols ++; ?>
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+					       <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
+                        <?php
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
-                        
-                        // if(!$o->LiteGalleryNoGifs){
-                        // $imgGif = $images->thumbsGif;
-                        // }
-                        
                         $poster = $images->thumbsJpg;
-                        /*
-                         * if($o->LiteGalleryMaxTooltipChars > 4){
-                         * if(strlen($description)>$o->LiteGalleryMaxTooltipChars){
-                         * $description = substr($description,0,$o->LiteGalleryMaxTooltipChars-3)."...";
-                         * }
-                         *
-                         * } else {
-                         * $description = "";
-                         * }
-                         *
-                         */
                         ?>
-                                <div class="aspectRatio16_9">
-							<img src="<?php
-                        echo $poster;
-                        ?>" alt=""
-								data-toggle="tooltip" title="<?php
-                        echo $description;
-                        ?>"
-								class="thumbsJPG img img-responsive <?php
-                        echo $img_portrait;
-                        ?>  rotate<?php
-                        echo $value['rotation'];
-                        ?>"
-								id="thumbsJPG<?php
-                        echo $value['id'];
-                        ?>" />
+                        <div class="aspectRatio16_9">
+							<img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                             <?php
                         if ((! empty($imgGif)) && (! $o->LiteGalleryNoGifs)) {
                             ?>
-                                    <img
-								src="<?php
-                            echo $imgGif;
-                            ?>"
-								style="position: absolute; top: 0; display: none;" alt=""
-								data-toggle="tooltip" title="<?php
-                            echo $description;
-                            ?>"
-								id="thumbsGIF<?php
-                            echo $value['id'];
-                            ?>"
-								class="thumbsGIF img-responsive <?php
-                            echo $img_portrait;
-                            ?>  rotate<?php
-                            echo $value['rotation'];
-                            ?>"
-								height="130" />
-                            <?php
-                        }
-                        
-                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $value['categories_id'] . ";");
-                        ?>
-                                </div>
+                                    <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                        <?php }
+                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $value['categories_id'] . ";"); ?>
+                        </div>
 						<div class="videoInfo">
-                            <?php
-                        if ($videoCount) {
-                            ?>
-                                    <span class="label label-default"
-								style="top: 10px !important; position: absolute;"><i
-								class="glyphicon glyphicon-cd"></i> <?php
-                            echo $videoCount->fetch_array()[0];
-                            ?></span>
-                            <?php
-                        }
-                        ?>
-                                </div>
-						<div data-toggle="tooltip" title="<?php
-                        echo $description;
-                        ?>"
-							class="tile__title"
-							style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
-                                        <?php
-                        echo $cat['name'];
-                        ?>
-                                </div>
+                            <?php if ($videoCount) { ?>
+                                <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
+                            <?php } ?>
+                        </div>
+						<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                            <?php echo $cat['name']; ?>
+                        </div>
 					</a>
 				</div>        
                     <?php
                         break;
                     }
-                } else {
-                    ?>
-                                                         <div
-					class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-					<a
-						href="<?php
-                    echo $global['webSiteRootURL'];
-                    ?>cat/<?php
-                    echo $cat['clean_name'];
-                    ?>"
-						title="<?php
-                    $cat['name'];
-                    ?>">
-                            <?php
+                } else { ?>
+                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+					<a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
+                    <?php
                     
                     // $images = Video::getImageFromFilename($value['filename'], $value['type']);
                     // if(!$o->LiteGalleryNoGifs){
@@ -276,53 +150,27 @@ echo $global['webSiteRootURL'];
                      *
                      */
                     ?>
-                                <div class="aspectRatio16_9">
-							<img src="<?php
-                    echo $poster;
-                    ?>" alt="" data-toggle="tooltip"
-								title="<?php
-                    echo $description;
-                    ?>"
-								class="thumbsJPG img img-responsive"
-								id="thumbsJPG<?php
-                    echo $cat['id'];
-                    ?>" />
+                    <div class="aspectRatio16_9">
+							<img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $cat['id']; ?>" />
                             <?php
                     $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $cat['id'] . ";");
                     ?>
-                                </div>
-						<div class="videoInfo">
+                    </div>
+				    <div class="videoInfo">
                             <?php
                     if ($videoCount) {
                         ?>
-                                    <span class="label label-default"
-								style="top: 10px !important; position: absolute;"><i
-								class="glyphicon glyphicon-cd"></i> <?php
-                        echo $videoCount->fetch_array()[0];
-                        ?></span>
-                            <?php
-                    }
-                    ?>
-                                </div>
-						<div data-toggle="tooltip" title="<?php
-                    echo $description;
-                    ?>"
-							class="tile__title"
-							style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
-                                        <?php
-                    echo $cat['name'];
-                    ?>
-                                </div>
-					</a>
+                        <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
+                    <?php } ?>
+                    </div>
+				<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;"><?php echo $cat['name']; ?></div>
+				</a>
 				</div>    
-                            <?php
-                }
-            }
-            
-            unset($_POST['sort']);
-            $_GET['catName'] = $originalCat;
-            ?>
-                </div>
+                <?php } }
+                    unset($_POST['sort']);
+                    $_GET['catName'] = $originalCat;
+                ?>
+            </div>
 		</div>              
       <?php
         }
@@ -358,75 +206,26 @@ echo $global['webSiteRootURL'];
                     $img = $images->thumbsJpg;
                     $poster = $images->poster;
                     ?>
-                        <div class="carousel-cell tile ">
-					<div class="slide thumbsImage"
-						videos_id="<?php
-                    echo $value['id'];
-                    ?>"
-						poster="<?php
-                    echo $poster;
-                    ?>"
-						video="<?php
-                    echo $value['clean_title'];
-                    ?>"
-						iframe="<?php
-                    echo $global['webSiteRootURL'];
-                    ?>videoEmbeded/<?php
-                    echo $value['clean_title'];
-                    ?>">
-						<div class="tile__media ">
-							<img alt="<?php
-                    echo $value['title'];
-                    ?>"
-								class="tile__img thumbsJPG ing img-responsive carousel-cell-image"
-								data-flickity-lazyload="<?php
-                    echo $img;
-                    ?>" />
-                                    <?php
-                    if (! empty($imgGif)) {
-                        ?>
-                                        <img
-								style="position: absolute; top: 0; display: none;"
-								alt="<?php
-                        echo $value['title'];
-                        ?>"
-								id="tile__img thumbsGIF<?php
-                        echo $value['id'];
-                        ?>"
-								class="thumbsGIF img-responsive img carousel-cell-image"
-								data-flickity-lazyload="<?php
-                        echo $imgGif;
-                        ?>" />
-                                    <?php
-                    }
-                    ?>
-                                </div>
+                <div class="carousel-cell tile ">
+					<div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+				        <div class="tile__media ">
+				            <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
+                                    <?php if (! empty($imgGif)) { ?>
+                                        <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
+                                    <?php } ?>
+                        </div>
 						<div class="tile__details">
 							<div class="videoInfo">
-								<span class="label label-default"><i class="fa fa-eye"></i> <?php
-                    echo $value['views_count'];
-                    ?></span> <span
-									class="label label-success"><i class="fa fa-thumbs-up"></i> <?php
-                    echo $value['likes'];
-                    ?></span> <span class="label label-success"><a
-									style="color: inherit;"
-									href="<?php
-                    echo $global['webSiteRootURL'] . "cat/" . $value['clean_category'];
-                    ?>"><i
-										class="fa"></i> <?php
-                    echo $value['category'];
-                    ?></a></span>
+								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
+                                <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                                <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
 							</div>
 							<div class="tile__title">
-                                        <?php
-                    echo $value['title'];
-                    ?>
-                                    </div>
+                                <?php echo $value['title']; ?>
+                            </div>
 							<div class="videoDescription">
-                                        <?php
-                    echo nl2br(textToLink($value['description']));
-                    ?>
-                                    </div>
+                                <?php echo nl2br(textToLink($value['description'])); ?>
+                            </div>
 						</div>
 					</div>
 					<div class="arrow-down" style="display: none;"></div>
@@ -513,51 +312,37 @@ echo $global['webSiteRootURL'];
                                         <?php echo $value['title'];?>
                             </div>
 							<div class="videoDescription">
-                                        <?php
-                    echo nl2br(textToLink($value['description']));
-                    ?>
-                                    </div>
+                                        <?php echo nl2br(textToLink($value['description'])); ?>
+                            </div>
 						</div>
 					</div>
 					<div class="arrow-down" style="display: none;"></div>
 				</div>
-                        <?php
-                }
-                
-                ?>
-                </div>
+                <?php } ?>
+            </div>
 			<div class="poster list-group-item" style="display: none;">
 				<div class="posterDetails ">
 					<h2 class="infoTitle">Title</h2>
 					<h4 class="infoDetails">Details</h4>
 					<div class="infoText col-md-4 col-sm-12">Text</div>
 					<div class="footerBtn" style="display: none;">
-						<a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php
-                echo __("Play");
-                ?></a>
-						<button class="btn btn-primary myList">
-							<i class="fa fa-plus"></i> <?php
-                echo __("My list");
-                ?></button>
+						<a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+						<button class="btn btn-primary myList"><i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
 					</div>
-
 				</div>
 			</div>
 		</div>
             
-<?php } 
+            <?php
+                } 
             } //there
-            
-            if ($o->MostWatched) {
-                ?>
+            if ($o->MostWatched) { ?>
             <div class="row">
 			<h2>
-				<i class="glyphicon glyphicon-eye-open"></i> <?php
-                echo __("Most watched");
-                ?>
-                </h2>
+				<i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
+            </h2>
 			<div class="carousel">
-                    <?php
+                <?php
                 unset($_POST['sort']);
                 $_POST['sort']['views_count'] = "DESC";
                 if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
@@ -574,83 +359,31 @@ echo $global['webSiteRootURL'];
                     $img = $images->thumbsJpg;
                     $poster = $images->poster;
                     ?>
-                        <div class="carousel-cell tile ">
-					<div class="slide thumbsImage"
-						videos_id="<?php
-                    echo $value['id'];
-                    ?>"
-						poster="<?php
-                    echo $poster;
-                    ?>"
-						video="<?php
-                    echo $value['clean_title'];
-                    ?>"
-						iframe="<?php
-                    echo $global['webSiteRootURL'];
-                    ?>videoEmbeded/<?php
-                    echo $value['clean_title'];
-                    ?>">
-						<div class="tile__media ">
-							<img alt="<?php
-                    echo $value['title'];
-                    ?>"
-								class="tile__img thumbsJPG ing img-responsive carousel-cell-image"
-								data-flickity-lazyload="<?php
-                    echo $img;
-                    ?>" />
-                                    <?php
-                    if (! empty($imgGif)) {
-                        ?>
-                                        <img
-								style="position: absolute; top: 0; display: none;"
-								alt="<?php
-                        echo $value['title'];
-                        ?>"
-								id="tile__img thumbsGIF<?php
-                        echo $value['id'];
-                        ?>"
-								class="thumbsGIF img-responsive img carousel-cell-image"
-								data-flickity-lazyload="<?php
-                        echo $imgGif;
-                        ?>" />
-                                    <?php
-                    }
-                    ?>
+                    <div class="carousel-cell tile ">
+                         <div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+                                <div class="tile__media ">
+                                    <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
+                                    <?php if (! empty($imgGif)) { ?>
+                                        <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
+                                    <?php } ?>
                                 </div>
-						<div class="tile__details">
-							<div class="videoInfo">
-								<span class="label label-default"><i class="fa fa-eye"></i> <?php
-                    echo $value['views_count'];
-                    ?></span> <span
-									class="label label-success"><i class="fa fa-thumbs-up"></i> <?php
-                    echo $value['likes'];
-                    ?></span> <span class="label label-success"><a
-									style="color: inherit;"
-									href="<?php
-                    echo $global['webSiteRootURL'] . "cat/" . $value['clean_category'];
-                    ?>"><i
-										class="fa"></i> <?php
-                    echo $value['category'];
-                    ?></a></span>
-							</div>
-							<div class="tile__title">
-                                        <?php
-                    echo $value['title'];
-                    ?>
+                                <div class="tile__details">
+                                    <div class="videoInfo">
+                                        <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
+                                        <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                                        <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" .$value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                                     </div>
-							<div class="videoDescription">
-                                        <?php
-                    echo nl2br(textToLink($value['description']));
-                    ?>
+                                    <div class="tile__title">
+                                        <?php echo $value['title']; ?>
                                     </div>
-						</div>
-					</div>
-					<div class="arrow-down" style="display: none;"></div>
-				</div>
-                        <?php
-                }
-                
-                ?>
+                                    <div class="videoDescription">
+                                        <?php echo nl2br(textToLink($value['description'])); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="arrow-down" style="display: none;"></div>
+                    </div>
+                <?php } ?>
                 </div>
 			<div class="poster list-group-item" style="display: none;">
 				<div class="posterDetails ">
@@ -677,12 +410,10 @@ echo $global['webSiteRootURL'];
                 ?>
             <div class="row">
 			<h2>
-				<i class="glyphicon glyphicon-thumbs-up"></i> <?php
-                echo __("Most popular");
-                ?>
-                </h2>
+				<i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); ?>
+            </h2>
 			<div class="carousel">
-                    <?php
+                <?php
                 unset($_POST['sort']);
                 $_POST['sort']['likes'] = "DESC";
                 if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
@@ -785,21 +516,10 @@ echo $global['webSiteRootURL'];
                     
                     ?>
                 <div class="row">
-			<a style="z-index: 9999;"
-				href='<?php
-                    echo $global['webSiteRootURL'];
-                    ?>cat/<?php
-                    echo $cat['clean_name'];
-                    ?>'>
+			<a style="z-index: 9999;" href='<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>'>
 				<h2 style="margin-top: 30px;">
-					<i class="<?php
-                    echo $cat['iconClass'];
-                    ?>"></i><?php
-                    echo $cat['name'];
-                    ?>
-                        <span class="badge"><?php
-                    echo count($videos);
-                    ?></span>
+					<i class="<?php echo $cat['iconClass']; ?>"></i><?php echo $cat['name']; ?>
+                    <span class="badge"><?php echo count($videos); ?></span>
 				</h2>
 			</a>
 			<div class="carousel">
@@ -810,7 +530,7 @@ echo $global['webSiteRootURL'];
                         $img = $images->thumbsJpg;
                         $poster = $images->poster;
                         ?>
-                            <div class="carousel-cell tile ">
+            <div class="carousel-cell tile ">
 					<div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" cat="<?php echo $cat['clean_name']; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
 				<div class="tile__media ">
 							<img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
@@ -825,23 +545,16 @@ echo $global['webSiteRootURL'];
                                 <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
 							</div>
 							<div class="tile__title">
-                                        <?php
-                        echo $value['title'];
-                        ?>
-                                    </div>
+                                        <?php echo $value['title']; ?>
+                            </div>
 							<div class="videoDescription">
-                                        <?php
-                        echo nl2br(textToLink($value['description']));
-                        ?>
-                                    </div>
+                                <?php echo nl2br(textToLink($value['description'])); ?>
+                            </div>
 						</div>
 					</div>
 					<div class="arrow-down" style="display: none;"></div>
 				</div>
-                            <?php
-                    }
-                    
-                    ?>
+                            <?php } ?>
             </div>
 			<div class="poster list-group-item" style="display: none;">
 				<div class="posterDetails ">
@@ -957,36 +670,30 @@ echo $global['webSiteRootURL'];
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
 					       <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
-                            <div class="aspectRatio16_9">
-                                <img src="<?php echo $global['webSiteRootURL'].$audioReplacePicture; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" />
-                            </div>
-						<div class="videoInfo">
-                        <?php
-                            if ($videoCount) {
-                                ?>
-                            <span class="label label-default" style="top: 10px !important; position: absolute;"> <?php
-                                if($catType){
-                                    if(($catType['type']==0)||($catType['type']==2)){
-                                        echo '<i class="glyphicon glyphicon-cd"></i>';
-                                    } else {
-                                       echo '<i class="glyphicon glyphicon-music"></i>'; 
+                                <div class="aspectRatio16_9">
+                                    <img src="<?php echo $global['webSiteRootURL'].$audioReplacePicture; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" />
+                                </div>
+                            <div class="videoInfo">
+                            <?php if ($videoCount) { ?>
+                                <span class="label label-default" style="top: 10px !important; position: absolute;"> <?php
+                                    if($catType){
+                                        if(($catType['type']==0)||($catType['type']==2)){
+                                            echo '<i class="glyphicon glyphicon-cd"></i>';
+                                        } else {
+                                           echo '<i class="glyphicon glyphicon-music"></i>'; 
+                                        }
                                     }
-                                }
-                                echo $videoCount->fetch_array()[0];
-                                ?>
-                            </span>
-                                <?php
-                            }
-                        ?>
-                        </div>
-						<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
-                            <?php echo $cat['name']; ?>
-                        </div>
-                            </a></div>
+                                    echo $videoCount->fetch_array()[0]; ?>
+                                </span>
+                                    <?php } ?>
+                            </div>
+                            <div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                <?php echo $cat['name']; ?>
+                            </div>
+                        </a>
+                    </div>
                     <?php
-
-
-			unset($audioReplacePicture);
+			         unset($audioReplacePicture);
                     } else {
                     
                     foreach ($videos as $value) {
