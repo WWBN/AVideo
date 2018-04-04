@@ -491,71 +491,27 @@ echo $global['webSiteRootURL'];
                     $imgGif = $images->thumbsGif;
                     $img = $images->thumbsJpg;
                     $poster = $images->poster;
-                    ?>
-                        <div class="carousel-cell tile ">
-					<div class="slide thumbsImage"
-						videos_id="<?php
-                    echo $value['id'];
-                    ?>"
-						poster="<?php
-                    echo $poster;
-                    ?>"
-						video="<?php
-                    echo $value['clean_title'];
-                    ?>"
-						iframe="<?php
-                    echo $global['webSiteRootURL'];
-                    ?>videoEmbeded/<?php
-                    echo $value['clean_title'];
-                    ?>">
-						<div class="tile__media ">
-							<img alt="<?php
-                    echo $value['title'];
-                    ?>"
-								class="tile__img thumbsJPG ing img-responsive carousel-cell-image"
-								data-flickity-lazyload="<?php
-                    echo $img;
-                    ?>" />
-                                    <?php
-                    if (! empty($imgGif)) {
-                        ?>
-                                        <img
-								style="position: absolute; top: 0; display: none;"
-								alt="<?php
-                        echo $value['title'];
-                        ?>"
-								id="tile__img thumbsGIF<?php
-                        echo $value['id'];
-                        ?>"
-								class="thumbsGIF img-responsive img carousel-cell-image"
-								data-flickity-lazyload="<?php
-                        echo $imgGif;
-                        ?>" />
-                                    <?php
+                    if(file_exists($global['systemRootPath']."videos/".$value['filename'].".jpg")){
+                        $img = $global['webSiteRootURL']."videos/".$value['filename'].".jpg";
                     }
                     ?>
-                                </div>
+                    <div class="carousel-cell tile ">
+					   <div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+				        <div class="tile__media ">
+							<img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
+                            <?php if (! empty($imgGif)) { ?>
+                                <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
+                            <?php } ?>
+                        </div>
 						<div class="tile__details">
 							<div class="videoInfo">
-								<span class="label label-default"><i class="fa fa-eye"></i> <?php
-                    echo $value['views_count'];
-                    ?></span> <span
-									class="label label-success"><i class="fa fa-thumbs-up"></i> <?php
-                    echo $value['likes'];
-                    ?></span> <span class="label label-success"><a
-									style="color: inherit;"
-									href="<?php
-                    echo $global['webSiteRootURL'] . "cat/" . $value['clean_category'];
-                    ?>"><i
-										class="fa"></i> <?php
-                    echo $value['category'];
-                    ?></a></span>
+								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
+                                <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                                <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category'];?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
 							</div>
 							<div class="tile__title">
-                                        <?php
-                    echo $value['title'];
-                    ?>
-                                    </div>
+                                        <?php echo $value['title'];?>
+                            </div>
 							<div class="videoDescription">
                                         <?php
                     echo nl2br(textToLink($value['description']));
