@@ -132,19 +132,29 @@ class Category {
         global $global;
         $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$categoryId."';";
         $res = $global['mysqli']->query($sql);
-        return ($res) ? $res->fetch_assoc() : false;
+	if($res) {
+	$sres = $res->fetch_assoc();
+	if(!empty($sres)){
+        	return $sres;
+	} else {
+		return array("categoryId" => "-1","type"=>"0","manualSet" => "0");
+		}
+	}
+	else {
+		return array("categoryId" => "-1","type"=>"0","manualSet" => "0");
+	}
     }
     static function getCategory($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM categories WHERE  id = $id LIMIT 1";
+        $sql = "SELECT * FROM categories WHERE id = $id LIMIT 1";
         $res = $global['mysqli']->query($sql);
         return ($res) ? $res->fetch_assoc() : false;
     }
 
     static function getAllCategories() {
         global $global;
-        $sql = "SELECT * FROM categories WHERE 1=1 ";         
+        $sql = "SELECT * FROM categories WHERE 1=1 ";
         
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
         

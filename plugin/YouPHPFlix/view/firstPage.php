@@ -960,7 +960,6 @@ echo $global['webSiteRootURL'];
                     
                     // when this cat has no video for preview..
                     if (empty($videos)) {
-			echo "whut?";
                         // First: search in subcats for videos for preview. Makes more sense since audio has none
                         // if, after 10 tries nothing is media is found, it gives up.
                         
@@ -989,11 +988,16 @@ echo $global['webSiteRootURL'];
                         
                         // if still empty, take a audio for the same
                         // this can be done much easier, but it's a good place to make a diffrent between pure audio-cat's and video/mixed and separate them (collect in array), other foreach after = audio-cat-gallery
-                        
-                        if (empty($videos)) {
-                            $audioReplacePicture = "view/img/audio_wave.jpg";   
-                        }
-                    }
+			if(empty($videos)){	
+			$catType = Category::getCategoryType($cat['id']);
+			//echo "blablabla";
+			//var_dump($catType);
+                            if(($catType['type']=="2")||($catType['type']=="0")||($catType['type']=="-1")){
+                                $audioReplacePicture = "view/img/notfound.jpg"; 
+                            } else {
+                                $audioReplacePicture = "view/img/audio_wave.jpg";
+                            }
+                    } }
                     if(!empty($audioReplacePicture)){
                         $description = $cat['description'];
                         if ($o->LiteGalleryMaxTooltipChars > 4) {
@@ -1033,6 +1037,11 @@ echo $global['webSiteRootURL'];
                         </div>
                             </a></div>
                     <?php
+                        if ($countCols % 6 === 0) {
+                            echo '</div><div class="row aligned-row ">';
+                        }
+                        $countCols ++;
+
 			unset($audioReplacePicture);
                     } else {
                     
