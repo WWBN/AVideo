@@ -823,6 +823,7 @@ if (!empty($row)) {
                                                         }
                                                         tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                                                     }
+                                                    tags += "<span class='label label-primary fix-width'><?php echo __("Type").":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
                                                     return tags;
                                                 },
                                                 "checkbox": function (column, row) {
