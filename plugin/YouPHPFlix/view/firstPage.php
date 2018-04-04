@@ -960,6 +960,7 @@ echo $global['webSiteRootURL'];
                     
                     // when this cat has no video for preview..
                     if (empty($videos)) {
+			echo "whut?";
                         // First: search in subcats for videos for preview. Makes more sense since audio has none
                         // if, after 10 tries nothing is media is found, it gives up.
                         
@@ -994,14 +995,45 @@ echo $global['webSiteRootURL'];
                         }
                     }
                     if(!empty($audioReplacePicture)){
+                        $description = $cat['description'];
+                        if ($o->LiteGalleryMaxTooltipChars > 4) {
+                            if (strlen($description) > $o->LiteGalleryMaxTooltipChars) {
+                                $description = substr($description, 0, $o->LiteGalleryMaxTooltipChars - 3) . "...";
+                            } 
+                        } else {
+                            $description = "";
+                        }
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
 					       <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
                             <div class="aspectRatio16_9">
                                 <img src="<?php echo $global['webSiteRootURL'].$audioReplacePicture; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" />
                             </div>
+						<div class="videoInfo">
+                        <?php
+                            if ($videoCount) {
+                                ?>
+                            <span class="label label-default" style="top: 10px !important; position: absolute;"> <?php
+                                if($catType){
+                                    if(($catType['type']==0)||($catType['type']==2)){
+                                        echo '<i class="glyphicon glyphicon-cd"></i>';
+                                    } else {
+                                       echo '<i class="glyphicon glyphicon-music"></i>'; 
+                                    }
+                                }
+                                echo $videoCount->fetch_array()[0];
+                                ?>
+                            </span>
+                                <?php
+                            }
+                        ?>
+                        </div>
+						<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                            <?php echo $cat['name']; ?>
+                        </div>
                             </a></div>
                     <?php
+			unset($audioReplacePicture);
                     } else {
                     
                     foreach ($videos as $value) {
