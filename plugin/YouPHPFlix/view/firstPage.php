@@ -472,9 +472,8 @@ echo $global['webSiteRootURL'];
 
             <?php
             }
-            if (($o->separateAudio) && ($isAudioOnly == false) && ($isVideoOnly == false)) {
-                
-                   unset($_POST['sort']);
+            if (($o->separateAudio) && ($isAudioOnly == false) && ($isVideoOnly == false)) {    
+                unset($_POST['sort']);
 		        $_POST['sort']['created'] = "DESC";
                 $_SESSION['type'] = "audio";
                 $videos = Video::getAllVideos();

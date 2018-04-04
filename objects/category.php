@@ -35,6 +35,10 @@ class Category {
     function setType($type){
         global $global;
         $exist = false;
+        // require this cause of Video::autosetCategoryType - but should be moveable easy here..
+        require_once dirname(__FILE__) . '/../objects/video.php';
+        
+        //$this->id is already replaced by the new..
         $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$this->id."';";
         $res = $global['mysqli']->query($sql);
         $catTypeCache = $res->fetch_assoc();
@@ -43,12 +47,14 @@ class Category {
         }
 
         if($type=="3"){ 
+            // auto-cat-type
             if($exist){
-                $sql = "UPDATE `category_type_cache` SET `type` = '0', `manualSet` = '0' WHERE `category_type_cache`.`categoryId` = '".$this->id."';";
+                $sql = "UPDATE `category_type_cache` SET `manualSet` = '0' WHERE `category_type_cache`.`categoryId` = '".$this->id."';";
             } else {
                 $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES ('".$this->id."', '0','0')";
             }
             $res = $global['mysqli']->query($sql);
+            Video::autosetCategoryType($this->id);
         } else {
             if($exist){
                 $sql = "UPDATE `category_type_cache` SET `type` = '".$type."', `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = '".$this->id."';";
