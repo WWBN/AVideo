@@ -856,7 +856,7 @@ if (!empty($row)) {
                                                     var type, img, is_portrait;
                                                     if (row.type === "audio") {
                                                         type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
-                                                        img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
+                                                        img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg' style='max-height:80px; margin-right: 5px;'> ";
                                                     } else {
                                                         type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
                                                         is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
