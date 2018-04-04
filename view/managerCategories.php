@@ -124,12 +124,16 @@ require_once $global['systemRootPath'] . 'objects/category.php';
   		                var tmpHtml = "<option value='0' >None</option>";
                         $.each( data.rows, function( key, val ) {
                             console.log(val.id+" "+val.name)
-                            tmpHtml += "<option value='"+val.id+"' >"+val.name+"</option>";
+                            tmpHtml += "<option id='subcat"+val.id+"' value='"+val.id+"' >"+val.name+"</option>";
                         });
                         $("#inputParentId").html(tmpHtml);
                     });
                 }
-
+                
+                $('#categoryFormModal').on('hidden.bs.modal', function () {
+                    // do temporary, ressource-intensive variant.. but should prevent bugging
+                    refreshSubCategoryList();
+                })
 
                 var grid = $("#grid").bootgrid({
                     ajax: true,
@@ -168,6 +172,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         console.log(row);
+                        $("#subcat"+row.id).hide();
 
                         $('#inputCategoryId').val(row.id);
                         $('#inputName').val(row.name);
