@@ -21,6 +21,7 @@ class Video {
     private $duration;
     private $users_id;
     private $categories_id;
+    private $old_categories_id;
     private $type;
     private $rotation;
     private $zoom;
@@ -154,7 +155,10 @@ class Video {
                 // update the user groups
                 UserGroups::updateVideoGroups($id, $this->videoGroups);
             }
-            $this->autosetCategoryType();
+            Video::autosetCategoryType($this->categories_id);
+            if(!empty($this->old_categories_id)){
+                Video::autosetCategoryType($this->old_categories_id);
+            }
             return $id;
         } else {
             die($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -163,9 +167,9 @@ class Video {
             
         }
     
-     function autosetCategoryType() {
+    static function autosetCategoryType($catId) {
         global $global;
-        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$this->categories_id."';";
+        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$catId."';";
         $res = $global['mysqli']->query($sql);
         $catTypeCache = $res->fetch_assoc();
         $videoFound = false;
@@ -174,7 +178,7 @@ class Video {
             // 3 means auto
             if($catTypeCache['manualSet']=="0"){
                 // start incremental search and save
-                $sql = "SELECT * FROM `videos` WHERE categories_id = '".$this->categories_id."';";
+                $sql = "SELECT * FROM `videos` WHERE categories_id = '".$catId."';";
                 $res = $global['mysqli']->query($sql);
                 //$tmpVid = $res->fetch_assoc();
                 if($res){
@@ -189,7 +193,7 @@ class Video {
                     }
                 }
                 if(($videoFound==false)||($audioFound==false)){
-                    $sql = "SELECT parentId,categories_id FROM `categories` WHERE parentId = '".$this->categories_id."';";
+                    $sql = "SELECT parentId,categories_id FROM `categories` WHERE parentId = '".$catId."';";
                     $res = $global['mysqli']->query($sql);
                     if($res){
                         //$tmpVid = $res->fetch_assoc();
@@ -217,14 +221,14 @@ class Video {
                 } else if($videoFound){
                     $sql .= "2";
                 }
-                $sql .= "' WHERE `category_type_cache`.`categoryId` = '".$this->categories_id."';";
+                $sql .= "' WHERE `category_type_cache`.`categoryId` = '".$catId."';";
                 //echo $sql;
                 $global['mysqli']->query($sql);
             }
         } else {
             // start incremental search and save
             
-                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$this->categories_id."';";
+                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$catId."';";
                 $res = $global['mysqli']->query($sql);
                 if($res){
                     while ($row = $res->fetch_assoc()) {
@@ -236,7 +240,7 @@ class Video {
                     }
                 }
                 if(($videoFound==false)||($audioFound==false)){
-                    $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '".$this->categories_id."';";
+                    $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '".$catId."';";
                     $res = $global['mysqli']->query($sql);
                     if($res){
                    while ($cat = $res->fetch_assoc()) {
@@ -253,7 +257,7 @@ class Video {
                 }
                     } }
                 }
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES ('".$this->categories_id."', '";
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES ('".$catId."', '";
                 if(($videoFound)&&($audioFound)){
                     $sql .= "0";
                 } else if($audioFound){
@@ -837,6 +841,10 @@ class Video {
     }
 
     function setCategories_id($categories_id) {
+        // to update old cat as well when auto..
+        if(!empty($this->categories_id)){
+            $this->old_categories_id = $this->categories_id;
+        }
         $this->categories_id = $categories_id;
     }
 
