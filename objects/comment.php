@@ -166,7 +166,7 @@ class Comment {
         return $comment;
     }
 
-    static function getTotalComments($videoId = 0, $comments_id_pai = 'NULL') {
+    static function getTotalComments($videoId = 0, $comments_id_pai = 'NULL', $video_owner_users_id=0) {
         global $global;
         $sql = "SELECT c.id FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1  ";
 
@@ -189,6 +189,10 @@ class Comment {
             $sql .= ") ";
         }else{
             $sql .= " AND comments_id_pai = {$comments_id_pai} ";
+        }
+        
+        if(!empty($video_owner_users_id)){
+            $sql .= " AND v.users_id = {$video_owner_users_id} ";
         }
         
         $sql .= BootGrid::getSqlSearchFromPost(array('name'));
