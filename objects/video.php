@@ -165,7 +165,7 @@ class Video {
         }
         
             
-        }
+    }
     
     static function autosetCategoryType($catId) {
         global $global;
@@ -226,8 +226,7 @@ class Video {
                 $global['mysqli']->query($sql);
             }
         } else {
-            // start incremental search and save
-            
+            // start incremental search and save - and a lot of this redundant stuff in a method.. 
                 $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$catId."';";
                 $res = $global['mysqli']->query($sql);
                 if($res){
@@ -243,19 +242,20 @@ class Video {
                     $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '".$catId."';";
                     $res = $global['mysqli']->query($sql);
                     if($res){
-                   while ($cat = $res->fetch_assoc()) {
-                     $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$cat['parentId']."';";
-                    $res = $global['mysqli']->query($sql);
-                if($res){
-                while ($row = $res->fetch_assoc()) {
-                    if($row['type']=="audio"){
-                        $audioFound = true;
-                    } else if($row['type']=="video"){
-                        $videoFound = true;
+                        while ($cat = $res->fetch_assoc()) {
+                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$cat['parentId']."';";
+                            $res = $global['mysqli']->query($sql);
+                            if($res){
+                                while ($row = $res->fetch_assoc()) {
+                                    if($row['type']=="audio"){
+                                        $audioFound = true;
+                                    } else if($row['type']=="video"){
+                                        $videoFound = true;
+                                    }
+                                }
+                            }
+                        }
                     }
-                }
-                }
-                    } }
                 }
                 $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES ('".$catId."', '";
                 if(($videoFound)&&($audioFound)){
@@ -268,6 +268,40 @@ class Video {
                 $sql .= "');";
                 $global['mysqli']->query($sql);
             }
+    }
+     // i would like to simplify the big part of the method above in this method, but won't work as i want.
+     static function internalAutoset($catId,$videoFound,$audioFound){
+                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$catId."';";
+                $res = $global['mysqli']->query($sql);
+                if($res){
+                    while ($row = $res->fetch_assoc()) {
+                        if($row['type']=="audio"){
+                            $audioFound = true;
+                        } else if($row['type']=="video"){
+                            $videoFound = true;
+                        }
+                    }
+                }
+                if(($videoFound==false)||($audioFound==false)){
+                    $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '".$catId."';";
+                    $res = $global['mysqli']->query($sql);
+                    if($res){
+                        while ($cat = $res->fetch_assoc()) {
+                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$cat['parentId']."';";
+                            $res = $global['mysqli']->query($sql);
+                            if($res){
+                                while ($row = $res->fetch_assoc()) {
+                                    if($row['type']=="audio"){
+                                        $audioFound = true;
+                                    } else if($row['type']=="video"){
+                                        $videoFound = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            return array($videoFound,audioFound);
     }
     function setClean_title($clean_title) {
         $clean_title = preg_replace('/[^0-9a-z]+/', '-', trim(strtolower(cleanString($clean_title))));
