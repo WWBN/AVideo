@@ -620,7 +620,7 @@ function getimgsize($file_src) {
     return $size;
 }
 
-function im_resize($file_src, $file_dest, $wd, $hd) {
+function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
     if(empty($file_dest)){
         return false;
     }
@@ -694,9 +694,7 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
 
     imagecopyresampled($dest, $src, 0, 0, ($ws - $wc) / 2, ($hs - $hc) / 2, $wd, $hd, $wc, $hc);
     $saved = false;
-    if (!isset($q))
-        $q = 50;
-    if ($destformat == '.png')
+   if ($destformat == '.png')
         $saved = imagepng($dest, $file_dest);
     if ($destformat == '.jpg')
         $saved = imagejpeg($dest, $file_dest, $q);
