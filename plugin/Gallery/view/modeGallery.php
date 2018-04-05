@@ -2,17 +2,13 @@
 if (! file_exists('../videos/configuration.php')) {
     if (! file_exists('../install/index.php')) {
         die("No Configuration and no Installation");
-    }
-    
+    } 
     header("Location: install/index.php");
 }
 
 require_once '../videos/configuration.php';
-
 require_once $global['systemRootPath'] . 'objects/user.php';
-
 require_once $global['systemRootPath'] . 'objects/functions.php';
-
 $obj = YouPHPTubePlugin::getObjectData("Gallery");
 
 if (! empty($_GET['type'])) {
@@ -67,11 +63,7 @@ if ($obj->sortReverseable) {
             $tmpOrderString = substr($tmpOrderString, 0, strlen($tmpOrderString) - 1);
         }
         
-        return array(
-            $tmpOrderString,
-            $upDown,
-            $mostLess
-        );
+        return array($tmpOrderString, $upDown, $mostLess);
     }
 }
 
@@ -101,34 +93,20 @@ $total = Video::getTotalVideos("viewableNotAd");
 $totalPages = ceil($total / $_POST['rowCount']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php
-echo $_SESSION['language'];
-?>">
+<html lang="<?php echo $_SESSION['language']; ?>">
 <head>
 <title><?php
 echo $config->getWebSiteTitle();
 ?></title>
 <meta name="generator"
 	content="YouPHPTube - A Free Youtube Clone Script" />
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        
-        ?>
+        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <script>
             $(document).ready(function () {
-
-                // Total Itens <?php
-                
-                echo $total;
-                ?>
-
+                // Total Itens <?php echo $total; ?>
                 $('.pages').bootpag({
-                    total: <?php
-                    echo $totalPages;
-                    ?>,
-                    page: <?php
-                    echo $_GET['page'];
-                    ?>,
+                    total: <?php echo $totalPages; ?>,
+                    page: <?php echo $_GET['page']; ?>,
                     maxVisible: 10
                 }).on('page', function (event, num) {
                 <?php
@@ -146,7 +124,6 @@ echo $config->getWebSiteTitle();
                 } else {
                     $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
                 }
-                
                 ?>
                     window.location.replace("<?php
                     echo $url;
@@ -157,71 +134,39 @@ echo $config->getWebSiteTitle();
 </head>
 
 <body>
-        <?php
-        include 'include/navbar.php';
-        
-        ?>
-        <div class="container-fluid gallery" itemscope
-		itemtype="http://schema.org/VideoObject">
-		<div class="row text-center" style="padding: 10px;">
-                <?php
-                echo $config->getAdsense();
-                ?>
+        <?php include 'include/navbar.php'; ?>
+        <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
+		    <div class="row text-center" style="padding: 10px;">
+                <?php echo $config->getAdsense(); ?>
             </div>
-
-		<div class="col-sm-10 col-sm-offset-1 list-group-item">
-  
-                <?php
-                
+		    <div class="col-sm-10 col-sm-offset-1 list-group-item">
+            <?php    
                 if ((! empty($videos)) || ($obj->SubCategorys)) {
                     $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
-                    ?>
-
+            ?>
                     <div class="row mainArea">
-
-                                            <?php
-                    if (($obj->CategoryDescription) && (! empty($_GET['catName']))) {
-                        ?>
-                        <h1 style="text-align: center;"><?php
-                        echo $video['category'];
-                        ?></h1>
-				<p
-					style="margin-left: 10%; margin-right: 10%; max-height: 200px; overflow-x: auto;"><?php
-                        echo $video['category_description'];
-                        ?></p>
-                    <?php
-                    }
-                    ?>
-                        
-        <?php
-                    if (($obj->SubCategorys) && (! empty($_GET['catName']))) {
-                        unset($_POST['rowCount']);
-                        $category = Category::getAllCategories();
-                        $currentCat;
-                        foreach ($category as $cat) {
-                            if ($cat['clean_name'] == $_GET['catName']) {
-                                $currentCat = $cat;
-                            }
-                        }
-                        
-                        // -1 is a personal workaround only
-                        
+                        <?php if (($obj->CategoryDescription) && (! empty($_GET['catName']))) { ?>
+                        <h1 style="text-align: center;"><?php echo $video['category']; ?></h1>
+				        <p style="margin-left: 10%; margin-right: 10%; max-height: 200px; overflow-x: auto;"><?php echo $video['category_description']; ?></p>
+                        <?php }
+                            if (($obj->SubCategorys) && (! empty($_GET['catName']))) {
+                                unset($_POST['rowCount']);
+                                $category = Category::getAllCategories();
+                                $currentCat;
+                                foreach ($category as $cat) {
+                                    if ($cat['clean_name'] == $_GET['catName']) {
+                                        $currentCat = $cat;
+                                    }
+                                }
                         $category = Category::getChildCategories($currentCat['id']);
-                        if ((! empty($category)) || (($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1"))) {
-                            ?>                                                          
-               <div class="clear clearfix">
-					
-                        <?php
-                            if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
-                                $parentCat = Category::getCategory($currentCat['parentId']);
-                                ?>
-                        <div><a class="btn btn-primary"
-							href="<?php
-                                echo $global['webSiteRootURL'];
-                                ?>cat/<?php
-                                echo $parentCat['clean_name'];
-                                ?>"><?php
+                        // -1 is a personal workaround only
+                                if ((!empty($category)) || (($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1"))) { ?>             <div class="clear clearfix">
+                                    <?php
+                                        if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
+                                            $parentCat = Category::getCategory($currentCat['parentId']);
+                                    ?>
+                        <div><a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php
                                 echo __("Back to") . " " . $parentCat['name'];
                                 ?> </a></div>
                         <?php
