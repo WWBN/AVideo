@@ -61,7 +61,7 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 		</div>
             <?php if ($config->getAllow_download()) { ?>
                 <a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $playNowVideo['filename']; ?>.mp4" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>"><?php echo __("Download video"); ?></a>
-            <?php} ?>
+            <?php } ?>
     </div>
 	<div class="col-sm-2 col-md-2"></div>
 </div>
