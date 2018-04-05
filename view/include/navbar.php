@@ -336,6 +336,9 @@ $updateFiles = getUpdatesFilesArray();
                 ?>
 
 
+                <?php
+                    if (empty($advancedCustom->doNotShowLeftMenuAudioAndVideoButtons)) {
+                ?>
                 <li>
                     <hr>
                 </li>
@@ -357,6 +360,9 @@ $updateFiles = getUpdatesFilesArray();
                         <?php echo __("Audios"); ?>
                     </a>
                 </li>
+                <?php
+                    }
+                ?>
                 
                 
                 <!-- Channels -->
