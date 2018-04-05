@@ -229,13 +229,13 @@ echo $config->getWebSiteTitle();
                                 </div>
 								<div class="videoInfo">
                                 <?php if ($videoCount) { ?>
-                                    <span class="label label-default" style="top: 10px !important; position: absolute;">
+                                    <span class="label label-default" style="top: 1px !important; position: absolute;">
                                         <i class="glyphicon glyphicon-cd"></i>
                                         <?php echo $videoCount->fetch_array()[0]; ?>
                                     </span>
                                 <?php } ?>
                                 </div>
-								<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="border-radius: 10px; background-color: black; color: white; position: absolute; margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+								<div data-toggle="tooltip" title="<?php echo $cat['name']; ?>" class="tile__title" style="border-radius: 10px; background-color: black; color: white; position: absolute; margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
                                 </div>
 							</a>
