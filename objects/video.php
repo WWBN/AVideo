@@ -1248,11 +1248,12 @@ class Video {
          * 
          */
         $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
-        $aws_s3_obj = $aws_s3->getDataObject();
-        if(!empty($aws_s3_obj->useS3DirectLink)){
-            $includeS3 = true;
+        if(!empty($aws_s3)){
+            $aws_s3_obj = $aws_s3->getDataObject();
+            if(!empty($aws_s3_obj->useS3DirectLink)){
+                $includeS3 = true;
+            }
         }
-        
         $source = array();
         $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
         $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}";
@@ -1475,6 +1476,21 @@ class Video {
         } 
         
         return $r;
+    }
+    
+    static function deleteThumbs($filename){
+        if(empty($filename)){
+            return false;
+        }
+        global $global;
+        $filePath = "{$global['systemRootPath']}videos/{$filename}";
+        // Streamlined for less coding space.
+        $files = glob("{$filePath}_thumbs*.jpg");
+        foreach ($files as $file) {
+            if (file_exists($file)) {
+                @unlink($file);
+            }
+        }
     }
 
 }
