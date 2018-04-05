@@ -50,11 +50,11 @@ class Hotkeys extends PluginAbstract {
             
             $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script><script>";
             if($_SESSION['type']=="audio"){
-                tmp .= "videojs('mainAudio').ready(function() {";
+                $tmp .= "videojs('mainAudio').ready(function() {";
             } else {
-                tmp .= "videojs('mainVideo').ready(function() {";
+                $tmp .= "videojs('mainVideo').ready(function() {";
             }
-            tmp .= "this.hotkeys({ seekStep: 5,";
+            $tmp .= "this.hotkeys({ seekStep: 5,";
                
             if($obj->Volume){
                 $tmp .= "enableVolumeScroll: true,";
