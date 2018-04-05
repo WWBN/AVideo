@@ -25,6 +25,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderResolutionLow = false;
         $obj->doNotShowEncoderResolutionSD = false;
         $obj->doNotShowEncoderResolutionHD = false;
+        $obj->doNotShowLeftMenuAudioAndVideoButtons = false;
         $obj->disableNativeSignUp = false;
         $obj->disableNativeSignIn = false;
         $obj->newUsersCanStream = false;
