@@ -55,7 +55,7 @@ $updateFiles = getUpdatesFilesArray();
                             <div class="input-group" >
                                 <div class="form-inline">
                                     <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
-                                    <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                    <button class="input-group-addon form-control hidden-xs"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                                 </div>
                             </div>
                         </form>
