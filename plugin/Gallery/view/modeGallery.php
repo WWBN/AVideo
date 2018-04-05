@@ -103,7 +103,6 @@ echo $config->getWebSiteTitle();
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <script>
             $(document).ready(function () {
-                // Total Itens <?php echo $total; ?>
                 $('.pages').bootpag({
                     total: <?php echo $totalPages; ?>,
                     page: <?php echo $_GET['page']; ?>,
@@ -156,35 +155,36 @@ echo $config->getWebSiteTitle();
                                         $currentCat = $cat;
                                     }
                                 }
-                        $category = Category::getChildCategories($currentCat['id']);
-                        // -1 is a personal workaround only
+                                $category = Category::getChildCategories($currentCat['id']);
+                                // -1 is a personal workaround only
+                                if((($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
+                                    if(!empty($_GET['catName'])){ ?>
+                                        <div>
+                                            <a class="btn btn-primary"  href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Back to startpage"); ?> </a>
+                                        </div>
+                                    <?php }
+                                } 
                                 if ((!empty($category)) || (($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1"))) { ?>             <div class="clear clearfix">
+                                    <?php if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
+                                        $parentCat = Category::getCategory($currentCat['parentId']); ?>
+                                            <div>
+                                                <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
+                                            </div>
                                     <?php
-                                        if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
-                                            $parentCat = Category::getCategory($currentCat['parentId']);
-                                    ?>
-                        <div><a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php
-                                echo __("Back to") . " " . $parentCat['name'];
-                                ?> </a></div>
-                        <?php
-                            }
+                                            } 
                             
-                            if (! empty($category)) {
-                                ?> <h3 class="galleryTitle"><i class="glyphicon glyphicon-download"></i>
-                            <?php
-                                echo __("Sub-Category-Gallery");
-                                ?>
-                            <span class="badge"><?php
-                                echo count($category);
-                                ?></span>
-						</h3>
-                        <?php
-                            }
-                            echo '<div class="row">';
-                            $countCols = 0;
-                            $originalCat = $_GET['catName'];
-                            unset($_POST['sort']);
-                            $_POST['sort']['title'] = "ASC";
+                                        if (!empty($category)) { ?> 
+                                            <h3 class="galleryTitle"><i class="glyphicon glyphicon-download"></i>
+                                                <?php echo __("Sub-Category-Gallery"); ?>
+                                                <span class="badge"><?php echo count($category); ?></span>
+						                    </h3>
+                                    <?php } ?>
+                        <div class="row">
+                                    <?php
+                                    $countCols = 0;
+                                    $originalCat = $_GET['catName'];
+                                    unset($_POST['sort']);
+                                    $_POST['sort']['title'] = "ASC";
                             
                             // $_POST['rowCount'] = 12;
                             
@@ -204,15 +204,12 @@ echo $config->getWebSiteTitle();
                                         $name = User::getNameIdentificationById($value['users_id']);
                                         
                                         // make a row each 6 cols
-                                        
                                         if ($countCols % 6 === 0) {
                                             echo '</div><div class="row aligned-row ">';
                                         }
-                                        
                                         $countCols ++;
                                         ?>
-                        <div
-							class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
 							<a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
                             <?php
                                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -232,7 +229,7 @@ echo $config->getWebSiteTitle();
                                     </span>
                             <?php } ?>
                                 </div>
-								<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+								<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="border-radius: 10px; background-color: black; color: white; position: absolute; margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                     <?php echo $cat['name']; ?>
                                 </div>
 							</a>
@@ -240,7 +237,12 @@ echo $config->getWebSiteTitle();
                     <?php
                         break;
                         }
-                    } else { ?>
+                    } else { 
+                                        if ($countCols % 6 === 0) {
+                                            echo '</div><div class="row aligned-row ">';
+                                        }
+                                        $countCols ++;
+                                        ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
 							<a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>"><?php
                                     $poster = $global['webSiteRootURL'] . "view/img/notfound.jpg";
@@ -260,7 +262,7 @@ echo $config->getWebSiteTitle();
                                     </span>
                                 <?php } ?>
                                 </div>
-								<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+								<div data-toggle="tooltip" title="<?php echo $description; ?>" class="tile__title" style="border-radius: 10px; background-color: black; color: white; position: absolute; margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
                                         <?php echo $cat['name']; ?>
                                 </div>
 							</a>
@@ -274,7 +276,7 @@ echo $config->getWebSiteTitle();
                 </div>
         </div>
 <?php
-                        }
+                        } 
                     }
                 }
                 
@@ -333,6 +335,13 @@ echo $config->getWebSiteTitle();
 										<i class="fa fa-eye"></i>
                                         <span itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
 									</div>
+                                    <?php if(empty($_GET['catName'])) { ?>
+                                    <div>
+                                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/">
+                                            <?php echo $video['category']; ?>
+                                        </a>
+									</div>
+                                    <?php } ?>
 									<div>
 										<i class="fa fa-clock-o"></i>
                                         <?php echo humanTiming(strtotime($video['videoCreation'])), " ", __('ago'); ?>
@@ -348,6 +357,17 @@ echo $config->getWebSiteTitle();
 										<a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
 									</div>
                                         <?php } ?>
+                                        <?php if ($config->getAllow_download()) { 
+                                            $ext = ".mp4";
+                                            if($value['type']=="audio"){
+                                                    if(file_exists($global['systemRootPath']."videos/".$value['filename'].".ogg")){
+                                                        $ext = ".ogg";
+                                                    } else if(file_exists($global['systemRootPath']."videos/".$value['filename'].".mp3")){
+                                                        $ext = ".mp3";
+                                                    }
+                                        } ?>
+                            <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
+                        <?php } ?>
                                 </div>
 							</div>
 						</div>
@@ -439,6 +459,13 @@ echo $config->getWebSiteTitle();
                                             <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                                         </span>
 									</div>
+                                <?php if(empty($_GET['catName'])) { ?>
+                                    <div>
+                                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                                            <?php echo $value['category']; ?>
+                                        </a>
+									</div>
+                                    <?php } ?>
 									<div>
 										<i class="fa fa-clock-o"></i>
                                         <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -469,7 +496,7 @@ echo $config->getWebSiteTitle();
                                         $ext = ".mp3";
                                     }
                                 } ?>
-                            <div><a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
+                            <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
                         <?php } ?>
 
                                 </div>
@@ -548,6 +575,13 @@ echo $config->getWebSiteTitle();
 									<i class="fa fa-eye"></i>
                                     <span itemprop="interactionCount"><?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?></span>
 								</div>
+                                <?php if(empty($_GET['catName'])) { ?>
+                                    <div>
+                                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                                            <?php echo $value['category']; ?>
+                                        </a>
+									</div>
+                                    <?php } ?>
 								<div>
 									<i class="fa fa-clock-o"></i>
                                     <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -577,7 +611,7 @@ echo $config->getWebSiteTitle();
                                         $ext = ".mp3";
                                     }
                                 } ?>
-                            <div><a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
+                            <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
                         <?php } ?>
                                 </div>
 					   </div>
@@ -661,6 +695,13 @@ echo $config->getWebSiteTitle();
                                     <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                                 </span>
 							</div>
+                                <?php if(empty($_GET['catName'])) { ?>
+                                    <div>
+                                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                                            <?php echo $value['category']; ?>
+                                        </a>
+									</div>
+                                    <?php } ?>
 							<div>
 								<i class="fa fa-clock-o"></i>
                                 <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -690,7 +731,7 @@ echo $config->getWebSiteTitle();
                                         $ext = ".mp3";
                                     }
                                 } ?>
-                            <div><a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
+                            <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
                         <?php } ?>
                         </div>
 				</div>
@@ -768,6 +809,13 @@ echo $config->getWebSiteTitle();
                                 <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                             </span>
 						</div>
+                                <?php if(empty($_GET['catName'])) { ?>
+                                    <div>
+                                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                                            <?php echo $value['category']; ?>
+                                        </a>
+									</div>
+                                    <?php } ?>
 						<div>
 							<i class="fa fa-clock-o"></i>
                             <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -795,7 +843,7 @@ echo $config->getWebSiteTitle();
                                         $ext = ".mp3";
                                     }
                                 } ?>
-                            <div><a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
+                            <div><a class="label label-defaut " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
                         <?php } ?>
 
                     </div>
