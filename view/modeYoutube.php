@@ -50,6 +50,9 @@ if (empty($_GET['videoName'])) {
 
 $obj = new Video("", "", $video['id']);
 
+if(empty($_SESSION['type'])){
+    $_SESSION['type'] = $video['type'];
+}
 // $resp = $obj->addView();
 
 if (!empty($_GET['playlist_id'])) {

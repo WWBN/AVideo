@@ -47,7 +47,6 @@ class Hotkeys extends PluginAbstract {
         $catUrlResult;
         preg_match("/cat\/(.*)\/video\/(.*)/", $url, $catUrlResult);
         if((strpos($url,substr($global['webSiteRootURL'],$httpSpacer)."video/")!==false)||(sizeof($catUrlResult)>0)){
-            
             $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script><script>";
             if($_SESSION['type']=="audio"){
                 $tmp .= "videojs('mainAudio').ready(function() {";
