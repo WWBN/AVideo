@@ -5,29 +5,21 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage categories"));
     exit;
 }
-require_once $global['systemRootPath'] . 'objects/category.php';
-?>
+require_once $global['systemRootPath'] . 'objects/category.php'; ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo __("Category"); ?></title>
 
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
+        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>css/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
-        <?php
-        include 'include/navbar.php';
-        ?>
-
+        <?php include 'include/navbar.php'; ?>
         <div class="container">
-        <?php
-        include 'include/updateCheck.php';
-        ?>
+        <?php include 'include/updateCheck.php'; ?>
             <button type="button" class="btn btn-default" id="addCategoryBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New Category"); ?>
             </button>
@@ -98,14 +90,10 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
         </div><!--/.container-->
-        <?php
-        include 'include/footer.php';
-        ?>
+        <?php include 'include/footer.php'; ?>
         <script>
             var fullCatList;
             $(document).ready(function () {
-
-
                 $('.iconCat').iconpicker({
                     //searchInFooter: true, // If true, the search will be added to the footer instead of the title
                     //inputSearch:true,
@@ -125,13 +113,10 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                 }
                 
                 $('#categoryFormModal').on('hidden.bs.modal', function () {
-                    // do temporary, ressource-intensive variant.. but should prevent bugging
+                    // when modal is closed in any way, get the new list - show old entry again (hidden by edit) + if a name was changed, it's corrected with this reload. 
                     refreshSubCategoryList();
                 })
                 
-                // this is needed for subcategory-table-labels instead of id's
-                // still too much work, too much used...!
-                // at least, after this additional init, it will use the cached values, shared with the form-list.
                 refreshSubCategoryList();
 
                 var grid = $("#grid").bootgrid({
@@ -146,6 +131,9 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                             }
                         },
                         "parentId": function(column, row){
+                            //if(fullCatList==undefined){
+                               // refreshSubCategoryList();    
+                            // }
                             if(fullCatList!=undefined){
                                 var returnValue;
                                 $.each( fullCatList.rows, function( key, val ) {
@@ -157,13 +145,12 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                                         console.log("found parent");
                                         returnValue = "<?php echo __("None (Parent)"); ?>";
                                     }
-                                    //tmpHtml += "<option id='subcat"+val.id+"' value='"+val.id+"' >"+val.name+"</option>";
                                 });
                                 if(returnValue!=undefined){
                                     return returnValue;
                                 }
                             }
-                                return "Don't worry";
+                            return <?php __("Not loaded yet"); ?>;
                             
                         },
                         "type": function(column, row){
@@ -187,13 +174,11 @@ require_once $global['systemRootPath'] . 'objects/category.php';
                         }
                     }
                 }).on("loaded.rs.jquery.bootgrid", function () {
-                    refreshSubCategoryList();
                     grid.find(".command-edit").on("click", function (e) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                        console.log(row);
-                        $("#subcat"+row.id).hide();
-
+                        // console.log(row);
+                        $("#subcat"+row.id).hide(); // hide own entry
                         $('#inputCategoryId').val(row.id);
                         $('#inputName').val(row.name);
                         $('#inputCleanName').val(row.clean_name);
