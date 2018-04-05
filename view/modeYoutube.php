@@ -707,7 +707,6 @@ echo $_SESSION['language']; ?>">
                                 setTimeout(function () {
                                     $('.autoplay').slideDown();
                                 }, 1000);
-                                // Total Itens <?php echo $total; ?>
                             });
                         </script>
                     </div>
