@@ -723,12 +723,10 @@ echo $config->getWebSiteTitle();
                         <?php
                             $value['tags'] = Video::getTags($value['id']);
                             foreach ($value['tags'] as $value2) {
-                                if ($value2->label === __("Group")) {
-                                    ?>
+                                if ($value2->label === __("Group")) { ?>
                                     <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                    <?php }
-                                    }
-                                    ?>
+                                <?php } 
+                            } ?>
                         </div>
 						<div>
 							<i class="fa fa-eye"></i>
@@ -775,7 +773,7 @@ echo $config->getWebSiteTitle();
     <?php } ?>
 </div>
 </div>
-	<!-- </div> too much or needed? -->
+	</div>
         <?php include 'include/footer.php'; ?>
     </body>
 </html>
