@@ -1311,7 +1311,7 @@ class Video {
                 // create thumbs
                 if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
                     error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
-                    im_resize($jpegSource['path'], $thumbsSmallSource['path'], 100, 56, 10);
+                    im_resize($jpegSource['path'], $thumbsSmallSource['path'], 125, 70, 25);
                 }
             } else {
                 $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
