@@ -337,7 +337,7 @@ $updateFiles = getUpdatesFilesArray();
 
 
                 <?php
-                    if (!empty($advancedCustom->doNotShowLeftMenuAudioAndVideoButtons)) {
+                    if (empty($advancedCustom->doNotShowLeftMenuAudioAndVideoButtons)) {
                 ?>
                 <li>
                     <hr>
