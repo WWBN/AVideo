@@ -1,27 +1,21 @@
-
 <?php
 $playNowVideo = $video;
 $transformation = "{rotate:" . $video['rotation'] . ", zoom: " . $video['zoom'] . "}";
 
-if ($video['rotation'] === "90" || $video['rotation'] === "270")
-	{
-	$aspectRatio = "9:16";
-	$vjsClass = "vjs-9-16";
-	$embedResponsiveClass = "embed-responsive-9by16";
-	}
-  else
-	{
-	$aspectRatio = "16:9";
-	$vjsClass = "vjs-16-9";
-	$embedResponsiveClass = "embed-responsive-16by9";
+if ($video['rotation'] === "90" || $video['rotation'] === "270") {
+	   $aspectRatio = "9:16";
+	   $vjsClass = "vjs-9-16";
+	   $embedResponsiveClass = "embed-responsive-9by16";
+	} else {
+	   $aspectRatio = "16:9";
+	   $vjsClass = "vjs-16-9";
+	   $embedResponsiveClass = "embed-responsive-16by9";
 	}
 
-if (!empty($ad))
-	{
+if (!empty($ad)) {
 	$playNowVideo = $ad;
 	$logId = Video_ad::log($ad['id']);
 	}
-
 ?>
 <div class="row main-video" id="mvideo">
 	<div class="col-sm-2 col-md-2 firstC"></div>
@@ -45,21 +39,16 @@ if (!empty($ad))
                         <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
 				    </p>
 				</video>
-
                 <?php require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
                 // the live users plugin
-if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b"))
-	{
+if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 	require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-
 	$style = VideoLogoOverlay::getStyle();
-	$url = VideoLogoOverlay::getLink();
-?>
+	$url = VideoLogoOverlay::getLink(); ?>
                     <div style="<?php echo $style; ?>">
                         <a href="<?php echo $url; ?>"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"></a>
 				    </div>
-                    <?php } 
-                if (!empty($logId)) { ?>
+                    <?php } if (!empty($logId)) { ?>
                 <div id="adUrl" class="adControl"><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
                     <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank"><?php $url = parse_url($ad['redirect']); echo $url['host'];?> 
                         <i class="fa fa-external-link"></i>
@@ -69,57 +58,33 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b"))
                     <?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
                 <?php } ?>
             </div>
-
 		</div>
             <?php if ($config->getAllow_download()) { ?>
                 <a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $playNowVideo['filename']; ?>.mp4" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>"><?php echo __("Download video"); ?></a>
             <?php} ?>
     </div>
-
 	<div class="col-sm-2 col-md-2"></div>
 </div>
 <!--/row-->
 <script>
     var player;
     $(document).ready(function () {
-        <?php
-
-if (!$config->getAllow_download())
-	{ ?>
-
+    <?php if (!$config->getAllow_download()) { ?>
         // Prevent HTML5 video from being downloaded (right-click saved)?
-
         $('#mainVideo').bind('contextmenu', function () {
             return false;
         });
-        <?php
-	} /*
-* else { ?>
-* $('#mainVideo').bind('contextmenu', function (event) {
-* event.preventDefault();
-* return '<a href="blubb">Hallo Welt!</a>';
-* });
-*
-* <?php }
-
-*/
-?>
-        fullDuration = strToSeconds('<?php
-echo @$ad['duration']; ?>');
-        
+        <?php } ?>
+        fullDuration = strToSeconds('<?php echo @$ad['duration']; ?>');
         player = videojs('mainVideo');
-        
         player.zoomrotate(<?php echo $transformation; ?>);
         player.on('play', function () {
             addView(<?php echo $playNowVideo['id']; ?>);
           });
         player.ready(function () {
-<?php
-
-if ($config->getAutoplay()) {
+<?php if ($config->getAutoplay()) {
 	echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');}player.play();}, 150);";
-}
-else { ?>
+} else { ?>
                 if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                     setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play();}, 150);                    
                 }
