@@ -153,7 +153,7 @@ $totalPages = ceil($total / $_POST['rowCount']);
                                                $poster = $images->poster;
                                                ?>                                        
                                             <div class="aspectRatio16_9">
-                                                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="thumbsJPG img img-responsive " style="height: auto; width: 100%;" id="thumbsJPG<?php echo $video['id']; ?>"  />
+                                                <img src="<?php echo $images->thumbsJpg; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="thumbsJPG img img-responsive " style="height: auto; width: 100%;" id="thumbsJPG<?php echo $video['id']; ?>"  />
 
                                                 <?php
                                                 if (!empty($imgGif)) {
