@@ -1,6 +1,6 @@
-<div class="row main-video" style="padding: 10px;">
-    <div class="col-xs-12 col-sm-12 col-lg-2"></div>
-    <div class="col-xs-12 col-sm-12 col-lg-8 ">
+<div class="row main-video" style="padding: 10px;" id="mvideo">
+    <div class="col-xs-12 col-sm-12 col-lg-2 firstC"></div>
+    <div class="col-xs-12 col-sm-12 col-lg-8 secC">
         <?php
             $poster = $global['webSiteRootURL']."img/recorder.gif";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".jpg")){
