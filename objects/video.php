@@ -1408,7 +1408,7 @@ class Video {
         }
         
         if(!file_exists($source['path'])){
-            if($type!="_thumbs.jpg"){
+            if($type!="_thumbs.jpg" && $type!="_thumbsSmall.jpg"){
                 return array('path'=>false, 'url'=>false);
             }
         }
@@ -1438,9 +1438,11 @@ class Video {
         $gifSource = self::getSourceFile($filename, ".gif");
         $jpegSource = self::getSourceFile($filename, ".jpg");
         $thumbsSource =  self::getSourceFile($filename, "_thumbs.jpg");
+        $thumbsSmallSource =  self::getSourceFile($filename, "_thumbsSmall.jpg");
         $obj->poster = $jpegSource['url'];
         $obj->thumbsGif = $gifSource['url'];
         $obj->thumbsJpg = $thumbsSource['url'];
+        $obj->thumbsJpgSmall = $thumbsSmallSource['url'];
         if ($type !== "audio") {
             if (file_exists($gifSource['path'])) {
                 $obj->thumbsGif = $gifSource['url'];
@@ -1453,15 +1455,25 @@ class Video {
                     error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
                     im_resize($jpegSource['path'], $thumbsSource['path'], 250, 140);
                 }
+                // create thumbs
+                if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
+                    error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
+                    im_resize($jpegSource['path'], $thumbsSmallSource['path'], 250, 140, 5);
+                }
             } else {
                 $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
                 $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+                $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfound.jpg";
             }
         } else {
             $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+            $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
         }
         if(empty($obj->thumbsJpg)){
             $obj->thumbsJpg = $obj->poster;
+        }
+        if(empty($obj->thumbsJpgSmall)){
+            $obj->thumbsJpgSmall = $obj->poster;
         }
         //ObjectYPT::setCache($name, $obj);
         if(!empty($advancedCustom->disableAnimatedGif)){
