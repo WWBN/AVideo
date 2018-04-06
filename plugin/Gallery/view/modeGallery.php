@@ -191,8 +191,7 @@ echo $config->getWebSiteTitle();
                                 $_GET['catName'] = $cat['clean_name'];
                                 $description = $cat['description'];
                                 
-                                // $_GET['limitOnceToOne'] = "1";
-                                
+                                $_GET['limitOnceToOne'] = "1";
                                 $videos = Video::getAllVideos();
                                 
                                 // make a row each 6 cols
@@ -208,7 +207,6 @@ echo $config->getWebSiteTitle();
                                 <?php
                             if (!empty($videos)) {
                                 foreach ($videos as $value) {
-                                        $name = User::getNameIdentificationById($value['users_id']);
                                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
                                         $poster = $images->thumbsJpg;
                                 ?>
