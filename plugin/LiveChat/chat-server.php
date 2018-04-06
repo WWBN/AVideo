@@ -7,7 +7,9 @@ use MyApp\Chat;
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/LiveChat/ratchet/autoload.php';
 require_once $global['systemRootPath'] . 'plugin/LiveChat/Chat.php';
-
+require_once $global['systemRootPath'] . 'plugin/LiveChat/LiveChat.php';
+$lc = new LiveChat();
+$obj = $lc->getDataObject();
 
 $server = IoServer::factory(
     new HttpServer(
@@ -15,7 +17,7 @@ $server = IoServer::factory(
             new Chat()
         )
     ),
-    8888
+    $obj->port
 );
 
 $server->run();

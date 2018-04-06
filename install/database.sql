@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `clean_name` VARCHAR(45) NOT NULL,
   `description` TEXT NULL, 
   `nextVideoOrder` INT(2) NOT NULL DEFAULT '0',
+  `parentId` INT NOT NULL DEFAULT '0',
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder',
@@ -473,6 +474,19 @@ CREATE TABLE IF NOT EXISTS `comments_likes` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `category_type_cache`
+-- -----------------------------------------------------
+CREATE TABLE `category_type_cache` (
+  `categoryId` int(11) NOT NULL,
+  `type` int(2) NOT NULL COMMENT '0=both, 1=audio, 2=video' DEFAULT 0,
+  `manualSet` int(1) NOT NULL COMMENT '0=auto, 1=manual' DEFAULT 0
+    
+) ENGINE=InnoDB;
+
+ALTER TABLE `category_type_cache`
+  ADD UNIQUE KEY `categoryId` (`categoryId`);
+COMMIT;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
