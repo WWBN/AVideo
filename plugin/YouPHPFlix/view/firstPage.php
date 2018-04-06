@@ -25,6 +25,10 @@ if (("http://" . $url === $global['webSiteRootURL'] . "videoOnly") || ("https://
 
 $category = Category::getAllCategories();
 $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
+$tmpSessionType;
+if(!empty($_SESSION['type'])){
+    $tmpSessionType = $_SESSION['type'];
+}
 unset($_SESSION['type']);
 ?>
 <!DOCTYPE html>
@@ -104,7 +108,7 @@ unset($_SESSION['type']);
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
                         $poster = $images->thumbsJpg;
                         ?>
-							<img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+							<img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                             <?php
                         if ((! empty($imgGif)) && (! $o->LiteGalleryNoGifs)) {
                             ?>
@@ -738,7 +742,7 @@ unset($_SESSION['type']);
                         }
                     ?>
                     <div class="aspectRatio16_9">
-				        <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+				        <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                         <?php
                             if ((!empty($imgGif)) && (!$o->LiteGalleryNoGifs)) {
                         ?>
@@ -878,6 +882,9 @@ unset($_SESSION['type']);
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.pkgd.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/script.js" type="text/javascript"></script>
-        <?php unset($_SESSION['type']); ?>
+        <?php 
+        if(!empty($tmpSessionType)){
+            $_SESSION['type'] = $tmpSessionType;
+        }?>
     </body>
 </html>
