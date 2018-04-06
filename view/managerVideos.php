@@ -193,7 +193,7 @@ if (!empty($_GET['video_id'])) {
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title"><?php echo __("Video Form"); ?></h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
                             <div id="postersImage">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#jpg">Poster (JPG)</a></li>
