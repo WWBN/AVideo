@@ -73,7 +73,7 @@ unset($_SESSION['type']);
                         <a class="btn btn-primary"  href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Back to startpage"); ?> </a>
                     </div>
                 <?php }
-                                }
+            }
             if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) {
                 $parentCat = Category::getCategory($currentCat['parentId']); ?>
                 <div>
@@ -81,6 +81,7 @@ unset($_SESSION['type']);
                 </div>
             <?php
             }
+            $category = Category::getChildCategories($currentCat['id']);
             if(!empty($category)) { ?>
                 <h2 style="margin-top: 30px;"><?php echo __("Sub-Category-Gallery"); ?>
                             <span class="badge"><?php echo count($category); ?></span>
