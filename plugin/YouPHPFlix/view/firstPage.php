@@ -23,7 +23,6 @@ if (("http://" . $url === $global['webSiteRootURL'] . "videoOnly") || ("https://
     $isVideoOnly = true;
 }
 
-$category = Category::getAllCategories();
 $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 $tmpSessionType;
 if(!empty($_SESSION['type'])){
@@ -66,7 +65,6 @@ unset($_SESSION['type']);
             }
         if (($o->SubCategorys) && (! empty($_GET['catName']))) {
 
-            $category = Category::getChildCategories($currentCat['id']);
             ?>                                     
        <script>
     		setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
