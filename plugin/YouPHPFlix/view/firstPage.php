@@ -53,14 +53,19 @@ unset($_SESSION['type']);
 
         <div class="container-fluid" id="mainContainer" style="display: none;"> 
         <?php
-        if (($o->SubCategorys) && (! empty($_GET['catName']))) {
             $category = Category::getAllCategories();
             $currentCat;
+            $currentCatType = array('type'=>99); // 99 because it will not match - only when found and be replaced.
+            if(!empty($_GET['catName'])){
             foreach ($category as $cat) {
                 if ($cat['clean_name'] == $_GET['catName']) {
                     $currentCat = $cat;
+                    $currentCatType = Category::getCategoryType($cat['id']);
                 }
             }
+            }
+        if (($o->SubCategorys) && (! empty($_GET['catName']))) {
+
             $category = Category::getChildCategories($currentCat['id']);
             ?>                                     
        <script>
@@ -157,6 +162,21 @@ unset($_SESSION['type']);
         unset($_SESSION['type']);
         if (! empty($videos)) {
             if ($o->DateAdded) {
+                
+                
+                $_POST['sort']['created'] = "DESC";
+                $_POST['current'] = 1;
+                $_POST['rowCount'] = 20;
+                
+                if (($currentCatType['type']=="2")||($isVideoOnly)||(($o->separateAudio) && ($isAudioOnly == false))){ 
+                   $_SESSION['type'] = "video";
+                } else if (($currentCatType['type']=="1")||($isAudioOnly)){
+                    $_SESSION['type'] = "audio";
+                } else {
+                    unset($_SESSION['type']);
+                }
+                $videos = Video::getAllVideos();
+                unset($_SESSION['type']);
                 ?>
             <div class="row">
 			<h2>
@@ -166,17 +186,7 @@ unset($_SESSION['type']);
                 </h2>
 			<div class="carousel">
                     <?php
-                $_POST['sort']['created'] = "DESC";
-                $_POST['current'] = 1;
-                $_POST['rowCount'] = 20;
-                if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
-                    $_SESSION['type'] = "video";
-                } else if ($isAudioOnly) {
-                    $_SESSION['type'] = "audio";
-                }
-                
-                $videos = Video::getAllVideos();
-                unset($_SESSION['type']);
+
                 foreach ($videos as $value) {
                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
                     $imgGif = $images->thumbsGif;
@@ -242,7 +252,7 @@ unset($_SESSION['type']);
 		</div>
 
             <?php
-            }
+            } //}
             if (($o->separateAudio) && ($isAudioOnly == false) && ($isVideoOnly == false)) {    
                 unset($_POST['sort']);
 		        $_POST['sort']['created'] = "DESC";
@@ -342,10 +352,12 @@ unset($_SESSION['type']);
                 <?php
                 unset($_POST['sort']);
                 $_POST['sort']['views_count'] = "DESC";
-                if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
-                    $_SESSION['type'] = "video";
-                } else if ($isAudioOnly) {
+                if (($currentCatType['type']=="2")||($isVideoOnly)||(($o->separateAudio) && ($isAudioOnly == false))){ 
+                   $_SESSION['type'] = "video";
+                } else if (($currentCatType['type']=="1")||($isAudioOnly)){
                     $_SESSION['type'] = "audio";
+                } else {
+                    unset($_SESSION['type']);
                 }
                 
                 $videos = Video::getAllVideos();
@@ -423,12 +435,13 @@ unset($_SESSION['type']);
                 <?php
                 unset($_POST['sort']);
                 $_POST['sort']['likes'] = "DESC";
-                if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
-                    $_SESSION['type'] = "video";
-                } else if ($isAudioOnly) {
+                if (($currentCatType['type']=="2")||($isVideoOnly)||(($o->separateAudio) && ($isAudioOnly == false))){ 
+                   $_SESSION['type'] = "video";
+                } else if (($currentCatType['type']=="1")||($isAudioOnly)){
                     $_SESSION['type'] = "audio";
+                } else {
+                    unset($_SESSION['type']);
                 }
-                
                 $videos = Video::getAllVideos();
                 unset($_SESSION['type']);
                 foreach ($videos as $value) {
@@ -519,11 +532,15 @@ unset($_SESSION['type']);
                     // $_POST['rowCount'] = 18;
                     // $_POST['current'] = 1;
                     
-                    if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
-                        $_SESSION['type'] = "video";
-                    } else if ($isAudioOnly) {
-                        $_SESSION['type'] = "audio";
-                    }
+                if (($currentCatType['type']=="2")||($isVideoOnly)||(($o->separateAudio) && ($isAudioOnly == false))){ 
+                   $_SESSION['type'] = "video";
+                } else if (($currentCatType['type']=="1")||($isAudioOnly)){
+                    $_SESSION['type'] = "audio";
+                } else {
+                    unset($_SESSION['type']);
+                }
+                $videos = Video::getAllVideos();
+                unset($_SESSION['type']);
                     
                     $videos = Video::getAllVideos();
                     unset($_SESSION['type']);
