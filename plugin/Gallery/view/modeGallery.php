@@ -165,21 +165,20 @@ echo $config->getWebSiteTitle();
                                     <?php }
                                 } 
                                 if ((!empty($category)) || (($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1"))) { ?>             <div class="clear clearfix">
+                        
                                     <?php if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
                                         $parentCat = Category::getCategory($currentCat['parentId']); ?>
                                             <div>
                                                 <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
                                             </div>
                                     <?php
-                                            } 
-                            
-                                        if (!empty($category)) { ?> 
+                                        } if (!empty($category)) { ?> 
                                             <h3 class="galleryTitle"><i class="glyphicon glyphicon-download"></i>
                                                 <?php echo __("Sub-Category-Gallery"); ?>
                                                 <span class="badge"><?php echo count($category); ?></span>
 						                    </h3>
                                     <?php } ?>
-                        <div class="row">
+                                            <div class="row">
                                     <?php
                                     $countCols = 0;
                                     $originalCat = $_GET['catName'];
@@ -448,7 +447,7 @@ echo $config->getWebSiteTitle();
                                             <?php echo $name; ?>
                                         </a>
                                         <?php if ((! empty($value['description'])) && ($obj->Description)) { ?>
-                                        <button type="button" data-trigger="focus" class="btn btn-xs" style="background-color: inherit; color: inherit;" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?> </div>" >Description</button>
+                                        <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?> </div>" ><?php echo __("Description"); ?></button>
                                         <?php } ?>
                                     </div>
                                     <?php if (Video::canEdit($value['id'])) { ?>
@@ -564,7 +563,7 @@ echo $config->getWebSiteTitle();
                                         <?php echo $name; ?>
                                     </a>
                                     <?php if ((!empty($value['description'])) && ($obj->Description)) { ?>
-                                        <button type="button" class="btn btn-xs" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                        <button type="button" class="label label-danger" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>"><?php echo __("Description"); ?></button>
                                     <?php } ?>
                                 </div>
                                 <?php if (Video::canEdit($value['id'])) { ?>
@@ -684,7 +683,7 @@ echo $config->getWebSiteTitle();
                                     <?php echo $name; ?>
                                 </a>
                                 <?php if ((! empty($value['description'])) && ($obj->Description)) { ?>
-                                <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div style='color: white;'><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                                <button type="button" class="label label-danger" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>"><?php echo __("Description"); ?></button>
                                 <?php } ?>
                             </div>
                                 <?php if (Video::canEdit($value['id'])) { ?>
@@ -798,7 +797,7 @@ echo $config->getWebSiteTitle();
                                 <?php echo $name; ?>
                             </a>
                             <?php if ((! empty($value['description'])) && ($obj->Description)) { ?>
-                            <button type="button" class="btn btn-xs" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" style="background-color: inherit; color: inherit;" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>">Description</button>
+                            <button type="button" class="label label-danger" data-trigger="focus" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div><?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?></div>"><?php echo __("Description"); ?></button>
                             <?php } ?>
                         </div>
                             <?php if (Video::canEdit($value['id'])) { ?>
