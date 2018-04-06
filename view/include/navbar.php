@@ -1,6 +1,7 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
+$_GET['parentsOnly']="1";
 $categories = Category::getAllCategories();
 if (empty($_SESSION['language'])) {
     $lang = 'us';
@@ -55,7 +56,7 @@ $updateFiles = getUpdatesFilesArray();
                             <div class="input-group" >
                                 <div class="form-inline">
                                     <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
-                                    <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                    <button class="input-group-addon form-control hidden-xs"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                                 </div>
                             </div>
                         </form>
@@ -336,6 +337,9 @@ $updateFiles = getUpdatesFilesArray();
                 ?>
 
 
+                <?php
+                    if (empty($advancedCustom->doNotShowLeftMenuAudioAndVideoButtons)) {
+                ?>
                 <li>
                     <hr>
                 </li>
@@ -357,6 +361,9 @@ $updateFiles = getUpdatesFilesArray();
                         <?php echo __("Audios"); ?>
                     </a>
                 </li>
+                <?php
+                    }
+                ?>
                 
                 
                 <!-- Channels -->
@@ -377,10 +384,31 @@ $updateFiles = getUpdatesFilesArray();
                     <h3 class="text-danger"><?php echo __("Categories"); ?></h3>
                 </li>
                 <?php
+                
+                function mkSub($catId){
+                    global $global;
+                    unset($_GET['parentsOnly']);
+                    $subcats = Category::getChildCategories($catId);
+                    if(!empty($subcats)){
+                        echo "<ul style='margin-bottom: 0px; list-style-type: none;'>";
+                        foreach($subcats as $subcat){
+                                echo '<li class="' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
+                                    . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
+                                    . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . '</a></li>'; 
+                            mkSub($subcat['id']);
+                        }
+                        echo "</ul>";
+                    }
+                    
+                }
+                
                 foreach ($categories as $value) {
+                    
                     echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
                     . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >'
-                    . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
+                    . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a>'; 
+                    mkSub($value['id']);
+                    echo '</li>';
                 }
                 ?>
 

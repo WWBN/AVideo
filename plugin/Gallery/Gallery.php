@@ -38,6 +38,7 @@ class Gallery extends PluginAbstract {
         $obj->DateAdded = true;
         $obj->DateAddedRowCount = 12;
         $obj->sortReverseable = false;
+        $obj->SubCategorys = false;
         return $obj;
     }
     

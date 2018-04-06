@@ -19,8 +19,12 @@ class NextButton extends PluginAbstract {
 
     public function getFooterCode() {
         global $global, $autoPlayVideo;
-        if (!empty($autoPlayVideo['url'])) {            
-            $js = '<script>autoPlayVideoURL="'.$autoPlayVideo['url'].'"</script>';
+        if (!empty($autoPlayVideo['url'])) {
+            $tmp = "mainVideo";
+            if($_SESSION['type']=="audio"){
+                $tmp = "mainAudio";
+            }
+            $js = '<script>var autoPlayVideoURL="'.$autoPlayVideo['url'].'"; var videoJsId = "'.$tmp.'";</script>';
             $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/NextButton/script.js" type="text/javascript"></script>';
 
             return $js;
