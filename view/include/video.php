@@ -185,6 +185,7 @@ if (!empty($logId)) {
                 console.log("Change Video");
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
                 changeVideoSrc(player, <?php echo json_encode($sources); ?>);
+                addView(<?php echo $video['id']; ?>);
                 $(".ad").removeClass("ad");
                 return false;
             });
