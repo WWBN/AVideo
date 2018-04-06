@@ -7,8 +7,6 @@ if (!User::canUpload()) {
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-$categories = Category::getAllCategories();
-
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();
 
@@ -18,6 +16,7 @@ if (!empty($_GET['video_id'])) {
         $row = Video::getVideo($_GET['video_id']);
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -53,14 +52,9 @@ if (!empty($_GET['video_id'])) {
     </head>
 
     <body>
-        <?php
-        include 'include/navbar.php';
-        ?>
-
+        <?php include 'include/navbar.php'; ?>
         <div class="container">
-        <?php
-        include 'include/updateCheck.php';
-        ?>
+        <?php include 'include/updateCheck.php'; ?>
             <div class="btn-group" >
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
@@ -73,6 +67,7 @@ if (!empty($_GET['video_id'])) {
                     <?php echo __("Video Chart"); ?>
                 </a>
                 <?php
+                $categories = Category::getAllCategories();
                 if (empty($advancedCustom->doNotShowEncoderButton)) {
                     if (!empty($config->getEncoderURL())) {
                         ?>
