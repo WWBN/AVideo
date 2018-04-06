@@ -219,6 +219,16 @@ unset($_SESSION['type']);
 								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                                 <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                            <?php if ($config->getAllow_download()) { 
+                                            $ext = ".mp4";
+                                            if($value['type']=="audio"){
+                                                    if(file_exists($global['systemRootPath']."videos/".$value['filename'].".ogg")){
+                                                        $ext = ".ogg";
+                                                    } else if(file_exists($global['systemRootPath']."videos/".$value['filename'].".mp3")){
+                                                        $ext = ".mp3";
+                                                    }
+                                        } ?>
+                            <span><a class="label label-default " href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></span><?php } ?>
 							</div>
 							<div class="tile__title">
                                 <?php echo $value['title']; ?>
@@ -307,6 +317,16 @@ unset($_SESSION['type']);
 								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                                 <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category'];?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                            <?php if ($config->getAllow_download()) { 
+                                            $ext = ".mp4";
+                                            if($value['type']=="audio"){
+                                                    if(file_exists($global['systemRootPath']."videos/".$value['filename'].".ogg")){
+                                                        $ext = ".ogg";
+                                                    } else if(file_exists($global['systemRootPath']."videos/".$value['filename'].".mp3")){
+                                                        $ext = ".mp3";
+                                                    }
+                                        } ?>
+                            <span><a class="label label-default " href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></span><?php } ?>
 							</div>
 							<div class="tile__title">
                                         <?php echo $value['title'];?>
@@ -372,6 +392,16 @@ unset($_SESSION['type']);
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                                         <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" .$value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                                    <?php if ($config->getAllow_download()) { 
+                                            $ext = ".mp4";
+                                            if($value['type']=="audio"){
+                                                    if(file_exists($global['systemRootPath']."videos/".$value['filename'].".ogg")){
+                                                        $ext = ".ogg";
+                                                    } else if(file_exists($global['systemRootPath']."videos/".$value['filename'].".mp3")){
+                                                        $ext = ".mp3";
+                                                    }
+                                        } ?>
+                            <span><a class="label label-default " href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></span><?php } ?>
                                     </div>
                                     <div class="tile__title">
                                         <?php echo $value['title']; ?>
@@ -443,6 +473,16 @@ unset($_SESSION['type']);
 								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                                 <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                            <?php if ($config->getAllow_download()) { 
+                                            $ext = ".mp4";
+                                            if($value['type']=="audio"){
+                                                    if(file_exists($global['systemRootPath']."videos/".$value['filename'].".ogg")){
+                                                        $ext = ".ogg";
+                                                    } else if(file_exists($global['systemRootPath']."videos/".$value['filename'].".mp3")){
+                                                        $ext = ".mp3";
+                                                    }
+                                        } ?>
+                            <span><a class="label label-default " href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></span><?php } ?>
 							</div>
 							<div class="tile__title">
                                 <?php echo $value['title']; ?>
@@ -543,6 +583,16 @@ unset($_SESSION['type']);
 								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span> 
                                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                                 <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                                                            <?php if ($config->getAllow_download()) { 
+                                            $ext = ".mp4";
+                                            if($value['type']=="audio"){
+                                                    if(file_exists($global['systemRootPath']."videos/".$value['filename'].".ogg")){
+                                                        $ext = ".ogg";
+                                                    } else if(file_exists($global['systemRootPath']."videos/".$value['filename'].".mp3")){
+                                                        $ext = ".mp3";
+                                                    }
+                                        } ?>
+                            <span><a class="label label-default " href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'].$ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></span><?php } ?>
 							</div>
 							<div class="tile__title">
                                         <?php echo $value['title']; ?>
