@@ -68,9 +68,19 @@ unset($_SESSION['type']);
 	   </script>
 		<div class="clear clearfix">
 			<div class="row">
-            <?php if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) { 
+            <?php 
+            if((($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
+                if(!empty($_GET['catName'])){ ?>
+                    <div>
+                        <a class="btn btn-primary"  href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Back to startpage"); ?> </a>
+                    </div>
+                <?php }
+                                }
+            if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) { 
                 $parentCat = Category::getCategory($currentCat['parentId']); ?>
-                <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
+                <div>
+                    <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
+                </div>
             <?php
             }
             if(!empty($category)) { ?>
