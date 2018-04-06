@@ -105,7 +105,7 @@ $updateFiles = getUpdatesFilesArray();
                                         ?>
                                         <li>
                                             <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
-                                                <span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?>
+                                                <span class="fa fa-upload"></span> <?php echo __("Direct upload"); ?>
                                             </a>
                                         </li>
                                         <?php
