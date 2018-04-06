@@ -83,7 +83,7 @@ $_POST['rowCount'] = 24;
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
 $videos = Video::getAllVideos("viewableNotAd");
-
+unset($_POST['sort']);
 foreach ($videos as $key => $value) {
     $name = empty($value['name']) ? $value['user'] : $value['name'];
     $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
@@ -155,6 +155,7 @@ echo $config->getWebSiteTitle();
                                         $currentCat = $cat;
                                     }
                                 }
+				if(!empty($currentCat)){
                                 $category = Category::getChildCategories($currentCat['id']);
                                 // -1 is a personal workaround only
                                 if((($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
@@ -163,7 +164,13 @@ echo $config->getWebSiteTitle();
                                             <a class="btn btn-primary"  href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Back to startpage"); ?> </a>
                                         </div>
                                     <?php }
-                                } 
+                                } } else {
+				?>
+					<div>
+                                            <a class="btn btn-primary" onclick="window.history.back();" ><?php echo __("Back"); ?> </a>
+                                        </div>
+				<?php
+				}
                                 if ((!empty($category)) || (($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1"))) { ?>             <div class="clear clearfix">
                         
                                     <?php if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
