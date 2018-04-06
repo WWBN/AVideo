@@ -86,7 +86,7 @@ unset($_SESSION['type']);
             
             foreach ($category as $cat) {
                 $_GET['catName'] = $cat['clean_name'];
-                $description = $cat['description'];
+                $description = str_ireplace(array("<br />","<br>","<br/>"),"\r\n", $cat['description']);
                 unset($_POST['sort']);
                 $_POST['sort']['title'] = "ASC";
                 $_GET['limitOnceToOne'] = "1";
@@ -109,9 +109,7 @@ unset($_SESSION['type']);
                         $poster = $images->thumbsJpg;
                         ?>
 							<img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
-                            <?php
-                        if ((! empty($imgGif)) && (! $o->LiteGalleryNoGifs)) {
-                            ?>
+                            <?php if ((!empty($imgGif)) && (!$o->LiteGalleryNoGifs)) { ?>
                                     <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                         <?php }
                         $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $value['categories_id'] . ";");
@@ -625,6 +623,7 @@ unset($_SESSION['type']);
             
             foreach ($category as $cat) {
                 $catType = Category::getCategoryType($cat['id']);
+                $description = str_ireplace(array("<br />","<br>","<br/>"),"\r\n", $cat['description']);
                 // -1 is only a personal workaround
                 if (($cat['parentId'] == "0") || ($cat['parentId'] == "-1")) {
                     $_GET['catName'] = $cat['clean_name'];
@@ -674,7 +673,6 @@ unset($_SESSION['type']);
                             }
                     } }
                     if(!empty($audioReplacePicture)){
-                        $description = $cat['description'];
                         if ($o->LiteGalleryMaxTooltipChars > 4) {
                             if (strlen($description) > $o->LiteGalleryMaxTooltipChars) {
                                 $description = substr($description, 0, $o->LiteGalleryMaxTooltipChars - 3) . "...";
@@ -732,7 +730,6 @@ unset($_SESSION['type']);
                         }
                         
                         $poster = $images->thumbsJpg;
-                        $description = $cat['description'];
                         if ($o->LiteGalleryMaxTooltipChars > 4) {
                             if (strlen($description) > $o->LiteGalleryMaxTooltipChars) {
                                 $description = substr($description, 0, $o->LiteGalleryMaxTooltipChars - 3) . "...";
