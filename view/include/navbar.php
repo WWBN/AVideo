@@ -55,7 +55,7 @@ $updateFiles = getUpdatesFilesArray();
                         <form class="navbar-form navbar-left" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
                             <div class="input-group" >
                                 <div class="form-inline">
-                                    <input class="form-control" type="text" value="<?php echo $_GET['search']; ?>" name="search" placeholder="<?php echo __("Search"); ?>">
+                                    <input class="form-control" type="text" value="<?php if(!empty($_GET['search'])) { echo $_GET['search']; } ?>" name="search" placeholder="<?php echo __("Search"); ?>">
                                     <button class="input-group-addon form-control hidden-xs"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                                 </div>
                             </div>
