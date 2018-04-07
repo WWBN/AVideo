@@ -46,7 +46,7 @@ $updateFiles = getUpdatesFilesArray();
         <li>
             <div class="navbar-header">
                 <button type="button" class=" navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#myNavbar" style="padding: 6px 12px;">
-                    <span class="fa fa-bars"></span>                      
+                    <span class="fa fa-bars"></span>
                 </button>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
@@ -55,7 +55,7 @@ $updateFiles = getUpdatesFilesArray();
                         <form class="navbar-form navbar-left" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
                             <div class="input-group" >
                                 <div class="form-inline">
-                                    <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
+                                    <input class="form-control" type="text" value="<?php echo $_GET['search']; ?>" name="search" placeholder="<?php echo __("Search"); ?>">
                                     <button class="input-group-addon form-control hidden-xs"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                                 </div>
                             </div>
