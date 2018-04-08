@@ -1,6 +1,6 @@
 <?php
 
-$installationVersion = "5.0";
+$installationVersion = "5.01";
 
 
 header('Content-Type: application/json');
@@ -93,7 +93,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
-$sql = "INSERT INTO categories (id, name, clean_name, created, modified) VALUES (1, 'Default', 'default', now(), now())";
+$sql = "INSERT INTO categories (id, name, clean_name, description, created, modified) VALUES (1, 'Default', 'default','', now(), now())";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating category: " . $mysqli->error;
     echo json_encode($obj);
