@@ -306,6 +306,7 @@ $t['Yes, delete it!'] = "Ja lösche es!";
 $t['You are hosting %d minutes and %d seconds of video'] = "Du  verfügst über % d Minuten und % d Sekunden an Videos";
 $t['You are running YouPHPTube version %s!'] = "Du nutzt YouPHPTube Version %s!";
 $t['You asked for a recover link, click on the provided link'] = "Du hast nach einem Wiederherstellungslink gefragt, klicke auf den Link";
+$t['You%20can%20not%20manage'] = "Du%20kannst"; // This is gramaticly not correct and only used in a error-field..
 $t['You can not Manage This Video'] = "Du kannst das Videos nicht managen";
 $t['You can not manage ads'] = "Du kannst keine Werbung managen";
 $t['You can not manage categories'] = "Du kannst keine Kategorien managen";

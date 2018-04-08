@@ -352,7 +352,12 @@ $advancedCustom = json_decode($json_file);
         ?>
                             swal("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
         <?php
+
     }
+        $refererUrl = $_SERVER["HTTP_REFERER"];
+        if(strpos($_SERVER["HTTP_REFERER"],"?error=".__("You%20can%20not%20manage"))!=false){
+            $refererUrl = substr($_SERVER["HTTP_REFERER"],0,strpos($_SERVER["HTTP_REFERER"],"?"));
+        }
     ?>
                         $('#loginForm').submit(function (evt) {
                             evt.preventDefault();
@@ -366,7 +371,7 @@ $advancedCustom = json_decode($json_file);
                                         modal.hidePleaseWait();
                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                                     } else {
-                                        document.location = '<?php echo!empty($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : $global['webSiteRootURL']; ?>'
+                                        document.location = '<?php echo!empty($_SERVER["HTTP_REFERER"]) ? $refererUrl : $global['webSiteRootURL']; ?>'
                                     }
                                 }
                             });

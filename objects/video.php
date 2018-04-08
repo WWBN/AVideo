@@ -21,6 +21,7 @@ class Video {
     private $duration;
     private $users_id;
     private $categories_id;
+    private $old_categories_id;
     private $type;
     private $rotation;
     private $zoom;
@@ -154,12 +155,154 @@ class Video {
                 // update the user groups
                 UserGroups::updateVideoGroups($id, $this->videoGroups);
             }
+            Video::autosetCategoryType($this->categories_id);
+            if(!empty($this->old_categories_id)){
+                Video::autosetCategoryType($this->old_categories_id);
+            }
             return $id;
         } else {
             die($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+        
+            
     }
-
+    
+    static function autosetCategoryType($catId) {
+        global $global;
+        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$catId."';";
+        $res = $global['mysqli']->query($sql);
+        $catTypeCache = $res->fetch_assoc();
+        $videoFound = false;
+        $audioFound = false;
+        if($catTypeCache){
+            // 3 means auto
+            if($catTypeCache['manualSet']=="0"){
+                // start incremental search and save
+                $sql = "SELECT * FROM `videos` WHERE categories_id = '".$catId."';";
+                $res = $global['mysqli']->query($sql);
+                //$tmpVid = $res->fetch_assoc();
+                if($res){
+                    while ($row = $res->fetch_assoc()) {
+                        if($row['type']=="audio"){
+                           // echo "found audio";
+                            $audioFound = true;
+                        } else if($row['type']=="video"){
+                            //echo "found video";
+                            $videoFound = true;
+                        }
+                    }
+                }
+                if(($videoFound==false)||($audioFound==false)){
+                    $sql = "SELECT parentId,categories_id FROM `categories` WHERE parentId = '".$catId."';";
+                    $res = $global['mysqli']->query($sql);
+                    if($res){
+                        //$tmpVid = $res->fetch_assoc();
+                        while ($row = mysql_fetch_assoc($res)) {
+                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$row['parentId']."';";
+                            $res = $global['mysqli']->query($sql);
+                            //$tmpVid2 = $res->fetch_assoc();
+                            while ($row = $res->fetch_assoc()) {
+                                if($row['type']=="audio"){
+                                  //  echo "found audio";
+                                    $audioFound = true;
+                                } else if($row['type']=="video"){
+                                    //echo "found video";
+                                    $videoFound = true;
+                                }
+                            }
+                        } 
+                    }
+                }
+                $sql = "UPDATE `category_type_cache` SET `type` = '";
+                if(($videoFound)&&($audioFound)){
+                    $sql .= "0";
+                } else if($audioFound){
+                    $sql .= "1";
+                } else if($videoFound){
+                    $sql .= "2";
+                }
+                $sql .= "' WHERE `category_type_cache`.`categoryId` = '".$catId."';";
+                //echo $sql;
+                $global['mysqli']->query($sql);
+            }
+        } else {
+            // start incremental search and save - and a lot of this redundant stuff in a method.. 
+                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$catId."';";
+                $res = $global['mysqli']->query($sql);
+                if($res){
+                    while ($row = $res->fetch_assoc()) {
+                        if($row['type']=="audio"){
+                            $audioFound = true;
+                        } else if($row['type']=="video"){
+                            $videoFound = true;
+                        }
+                    }
+                }
+                if(($videoFound==false)||($audioFound==false)){
+                    $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '".$catId."';";
+                    $res = $global['mysqli']->query($sql);
+                    if($res){
+                        while ($cat = $res->fetch_assoc()) {
+                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$cat['parentId']."';";
+                            $res = $global['mysqli']->query($sql);
+                            if($res){
+                                while ($row = $res->fetch_assoc()) {
+                                    if($row['type']=="audio"){
+                                        $audioFound = true;
+                                    } else if($row['type']=="video"){
+                                        $videoFound = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES ('".$catId."', '";
+                if(($videoFound)&&($audioFound)){
+                    $sql .= "0";
+                } else if($audioFound){
+                    $sql .= "1";
+                } else if($videoFound){
+                    $sql .= "2";
+                }
+                $sql .= "');";
+                $global['mysqli']->query($sql);
+            }
+    }
+     // i would like to simplify the big part of the method above in this method, but won't work as i want.
+     static function internalAutoset($catId,$videoFound,$audioFound){
+                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$catId."';";
+                $res = $global['mysqli']->query($sql);
+                if($res){
+                    while ($row = $res->fetch_assoc()) {
+                        if($row['type']=="audio"){
+                            $audioFound = true;
+                        } else if($row['type']=="video"){
+                            $videoFound = true;
+                        }
+                    }
+                }
+                if(($videoFound==false)||($audioFound==false)){
+                    $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '".$catId."';";
+                    $res = $global['mysqli']->query($sql);
+                    if($res){
+                        while ($cat = $res->fetch_assoc()) {
+                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '".$cat['parentId']."';";
+                            $res = $global['mysqli']->query($sql);
+                            if($res){
+                                while ($row = $res->fetch_assoc()) {
+                                    if($row['type']=="audio"){
+                                        $audioFound = true;
+                                    } else if($row['type']=="video"){
+                                        $videoFound = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            return array($videoFound,audioFound);
+    }
     function setClean_title($clean_title) {
         $clean_title = preg_replace('/[^0-9a-z]+/', '-', trim(strtolower(cleanString($clean_title))));
         $this->clean_title = $clean_title;
@@ -238,7 +381,7 @@ class Video {
     function getZoom() {
         return $this->zoom;
     }
-
+    
     static private function getUserGroupsCanSeeSQL() {
         global $global;
 
@@ -286,7 +429,7 @@ class Video {
                 . " nv.clean_title as next_clean_title,"
                 . " nv.filename as next_filename,"
                 . " nv.id as next_id,"
-                . " c.name as category,c.iconClass,  c.clean_name as clean_category,c.description as category_description,c.nextVideoOrder as category_order, v.created as videoCreation, "
+                . " c.id as category_id,c.iconClass,c.name as category,c.iconClass,  c.clean_name as clean_category,c.description as category_description,c.nextVideoOrder as category_order, v.created as videoCreation, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes, "
                 . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount ";
@@ -732,6 +875,10 @@ class Video {
     }
 
     function setCategories_id($categories_id) {
+        // to update old cat as well when auto..
+        if(!empty($this->categories_id)){
+            $this->old_categories_id = $this->categories_id;
+        }
         $this->categories_id = $categories_id;
     }
 

@@ -1,6 +1,7 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
+$_GET['parentsOnly']="1";
 $categories = Category::getAllCategories();
 if (empty($_SESSION['language'])) {
     $lang = 'us';
@@ -45,7 +46,7 @@ $updateFiles = getUpdatesFilesArray();
         <li>
             <div class="navbar-header">
                 <button type="button" class=" navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#myNavbar" style="padding: 6px 12px;">
-                    <span class="fa fa-bars"></span>                      
+                    <span class="fa fa-bars"></span>
                 </button>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
@@ -54,7 +55,7 @@ $updateFiles = getUpdatesFilesArray();
                         <form class="navbar-form navbar-left" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
                             <div class="input-group" >
                                 <div class="form-inline">
-                                    <input class="form-control" type="text" name="search" placeholder="<?php echo __("Search"); ?>">
+                                    <input class="form-control" type="text" value="<?php if(!empty($_GET['search'])) { echo $_GET['search']; } ?>" name="search" placeholder="<?php echo __("Search"); ?>">
                                     <button class="input-group-addon form-control hidden-xs"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                                 </div>
                             </div>
@@ -104,7 +105,7 @@ $updateFiles = getUpdatesFilesArray();
                                         ?>
                                         <li>
                                             <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
-                                                <span class="fa fa-upload"></span> <?php echo __("Upload a MP4 video"); ?>
+                                                <span class="fa fa-upload"></span> <?php echo __("Direct upload"); ?>
                                             </a>
                                         </li>
                                         <?php
@@ -383,10 +384,31 @@ $updateFiles = getUpdatesFilesArray();
                     <h3 class="text-danger"><?php echo __("Categories"); ?></h3>
                 </li>
                 <?php
+                
+                function mkSub($catId){
+                    global $global;
+                    unset($_GET['parentsOnly']);
+                    $subcats = Category::getChildCategories($catId);
+                    if(!empty($subcats)){
+                        echo "<ul style='margin-bottom: 0px; list-style-type: none;'>";
+                        foreach($subcats as $subcat){
+                                echo '<li class="' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
+                                    . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
+                                    . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . '</a></li>'; 
+                            mkSub($subcat['id']);
+                        }
+                        echo "</ul>";
+                    }
+                    
+                }
+                
                 foreach ($categories as $value) {
+                    
                     echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
                     . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >'
-                    . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a></li>';
+                    . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a>'; 
+                    mkSub($value['id']);
+                    echo '</li>';
                 }
                 ?>
 
