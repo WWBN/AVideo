@@ -138,8 +138,6 @@ echo $config->getWebSiteTitle();
 		    <div class="col-sm-10 col-sm-offset-1 list-group-item">
             <?php    
                 if ((! empty($videos)) || ($obj->SubCategorys)) {
-                    $name = User::getNameIdentificationById($video['users_id']);
-                    $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
             ?>
                     <div class="row mainArea">
                         <?php if (($obj->CategoryDescription) && (! empty($_GET['catName']))) { ?>
@@ -149,42 +147,40 @@ echo $config->getWebSiteTitle();
                             if (($obj->SubCategorys) && (! empty($_GET['catName']))) {
                                 unset($_POST['rowCount']);
                                 $category = Category::getAllCategories();
+                                $childCategories;
                                 $currentCat;
                                 foreach ($category as $cat) {
                                     if ($cat['clean_name'] == $_GET['catName']) {
                                         $currentCat = $cat;
                                     }
                                 }
-				if(!empty($currentCat)){
-                                $category = Category::getChildCategories($currentCat['id']);
+				        if(!empty($currentCat)){
+                                $childCategories = Category::getChildCategories($currentCat['id']);
+                                $parentCat = Category::getCategory($currentCat['parentId']);
                                 // -1 is a personal workaround only
-                                if((($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
+                                if((empty($parentCat))&&(($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
                                     if(!empty($_GET['catName'])){ ?>
                                         <div>
                                             <a class="btn btn-primary"  href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Back to startpage"); ?> </a>
                                         </div>
                                     <?php }
-                                } } else {
-				?>
-					<div>
-                                            <a class="btn btn-primary" onclick="window.history.back();" ><?php echo __("Back"); ?> </a>
-                                        </div>
-				<?php
-				}
-                                if (((!empty($category))&&(!empty($currentCat)))  && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) { ?>             <div class="clear clearfix">
-                        
-                                    <?php if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
-                                        $parentCat = Category::getCategory($currentCat['parentId']); ?>
-                                            <div>
+                                } else if(!empty($parentCat)){ ?>
+                                             <div>
                                                 <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
                                             </div>
-                                    <?php
-                                        } if (!empty($category)) { ?> 
+                                <?php }
+                            } else {
+				            ?>
+					                   <div>
+                                            <a class="btn btn-primary" onclick="window.history.back();" ><?php echo __("Back"); ?> </a>
+                                        </div>
+				            <?php
+				            }
+                                if ((!empty($childCategories)) && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) { ?>             <div class="clear clearfix">
                                             <h3 class="galleryTitle"><i class="glyphicon glyphicon-download"></i>
                                                 <?php echo __("Sub-Category-Gallery"); ?>
-                                                <span class="badge"><?php echo count($category); ?></span>
+                                                <span class="badge"><?php echo count($childCategories); ?></span>
 						                    </h3>
-                                    <?php } ?>
                                             <div class="row">
                                     <?php
                                     $countCols = 0;
@@ -194,7 +190,7 @@ echo $config->getWebSiteTitle();
                             
                             // $_POST['rowCount'] = 12;
                             
-                            foreach ($category as $cat) {
+                            foreach ($childCategories as $cat) {
                                 $_GET['catName'] = $cat['clean_name'];
                                 $description = $cat['description'];
                                 
