@@ -17,11 +17,26 @@ if (! empty($_GET['type'])) {
     } else if ($_GET['type'] == 'video') {
         $_SESSION['type'] = 'video';
     } else {
-        $_SESSION['type'] = "";
         unset($_SESSION['type']);
     }
 }
 
+require_once $global['systemRootPath'] . 'objects/category.php';
+$currentCat;
+$currentCatType;
+if($_GET['catName']){
+    $currentCat = Category::getCategoryByName($_GET['catName']);
+    $currentCatType = Category::getCategoryType($currentCat['id']);
+}
+if ((empty($_GET['type']))&&(!empty($currentCatType))) {
+    if($currentCatType['type']=="1"){
+        $_SESSION['type'] = "audio";
+    } else if($currentCatType['type']=="2"){
+        $_SESSION['type'] = "video";
+    } else {
+        unset($_SESSION['type']);
+    }
+}
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 if ($obj->sortReverseable) {
@@ -100,7 +115,8 @@ echo $config->getWebSiteTitle();
 ?></title>
 <meta name="generator"
 	content="YouPHPTube - A Free Youtube Clone Script" />
-        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/head.php';
+    ?>
         <script>
             $(document).ready(function () {
                 $('.pages').bootpag({
@@ -146,25 +162,17 @@ echo $config->getWebSiteTitle();
                         <?php }
                             if (($obj->SubCategorys) && (! empty($_GET['catName']))) {
                                 unset($_POST['rowCount']);
-                                $category = Category::getAllCategories();
-                                $childCategories;
-                                $currentCat;
-                                foreach ($category as $cat) {
-                                    if ($cat['clean_name'] == $_GET['catName']) {
-                                        $currentCat = $cat;
-                                    }
-                                }
-				        if(!empty($currentCat)){
-                                $childCategories = Category::getChildCategories($currentCat['id']);
-                                $parentCat = Category::getCategory($currentCat['parentId']);
-                                // -1 is a personal workaround only
-                                if((empty($parentCat))&&(($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
-                                    if(!empty($_GET['catName'])){ ?>
-                                        <div>
-                                            <a class="btn btn-primary"  href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Back to startpage"); ?> </a>
-                                        </div>
+				                if(!empty($currentCat)){
+                                    $childCategories = Category::getChildCategories($currentCat['id']);
+                                    $parentCat = Category::getCategory($currentCat['parentId']);
+                                    // -1 is a personal workaround only
+                                    if((empty($parentCat))&&(($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
+                                        if(!empty($_GET['catName'])){ ?>
+                                            <div>
+                                                <a class="btn btn-primary"  href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Back to startpage"); ?> </a>
+                                            </div>
                                     <?php }
-                                } else if(!empty($parentCat)){ ?>
+                                        } else if(!empty($parentCat)){ ?>
                                              <div>
                                                 <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
                                             </div>
@@ -176,19 +184,17 @@ echo $config->getWebSiteTitle();
                                         </div>
 				            <?php
 				            }
-                                if ((!empty($childCategories)) && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) { ?>             <div class="clear clearfix">
-                                            <h3 class="galleryTitle"><i class="glyphicon glyphicon-download"></i>
-                                                <?php echo __("Sub-Category-Gallery"); ?>
-                                                <span class="badge"><?php echo count($childCategories); ?></span>
-						                    </h3>
-                                            <div class="row">
+                            if ((!empty($childCategories)) && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) { ?>         <div class="clear clearfix">
+                                    <h3 class="galleryTitle"><i class="glyphicon glyphicon-download"></i>
+                                        <?php echo __("Sub-Category-Gallery"); ?>
+                                        <span class="badge"><?php echo count($childCategories); ?></span>
+						            </h3>
+                                    <div class="row">
                                     <?php
                                     $countCols = 0;
                                     $originalCat = $_GET['catName'];
                                     unset($_POST['sort']);
                                     $_POST['sort']['title'] = "ASC";
-                            
-                            // $_POST['rowCount'] = 12;
                             
                             foreach ($childCategories as $cat) {
                                 $_GET['catName'] = $cat['clean_name'];
@@ -243,7 +249,9 @@ echo $config->getWebSiteTitle();
                         
                     <?php } // end of foreach-cat       
                     unset($_POST['sort']);
-                    $_GET['catName'] = $originalCat;
+                    if(!empty($originalCat)){
+                        $_GET['catName'] = $originalCat;
+                    }
                     ?>
                 </div>
         </div>
@@ -251,7 +259,6 @@ echo $config->getWebSiteTitle();
                         } 
                     }
                 }
-                
                 $videos = Video::getAllVideos("viewableNotAd");
                 
                 foreach ($videos as $key => $value) {
