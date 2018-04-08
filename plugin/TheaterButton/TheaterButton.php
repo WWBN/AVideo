@@ -42,7 +42,11 @@ class TheaterButton extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/script.js" type="text/javascript"></script>';
-        
+        $tmp = "mainVideo";
+        if($_SESSION['type']=="audio"){
+            $tmp = "mainAudio";
+        }
+        $js .= '<script>var videoJsId = "'.$tmp.'";</script>';
         if(!empty($obj->show_switch_button)){
             $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/addButton.js" type="text/javascript"></script>';
         }else{

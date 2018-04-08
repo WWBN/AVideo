@@ -40,10 +40,12 @@ class SeekButton extends PluginAbstract {
         if (!empty($_GET['videoName'])) {
             $obj = $this->getDataObject();
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.min.js" type="text/javascript"></script>';
-
-            $js .= '<script>if(typeof player == \'undefined\'){player = videojs(\'mainVideo\');}'
-                    . 'player.seekButtons({forward: '.$obj->forward.',back: '.$obj->back.' });'
-                    . '</script>';
+            if($_SESSION['type']=="audio"){
+               $js .= '<script>if(typeof player == \'undefined\'){player = videojs(\'mainAudio\');}';
+            } else {
+               $js .= '<script>if(typeof player == \'undefined\'){player = videojs(\'mainVideo\');}'; 
+            }
+            $js .=  'player.seekButtons({forward: '.$obj->forward.',back: '.$obj->back.' });'. '</script>';
             return $js;
         }
     }    
