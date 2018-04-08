@@ -7,17 +7,16 @@ if (!User::canUpload()) {
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-$categories = Category::getAllCategories();
-
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();
 
-
+unset($_SESSION['type']);
 if (!empty($_GET['video_id'])) {
     if (Video::canEdit($_GET['video_id'])) {
         $row = Video::getVideo($_GET['video_id']);
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -53,14 +52,9 @@ if (!empty($_GET['video_id'])) {
     </head>
 
     <body>
-        <?php
-        include 'include/navbar.php';
-        ?>
-
+        <?php include 'include/navbar.php'; ?>
         <div class="container">
-        <?php
-        include 'include/updateCheck.php';
-        ?>
+        <?php include 'include/updateCheck.php'; ?>
             <div class="btn-group" >
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
@@ -73,6 +67,7 @@ if (!empty($_GET['video_id'])) {
                     <?php echo __("Video Chart"); ?>
                 </a>
                 <?php
+                $categories = Category::getAllCategories();
                 if (empty($advancedCustom->doNotShowEncoderButton)) {
                     if (!empty($config->getEncoderURL())) {
                         ?>
@@ -829,6 +824,7 @@ if (!empty($row)) {
                                                         }
                                                         tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                                                     }
+                                                    tags += "<span class='label label-primary fix-width'><?php echo __("Type").":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
                                                     return tags;
                                                 },
                                                 "checkbox": function (column, row) {
@@ -862,7 +858,7 @@ if (!empty($row)) {
                                                     var type, img, is_portrait;
                                                     if (row.type === "audio") {
                                                         type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
-                                                        img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>view/img/audio_wave.jpg' style='max-height:80px; margin-right: 5px;'> ";
+                                                        img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg' style='max-height:80px; margin-right: 5px;'> ";
                                                     } else {
                                                         type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
                                                         is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";

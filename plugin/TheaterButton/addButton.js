@@ -1,7 +1,7 @@
 $(document).ready(function () {
 // Extend default
     if (typeof player == 'undefined') {
-        player = videojs('mainVideo');
+        player = videojs(videoJsId);
     }
 // Extend default
     var Button = videojs.getComponent('Button');
