@@ -895,6 +895,9 @@ unset($_SESSION['type']);
         <?php 
         if(!empty($tmpSessionType)){
             $_SESSION['type'] = $tmpSessionType;
-        }?>
+        } else {
+	   unset($_SESSION['type']);
+	}
+?>
     </body>
 </html>
