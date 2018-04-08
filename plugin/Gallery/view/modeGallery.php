@@ -171,7 +171,7 @@ echo $config->getWebSiteTitle();
                                         </div>
 				<?php
 				}
-                                if ((!empty($category)) || (($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1"))) { ?>             <div class="clear clearfix">
+                                if (((!empty($category))&&(!empty($currentCat)))  && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) { ?>             <div class="clear clearfix">
                         
                                     <?php if (($currentCat['parentId'] != 0) && ($currentCat['parentId'] != - 1)) {
                                         $parentCat = Category::getCategory($currentCat['parentId']); ?>
