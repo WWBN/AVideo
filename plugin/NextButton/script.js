@@ -1,5 +1,5 @@
 // Extend default
-if(typeof player == 'undefined'){player = videojs('mainVideo');}
+if(typeof player == 'undefined'){player = videojs(videoJsId);}
 var Button = videojs.getComponent('Button');
 var nextButton = videojs.extend(Button, {
     //constructor: function(player, options) {

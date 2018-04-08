@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 require_once '../videos/configuration.php';
 require_once 'video_ad.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
