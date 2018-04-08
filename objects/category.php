@@ -160,7 +160,10 @@ class Category {
     }
 
     static function getAllCategories() {
-        global $global;
+        global $global, $config;
+        if($config->currentVersionLowerThen('5.01')){
+            return false;
+        }
         $sql = "SELECT * FROM categories WHERE 1=1 ";
         if(!empty($_GET['parentsOnly'])){
             $sql .= "AND parentId = 0 ";
@@ -182,7 +185,10 @@ class Category {
     }
     
     static function getChildCategories($parentId) {
-        global $global;
+        global $global, $config;
+        if($config->currentVersionLowerThen('5.01')){
+            return false;
+        }
         $sql = "SELECT * FROM categories WHERE parentId=".$parentId." AND id!=".$parentId." ";         
         
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
