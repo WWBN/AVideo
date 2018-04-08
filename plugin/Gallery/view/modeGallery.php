@@ -24,7 +24,7 @@ if (! empty($_GET['type'])) {
 require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
 $currentCatType;
-if($_GET['catName']){
+if(!empty($_GET['catName'])){
     $currentCat = Category::getCategoryByName($_GET['catName']);
     $currentCatType = Category::getCategoryType($currentCat['id']);
 }
