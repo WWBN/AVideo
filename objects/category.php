@@ -151,6 +151,13 @@ class Category {
         $res = $global['mysqli']->query($sql);
         return ($res) ? $res->fetch_assoc() : false;
     }
+    
+    static function getCategoryByName($name) {
+        global $global;
+        $sql = "SELECT * FROM categories WHERE clean_name = '$name' LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        return ($res) ? $res->fetch_assoc() : false;
+    }
 
     static function getAllCategories() {
         global $global;
