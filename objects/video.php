@@ -165,6 +165,7 @@ class Video {
         }
     }
 
+    
     static function autosetCategoryType($catId) {
         global $global, $config;
         if ($config->currentVersionLowerThen('5.01')) {
@@ -310,6 +311,7 @@ class Video {
         return array($videoFound, audioFound);
     }
 
+    
     function setClean_title($clean_title) {
         $clean_title = preg_replace('/[^0-9a-z]+/', '-', trim(strtolower(cleanString($clean_title))));
         $this->clean_title = $clean_title;
