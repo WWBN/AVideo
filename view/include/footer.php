@@ -36,6 +36,13 @@
     }
 </script>
 <script>
+    window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+    alert("<?php echo __('A Javascript-error happend. Please tell your admin to clear the folder videos/cache. \r\n If this doesn\'t help, attach these infos to a github-pull-request:'); ?> \r\n Msg:" + errorMsg+" \r\n Url: "+url+ ", line: "+lineNumber);//or any message
+    return false;
+    }
+    
+    // Just for testing
+    //throw "A Bug";
     $(function () {
 <?php
 if (!empty($_GET['error'])) {
@@ -61,6 +68,7 @@ if (!empty($_GET['error'])) {
     $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.min.js";
     $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.plugins.min.js";
     $jsURL =  combineFiles($jsFiles, "js");
+
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
 <?php
