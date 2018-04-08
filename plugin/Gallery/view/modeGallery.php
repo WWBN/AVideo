@@ -216,6 +216,7 @@ echo $config->getWebSiteTitle();
                                 <?php
                             if (!empty($videos)) {
                                 foreach ($videos as $value) {
+                                    $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
                                         $poster = $images->thumbsJpg;
                                 ?>
