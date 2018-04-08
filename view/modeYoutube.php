@@ -28,6 +28,8 @@ if (!empty($_GET['type'])) {
         $_SESSION['type'] = "";
         unset($_SESSION['type']);
     }
+} else {
+     unset($_SESSION['type']);
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';

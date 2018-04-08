@@ -7,8 +7,6 @@ if (!User::canUpload()) {
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-$categories = Category::getAllCategories();
-
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 $userGroups = UserGroups::getAllUsersGroups();
 
@@ -18,6 +16,7 @@ if (!empty($_GET['video_id'])) {
         $row = Video::getVideo($_GET['video_id']);
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -53,14 +52,9 @@ if (!empty($_GET['video_id'])) {
     </head>
 
     <body>
-        <?php
-        include 'include/navbar.php';
-        ?>
-
+        <?php include 'include/navbar.php'; ?>
         <div class="container">
-        <?php
-        include 'include/updateCheck.php';
-        ?>
+        <?php include 'include/updateCheck.php'; ?>
             <div class="btn-group" >
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
@@ -73,6 +67,7 @@ if (!empty($_GET['video_id'])) {
                     <?php echo __("Video Chart"); ?>
                 </a>
                 <?php
+                $categories = Category::getAllCategories();
                 if (empty($advancedCustom->doNotShowEncoderButton)) {
                     if (!empty($config->getEncoderURL())) {
                         ?>
@@ -193,7 +188,7 @@ if (!empty($_GET['video_id'])) {
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title"><?php echo __("Video Form"); ?></h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
                             <div id="postersImage">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#jpg">Poster (JPG)</a></li>
@@ -771,13 +766,19 @@ if (!empty($row)) {
                                                     var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
                                                     var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fa fa-repeat " aria-hidden="true"></span></button>';
                                                     var rotateBtn = "<br>" + rotateLeft + rotateRight;
+                                                    var suggestBtn = "";
+                                                    <?php
+                                                    if(User::isAdmin()){
+                                                    ?>
                                                     var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="fa fa-star" aria-hidden="true"></i></button>';
                                                     var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fa fa-star-o" aria-hidden="true"></i></button>';
-                                                    var suggestBtn = unsuggest;
+                                                    suggestBtn = unsuggest;
                                                     if (row.isSuggested == "1") {
                                                         suggestBtn = suggest;
                                                     }
-
+                                                    <?php
+                                                    }
+                                                    ?>
                                                     if (row.type == "audio") {
                                                         rotateBtn = "";
                                                     }
@@ -1019,6 +1020,9 @@ if (!empty($row)) {
                                                     }
                                                 });
                                             });
+                                            <?php
+                                                if(User::isAdmin()){
+                                            ?>
                                             grid.find(".command-suggest").on("click", function (e) {
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
@@ -1033,7 +1037,10 @@ if (!empty($row)) {
                                                         modal.hidePleaseWait();
                                                     }
                                                 });
-                                            })
+                                            });
+                                            <?php
+                                                }
+                                            ?>
                                             setTimeout(function () {
                                                 checkProgress()
                                             }, 500);
