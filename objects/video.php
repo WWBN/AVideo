@@ -163,6 +163,8 @@ class Video {
         } else {
             die($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+        
+            
     }
 
     
@@ -390,7 +392,7 @@ class Video {
     function getZoom() {
         return $this->zoom;
     }
-
+    
     static private function getUserGroupsCanSeeSQL() {
         global $global;
 
