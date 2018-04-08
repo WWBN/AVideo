@@ -113,7 +113,7 @@ unset($_SESSION['type']);
                 <?php
                 if (! empty($videos)) {
                     foreach ($videos as $value) {
-                        $name = User::getNameIdentificationById($value['users_id']); 
+                        //$name = User::getNameIdentificationById($value['users_id']); 
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
                         $poster = $images->thumbsJpg;
                         ?>
@@ -727,7 +727,7 @@ unset($_SESSION['type']);
                     } else {
                     
                     foreach ($videos as $value) {
-                        $name = User::getNameIdentificationById($value['users_id']);
+                       // $name = User::getNameIdentificationById($value['users_id']);
                         // make a row each 6 cols
                         if ($countCols % 6 === 0) {
                             echo '</div><div class="row aligned-row ">';
