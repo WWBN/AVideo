@@ -23,7 +23,6 @@ if (("http://" . $url === $global['webSiteRootURL'] . "videoOnly") || ("https://
     $isVideoOnly = true;
 }
 
-$category = Category::getAllCategories();
 $o = YouPHPTubePlugin::getObjectData("YouPHPFlix");
 $tmpSessionType;
 if(!empty($_SESSION['type'])){
@@ -35,12 +34,8 @@ unset($_SESSION['type']);
 <html>
 <head>
         <script>
-            var webSiteRootURL = '<?php
-            echo $global['webSiteRootURL'];
-            ?>';
-            var pageDots = <?php
-            echo empty($o->pageDots) ? "false" : "true";
-            ?>;
+            var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+            var pageDots = <?php echo empty($o->pageDots) ? "false" : "true"; ?>;
         </script>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css" />
@@ -53,26 +48,40 @@ unset($_SESSION['type']);
 
         <div class="container-fluid" id="mainContainer" style="display: none;"> 
         <?php
-        if (($o->SubCategorys) && (! empty($_GET['catName']))) {
             $category = Category::getAllCategories();
             $currentCat;
+            $currentCatType = array('type'=>99); // 99 because it will not match - only when found and be replaced.
+            if(!empty($_GET['catName'])){
             foreach ($category as $cat) {
                 if ($cat['clean_name'] == $_GET['catName']) {
                     $currentCat = $cat;
+                    $currentCatType = Category::getCategoryType($cat['id']);
                 }
             }
-            $category = Category::getChildCategories($currentCat['id']);
-            ?>                                     
+            }
+        if (($o->SubCategorys) && (! empty($_GET['catName']))) {
+            ?>
        <script>
     		setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
 	   </script>
 		<div class="clear clearfix">
 			<div class="row">
-            <?php if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) { 
+            <?php 
+            if((($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
+                if(!empty($_GET['catName'])){ ?>
+                    <div>
+                        <a class="btn btn-primary"  href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Back to startpage"); ?> </a>
+                    </div>
+                <?php }
+            }
+            if (($currentCat['parentId'] != "0") && ($currentCat['parentId'] != "-1")) {
                 $parentCat = Category::getCategory($currentCat['parentId']); ?>
-                <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
+                <div>
+                    <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>"><?php echo __("Back to") . " " . $parentCat['name']; ?> </a>
+                </div>
             <?php
             }
+            $category = Category::getChildCategories($currentCat['id']);
             if(!empty($category)) { ?>
                 <h2 style="margin-top: 30px;"><?php echo __("Sub-Category-Gallery"); ?>
                             <span class="badge"><?php echo count($category); ?></span>
@@ -104,7 +113,7 @@ unset($_SESSION['type']);
                 <?php
                 if (! empty($videos)) {
                     foreach ($videos as $value) {
-                        $name = User::getNameIdentificationById($value['users_id']); 
+                        //$name = User::getNameIdentificationById($value['users_id']); 
                         $images = Video::getImageFromFilename($value['filename'], $value['type']);
                         $poster = $images->thumbsJpg;
                         ?>
@@ -120,11 +129,11 @@ unset($_SESSION['type']);
                     ?>
 				    <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $cat['id']; ?>" />
                     <?php
-                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $cat['id'] . ";"); 
+                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $cat['id'] . ";");
                 }
                 ?>
                             </div>
-						<div class="videoInfo">
+			    <div class="videoInfo">
                             <?php if ($videoCount) { ?>
                                 <span class="label label-default" style="top: 10px !important; position: absolute;"><i class="glyphicon glyphicon-cd"></i> <?php echo $videoCount->fetch_array()[0]; ?></span>
                             <?php } ?>
@@ -133,7 +142,7 @@ unset($_SESSION['type']);
                             <?php echo $cat['name']; ?>
                         </div>
 					</a>
-				</div>   
+				</div>
                 <?php
                     } // foreach $category 
                     unset($_POST['sort']);
@@ -143,10 +152,23 @@ unset($_SESSION['type']);
 		</div>              
       <?php
         }
-        $videos = Video::getAllVideos();
-        unset($_SESSION['type']);
-        if (! empty($videos)) {
             if ($o->DateAdded) {
+                
+                
+                $_POST['sort']['created'] = "DESC";
+                $_POST['current'] = 1;
+                $_POST['rowCount'] = 20;
+                
+                if (($currentCatType['type']=="2")||($isVideoOnly)||(($o->separateAudio) && ($isAudioOnly == false))){ 
+                   $_SESSION['type'] = "video";
+                } else if (($currentCatType['type']=="1")||($isAudioOnly)){
+                    $_SESSION['type'] = "audio";
+                } else {
+                    unset($_SESSION['type']);
+                }
+                $videos = Video::getAllVideos();
+                unset($_SESSION['type']);
+		if(!empty($videos)){
                 ?>
             <div class="row">
 			<h2>
@@ -156,17 +178,7 @@ unset($_SESSION['type']);
                 </h2>
 			<div class="carousel">
                     <?php
-                $_POST['sort']['created'] = "DESC";
-                $_POST['current'] = 1;
-                $_POST['rowCount'] = 20;
-                if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
-                    $_SESSION['type'] = "video";
-                } else if ($isAudioOnly) {
-                    $_SESSION['type'] = "audio";
-                }
-                
-                $videos = Video::getAllVideos();
-                unset($_SESSION['type']);
+
                 foreach ($videos as $value) {
                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
                     $imgGif = $images->thumbsGif;
@@ -209,7 +221,6 @@ unset($_SESSION['type']);
 				</div>
                         <?php
                 }
-                
                 ?>
                 </div>
 			<div class="poster list-group-item" style="display: none;">
@@ -218,13 +229,9 @@ unset($_SESSION['type']);
 					<h4 class="infoDetails">Details</h4>
 					<div class="infoText col-md-4 col-sm-12">Text</div>
 					<div class="footerBtn" style="display: none;">
-						<a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php
-                echo __("Play");
-                ?></a>
+						<a class="btn btn-danger playBtn" href="#"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
 						<button class="btn btn-primary myList">
-							<i class="fa fa-plus"></i> <?php
-                echo __("My list");
-                ?></button>
+							<i class="fa fa-plus"></i> <?php echo __("My list"); ?></button>
 					</div>
 
 				</div>
@@ -232,14 +239,13 @@ unset($_SESSION['type']);
 		</div>
 
             <?php
-            }
+            } //}
             if (($o->separateAudio) && ($isAudioOnly == false) && ($isVideoOnly == false)) {    
                 unset($_POST['sort']);
-		        $_POST['sort']['created'] = "DESC";
+		$_POST['sort']['created'] = "DESC";
                 $_SESSION['type'] = "audio";
                 $videos = Video::getAllVideos();
                 unset($_SESSION['type']);
-                
                 // check, if we are in a 
                 $ok = true;
                 if((!empty($_GET['catName']))){
@@ -327,15 +333,17 @@ unset($_SESSION['type']);
             <div class="row">
 			<h2>
 				<i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
-            </h2>
+            		</h2>
 			<div class="carousel">
                 <?php
                 unset($_POST['sort']);
                 $_POST['sort']['views_count'] = "DESC";
-                if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
-                    $_SESSION['type'] = "video";
-                } else if ($isAudioOnly) {
+                if (($currentCatType['type']=="2")||($isVideoOnly)||(($o->separateAudio) && ($isAudioOnly == false))){ 
+                   $_SESSION['type'] = "video";
+                } else if (($currentCatType['type']=="1")||($isAudioOnly)){
                     $_SESSION['type'] = "audio";
+                } else {
+                    unset($_SESSION['type']);
                 }
                 
                 $videos = Video::getAllVideos();
@@ -413,12 +421,13 @@ unset($_SESSION['type']);
                 <?php
                 unset($_POST['sort']);
                 $_POST['sort']['likes'] = "DESC";
-                if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
-                    $_SESSION['type'] = "video";
-                } else if ($isAudioOnly) {
+                if (($currentCatType['type']=="2")||($isVideoOnly)||(($o->separateAudio) && ($isAudioOnly == false))){ 
+                   $_SESSION['type'] = "video";
+                } else if (($currentCatType['type']=="1")||($isAudioOnly)){
                     $_SESSION['type'] = "audio";
+                } else {
+                    unset($_SESSION['type']);
                 }
-                
                 $videos = Video::getAllVideos();
                 unset($_SESSION['type']);
                 foreach ($videos as $value) {
@@ -509,11 +518,15 @@ unset($_SESSION['type']);
                     // $_POST['rowCount'] = 18;
                     // $_POST['current'] = 1;
                     
-                    if (($isVideoOnly) || (($o->separateAudio) && ($isAudioOnly == false))) {
-                        $_SESSION['type'] = "video";
-                    } else if ($isAudioOnly) {
-                        $_SESSION['type'] = "audio";
-                    }
+                if (($currentCatType['type']=="2")||($isVideoOnly)||(($o->separateAudio) && ($isAudioOnly == false))){ 
+                   $_SESSION['type'] = "video";
+                } else if (($currentCatType['type']=="1")||($isAudioOnly)){
+                    $_SESSION['type'] = "audio";
+                } else {
+                    unset($_SESSION['type']);
+                }
+                $videos = Video::getAllVideos();
+                unset($_SESSION['type']);
                     
                     $videos = Video::getAllVideos();
                     unset($_SESSION['type']);
@@ -714,7 +727,7 @@ unset($_SESSION['type']);
                     } else {
                     
                     foreach ($videos as $value) {
-                        $name = User::getNameIdentificationById($value['users_id']);
+                       // $name = User::getNameIdentificationById($value['users_id']);
                         // make a row each 6 cols
                         if ($countCols % 6 === 0) {
                             echo '</div><div class="row aligned-row ">';
@@ -882,6 +895,9 @@ unset($_SESSION['type']);
         <?php 
         if(!empty($tmpSessionType)){
             $_SESSION['type'] = $tmpSessionType;
-        }?>
+        } else {
+	   unset($_SESSION['type']);
+	}
+?>
     </body>
 </html>
