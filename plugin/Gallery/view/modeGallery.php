@@ -108,10 +108,10 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
             </div>
             <div class="col-sm-10 col-sm-offset-1 list-group-item">
                 <?php
-                if (!empty($video)) {
-                    if (!empty($currentCat)) {
+		if (!empty($currentCat)) {
                         include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
                     }
+                if (!empty($video)) {
                     $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                     include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
