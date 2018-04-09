@@ -1,5 +1,4 @@
 <?php
-
 function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     $upDown = "";
     $mostLess = "";
@@ -31,7 +30,7 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGalerySection($videos) {
+function createGallerySection($videos) {
     global $global, $config, $obj;
     ?>
     <?php

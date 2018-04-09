@@ -27,8 +27,8 @@
                 <div class="text-muted galeryDetails">
                     <div>
                         <?php
-                        $value['tags'] = Video::getTags($video['id']);
-                        foreach ($value['tags'] as $value2) {
+                        $video['tags'] = Video::getTags($video['id']);
+                        foreach ($video['tags'] as $value2) {
                             if ($value2->label === __("Group")) {
                                 ?>
                                 <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>

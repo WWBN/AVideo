@@ -66,8 +66,8 @@ if (empty($_GET['page'])) {
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php
-echo $config->getWebSiteTitle();
-?></title>
+            echo $config->getWebSiteTitle();
+            ?></title>
         <meta name="generator"
               content="YouPHPTube - A Free Youtube Clone Script" />
               <?php include $global['systemRootPath'] . 'view/include/head.php';
@@ -108,9 +108,9 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
             </div>
             <div class="col-sm-10 col-sm-offset-1 list-group-item">
                 <?php
-		if (!empty($currentCat)) {
-                        include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
-                    }
+                if (!empty($currentCat)) {
+                    include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
+                }
                 if (!empty($video)) {
                     $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
@@ -134,6 +134,9 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 return $liveLi;
                             }
                         </script>
+                        <?php
+                        echo YouPHPTubePlugin::getGallerySection();
+                        ?>
                         <!-- For Live Videos End -->    
                         <?php if ($obj->SortByName) { ?>   
                             <div class="clear clearfix">
@@ -159,7 +162,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 $_POST['current'] = $_GET['page'];
                                 $_POST['rowCount'] = $obj->SortByNameRowCount;
                                 $videos = Video::getAllVideos();
-                                createGalerySection($videos);
+                                createGallerySection($videos);
                                 ?>
                                 <div class="row">
                                     <ul class="pages">
@@ -184,12 +187,12 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     ?>
                                 </h3>
                                 <div class="row"><?php
-                            $countCols = 0;
-                            unset($_POST['sort']);
-                            $_POST['sort']['created'] = $_GET['dateAddedOrder'];
-                            $_POST['rowCount'] = $obj->DateAddedRowCount;
-                            $videos = Video::getAllVideos();
-                            createGalerySection($videos);
+                                    $countCols = 0;
+                                    unset($_POST['sort']);
+                                    $_POST['sort']['created'] = $_GET['dateAddedOrder'];
+                                    $_POST['rowCount'] = $obj->DateAddedRowCount;
+                                    $videos = Video::getAllVideos();
+                                    createGallerySection($videos);
                                     ?>
                                 </div>
                                 <div class="row">
@@ -221,7 +224,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostWatchedRowCount;
                                     $videos = Video::getAllVideos();
-                                    createGalerySection($videos);
+                                    createGallerySection($videos);
                                     ?>
                                 </div>
                                 <div class="row">
@@ -253,7 +256,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostPopularRowCount;
                                     $videos = Video::getAllVideos();
-                                    createGalerySection($videos);
+                                    createGallerySection($videos);
                                     ?>
                                 </div>
                                 <div class="row">
