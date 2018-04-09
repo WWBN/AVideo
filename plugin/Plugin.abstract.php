@@ -51,6 +51,10 @@ abstract class PluginAbstract {
     public function getTags() {
         
     }
+    
+    public function getGallerySection(){
+        return "";
+    }
 
     public function getDataObject() {
         $obj = Plugin::getPluginByUUID($this->getUUID());

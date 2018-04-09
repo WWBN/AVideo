@@ -10,6 +10,15 @@ class YouPHPTubePlugin{
         }
         return $str;
     }
+    public static function getGallerySection(){
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            $str .= $p->getGallerySection();
+        }
+        return $str;
+    }
     public static function getFooterCode(){
         $plugins = Plugin::getAllEnabled();
         $str = "";
