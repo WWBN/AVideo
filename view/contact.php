@@ -54,7 +54,7 @@ if(User::isLogged()){
 
 
                     <!-- Text input-->
-                    <div class="form-group <?php echo empty($config->doNotShowWebsiteOnContactForm)?"":"hidden" ?>">
+                    <div class="form-group <?php echo empty($advancedCustom->doNotShowWebsiteOnContactForm)?"":"hidden" ?>">
                         <label class="col-md-4 control-label"><?php echo __("Website"); ?></label>
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
