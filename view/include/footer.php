@@ -36,10 +36,13 @@
     }
 </script>
 <script>
+    <?php
+    if (User::isAdmin()) { ?>
     window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
     alert("<?php echo __('A Javascript-error happend. Please tell your admin to clear the folder videos/cache. \r\n If this doesn\'t help, attach these infos to a github-pull-request:'); ?> \r\n Msg:" + errorMsg+" \r\n Url: "+url+ ", line: "+lineNumber);//or any message
     return false;
     }
+    <?php } ?>
     
     // Just for testing
     //throw "A Bug";
