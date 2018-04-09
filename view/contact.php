@@ -1,5 +1,11 @@
 <?php
 require_once '../videos/configuration.php';
+require_once $global['systemRootPath'] . 'objects/user.php';
+$email = "";
+if(User::isLogged()){
+    $email = User::getEmail_();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -41,14 +47,14 @@ require_once '../videos/configuration.php';
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control"  type="text">
+                                <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control" value="<?php echo $email; ?>"  type="text">
                             </div>
                         </div>
                     </div>
 
 
                     <!-- Text input-->
-                    <div class="form-group">
+                    <div class="form-group <?php echo empty($advancedCustom->doNotShowWebsiteOnContactForm)?"":"hidden" ?>">
                         <label class="col-md-4 control-label"><?php echo __("Website"); ?></label>
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">

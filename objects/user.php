@@ -103,6 +103,14 @@ class User {
             return false;
         }
     }
+    
+    static function getEmail_() {
+        if (self::isLogged()) {
+            return $_SESSION['user']['email'];
+        } else {
+            return false;
+        }
+    }
 
     function getBdId() {
         return $this->id;

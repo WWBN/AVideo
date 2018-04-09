@@ -16,7 +16,7 @@ class WalletLog extends ObjectYPT {
     }
 
     static function getTableName() {
-        return 'Wallet_log';
+        return 'wallet_log';
     }
     
     function getValue() {
