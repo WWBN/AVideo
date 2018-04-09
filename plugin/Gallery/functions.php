@@ -1,5 +1,4 @@
 <?php
-
 function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     $upDown = "";
     $mostLess = "";
