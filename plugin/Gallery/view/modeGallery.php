@@ -152,6 +152,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 $page = $_GET['page'];
                                 if($totalPages < $_GET['page']){
                                     $page = $totalPages;
+                                    $_POST['current'] = $totalPages;
                                 }
                                 $videos = Video::getAllVideos();
                                 createGallerySection($videos);
@@ -201,6 +202,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $page = $_GET['page'];
                                     if($totalPages < $_GET['page']){
                                         $page = $totalPages;
+                                        $_POST['current'] = $totalPages;
                                     }
                                     $videos = Video::getAllVideos();
                                     createGallerySection($videos);
@@ -251,6 +253,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $page = $_GET['page'];
                                     if($totalPages < $_GET['page']){
                                         $page = $totalPages;
+                                        $_POST['current'] = $totalPages;
                                     }
                                     $videos = Video::getAllVideos();
                                     createGallerySection($videos);
@@ -301,6 +304,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $page = $_GET['page'];
                                     if($totalPages < $_GET['page']){
                                         $page = $totalPages;
+                                        $_POST['current'] = $totalPages;
                                     }
                                     $videos = Video::getAllVideos();
                                     createGallerySection($videos);
