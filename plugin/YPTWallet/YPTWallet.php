@@ -31,6 +31,7 @@ class YPTWallet extends PluginAbstract {
         $obj->currency = "USD";
         $obj->currency_symbol = "$";
         $obj->addFundsOptions = "[5,10,20,50]";
+        $obj->showWalletOnlyToAdmin = false;
         
         $plugins = self::getAvailablePlugins();
         foreach ($plugins as $value) {
@@ -110,6 +111,9 @@ class YPTWallet extends PluginAbstract {
             return "";
         }
         $obj = $this->getDataObject();
+        if($obj->showWalletOnlyToAdmin && !User::isAdmin()){
+            return "";
+        }
         include $global['systemRootPath'] . 'plugin/YPTWallet/view/menuRight.php';
     }
 
