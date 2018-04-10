@@ -61,6 +61,9 @@ if (empty($_GET['page'])) {
 } else {
     $_GET['page'] = intval($_GET['page']);
 }
+
+$total = Video::getTotalVideos("viewableNotAd");
+$totalPages = ceil($total / $_POST['rowCount']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
