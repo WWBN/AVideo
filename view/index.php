@@ -1,5 +1,6 @@
 <?php
 $configFile = '../videos/configuration.php';
+
 if (!file_exists($configFile)) {
     if (!file_exists('../install/index.php')) {
         die("No Configuration and no Installation");
