@@ -54,9 +54,12 @@ foreach ($lifeStream as $value){
         
         $users = false;
         if($liveUsersEnabled){
-            require_once $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
-            $liveUsers = new LiveOnlineUsers(0);
-            $users = $liveUsers->getUsersFromTransmitionKey($value->name);
+            $filename = $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
+            if(file_exists($filename)){
+                require_once $filename;
+                $liveUsers = new LiveOnlineUsers(0);
+                $users = $liveUsers->getUsersFromTransmitionKey($value->name);
+            }
         }
         
         $u = new User($row['users_id']);
