@@ -192,6 +192,8 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['sort']['created'] = $_GET['dateAddedOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->DateAddedRowCount;
+                                    $total = Video::getTotalVideos("viewableNotAd");
+                                    $totalPages = ceil($total / $_POST['rowCount']);
                                     $videos = Video::getAllVideos();
                                     createGallerySection($videos);
                                     ?>
