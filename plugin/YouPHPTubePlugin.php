@@ -196,7 +196,9 @@ class YouPHPTubePlugin{
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
-            $p->getStart();
+            if(is_object($p)){
+                $p->getStart();
+            }
         }
     }
     
@@ -204,7 +206,9 @@ class YouPHPTubePlugin{
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
-            $p->getEnd();
+            if(is_object($p)){
+                $p->getEnd();
+            }            
         }
     }
     
