@@ -6,7 +6,7 @@ $valid = Captcha::validation($_POST['captcha']);
 $obj = new stdClass();
 if ($valid) {
     
-    $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><br>";
+    $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><br>{$_POST['comment']}";
     
     require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
 
@@ -22,7 +22,7 @@ if ($valid) {
     $mail->addAddress($config->getContactEmail());
     //Set the subject line
     $mail->Subject = 'Message From Site '.$config->getWebSiteTitle(). " ({$_POST['first_name']})";
-    $mail->msgHTML($msg.$_POST['comment']);
+    $mail->msgHTML($msg);
 
     //send the message, check for errors
     if (!$mail->send()) {
