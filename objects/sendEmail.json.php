@@ -13,6 +13,7 @@ if ($valid) {
     //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
     //var_dump($mail->SMTPAuth, $mail);
     //Set who the message is to be sent from
+    $mail->AddReplyTo($_POST['email'], $_POST['first_name']);
     $mail->setFrom($_POST['email'], $_POST['first_name']);
     //Set who the message is to be sent to
     $mail->addAddress($config->getContactEmail());
