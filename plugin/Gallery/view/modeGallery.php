@@ -190,6 +190,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $countCols = 0;
                                     unset($_POST['sort']);
                                     $_POST['sort']['created'] = $_GET['dateAddedOrder'];
+                                    $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->DateAddedRowCount;
                                     $videos = Video::getAllVideos();
                                     createGallerySection($videos);
