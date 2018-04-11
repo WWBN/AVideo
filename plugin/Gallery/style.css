@@ -156,3 +156,7 @@ a.h6{
     color: black !important; 
     background-color: lightgray;
 }
+.gallery .label{
+    font-size: 100%;
+    border-radius: .5em;
+}
