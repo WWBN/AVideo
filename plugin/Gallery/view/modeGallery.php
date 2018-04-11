@@ -5,13 +5,11 @@ if (!file_exists('../videos/configuration.php')) {
     }
     header("Location: install/index.php");
 }
-
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 $obj = YouPHPTubePlugin::getObjectData("Gallery");
-
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
         $_SESSION['type'] = 'audio';
@@ -21,7 +19,6 @@ if (!empty($_GET['type'])) {
         unset($_SESSION['type']);
     }
 }
-
 require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
 $currentCatType;
@@ -39,23 +36,19 @@ if ((empty($_GET['type'])) && (!empty($currentCatType))) {
     }
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
-
 if ($obj->sortReverseable) {
     if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
         $orderString = $_SERVER['REQUEST_URI'] . "&";
     } else {
         $orderString = $_SERVER['REQUEST_URI'] . "/?";
     }
-
     $orderString = str_replace("&&", "&", $orderString);
     $orderString = str_replace("//", "/", $orderString);
 }
-
 $video = Video::getVideo("", "viewableNotAd", false, false, true);
 if (empty($video)) {
     $video = Video::getVideo("", "viewableNotAd");
 }
-
 if (empty($_GET['page'])) {
     $_GET['page'] = 1;
 } else {
@@ -65,7 +58,6 @@ $total = 0;
 $totalPages = 0;
 $url = '';
 $args = '';
-
 if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
     $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?"), strlen($_SERVER['REQUEST_URI']));
 }
@@ -132,7 +124,6 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     if (empty($_GET["sortByNameOrder"])) {
                                         $_GET["sortByNameOrder"] = "ASC";
                                     }
-
                                     if ($obj->sortReverseable) {
                                         $info = createOrderInfo("sortByNameOrder", "zyx", "abc", $orderString);
                                         echo __("Sort by name (" . $info[2] . ")") . " (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
@@ -182,7 +173,6 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     if (empty($_GET["dateAddedOrder"])) {
                                         $_GET["dateAddedOrder"] = "DESC";
                                     }
-
                                     if ($obj->sortReverseable) {
                                         $info = createOrderInfo("dateAddedOrder", "newest", "oldest", $orderString);
                                         echo __("Date added (" . $info[2] . ")") . " (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
