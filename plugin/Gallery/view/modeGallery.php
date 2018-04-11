@@ -72,32 +72,6 @@ if (empty($_GET['page'])) {
               content="YouPHPTube - A Free Youtube Clone Script" />
               <?php include $global['systemRootPath'] . 'view/include/head.php';
               ?>
-        <script>
-            $(document).ready(function () {
-                $('.pages').bootpag({
-                    total: <?php echo $totalPages; ?>,
-                    page: <?php echo $_GET['page']; ?>,
-                    maxVisible: 10
-                }).on('page', function (event, num) {
-<?php
-$url = '';
-$args = '';
-
-if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
-    $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?"), strlen($_SERVER['REQUEST_URI']));
-}
-echo 'var args = "' . $args . '";';
-
-if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
-    $url = $global['webSiteRootURL'] . "page/";
-} else {
-    $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
-}
-?>
-                    window.location.replace("<?php echo $url; ?>" + num + args);
-                });
-            });
-        </script>
     </head>
 
     <body>
@@ -162,12 +136,9 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 $_POST['current'] = $_GET['page'];
                                 $_POST['rowCount'] = $obj->SortByNameRowCount;
                                 $videos = Video::getAllVideos();
-                                createGallerySection($videos);
+                                $totalPages = Video::getTotalVideos();
+                                createGallerySection($videos, $totalPages);
                                 ?>
-                                <div class="row">
-                                    <ul class="pages">
-                                    </ul>
-                                </div>
                             </div>
                         <?php } if ($obj->DateAdded) { ?> 
                             <div class="clear clearfix">
@@ -193,7 +164,8 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->DateAddedRowCount;
                                     $videos = Video::getAllVideos();
-                                    createGallerySection($videos);
+                                    $totalPages = Video::getTotalVideos();
+                                    createGallerySection($videos, $totalPages);
                                     ?>
                                 </div>
                                 <div class="row">
@@ -225,7 +197,8 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostWatchedRowCount;
                                     $videos = Video::getAllVideos();
-                                    createGallerySection($videos);
+                                    $totalPages = Video::getTotalVideos();
+                                    createGallerySection($videos, $totalPages);
                                     ?>
                                 </div>
                                 <div class="row">
@@ -257,7 +230,8 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostPopularRowCount;
                                     $videos = Video::getAllVideos();
-                                    createGallerySection($videos);
+                                    $totalPages = Video::getTotalVideos();
+                                    createGallerySection($videos, $totalPages);
                                     ?>
                                 </div>
                                 <div class="row">
