@@ -86,7 +86,14 @@ function createGallerySection($videos) {
         <?php if (empty($_GET['catName'])) { ?>
                     <div>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
-            <?php echo $value['category']; ?>
+                            <?php
+                            if(!empty($value['iconClass'])){
+                            ?>
+                            <i class="<?php echo $value['iconClass']; ?>"></i> 
+                            <?php
+                            }
+                            ?>
+                            <?php echo $value['category']; ?>
                         </a>
                     </div>
         <?php } ?>
