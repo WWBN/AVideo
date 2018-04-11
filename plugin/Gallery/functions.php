@@ -31,10 +31,9 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGallerySection($videos, $totalPages) {
+function createGallerySection($videos, $total) {
     global $global, $config, $obj, $video;
-    ?>
-    <?php
+    $totalPages = ceil($total / $_POST['rowCount']);
     $countCols = 0;
 
     foreach ($videos as $value) {
