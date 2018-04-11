@@ -26,6 +26,18 @@
                 </div>
                 <div class="text-muted galeryDetails">
                     <div>
+                        <?php if (empty($_GET['catName'])) { ?>
+                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                            <?php
+                            if (!empty($value['iconClass'])) {
+                                ?>
+                                <i class="<?php echo $value['iconClass']; ?>"></i> 
+                                <?php
+                            }
+                            ?>
+                            <?php echo $value['category']; ?>
+                        </a>
+                        <?php } ?>
                         <?php
                         $video['tags'] = Video::getTags($video['id']);
                         foreach ($video['tags'] as $value2) {
@@ -41,13 +53,6 @@
                         <i class="fa fa-eye"></i>
                         <span itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
                     </div>
-                    <?php if (empty($_GET['catName'])) { ?>
-                        <div>
-                            <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/">
-                                <?php echo $video['category']; ?>
-                            </a>
-                        </div>
-                    <?php } ?>
                     <div>
                         <i class="fa fa-clock-o"></i>
                         <?php echo humanTiming(strtotime($video['videoCreation'])), " ", __('ago'); ?>
