@@ -61,6 +61,19 @@ if (empty($_GET['page'])) {
 } else {
     $_GET['page'] = intval($_GET['page']);
 }
+$total = 0;
+$totalPages = 0;
+$url = '';
+$args = '';
+
+if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
+    $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?"), strlen($_SERVER['REQUEST_URI']));
+}
+if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
+    $url = $global['webSiteRootURL'] . "page/";
+} else {
+    $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -70,8 +83,7 @@ if (empty($_GET['page'])) {
             ?></title>
         <meta name="generator"
               content="YouPHPTube - A Free Youtube Clone Script" />
-              <?php include $global['systemRootPath'] . 'view/include/head.php';
-              ?>
+              <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
     </head>
 
     <body>
@@ -135,11 +147,34 @@ if (empty($_GET['page'])) {
                                 $_POST['sort']['title'] = $_GET['sortByNameOrder'];
                                 $_POST['current'] = $_GET['page'];
                                 $_POST['rowCount'] = $obj->SortByNameRowCount;
+                                $total = Video::getTotalVideos("viewableNotAd");
+                                $totalPages = ceil($total / $_POST['rowCount']);
+                                $page = $_GET['page'];
+                                if($totalPages < $_GET['page']){
+                                    $page = $totalPages;
+                                    $_POST['current'] = $totalPages;
+                                }
                                 $videos = Video::getAllVideos();
                                 $totalPages = Video::getTotalVideos();
                                 createGallerySection($videos, $totalPages);
                                 ?>
+                                <div class="row">
+                                    <ul id="sortByNamePages">
+                                    </ul>
+                                </div>
                             </div>
+                            <script>
+                            $(document).ready(function () {
+                                $('#sortByNamePages').bootpag({
+                                    total: <?php echo $totalPages; ?>,
+                                    page: <?php echo $page; ?>,
+                                    maxVisible: 10
+                                }).on('page', function (event, num) {
+                                <?php echo 'var args = "' . $args . '";'; ?>
+                                window.location.replace("<?php echo $url; ?>" + num + args);
+                                });
+                            });
+                            </script>
                         <?php } if ($obj->DateAdded) { ?> 
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
@@ -163,16 +198,35 @@ if (empty($_GET['page'])) {
                                     $_POST['sort']['created'] = $_GET['dateAddedOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->DateAddedRowCount;
+                                    $total = Video::getTotalVideos("viewableNotAd");
+                                    $totalPages = ceil($total / $_POST['rowCount']);
+                                    $page = $_GET['page'];
+                                    if($totalPages < $_GET['page']){
+                                        $page = $totalPages;
+                                        $_POST['current'] = $totalPages;
+                                    }
                                     $videos = Video::getAllVideos();
                                     $totalPages = Video::getTotalVideos();
                                     createGallerySection($videos, $totalPages);
                                     ?>
                                 </div>
                                 <div class="row">
-                                    <ul class="pages">
+                                    <ul id="dateAddedPages">
                                     </ul>
                                 </div>
                             </div>
+                            <script>
+                            $(document).ready(function () {
+                                $('#dateAddedPages').bootpag({
+                                    total: <?php echo $totalPages; ?>,
+                                    page: <?php echo $page; ?>,
+                                    maxVisible: 10
+                                }).on('page', function (event, num) {
+                                <?php echo 'var args = "' . $args . '";'; ?>
+                                window.location.replace("<?php echo $url; ?>" + num + args);
+                                });
+                            });
+                            </script>
                         <?php } if ($obj->MostWatched) { ?>
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
@@ -196,16 +250,35 @@ if (empty($_GET['page'])) {
                                     $_POST['sort']['views_count'] = $_GET['mostWatchedOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostWatchedRowCount;
+                                    $total = Video::getTotalVideos("viewableNotAd");
+                                    $totalPages = ceil($total / $_POST['rowCount']);
+                                    $page = $_GET['page'];
+                                    if($totalPages < $_GET['page']){
+                                        $page = $totalPages;
+                                        $_POST['current'] = $totalPages;
+                                    }
                                     $videos = Video::getAllVideos();
                                     $totalPages = Video::getTotalVideos();
                                     createGallerySection($videos, $totalPages);
                                     ?>
                                 </div>
                                 <div class="row">
-                                    <ul class="pages">
+                                    <ul id="mostWatchedPages">
                                     </ul>
                                 </div>
                             </div>
+                            <script>
+                            $(document).ready(function () {
+                                $('#mostWatchedPages').bootpag({
+                                    total: <?php echo $totalPages; ?>,
+                                    page: <?php echo $page; ?>,
+                                    maxVisible: 10
+                                }).on('page', function (event, num) {
+                                <?php echo 'var args = "' . $args . '";'; ?>
+                                window.location.replace("<?php echo $url; ?>" + num + args);
+                                });
+                            });
+                            </script>
                         <?php } if ($obj->MostPopular) { ?>    
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
@@ -229,16 +302,35 @@ if (empty($_GET['page'])) {
                                     $_POST['sort']['likes'] = $_GET['mostPopularOrder'];
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostPopularRowCount;
+                                    $total = Video::getTotalVideos("viewableNotAd");
+                                    $totalPages = ceil($total / $_POST['rowCount']);
+                                    $page = $_GET['page'];
+                                    if($totalPages < $_GET['page']){
+                                        $page = $totalPages;
+                                        $_POST['current'] = $totalPages;
+                                    }
                                     $videos = Video::getAllVideos();
                                     $totalPages = Video::getTotalVideos();
                                     createGallerySection($videos, $totalPages);
                                     ?>
                                 </div>
                                 <div class="row">
-                                    <ul class="pages">
+                                    <ul id="mostPopularPages">
                                     </ul>
                                 </div>
                             </div>
+                            <script>
+                            $(document).ready(function () {
+                                $('#mostPopularPages').bootpag({
+                                    total: <?php echo $totalPages; ?>,
+                                    page: <?php echo $page; ?>,
+                                    maxVisible: 10
+                                }).on('page', function (event, num) {
+                                <?php echo 'var args = "' . $args . '";'; ?>
+                                window.location.replace("<?php echo $url; ?>" + num + args);
+                                });
+                            });
+                            </script>
                         <?php } ?>
                     </div>
                 <?php } else { ?>

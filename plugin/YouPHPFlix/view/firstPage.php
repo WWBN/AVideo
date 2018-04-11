@@ -629,18 +629,20 @@ unset($_SESSION['type']);
 				</h2>
         <?php
             $countCols = 0;
-            unset($_POST['sort']);
-            $_POST['sort']['title'] = "ASC";
+            
+            
             $audioReplacePicture;
             // $_POST['rowCount'] = 12;
             
             foreach ($category as $cat) {
+                unset($_POST['sort']);
                 $catType = Category::getCategoryType($cat['id']);
                 $description = str_ireplace(array("<br />","<br>","<br/>"),"\r\n", $cat['description']);
                 // -1 is only a personal workaround
                 if (($cat['parentId'] == "0") || ($cat['parentId'] == "-1")) {
                     $_GET['catName'] = $cat['clean_name'];
                     $_GET['limitOnceToOne'] = "1";
+                    $_POST['sort']['title'] = "ASC";
                     $_SESSION['type'] = "video";
                     $videos = Video::getAllVideos();
                     $i = 0;
@@ -653,6 +655,7 @@ unset($_SESSION['type']);
                         unset($_POST['sort']);
                         $subcats = Category::getChildCategories($cat['id']);
                         foreach ($subcats as $sCat) {
+                                unset($_POST['sort']);
                                 $intsubcats = Category::getChildCategories($sCat['id']);
                                 foreach ($intsubcats as $intSubCat) {
                                     $i = $i + 1;
