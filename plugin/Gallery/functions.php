@@ -56,7 +56,7 @@ function createGallerySection($videos) {
                     <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                     <?php if (!empty($imgGif)) { ?>
                         <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
-        <?php } ?>
+                    <?php } ?>
                 </div>
                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
             </a> 
@@ -66,6 +66,18 @@ function createGallerySection($videos) {
 
             <div class="text-muted galeryDetails">
                 <div>
+                    <?php if (empty($_GET['catName'])) { ?>
+                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                            <?php
+                            if (!empty($value['iconClass'])) {
+                                ?>
+                                <i class="<?php echo $value['iconClass']; ?>"></i> 
+                                <?php
+                            }
+                            ?>
+                            <?php echo $value['category']; ?>
+                        </a>
+                    <?php } ?>
                     <?php
                     $value['tags'] = Video::getTags($value['id']);
                     foreach ($value['tags'] as $value2) {
@@ -80,37 +92,23 @@ function createGallerySection($videos) {
                 <div>
                     <i class="fa fa-eye"></i>
                     <span itemprop="interactionCount">
-        <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                        <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                     </span>
                 </div>
-        <?php if (empty($_GET['catName'])) { ?>
-                    <div>
-                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
-                            <?php
-                            if(!empty($value['iconClass'])){
-                            ?>
-                            <i class="<?php echo $value['iconClass']; ?>"></i> 
-                            <?php
-                            }
-                            ?>
-                            <?php echo $value['category']; ?>
-                        </a>
-                    </div>
-        <?php } ?>
                 <div>
                     <i class="fa fa-clock-o"></i>
-        <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
+                    <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
                 </div>
                 <div>
                     <i class="fa fa-user"></i>
                     <a class="text-muted" href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $value['users_id']; ?>/">
-                    <?php echo $name; ?>
+                        <?php echo $name; ?>
                     </a>
                     <?php if ((!empty($value['description'])) && ($obj->Description)) { ?>
                         <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?> </div>" ><?php echo __("Description"); ?></button>
-                <?php } ?>
+                    <?php } ?>
                 </div>
-        <?php if (Video::canEdit($value['id'])) { ?>
+                <?php if (Video::canEdit($value['id'])) { ?>
                     <div>
                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary">
                             <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
@@ -130,14 +128,12 @@ function createGallerySection($videos) {
                     }
                     ?>
                     <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'] . $ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
-        <?php } ?>
+                    <?php } ?>
 
             </div>
         </div>
     <?php } ?>
-    
+
     <?php
 }
-
-
 ?>
