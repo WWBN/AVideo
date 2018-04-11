@@ -29,13 +29,13 @@
                         <?php if (empty($_GET['catName'])) { ?>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
                             <?php
-                            if (!empty($value['iconClass'])) {
+                            if (!empty($video['iconClass'])) {
                                 ?>
-                                <i class="<?php echo $value['iconClass']; ?>"></i> 
+                                <i class="<?php echo $video['iconClass']; ?>"></i> 
                                 <?php
                             }
                             ?>
-                            <?php echo $value['category']; ?>
+                            <?php echo $video['category']; ?>
                         </a>
                         <?php } ?>
                         <?php
