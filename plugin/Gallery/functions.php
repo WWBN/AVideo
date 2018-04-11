@@ -31,9 +31,8 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGallerySection($videos, $total) {
-    global $global, $config, $obj, $video;
-    $totalPages = ceil($total / $_POST['rowCount']);
+function createGallerySection($videos) {
+    global $global, $config, $obj;
     $countCols = 0;
 
     foreach ($videos as $value) {
@@ -129,34 +128,7 @@ function createGallerySection($videos, $total) {
             </div>
         </div>
     <?php } ?>
-    <div class="row">
-        <ul class="pages">
-        </ul>
-    </div>
-    <script>
-        $('.pages').bootpag({
-            total: <?php echo $totalPages; ?>,
-            page: <?php echo $_GET['page']; ?>,
-            maxVisible: 10
-        }).on('page', function (event, num) {
-    <?php
-    $url = '';
-    $args = '';
-
-    if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
-        $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?"), strlen($_SERVER['REQUEST_URI']));
-    }
-    echo 'var args = "' . $args . '";';
-
-    if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
-        $url = $global['webSiteRootURL'] . "page/";
-    } else {
-        $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
-    }
-    ?>
-            window.location.replace("<?php echo $url; ?>" + num + args);
-        });
-    </script>
+    
     <?php
 }
 
