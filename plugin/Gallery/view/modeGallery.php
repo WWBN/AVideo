@@ -62,7 +62,7 @@ if (empty($_GET['page'])) {
     $_GET['page'] = intval($_GET['page']);
 }
 $total = 0;
-$totalPages = 0;
+$total = 0;
 $url = '';
 $args = '';
 
@@ -148,15 +148,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 $_POST['current'] = $_GET['page'];
                                 $_POST['rowCount'] = $obj->SortByNameRowCount;
                                 $total = Video::getTotalVideos("viewableNotAd");
-                                $totalPages = ceil($total / $_POST['rowCount']);
+                                $total = ceil($total / $_POST['rowCount']);
                                 $page = $_GET['page'];
-                                if($totalPages < $_GET['page']){
-                                    $page = $totalPages;
-                                    $_POST['current'] = $totalPages;
+                                if($total < $_GET['page']){
+                                    $page = $total;
+                                    $_POST['current'] = $total;
                                 }
                                 $videos = Video::getAllVideos();
-                                $totalPages = Video::getTotalVideos();
-                                createGallerySection($videos, $totalPages);
+                                $total = Video::getTotalVideos();
+                                createGallerySection($videos, $total);
                                 ?>
                                 <div class="row">
                                     <ul id="sortByNamePages">
@@ -166,7 +166,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <script>
                             $(document).ready(function () {
                                 $('#sortByNamePages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
+                                    total: <?php echo $total; ?>,
                                     page: <?php echo $page; ?>,
                                     maxVisible: 10
                                 }).on('page', function (event, num) {
@@ -199,15 +199,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->DateAddedRowCount;
                                     $total = Video::getTotalVideos("viewableNotAd");
-                                    $totalPages = ceil($total / $_POST['rowCount']);
+                                    $total = ceil($total / $_POST['rowCount']);
                                     $page = $_GET['page'];
-                                    if($totalPages < $_GET['page']){
-                                        $page = $totalPages;
-                                        $_POST['current'] = $totalPages;
+                                    if($total < $_GET['page']){
+                                        $page = $total;
+                                        $_POST['current'] = $total;
                                     }
                                     $videos = Video::getAllVideos();
-                                    $totalPages = Video::getTotalVideos();
-                                    createGallerySection($videos, $totalPages);
+                                    $total = Video::getTotalVideos();
+                                    createGallerySection($videos, $total);
                                     ?>
                                 </div>
                                 <div class="row">
@@ -218,7 +218,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <script>
                             $(document).ready(function () {
                                 $('#dateAddedPages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
+                                    total: <?php echo $total; ?>,
                                     page: <?php echo $page; ?>,
                                     maxVisible: 10
                                 }).on('page', function (event, num) {
@@ -251,15 +251,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostWatchedRowCount;
                                     $total = Video::getTotalVideos("viewableNotAd");
-                                    $totalPages = ceil($total / $_POST['rowCount']);
+                                    $total = ceil($total / $_POST['rowCount']);
                                     $page = $_GET['page'];
-                                    if($totalPages < $_GET['page']){
-                                        $page = $totalPages;
-                                        $_POST['current'] = $totalPages;
+                                    if($total < $_GET['page']){
+                                        $page = $total;
+                                        $_POST['current'] = $total;
                                     }
                                     $videos = Video::getAllVideos();
-                                    $totalPages = Video::getTotalVideos();
-                                    createGallerySection($videos, $totalPages);
+                                    $total = Video::getTotalVideos();
+                                    createGallerySection($videos, $total);
                                     ?>
                                 </div>
                                 <div class="row">
@@ -270,7 +270,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <script>
                             $(document).ready(function () {
                                 $('#mostWatchedPages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
+                                    total: <?php echo $total; ?>,
                                     page: <?php echo $page; ?>,
                                     maxVisible: 10
                                 }).on('page', function (event, num) {
@@ -303,15 +303,15 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $_POST['current'] = $_GET['page'];
                                     $_POST['rowCount'] = $obj->MostPopularRowCount;
                                     $total = Video::getTotalVideos("viewableNotAd");
-                                    $totalPages = ceil($total / $_POST['rowCount']);
+                                    $total = ceil($total / $_POST['rowCount']);
                                     $page = $_GET['page'];
-                                    if($totalPages < $_GET['page']){
-                                        $page = $totalPages;
-                                        $_POST['current'] = $totalPages;
+                                    if($total < $_GET['page']){
+                                        $page = $total;
+                                        $_POST['current'] = $total;
                                     }
                                     $videos = Video::getAllVideos();
-                                    $totalPages = Video::getTotalVideos();
-                                    createGallerySection($videos, $totalPages);
+                                    $total = Video::getTotalVideos();
+                                    createGallerySection($videos, $total);
                                     ?>
                                 </div>
                                 <div class="row">
@@ -322,7 +322,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             <script>
                             $(document).ready(function () {
                                 $('#mostPopularPages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
+                                    total: <?php echo $total; ?>,
                                     page: <?php echo $page; ?>,
                                     maxVisible: 10
                                 }).on('page', function (event, num) {
