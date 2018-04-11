@@ -371,7 +371,7 @@ $advancedCustom = json_decode($json_file);
                                         modal.hidePleaseWait();
                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                                     } else {
-                                        document.location = '<?php echo!empty($_SERVER["HTTP_REFERER"]) ? $refererUrl : $global['webSiteRootURL']; ?>'
+                                        document.location = '<?php echo $global['webSiteRootURL']; ?>'
                                     }
                                 }
                             });
