@@ -7,7 +7,7 @@
                $poster = $global['webSiteRootURL']."videos/".$video['filename'].".jpg"; 
             }
         ?>
-        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay data-setup='{}' poster="<?php echo $poster; ?>">
+        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay data-setup='{controls: true}' poster="<?php echo $poster; ?>">
             <?php
             $ext = "";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>
