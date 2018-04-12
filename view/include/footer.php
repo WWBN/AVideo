@@ -1,4 +1,4 @@
-<footer>
+
     <?php
     $custom = "";
     if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
@@ -56,6 +56,7 @@ if (!empty($_GET['error'])) {
 ?>
     });
 </script>
+
 <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <?php
     $jsFiles = array();
@@ -70,10 +71,13 @@ if (!empty($_GET['error'])) {
     $jsFiles[] = "{$global['webSiteRootURL']}css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.min.js";
     $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.plugins.min.js";
+    $jsFiles[] = "{$global['webSiteRootURL']}js/videojs-wavesurfer/wavesurfer.min.js";
+    $jsFiles[] = "{$global['webSiteRootURL']}js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
     $jsURL =  combineFiles($jsFiles, "js");
 
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+
 <?php
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 echo YouPHPTubePlugin::getFooterCode();
