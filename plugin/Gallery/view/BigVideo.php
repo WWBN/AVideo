@@ -27,7 +27,7 @@
                 <div class="text-muted galeryDetails">
                     <div>
                         <?php if (empty($_GET['catName'])) { ?>
-                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/">
                             <?php
                             if (!empty($video['iconClass'])) {
                                 ?>
