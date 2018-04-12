@@ -302,7 +302,6 @@ echo $_SESSION['language']; ?>">
                                                         if (!response[i].id) {
                                                             continue;
                                                         }
-                                                        console.log(response[i]);
                                                         var icon = "lock"
                                                         if (response[i].status == "public") {
                                                             icon = "globe"
@@ -335,7 +334,6 @@ echo $_SESSION['language']; ?>">
                                                                 'playlists_id': $(this).val()
                                                             },
                                                             success: function (response) {
-                                                                console.log(response);
                                                                 modal.hidePleaseWait();
                                                             }
                                                         });
@@ -688,16 +686,12 @@ echo $_SESSION['language']; ?>">
                             $(document).ready(function () {
                                 $("input.saveCookie").each(function () {
                                     var mycookie = Cookies.get($(this).attr('name'));
-                                    console.log($(this).attr('name'));
-                                    console.log(mycookie);
                                     if (mycookie && mycookie == "true") {
                                         $(this).prop('checked', mycookie);
                                         $('.autoPlayVideo').slideDown();
                                     }
                                 });
                                 $("input.saveCookie").change(function () {
-                                    console.log($(this).attr('name'));
-                                    console.log($(this).prop('checked'));
                                     var auto = $(this).prop('checked');
                                     if (auto) {
                                         $('.autoPlayVideo').slideDown();
