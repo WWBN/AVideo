@@ -29,6 +29,7 @@
     <script>
         $(document).ready(function () {
             $(".vjs-big-play-button").hide();
+            $(".vjs-control-bar").show();
             player = videojs('mainAudio');
             player.ready(function () {
             <?php
