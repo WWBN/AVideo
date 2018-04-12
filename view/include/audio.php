@@ -7,13 +7,17 @@
                $poster = $global['webSiteRootURL']."videos/".$video['filename'].".jpg"; 
             }
         ?>
-        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay poster="<?php echo $poster; ?>">
+        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay data-setup='{}' poster="<?php echo $poster; ?>">
             <?php
             $ext = "";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>
+                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
+                <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
                 <?php
                     $ext = ".ogg";
                 } else { ?>
+                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" /> 
+                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
                 <?php
                     $ext = ".mp3";
                 } ?>
@@ -22,27 +26,11 @@
                 <a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'].$ext; ?>" download="<?php echo $video['title'] . $ext; ?>"><?php echo __("Download audio"); ?></a>
             <?php } ?>
     </div>
-    <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-wavesurfer/dist/css/videojs.wavesurfer.min.css" rel="stylesheet" type="text/css"/>
-
     <script>
         $(document).ready(function () {
             $(".vjs-big-play-button").hide();
-            player = videojs('mainAudio', {
-            controls: true,
-            width: 400,
-            height: 200,
-                plugins: {
-                    wavesurfer: {
-                        src: '<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename'].$ext; ?>',
-                        debug: true,
-                        waveColor: 'yellow',
-                        cursorWidth: 0,
-                        interact: true,
-                        hideScrollbar: false
-                    }
-                }
-            });
-
+            //$(".vjs-control-bar").show();
+            player = videojs('mainAudio');
             player.ready(function () {
             <?php
                 if ($config->getAutoplay()) {
