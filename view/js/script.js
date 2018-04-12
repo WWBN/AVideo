@@ -210,9 +210,6 @@ function subscribe(email, user_id) {
             'user_id': user_id
         },
         success: function (response) {
-            console.log(response);
-
-
             if (response.subscribe == "i") {
                 $('.subs' + user_id).removeClass("subscribed");
                 $('.subs' + user_id + ' b.text').text("Subscribe");
@@ -290,7 +287,6 @@ function addView(videos_id) {
         },
         success: function (response) {
             $('.view-count' + videos_id).text(response.count);
-            console.log(response);
         }
     });
 }

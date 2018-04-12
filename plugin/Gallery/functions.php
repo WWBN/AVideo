@@ -1,4 +1,5 @@
 <?php
+
 function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     $upDown = "";
     $mostLess = "";
@@ -32,8 +33,6 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
 
 function createGallerySection($videos) {
     global $global, $config, $obj;
-    ?>
-    <?php
     $countCols = 0;
 
     foreach ($videos as $value) {
@@ -67,6 +66,18 @@ function createGallerySection($videos) {
 
             <div class="text-muted galeryDetails">
                 <div>
+                    <?php if (empty($_GET['catName'])) { ?>
+                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                            <?php
+                            if (!empty($value['iconClass'])) {
+                                ?>
+                                <i class="<?php echo $value['iconClass']; ?>"></i> 
+                                <?php
+                            }
+                            ?>
+                            <?php echo $value['category']; ?>
+                        </a>
+                    <?php } ?>
                     <?php
                     $value['tags'] = Video::getTags($value['id']);
                     foreach ($value['tags'] as $value2) {
@@ -84,13 +95,6 @@ function createGallerySection($videos) {
                         <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                     </span>
                 </div>
-                <?php if (empty($_GET['catName'])) { ?>
-                    <div>
-                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
-                            <?php echo $value['category']; ?>
-                        </a>
-                    </div>
-                <?php } ?>
                 <div>
                     <i class="fa fa-clock-o"></i>
                     <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -129,6 +133,7 @@ function createGallerySection($videos) {
             </div>
         </div>
     <?php } ?>
+
     <?php
 }
 ?>
