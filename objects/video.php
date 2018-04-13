@@ -147,6 +147,7 @@ class Video {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
                 $this->id = $id;
+                YouPHPTubePlugin::afterNewVideo($id);
             } else {
                 $id = $this->id;
             }
@@ -1239,10 +1240,38 @@ class Video {
                 return false;
             }
         }
-        $sql = "SELECT * FROM videos WHERE id = {$videos_id} AND users_id = $users_id ";
+        
+        $video_owner = self::getOwner($videos_id);
+        if($video_owner){
+            if($video_owner == $users_id){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * @global type $global
+     * @param type $videos_id
+     * @param type $users_id if is empty will use the logged user
+     * @return boolean
+     */
+    static function getOwner($videos_id) {
+        global $global;
+        $sql = "SELECT users_id FROM videos WHERE id = {$videos_id} ";
         $sql .= " LIMIT 1";
         $res = $global['mysqli']->query($sql);
-        return !empty($res->num_rows);
+        if ($res) {
+            require_once 'userGroups.php';
+            if ($row = $res->fetch_assoc()) {
+                return $row['users_id'];
+            }
+        } else {
+            $videos = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return false;
     }
 
     /**
