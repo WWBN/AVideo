@@ -71,15 +71,15 @@
                     <?php
                     if ($config->getAllow_download()) {
                         $ext = ".mp4";
-                        if ($value['type'] == "audio") {
-                            if (file_exists($global['systemRootPath'] . "videos/" . $value['filename'] . ".ogg")) {
+                        if ($video['type'] == "audio") {
+                            if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
                                 $ext = ".ogg";
-                            } else if (file_exists($global['systemRootPath'] . "videos/" . $value['filename'] . ".mp3")) {
+                            } else if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".mp3")) {
                                 $ext = ".mp3";
                             }
                         }
                         ?>
-                        <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'] . $ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
+                        <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'] . $ext; ?>" download="<?php echo $video['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
                         <?php } ?>
                 </div>
             </div>
