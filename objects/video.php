@@ -1537,10 +1537,10 @@ class Video {
 
         $sql = "SELECT * FROM videos WHERE id = {$videos_id} LIMIT 1";
         $res = $global['mysqli']->query($sql);
-        var_dump($sql);
+        
         if ($res) {
             if ($row = $res->fetch_assoc()) {
-                var_dump($row);
+                
                 return $row['clean_title'];
             }
         } else {
