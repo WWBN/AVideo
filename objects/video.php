@@ -1537,9 +1537,10 @@ class Video {
 
         $sql = "SELECT * FROM videos WHERE id = {$videos_id} LIMIT 1";
         $res = $global['mysqli']->query($sql);
-
+        var_dump($sql);
         if ($res) {
             if ($row = $res->fetch_assoc()) {
+                var_dump($row);
                 return $row['clean_title'];
             }
         } else {
@@ -1578,7 +1579,7 @@ class Video {
     static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly") {
         global $global;
         if ($type == "URLFriendly") {
-            if (!empty($videos_id) && empty(empty($clean_title))) {
+            if (!empty($videos_id) && empty($clean_title)) {
                 $clean_title = self::get_clean_title($videos_id);
             }
             if ($embed) {
@@ -1587,7 +1588,7 @@ class Video {
                 return "{$global['webSiteRootURL']}video/{$clean_title}";
             }
         } else {
-            if (empty($videos_id) && !empty(empty($clean_title))) {
+            if (empty($videos_id) && !empty($clean_title)) {
                 $videos_id = self::get_id_from_clean_title($clean_title);
             }
             if ($embed) {
