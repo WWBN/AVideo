@@ -243,5 +243,33 @@ class YouPHPTubePlugin {
             }
         }
     }
+    
+    public static function afterNewVideo($videos_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->afterNewVideo($videos_id);
+            }
+        }
+    }
+    public static function afterNewComment($comments_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->afterNewComment($comments_id);
+            }
+        }
+    }
+    public static function afterNewResponse($comments_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->afterNewResponse($comments_id);
+            }
+        }
+    }
 
 }
