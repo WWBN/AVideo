@@ -142,7 +142,7 @@ if (User::canStream()) {
                     }
                     mouseEffect();
                 } else {
-                    createLiveItem("#", "There is no streaming now", "", "", true);
+                    createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true);
                 }
                 setTimeout(function () {
                     getStatsMenu();
