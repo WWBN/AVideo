@@ -157,7 +157,7 @@ class YPTWallet extends PluginAbstract {
             $wallet->setBalance($balance);
             $wallet_id = $wallet->save();     
             $user = new User($users_id);
-            WalletLog::addLog($wallet_id, ($value*-1), " From user ($users_id) ".$user->getUserName()." - ".$description , $json_data);
+            WalletLog::addLog($wallet_id, ($value*-1), " From user ($users_id) ".$user->getUser()." - ".$description , $json_data);
         }
         
     }
