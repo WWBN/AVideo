@@ -75,6 +75,30 @@ class YPTWallet extends PluginAbstract {
         $wallet->setUsers_id($users_id);
         return $wallet;
     }
+    
+    function getAllUsers() {
+        global $global;
+        $sql = "SELECT * FROM users u "
+                . " LEFT JOIN wallet w ON u.id = w.users_id WHERE 1=1 ";
+
+        $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
+
+        $res = $global['mysqli']->query($sql);
+        $user = array();
+        
+        if ($res) {
+            while ($row = $res->fetch_assoc()) {
+                $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
+                $row['photo'] = User::getPhoto($row['users_id']);
+                $user[] = $row;
+            }
+            //$user = $res->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $user = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $user;
+    }
 
     public function getHistory($user_id) {
         $wallet = $this->getWallet($user_id);
