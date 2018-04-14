@@ -488,8 +488,8 @@ class User {
         $this->photoURL = strip_tags($photoURL);
     }
 
-    static function getAllUsers() {
-        if (!self::isAdmin()) {
+    static function getAllUsers($ignoreAdmin = false) {
+        if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
         //will receive
