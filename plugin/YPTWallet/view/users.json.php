@@ -15,12 +15,7 @@ if(empty($plugin)){
 
 header('Content-Type: application/json');
 
-$users = User::getAllUsers();
-
-foreach ($users as $key => $value) {
-    $users[$key]['balance'] = $plugin->getBalance($value['id']);
-    $users[$key]['photo'] = User::getPhoto($value['id']);
-}
+$users = $plugin->getAllUsers();
 
 $total = User::getTotalUsers();
 

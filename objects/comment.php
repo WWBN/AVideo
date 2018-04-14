@@ -30,6 +30,14 @@ class Comment {
         $this->comments_id_pai = $comments_id_pai;
     }
     
+    function getComments_id_pai() {
+        return $this->comments_id_pai;
+    }
+        
+    function getUsers_id() {
+        return $this->users_id;
+    }
+        
     function setComment($comment) {
         $this->comment = $comment;
     }
@@ -83,6 +91,18 @@ class Comment {
         if(empty($resp)){
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+        if (empty($this->id)) {
+            $id = $global['mysqli']->insert_id;
+            $this->id = $id;
+        } else {
+            $id = $this->id;
+        }
+        if(empty($this->comments_id_pai) || $this->comments_id_pai== 'NULL'){
+            YouPHPTubePlugin::afterNewComment($this->id);
+        }else{
+            YouPHPTubePlugin::afterNewResponse($this->id);
+        }
+        
         return $resp;
     }
 

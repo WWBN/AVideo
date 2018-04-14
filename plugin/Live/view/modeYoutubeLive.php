@@ -72,7 +72,7 @@ $imgh = 360;
         <?php
         }else{
             ?>
-        <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> You are not allowed see this streaming</h1>    
+        <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> <?php echo __("You are not allowed see this streaming"); ?></h1>    
             <?php
         }
         ?>
