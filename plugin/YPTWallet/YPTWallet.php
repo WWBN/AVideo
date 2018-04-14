@@ -76,11 +76,15 @@ class YPTWallet extends PluginAbstract {
         return $wallet;
     }
     
-    function getAllUsers() {
+    function getAllUsers($activeOnly = true) {
         global $global;
         $sql = "SELECT *, IFNULL(balance, 0) FROM users u "
                 . " LEFT JOIN wallet w ON u.id = w.users_id WHERE 1=1 ";
 
+        if($activeOnly){
+            $sql .= " AND status = 'a' ";
+        }
+        
         $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
 
         $res = $global['mysqli']->query($sql);
