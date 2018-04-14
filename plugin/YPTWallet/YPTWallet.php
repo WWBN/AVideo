@@ -75,15 +75,73 @@ class YPTWallet extends PluginAbstract {
         $wallet->setUsers_id($users_id);
         return $wallet;
     }
+    
+    function getAllUsers($activeOnly = true) {
+        global $global;
+        $sql = "SELECT *, IFNULL(balance, 0) FROM users u "
+                . " LEFT JOIN wallet w ON u.id = w.users_id WHERE 1=1 ";
 
+        if($activeOnly){
+            $sql .= " AND status = 'a' ";
+        }
+        
+        $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
+
+        $res = $global['mysqli']->query($sql);
+        $user = array();
+        
+        if ($res) {
+            while ($row = $res->fetch_assoc()) {
+                $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
+                $row['photo'] = User::getPhoto($row['users_id']);
+                $user[] = $row;
+            }
+            //$user = $res->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $user = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $user;
+    }
+    
+    static function getTotalBalance() {
+        global $global;
+        $sql = "SELECT sum(balance) as total FROM wallet ";
+
+        $res = $global['mysqli']->query($sql);
+        $user = array();
+        
+        if ($res) {
+            if ($row = $res->fetch_assoc()) {
+                return $row['total'];
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return 0;
+    }
+
+    static function getTotalBalanceText() {
+        $value = self::getTotalBalance();
+        return self::formatCurrency($value);
+    }
+    
     public function getHistory($user_id) {
         $wallet = $this->getWallet($user_id);
         $log = new WalletLog(0);
         $rows = $log->getAllFromWallet($wallet->getId());
         return $rows;
     }
-
-    public function addBalance($users_id, $value, $description="", $json_data="{}") {
+    
+    /**
+     * 
+     * @param type $users_id
+     * @param type $value
+     * @param type $description
+     * @param type $json_data
+     * @param type $mainWallet_user_id A user ID where the money comes from and where the money goes for
+     */
+    public function addBalance($users_id, $value, $description="", $json_data="{}", $mainWallet_user_id=0) {
         $wallet = $this->getWallet($users_id);
         $balance = $wallet->getBalance();
         $balance+=$value;
@@ -91,6 +149,17 @@ class YPTWallet extends PluginAbstract {
         $wallet_id = $wallet->save();     
         
         WalletLog::addLog($wallet_id, $value, $description, $json_data);
+        
+        if(!empty($mainWallet_user_id)){
+            $wallet = $this->getWallet($mainWallet_user_id);
+            $balance = $wallet->getBalance();
+            $balance+=($value*-1);
+            $wallet->setBalance($balance);
+            $wallet_id = $wallet->save();     
+            $user = new User($users_id);
+            WalletLog::addLog($wallet_id, ($value*-1), " From user ($users_id) ".$user->getUser()." - ".$description , $json_data);
+        }
+        
     }
 
     public function saveBalance($users_id, $value) {

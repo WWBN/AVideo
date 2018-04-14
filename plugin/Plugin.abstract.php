@@ -75,6 +75,18 @@ abstract class PluginAbstract {
         return false;
     }
     
+    public function afterNewVideo($videos_id) {
+        return false;
+    }
+    
+    public function afterNewComment($comments_id) {
+        return false;
+    }
+    
+    public function afterNewResponse($comments_id) {
+        return false;
+    }
+    
     public function xsendfilePreVideoPlay(){
         return false;
     }  

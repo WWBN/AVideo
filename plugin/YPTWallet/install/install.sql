@@ -4,7 +4,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 CREATE TABLE IF NOT EXISTS `wallet` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `balance` FLOAT(15,5) NOT NULL DEFAULT 0.0,
+  `balance` DOUBLE(20,10) NOT NULL DEFAULT 0.0,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `users_id` INT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `wallet_log` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
-  `value` FLOAT(15,5) NOT NULL,
+  `value` DOUBLE(20,10) NOT NULL,
   `description` VARCHAR(255) NULL,
   `wallet_id` INT NOT NULL,
   `json_data` TEXT NULL,
