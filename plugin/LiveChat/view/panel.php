@@ -5,20 +5,20 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/script.js" type="text/javascript"></script>
 <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
 <div class="alert alert-warning" id="chatOffline">
-    Trying to establish a chat server connection
+    <?php echo __("Trying to establish a chat server connection"); ?>
 </div>
 <div style="display: none" id="chatOnline">
     <div class="panel panel-default liveChat">
-        <div class="panel-heading"><i class="fa fa-comments-o"></i> Live Chat <button class="btn btn-xs btn-default pull-right" id="collapseBtn"><i class="fa fa-minus-square"></i></button></div>
+        <div class="panel-heading"><i class="fa fa-comments-o"></i> <?php echo __("Live Chat"); ?> <button class="btn btn-xs btn-default pull-right" id="collapseBtn"><i class="fa fa-minus-square"></i></button></div>
         <div class="colapsibleArea">
             <div class="panel-body">  
                 <ul class="messages"></ul>
             </div>
             <div class="panel-footer">
                 <div class="input-group">
-                    <input type="text" class="form-control message_input" placeholder="Type your message...">
+                    <input type="text" class="form-control message_input" placeholder="<?php echo __("Type your message..."); ?>">
                     <span class="input-group-btn">
-                        <button class="btn btn-secondary send_message" type="button"><i class="fa fa-send"></i> Send</button>
+                        <button class="btn btn-secondary send_message" type="button"><i class="fa fa-send"></i> <?php echo __("Send"); ?></button>
                     </span>
                 </div>
             </div>

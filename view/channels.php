@@ -43,7 +43,7 @@ $channels = Channel::getChannels();
                             </div>
                         </div>
                         <div class="clear clearfix">
-                            <h2>Preview</h2>
+                            <h2><?php echo __("Preview"); ?></h2>
                             <?php
                             $_POST['current'] = 1;
                             $_POST['rowCount'] = 6;
