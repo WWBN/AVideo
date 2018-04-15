@@ -1,5 +1,7 @@
 # Based on the work of @hannah98, thanks for that!
 # https://github.com/hannah98/youphptube-docker
+# Licensed under the terms of the CC-0 license, see
+# https://creativecommons.org/publicdomain/zero/1.0/deed
 
 FROM ubuntu:xenial
 
