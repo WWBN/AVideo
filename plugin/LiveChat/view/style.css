@@ -1,7 +1,7 @@
 #chatOnline {
     width: 25vw;
     min-width: 250px;
-    position: absolute;
+    position: fixed;
     right: 0;
     bottom: 0;
     z-index: 9999;
