@@ -21,7 +21,9 @@ if (User::isLogged() && $user_id == User::getId()) {
 }
 
 $user = new User($user_id);
+$_POST['sort']['created'] = "DESC";
 $uploadedVideos = Video::getAllVideos("a", $user_id);
+unset($_POST['sort']);
 $publicOnly = true;
 if (User::isLogged() && $user_id == User::getId()) {
     $publicOnly = false;
