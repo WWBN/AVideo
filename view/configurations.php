@@ -27,9 +27,9 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
         ?>
 
         <div class="container">
-                    <?php
-        include 'include/updateCheck.php';
-        ?>
+            <?php
+            include 'include/updateCheck.php';
+            ?>
             <?php
             if (User::isAdmin()) {
                 ?>
@@ -91,13 +91,13 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     $savedTheme = $config->getTheme();
                                                     if ($fileEx == $savedTheme) {
                                                         ?>
-                                                <script>
-                                                $(document).ready(function () {
-                                                    setTimeout(function () {
-                                                        $("#btn<?php echo ($fileEx); ?>").trigger("click");
-                                                    }, 1000);
-                                                });
-                                                </script>
+                                                        <script>
+                                                            $(document).ready(function () {
+                                                                setTimeout(function () {
+                                                                    $("#btn<?php echo ($fileEx); ?>").trigger("click");
+                                                                }, 1000);
+                                                            });
+                                                        </script>
                                                         <?php
                                                     }
                                                     ?>
@@ -381,6 +381,12 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     <legend><?php echo __("Advanced configuration"); ?></legend>
 
                                                     <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <button class="btn btn-danger" id="clearCache"><i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?></button>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Encoder URL"); ?></label>
                                                         <div class="col-md-10">
                                                             <input id="encoder_url" aria-describedby="encoder_urlHelp" class="form-control"  type="url" value="<?php echo $config->getEncoderURL(); ?>" >
@@ -411,7 +417,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Disable Youtube-Upload"); ?></label>
                                                         <div class="col-md-10">
@@ -422,7 +428,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             ?> >
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Disable right-click-prevention on video and allow downloading"); ?></label>
                                                         <div class="col-md-10">
@@ -578,6 +584,21 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                         $('#logo-btn').on('click', function (ev) {
                             $('#logo').trigger("click");
                         });
+                        $('#clearCache').on('click', function (ev) {
+                            ev.preventDefault();
+                            modal.showPleaseWait();
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/configurationClearCache.json.php',
+                                success: function (response) {
+                                    if (!response.error) {
+                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your cache has been cleared!"); ?>", "success");
+                                    } else {
+                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your cache has NOT been cleared!"); ?>", "error");
+                                    }
+                                    modal.hidePleaseWait();
+                                }
+                            });
+                        });
                         $('#logo-result-btn').on('click', function (ev) {
                             logoCrop.croppie('result', {
                                 type: 'canvas',
@@ -601,9 +622,9 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                 height: 120
                             }
                         });
-                        setTimeout(function(){
+                        setTimeout(function () {
                             logoCrop.croppie('setZoom', 1);
-                        },1000);
+                        }, 1000);
                         // END croppie logo
                         // start croppie logoSmall
                         $('#logoSmall').on('change', function () {
@@ -635,10 +656,10 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                 height: 60
                             }
                         });
-                        setTimeout(function(){
+                        setTimeout(function () {
                             logoSmallCrop.croppie('setZoom', 1);
-                        },1000);
-                        
+                        }, 1000);
+
 
                         // END croppie logoSmall
 
@@ -685,7 +706,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "smtpPassword": $('#smtpPassword').val(),
                                             "smtpPort": $('#smtpPort').val(),
                                             "encoder_url": $('#encoder_url').val(),
-
                                         },
                                         type: 'post',
                                         success: function (response) {
@@ -712,7 +732,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                     .siblings('input').prop('checked', true)
                                     .siblings('.img-radio').css('opacity', '1');
                             var cssName = $(this).addClass('active').siblings('input').val();
-                            $("#theme").attr("href", "<?php echo $global['webSiteRootURL']?>css/custom/"+cssName+".css");
+                            $("#theme").attr("href", "<?php echo $global['webSiteRootURL'] ?>css/custom/" + cssName + ".css");
                             $('.btn-radio').parent("div").removeClass('bg-success');
                             $(this).addClass('active').parent("div").addClass("bg-success");
                             theme = cssName;
