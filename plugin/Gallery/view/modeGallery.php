@@ -140,7 +140,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 $total = Video::getTotalVideos("viewableNotAd");
                                 $totalPages = ceil($total / $_POST['rowCount']);
                                 $page = $_GET['page'];
-                                if($totalPages < $_GET['page']){
+                                if ($totalPages < $_GET['page']) {
                                     $page = $totalPages;
                                     $_POST['current'] = $totalPages;
                                 }
@@ -153,16 +153,16 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 </div>
                             </div>
                             <script>
-                            $(document).ready(function () {
-                                $('#sortByNamePages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
-                                    page: <?php echo $page; ?>,
-                                    maxVisible: 10
-                                }).on('page', function (event, num) {
-                                <?php echo 'var args = "' . $args . '";'; ?>
-                                window.location.replace("<?php echo $url; ?>" + num + args);
+                                $(document).ready(function () {
+                                    $('#sortByNamePages').bootpag({
+                                        total: <?php echo $totalPages; ?>,
+                                        page: <?php echo $page; ?>,
+                                        maxVisible: 10
+                                    }).on('page', function (event, num) {
+        <?php echo 'var args = "' . $args . '";'; ?>
+                                        window.location.replace("<?php echo $url; ?>" + num + args);
+                                    });
                                 });
-                            });
                             </script>
                         <?php } if ($obj->DateAdded) { ?> 
                             <div class="clear clearfix">
@@ -189,7 +189,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $total = Video::getTotalVideos("viewableNotAd");
                                     $totalPages = ceil($total / $_POST['rowCount']);
                                     $page = $_GET['page'];
-                                    if($totalPages < $_GET['page']){
+                                    if ($totalPages < $_GET['page']) {
                                         $page = $totalPages;
                                         $_POST['current'] = $totalPages;
                                     }
@@ -203,16 +203,16 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 </div>
                             </div>
                             <script>
-                            $(document).ready(function () {
-                                $('#dateAddedPages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
-                                    page: <?php echo $page; ?>,
-                                    maxVisible: 10
-                                }).on('page', function (event, num) {
-                                <?php echo 'var args = "' . $args . '";'; ?>
-                                window.location.replace("<?php echo $url; ?>" + num + args);
+                                $(document).ready(function () {
+                                    $('#dateAddedPages').bootpag({
+                                        total: <?php echo $totalPages; ?>,
+                                        page: <?php echo $page; ?>,
+                                        maxVisible: 10
+                                    }).on('page', function (event, num) {
+        <?php echo 'var args = "' . $args . '";'; ?>
+                                        window.location.replace("<?php echo $url; ?>" + num + args);
+                                    });
                                 });
-                            });
                             </script>
                         <?php } if ($obj->MostWatched) { ?>
                             <div class="clear clearfix">
@@ -240,7 +240,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $total = Video::getTotalVideos("viewableNotAd");
                                     $totalPages = ceil($total / $_POST['rowCount']);
                                     $page = $_GET['page'];
-                                    if($totalPages < $_GET['page']){
+                                    if ($totalPages < $_GET['page']) {
                                         $page = $totalPages;
                                         $_POST['current'] = $totalPages;
                                     }
@@ -254,18 +254,21 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 </div>
                             </div>
                             <script>
-                            $(document).ready(function () {
-                                $('#mostWatchedPages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
-                                    page: <?php echo $page; ?>,
-                                    maxVisible: 10
-                                }).on('page', function (event, num) {
-                                <?php echo 'var args = "' . $args . '";'; ?>
-                                window.location.replace("<?php echo $url; ?>" + num + args);
+                                $(document).ready(function () {
+                                    $('#mostWatchedPages').bootpag({
+                                        total: <?php echo $totalPages; ?>,
+                                        page: <?php echo $page; ?>,
+                                        maxVisible: 10
+                                    }).on('page', function (event, num) {
+        <?php echo 'var args = "' . $args . '";'; ?>
+                                        window.location.replace("<?php echo $url; ?>" + num + args);
+                                    });
                                 });
-                            });
                             </script>
-                        <?php } if ($obj->MostPopular) { ?>    
+                        <?php
+                        }
+                        if ($obj->MostPopular) {
+                            ?>    
                             <div class="clear clearfix">
                                 <h3 class="galleryTitle">
                                     <i class="glyphicon glyphicon-thumbs-up"></i>
@@ -291,7 +294,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                     $total = Video::getTotalVideos("viewableNotAd");
                                     $totalPages = ceil($total / $_POST['rowCount']);
                                     $page = $_GET['page'];
-                                    if($totalPages < $_GET['page']){
+                                    if ($totalPages < $_GET['page']) {
                                         $page = $totalPages;
                                         $_POST['current'] = $totalPages;
                                     }
@@ -305,30 +308,70 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 </div>
                             </div>
                             <script>
-                            $(document).ready(function () {
-                                $('#mostPopularPages').bootpag({
-                                    total: <?php echo $totalPages; ?>,
-                                    page: <?php echo $page; ?>,
-                                    maxVisible: 10
-                                }).on('page', function (event, num) {
-                                <?php echo 'var args = "' . $args . '";'; ?>
-                                window.location.replace("<?php echo $url; ?>" + num + args);
+                                $(document).ready(function () {
+                                    $('#mostPopularPages').bootpag({
+                                        total: <?php echo $totalPages; ?>,
+                                        page: <?php echo $page; ?>,
+                                        maxVisible: 10
+                                    }).on('page', function (event, num) {
+        <?php echo 'var args = "' . $args . '";'; ?>
+                                        window.location.replace("<?php echo $url; ?>" + num + args);
+                                    });
                                 });
-                            });
                             </script>
-                        <?php } ?>
+                            <?php
+                        }
+                        if ($obj->SubscribedChannels && User::isLogged()) {
+                            require_once $global['systemRootPath'] . 'objects/subscribe.php';
+                            $channels = Subscribe::getSubscribedChannels(User::getId());
+                            foreach ($channels as $value) {
+                                ?>    
+                                <div class="clear clearfix">
+                                    <h3 class="galleryTitle">
+                                        <img src="<?php
+                                             echo $value['photoURL'];
+                                             ?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;">
+                                        <span style="margin: 0 5px;">
+                                            <?php
+                                            echo $value['identification'];
+                                            ?>
+                                        </span>
+                                        <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $value['users_id']; ?>/" style="margin: 0 10px;">
+                                            <i class="fa fa-external-link"></i>
+                                        </a>
+                                        <?php
+                                        echo Subscribe::getButton($value['users_id']);
+                                        ?>
+                                    </h3>
+                                    <div class="row">
+                                        <?php
+                                        $countCols = 0;
+                                        unset($_POST['sort']);
+                                        $_POST['sort']['created'] = "DESC";
+                                        $_POST['current'] = 1;
+                                        $_POST['rowCount'] = $obj->SubscribedChannelsRowCount;
+                                        $total = Video::getTotalVideos("viewableNotAd", $value['users_id']);
+                                        $videos = Video::getAllVideos("viewableNotAd", $value['users_id']);
+                                        createGallerySection($videos);
+                                        ?>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
                     </div>
-                <?php } else { ?>
+<?php } else { ?>
                     <div class="alert alert-warning">
                         <span class="glyphicon glyphicon-facetime-video"></span>
                         <strong><?php echo __("Warning"); ?>!</strong> 
-                        <?php echo __("We have not found any videos or audios to show"); ?>.
+                    <?php echo __("We have not found any videos or audios to show"); ?>.
                     </div>
-                <?php } ?>
+<?php } ?>
             </div>
         </div>
     </div>
-    <?php include 'include/footer.php'; ?>
+<?php include 'include/footer.php'; ?>
 </body>
 </html>
 <?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>
