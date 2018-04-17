@@ -91,6 +91,12 @@ class Subscribe {
         return $subscribe;
     }
 
+    /**
+     * return all subscribers that has subscribe to an user channel
+     * @global type $global
+     * @param type $user_id
+     * @return boolean
+     */
     static function getAllSubscribes($user_id = "") {
         global $global;
         $sql = "SELECT su.id as subscriber_id, s.* FROM subscribes as s "
@@ -116,6 +122,46 @@ class Subscribe {
                 }
                 $row['backgroundURL'] = User::getBackground($row['subscriber_id']);
                 $row['photoURL'] = User::getPhoto($row['subscriber_id']);
+                
+                $subscribe[] = $row;
+            }
+            //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $subscribe = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $subscribe;
+    }
+    
+    /**
+     * return all channels that a user has subscribed
+     * @global type $global
+     * @param type $user_id
+     * @return boolean
+     */
+    static function getSubscribedChannels($user_id) {
+        global $global;
+        
+        $user = new User($user_id);
+        $email = $user->getEmail();
+        
+        $sql = "SELECT s.* FROM subscribes as s WHERE email='{$email}' ";
+        
+        $res = $global['mysqli']->query($sql);
+        $subscribe = array();
+        if ($res) {
+            $emails = array();
+            while ($row = $res->fetch_assoc()) {
+                if(in_array($row['email'], $emails)){
+                    continue;
+                }
+                $emails[] = $row['email'];
+                $row['identification'] = User::getNameIdentificationById($row['users_id']);
+                if($row['identification'] === __("Unknown User")){
+                    $row['identification'] = $row['email'];
+                }
+                $row['backgroundURL'] = User::getBackground($row['users_id']);
+                $row['photoURL'] = User::getPhoto($row['users_id']);
                 
                 $subscribe[] = $row;
             }
