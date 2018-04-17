@@ -73,7 +73,7 @@ $obj = $p->getDataObject();
                                 </div>
                                 
                                 <div class="alert alert-info">
-                                    This is an experimental resource
+                                    <?php echo __("This is an experimental resource"); ?>
                                 </div>
                             </div>
                         </div>
@@ -86,15 +86,15 @@ $obj = $p->getDataObject();
                     <div class="panel-heading"><i class="fa fa-share"></i> <?php echo __("Share Info"); ?></div>
                     <div class="panel-body">          
                         <div class="form-group">
-                            <label for="playerURL"><i class="fa fa-play-circle"></i> <?php echo __("Player URL:"); ?></label>
+                            <label for="playerURL"><i class="fa fa-play-circle"></i> <?php echo __("Player URL"); ?>:</label>
                             <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8"  readonly="readonly">
                         </div>       
                         <div class="form-group">
-                            <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("YouPHPTube URL:"); ?></label>
+                            <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("YouPHPTube URL"); ?>:</label>
                             <input type="text" class="form-control" id="youphptubeURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>"  readonly="readonly">
                         </div>   
                         <div class="form-group">
-                            <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream:"); ?></label>
+                            <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
                             <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
                         </div>
                     </div>
@@ -103,12 +103,12 @@ $obj = $p->getDataObject();
                     <div class="panel-heading"><i class="fa fa-hdd-o"></i> <?php echo __("Devices Stream Info"); ?></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL:"); ?></label>
+                            <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
                             <input type="text" class="form-control" id="server" value="<?php echo $p->getServer(); ?>?p=<?php echo User::getUserPass(); ?>" readonly="readonly">
                             <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
                         </div>
                         <div class="form-group">
-                            <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key:"); ?></label>
+                            <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key"); ?>:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="streamkey" value="<?php echo $trasnmition['key']; ?>" readonly="readonly">
                                 <span class="input-group-btn">
@@ -210,9 +210,9 @@ $obj = $p->getDataObject();
                             }
                             // you online do not show webcam
                             if (!offLine) {
-                                $('#webcam').find('.alert').text("You are online now, web cam is disabled");
+                                $('#webcam').find('.alert').text("<?php echo __("You are online now, web cam is disabled"); ?>");
                             } else {
-                                $('#webcam').find('.alert').text("You are not online, loading webcam...");
+                                $('#webcam').find('.alert').text("<?php echo __("You are not online, loading webcam..."); ?>");
                                 swfobject.embedSWF("<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/webcam.swf", "webcam", "100%", "100%", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
                             }
                         }
