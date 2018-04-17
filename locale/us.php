@@ -295,11 +295,11 @@ $t['The original file for this video does not exists anymore'] = "The original f
 $t['The recover pass does not match!'] = "The recover pass does not match!";
 $t['Theme for Style:'] = "Theme for Style:";
 $t['Themes'] = "Themes";
-$t['This is an experimental resource'] = "This is an experimental resource";
 $t['There is missing data to recover your password'] = "There is missing data to recover your password";
 $t['There is no streaming now'] = "There is no streaming now";
 $t['This e-mail will be used for this web site notifications'] = "This e-mail will be used for this web site notifications";
 $t['This help us to track and dettect errors'] = "This help us to track and dettect errors";
+$t['This is an experimental resource'] = "This is an experimental resource";
 $t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/DanielnetoDotCom/YouPHPTube-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "This page works only with a MP4 File, if you have or need any other format, try to install your own <a href='https://github.com/DanielnetoDotCom/YouPHPTube-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder.youphptube.com/' class='btn btn-warning btn-xs'>public</a> one";
 $t['This plugin is not available for you'] = "This plugin is not available for you";
 $t['This value must match with the language files on'] = "This value must match with the language files on";
