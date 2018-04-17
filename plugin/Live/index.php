@@ -35,7 +35,7 @@ $vjsClass = "vjs-16-9";
 
 $trans = new LiveTransmition($trasnmition['id']);
 $groups = $trans->getGroups();
-
+$obj = $p->getDataObject();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -57,7 +57,9 @@ $groups = $trans->getGroups();
         ?>
         <div class="container">
             <div class="col-md-6">
-                <!--
+                <?php
+                if(!empty($obj->experimentalWebcam)){
+                ?>
                 <div class="panel panel-default">
                     <div class="panel-heading"><?php echo __("WebCam Streaming"); ?></div>
                     <div class="panel-body">
@@ -67,13 +69,15 @@ $groups = $trans->getGroups();
                                     <i class="fa fa-camera"></i> <?php echo __("Enable WebCam Stream"); ?>
                                 </button>
                                 <div class="alert alert-warning">
-                                    <i class="fa fa-warning"><?php echo __("We will check it there is a stream conflict before stream"); ?></i>
+                                    <i class="fa fa-warning"><?php echo __("We will check if there is a stream conflict before stream"); ?></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                -->
+                <?php
+                }
+                ?>
                 <div class="panel panel-default">
                     <div class="panel-heading"><i class="fa fa-share"></i> <?php echo __("Share Info"); ?></div>
                     <div class="panel-body">          
