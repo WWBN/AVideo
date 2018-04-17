@@ -460,10 +460,12 @@ class Video {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
         if (!empty($_SESSION['type'])) {
-            $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            if($_SESSION['type']=='video'){
+                $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+            }else{            
+                $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            }
         }
-
-
 
         if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
@@ -592,7 +594,11 @@ class Video {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
         if (!empty($_SESSION['type'])) {
-            $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            if($_SESSION['type']=='video'){
+                $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+            }else{            
+                $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            }
         }
 
         if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
@@ -695,7 +701,13 @@ class Video {
         if (!empty($_GET['catName'])) {
             $sql .= " AND cn = '{$_GET['catName']}'";
         }
-
+        if (!empty($_SESSION['type'])) {
+            if($_SESSION['type']=='video'){
+                $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+            }else{            
+                $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            }
+        }
         $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
         //echo $sql;exit;
         $res = $global['mysqli']->query($sql);

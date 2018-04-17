@@ -33,6 +33,7 @@ class LiveChat extends PluginAbstract{
         $obj = new stdClass();
         $obj->port = "8888";
         $obj->websocket = "ws://{$server['host']}:{$obj->port}";
+        $obj->onlyForLoggedUsers = false;
         return $obj;
     }
     
@@ -45,6 +46,14 @@ class LiveChat extends PluginAbstract{
     
     public function getTags() {
         return array('free', 'live', 'streaming', 'live stream', 'chat');
+    }
+    
+    public function canSendMessage(){
+        $obj = $this->getDataObject();
+        if(empty($obj->onlyForLoggedUsers) || User::isLogged()){
+            return true;
+        }
+        return false;
     }
 
 }

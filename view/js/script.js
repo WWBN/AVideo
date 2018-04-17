@@ -225,6 +225,26 @@ function subscribe(email, user_id) {
     });
 }
 
+function subscribeNotify(email, user_id) {
+    $.ajax({
+        url: webSiteRootURL + 'objects/subscribeNotify.json.php',
+        method: 'POST',
+        data: {
+            'email': email,
+            'user_id': user_id
+        },
+        success: function (response) {
+            if(response.notify){
+                $('.notNotify' + user_id).addClass("hidden");
+                $('.notify' + user_id).removeClass("hidden");
+            }else{
+                $('.notNotify' + user_id).removeClass("hidden");
+                $('.notify' + user_id).addClass("hidden");                
+            }
+        }
+    });
+}
+
 function closeFloatVideo() {
     $('#videoContainer').fadeOut('fast', function () {
         // this is to remove the dragable and resize
