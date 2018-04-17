@@ -90,7 +90,6 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                     include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
                 }
                 if (!empty($video)) {
-                    $name = User::getNameIdentificationById($video['users_id']);
                     $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                     include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
                     ?>
