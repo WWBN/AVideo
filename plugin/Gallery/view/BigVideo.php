@@ -1,4 +1,6 @@
-<?php if ($obj->BigVideo) { ?>
+<?php if ($obj->BigVideo) { 
+    $name = User::getNameIdentificationById($video['users_id']);
+    ?>
     <div class="clear clearfix">
         <div class="row thumbsImage">
             <div class="col-sm-6">

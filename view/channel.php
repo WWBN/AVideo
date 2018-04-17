@@ -4,6 +4,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
+require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 
 if (empty($_GET['user_id'])) {
     if (User::isLogged()) {
@@ -74,6 +75,42 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                 <div class="col-md-12">
                     <?php echo nl2br($user->getAbout()); ?>
                 </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <?php
+                            if ($isMyChannel) {
+                                ?>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
+                                    <span class="glyphicon glyphicon-film"></span>
+                                    <span class="glyphicon glyphicon-headphones"></span>
+                                    <?php echo __("My videos"); ?>
+                                </a>
+                                <?php
+                            } else {
+                                echo __("My videos");
+                            }
+                            ?>
+                        </div>
+                        <div class="panel-body">
+                                <?php
+                                if(!empty($uploadedVideos[0])){
+                                    $video = $uploadedVideos[0];
+                                    $obj = new stdClass();
+                                    $obj->BigVideo = true;
+                                    include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
+                                    unset($uploadedVideos[0]);
+                                }
+                                ?>
+                            <div class="row mainArea">
+                                <?php
+                                createGallerySection($uploadedVideos);
+                                ?>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+
                 <div class="col-md-12">
                     <?php
                     foreach ($playlists as $playlist) {
@@ -184,15 +221,15 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                                     echo $name;
                                                     ?>
                                                 </div>
-                                                    <?php
-                                                    if(Video::canEdit($value['id'])){
-                                                        ?>
-                                                        <div>
-                                                            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
-                                                        </div>
-                                                    <?php
-                                                    }
+                                                <?php
+                                                if (Video::canEdit($value['id'])) {
                                                     ?>
+                                                    <div>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
                                             </div>
                                         </li>
                                         <?php
@@ -204,89 +241,6 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                         <?php
                     }
                     ?>
-                </div>
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <?php
-                            if ($isMyChannel) {
-                                ?>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
-                                    <span class="glyphicon glyphicon-film"></span>
-                                    <span class="glyphicon glyphicon-headphones"></span>
-                                    <?php echo __("My videos"); ?>
-                                </a>
-                                <?php
-                            } else {
-                                echo __("My videos");
-                            }
-                            ?>
-                        </div>
-                        <div class="panel-body">
-                            <?php
-                            foreach ($uploadedVideos as $value) {
-                                $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
-                                $name = User::getNameIdentificationById($value['users_id']);
-
-                                $images = Video::getImageFromFilename($value['filename'], $value['type']);
-                                $imgGif = $images->thumbsGif;
-                                $poster = $images->thumbsJpg;
-                                ?>
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo ">
-                                    <a class="aspectRatio16_9" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" >
-                                        <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
-                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                    </a>
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                        <h2><?php echo $value['title']; ?></h2>
-                                    </a>
-                                    <div class="text-muted galeryDetails">
-                                        <div>
-                                            <?php
-                                            $value['tags'] = Video::getTags($value['id']);
-                                            foreach ($value['tags'] as $value2) {
-                                                if ($value2->label === __("Group")) {
-                                                    ?>
-                                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-eye"></i>
-                                            <span itemprop="interactionCount">
-                                                <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-clock-o"></i>
-                                            <?php
-                                            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                            ?>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-user"></i>
-                                            <?php
-                                            echo $name;
-                                            ?>
-                                        </div>
-                                        <?php
-                                        if(Video::canEdit($value['id'])){
-                                            ?>
-                                            <div>
-                                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
-                                            </div>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                            ?>
-                        </div>
-                    </div>    
                 </div>
             </div>
         </div>
