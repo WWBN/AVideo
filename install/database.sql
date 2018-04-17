@@ -378,6 +378,7 @@ CREATE TABLE IF NOT EXISTS `subscribes` (
   `modified` DATETIME NULL,
   `ip` VARCHAR(45) NULL,
   `users_id` INT NOT NULL DEFAULT 1 COMMENT 'subscribes to user channel',
+  `notify` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_subscribes_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_subscribes_users1`
@@ -456,7 +457,6 @@ CREATE TABLE IF NOT EXISTS `comments_likes` (
   `like` INT(1) NOT NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
-  `comments_likescol` VARCHAR(45) NULL,
   `users_id` INT NOT NULL,
   `comments_id` INT NOT NULL,
   PRIMARY KEY (`id`),
