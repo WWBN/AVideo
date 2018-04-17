@@ -295,6 +295,7 @@ $t['The original file for this video does not exists anymore'] = "The original f
 $t['The recover pass does not match!'] = "The recover pass does not match!";
 $t['Theme for Style:'] = "Theme for Style:";
 $t['Themes'] = "Themes";
+$t['This is an experimental resource'] = "This is an experimental resource";
 $t['There is missing data to recover your password'] = "There is missing data to recover your password";
 $t['There is no streaming now'] = "There is no streaming now";
 $t['This e-mail will be used for this web site notifications'] = "This e-mail will be used for this web site notifications";
@@ -389,7 +390,7 @@ $t['We detected a total of %s pending updates, if you want to do it now click (U
 $t['We have not found any videos or audios to show'] = "We have not found any videos or audios to show";
 $t['We sent you an e-mail with instructions'] = "We sent you an e-mail with instructions";
 $t['We use youtube-dl to download videos from youtube.com or other video platforms'] = "We use youtube-dl to download videos from youtube.com or other video platforms";
-$t['We will check it there is a stream conflict before stream'] = "We will check it there is a stream conflict before stream";
+$t['We will check if there is a stream conflict before stream'] = "We will check if there is a stream conflict before stream";
 $t['We will send you a link, to your e-mail, to recover your password!'] = "We will send you a link, to your e-mail, to recover your password!";
 $t['We would like to thanks http://bootswatch.com/'] = "We would like to thanks http://bootswatch.com/";
 $t['Web site title'] = "Web site title";
