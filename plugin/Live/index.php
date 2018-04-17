@@ -71,6 +71,10 @@ $obj = $p->getDataObject();
                                 <div class="alert alert-warning">
                                     <i class="fa fa-warning"><?php echo __("We will check if there is a stream conflict before stream"); ?></i>
                                 </div>
+                                
+                                <div class="alert alert-info">
+                                    This is an experimental resource
+                                </div>
                             </div>
                         </div>
                     </div>
