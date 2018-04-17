@@ -35,6 +35,7 @@ class Live extends PluginAbstract {
         $obj->stats = "http://{$server['host']}:8080/stat";
         $obj->disableGifThumbs = false;
         $obj->useLowResolution = false;
+        $obj->experimentalWebcam = false;
         return $obj;
     }
 
