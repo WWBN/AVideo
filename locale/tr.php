@@ -320,6 +320,7 @@ $t['There is no streaming now']  = "Şu anda Canlı Yayın yok";
 $t['This creates a download-button under your video, suggest you title.mp4 as download-name.']  = "Bu, videonuzun altında bir indirme düğmesi oluşturur, indirme-adı olarak title.mp4 önerir.";
 $t['This e-mail will be used for this web site notifications']  = "Bu e-posta, bu web sitesi bildirimleri için kullanılacaktır.";
 $t['This help us to track and dettect errors']  = "Bu, hataları izlememize ve düzenlememize yardımcı oluyor";
+$t['This is an experimental resource'] = "Bu deneysel bir kaynaktır";
 $t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/DanielnetoDotCom/YouPHPTube-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Bu sayfa sadece bir MP4 Dosyası ile çalışır, eğer başka bir formata sahipseniz veya başka bir formata ihtiyacınız varsa, kendi <a href='https://github.com/DanielnetoDotCom/YouPHPTube-Encoder' class='btn btn-warning btn-xs'>Kodlayıcınız</a> ya da <a href='https://encoder.youphptube.com/' class='btn btn-warning btn-xs'>Genel</a>'i kullanın.";
 $t['This plugin is not available for you'] = "Bu eklenti sizin için kullanılamaz";
 $t['This value must match with the language files on']  = "Bu değer, dil dosyaları ile eşleşmelidir.";
@@ -411,7 +412,7 @@ $t['We detected a total of %s pending updates, if you want to do it now click (U
 $t['We have not found any videos or audios to show']  = "Gösterilecek hiçbir video veya ses dosyası bulunamadı";
 $t['We sent you an e-mail with instructions']  = "Size talimatlar içeren bir e-posta gönderdik";
 $t['We use youtube-dl to download videos from youtube.com or other video platforms']  = "Youtube.com veya diğer video platformlarından video indirmek için youtube-dl kullanıyoruz";
-$t['We will check it there is a stream conflict before stream'] = "Yayın öncesi yayın çakışması olup olmadığı kontrol edilecek";
+$t['We will check if there is a stream conflict before stream'] = "Yayın öncesi yayın çakışması olup olmadığı kontrol edilecek";
 $t['We will send you a link, to your e-mail, to recover your password!']  = "Şifreni kurtarmak için size e-postanıza bir link göndereceğiz!";
 $t['We would like to thanks http://bootswatch.com/']  = "Teşekkürler http://bootswatch.com/";
 $t['Web site title']  = "Web Sitesi Başlığı";
