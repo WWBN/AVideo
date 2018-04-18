@@ -825,7 +825,7 @@ function combineFiles($filesArray, $extension = "js"){
 }
 
 function url_get_contents ($Url) {
-        if (!function_exists('curl_init')){ 
+        if (!function_exists('curl_init') || true){ 
             return file_get_contents($Url);
         }
     $ch = curl_init();
