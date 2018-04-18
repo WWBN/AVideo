@@ -32,6 +32,9 @@ class Cache extends PluginAbstract {
     }
     
     private function getFileName(){
+        if(empty($_SERVER['REQUEST_URI'])){
+            $_SERVER['REQUEST_URI'] = "";
+        }
         $obj = $this->getDataObject();
         $user = "";
         if(!empty($obj->enableCachePerUser)){
