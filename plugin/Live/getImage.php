@@ -17,7 +17,7 @@ if($lt->userCanSeeTransmition()){
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
     if(empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()){
         session_write_close();
-        $content = file_get_contents($url);
+        $content = url_get_contents($url);
         session_start();
         $_SESSION[$url] = array('content'=>$content, 'expire' => time("+2 min") ); 
     }

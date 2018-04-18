@@ -1,0 +1,10 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": ["last 3 versions"]
+      },
+      "debug": false
+    }]
+  ]
+}

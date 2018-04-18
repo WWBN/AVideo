@@ -816,13 +816,25 @@ function combineFiles($filesArray, $extension = "js"){
     $md5FileName = md5($fileName).".{$extension}";
     if(!file_exists($cacheDir.$md5FileName)){
         foreach ($filesArray as $value) {
-            $str .= "\n/*{$value}*/\n".file_get_contents($value);
+            $str .= "\n/*{$value}*/\n".url_get_contents($value);
         }
         file_put_contents($cacheDir.$md5FileName, $str);
     }
     return  $global['webSiteRootURL'] . 'videos/cache/'.$md5FileName;
     
 }
+
+function url_get_contents ($Url) {
+        if (!function_exists('curl_init')){ 
+            return file_get_contents($Url);
+        }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $Url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $output = curl_exec($ch);
+    curl_close($ch);
+    return $output;
+} 
 
 function getUpdatesFilesArray(){
     global $config, $global;

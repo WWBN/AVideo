@@ -7,7 +7,7 @@ $tagsStr = "";
 foreach ($tags as $value) {
     $tagsStr .= "<span class=\"label label-{$value->type} fix-width\">{$value->text}</span>";
 }
-$json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
+$json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
 ?>
