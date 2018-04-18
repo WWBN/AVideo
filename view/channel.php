@@ -98,6 +98,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                     $video = $uploadedVideos[0];
                                     $obj = new stdClass();
                                     $obj->BigVideo = true;
+                                    $obj->Description = false;
                                     include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
                                     unset($uploadedVideos[0]);
                                 }
