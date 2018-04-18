@@ -7,9 +7,10 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/functions.php';
 
 // gettig the mobile submited value
-$inputJSON = file_get_contents('php://input');
+$inputJSON = url_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE); //convert JSON into array
 if(!empty($input) && empty($_POST)){
     foreach ($input as $key => $value) {
