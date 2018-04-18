@@ -49,7 +49,7 @@ class OAuthRequest
             // It's a POST request of the proper content-type, so parse POST
             // parameters and add those overriding any duplicates from GET
             if ($http_method == "POST" && isset($request_headers['Content-Type']) && strstr($request_headers['Content-Type'], 'application/x-www-form-urlencoded')) {
-                $post_data  = OAuthUtil::parse_parameters(file_get_contents(self::$POST_INPUT));
+                $post_data  = OAuthUtil::parse_parameters(url_get_contents(self::$POST_INPUT));
                 $parameters = array_merge($parameters, $post_data);
             }
             

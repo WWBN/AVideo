@@ -1,0 +1,17 @@
+{
+    "disallowTrailingWhitespace": true,
+    "disallowMixedSpacesAndTabs": true,
+    "disallowMultipleSpaces": true,
+    "disallowTabs": true,
+    "disallowSpaceBeforeSemicolon": true,
+    "validateIndentation": 4,
+    "requireSemicolons": true,
+    "requireSpacesInForStatement": true,
+    "requireSpacesInConditionalExpression": true,
+    "requireSpaceAfterComma": {"allExcept": ["trailing"]},
+    "requireSpaceBeforeBinaryOperators": true,
+    "requireSpaceAfterBinaryOperators": true,
+    "requireBlocksOnNewline": true,
+    "requireArrowFunctions": true,
+    "requirePaddingNewLinesBeforeExport": true
+}

@@ -28,7 +28,7 @@ abstract class AuthorizationCache
         $cachePath = self::cachePath($config);
         if (file_exists($cachePath)) {
             // Read from the file
-            $cachedToken = file_get_contents($cachePath);
+            $cachedToken = url_get_contents($cachePath);
             if ($cachedToken && JsonValidator::validate($cachedToken, true)) {
                 $tokens = json_decode($cachedToken, true);
                 if ($clientId && is_array($tokens) && array_key_exists($clientId, $tokens)) {
