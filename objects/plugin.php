@@ -150,7 +150,7 @@ class Plugin extends ObjectYPT {
         if(!$filename){
             return false;
         }
-        return file_get_contents($filename);
+        return url_get_contents($filename);
         
     }
     

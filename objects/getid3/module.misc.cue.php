@@ -48,7 +48,7 @@ class getid3_cue extends getid3_handler
 
 	public function readCueSheetFilename($filename)
 	{
-		$filedata = file_get_contents($filename);
+		$filedata = url_get_contents($filename);
 		return $this->readCueSheet($filedata);
 	}
 	/**
