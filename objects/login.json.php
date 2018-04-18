@@ -2,9 +2,12 @@
 //header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
-
+if (empty($global['systemRootPath'])) {
+    $global['systemRootPath'] = '../';
+}
+require_once $global['systemRootPath'] . 'objects/functions.php';
 // gettig the mobile submited value
-$inputJSON = file_get_contents('php://input');
+$inputJSON = url_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE); //convert JSON into array
 if(!empty($input) && empty($_POST)){
     foreach ($input as $key => $value) {
@@ -12,9 +15,7 @@ if(!empty($input) && empty($_POST)){
     }
 }
 
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
-}
+
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -123,7 +124,7 @@ if($object->isLogged){
     }
     $p = YouPHPTubePlugin::loadPluginIfEnabled("MobileManager");
     if(!empty($p)){
-        $object->streamer = json_decode(file_get_contents($global['webSiteRootURL']."status"));
+        $object->streamer = json_decode(url_get_contents($global['webSiteRootURL']."status"));
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }

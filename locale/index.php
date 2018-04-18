@@ -1,6 +1,7 @@
 <?php
 $vars = array();
 require_once '../videos/configuration.php';
+require_once '../objects/functions.php';
 ini_set('max_execution_time', 300);
 function listAll($dir) {
     global $vars;
@@ -14,7 +15,7 @@ function listAll($dir) {
                 if (is_dir($filename)) {
                     listAll($filename);
                 } else if (preg_match("/\.php$/", $entry)) {
-                    $data = file_get_contents($filename);
+                    $data = url_get_contents($filename);
                     $regex = '/__\(["\']{1}(.*)["\']{1}\)/U';
                     preg_match_all(
                             $regex, $data, $matches

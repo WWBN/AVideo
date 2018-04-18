@@ -1,0 +1,23 @@
+# osx
+.DS_Store
+
+# IDE
+.project
+.pydevproject
+
+*.pid
+*.log
+
+examples/media/test
+
+# Dependency-related directories
+node_modules
+bower_components
+
+# Build-related
+dist/
+dist-test/
+docs/
+es5/
+tmp
+coverage/
