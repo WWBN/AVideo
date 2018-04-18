@@ -484,7 +484,7 @@ class LightOpenID
         }
 
         $context = stream_context_create($opts);
-        $data = file_get_contents($url, false, $context);
+        $data = url_get_contents($url, false, $context);
         # This is a hack for providers who don't support HEAD requests.
         # It just creates the headers array for the last request in $this->headers.
         if (isset($http_response_header)) {

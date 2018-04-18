@@ -51,7 +51,7 @@ The blog system creates an emitter instance and loads the plugins:
 ```php
 $emitter = new EventEmitter();
 
-$pluginClasses = json_decode(file_get_contents('plugins.json'), true);
+$pluginClasses = json_decode(url_get_contents('plugins.json'), true);
 foreach ($pluginClasses as $pluginClass) {
     $plugin = new $pluginClass();
     $pluginClass->attachEvents($emitter);

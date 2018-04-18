@@ -1,0 +1,8 @@
+sudo: false
+language: node_js
+node_js:
+  - 'node'
+install: npm install
+cache:
+  directories:
+    - node_modules

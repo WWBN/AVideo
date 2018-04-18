@@ -764,7 +764,7 @@ class Video {
 
         foreach (self::$types as $value) {
             $progressFilename = "{$global['systemRootPath']}videos/{$filename}_progress_{$value}.txt";
-            $content = @file_get_contents($progressFilename);
+            $content = @url_get_contents($progressFilename);
             $object->$value = new stdClass();
             if (!empty($content)) {
                 $object->$value = self::parseProgress($content);
