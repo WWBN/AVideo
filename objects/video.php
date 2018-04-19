@@ -54,7 +54,7 @@ class Video {
             $this->load($id);
         }
         if (!empty($title)) {
-            $this->title = $title;
+            $this->setTitle($title);
         }
         if (!empty($filename)) {
             $this->filename = $filename;
@@ -121,8 +121,8 @@ class Video {
                 $this->categories_id = 1;
             }
         }
-        $this->title = $global['mysqli']->real_escape_string(trim($this->title));
-        $this->description = $global['mysqli']->real_escape_string($this->description);
+        $this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
+        $this->setDescription($global['mysqli']->real_escape_string($this->description));
         $this->next_videos_id = intval($this->next_videos_id);
         if (empty($this->next_videos_id)) {
             $this->next_videos_id = 'NULL';
@@ -895,7 +895,7 @@ class Video {
     }
 
     function setDescription($description) {
-        $this->description = $description;
+        $this->description = strip_tags($description);
     }
 
     function setCategories_id($categories_id) {
@@ -1366,7 +1366,7 @@ class Video {
     }
 
     function setTitle($title) {
-        $this->title = $title;
+        $this->title = strip_tags($title);
     }
 
     function setFilename($filename) {
