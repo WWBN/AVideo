@@ -886,7 +886,7 @@ class Video {
             return false;
         }
         // Streamlined for less coding space.
-        $files = glob("{$filePath}.*");
+        $files = glob("{$filePath}*");
         foreach ($files as $file) {
             if (file_exists($file)) {
                 @unlink($file);
