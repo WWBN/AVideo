@@ -46,7 +46,7 @@ if (User::isLogged()) {
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input  name="first_name" placeholder="<?php echo __("Name"); ?>" class="form-control"  type="text">
+                                <input  name="first_name" placeholder="<?php echo __("Name"); ?>" class="form-control"  type="text" required="true">
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@ if (User::isLogged()) {
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control" value="<?php echo $email; ?>"  type="text">
+                                <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control" value="<?php echo $email; ?>"  type="email"  required="true">
                             </div>
                         </div>
                     </div>

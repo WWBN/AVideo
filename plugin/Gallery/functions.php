@@ -104,7 +104,7 @@ function createGallerySection($videos) {
                     <a class="text-muted" href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $value['users_id']; ?>/">
                         <?php echo $name; ?>
                     </a>
-                    <?php if ((!empty($value['description'])) && ($obj->Description)) { ?>
+                    <?php if ((!empty($value['description'])) && !empty($obj->Description)) { ?>
                         <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?> </div>" ><?php echo __("Description"); ?></button>
                     <?php } ?>
                 </div>
