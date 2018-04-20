@@ -90,6 +90,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                             } else {
                                 echo __("My videos");
                             }
+                            echo YouPHPTubePlugin::getChannelButton();
                             ?>
                         </div>
                         <div class="panel-body">
