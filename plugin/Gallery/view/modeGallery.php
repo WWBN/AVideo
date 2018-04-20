@@ -73,8 +73,6 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
         <title><?php
             echo $config->getWebSiteTitle();
             ?></title>
-        <meta name="generator"
-              content="YouPHPTube - A Free Youtube Clone Script" />
               <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
     </head>
 
