@@ -4,7 +4,6 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $t['key'];
 $p = YouPHPTubePlugin::loadPlugin("Live");
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -27,31 +26,48 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
     <body>
         <div class="embed-responsive  embed-responsive-16by9">
             <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
-                       class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
-                       id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
-                </video>
+                   class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
+                   id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
+                <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
+            </video>
         </div>
-        
+
         <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
-            <?php 
-                $streamName = $uuid;
-                include $global['systemRootPath'].'plugin/Live/view/onlineLabel.php';
-                include $global['systemRootPath'].'plugin/Live/view/onlineUsers.php';
+            <?php
+            $streamName = $uuid;
+            include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
+            include $global['systemRootPath'] . 'plugin/Live/view/onlineUsers.php';
             ?>
         </div>
-        
+
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
+        <script>
+
+            $(document).ready(function () {
+                player = videojs('mainVideo');
+                player.ready(function () {
+<?php
+if ($config->getAutoplay()) {
+    echo "this.play();";
+}
+?>
+
+                });
+                player.persistvolume({
+                    namespace: "YouPHPTube"
+                });
+            });
+        </script>
         <?php
-        require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
+        require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
         echo YouPHPTubePlugin::getFooterCode();
         ?>
     </body>
 </html>
 
 <?php
-include $global['systemRootPath'].'objects/include_end.php';
+include $global['systemRootPath'] . 'objects/include_end.php';
 ?>
