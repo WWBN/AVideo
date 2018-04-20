@@ -294,7 +294,17 @@ function getSecondsTotalVideosLength() {
     $configFile = dirname(__FILE__) . '/../videos/configuration.php';
     require_once $configFile;
     global $global;
+    
+    if(!User::isLogged()){
+        return 0;
+    }
     $sql = "SELECT * FROM videos v ";
+    
+    if(!User::isAdmin()){
+        $id = User::getId();
+        $sql .= " WHERE users_id = {$id} ";
+    }
+    
     $res = $global['mysqli']->query($sql);
     $seconds = 0;
     while ($row = $res->fetch_assoc()) {
