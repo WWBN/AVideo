@@ -121,5 +121,10 @@ abstract class PluginAbstract {
     public function hidePlugin(){
         return false;
     }
+    
+    public function getChannelButton(){
+        return "";
+    }
+    
 
 }
