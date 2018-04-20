@@ -42,8 +42,8 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'?>
     
 
        <item>
-       <title><?php echo $row['title']; ?></title>
-       <description><?php echo $row['description']; ?></description>
+       <title><?php echo htmlspecialchars ($row['title']); ?></title>
+       <description><?php echo htmlspecialchars ($row['description']); ?></description>
        <link> <?php
         echo $global['webSiteRootURL'] ;?>/video/<?php echo $row['clean_title']; ?></link>
        <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
