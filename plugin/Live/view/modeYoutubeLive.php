@@ -21,7 +21,6 @@ $imgh = 360;
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $t['title']; ?> - Live Video - <?php echo $config->getWebSiteTitle(); ?></title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script" />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
