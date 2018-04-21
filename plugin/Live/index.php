@@ -41,7 +41,6 @@ $obj = $p->getDataObject();
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title>Live - <?php echo $config->getWebSiteTitle(); ?></title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script" />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

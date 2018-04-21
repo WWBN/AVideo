@@ -1,6 +1,6 @@
 <?php
-ini_set('max_execution_time', 1);
-set_time_limit(1);
+ini_set('max_execution_time', 2);
+set_time_limit(2);
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
@@ -13,7 +13,7 @@ if(empty($_POST['name']) && !empty($_GET['name'])){
 }
 $obj->name = $_POST['name'];
 $obj->applications = array();
-$_GET['lifetime'] = "20";
+$_GET['lifetime'] = "10";
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
