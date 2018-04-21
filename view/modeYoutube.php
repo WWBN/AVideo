@@ -156,7 +156,6 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?></title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script" />
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <link rel="image_src" href="<?php echo $img; ?>" />
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
