@@ -825,7 +825,6 @@ function combineFiles($filesArray, $extension = "js"){
 }
 
 function url_get_contents ($Url) {
-    
     if( ini_get('allow_url_fopen') ) {
         
         return file_get_contents($Url);
