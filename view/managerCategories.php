@@ -90,7 +90,7 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
         </div><!--/.container-->
-        <?php include 'include/footer.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
         <script>
             var fullCatList;
             $(document).ready(function () {
