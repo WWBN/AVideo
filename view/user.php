@@ -23,9 +23,7 @@ $advancedCustom = json_decode($json_file);
     </head>
 
     <body>
-        <?php
-        include 'include/navbar.php';
-        ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid">
             <?php

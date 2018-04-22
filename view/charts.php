@@ -124,7 +124,7 @@ foreach ($videos as $value) {
     </head>
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
 //var_dump($videos);
         ?>
         <div class="container-fluid">

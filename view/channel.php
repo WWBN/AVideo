@@ -56,7 +56,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container">

@@ -19,12 +19,12 @@ $userGroups = UserGroups::getAllUsersGroups();
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container">
                     <?php
-        include 'include/updateCheck.php';
+        include $global['systemRootPath'] . 'view/include/updateCheck.php';
         ?>
             <div class="btn-group" >
                 <button type="button" class="btn btn-default" id="addUserBtn">

@@ -19,7 +19,7 @@ require_once $global['systemRootPath'] . 'objects/userGroups.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';;
         ?>
 
         <div class="container">

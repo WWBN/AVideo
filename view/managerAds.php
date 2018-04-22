@@ -24,12 +24,12 @@ $userGroups = UserGroups::getAllUsersGroups();
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container">
         <?php
-        include 'include/updateCheck.php';
+        include $global['systemRootPath'] . 'view/include/updateCheck.php';
         ?>
             <div class="btn-group" >
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
