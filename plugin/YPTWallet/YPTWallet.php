@@ -81,7 +81,7 @@ class YPTWallet extends PluginAbstract {
     
     function getAllUsers($activeOnly = true) {
         global $global;
-        $sql = "SELECT w.*, u.*, IFNULL(balance, 0) FROM users u "
+        $sql = "SELECT w.*, u.*, u.id as user_id, IFNULL(balance, 0) FROM users u "
                 . " LEFT JOIN wallet w ON u.id = w.users_id WHERE 1=1 ";
 
         if($activeOnly){
@@ -96,9 +96,9 @@ class YPTWallet extends PluginAbstract {
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
-                $row['identification'] = User::getNameIdentificationById($row['users_id']);
-                $row['background'] = User::getBackground($row['users_id']);
-                $row['photo'] = User::getPhoto($row['users_id']);
+                $row['identification'] = User::getNameIdentificationById($row['user_id']);
+                $row['background'] = User::getBackground($row['user_id']);
+                $row['photo'] = User::getPhoto($row['user_id']);
                 $user[] = $row;
             }
             //$user = $res->fetch_all(MYSQLI_ASSOC);
