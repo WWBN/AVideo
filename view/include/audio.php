@@ -1,3 +1,4 @@
+<?php $_GET['isMediaPlaySite'] = 1; ?>
 <div class="row main-video" style="padding: 10px;" id="mvideo">
     <div class="col-xs-12 col-sm-12 col-lg-2 firstC"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8 secC">
