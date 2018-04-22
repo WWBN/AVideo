@@ -534,8 +534,8 @@ class User {
         return $user;
     }
 
-    static function getTotalUsers() {
-        if (!self::isAdmin()) {
+    static function getTotalUsers($ignoreAdmin = false) {
+        if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
         //will receive

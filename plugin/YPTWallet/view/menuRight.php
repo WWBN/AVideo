@@ -20,6 +20,12 @@ $balance = $plugin->getBalance(User::getId());
                 </a>
             </li> 
             <li class="dropdown-submenu">
+                <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/transferFunds.php">
+                    <i class="fa fa-exchange" aria-hidden="true"></i>
+                    <?php echo __("Transfer Funds"); ?>
+                </a>
+            </li> 
+            <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/history.php">
                     <i class="fa fa-history" aria-hidden="true"></i>
                     <?php echo __("History"); ?>
