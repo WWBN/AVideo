@@ -17,7 +17,7 @@ if (User::isLogged()) {
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container list-group-item">

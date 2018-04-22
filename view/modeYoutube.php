@@ -177,7 +177,7 @@ echo $_SESSION['language']; ?>">
     </head>
 
     <body>
-        <?php include 'include/navbar.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container-fluid principalContainer" itemscope itemtype="http://schema.org/VideoObject">
             <?php 
             if (!empty($video)) {
