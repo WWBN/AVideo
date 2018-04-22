@@ -5,6 +5,13 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
+
+if(empty($_POST['current'])){
+    $_POST['current'] = 1;
+}
+if(empty($_POST['rowCount'])){
+    $_POST['rowCount'] = 10;
+}
 $users = User::getAllUsers();
 $total = User::getTotalUsers();
 
