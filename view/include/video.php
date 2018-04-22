@@ -1,4 +1,5 @@
 <?php
+$_GET['isMediaPlaySite'] = 1;
 $playNowVideo = $video;
 $transformation = "{rotate:" . $video['rotation'] . ", zoom: " . $video['zoom'] . "}";
 
