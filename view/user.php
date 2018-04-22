@@ -425,7 +425,7 @@ $advancedCustom = json_decode($json_file);
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
     </body>

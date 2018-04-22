@@ -58,7 +58,7 @@ require_once '../videos/configuration.php';
 
         </div><!--/.container-->
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
         <script>

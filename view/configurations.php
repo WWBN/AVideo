@@ -23,12 +23,12 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container">
             <?php
-            include 'include/updateCheck.php';
+            include $global['systemRootPath'] . 'view/include/updateCheck.php';
             ?>
             <?php
             if (User::isAdmin()) {
@@ -746,7 +746,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
     </body>
