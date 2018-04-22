@@ -28,6 +28,7 @@
             <?php } ?>
     </div>
     <script>
+        var mediaId = <?php echo $video['id']; ?>;
         $(document).ready(function () {
             $(".vjs-big-play-button").hide();
             //$(".vjs-control-bar").show();
