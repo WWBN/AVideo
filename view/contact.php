@@ -17,7 +17,7 @@ if (User::isLogged()) {
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container list-group-item">
@@ -112,7 +112,7 @@ if (User::isLogged()) {
     </div><!--/.container-->
 
     <?php
-    include 'include/footer.php';
+    include $global['systemRootPath'] . 'view/include/footer.php';
     ?>
 
     <script>

@@ -19,7 +19,7 @@ require_once $global['systemRootPath'] . 'objects/userGroups.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';;
         ?>
 
         <div class="container">
@@ -70,7 +70,7 @@ This will make your videos private. Only users who are in the same group as the 
             </div><!-- /.modal -->
         </div><!--/.container-->
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>
             $(document).ready(function () {

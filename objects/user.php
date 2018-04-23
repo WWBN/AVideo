@@ -684,7 +684,12 @@ class User {
             $tags[] = $obj;
         }
 
-        require_once 'userGroups.php';
+        global $global;
+        if(!empty($global['systemRootPath'])){
+            require_once $global['systemRootPath'].'objects/userGroups.php';
+        } else {
+            require_once 'userGroups.php';
+        }
         $groups = UserGroups::getUserGroups($user_id);
         foreach ($groups as $value) {
             $obj = new stdClass();

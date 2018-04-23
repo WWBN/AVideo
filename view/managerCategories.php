@@ -17,9 +17,9 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
     </head>
 
     <body>
-        <?php include 'include/navbar.php'; ?>
+        <?php $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container">
-        <?php include 'include/updateCheck.php'; ?>
+        <?php $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
             <button type="button" class="btn btn-default" id="addCategoryBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New Category"); ?>
             </button>
@@ -90,7 +90,7 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
         </div><!--/.container-->
-        <?php include 'include/footer.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
         <script>
             var fullCatList;
             $(document).ready(function () {

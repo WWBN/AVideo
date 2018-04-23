@@ -835,15 +835,18 @@ function combineFiles($filesArray, $extension = "js"){
 }
 
 function url_get_contents ($Url) {
-        if (!function_exists('curl_init') || true){ 
-            return file_get_contents($Url);
-        }
+    if( ini_get('allow_url_fopen') ) {
+        
+        return file_get_contents($Url);
+    } 
+    else if (function_exists('curl_init')){    
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $Url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $output = curl_exec($ch);
     curl_close($ch);
     return $output;
+    }
 } 
 
 function getUpdatesFilesArray(){
