@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
-
+if (!class_exists('Video')) {
 class Video {
 
     private $id;
@@ -1694,7 +1694,7 @@ class Video {
     }
 
 }
-
+}
 // just to convert permalink into clean_title
 if (!empty($_GET['v']) && empty($_GET['videoName'])) {
     $_GET['videoName'] = Video::get_clean_title($_GET['v']);
