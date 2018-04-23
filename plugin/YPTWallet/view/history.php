@@ -34,9 +34,9 @@ if(!empty($_GET['users_id'])){
                         <table id="grid" class="table table-condensed table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th data-column-id="valueText"><?php echo __("Value"); ?></th>
+                                    <th data-column-id="valueText"  data-width="150px"><?php echo __("Value"); ?></th>
                                     <th data-column-id="description" ><?php echo __("Description"); ?></th>
-                                    <th data-column-id="created" data-order="desc"><?php echo __("Date"); ?></th>
+                                    <th data-column-id="created" data-order="desc" data-width="150px"><?php echo __("Date"); ?></th>
                                 </tr>
                             </thead>
                         </table>
