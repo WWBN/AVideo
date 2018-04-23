@@ -1,11 +1,15 @@
 <?php
-if (!file_exists('../videos/configuration.php')) {
+if ((!file_exists('../videos/configuration.php'))&&(empty($global['systemRootPath']))) {
     if (!file_exists('../install/index.php')) {
         die("No Configuration and no Installation");
     }
     header("Location: install/index.php");
 }
-require_once '../videos/configuration.php';
+if(empty($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+} else {
+    require_once $global['systemRootPath'].'videos/configuration.php';
+}
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
@@ -31,8 +35,9 @@ if (!empty($_GET['type'])) {
 } else {
      unset($_SESSION['type']);
 }
-
-require_once $global['systemRootPath'] . 'objects/video.php';
+if(empty($_POST['dontLoadVideoPhP'])){
+    require_once $global['systemRootPath'] . 'objects/video.php';
+}
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
 
 $catLink = "";
@@ -177,7 +182,7 @@ echo $_SESSION['language']; ?>">
     </head>
 
     <body>
-        <?php include 'include/navbar.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container-fluid principalContainer" itemscope itemtype="http://schema.org/VideoObject">
             <?php 
             if (!empty($video)) {

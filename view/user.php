@@ -23,9 +23,7 @@ $advancedCustom = json_decode($json_file);
     </head>
 
     <body>
-        <?php
-        include 'include/navbar.php';
-        ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid">
             <?php
@@ -427,7 +425,7 @@ $advancedCustom = json_decode($json_file);
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
     </body>
