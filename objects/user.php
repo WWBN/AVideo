@@ -281,8 +281,19 @@ class User {
         if (empty($this->status)) {
             $this->status = 'a';
         }
+        
+        $this->user = $global['mysqli']->real_escape_string($this->user);
+        $this->password = $global['mysqli']->real_escape_string($this->password);
+        $this->name = $global['mysqli']->real_escape_string($this->name);
+        $this->status = $global['mysqli']->real_escape_string($this->status);
+        $this->about = $global['mysqli']->real_escape_string($this->about);
+        
         if (!empty($this->id)) {
-            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', recoverPass = '{$this->recoverPass}', about = '{$this->about}' , modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
+            . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
+            . "canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', "
+            . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
+            . "recoverPass = '{$this->recoverPass}', about = '{$this->about}' , modified = now() WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
@@ -506,8 +517,13 @@ class User {
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 $row['groups'] = UserGroups::getUserGroups($row['id']);
+                $row['identification'] = self::getNameIdentificationById($row['id']);
+                $row['photo'] = self::getPhoto();
+                $row['background'] = self::getBackground();
                 $row['tags'] = self::getTags($row['id']);
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
+                unset($row['password']);
+                unset($row['recoverPass']);
                 $user[] = $row;
             }
             //$user = $res->fetch_all(MYSQLI_ASSOC);
@@ -518,8 +534,8 @@ class User {
         return $user;
     }
 
-    static function getTotalUsers() {
-        if (!self::isAdmin()) {
+    static function getTotalUsers($ignoreAdmin = false) {
+        if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
         //will receive
@@ -539,6 +555,19 @@ class User {
         global $global;
         $user = $global['mysqli']->real_escape_string($user);
         $sql = "SELECT * FROM users WHERE user = '$user' LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        if ($res->num_rows > 0) {
+            $user = $res->fetch_assoc();
+            return $user['id'];
+        } else {
+            return false;
+        }
+    }
+    
+    static function idExists($users_id) {
+        global $global;
+        $users_id = intval($users_id);
+        $sql = "SELECT * FROM users WHERE id = $users_id LIMIT 1";
         $res = $global['mysqli']->query($sql);
         if ($res->num_rows > 0) {
             $user = $res->fetch_assoc();

@@ -161,3 +161,7 @@ a.h6{
     font-size: 100%;
     border-radius: 0;
 }
+
+.galleryTitle a:hover{
+    background-color: transparent;
+}

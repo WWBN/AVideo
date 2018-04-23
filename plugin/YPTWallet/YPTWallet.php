@@ -28,6 +28,9 @@ class YPTWallet extends PluginAbstract {
         $obj->add_funds_success_success = "<h1>Thank you,<br> Your funds has been added<h1>";
         $obj->add_funds_success_cancel = "<h1>Ops,<br> You have cancel it<h1>";
         $obj->add_funds_success_fail = "<h1>Sorry,<br> Your funds request has been fail<h1>";
+        $obj->transfer_funds_text = "<h1>Transfer money for other users</h1>Transfer funds from your account to another user account";
+        $obj->transfer_funds_success_success = "<h1>Thank you,<br> Your funds has been transfered<h1>";
+        $obj->transfer_funds_success_fail = "<h1>Sorry,<br> Your funds transfer request has been fail<h1>";
         $obj->currency = "USD";
         $obj->currency_symbol = "$";
         $obj->addFundsOptions = "[5,10,20,50]";
@@ -78,7 +81,7 @@ class YPTWallet extends PluginAbstract {
     
     function getAllUsers($activeOnly = true) {
         global $global;
-        $sql = "SELECT w.*, u.*, IFNULL(balance, 0) FROM users u "
+        $sql = "SELECT w.*, u.*, u.id as user_id, IFNULL(balance, 0) FROM users u "
                 . " LEFT JOIN wallet w ON u.id = w.users_id WHERE 1=1 ";
 
         if($activeOnly){
@@ -93,7 +96,9 @@ class YPTWallet extends PluginAbstract {
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
-                $row['photo'] = User::getPhoto($row['users_id']);
+                $row['identification'] = User::getNameIdentificationById($row['user_id']);
+                $row['background'] = User::getBackground($row['user_id']);
+                $row['photo'] = User::getPhoto($row['user_id']);
                 $user[] = $row;
             }
             //$user = $res->fetch_all(MYSQLI_ASSOC);
@@ -172,6 +177,48 @@ class YPTWallet extends PluginAbstract {
         $wallet_id = $wallet->save();     
         $description = "Admin set your balance, from {$balance} to {$value}";
         WalletLog::addLog($wallet_id, $value, $description);
+    }
+    
+    public function transferBalance($users_id_from,$users_id_to, $value) {
+        if(!User::isAdmin()){
+            if($users_id_from != User::getId()){
+                error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value");
+                return false;
+            }            
+        }
+        if(!User::idExists($users_id_from) || !User::idExists($users_id_to) ){
+            error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value");
+            return false;
+        }        
+        $value = floatval($value);
+        if($value<=0){
+            error_log("transferBalance: invalid value, $users_id_from,$users_id_to, $value");
+            return false;
+        }
+        $wallet = $this->getWallet($users_id_from);
+        $balance = $wallet->getBalance();
+        $newBalance = $balance-$value;
+        if($newBalance<0){
+            error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value");
+            return false;
+        }
+        $identificationFrom = User::getNameIdentificationById($users_id_from);
+        $identificationTo = User::getNameIdentificationById($users_id_to);
+        
+        $wallet->setBalance($newBalance);
+        $wallet_id = $wallet->save();   
+        $description = "Transfer Balance {$value} from user [$users_id_from] {$identificationFrom} to user [{$users_id_to}] {$identificationTo}";
+        WalletLog::addLog($wallet_id, $value, $description);
+        
+        
+        $wallet = $this->getWallet($users_id_to);
+        $balance = $wallet->getBalance();
+        $newBalance = $balance+$value;
+        $wallet->setBalance($newBalance);
+        $wallet_id = $wallet->save();   
+        $description = "Transfer Balance {$value} from user [$users_id_from] {$identificationFrom} to user [{$users_id_to}] {$identificationTo}";
+        WalletLog::addLog($wallet_id, $value, $description);
+        return true;
     }
 
     public function getHTMLMenuRight() {
