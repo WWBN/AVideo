@@ -1,5 +1,78 @@
 <?php
 
+function showThis($who) {
+    if (empty($_GET['showOnly'])) {
+        return true;
+    }
+    if ($_GET['showOnly'] === $who) {
+        return true;
+    }
+    return false;
+}
+
+function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString,$defaultSort="ASC") {
+    if(!showThis($getName)){
+        return "";
+    }
+    if(!empty($_GET['showOnly'])){
+        $rowCount = 60;
+    }
+    global $global, $args, $url;
+    $paggingId = uniqid();
+    ?>
+    <div class="clear clearfix">
+        <h3 class="galleryTitle">
+            <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $getName; ?>">
+                <i class="glyphicon glyphicon-list-alt"></i>
+                <?php
+                if (empty($_GET[$getName])) {
+                    $_GET[$getName] = $defaultSort;
+                }
+                if (!empty($orderString)) {
+                    $info = createOrderInfo($getName, $mostWord, $lessWord, $orderString);
+                    echo __("{$title} (" . $info[2] . ")") . " (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
+                } else {
+                    echo __("{$title}");
+                }
+                ?>
+            </a>
+        </h3>
+        <?php
+        $countCols = 0;
+        unset($_POST['sort']);
+        $_POST['sort'][$sort] = $_GET[$getName];
+        $_POST['current'] = $_GET['page'];
+        $_POST['rowCount'] = $rowCount;
+        $total = Video::getTotalVideos("viewableNotAd");
+        $totalPages = ceil($total / $_POST['rowCount']);
+        $page = $_GET['page'];
+        if ($totalPages < $_GET['page']) {
+            $page = $totalPages;
+            $_POST['current'] = $totalPages;
+        }
+        $videos = Video::getAllVideos();
+        createGallerySection($videos);
+        ?>
+        <div class="col-sm-12">
+            <ul id="<?php echo $paggingId; ?>">
+            </ul>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#<?php echo $paggingId; ?>').bootpag({
+                total: <?php echo $totalPages; ?>,
+                page: <?php echo $page; ?>,
+                maxVisible: 10
+            }).on('page', function (event, num) {
+                <?php echo 'var args = "' . $args . '";'; ?>
+                window.location.replace("<?php echo $url; ?>" + num + args);
+            });
+        });
+    </script>    
+    <?php
+}
+
 function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     $upDown = "";
     $mostLess = "";

@@ -1,4 +1,4 @@
-<?php if ($obj->BigVideo) { 
+<?php if ($obj->BigVideo && empty($_GET['showOnly'])) { 
     $name = User::getNameIdentificationById($video['users_id']);
     ?>
     <div class="clear clearfix">
@@ -88,4 +88,9 @@
         </div>
     </div>
 <?php
+}
+else if(!empty($_GET['showOnly'])){
+    ?>
+<a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>    
+    <?php
 }
