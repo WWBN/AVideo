@@ -38,6 +38,7 @@ if ((empty($_GET['type'])) && (!empty($currentCatType))) {
 if(empty($_POST['dontLoadVideoPhP'])){
     require_once $global['systemRootPath'] . 'objects/video.php';
     }
+$orderString = "";
 if ($obj->sortReverseable) {
     if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
         $orderString = $_SERVER['REQUEST_URI'] . "&";
@@ -75,7 +76,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
         <title><?php
             echo $config->getWebSiteTitle();
             ?></title>
-              <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
     </head>
 
     <body>
@@ -95,7 +96,6 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                     ?>
 
                     <div class="row mainArea">
-
                         <!-- For Live Videos -->
                         <div id="liveVideos" class="clear clearfix" style="display: none;">
                             <h3 class="galleryTitle text-danger"> <i class="fa fa-youtube-play"></i> <?php echo __("Live"); ?></h3>
@@ -115,213 +115,20 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                         echo YouPHPTubePlugin::getGallerySection();
                         ?>
                         <!-- For Live Videos End -->    
-                        <?php if ($obj->SortByName) { ?>   
-                            <div class="clear clearfix">
-                                <h3 class="galleryTitle">
-                                    <i class="glyphicon glyphicon-list-alt"></i>
-                                    <?php
-                                    if (empty($_GET["sortByNameOrder"])) {
-                                        $_GET["sortByNameOrder"] = "ASC";
-                                    }
-                                    if ($obj->sortReverseable) {
-                                        $info = createOrderInfo("sortByNameOrder", "zyx", "abc", $orderString);
-                                        echo __("Sort by name (" . $info[2] . ")") . " (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
-                                    } else {
-                                        echo __("Sort by name (abc)");
-                                    }
-                                    ?>
-                                </h3>
-                                <?php
-                                $countCols = 0;
-                                unset($_POST['sort']);
-                                $_POST['sort']['title'] = $_GET['sortByNameOrder'];
-                                $_POST['current'] = $_GET['page'];
-                                $_POST['rowCount'] = $obj->SortByNameRowCount;
-                                $total = Video::getTotalVideos("viewableNotAd");
-                                $totalPages = ceil($total / $_POST['rowCount']);
-                                $page = $_GET['page'];
-                                if ($totalPages < $_GET['page']) {
-                                    $page = $totalPages;
-                                    $_POST['current'] = $totalPages;
-                                }
-                                $videos = Video::getAllVideos();
-                                createGallerySection($videos);
-                                ?>
-                                <div class="row">
-                                    <ul id="sortByNamePages">
-                                    </ul>
-                                </div>
-                            </div>
-                            <script>
-                                $(document).ready(function () {
-                                    $('#sortByNamePages').bootpag({
-                                        total: <?php echo $totalPages; ?>,
-                                        page: <?php echo $page; ?>,
-                                        maxVisible: 10
-                                    }).on('page', function (event, num) {
-        <?php echo 'var args = "' . $args . '";'; ?>
-                                        window.location.replace("<?php echo $url; ?>" + num + args);
-                                    });
-                                });
-                            </script>
-                        <?php } if ($obj->DateAdded) { ?> 
-                            <div class="clear clearfix">
-                                <h3 class="galleryTitle">
-                                    <i class="glyphicon glyphicon-sort-by-attributes"></i>
-                                    <?php
-                                    if (empty($_GET["dateAddedOrder"])) {
-                                        $_GET["dateAddedOrder"] = "DESC";
-                                    }
-                                    if ($obj->sortReverseable) {
-                                        $info = createOrderInfo("dateAddedOrder", "newest", "oldest", $orderString);
-                                        echo __("Date added (" . $info[2] . ")") . " (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
-                                    } else {
-                                        echo __("Date added (newest)");
-                                    }
-                                    ?>
-                                </h3>
-                                <div class="row"><?php
-                                    $countCols = 0;
-                                    unset($_POST['sort']);
-                                    $_POST['sort']['created'] = $_GET['dateAddedOrder'];
-                                    $_POST['current'] = $_GET['page'];
-                                    $_POST['rowCount'] = $obj->DateAddedRowCount;
-                                    $total = Video::getTotalVideos("viewableNotAd");
-                                    $totalPages = ceil($total / $_POST['rowCount']);
-                                    $page = $_GET['page'];
-                                    if ($totalPages < $_GET['page']) {
-                                        $page = $totalPages;
-                                        $_POST['current'] = $totalPages;
-                                    }
-                                    $videos = Video::getAllVideos();
-                                    createGallerySection($videos);
-                                    ?>
-                                </div>
-                                <div class="row">
-                                    <ul id="dateAddedPages">
-                                    </ul>
-                                </div>
-                            </div>
-                            <script>
-                                $(document).ready(function () {
-                                    $('#dateAddedPages').bootpag({
-                                        total: <?php echo $totalPages; ?>,
-                                        page: <?php echo $page; ?>,
-                                        maxVisible: 10
-                                    }).on('page', function (event, num) {
-        <?php echo 'var args = "' . $args . '";'; ?>
-                                        window.location.replace("<?php echo $url; ?>" + num + args);
-                                    });
-                                });
-                            </script>
-                        <?php } if ($obj->MostWatched) { ?>
-                            <div class="clear clearfix">
-                                <h3 class="galleryTitle">
-                                    <i class="glyphicon glyphicon-eye-open"></i>
-                                    <?php
-                                    if (empty($_GET['mostWatchedOrder'])) {
-                                        $_GET['mostWatchedOrder'] = "DESC";
-                                    }
-                                    if ($obj->sortReverseable) {
-                                        $info = createOrderInfo("mostWatchedOrder", "Most", "Lessest", $orderString);
-                                        echo __($info[2] . " watched") . " (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
-                                    } else {
-                                        echo __("Most watched");
-                                    }
-                                    ?>
-                                </h3>
-                                <div class="row">
-                                    <?php
-                                    $countCols = 0;
-                                    unset($_POST['sort']);
-                                    $_POST['sort']['views_count'] = $_GET['mostWatchedOrder'];
-                                    $_POST['current'] = $_GET['page'];
-                                    $_POST['rowCount'] = $obj->MostWatchedRowCount;
-                                    $total = Video::getTotalVideos("viewableNotAd");
-                                    $totalPages = ceil($total / $_POST['rowCount']);
-                                    $page = $_GET['page'];
-                                    if ($totalPages < $_GET['page']) {
-                                        $page = $totalPages;
-                                        $_POST['current'] = $totalPages;
-                                    }
-                                    $videos = Video::getAllVideos();
-                                    createGallerySection($videos);
-                                    ?>
-                                </div>
-                                <div class="row">
-                                    <ul id="mostWatchedPages">
-                                    </ul>
-                                </div>
-                            </div>
-                            <script>
-                                $(document).ready(function () {
-                                    $('#mostWatchedPages').bootpag({
-                                        total: <?php echo $totalPages; ?>,
-                                        page: <?php echo $page; ?>,
-                                        maxVisible: 10
-                                    }).on('page', function (event, num) {
-        <?php echo 'var args = "' . $args . '";'; ?>
-                                        window.location.replace("<?php echo $url; ?>" + num + args);
-                                    });
-                                });
-                            </script>
                         <?php
+                        if ($obj->SortByName) {
+                            createGallery("Sort by name", 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
+                        } 
+                        if ($obj->DateAdded) {
+                            createGallery("Date added", 'created', $obj->DateAddedRowCount, 'dateAddedOrder', "newest", "oldest", $orderString, "DESC");
+                        } 
+                        if ($obj->MostWatched) {
+                            createGallery("Most watched", 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', "Most", "Lessest", $orderString, "DESC");
                         }
                         if ($obj->MostPopular) {
-                            ?>    
-                            <div class="clear clearfix">
-                                <h3 class="galleryTitle">
-                                    <i class="glyphicon glyphicon-thumbs-up"></i>
-                                    <?php
-                                    if (empty($_GET['mostPopularOrder'])) {
-                                        $_GET['mostPopularOrder'] = "DESC";
-                                    }
-                                    if ($obj->sortReverseable) {
-                                        $info = createOrderInfo("mostPopularOrder", "Most", "Lessest", $orderString);
-                                        echo __($info[2] . " popular") . " (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
-                                    } else {
-                                        echo __("Most popular");
-                                    }
-                                    ?>
-                                </h3>
-                                <div class="row">
-                                    <?php
-                                    $countCols = 0;
-                                    unset($_POST['sort']);
-                                    $_POST['sort']['likes'] = $_GET['mostPopularOrder'];
-                                    $_POST['current'] = $_GET['page'];
-                                    $_POST['rowCount'] = $obj->MostPopularRowCount;
-                                    $total = Video::getTotalVideos("viewableNotAd");
-                                    $totalPages = ceil($total / $_POST['rowCount']);
-                                    $page = $_GET['page'];
-                                    if ($totalPages < $_GET['page']) {
-                                        $page = $totalPages;
-                                        $_POST['current'] = $totalPages;
-                                    }
-                                    $videos = Video::getAllVideos();
-                                    createGallerySection($videos);
-                                    ?>
-                                </div>
-                                <div class="row">
-                                    <ul id="mostPopularPages">
-                                    </ul>
-                                </div>
-                            </div>
-                            <script>
-                                $(document).ready(function () {
-                                    $('#mostPopularPages').bootpag({
-                                        total: <?php echo $totalPages; ?>,
-                                        page: <?php echo $page; ?>,
-                                        maxVisible: 10
-                                    }).on('page', function (event, num) {
-        <?php echo 'var args = "' . $args . '";'; ?>
-                                        window.location.replace("<?php echo $url; ?>" + num + args);
-                                    });
-                                });
-                            </script>
-                            <?php
+                            createGallery("Most popular", 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', "Most", "Lessest", $orderString, "DESC");
                         }
-                        if ($obj->SubscribedChannels && User::isLogged()) {
+                        if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
                             require_once $global['systemRootPath'] . 'objects/subscribe.php';
                             $channels = Subscribe::getSubscribedChannels(User::getId());
                             foreach ($channels as $value) {
@@ -329,8 +136,8 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                 <div class="clear clearfix">
                                     <h3 class="galleryTitle">
                                         <img src="<?php
-                                             echo $value['photoURL'];
-                                             ?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;">
+                    echo $value['photoURL'];
+                                ?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;">
                                         <span style="margin: 0 5px;">
                                             <?php
                                             echo $value['identification'];
@@ -361,17 +168,17 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                         }
                         ?>
                     </div>
-<?php } else { ?>
+                <?php } else { ?>
                     <div class="alert alert-warning">
                         <span class="glyphicon glyphicon-facetime-video"></span>
                         <strong><?php echo __("Warning"); ?>!</strong> 
-                    <?php echo __("We have not found any videos or audios to show"); ?>.
+                        <?php echo __("We have not found any videos or audios to show"); ?>.
                     </div>
-<?php } ?>
+                <?php } ?>
             </div>
         </div>
     </div>
-<?php include 'include/footer.php'; ?>
+    <?php include 'include/footer.php'; ?>
 </body>
 </html>
 <?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>

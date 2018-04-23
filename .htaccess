@@ -42,7 +42,7 @@
     RewriteRule    ^js/(.+)$ view/js/$1 [NC,L]
     RewriteRule    ^css/(.+)$ view/css/$1 [NC,L]
     RewriteRule    ^img/(.+)$ view/img/$1 [NC,L]
-    RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [NC,L]
+    RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [QSA]
     RewriteRule    ^videoOnly/?$ view/?type=video    [NC,L]
     RewriteRule    ^audioOnly/?$ view/?type=audio    [NC,L]
     RewriteRule    ^download$ view/downloadExternalVideo.php    [NC,L]
