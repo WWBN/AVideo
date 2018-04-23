@@ -14,8 +14,9 @@ if (!empty($_GET['type'])) {
         unset($_SESSION['type']);
     }
 }
-
-require_once $global['systemRootPath'] . 'objects/video.php';
+if(empty($_POST['dontLoadVideoPhP'])){
+    require_once $global['systemRootPath'] . 'objects/video.php';
+}
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
