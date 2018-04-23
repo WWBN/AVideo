@@ -35,9 +35,8 @@ if (!empty($_GET['type'])) {
 } else {
      unset($_SESSION['type']);
 }
-if(empty($_POST['dontLoadVideoPhP'])){
-    require_once $global['systemRootPath'] . 'objects/video.php';
-}
+require_once $global['systemRootPath'] . 'objects/video.php';
+
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
 
 $catLink = "";

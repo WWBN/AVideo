@@ -7,9 +7,8 @@ if (! file_exists('../videos/configuration.php')) {
 }
 
 require_once '../videos/configuration.php';
-if(empty($_POST['dontLoadVideoPhP'])){
-    require_once $global['systemRootPath'] . 'objects/video.php';
-}
+require_once $global['systemRootPath'] . 'objects/video.php';
+
 require_once $global['systemRootPath'] . 'objects/category.php';
 
 $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
