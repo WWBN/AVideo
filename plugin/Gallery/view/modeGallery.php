@@ -35,9 +35,7 @@ if ((empty($_GET['type'])) && (!empty($currentCatType))) {
         unset($_SESSION['type']);
     }
 }
-if(empty($_POST['dontLoadVideoPhP'])){
-    require_once $global['systemRootPath'] . 'objects/video.php';
-    }
+require_once $global['systemRootPath'] . 'objects/video.php';
 $orderString = "";
 if ($obj->sortReverseable) {
     if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
