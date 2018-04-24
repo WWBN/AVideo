@@ -307,7 +307,7 @@ class User {
                 $id = $this->id;
             }
             if ($updateUserGroups) {
-                require_once './userGroups.php';
+                require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 // update the user groups
                 UserGroups::updateUserGroups($id, $this->userGroups);
             }
