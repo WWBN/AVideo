@@ -35,9 +35,8 @@ if (!empty($_GET['type'])) {
 } else {
      unset($_SESSION['type']);
 }
-if(empty($_POST['dontLoadVideoPhP'])){
-    require_once $global['systemRootPath'] . 'objects/video.php';
-}
+require_once $global['systemRootPath'] . 'objects/video.php';
+
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
 
 $catLink = "";
@@ -578,7 +577,7 @@ echo $_SESSION['language']; ?>">
                             });
                         </script>
                         <div class="row bgWhite list-group-item">
-                            <?php include './videoComments.php'; ?>
+                            <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
                         </div>
                     </div>
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
@@ -681,7 +680,7 @@ echo $_SESSION['language']; ?>">
                         <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                         <!-- videos List -->
                         <div id="videosList">
-                            <?php include './videosList.php'; ?>
+                            <?php include $global['systemRootPath'] . 'view/videosList.php'; ?>
                         </div>
                         <!-- End of videos List -->
 
