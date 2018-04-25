@@ -175,7 +175,6 @@ class Video {
             return false;
         }
         $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-        //$res = $global['mysqli']->query($sql);
         $stmt = $global['mysqli']->prepare($sql);
         $stmt->bind_param('i', $catId);
         $stmt->execute();
