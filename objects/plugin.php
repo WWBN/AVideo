@@ -173,13 +173,13 @@ class Plugin extends ObjectYPT {
                 $rows[] = $row;
             }
             // make sure SecureVideosDirectory will be the first
-            function cmp($a, $b) {
+            function cmpPlugin($a, $b) {
                 if ($a['name']=='SecureVideosDirectory')
                     return -1;
                 return 0;
             }
 
-            uasort($rows, 'cmp');
+            uasort($rows, 'cmpPlugin');
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
