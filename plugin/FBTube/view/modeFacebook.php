@@ -36,7 +36,7 @@ require_once '../videos/configuration.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
             <div class="col-lg-2 col-md-1 col-sm-1 hidden-xs"></div>
@@ -56,7 +56,7 @@ require_once '../videos/configuration.php';
 
         </div>
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
         <script>

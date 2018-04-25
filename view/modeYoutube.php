@@ -577,7 +577,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                             });
                         </script>
                         <div class="row bgWhite list-group-item">
-                            <?php include './videoComments.php'; ?>
+                            <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
                         </div>
                     </div>
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
@@ -681,7 +681,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                         <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                         <!-- videos List -->
                         <div id="videosList">
-                            <?php include './videosList.php'; ?>
+                            <?php include $global['systemRootPath'] . 'view/videosList.php'; ?>
                         </div>
                         <!-- End of videos List -->
 
