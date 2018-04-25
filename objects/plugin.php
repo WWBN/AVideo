@@ -171,13 +171,7 @@ class Plugin extends ObjectYPT {
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 $rows[] = $row;
-            }
-            // make sure SecureVideosDirectory will be the first
-            function cmpPlugin($a, $b) {
-                if ($a['name']=='SecureVideosDirectory')
-                    return -1;
-                return 0;
-            }
+            }           
 
             uasort($rows, 'cmpPlugin');
         } else {
