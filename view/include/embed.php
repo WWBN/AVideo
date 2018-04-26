@@ -32,9 +32,9 @@
                             <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png">
                         </a>
                     </div>
-    <?php
-}
-?>
+                    <?php
+                }
+                ?>
             </div>
         </div>
     </div>

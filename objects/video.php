@@ -147,7 +147,6 @@ class Video {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
                 $this->id = $id;
-                YouPHPTubePlugin::afterNewVideo($id);
             } else {
                 $id = $this->id;
             }
@@ -1486,9 +1485,14 @@ class Video {
                 $includeS3 = true;
             }
         }
+        $token = "";
+        $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+        if (!empty($secure)) {
+            $token = "?".$secure->getToken($filename);
+        }
         $source = array();
         $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
-        $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}";
+        $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
         /* need it because getDurationFromFile */
         if ($includeS3 && ($type == ".mp4" || $type == ".webm")) {
             if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
