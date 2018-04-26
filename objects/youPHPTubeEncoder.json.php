@@ -31,6 +31,12 @@ if (!User::canUpload()) {
     die(json_encode($obj));
 }
 
+if(!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])){
+    $obj->msg = __("Permission denied to edit a video: " . print_r($_POST, true));
+    error_log($obj->msg);
+    die(json_encode($obj));
+}
+
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", @$_POST['videos_id']);
 $obj->video_id = @$_POST['videos_id'];
