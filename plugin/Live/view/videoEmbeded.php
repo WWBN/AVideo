@@ -4,6 +4,10 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $t['key'];
 $p = YouPHPTubePlugin::loadPlugin("Live");
+$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
+if (!empty($objSecure->disableEmbedMode)) {
+    die('Embed Mode disabled');
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

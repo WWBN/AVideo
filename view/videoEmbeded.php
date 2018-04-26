@@ -2,6 +2,12 @@
 global $isEmbed;
 $isEmbed = 1;
 require_once '../videos/configuration.php';
+
+$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
+if (!empty($objSecure->disableEmbedMode)) {
+    die('Embed Mode disabled');
+}
+
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo();
 if (empty($video)) {
