@@ -46,7 +46,9 @@ class Gallery extends PluginAbstract {
     
     public function getFirstPage(){
         global $global;
-        return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
+        if(!YouPHPTubePlugin::isEnabled("d3sa2k4l3-23rds421-re323-4ae-423")){
+            return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
+        }
     }   
     
     public function getTags() {
