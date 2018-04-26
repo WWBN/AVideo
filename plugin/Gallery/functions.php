@@ -30,9 +30,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                 }
                 if (!empty($orderString)) {
                     $info = createOrderInfo($getName, $mostWord, $lessWord, $orderString);
-                    echo __("{$title} (" . $info[2] . ")") . " (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
+                    echo "{$title} (" . $info[2] . ") (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
                 } else {
-                    echo __("{$title}");
+                    echo "{$title}";
                 }
                 ?>
             </a>
