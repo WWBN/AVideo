@@ -37,8 +37,10 @@ class YouPHPFlix extends PluginAbstract {
     }
         
     public function getFirstPage(){
-        global $global;        
-        return $global['systemRootPath'].'plugin/YouPHPFlix/view/firstPage.php';
+        global $global; 
+        if(!YouPHPTubePlugin::isEnabled("d3sa2k4l3-23rds421-re323-4ae-423")){
+            return $global['systemRootPath'].'plugin/YouPHPFlix/view/firstPage.php';
+        }
     }   
         
     public function getHeadCode() {
