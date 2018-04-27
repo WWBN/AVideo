@@ -99,6 +99,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0)
     $obj->error = false;
     $obj->filename = $filename;
     $obj->duration = $duration;
+    YouPHPTubePlugin::afterNewVideo($video->getId());
     die(json_encode($obj));
 }
 
