@@ -25,16 +25,6 @@
     }
     ?>
 </footer>
-<script type="application/ld+json">
-    {
-    "@context": "http://schema.org/",
-    "@type": "Product",
-    "name": "YouPHPTube",
-    "version": "<?php echo $config->getVersion(); ?>",
-    "image": "http://youphptube.com/img/logo.png",
-    "description": "The Best YouTube Clone Script, a free web solution to build your own video sahring site."
-    }
-</script>
 <script>
     <?php
     if (User::isAdmin()) { ?>
