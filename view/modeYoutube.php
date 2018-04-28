@@ -43,11 +43,20 @@ if (!empty($_GET['catName'])) {
     $catLink = "cat/{$_GET['catName']}/";
 }
 
+// add this because if you change the video category the video was not loading anymore
+$catName = @$_GET['catName'];
+
+if (empty($_GET['clean_title'])) {
+    $_GET['catName'] = "";
+}
+
 $video = Video::getVideo("", "viewableNotAd", false, false, true);
 
 if (empty($video)) {
     $video = Video::getVideo("", "viewableNotAd");
 }
+// add this because if you change the video category the video was not loading anymore
+$_GET['catName'] = $catName;
 
 if (empty($_GET['videoName'])) {
     $_GET['videoName'] = $video['clean_title'];
