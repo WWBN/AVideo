@@ -10,11 +10,11 @@ function showThis($who) {
     return false;
 }
 
-function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString,$defaultSort="ASC") {
-    if(!showThis($getName)){
+function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString, $defaultSort = "ASC") {
+    if (!showThis($getName)) {
         return "";
     }
-    if(!empty($_GET['showOnly'])){
+    if (!empty($_GET['showOnly'])) {
         $rowCount = 60;
     }
     global $global, $args, $url;
@@ -65,7 +65,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                 page: <?php echo $page; ?>,
                 maxVisible: 10
             }).on('page', function (event, num) {
-                <?php echo 'var args = "' . $args . '";'; ?>
+    <?php echo 'var args = "' . $args . '";'; ?>
                 window.location.replace("<?php echo $url; ?>" + num + args);
             });
         });
@@ -152,12 +152,14 @@ function createGallerySection($videos) {
                         </a>
                     <?php } ?>
                     <?php
-                    $value['tags'] = Video::getTags($value['id']);
-                    foreach ($value['tags'] as $value2) {
-                        if ($value2->label === __("Group")) {
-                            ?>
-                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                            <?php
+                    if (!empty($obj->showTags)) {
+                        $value['tags'] = Video::getTags($value['id']);
+                        foreach ($value['tags'] as $value2) {
+                            if ($value2->label === __("Group")) {
+                                ?>
+                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                <?php
+                            }
                         }
                     }
                     ?>
