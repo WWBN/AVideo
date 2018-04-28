@@ -1,7 +1,7 @@
 <?php
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 class YouPHPFlix extends PluginAbstract {
 
     public function getDescription() {
