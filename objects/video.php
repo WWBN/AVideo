@@ -205,22 +205,13 @@ class Video {
                     }
                 }
                 if (($videoFound == false) || ($audioFound == false)) {
-                    $sql = "SELECT parentId,categories_id FROM `categories` WHERE parentId = ?";
-                    $sql = "SELECT * FROM `videos` WHERE categories_id = ?";
-                    $stmt = $global['mysqli']->prepare($sql);
-                    $stmt->bind_param('i', $catId);
-                    $stmt->execute();
-                    $res = $stmt->get_result();
-                    $stmt->close();
+                    $sql = "SELECT parentId,categories_id FROM `categories` WHERE parentId = '" . $catId . "';";
+                    $res = $global['mysqli']->query($sql);
                     if ($res) {
                         //$tmpVid = $res->fetch_assoc();
-                        $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $row['parentId'] . "';";
-                        $stmt = $global['mysqli']->prepare($sql);
                         while ($row = mysql_fetch_assoc($res)) {
-                            $stmt->bind_param('i', $catId);
-                            $stmt->execute();
-                            $res = $stmt->get_result();
-                            //$res = $global['mysqli']->query($sql);
+                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $row['parentId'] . "';";
+                            $res = $global['mysqli']->query($sql);
                             //$tmpVid2 = $res->fetch_assoc();
                             while ($row = $res->fetch_assoc()) {
                                 if ($row['type'] == "audio") {
@@ -232,7 +223,6 @@ class Video {
                                 }
                             }
                         }
-                        $stmt->close();
                     }
                 }
                 $sql = "UPDATE `category_type_cache` SET `type` = '";
