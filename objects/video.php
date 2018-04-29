@@ -347,9 +347,14 @@ class Video {
         if (!empty($this->id)) {
             global $global;
             $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
-            if (!$global['mysqli']->query($sql)) {
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('s', $fileName);
+            $stmt->execute();
+            if ($global['mysqli']->errno!=0) {
+                $stmt->close();
                 die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            $stmt->close();
         }
         $this->status = $status;
     }
