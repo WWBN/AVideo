@@ -68,33 +68,35 @@ function send_video($file) {
 $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
 $path = "{$global['systemRootPath']}videos/{$file}";
-if (!empty($_GET['download'])) {
-    $quoted = sprintf('"%s"', addcslashes(basename($_GET['file']), '"\\'));
-    $size = filesize($file);
-    header('Content-Description: File Transfer');
-    header('Content-Disposition: attachment; filename=' . $quoted);
-    header('Content-Transfer-Encoding: binary');
-    header('Connection: Keep-Alive');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    header('Pragma: public');
-}
-YouPHPTubePlugin::xsendfilePreVideoPlay();
-$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-if (empty($advancedCustom->doNotUseXsendFile)) {
-    header("X-Sendfile: {$path}");
-}
-if (empty($_GET['download'])) {
-    header("Content-type: " . mime_content_type($path));
-}
-header('Content-Length: ' . filesize($path));
-if (!empty($advancedCustom->doNotUseXsendFile)) {
-    if (strtolower($path_parts['extension']) === "mp4" || strtolower($path_parts['extension']) === "webm") {
-        // Not working yet
-        //send_video($path);
-        echo url_get_contents($path);
-    } else {
-        echo url_get_contents($path);
+if (file_exists($path)) {
+    if (!empty($_GET['download'])) {
+        $quoted = sprintf('"%s"', addcslashes(basename($_GET['file']), '"\\'));
+        $size = filesize($file);
+        header('Content-Description: File Transfer');
+        header('Content-Disposition: attachment; filename=' . $quoted);
+        header('Content-Transfer-Encoding: binary');
+        header('Connection: Keep-Alive');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
     }
+    YouPHPTubePlugin::xsendfilePreVideoPlay();
+    $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+    if (empty($advancedCustom->doNotUseXsendFile)) {
+        header("X-Sendfile: {$path}");
+    }
+    if (empty($_GET['download'])) {
+        header("Content-type: " . mime_content_type($path));
+    }
+    header('Content-Length: ' . filesize($path));
+    if (!empty($advancedCustom->doNotUseXsendFile)) {
+        if (strtolower($path_parts['extension']) === "mp4" || strtolower($path_parts['extension']) === "webm") {
+            // Not working yet
+            //send_video($path);
+            echo url_get_contents($path);
+        } else {
+            echo url_get_contents($path);
+        }
+    }
+    die();
 }
-die();
