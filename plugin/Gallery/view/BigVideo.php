@@ -1,4 +1,5 @@
-<?php if ($obj->BigVideo && empty($_GET['showOnly'])) { 
+<?php
+if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $name = User::getNameIdentificationById($video['users_id']);
     ?>
     <div class="clear clearfix">
@@ -14,7 +15,7 @@
                         <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $video['title']; ?>" class="thumbsJPG img img-responsive " style="height: auto; width: 100%;" id="thumbsJPG<?php echo $video['id']; ?>" />
                         <?php if (!empty($imgGif)) { ?>
                             <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive <?php echo @$img_portrait; ?>  rotate<?php echo $video['rotation']; ?>" height="130" />
-                        <?php } ?>
+    <?php } ?>
                     </div>
                     <span class="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
                 </a>
@@ -28,25 +29,27 @@
                 </div>
                 <div class="text-muted galeryDetails">
                     <div>
-                        <?php if (empty($_GET['catName'])) { ?>
-                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/">
-                            <?php
-                            if (!empty($video['iconClass'])) {
-                                ?>
-                                <i class="<?php echo $video['iconClass']; ?>"></i> 
+                            <?php if (empty($_GET['catName'])) { ?>
+                            <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/">
                                 <?php
-                            }
-                            ?>
+                                if (!empty($video['iconClass'])) {
+                                    ?>
+                                    <i class="<?php echo $video['iconClass']; ?>"></i> 
+                                    <?php
+                                }
+                                ?>
                             <?php echo $video['category']; ?>
-                        </a>
+                            </a>
                         <?php } ?>
                         <?php
-                        $video['tags'] = Video::getTags($video['id']);
-                        foreach ($video['tags'] as $value2) {
-                            if ($value2->label === __("Group")) {
-                                ?>
-                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                <?php
+                        if (!empty($obj->showTags)) {
+                            $video['tags'] = Video::getTags($video['id']);
+                            foreach ($video['tags'] as $value2) {
+                                if ($value2->label === __("Group")) {
+                                    ?>
+                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                    <?php
+                                }
                             }
                         }
                         ?>
@@ -57,15 +60,15 @@
                     </div>
                     <div>
                         <i class="fa fa-clock-o"></i>
-                        <?php echo humanTiming(strtotime($video['videoCreation'])), " ", __('ago'); ?>
+    <?php echo humanTiming(strtotime($video['videoCreation'])), " ", __('ago'); ?>
                     </div>
                     <div>
                         <i class="fa fa-user"></i>
                         <a class="text-muted" href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $video['users_id']; ?>/">
-                            <?php echo $name; ?>
+    <?php echo $name; ?>
                         </a>
                     </div>
-                    <?php if (Video::canEdit($video['id'])) { ?>
+    <?php if (Video::canEdit($video['id'])) { ?>
                         <div>
                             <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                         </div>
@@ -82,15 +85,14 @@
                         }
                         ?>
                         <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'] . $ext; ?>" download="<?php echo $video['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
-                        <?php } ?>
+    <?php } ?>
                 </div>
             </div>
         </div>
     </div>
-<?php
-}
-else if(!empty($_GET['showOnly'])){
+    <?php
+} else if (!empty($_GET['showOnly'])) {
     ?>
-<a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>    
+    <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>    
     <?php
 }
