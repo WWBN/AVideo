@@ -68,7 +68,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 <label for="inputEmail" class="sr-only"><?php echo __("E-mail"); ?></label>
                                 <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" >
                                 <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
-                                <input type="text" id="inputName" class="form-control last" placeholder="<?php echo __("Name"); ?>" >
+                                <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" >
+                                <label for="inputChannelName" class="sr-only"><?php echo __("Channel Name"); ?></label>
+                                <input type="text" id="inputChannelName" class="form-control last" placeholder="<?php echo __("Channel Name"); ?>" >
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         <?php echo __("is Admin"); ?>
@@ -182,6 +184,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         $('#inputPassword').val('');
                         $('#inputEmail').val(row.email);
                         $('#inputName').val(row.name);
+                        $('#inputChannelName').val(row.channelName);
 
                         $('.userGroups').prop('checked', false);
                         for (var index in row.groups) {
@@ -237,6 +240,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     $('#inputPassword').val('');
                     $('#inputEmail').val('');
                     $('#inputName').val('');
+                    $('#inputChannelName').val('');
                     $('#isAdmin').prop('checked', false);
                     $('#canStream').prop('checked', false);
                     $('#canUpload').prop('checked', false);
@@ -266,6 +270,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             "pass": $('#inputPassword').val(),
                             "email": $('#inputEmail').val(),
                             "name": $('#inputName').val(),
+                            "channelName": $('#inputChannelName').val(),
                             "isAdmin": $('#isAdmin').is(':checked'),
                             "canStream": $('#canStream').is(':checked'),
                             "canUpload": $('#canUpload').is(':checked'),
@@ -278,8 +283,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 $('#userFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
                                 swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been saved!"); ?>", "success");
+                            } else if(response.error){
+                                swal("<?php echo __("Sorry!"); ?>", response.error, "error");
                             } else {
-                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been saved!"); ?>", "error");
+                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");                                
                             }
                             modal.hidePleaseWait();
                         }

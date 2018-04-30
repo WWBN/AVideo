@@ -207,7 +207,7 @@ $updateFiles = getUpdatesFilesArray();
                     <li>
 
                         <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo User::getId(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
+                            <a href="<?php echo User::getChannelLink(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
                                 <span class="fa fa-youtube-play"></span>
                                 <?php echo __("My Channel"); ?>
                             </a>

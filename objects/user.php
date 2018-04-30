@@ -20,6 +20,8 @@ class User {
     private $backgroundURL;
     private $recoverPass;
     private $about;
+    private $channelName;
+    private $emailVerified;
     private $userGroups = array();
 
     function __construct($id, $user = "", $password = "") {
@@ -281,19 +283,32 @@ class User {
         if (empty($this->status)) {
             $this->status = 'a';
         }
+                
+        if (empty($this->channelName)) {
+            $this->channelName = uniqid();
+        }else{
+            $channelOwner = static::getChannelOwner($this->channelName);
+            if(!empty($channelOwner)){ // if the channel name exists and it is not from this user, rename the channel name
+                if(empty($this->id) ||  $channelOwner['id']!=$this->id){
+                    $this->channelName .= uniqid();
+                }
+            }
+        }
         
         $this->user = $global['mysqli']->real_escape_string($this->user);
         $this->password = $global['mysqli']->real_escape_string($this->password);
         $this->name = $global['mysqli']->real_escape_string($this->name);
         $this->status = $global['mysqli']->real_escape_string($this->status);
         $this->about = $global['mysqli']->real_escape_string($this->about);
+        $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
         
         if (!empty($this->id)) {
             $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
             . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
             . "canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', "
             . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
-            . "recoverPass = '{$this->recoverPass}', about = '{$this->about}' , modified = now() WHERE id = {$this->id}";
+            . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
+            . " channelName = '{$this->channelName}', emailVerified = '{$this->emailVerified}' , modified = now() WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
@@ -315,6 +330,19 @@ class User {
         } else {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+    }
+    
+    static function getChannelOwner($channelName){
+        global $global;
+        $channelName = $global['mysqli']->real_escape_string($channelName);
+        $sql = "SELECT * FROM users WHERE channelName = '$channelName' LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        if ($res) {
+            $user = $res->fetch_assoc();
+        } else {
+            $user = false;
+        }
+        return $user;
     }
 
     function delete() {
@@ -712,5 +740,54 @@ class User {
     function setBackgroundURL($backgroundURL) {
         $this->backgroundURL = strip_tags($backgroundURL);
     }
+    
+    function getChannelName() {
+        return $this->channelName;
+    }
+
+    function getEmailVerified() {
+        return $this->emailVerified;
+    }
+    
+    /**
+     * 
+     * @param type $channelName
+     * @return boolean return true is is unique 
+     */
+    function setChannelName($channelName) {
+        $user = static::getChannelOwner($channelName);
+        if(!empty($user)){ // if the channel name exists and it is not from this user, rename the channel name
+            if(empty($this->id) ||  $user['id']!=$this->id){
+                return false;
+            }
+        }
+        $this->channelName = $channelName;
+        return true;
+    }
+
+    function setEmailVerified($emailVerified) {
+        $this->emailVerified = $emailVerified;
+    }
+    
+    static function getChannelLink($users_id=0){
+        global $global;
+        if(empty($users_id)){
+            $users_id = self::getId();
+        }
+        $user = new User($users_id);
+        if(empty($user)){
+            return false;
+        }      
+        if(empty($user->getChannelName())){
+            $name = $user->getBdId();
+        }else{
+            $name = $user->getChannelName();
+        }
+        $link = "{$global['webSiteRootURL']}channel/{$name}";
+        return $link;
+        
+    }
+
+
 
 }

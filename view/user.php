@@ -91,6 +91,16 @@ $advancedCustom = json_decode($json_file);
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Channel Name"); ?></label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-youtube-play"></i></span>
+                                            <input  id="channelName" placeholder="<?php echo __("Channel Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getChannelName(); ?>" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
@@ -221,7 +231,8 @@ $advancedCustom = json_decode($json_file);
                                         "pass": $('#inputPassword').val(), 
                                         "email": $('#inputEmail').val(), 
                                         "name": $('#inputName').val(), 
-                                        "about": $('#textAbout').val()
+                                        "about": $('#textAbout').val(), 
+                                        "channelName": $('#channelName').val()
                                     },
                                     type: 'post',
                                     success: function (response) {
@@ -253,6 +264,9 @@ $advancedCustom = json_decode($json_file);
                                                     });
                                                 });
                                             });
+                                        } else if(response.error){
+                                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                            modal.hidePleaseWait();
                                         } else {
                                             swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
                                             modal.hidePleaseWait();
