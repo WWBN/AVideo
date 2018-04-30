@@ -61,7 +61,7 @@ $_GET['catName'] = $catName;
 if (empty($_GET['videoName'])) {
     $_GET['videoName'] = $video['clean_title'];
 }
-
+$_GET['isMediaPlaySite'] = $video['id'];
 $obj = new Video("", "", $video['id']);
 
 if (empty($_SESSION['type'])) {

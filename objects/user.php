@@ -438,8 +438,13 @@ class User {
     static private function getUserDb($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM users WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+        
         if ($res) {
             $user = $res->fetch_assoc();
         } else {
@@ -450,8 +455,12 @@ class User {
 
     static private function getUserDbFromUser($user) {
         global $global;
-        $sql = "SELECT * FROM users WHERE user = '$user' LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('s', $user);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
         if ($res) {
             $user = $res->fetch_assoc();
         } else {
@@ -554,8 +563,15 @@ class User {
     static function userExists($user) {
         global $global;
         $user = $global['mysqli']->real_escape_string($user);
-        $sql = "SELECT * FROM users WHERE user = '$user' LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
+        //$res = $global['mysqli']->query($sql);
+        
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('s', $user);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+        
         if ($res->num_rows > 0) {
             $user = $res->fetch_assoc();
             return $user['id'];
@@ -567,8 +583,13 @@ class User {
     static function idExists($users_id) {
         global $global;
         $users_id = intval($users_id);
-        $sql = "SELECT * FROM users WHERE id = $users_id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM users WHERE id = ? LIMIT 1";
+        // $res = $global['mysqli']->query($sql);
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $users_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
         if ($res->num_rows > 0) {
             $user = $res->fetch_assoc();
             return $user['id'];
