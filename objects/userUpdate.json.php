@@ -12,6 +12,12 @@ $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
 $user->setAbout($_POST['about']);
+$unique = $user->setChannelName($_POST['channelName']);
+if(!$unique){
+    echo '{"error":"'.__("Channel name already exists").'"}';
+    exit;
+}
+
 if (User::isAdmin() && !empty($_POST['status'])) {
     $user->setStatus($_POST['status']);
 }

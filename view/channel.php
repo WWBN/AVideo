@@ -6,12 +6,19 @@ require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 
-if (empty($_GET['user_id'])) {
+if (empty($_GET['channelName'])) {
     if (User::isLogged()) {
         $_GET['user_id'] = User::getId();
     } else {
         return false;
     }
+}else{
+    $user = User::getChannelOwner($_GET['channelName']);
+    if(!empty($user)){
+        $_GET['user_id'] = $user['id'];
+    }else{
+        $_GET['user_id'] = $_GET['channelName'];
+    }    
 }
 $user_id = $_GET['user_id'];
 

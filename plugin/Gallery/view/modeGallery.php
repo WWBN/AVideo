@@ -141,7 +141,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                             echo $value['identification'];
                                             ?>
                                         </span>
-                                        <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $value['users_id']; ?>/" style="margin: 0 10px;">
+                                        <a class="btn btn-xs btn-default" href="<?php echo User::getChannelLink($value['users_id']); ?>/" style="margin: 0 10px;">
                                             <i class="fa fa-external-link"></i>
                                         </a>
                                         <?php
