@@ -83,6 +83,7 @@ $advancedCustom = json_decode($json_file);
 
                                                     $('#verifyEmail').click(function (e) {
                                                         e.preventDefault();
+                                                        modal.showPleaseWait();
                                                         $.ajax({
                                                             type: "POST",
                                                             url: "<?php echo $global['webSiteRootURL'] ?>objects/userVerifyEmail.php?users_id=<?php echo $user->getBdId(); ?>"
@@ -92,7 +93,7 @@ $advancedCustom = json_decode($json_file);
                                                             }else{
                                                                 swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
                                                             }
-                                                            
+                                                            modal.hidePleaseWait();
                                                         });
                                                     });
 
