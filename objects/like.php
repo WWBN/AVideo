@@ -50,8 +50,12 @@ class Like {
             header('Content-Type: application/json');
             die('{"error":"You must have user and videos set to get a like"}');
         }
-        $sql = "SELECT * FROM likes WHERE users_id = $this->users_id AND videos_id = $this->videos_id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM likes WHERE users_id = ? AND videos_id = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('ii', $this->users_id, $this->videos_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
         return ($res) ? $res->fetch_assoc() : false;
     }
 
@@ -62,13 +66,19 @@ class Like {
             die('{"error":"'.__("Permission denied").'"}');
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE likes SET `like` = '{$this->like}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE likes SET `like` = ?, modified = now() WHERE id = ?";
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('ii', $this->like, $this->id);
         } else {
-            $sql = "INSERT INTO likes ( `like`,users_id, videos_id, created, modified) VALUES ('{$this->like}', {$this->users_id}, {$this->videos_id}, now(), now())";
+            $sql = "INSERT INTO likes ( `like`,users_id, videos_id, created, modified) VALUES (?, ?, ?, now(), now())";
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('iii', $this->like, $this->users_id, $this->videos_id);
         }
         //echo $sql;exit;
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
+        $stmt->execute();
+        $resp = $stmt->get_result();
+        $stmt->close();
+        if ($global['mysqli']->errno!=0) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $resp;
@@ -83,17 +93,25 @@ class Like {
         $obj->dislikes = 0;
         $obj->myVote = self::getMyVote($videos_id);
 
-        $sql = "SELECT count(*) as total FROM likes WHERE videos_id = {$videos_id} AND `like` = 1 "; // like
-        $res = $global['mysqli']->query($sql);
-        if (!$res) {
+        $sql = "SELECT count(*) as total FROM likes WHERE videos_id = ? AND `like` = 1 "; // like
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $videos_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+        if ($global['mysqli']->errno!=0) {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         $row = $res->fetch_assoc();
         $obj->likes = intval($row['total']);
 
-        $sql = "SELECT count(*) as total FROM likes WHERE videos_id = {$videos_id} AND `like` = -1 "; // dislike
-        $res = $global['mysqli']->query($sql);
-        if (!$res) {
+        $sql = "SELECT count(*) as total FROM likes WHERE videos_id = ? AND `like` = -1 "; // dislike
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $videos_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+        if ($global['mysqli']->errno!=0) {
             die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         $row = $res->fetch_assoc();
@@ -132,8 +150,12 @@ class Like {
             return 0;
         }
         $id = User::getId();
-        $sql = "SELECT `like` FROM likes WHERE videos_id = {$videos_id} AND users_id = {$id} "; // like
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT `like` FROM likes WHERE videos_id = ? AND users_id = ? "; // like
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('ii', $videos_id,$id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
         if ($row = $res->fetch_assoc()) {
             return intval($row['like']);
         }

@@ -25,7 +25,7 @@ class YouPHPFlixHybrid extends PluginAbstract {
     public function getFirstPage(){
         global $global; 
         $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        if(("http://".$url===$global['webSiteRootURL'])||("https://".$url===$global['webSiteRootURL'])||("http://".$url===$global['webSiteRootURL']."audioOnly")||("https://".$url===$global['webSiteRootURL']."audioOnly")||("http://".$url===$global['webSiteRootURL']."videoOnly")||("https://".$url===$global['webSiteRootURL']."videoOnly")||("https://".$url===$global['webSiteRootURL']."?type=all")||("http://".$url===$global['webSiteRootURL']."?type=all")){
+        if((("http://".$url===$global['webSiteRootURL'])||("https://".$url===$global['webSiteRootURL'])||("http://".$url===$global['webSiteRootURL']."audioOnly")||("https://".$url===$global['webSiteRootURL']."audioOnly")||("http://".$url===$global['webSiteRootURL']."videoOnly")||("https://".$url===$global['webSiteRootURL']."videoOnly")||("https://".$url===$global['webSiteRootURL']."?type=all")||("http://".$url===$global['webSiteRootURL']."?type=all"))&&(empty($_GET['catName']))){
             return $global['systemRootPath'].'plugin/YouPHPFlix/view/firstPage.php';
         }
         else {

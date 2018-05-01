@@ -173,8 +173,12 @@ class Video {
         if ($config->currentVersionLowerThen('5.01')) {
             return false;
         }
-        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '" . $catId . "';";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $catId);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
         $catTypeCache = $res->fetch_assoc();
         $videoFound = false;
         $audioFound = false;
@@ -182,8 +186,12 @@ class Video {
             // 3 means auto
             if ($catTypeCache['manualSet'] == "0") {
                 // start incremental search and save
-                $sql = "SELECT * FROM `videos` WHERE categories_id = '" . $catId . "';";
-                $res = $global['mysqli']->query($sql);
+                $sql = "SELECT * FROM `videos` WHERE categories_id = ?";
+                $stmt = $global['mysqli']->prepare($sql);
+                $stmt->bind_param('i', $catId);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                $stmt->close();
                 //$tmpVid = $res->fetch_assoc();
                 if ($res) {
                     while ($row = $res->fetch_assoc()) {
@@ -339,9 +347,14 @@ class Video {
         if (!empty($this->id)) {
             global $global;
             $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
-            if (!$global['mysqli']->query($sql)) {
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('s', $fileName);
+            $stmt->execute();
+            if ($global['mysqli']->errno!=0) {
+                $stmt->close();
                 die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            $stmt->close();
         }
         $this->status = $status;
     }
@@ -527,9 +540,12 @@ class Video {
     static function getVideoFromFileName($fileName) {
         global $global;
 
-        $sql = "SELECT id  FROM videos  WHERE filename = '{$fileName}' LIMIT 1";
-        //echo $sql;
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT id  FROM videos  WHERE filename = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('s', $fileName);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
         if ($res) {
             $video = $res->fetch_assoc();
             if (!empty($video['id'])) {
@@ -975,10 +991,14 @@ class Video {
             $this->duration = Video::getDurationFromFile($file);
             error_log("Duration Updated: " . print_r($this, true));
 
-            $sql = "UPDATE videos SET duration = '{$this->duration}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE videos SET duration = ?, modified = now() WHERE id = ?";
 
-            $global['mysqli']->query($sql);
-
+            //$global['mysqli']->query($sql);
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('si', $this->duration,$this->id);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $stmt->close();
             return $this->id;
         } else {
             error_log("Do not need update duration: " . print_r($this, true));
@@ -1270,9 +1290,12 @@ class Video {
      */
     static function getOwner($videos_id) {
         global $global;
-        $sql = "SELECT users_id FROM videos WHERE id = {$videos_id} ";
-        $sql .= " LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT users_id FROM videos WHERE id = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $videos_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close(); 
         if ($res) {
             require_once 'userGroups.php';
             if ($row = $res->fetch_assoc()) {
@@ -1551,9 +1574,12 @@ class Video {
     static function get_clean_title($videos_id) {
         global $global;
 
-        $sql = "SELECT * FROM videos WHERE id = {$videos_id} LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        
+        $sql = "SELECT * FROM videos WHERE id = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $videos_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();  
         if ($res) {
             if ($row = $res->fetch_assoc()) {
                 
@@ -1569,9 +1595,12 @@ class Video {
     static function get_id_from_clean_title($clean_title) {
         global $global;
 
-        $sql = "SELECT * FROM videos WHERE clean_title = {$clean_title} LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
+        $sql = "SELECT * FROM videos WHERE clean_title = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('s', $clean_title);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close(); 
         if ($res) {
             if ($row = $res->fetch_assoc()) {
                 return $row['id'];
@@ -1645,9 +1674,13 @@ class Video {
     static function getTotalVideosThumbsUpFromUser($users_id, $startDate, $endDate) {
         global $global;
 
-        $sql = "SELECT id from videos  WHERE users_id = {$users_id}  ";
+        $sql = "SELECT id from videos  WHERE users_id = ?  ";
 
-        $res = $global['mysqli']->query($sql);
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $users_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close(); 
 
         $r = array('thumbsUp' => 0, 'thumbsDown' => 0);
 
