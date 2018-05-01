@@ -44,7 +44,7 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 $liveUsersEnabled = YouPHPTubePlugin::isEnabled("cf145581-7d5e-4bb6-8c12-48fc37c0630d");
 
 $obj->disableGif = $p->getDisableGifThumbs();
-$obj->countLifeStream = count($lifeStream);
+$obj->countLiveStream = count($lifeStream);
 foreach ($lifeStream as $value){
     if(!empty($value->name)){
         $row = LiveTransmition::keyExists($value->name);
