@@ -629,7 +629,7 @@ class Video {
         if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
         } elseif (!empty($showOnlyLoggedUserVideos)) {
-            $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
+            $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
         }
 
         if (!empty($_GET['catName'])) {
