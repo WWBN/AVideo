@@ -81,7 +81,8 @@ $advancedCustom = json_decode($json_file);
                                             <script>
                                                 $(document).ready(function () {
 
-                                                    $('#verifyEmail').click(function () {
+                                                    $('#verifyEmail').click(function (e) {
+                                                        e.preventDefault();
                                                         $.ajax({
                                                             type: "POST",
                                                             url: "<?php echo $global['webSiteRootURL'] ?>objects/userVerifyEmail.php?users_id=<?php echo $user->getBdId(); ?>"
