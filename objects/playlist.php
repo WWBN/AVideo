@@ -33,7 +33,7 @@ class PlayList extends ObjectYPT {
             $sql .= " AND pl.status = 'public' ";
         }
         if (!empty($userId)) {
-            $sql .= " AND users_id = {$userId} ";
+            $sql .= " AND users_id = '{$userId}' ";
         }
         $sql .= self::getSqlFromPost();
 
