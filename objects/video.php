@@ -1290,7 +1290,7 @@ class Video {
      */
     static function getOwner($videos_id) {
         global $global;
-        $sql = "SELECT users_id FROM videos WHERE id = {$videos_id} LIMIT 1";
+        $sql = "SELECT users_id FROM videos WHERE id = ? LIMIT 1";
         $stmt = $global['mysqli']->prepare($sql);
         $stmt->bind_param('i', $videos_id);
         $stmt->execute();
