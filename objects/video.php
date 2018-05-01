@@ -348,7 +348,7 @@ class Video {
             global $global;
             $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
             $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('s', $fileName);
+            //$stmt->bind_param('s', $fileName);
             $stmt->execute();
             if ($global['mysqli']->errno!=0) {
                 $stmt->close();
