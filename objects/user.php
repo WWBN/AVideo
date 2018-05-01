@@ -54,7 +54,6 @@ class User {
     function setAbout($about) {
         $this->about = $about;
     }
-
         
     function getPassword() {
         return $this->password;
@@ -72,8 +71,7 @@ class User {
     function setCanUpload($canUpload) {
         $this->canUpload = $canUpload;
     }
-
-            
+           
     private function load($id) {
         $user = self::getUserDb($id);
         if (empty($user))
@@ -318,6 +316,10 @@ class User {
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
+                $obj = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+                if(!empty($obj->unverifiedEmailsCanNOTLogin)){
+                    self::sendVerificationLink($id);
+                }
             } else {
                 $id = $this->id;
             }
@@ -366,18 +368,29 @@ class User {
         }
         return $resp;
     }
-
+  
+    const USER_LOGGED = 0;
+    const USER_NOT_VERIFIED = 1;
+    const USER_NOT_FOUND = 2;
     function login($noPass = false, $encodedPass=false) {
+        $obj = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
-        if ($user) {
+        // if user is not verified
+        if(!empty($user) && empty($user['isAmin']) && empty($user['emailVerified']) && !empty($obj->unverifiedEmailsCanNOTLogin)){
+            unset($_SESSION['user']);
+            self::sendVerificationLink($user['id']);
+            return self::USER_NOT_VERIFIED;
+        }else if ($user) {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
+            return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
+            return self::USER_NOT_FOUND;
         }
     }
 
@@ -396,6 +409,10 @@ class User {
 
     static function isLogged() {
         return !empty($_SESSION['user']['id']);
+    }
+    
+    static function isVerified() {
+        return !empty($_SESSION['user']['emailVerified']);
     }
 
     static function isAdmin() {
@@ -786,6 +803,71 @@ class User {
         $link = "{$global['webSiteRootURL']}channel/{$name}";
         return $link;
         
+    }
+    
+    static function sendVerificationLink($users_id){       
+        global $global, $config;
+        $user = new User($users_id);
+        $code = urlencode(static::createVerificationCode($users_id));
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer;
+        setSiteSendMessage($mail);
+        //Set who the message is to be sent from
+        $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
+        //Set who the message is to be sent to
+        $mail->addAddress($user->getEmail());
+        //Set the subject line
+        $mail->Subject = 'Please Verify Your E-mail ' . $config->getWebSiteTitle();
+
+        $msg = sprintf(__("Hi %s"), $user->getNameIdentificationBd());
+        $msg .= "<br><br>".__("Just a quick note to say a big welcome and an even bigger thank you for registering.");
+                
+        $msg .= "<br><br>".sprintf(__("Cheers, %s Team."), $config->getWebSiteTitle());
+        
+        $msg .= "<br><br>".sprintf(__("You are just one click away from starting your journey with %s!"), $config->getWebSiteTitle());
+        $msg .= "<br><br>".sprintf(__("All you need to do is to verify your e-mail by clicking the link below"));
+        $msg .= "<br><br>"." <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
+
+        $mail->msgHTML($msg);
+        
+        return $mail->send();
+
+    }
+    
+    static function verifyCode($code){
+        global $global;
+        $obj = static::decodeVerificationCode($code);
+        $salt = hash('sha256', $global['salt']);   
+        if($salt!==$obj->salt){
+            return false;
+        }
+        $user = new User($obj->users_id);
+        $recoverPass = $user->getRecoverPass();
+        if($recoverPass == $obj->recoverPass){
+            $user->setEmailVerified(1);
+            return $user->save();
+        }
+        return false;        
+    }
+    
+    static function createVerificationCode($users_id){
+        global $global;
+        $obj = new stdClass();
+        $obj->users_id = $users_id;
+        $obj->recoverPass = uniqid();
+        $obj->salt = hash('sha256', $global['salt']);   
+        
+        $user = new User($users_id);
+        $user->setRecoverPass($obj->recoverPass);
+        $user->save();
+        
+        return base64_encode(json_encode($obj));
+    }
+    
+    static function decodeVerificationCode($code){
+        $obj = json_decode(base64_decode($code));
+        return $obj;
     }
 
 
