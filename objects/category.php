@@ -39,8 +39,15 @@ class Category {
         require_once dirname(__FILE__) . '/../objects/video.php';
         
         //$this->id is already replaced by the new..
-        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$this->id."';";
-        $res = $global['mysqli']->query($sql);
+        //$sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$this->id."';";
+        //$res = $global['mysqli']->query($sql);
+        
+        $stmt = $global['mysqli']->prepare("SELECT * FROM `category_type_cache` WHERE categoryId = ?");
+        $stmt->bind_param('i', $this->id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+        
         $catTypeCache = $res->fetch_assoc();
         if($catTypeCache){
             $exist = true;
@@ -49,19 +56,34 @@ class Category {
         if($type=="3"){ 
             // auto-cat-type
             if($exist){
-                $sql = "UPDATE `category_type_cache` SET `manualSet` = '0' WHERE `category_type_cache`.`categoryId` = '".$this->id."';";
+                $sql = "UPDATE `category_type_cache` SET `manualSet` = '0' WHERE `category_type_cache`.`categoryId` = ?";
             } else {
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES ('".$this->id."', '0','0')";
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?, '0','0')";
             }
-            $res = $global['mysqli']->query($sql);
+            
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('i', $this->id);
+            $stmt->execute();
+            //$res = $stmt->get_result();
+            $stmt->close();
+            
+            //$res = $global['mysqli']->query($sql);
             Video::autosetCategoryType($this->id);
         } else {
             if($exist){
-                $sql = "UPDATE `category_type_cache` SET `type` = '".$type."', `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = '".$this->id."';";
+                $sql = "UPDATE `category_type_cache` SET `type` = ?, `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = ?;";
+                $stmt = $global['mysqli']->prepare($sql);
+                $stmt->bind_param('si', $type,$this->id);
+
             } else {
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES ('".$this->id."', '".$type."','1')";
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?,?,'1')";
+                $stmt = $global['mysqli']->prepare($sql);
+                $stmt->bind_param('is',$this->id,$type);
             }
-            $res = $global['mysqli']->query($sql);
+            $stmt->execute();
+            //$res = $stmt->get_result();
+            $stmt->close();
+            //$res = $global['mysqli']->query($sql);
         }
     }
     
