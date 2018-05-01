@@ -98,10 +98,15 @@ if(!empty($_GET['encodedPass'])){
 }
 if(empty($_POST['user']) || empty($_POST['pass'])){
     $object->error = __("User and Password can not be blank");
-     die(json_encode($object));
+    die(json_encode($object));
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
-$user->login(false, @$_POST['encodedPass']);
+$resp = $user->login(false, @$_POST['encodedPass']);
+
+if($resp === User::USER_NOT_VERIFIED){
+    $object->error = __("Your user is not verified, we sent you a new e-mail");
+    die(json_encode($object));
+}
 $object->id = User::getId();
 $object->user = User::getUserName();
 $object->pass = User::getUserPass();
