@@ -71,7 +71,7 @@ $updateFiles = getUpdatesFilesArray();
 
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
-                                    <span class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon)?$advancedCustom->uploadButtonDropdownIcon:"fa fa-video-camera"; ?>"></span> <?php echo !empty($advancedCustom->uploadButtonDropdownText)?$advancedCustom->uploadButtonDropdownText:""; ?> <span class="caret"></span>
+                                    <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon)?$advancedCustom->uploadButtonDropdownIcon:"fa fa-video-camera"; ?>"></i> <?php echo !empty($advancedCustom->uploadButtonDropdownText)?$advancedCustom->uploadButtonDropdownText:""; ?> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                     <?php
