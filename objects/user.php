@@ -20,6 +20,8 @@ class User {
     private $backgroundURL;
     private $recoverPass;
     private $about;
+    private $channelName;
+    private $emailVerified;
     private $userGroups = array();
 
     function __construct($id, $user = "", $password = "") {
@@ -52,7 +54,6 @@ class User {
     function setAbout($about) {
         $this->about = $about;
     }
-
         
     function getPassword() {
         return $this->password;
@@ -70,8 +71,7 @@ class User {
     function setCanUpload($canUpload) {
         $this->canUpload = $canUpload;
     }
-
-            
+           
     private function load($id) {
         $user = self::getUserDb($id);
         if (empty($user))
@@ -281,19 +281,32 @@ class User {
         if (empty($this->status)) {
             $this->status = 'a';
         }
+                
+        if (empty($this->channelName)) {
+            $this->channelName = uniqid();
+        }else{
+            $channelOwner = static::getChannelOwner($this->channelName);
+            if(!empty($channelOwner)){ // if the channel name exists and it is not from this user, rename the channel name
+                if(empty($this->id) ||  $channelOwner['id']!=$this->id){
+                    $this->channelName .= uniqid();
+                }
+            }
+        }
         
         $this->user = $global['mysqli']->real_escape_string($this->user);
         $this->password = $global['mysqli']->real_escape_string($this->password);
         $this->name = $global['mysqli']->real_escape_string($this->name);
         $this->status = $global['mysqli']->real_escape_string($this->status);
         $this->about = $global['mysqli']->real_escape_string($this->about);
+        $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
         
         if (!empty($this->id)) {
             $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
             . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
             . "canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', "
             . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
-            . "recoverPass = '{$this->recoverPass}', about = '{$this->about}' , modified = now() WHERE id = {$this->id}";
+            . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
+            . " channelName = '{$this->channelName}', emailVerified = '{$this->emailVerified}' , modified = now() WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
         }
@@ -303,6 +316,10 @@ class User {
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
+                $obj = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+                if(!empty($obj->unverifiedEmailsCanNOTLogin)){
+                    self::sendVerificationLink($id);
+                }
             } else {
                 $id = $this->id;
             }
@@ -315,6 +332,19 @@ class User {
         } else {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+    }
+    
+    static function getChannelOwner($channelName){
+        global $global;
+        $channelName = $global['mysqli']->real_escape_string($channelName);
+        $sql = "SELECT * FROM users WHERE channelName = '$channelName' LIMIT 1";
+        $res = $global['mysqli']->query($sql);
+        if ($res) {
+            $user = $res->fetch_assoc();
+        } else {
+            $user = false;
+        }
+        return $user;
     }
 
     function delete() {
@@ -338,18 +368,29 @@ class User {
         }
         return $resp;
     }
-
+  
+    const USER_LOGGED = 0;
+    const USER_NOT_VERIFIED = 1;
+    const USER_NOT_FOUND = 2;
     function login($noPass = false, $encodedPass=false) {
+        $obj = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
-        if ($user) {
+        // if user is not verified
+        if(!empty($user) && empty($user['isAmin']) && empty($user['emailVerified']) && !empty($obj->unverifiedEmailsCanNOTLogin)){
+            unset($_SESSION['user']);
+            self::sendVerificationLink($user['id']);
+            return self::USER_NOT_VERIFIED;
+        }else if ($user) {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
+            return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
+            return self::USER_NOT_FOUND;
         }
     }
 
@@ -368,6 +409,10 @@ class User {
 
     static function isLogged() {
         return !empty($_SESSION['user']['id']);
+    }
+    
+    static function isVerified() {
+        return !empty($_SESSION['user']['emailVerified']);
     }
 
     static function isAdmin() {
@@ -733,5 +778,119 @@ class User {
     function setBackgroundURL($backgroundURL) {
         $this->backgroundURL = strip_tags($backgroundURL);
     }
+    
+    function getChannelName() {
+        return $this->channelName;
+    }
+
+    function getEmailVerified() {
+        return $this->emailVerified;
+    }
+    
+    /**
+     * 
+     * @param type $channelName
+     * @return boolean return true is is unique 
+     */
+    function setChannelName($channelName) {
+        $user = static::getChannelOwner($channelName);
+        if(!empty($user)){ // if the channel name exists and it is not from this user, rename the channel name
+            if(empty($this->id) ||  $user['id']!=$this->id){
+                return false;
+            }
+        }
+        $this->channelName = $channelName;
+        return true;
+    }
+
+    function setEmailVerified($emailVerified) {
+        $this->emailVerified = $emailVerified;
+    }
+    
+    static function getChannelLink($users_id=0){
+        global $global;
+        if(empty($users_id)){
+            $users_id = self::getId();
+        }
+        $user = new User($users_id);
+        if(empty($user)){
+            return false;
+        }      
+        if(empty($user->getChannelName())){
+            $name = $user->getBdId();
+        }else{
+            $name = $user->getChannelName();
+        }
+        $link = "{$global['webSiteRootURL']}channel/{$name}";
+        return $link;
+        
+    }
+    
+    static function sendVerificationLink($users_id){       
+        global $global, $config;
+        $user = new User($users_id);
+        $code = urlencode(static::createVerificationCode($users_id));
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer;
+        setSiteSendMessage($mail);
+        //Set who the message is to be sent from
+        $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
+        //Set who the message is to be sent to
+        $mail->addAddress($user->getEmail());
+        //Set the subject line
+        $mail->Subject = 'Please Verify Your E-mail ' . $config->getWebSiteTitle();
+
+        $msg = sprintf(__("Hi %s"), $user->getNameIdentificationBd());
+        $msg .= "<br><br>".__("Just a quick note to say a big welcome and an even bigger thank you for registering.");
+                
+        $msg .= "<br><br>".sprintf(__("Cheers, %s Team."), $config->getWebSiteTitle());
+        
+        $msg .= "<br><br>".sprintf(__("You are just one click away from starting your journey with %s!"), $config->getWebSiteTitle());
+        $msg .= "<br><br>".sprintf(__("All you need to do is to verify your e-mail by clicking the link below"));
+        $msg .= "<br><br>"." <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
+
+        $mail->msgHTML($msg);
+        
+        return $mail->send();
+
+    }
+    
+    static function verifyCode($code){
+        global $global;
+        $obj = static::decodeVerificationCode($code);
+        $salt = hash('sha256', $global['salt']);   
+        if($salt!==$obj->salt){
+            return false;
+        }
+        $user = new User($obj->users_id);
+        $recoverPass = $user->getRecoverPass();
+        if($recoverPass == $obj->recoverPass){
+            $user->setEmailVerified(1);
+            return $user->save();
+        }
+        return false;        
+    }
+    
+    static function createVerificationCode($users_id){
+        global $global;
+        $obj = new stdClass();
+        $obj->users_id = $users_id;
+        $obj->recoverPass = uniqid();
+        $obj->salt = hash('sha256', $global['salt']);   
+        
+        $user = new User($users_id);
+        $user->setRecoverPass($obj->recoverPass);
+        $user->save();
+        
+        return base64_encode(json_encode($obj));
+    }
+    
+    static function decodeVerificationCode($code){
+        $obj = json_decode(base64_decode($code));
+        return $obj;
+    }
+
+
 
 }

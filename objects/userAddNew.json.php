@@ -17,5 +17,10 @@ $user->setIsAdmin($_POST['isAdmin']);
 $user->setCanStream($_POST['canStream']);
 $user->setCanUpload($_POST['canUpload']);
 $user->setStatus($_POST['status']);
+$unique = $user->setChannelName($_POST['channelName']);
+if(!$unique){
+    echo '{"error":"'.__("Channel name already exists").'"}';
+    exit;
+}
 $user->setUserGroups(@$_POST['userGroups']);
 echo '{"status":"'.$user->save(true).'"}';

@@ -269,7 +269,7 @@ trigger: 'manual',
                 if (!empty($subs)) {
                     // show unsubscribe Button
                     $subscribe = "<div class=\"btn-group\">"
-                . "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><span class='fa'></span> <b class='text'>" . __("Subscribed") . "</b></button>"
+                . "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><span class='fab fa-youtube'></span> <b class='text'>" . __("Subscribed") . "</b></button>"
                 . "<button class='btn btn-xs subsB subscribed subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>"
                 . "</div>";
         

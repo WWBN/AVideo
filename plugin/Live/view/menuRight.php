@@ -27,7 +27,7 @@ if (User::canStream()) {
         <span class="badge onlineApplications" style=" background: rgba(255,0,0,1); color: #FFF;">0</span>
         <b class="caret"></b>
     </a>
-    <ul class="dropdown-menu dropdown-menu-right notify-drop" id="availableLive"></ul>
+    <ul class="dropdown-menu dropdown-menu-right notify-drop" id="availableLiveStream"></ul>
 </li>
 <li class="hidden liveModel"  style="margin-right: 0;">
     <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/" class='liveLink '>
@@ -86,7 +86,7 @@ if (User::canStream()) {
         $liveLi.find('.liveTitle').text(title);
         $liveLi.find('.liveUser').text(name);
         $liveLi.find('.img').attr("src", photo);
-        $('#availableLive').append($liveLi);
+        $('#availableLiveStream').append($liveLi);
 
         $('.liveUsersOnline_' + key).text(online);
         $('.liveUsersViews_' + key).text(views);
@@ -125,7 +125,7 @@ if (User::canStream()) {
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu',
             success: function (response) {
                 $('.onlineApplications').text(response.applications.length);
-                $('#availableLive').empty();
+                $('#availableLiveStream').empty();
                 if (response.applications.length) {
                     disableGif = response.disableGif;
                     for (i = 0; i < response.applications.length; i++) {

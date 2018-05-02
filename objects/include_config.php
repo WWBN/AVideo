@@ -22,6 +22,11 @@ if (function_exists("getAllFlags")) {
     Configuration::rewriteConfigFile();
 }
 
+// for update config to v5.3
+if (empty($global['salt'])) {
+    Configuration::rewriteConfigFile();
+}
+
 $global['dont_show_us_flag'] = false;
 // this is for old versions
 session_write_close ();

@@ -134,7 +134,6 @@ footer ul.list-inline li {
 }
 .form-compact input.form-control {
     border-radius: 0;
-    margin-bottom: -1px;
 }
 .form-compact input.first,
 .form-compact select.first {

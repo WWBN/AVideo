@@ -31,7 +31,7 @@ $videos = Video::getAllVideos("viewableNotAd");
 foreach ($videos as $key => $value) {
     $videos[$key] = Video::getVideo($value['id']);
     $name = empty($value['name']) ? $value['user'] : $value['name'];
-    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails" style="margin-left:60px;"><div class="commenterName"><strong><a href="' . $global['webSiteRootURL'] . 'channel/' . $value['users_id'] . '/">' . $name . '</a></strong><br><span class="text-muted">' . humanTiming(strtotime($value['videoCreation'])) . '</span></div></div>';
+    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails" style="margin-left:60px;"><div class="commenterName"><strong><a href="' . User::getChannelLink($value['users_id']) . '/">' . $name . '</a></strong><br><span class="text-muted">' . humanTiming(strtotime($value['videoCreation'])) . '</span></div></div>';
 }
 $count = 0;
 if (!empty($videos)) {
