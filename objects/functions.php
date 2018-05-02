@@ -831,39 +831,45 @@ function combineFiles($filesArray, $extension = "js") {
     $md5FileName = md5($fileName) . ".{$extension}";
     if (!file_exists($cacheDir . $md5FileName)) {
         foreach ($filesArray as $value) {
-            $str .= "\n/*{$value}*/\n" . url_get_contents($value);
+            if(file_exists($global['systemRootPath'].$value)){
+                $str .= "\n/*{$value} created local with systemRootPath */\n" . local_get_contents($global['systemRootPath'].$value);
+            }
+            else if(file_exists($value)){
+                $str .= "\n/*{$value} created local with full-path given */\n" . local_get_contents($value);
+            }       
+            else {
+                $allowed = "";
+                if (ini_get('allow_url_fopen')) {
+                    $allowed .= "allow_url_fopen is on and ";
+                }
+                if (function_exists('curl_init')) {
+                    $allowed .= "curl is on";
+                } else {
+                   $allowed .= "curl is off"; 
+                }
+            
+                    $content = url_get_contents($value);
+                    if(empty($content)){
+                        $allowed .= " - web-fallback 1 (add webSiteRootURL)";
+                        $content = url_get_contents($global['webSiteRootURL'] . $value);
+                    }
+                    $str .= "\n/*{$value} created via web with own url ({$allowed}) */\n" . $content;
+                
+            }
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
     return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
 }
 
-function combineFiles_local($filesArray, $extension = "js") {
-    global $global;
-    $cacheDir = $global['systemRootPath'] . 'videos/cache/';
-    if (!is_dir($cacheDir)) {
-        mkdir($cacheDir, 0777, true);
-    }
-    $str = "";
-    $fileName = "";
-    foreach ($filesArray as $value) {
-        $fileName .= $value;
-    }
-    $md5FileName = md5($fileName) . ".{$extension}";
-    if (!file_exists($cacheDir . $md5FileName)) {
-        foreach ($filesArray as $value) {
-            $str .= "\n/*{$value}*/\n" . local_get_contents($value);
-        }
-        file_put_contents($cacheDir . $md5FileName, $str);
-    }
-    return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
-}
 
 function local_get_contents($path){
-    $myfile = fopen($path, "r") or die("Unable to open file!");
-    $text = fread($myfile,filesize($path));
-    fclose($myfile);
-    return $text;
+    if (function_exists('fopen')){
+        $myfile = fopen($path, "r") or die("Unable to open file!");
+        $text = fread($myfile,filesize($path));
+        fclose($myfile);
+        return $text;
+    }
 }
 
 function url_get_contents($Url) {
