@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `canStream` TINYINT(1) NULL,
   `canUpload` TINYINT(1) NULL,
   `about` TEXT NULL,
-  `channelName` VARCHAR(45) NOT NULL,
+  `channelName` VARCHAR(45) NULL,
   `emailVerified` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
