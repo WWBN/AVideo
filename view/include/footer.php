@@ -44,6 +44,13 @@ if (!empty($_GET['error'])) {
     <?php
 }
 ?>
+<?php
+if (!empty($_GET['msg'])) {
+    ?>
+            swal({title: "Ops!", text: "<?php echo $_GET['msg']; ?>", type: "info", html: true});
+    <?php
+}
+?>
     });
 </script>
 <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -66,6 +73,8 @@ if (!empty($_GET['error'])) {
 
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-5.0.10/svg-with-js/js/fontawesome-all.min.js" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-5.0.10/svg-with-js/js/fa-v4-shims.min.js" type="text/javascript"></script>
 <?php
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 echo YouPHPTubePlugin::getFooterCode();

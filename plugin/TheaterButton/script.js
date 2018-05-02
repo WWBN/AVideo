@@ -17,8 +17,8 @@ function compress(t) {
     left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width() + 30;
     $(".compress").css('left', left);
     if(t!=undefined){
-        t.removeClass('fa-compress');
-        t.addClass('fa-expand');
+        t.removeClass('ypt-compress');
+        t.addClass('ypt-expand');
     }
 }
 function expand(t) {
@@ -35,13 +35,13 @@ function expand(t) {
     $('#mvideo').addClass('main-video');
     console.log("expand");
     if(t!=undefined){
-        t.removeClass('fa-expand');
-        t.addClass('fa-compress');
+        t.removeClass('ypt-expand');
+        t.addClass('ypt-compress');
     }
 }
 function toogleEC(t) {
     if(t!=undefined){
-        if (t.hasClass('fa-expand')) {
+        if (t.hasClass('ypt-expand')) {
             expand(t);
             Cookies.set('compress', false, {
                 path: '/',

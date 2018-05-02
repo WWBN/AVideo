@@ -348,7 +348,7 @@ class Video {
             global $global;
             $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
             $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('s', $fileName);
+            //$stmt->bind_param('s', $fileName);
             $stmt->execute();
             if ($global['mysqli']->errno!=0) {
                 $stmt->close();
@@ -629,7 +629,7 @@ class Video {
         if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
         } elseif (!empty($showOnlyLoggedUserVideos)) {
-            $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
+            $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
         }
 
         if (!empty($_GET['catName'])) {
