@@ -17,7 +17,6 @@ if(!empty($_GET['users_id'])){
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title>Support Author</title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script" />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -35,9 +34,9 @@ if(!empty($_GET['users_id'])){
                         <table id="grid" class="table table-condensed table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th data-column-id="valueText"><?php echo __("Value"); ?></th>
+                                    <th data-column-id="valueText"  data-width="150px"><?php echo __("Value"); ?></th>
                                     <th data-column-id="description" ><?php echo __("Description"); ?></th>
-                                    <th data-column-id="created" data-order="desc"><?php echo __("Date"); ?></th>
+                                    <th data-column-id="created" data-order="desc" data-width="150px"><?php echo __("Date"); ?></th>
                                 </tr>
                             </thead>
                         </table>

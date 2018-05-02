@@ -17,9 +17,9 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
     </head>
 
     <body>
-        <?php include 'include/navbar.php'; ?>
+        <?php $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container">
-        <?php include 'include/updateCheck.php'; ?>
+        <?php $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
             <button type="button" class="btn btn-default" id="addCategoryBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New Category"); ?>
             </button>
@@ -90,7 +90,7 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
         </div><!--/.container-->
-        <?php include 'include/footer.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
         <script>
             var fullCatList;
             $(document).ready(function () {
@@ -168,8 +168,8 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
                         },
                         "commands": function (column, row)
                         {
-                            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
+                            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __("Edit"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                            var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="<?php echo __("Delete"); ?>"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
                             return editBtn + deleteBtn;
                         }
                     }

@@ -16,7 +16,7 @@ class WalletLog extends ObjectYPT {
     }
 
     static function getTableName() {
-        return 'Wallet_log';
+        return 'wallet_log';
     }
     
     function getValue() {
@@ -51,10 +51,14 @@ class WalletLog extends ObjectYPT {
         $this->json_data = $json_data;
     }
         
-    static function getAllFromWallet($wallet_id) {
+    static function getAllFromWallet($wallet_id, $dontReturnEmpty = true) {
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE wallet_id=$wallet_id ";
 
+        if($dontReturnEmpty){
+            $sql .= " AND value != 0.0 ";
+        }
+        
         $sql .= self::getSqlFromPost();
         $obj = YouPHPTubePlugin::getObjectData("YPTWallet");
         $res = $global['mysqli']->query($sql);
@@ -70,10 +74,14 @@ class WalletLog extends ObjectYPT {
         return $rows;
     }
     
-    static function getTotalFromWallet($wallet_id) {
+    static function getTotalFromWallet($wallet_id, $dontReturnEmpty = true) {
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE wallet_id=$wallet_id ";
-
+        
+        if($dontReturnEmpty){
+            $sql .= " AND value != 0.0 ";
+        }
+        
         $sql .= self::getSqlSearchFromPost();
 
         $res = $global['mysqli']->query($sql);
@@ -81,18 +89,18 @@ class WalletLog extends ObjectYPT {
         return $res->num_rows;
     }
     
-    static function getAllFromUser($users_id) {
+    static function getAllFromUser($users_id, $dontReturnEmpty = true) {
         
         $wallet = Wallet::getFromUser($users_id);
         
-        return self::getAllFromWallet($wallet['id']);
+        return self::getAllFromWallet($wallet['id'], $dontReturnEmpty);
     }
     
-    static function getTotalFromUser($users_id) {
+    static function getTotalFromUser($users_id, $dontReturnEmpty = true) {
         
         $wallet = Wallet::getFromUser($users_id);
         
-        return self::getTotalFromWallet($wallet['id']);
+        return self::getTotalFromWallet($wallet['id'], $dontReturnEmpty);
     }
     
     static function addLog($wallet_id, $value, $description="", $json_data="{}"){

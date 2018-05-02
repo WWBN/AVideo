@@ -15,7 +15,7 @@ class Wallet extends ObjectYPT {
     }
 
     static function getTableName() {
-        return 'Wallet';
+        return 'wallet';
     }
     
     function getBalance() {

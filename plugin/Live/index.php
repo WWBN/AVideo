@@ -35,13 +35,12 @@ $vjsClass = "vjs-16-9";
 
 $trans = new LiveTransmition($trasnmition['id']);
 $groups = $trans->getGroups();
-
+$obj = $p->getDataObject();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title>Live - <?php echo $config->getWebSiteTitle(); ?></title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script" />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -57,57 +56,65 @@ $groups = $trans->getGroups();
         ?>
         <div class="container">
             <div class="col-md-6">
-                <!--
+                <?php
+                if(!empty($obj->experimentalWebcam)){
+                ?>
                 <div class="panel panel-default">
-                    <div class="panel-heading">WebCam Streaming</div>
+                    <div class="panel-heading"><?php echo __("WebCam Streaming"); ?></div>
                     <div class="panel-body">
                         <div class="embed-responsive embed-responsive-16by9">
                             <div class="embed-responsive-item"  id="webcam">
                                 <button class="btn btn-primary btn-block" id="enableWebCam">
-                                    <i class="fa fa-camera"></i> Enable WebCam Stream
+                                    <i class="fa fa-camera"></i> <?php echo __("Enable WebCam Stream"); ?>
                                 </button>
                                 <div class="alert alert-warning">
-                                    <i class="fa fa-warning">We will check it there is a stream conflict before stream</i>
+                                    <i class="fa fa-warning"><?php echo __("We will check if there is a stream conflict before stream"); ?></i>
+                                </div>
+                                
+                                <div class="alert alert-info">
+                                    <?php echo __("This is an experimental resource"); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                -->
+                <?php
+                }
+                ?>
                 <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-share"></i> Share Info</div>
+                    <div class="panel-heading"><i class="fa fa-share"></i> <?php echo __("Share Info"); ?></div>
                     <div class="panel-body">          
                         <div class="form-group">
-                            <label for="playerURL"><i class="fa fa-play-circle"></i> Player URL:</label>
+                            <label for="playerURL"><i class="fa fa-play-circle"></i> <?php echo __("Player URL"); ?>:</label>
                             <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8"  readonly="readonly">
                         </div>       
                         <div class="form-group">
-                            <label for="youphptubeURL"><i class="fa fa-circle"></i> YouPHPTube URL:</label>
+                            <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("YouPHPTube URL"); ?>:</label>
                             <input type="text" class="form-control" id="youphptubeURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>"  readonly="readonly">
                         </div>   
                         <div class="form-group">
-                            <label for="embedStream"><i class="fa fa-code"></i> Embed Stream:</label>
+                            <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
                             <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-hdd-o"></i> Devices Stream Info</div>
+                    <div class="panel-heading"><i class="fa fa-hdd-o"></i> <?php echo __("Devices Stream Info"); ?></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="server"><i class="fa fa-server"></i> Server URL:</label>
+                            <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
                             <input type="text" class="form-control" id="server" value="<?php echo $p->getServer(); ?>?p=<?php echo User::getUserPass(); ?>" readonly="readonly">
-                            <small class="label label-info"><i class="fa fa-warning"></i> If you change your password the Server URL parameters will be changed too.</small>
+                            <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
                         </div>
                         <div class="form-group">
-                            <label for="streamkey"><i class="fa fa-key"></i> Stream name/key:</label>
+                            <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key"); ?>:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="streamkey" value="<?php echo $trasnmition['key']; ?>" readonly="readonly">
                                 <span class="input-group-btn">
-                                    <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1"><i class="fa fa-refresh"></i> Reset Key</a>
+                                    <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1"><i class="fa fa-refresh"></i> <?php echo __("Reset Key"); ?></a>
                                 </span>
                             </div>
-                            <span class="label label-warning"><i class="fa fa-warning"></i> Anyone with this key can watch your live stream.</span>
+                            <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Anyone with this key can watch your live stream."); ?></span>
                         </div>
                     </div>
                 </div>
@@ -131,14 +138,14 @@ $groups = $trans->getGroups();
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Stream Settings</div>
+                    <div class="panel-heading"><?php echo __("Stream Settings"); ?></div>
                     <div class="panel-body"> 
                         <div class="form-group">
-                            <label for="title">Title:</label>
+                            <label for="title"><?php echo __("Title"); ?>:</label>
                             <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
                         </div>    
                         <div class="form-group">
-                            <label for="description">Description:</label>
+                            <label for="description"><?php echo __("Description"); ?>:</label>
                             <textarea class="form-control" id="description"><?php echo $trasnmition['description'] ?></textarea>
                         </div>
                         <!--
@@ -154,7 +161,7 @@ $groups = $trans->getGroups();
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Groups That Can See This Stream<br><small>Uncheck all to make it public</small></div>
+                    <div class="panel-heading"><?php echo __("Groups That Can See This Stream"); ?><br><small><?php echo __("Uncheck all to make it public"); ?></small></div>
                     <div class="panel-body"> 
                         <?php
                         $ug = UserGroups::getAllUsersGroups();
@@ -170,8 +177,8 @@ $groups = $trans->getGroups();
                             <?php
                         }
                         ?>
-                        <button type="button" class="btn btn-success" id="btnSaveStream">Save Stream</button>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-primary"><span class="fa fa-users"></span> Add more user Groups</a>
+                        <button type="button" class="btn btn-success" id="btnSaveStream"><?php echo __("Save Stream"); ?></button>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-primary"><span class="fa fa-users"></span> <?php echo __("Add more user Groups"); ?></a>
                     </div>
                 </div>
 
@@ -202,23 +209,23 @@ $groups = $trans->getGroups();
                             }
                             // you online do not show webcam
                             if (!offLine) {
-                                $('#webcam').find('.alert').text("You are online now, web cam is disabled");
+                                $('#webcam').find('.alert').text("<?php echo __("You are online now, web cam is disabled"); ?>");
                             } else {
-                                $('#webcam').find('.alert').text("You are not online, loading webcam...");
+                                $('#webcam').find('.alert').text("<?php echo __("You are not online, loading webcam..."); ?>");
                                 swfobject.embedSWF("<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/webcam.swf", "webcam", "100%", "100%", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
                             }
                         }
                     });
                 }
-
+				
                 function saveStream() {
                     modal.showPleaseWait();
-
+					
                     var selectedUserGroups = [];
                     $('.userGroups:checked').each(function () {
                         selectedUserGroups.push($(this).val());
                     });
-
+					
                     $.ajax({
                         url: 'saveLive.php',
                         data: {

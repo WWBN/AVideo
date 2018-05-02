@@ -21,7 +21,6 @@ $imgh = 360;
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $t['title']; ?> - Live Video - <?php echo $config->getWebSiteTitle(); ?></title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script" />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -72,7 +71,7 @@ $imgh = 360;
         <?php
         }else{
             ?>
-        <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> You are not allowed see this streaming</h1>    
+        <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> <?php echo __("You are not allowed see this streaming"); ?></h1>    
             <?php
         }
         ?>

@@ -1,5 +1,78 @@
 <?php
 
+function showThis($who) {
+    if (empty($_GET['showOnly'])) {
+        return true;
+    }
+    if ($_GET['showOnly'] === $who) {
+        return true;
+    }
+    return false;
+}
+
+function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString, $defaultSort = "ASC") {
+    if (!showThis($getName)) {
+        return "";
+    }
+    if (!empty($_GET['showOnly'])) {
+        $rowCount = 60;
+    }
+    global $global, $args, $url;
+    $paggingId = uniqid();
+    ?>
+    <div class="clear clearfix">
+        <h3 class="galleryTitle">
+            <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $getName; ?>">
+                <i class="glyphicon glyphicon-list-alt"></i>
+                <?php
+                if (empty($_GET[$getName])) {
+                    $_GET[$getName] = $defaultSort;
+                }
+                if (!empty($orderString)) {
+                    $info = createOrderInfo($getName, $mostWord, $lessWord, $orderString);
+                    echo "{$title} (" . $info[2] . ") (Page " . $_GET['page'] . ") <a href='" . $info[0] . "' >" . $info[1] . "</a>";
+                } else {
+                    echo "{$title}";
+                }
+                ?>
+            </a>
+        </h3>
+        <?php
+        $countCols = 0;
+        unset($_POST['sort']);
+        $_POST['sort'][$sort] = $_GET[$getName];
+        $_POST['current'] = $_GET['page'];
+        $_POST['rowCount'] = $rowCount;
+        $total = Video::getTotalVideos("viewableNotAd");
+        $totalPages = ceil($total / $_POST['rowCount']);
+        $page = $_GET['page'];
+        if ($totalPages < $_GET['page']) {
+            $page = $totalPages;
+            $_POST['current'] = $totalPages;
+        }
+        $videos = Video::getAllVideos();
+        createGallerySection($videos);
+        ?>
+        <div class="col-sm-12">
+            <ul id="<?php echo $paggingId; ?>">
+            </ul>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#<?php echo $paggingId; ?>').bootpag({
+                total: <?php echo $totalPages; ?>,
+                page: <?php echo $page; ?>,
+                maxVisible: 10
+            }).on('page', function (event, num) {
+    <?php echo 'var args = "' . $args . '";'; ?>
+                window.location.replace("<?php echo $url; ?>" + num + args);
+            });
+        });
+    </script>    
+    <?php
+}
+
 function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     $upDown = "";
     $mostLess = "";
@@ -31,10 +104,8 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGalerySection($videos) {
+function createGallerySection($videos) {
     global $global, $config, $obj;
-    ?>
-    <?php
     $countCols = 0;
 
     foreach ($videos as $value) {
@@ -68,13 +139,27 @@ function createGalerySection($videos) {
 
             <div class="text-muted galeryDetails">
                 <div>
-                    <?php
-                    $value['tags'] = Video::getTags($value['id']);
-                    foreach ($value['tags'] as $value2) {
-                        if ($value2->label === __("Group")) {
-                            ?>
-                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                    <?php if (empty($_GET['catName'])) { ?>
+                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
                             <?php
+                            if (!empty($value['iconClass'])) {
+                                ?>
+                                <i class="<?php echo $value['iconClass']; ?>"></i> 
+                                <?php
+                            }
+                            ?>
+                            <?php echo $value['category']; ?>
+                        </a>
+                    <?php } ?>
+                    <?php
+                    if (!empty($obj->showTags)) {
+                        $value['tags'] = Video::getTags($value['id']);
+                        foreach ($value['tags'] as $value2) {
+                            if ($value2->label === __("Group")) {
+                                ?>
+                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                <?php
+                            }
                         }
                     }
                     ?>
@@ -85,13 +170,6 @@ function createGalerySection($videos) {
                         <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                     </span>
                 </div>
-                <?php if (empty($_GET['catName'])) { ?>
-                    <div>
-                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
-                            <?php echo $value['category']; ?>
-                        </a>
-                    </div>
-                <?php } ?>
                 <div>
                     <i class="fa fa-clock-o"></i>
                     <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -101,7 +179,7 @@ function createGalerySection($videos) {
                     <a class="text-muted" href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $value['users_id']; ?>/">
                         <?php echo $name; ?>
                     </a>
-                    <?php if ((!empty($value['description'])) && ($obj->Description)) { ?>
+                    <?php if ((!empty($value['description'])) && !empty($obj->Description)) { ?>
                         <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?> </div>" ><?php echo __("Description"); ?></button>
                     <?php } ?>
                 </div>
@@ -130,6 +208,7 @@ function createGalerySection($videos) {
             </div>
         </div>
     <?php } ?>
+
     <?php
 }
 ?>

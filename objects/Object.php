@@ -223,7 +223,7 @@ abstract class ObjectYPT implements ObjectInterface {
             $lifetime = intval($_GET['lifetime']);
         }
         if (file_exists($cachefile) && time() - $lifetime <= filemtime($cachefile)) {
-            $c = @file_get_contents($cachefile);
+            $c = @url_get_contents($cachefile);
             return json_decode($c);
         } else if (file_exists($cachefile)) {
             unlink($cachefile);

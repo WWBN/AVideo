@@ -15,7 +15,6 @@ $obj = $plugin->getDataObject();
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title>Support Author</title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script" />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -29,7 +28,7 @@ $obj = $plugin->getDataObject();
         <div class="container">
 
             <div class="panel panel-default">
-                <div class="panel-heading">Wallets Admin</div>
+                <div class="panel-heading">Total Site Balance: <b><?php echo YPTWallet::getTotalBalanceText(); ?></b></div>
                 <div class="panel-body">
 
                     <table id="grid" class="table table-condensed table-hover table-striped">
@@ -84,7 +83,7 @@ $obj = $plugin->getDataObject();
                     formatters: {
                         "commands": function (column, row) {
                             var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                            var history = '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/history.php?users_id=' + row.id + '" class="btn btn-default btn-xs command-history"   data-toggle="tooltip" data-placement="left" title="History""><span class="fa fa-history" aria-hidden="true"></span></a>';
+                            var history = '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/history.php?users_id=' + row.users_id + '" class="btn btn-default btn-xs command-history"   data-toggle="tooltip" data-placement="left" title="History""><span class="fa fa-history" aria-hidden="true"></span></a>';
                             //return editBtn + deleteBtn;
                             return editBtn + history;
                         },

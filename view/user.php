@@ -7,7 +7,7 @@ $tagsStr = "";
 foreach ($tags as $value) {
     $tagsStr .= "<span class=\"label label-{$value->type} fix-width\">{$value->text}</span>";
 }
-$json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
+$json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
 ?>
@@ -23,9 +23,7 @@ $advancedCustom = json_decode($json_file);
     </head>
 
     <body>
-        <?php
-        include 'include/navbar.php';
-        ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid">
             <?php
@@ -101,7 +99,9 @@ $advancedCustom = json_decode($json_file);
                                 <div class="form-group">
                                     <div class="col-md-12 ">
                                         <div id="croppie"></div>
-                                        <a id="upload-btn" class="btn btn-primary btn-xs btn-block"><?php echo __("Upload a Photo"); ?></a>
+                                        <center>
+                                            <a id="upload-btn" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo __("Upload a Photo"); ?></a>
+                                        </center>
                                     </div>
                                     <input type="file" id="upload" value="Choose a file" accept="image/*" style="display: none;" />
                                 </div>
@@ -109,7 +109,9 @@ $advancedCustom = json_decode($json_file);
                                 <div class="form-group">
                                     <div class="col-md-12 ">
                                         <div id="croppieBg"></div>
-                                        <a id="upload-btnBg" class="btn btn-success btn-xs btn-block"><?php echo __("Upload a Background"); ?></a>
+                                        <center>
+                                            <a id="upload-btnBg" class="btn btn-success"><i class="fa fa-upload"></i> <?php echo __("Upload a Background"); ?></a>
+                                        </center>
                                     </div>
                                     <input type="file" id="uploadBg" value="Choose a file" accept="image/*" style="display: none;" />
                                 </div>
@@ -117,9 +119,11 @@ $advancedCustom = json_decode($json_file);
 
                                 <!-- Button -->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"></label>
-                                    <div class="col-md-8">
-                                        <button type="submit" class="btn btn-primary" ><?php echo __("Save"); ?> <span class="glyphicon glyphicon-save"></span></button>
+                                    <hr>
+                                    <div class="col-md-12">
+                                        <center>
+                                            <button type="submit" class="btn btn-primary btn-lg" ><?php echo __("Save"); ?> <span class="fa fa-save"></span></button>
+                                        </center>
                                     </div>
                                 </div>
                             </fieldset>
@@ -371,7 +375,7 @@ $advancedCustom = json_decode($json_file);
                                         modal.hidePleaseWait();
                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                                     } else {
-                                        document.location = '<?php echo!empty($_SERVER["HTTP_REFERER"]) ? $refererUrl : $global['webSiteRootURL']; ?>'
+                                        document.location = '<?php echo $global['webSiteRootURL']; ?>'
                                     }
                                 }
                             });
@@ -427,7 +431,7 @@ $advancedCustom = json_decode($json_file);
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
     </body>

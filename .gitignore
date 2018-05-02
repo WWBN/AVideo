@@ -1,7 +1,6 @@
 /nbproject/private/
 /videos/
 /nbproject/
-/docker/
 /plugin/LiveOnlineUsers/
 /plugin/LiveUsers/
 /plugin/VideoResolutionSwitcher/
@@ -28,6 +27,9 @@
 /plugin/SubtitleSwitcher/
 /plugin/AWS_S3/
 /plugin/SignUpAgreement/
-/plugin/YPTWallet/plugins/YPTWalletPayPal/
 /plugin/PromoteVideos/
 /plugin/Livesearch/
+/plugin/AudioVisualizer/
+/plugin/Notifications/
+/plugin/DIY/
+/plugin/AutoShare/

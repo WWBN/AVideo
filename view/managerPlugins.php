@@ -146,12 +146,12 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container-fluid">
                     <?php
-        include 'include/updateCheck.php';
+        include $global['systemRootPath'] . 'view/include/updateCheck.php';
         ?>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#menu0"><i class="fa fa-plug"></i> Installed Plugins</a></li>
