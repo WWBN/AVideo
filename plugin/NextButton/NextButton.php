@@ -15,8 +15,17 @@ class NextButton extends PluginAbstract {
 
     public function getUUID() {
         return "5310b394-b54f-48ab-9049-995df4d95239";
+    }   
+    
+    public function getHeadCode() {
+        global $global, $autoPlayVideo;
+        if (!empty($autoPlayVideo['url'])) {
+            $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/NextButton/style.css" rel="stylesheet" type="text/css"/>';
+            $css .= '<style></style>';
+            return $css;
+        }
+        
     }    
-
     public function getFooterCode() {
         global $global, $autoPlayVideo;
         if (!empty($autoPlayVideo['url'])) {

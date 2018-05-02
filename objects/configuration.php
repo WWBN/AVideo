@@ -282,11 +282,15 @@ class Configuration {
 
     static function rewriteConfigFile() {
         global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase;
+        if(empty($global['salt'])){
+            $global['salt'] = uniqid();
+        }
         $content = "<?php
 \$global['disableAdvancedConfigurations'] = 0;
 \$global['videoStorageLimitMinutes'] = 0;
 \$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$global['systemRootPath']}';
+\$global['salt'] = '{$global['salt']}';
 
 \$mysqlHost = '{$mysqlHost}';
 \$mysqlUser = '{$mysqlUser}';

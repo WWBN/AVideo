@@ -176,7 +176,7 @@ function createGallerySection($videos) {
                 </div>
                 <div>
                     <i class="fa fa-user"></i>
-                    <a class="text-muted" href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $value['users_id']; ?>/">
+                    <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>/">
                         <?php echo $name; ?>
                     </a>
                     <?php if ((!empty($value['description'])) && !empty($obj->Description)) { ?>

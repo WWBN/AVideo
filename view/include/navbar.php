@@ -71,7 +71,7 @@ $updateFiles = getUpdatesFilesArray();
 
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
-                                    <span class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon)?$advancedCustom->uploadButtonDropdownIcon:"fa fa-video-camera"; ?>"></span> <?php echo !empty($advancedCustom->uploadButtonDropdownText)?$advancedCustom->uploadButtonDropdownText:""; ?> <span class="caret"></span>
+                                    <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon)?$advancedCustom->uploadButtonDropdownIcon:"fa fa-video-camera"; ?>"></i> <?php echo !empty($advancedCustom->uploadButtonDropdownText)?$advancedCustom->uploadButtonDropdownText:""; ?> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                     <?php
@@ -207,7 +207,7 @@ $updateFiles = getUpdatesFilesArray();
                     <li>
 
                         <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>channel/<?php echo User::getId(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
+                            <a href="<?php echo User::getChannelLink(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
                                 <span class="fa fa-youtube-play"></span>
                                 <?php echo __("My Channel"); ?>
                             </a>

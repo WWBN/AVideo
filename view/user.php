@@ -62,11 +62,46 @@ $advancedCustom = json_decode($json_file);
 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
-                                    <div class="col-md-8 inputGroupContainer">
+                                    <div class="col-md-6 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                             <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="<?php echo $user->getEmail(); ?>" required >
                                         </div>
+                                    </div>                                    
+                                    <div class="col-md-2">
+                                        <?php
+                                        if ($user->getEmailVerified()) {
+                                            ?>
+                                            <span class="btn btn-success"><i class="fa fa-check"></i> <?php echo __("E-mail Verified"); ?></span>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <button class="btn btn-warning" id="verifyEmail"><i class="fa fa-envelope"></i> <?php echo __("Verify e-mail"); ?></button>
+
+                                            <script>
+                                                $(document).ready(function () {
+
+                                                    $('#verifyEmail').click(function (e) {
+                                                        e.preventDefault();
+                                                        modal.showPleaseWait();
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "<?php echo $global['webSiteRootURL'] ?>objects/userVerifyEmail.php?users_id=<?php echo $user->getBdId(); ?>"
+                                                        }).done(function (response) {
+                                                            if(response.error){
+                                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                            }else{
+                                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
+                                                            }
+                                                            modal.hidePleaseWait();
+                                                        });
+                                                    });
+
+                                                });
+                                            </script>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
 
@@ -86,6 +121,16 @@ $advancedCustom = json_decode($json_file);
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                             <input  id="inputPasswordConfirm" placeholder="<?php echo __("Confirm New Password"); ?>" class="form-control"  type="password" value="" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Channel Name"); ?></label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-youtube-play"></i></span>
+                                            <input  id="channelName" placeholder="<?php echo __("Channel Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getChannelName(); ?>" >
                                         </div>
                                     </div>
                                 </div>
@@ -182,9 +227,9 @@ $advancedCustom = json_decode($json_file);
                                 height: 300
                             }
                         });
-                        setTimeout(function(){
+                        setTimeout(function () {
                             uploadCrop.croppie('setZoom', 1);
-                        },1000);
+                        }, 1000);
 
                         uploadCropBg = $('#croppieBg').croppie({
                             url: '<?php echo $user->getBackgroundURL(); ?>',
@@ -200,9 +245,9 @@ $advancedCustom = json_decode($json_file);
                                 height: 300
                             }
                         });
-                        setTimeout(function(){
+                        setTimeout(function () {
                             uploadCropBg.croppie('setZoom', 1);
-                        },1000);
+                        }, 1000);
                         $('#updateUserForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
@@ -217,11 +262,12 @@ $advancedCustom = json_decode($json_file);
                                 $.ajax({
                                     url: 'updateUser',
                                     data: {
-                                        "user": $('#inputUser').val(), 
-                                        "pass": $('#inputPassword').val(), 
-                                        "email": $('#inputEmail').val(), 
-                                        "name": $('#inputName').val(), 
-                                        "about": $('#textAbout').val()
+                                        "user": $('#inputUser').val(),
+                                        "pass": $('#inputPassword').val(),
+                                        "email": $('#inputEmail').val(),
+                                        "name": $('#inputName').val(),
+                                        "about": $('#textAbout').val(),
+                                        "channelName": $('#channelName').val()
                                     },
                                     type: 'post',
                                     success: function (response) {
@@ -253,6 +299,9 @@ $advancedCustom = json_decode($json_file);
                                                     });
                                                 });
                                             });
+                                        } else if (response.error) {
+                                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                            modal.hidePleaseWait();
                                         } else {
                                             swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
                                             modal.hidePleaseWait();
@@ -356,12 +405,11 @@ $advancedCustom = json_decode($json_file);
         ?>
                             swal("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
         <?php
-
     }
-        $refererUrl = $_SERVER["HTTP_REFERER"];
-        if(strpos($_SERVER["HTTP_REFERER"],"?error=".__("You%20can%20not%20manage"))!=false){
-            $refererUrl = substr($_SERVER["HTTP_REFERER"],0,strpos($_SERVER["HTTP_REFERER"],"?"));
-        }
+    $refererUrl = $_SERVER["HTTP_REFERER"];
+    if (strpos($_SERVER["HTTP_REFERER"], "?error=" . __("You%20can%20not%20manage")) != false) {
+        $refererUrl = substr($_SERVER["HTTP_REFERER"], 0, strpos($_SERVER["HTTP_REFERER"], "?"));
+    }
     ?>
                         $('#loginForm').submit(function (evt) {
                             evt.preventDefault();
@@ -373,7 +421,11 @@ $advancedCustom = json_decode($json_file);
                                 success: function (response) {
                                     if (!response.isLogged) {
                                         modal.hidePleaseWait();
-                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
+                                        if(response.error){
+                                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                        }else{
+                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
+                                        }
                                     } else {
                                         document.location = '<?php echo $global['webSiteRootURL']; ?>'
                                     }
