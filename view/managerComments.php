@@ -21,20 +21,20 @@ require_once $global['systemRootPath'] . 'objects/comment.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container">
                     <?php
-        include 'include/updateCheck.php';
+        include $global['systemRootPath'] . 'view/include/updateCheck.php';
         ?>
             <?php
-            include './videoComments.php';
+            include $global['systemRootPath'] . 'view/videoComments.php';
             ?>
 
         </div><!--/.container-->
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
     </body>
 </html>

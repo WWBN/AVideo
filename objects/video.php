@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
-
+if (!class_exists('Video')) {
 class Video {
 
     private $id;
@@ -54,7 +54,7 @@ class Video {
             $this->load($id);
         }
         if (!empty($title)) {
-            $this->title = $title;
+            $this->setTitle($title);
         }
         if (!empty($filename)) {
             $this->filename = $filename;
@@ -121,8 +121,8 @@ class Video {
                 $this->categories_id = 1;
             }
         }
-        $this->title = $global['mysqli']->real_escape_string(trim($this->title));
-        $this->description = $global['mysqli']->real_escape_string($this->description);
+        $this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
+        $this->setDescription($global['mysqli']->real_escape_string($this->description));
         $this->next_videos_id = intval($this->next_videos_id);
         if (empty($this->next_videos_id)) {
             $this->next_videos_id = 'NULL';
@@ -173,8 +173,12 @@ class Video {
         if ($config->currentVersionLowerThen('5.01')) {
             return false;
         }
-        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '" . $catId . "';";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $catId);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
         $catTypeCache = $res->fetch_assoc();
         $videoFound = false;
         $audioFound = false;
@@ -182,8 +186,12 @@ class Video {
             // 3 means auto
             if ($catTypeCache['manualSet'] == "0") {
                 // start incremental search and save
-                $sql = "SELECT * FROM `videos` WHERE categories_id = '" . $catId . "';";
-                $res = $global['mysqli']->query($sql);
+                $sql = "SELECT * FROM `videos` WHERE categories_id = ?";
+                $stmt = $global['mysqli']->prepare($sql);
+                $stmt->bind_param('i', $catId);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                $stmt->close();
                 //$tmpVid = $res->fetch_assoc();
                 if ($res) {
                     while ($row = $res->fetch_assoc()) {
@@ -339,9 +347,14 @@ class Video {
         if (!empty($this->id)) {
             global $global;
             $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
-            if (!$global['mysqli']->query($sql)) {
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('s', $fileName);
+            $stmt->execute();
+            if ($global['mysqli']->errno!=0) {
+                $stmt->close();
                 die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            $stmt->close();
         }
         $this->status = $status;
     }
@@ -459,10 +472,12 @@ class Video {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
         if (!empty($_SESSION['type'])) {
-            $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            if($_SESSION['type']=='video'){
+                $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+            }else{            
+                $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            }
         }
-
-
 
         if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
@@ -525,9 +540,12 @@ class Video {
     static function getVideoFromFileName($fileName) {
         global $global;
 
-        $sql = "SELECT id  FROM videos  WHERE filename = '{$fileName}' LIMIT 1";
-        //echo $sql;
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT id  FROM videos  WHERE filename = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('s', $fileName);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
         if ($res) {
             $video = $res->fetch_assoc();
             if (!empty($video['id'])) {
@@ -591,7 +609,11 @@ class Video {
             $sql .= self::getUserGroupsCanSeeSQL();
         }
         if (!empty($_SESSION['type'])) {
-            $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            if($_SESSION['type']=='video'){
+                $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+            }else{            
+                $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            }
         }
 
         if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
@@ -694,7 +716,13 @@ class Video {
         if (!empty($_GET['catName'])) {
             $sql .= " AND cn = '{$_GET['catName']}'";
         }
-
+        if (!empty($_SESSION['type'])) {
+            if($_SESSION['type']=='video'){
+                $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+            }else{            
+                $sql .= " AND v.type = '{$_SESSION['type']}' ";
+            }
+        }
         $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
         //echo $sql;exit;
         $res = $global['mysqli']->query($sql);
@@ -751,7 +779,7 @@ class Video {
 
         foreach (self::$types as $value) {
             $progressFilename = "{$global['systemRootPath']}videos/{$filename}_progress_{$value}.txt";
-            $content = @file_get_contents($progressFilename);
+            $content = @url_get_contents($progressFilename);
             $object->$value = new stdClass();
             if (!empty($content)) {
                 $object->$value = self::parseProgress($content);
@@ -873,7 +901,7 @@ class Video {
             return false;
         }
         // Streamlined for less coding space.
-        $files = glob("{$filePath}.*");
+        $files = glob("{$filePath}*");
         foreach ($files as $file) {
             if (file_exists($file)) {
                 @unlink($file);
@@ -882,7 +910,7 @@ class Video {
     }
 
     function setDescription($description) {
-        $this->description = $description;
+        $this->description = strip_tags($description);
     }
 
     function setCategories_id($categories_id) {
@@ -963,10 +991,14 @@ class Video {
             $this->duration = Video::getDurationFromFile($file);
             error_log("Duration Updated: " . print_r($this, true));
 
-            $sql = "UPDATE videos SET duration = '{$this->duration}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE videos SET duration = ?, modified = now() WHERE id = ?";
 
-            $global['mysqli']->query($sql);
-
+            //$global['mysqli']->query($sql);
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('si', $this->duration,$this->id);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $stmt->close();
             return $this->id;
         } else {
             error_log("Do not need update duration: " . print_r($this, true));
@@ -1239,10 +1271,41 @@ class Video {
                 return false;
             }
         }
-        $sql = "SELECT * FROM videos WHERE id = {$videos_id} AND users_id = $users_id ";
-        $sql .= " LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        return !empty($res->num_rows);
+        
+        $video_owner = self::getOwner($videos_id);
+        if($video_owner){
+            if($video_owner == $users_id){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * @global type $global
+     * @param type $videos_id
+     * @param type $users_id if is empty will use the logged user
+     * @return boolean
+     */
+    static function getOwner($videos_id) {
+        global $global;
+        $sql = "SELECT users_id FROM videos WHERE id = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $videos_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close(); 
+        if ($res) {
+            require_once 'userGroups.php';
+            if ($row = $res->fetch_assoc()) {
+                return $row['users_id'];
+            }
+        } else {
+            $videos = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return false;
     }
 
     /**
@@ -1325,7 +1388,7 @@ class Video {
     }
 
     function setTitle($title) {
-        $this->title = $title;
+        $this->title = strip_tags($title);
     }
 
     function setFilename($filename) {
@@ -1412,9 +1475,14 @@ class Video {
                 $includeS3 = true;
             }
         }
+        $token = "";
+        $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+        if (!empty($secure)) {
+            $token = "?".$secure->getToken($filename);
+        }
         $source = array();
         $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
-        $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}";
+        $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
         /* need it because getDurationFromFile */
         if ($includeS3 && ($type == ".mp4" || $type == ".webm")) {
             if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
@@ -1506,11 +1574,15 @@ class Video {
     static function get_clean_title($videos_id) {
         global $global;
 
-        $sql = "SELECT * FROM videos WHERE id = {$videos_id} LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
+        $sql = "SELECT * FROM videos WHERE id = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $videos_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();  
         if ($res) {
             if ($row = $res->fetch_assoc()) {
+                
                 return $row['clean_title'];
             }
         } else {
@@ -1523,9 +1595,12 @@ class Video {
     static function get_id_from_clean_title($clean_title) {
         global $global;
 
-        $sql = "SELECT * FROM videos WHERE clean_title = {$clean_title} LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
+        $sql = "SELECT * FROM videos WHERE clean_title = ? LIMIT 1";
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('s', $clean_title);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close(); 
         if ($res) {
             if ($row = $res->fetch_assoc()) {
                 return $row['id'];
@@ -1549,7 +1624,7 @@ class Video {
     static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly") {
         global $global;
         if ($type == "URLFriendly") {
-            if (!empty($videos_id) && empty(empty($clean_title))) {
+            if (!empty($videos_id) && empty($clean_title)) {
                 $clean_title = self::get_clean_title($videos_id);
             }
             if ($embed) {
@@ -1558,7 +1633,7 @@ class Video {
                 return "{$global['webSiteRootURL']}video/{$clean_title}";
             }
         } else {
-            if (empty($videos_id) && !empty(empty($clean_title))) {
+            if (empty($videos_id) && !empty($clean_title)) {
                 $videos_id = self::get_id_from_clean_title($clean_title);
             }
             if ($embed) {
@@ -1599,9 +1674,13 @@ class Video {
     static function getTotalVideosThumbsUpFromUser($users_id, $startDate, $endDate) {
         global $global;
 
-        $sql = "SELECT id from videos  WHERE users_id = {$users_id}  ";
+        $sql = "SELECT id from videos  WHERE users_id = ?  ";
 
-        $res = $global['mysqli']->query($sql);
+        $stmt = $global['mysqli']->prepare($sql);
+        $stmt->bind_param('i', $users_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close(); 
 
         $r = array('thumbsUp' => 0, 'thumbsDown' => 0);
 
@@ -1652,7 +1731,7 @@ class Video {
     }
 
 }
-
+}
 // just to convert permalink into clean_title
 if (!empty($_GET['v']) && empty($_GET['videoName'])) {
     $_GET['videoName'] = Video::get_clean_title($_GET['v']);

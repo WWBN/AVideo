@@ -5,8 +5,8 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-if (!User::isAdmin()) {
-    die("Is not admin");
+if (!User::isLogged()) {
+    die("Is not logged");
 }
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
 if(empty($plugin)){
@@ -15,13 +15,8 @@ if(empty($plugin)){
 
 header('Content-Type: application/json');
 
-$users = User::getAllUsers();
+$users = $plugin->getAllUsers();
 
-foreach ($users as $key => $value) {
-    $users[$key]['balance'] = $plugin->getBalance($value['id']);
-    $users[$key]['photo'] = User::getPhoto($value['id']);
-}
-
-$total = User::getTotalUsers();
+$total = User::getTotalUsers(true);
 
 echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($users).'}';

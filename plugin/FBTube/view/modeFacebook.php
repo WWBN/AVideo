@@ -12,7 +12,6 @@ require_once '../videos/configuration.php';
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $config->getWebSiteTitle(); ?></title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script" />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -37,7 +36,7 @@ require_once '../videos/configuration.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
             <div class="col-lg-2 col-md-1 col-sm-1 hidden-xs"></div>
@@ -57,7 +56,7 @@ require_once '../videos/configuration.php';
 
         </div>
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
         <script>

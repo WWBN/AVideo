@@ -25,7 +25,7 @@ $obj->setClean_Title($_POST['clean_title']);
 if(!empty($_POST['videoLink'])){    
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
     if(empty($_POST['id'])){
-        $info = file_get_contents($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));
+        $info = url_get_contents($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));
         $infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
         $obj->setFilename($filename);

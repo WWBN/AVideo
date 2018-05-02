@@ -7,9 +7,14 @@ $total = Category::getTotalCategories();
 $breaks = array("<br />","<br>","<br/>");  
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";     
-    $categories[$key]['description'] = str_ireplace($breaks, "\r\n", $value['description']); 
-    $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$value['id']."';";
-    $res = $global['mysqli']->query($sql);
+    $categories[$key]['description'] = str_ireplace($breaks, "\r\n", $value['description']);
+    $stmt = $global['mysqli']->prepare("SELECT * FROM `category_type_cache` WHERE categoryId = ?");
+    $stmt->bind_param('i', $value['id']);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $stmt->close();
+    //$sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$value['id']."';";
+    //$res = $global['mysqli']->query($sql);
     $catTypeCache = $res->fetch_assoc();
     if($catTypeCache){
     if($catTypeCache['manualSet']=="0"){

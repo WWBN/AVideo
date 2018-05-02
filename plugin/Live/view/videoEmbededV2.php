@@ -10,6 +10,10 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $t['key'];
 $p = YouPHPTubePlugin::loadPlugin("Live");
+$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
+if (!empty($objSecure->disableEmbedMode)) {
+    die('Embed Mode disabled');
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -58,15 +62,15 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
                         <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
                     </video>
-                <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
-                    <?php 
+                    <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
+                        <?php
                         $streamName = $uuid;
-                        include $global['systemRootPath'].'plugin/Live/view/onlineLabel.php';
-                        include $global['systemRootPath'].'plugin/Live/view/onlineUsers.php';
-                    ?>
+                        include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
+                        include $global['systemRootPath'] . 'plugin/Live/view/onlineUsers.php';
+                        ?>
+                    </div>
                 </div>
-                </div>
-                
+
                 <?php
                 echo $config->getAdsense();
                 ?>
@@ -89,6 +93,23 @@ $p = YouPHPTubePlugin::loadPlugin("Live");
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
+        <script>
+
+            $(document).ready(function () {
+                player = videojs('mainVideo');
+                player.ready(function () {
+<?php
+if ($config->getAutoplay()) {
+    echo "this.play();";
+}
+?>
+
+                });
+                player.persistvolume({
+                    namespace: "YouPHPTube"
+                });
+            });
+        </script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
         echo YouPHPTubePlugin::getFooterCode();

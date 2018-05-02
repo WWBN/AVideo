@@ -1,5 +1,10 @@
 <?php
-
+// make sure SecureVideosDirectory will be the first
+function cmpPlugin($a, $b) { 
+    if ($a['name']=='SecureVideosDirectory')
+        return -1;
+    return 1;
+}
 // Returns a file size limit in bytes based on the PHP upload_max_filesize
 // and post_max_size
 function file_upload_max_size() {
@@ -294,7 +299,17 @@ function getSecondsTotalVideosLength() {
     $configFile = dirname(__FILE__) . '/../videos/configuration.php';
     require_once $configFile;
     global $global;
+
+    if (!User::isLogged()) {
+        return 0;
+    }
     $sql = "SELECT * FROM videos v ";
+
+    if (!User::isAdmin()) {
+        $id = User::getId();
+        $sql .= " WHERE users_id = {$id} ";
+    }
+
     $res = $global['mysqli']->query($sql);
     $seconds = 0;
     while ($row = $res->fetch_assoc()) {
@@ -463,7 +478,7 @@ function parseVideos($videoString = null) {
 
         $id = $matches[2];
         return '//player.twitch.tv/?video=' . $id . '#';
-    }else if (strpos($link, 'twitch.tv') !== FALSE) {
+    } else if (strpos($link, 'twitch.tv') !== FALSE) {
         //extract the ID
         preg_match(
                 '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches
@@ -471,7 +486,7 @@ function parseVideos($videoString = null) {
 
         $id = $matches[2];
         return '//player.twitch.tv/?channel=' . $id . '#';
-    }   else if (strpos($link, '/video/') !== FALSE) {
+    } else if (strpos($link, '/video/') !== FALSE) {
         //extract the ID
         preg_match(
                 '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches
@@ -545,10 +560,10 @@ function getVideosURL($fileName) {
 function getSources($fileName, $returnArray = false) {
     $name = "getSources_{$fileName}_" . intval($returnArray);
     /*
-    $cached = ObjectYPT::getCache($name, 86400); //one day
-    if (!empty($cached)) {
-        return $cached->result;
-    }
+      $cached = ObjectYPT::getCache($name, 86400); //one day
+      if (!empty($cached)) {
+      return $cached->result;
+      }
      * 
      */
     if ($returnArray) {
@@ -621,34 +636,34 @@ function getimgsize($file_src) {
 }
 
 function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
-    if(empty($file_dest)){
+    if (empty($file_dest)) {
         return false;
     }
-    if (!file_exists($file_src)){
+    if (!file_exists($file_src)) {
         error_log("im_resize: Source not found: {$file_src}");
         return false;
     }
     $size = getimgsize($file_src);
-    if ($size === false){
+    if ($size === false) {
         error_log("im_resize: Could not get image size: {$file_src}");
-        return false;        
+        return false;
     }
     if ($size['mime'] == 'image/pjpeg')
         $size['mime'] = 'image/jpeg';
 
     $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
-    if(empty($format)){
+    if (empty($format)) {
         $format = 'jpeg';
     }
     $destformat = strtolower(substr($file_dest, -4));
-    if(empty($destformat)){
+    if (empty($destformat)) {
         error_log("destformat not found {$file_dest}");
         $destformat = ".jpg";
     }
     $icfunc = "imagecreatefrom" . $format;
-    if (!function_exists($icfunc)){
+    if (!function_exists($icfunc)) {
         error_log("im_resize: Function does not exists: {$icfunc}");
-        return false;        
+        return false;
     }
 
     $src = $icfunc($file_src);
@@ -694,7 +709,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
 
     imagecopyresampled($dest, $src, 0, 0, ($ws - $wc) / 2, ($hs - $hc) / 2, $wd, $hd, $wc, $hc);
     $saved = false;
-   if ($destformat == '.png')
+    if ($destformat == '.png')
         $saved = imagepng($dest, $file_dest);
     if ($destformat == '.jpg')
         $saved = imagejpeg($dest, $file_dest, $q);
@@ -785,7 +800,7 @@ if (!function_exists('mime_content_type')) {
             'odt' => 'application/vnd.oasis.opendocument.text',
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         );
-        
+
         $explode = explode('.', $filename);
         $ext = strtolower(array_pop($explode));
         if (array_key_exists($ext, $mime_types)) {
@@ -802,34 +817,75 @@ if (!function_exists('mime_content_type')) {
 
 }
 
-function combineFiles($filesArray, $extension = "js"){
+function combineFiles($filesArray, $extension = "js") {
     global $global;
     $cacheDir = $global['systemRootPath'] . 'videos/cache/';
-    if(!is_dir($cacheDir)){
+    if (!is_dir($cacheDir)) {
         mkdir($cacheDir, 0777, true);
     }
     $str = "";
     $fileName = "";
     foreach ($filesArray as $value) {
         $fileName .= $value;
-    }    
-    $md5FileName = md5($fileName).".{$extension}";
-    if(!file_exists($cacheDir.$md5FileName)){
-        foreach ($filesArray as $value) {
-            $str .= "\n/*{$value}*/\n".file_get_contents($value);
-        }
-        file_put_contents($cacheDir.$md5FileName, $str);
     }
-    return  $global['webSiteRootURL'] . 'videos/cache/'.$md5FileName;
-    
+    $md5FileName = md5($fileName) . ".{$extension}";
+    if (!file_exists($cacheDir . $md5FileName)) {
+        foreach ($filesArray as $value) {
+            $str .= "\n/*{$value}*/\n" . url_get_contents($value);
+        }
+        file_put_contents($cacheDir . $md5FileName, $str);
+    }
+    return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
 }
 
-function getUpdatesFilesArray(){
+function combineFiles_local($filesArray, $extension = "js") {
+    global $global;
+    $cacheDir = $global['systemRootPath'] . 'videos/cache/';
+    if (!is_dir($cacheDir)) {
+        mkdir($cacheDir, 0777, true);
+    }
+    $str = "";
+    $fileName = "";
+    foreach ($filesArray as $value) {
+        $fileName .= $value;
+    }
+    $md5FileName = md5($fileName) . ".{$extension}";
+    if (!file_exists($cacheDir . $md5FileName)) {
+        foreach ($filesArray as $value) {
+            $str .= "\n/*{$value}*/\n" . local_get_contents($value);
+        }
+        file_put_contents($cacheDir . $md5FileName, $str);
+    }
+    return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
+}
+
+function local_get_contents($path){
+    $myfile = fopen($path, "r") or die("Unable to open file!");
+    $text = fread($myfile,filesize($path));
+    fclose($myfile);
+    return $text;
+}
+
+function url_get_contents($Url) {
+    if (ini_get('allow_url_fopen')) {
+        return file_get_contents($Url);
+    } else if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+    return file_get_contents($Url);
+}
+
+function getUpdatesFilesArray() {
     global $config, $global;
-    if(!class_exists('User') || !User::isAdmin()){
+    if (!class_exists('User') || !User::isAdmin()) {
         return array();
     }
-    $files1 = scandir($global['systemRootPath']."update");
+    $files1 = scandir($global['systemRootPath'] . "update");
     $updateFiles = array();
     foreach ($files1 as $value) {
         preg_match("/updateDb.v([0-9.]*).sql/", $value, $match);

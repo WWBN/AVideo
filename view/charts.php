@@ -73,7 +73,6 @@ foreach ($videos as $value) {
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title>Chart - <?php echo $config->getWebSiteTitle(); ?></title>
-        <meta name="generator" content="YouPHPTube - A Free Youtube Clone Script " />
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -125,7 +124,7 @@ foreach ($videos as $value) {
     </head>
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
 //var_dump($videos);
         ?>
         <div class="container-fluid">
@@ -164,7 +163,7 @@ foreach ($videos as $value) {
         <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.js" type="text/javascript"></script>
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
         <script type="text/javascript">

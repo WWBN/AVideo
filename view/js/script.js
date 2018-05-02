@@ -210,9 +210,6 @@ function subscribe(email, user_id) {
             'user_id': user_id
         },
         success: function (response) {
-            console.log(response);
-
-
             if (response.subscribe == "i") {
                 $('.subs' + user_id).removeClass("subscribed");
                 $('.subs' + user_id + ' b.text').text("Subscribe");
@@ -224,6 +221,26 @@ function subscribe(email, user_id) {
             }
             $('#popover-content #subscribeEmail').val(email);
             $('.subscribeButton' + user_id).popover('hide');
+        }
+    });
+}
+
+function subscribeNotify(email, user_id) {
+    $.ajax({
+        url: webSiteRootURL + 'objects/subscribeNotify.json.php',
+        method: 'POST',
+        data: {
+            'email': email,
+            'user_id': user_id
+        },
+        success: function (response) {
+            if(response.notify){
+                $('.notNotify' + user_id).addClass("hidden");
+                $('.notify' + user_id).removeClass("hidden");
+            }else{
+                $('.notNotify' + user_id).removeClass("hidden");
+                $('.notify' + user_id).addClass("hidden");                
+            }
         }
     });
 }
@@ -290,7 +307,6 @@ function addView(videos_id) {
         },
         success: function (response) {
             $('.view-count' + videos_id).text(response.count);
-            console.log(response);
         }
     });
 }

@@ -32,6 +32,9 @@ class Cache extends PluginAbstract {
     }
     
     private function getFileName(){
+        if(empty($_SERVER['REQUEST_URI'])){
+            $_SERVER['REQUEST_URI'] = "";
+        }
         $obj = $this->getDataObject();
         $user = "";
         if(!empty($obj->enableCachePerUser)){
@@ -53,7 +56,7 @@ class Cache extends PluginAbstract {
                 $lifetime = intval($_GET['lifetime']);
             }            
             if (file_exists($cachefile) && time() - $lifetime <= filemtime($cachefile)) {
-                $c = @file_get_contents($cachefile);
+                $c = @url_get_contents($cachefile);
                 echo $c;
                 if ($obj->logPageLoadTime) {
                     $this->end("Cache");

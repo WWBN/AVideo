@@ -52,9 +52,9 @@ if (!empty($_GET['video_id'])) {
     </head>
 
     <body>
-        <?php include 'include/navbar.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container">
-        <?php include 'include/updateCheck.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
             <div class="btn-group" >
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
@@ -395,7 +395,7 @@ if (!empty($_GET['video_id'])) {
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 

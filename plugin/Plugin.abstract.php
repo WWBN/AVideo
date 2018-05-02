@@ -51,6 +51,10 @@ abstract class PluginAbstract {
     public function getTags() {
         
     }
+    
+    public function getGallerySection(){
+        return "";
+    }
 
     public function getDataObject() {
         $obj = Plugin::getPluginByUUID($this->getUUID());
@@ -68,6 +72,18 @@ abstract class PluginAbstract {
     }
 
     public function getFirstPage() {
+        return false;
+    }
+    
+    public function afterNewVideo($videos_id) {
+        return false;
+    }
+    
+    public function afterNewComment($comments_id) {
+        return false;
+    }
+    
+    public function afterNewResponse($comments_id) {
         return false;
     }
     
@@ -105,5 +121,10 @@ abstract class PluginAbstract {
     public function hidePlugin(){
         return false;
     }
+    
+    public function getChannelButton(){
+        return "";
+    }
+    
 
 }

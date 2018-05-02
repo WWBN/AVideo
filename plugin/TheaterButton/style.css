@@ -1,4 +1,7 @@
 .compress{
     position: absolute;
-    top: 50px;
+    top: 0;
+}
+footer{
+    margin-top: 100px;
 }
