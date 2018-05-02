@@ -39,6 +39,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showAdsenseBannerOnTop = false;
         $obj->showAdsenseBannerOnLeft = true;
         $obj->disableAnimatedGif = false;
+        $obj->unverifiedEmailsCanNOTLogin = false;
         $obj->uploadButtonDropdownIcon = "fa fa-video-camera";
         $obj->uploadButtonDropdownText = "";
         $obj->commentsMaxLength = 200;

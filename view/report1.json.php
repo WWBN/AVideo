@@ -34,7 +34,7 @@ foreach ($users as $key => $value) {
     }
     $item = array(
         'views'=>$views,
-        'channel'=>"<a href='{$global['webSiteRootURL']}channel/{$value['id']}'>{$identification}</a>"
+        'channel'=>"<a href='".User::getChannelLink($value['id'])."'>{$identification}</a>"
 
     );
     $rows[] = $item;

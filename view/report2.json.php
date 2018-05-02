@@ -30,7 +30,7 @@ foreach ($users as $key => $value) {
     $item = array(
         'thumbsUp'=>$thumbs['thumbsUp'],
         'thumbsDown'=>$thumbs['thumbsDown'],
-        'user'=>"<a href='{$global['webSiteRootURL']}channel/{$value['id']}'>{$identification}</a>"
+        'user'=>"<a href='".User::getChannelLink($value['id'])."'>{$identification}</a>"
 
     );
     $rows[] = $item;
