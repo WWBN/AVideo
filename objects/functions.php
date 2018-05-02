@@ -838,6 +838,34 @@ function combineFiles($filesArray, $extension = "js") {
     return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
 }
 
+function combineFiles_local($filesArray, $extension = "js") {
+    global $global;
+    $cacheDir = $global['systemRootPath'] . 'videos/cache/';
+    if (!is_dir($cacheDir)) {
+        mkdir($cacheDir, 0777, true);
+    }
+    $str = "";
+    $fileName = "";
+    foreach ($filesArray as $value) {
+        $fileName .= $value;
+    }
+    $md5FileName = md5($fileName) . ".{$extension}";
+    if (!file_exists($cacheDir . $md5FileName)) {
+        foreach ($filesArray as $value) {
+            $str .= "\n/*{$value}*/\n" . local_get_contents($value);
+        }
+        file_put_contents($cacheDir . $md5FileName, $str);
+    }
+    return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
+}
+
+function local_get_contents($path){
+    $myfile = fopen($path, "r") or die("Unable to open file!");
+    $text = fread($myfile,filesize($path));
+    fclose($myfile);
+    return $text;
+}
+
 function url_get_contents($Url) {
     if (ini_get('allow_url_fopen')) {
         return file_get_contents($Url);
