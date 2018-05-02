@@ -3,6 +3,12 @@ namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
+require_once dirname(__FILE__) . '/Objects/LiveChatObj.php';
+require_once dirname(__FILE__) . '/../YouPHPTubePlugin.php';
+
+$p = \YouPHPTubePlugin::loadPlugin("LiveChat");
+$canSendMessage = $p->canSendMessage();
+
 class Chat implements MessageComponentInterface {
     protected $clients;
 
@@ -17,6 +23,19 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
+        global $canSendMessage;
+        if(empty($canSendMessage)){
+            return false;
+        }
+        //var_dump($msg);
+        $lc = new \LiveChatObj(0);
+        $object = json_decode($msg);
+        $lc->setLive_stream_code($object->chatId);
+        $lc->setStatus('a');
+        $lc->setText($object->text);
+        $lc->setUsers_id($object->userId);
+        $lc->save();
+        
         $numRecv = count($this->clients) - 1;
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
