@@ -50,19 +50,19 @@ if (!empty($_GET['error'])) {
 <?php
     $jsFiles = array();
     //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/seetalert/sweetalert.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootpag/jquery.bootpag.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootgrid/jquery.bootgrid.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/script.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootstrap-toggle/bootstrap-toggle.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/js-cookie/js.cookie.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}css/flagstrap/js/jquery.flagstrap.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.plugins.min.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/js/seetalert/sweetalert.min.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/js/bootpag/jquery.bootpag.min.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/js/bootgrid/jquery.bootgrid.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/js/script.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/js/bootstrap-toggle/bootstrap-toggle.min.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/js/js-cookie/js.cookie.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/css/flagstrap/js/jquery.flagstrap.min.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/js/jquery.lazy/jquery.lazy.min.js";
+    $jsFiles[] = "{$global['systemRootPath']}view/js/jquery.lazy/jquery.lazy.plugins.min.js";
     //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/wavesurfer.min.js";
     //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
-    $jsURL =  combineFiles($jsFiles, "js");
+    $jsURL =  combineFiles_local($jsFiles, "js");
 
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
