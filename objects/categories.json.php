@@ -1,6 +1,7 @@
 <?php
 error_reporting(0);
 require_once 'category.php';
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $categories = Category::getAllCategories();
 $total = Category::getTotalCategories();
