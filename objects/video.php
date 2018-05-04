@@ -346,9 +346,9 @@ class Video {
     function setStatus($status) {
         if (!empty($this->id)) {
             global $global;
-            $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
+            $sql = "UPDATE videos SET status = ?, modified = now() WHERE id = ? ";
             $stmt = $global['mysqli']->prepare($sql);
-            //$stmt->bind_param('s', $fileName);
+            $stmt->bind_param('si', $status, $this->id);
             $stmt->execute();
             if ($global['mysqli']->errno!=0) {
                 $stmt->close();
