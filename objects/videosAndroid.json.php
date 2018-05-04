@@ -24,8 +24,9 @@ $total = Video::getTotalVideos("viewableNotAd");
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);
-    $videos[$key]['Poster'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".jpg";
-    $videos[$key]['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename']."_thumbs.jpg";
+    $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
+    $videos[$key]['Poster'] = $images->poster;
+    $videos[$key]['Thumbnail'] = $images->thumbsJpg;
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/".$videos[$key]['clean_title'];
