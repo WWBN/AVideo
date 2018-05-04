@@ -98,7 +98,7 @@ foreach ($videos as $key => $value) {
                     $img_portrait = "";
                 }
                 ?>
-                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  blur" height="130" />
+                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo !empty($img)?"blur":""; ?>" height="130" />
                 <?php
                 if (!empty($imgGif)) {
                     ?>
