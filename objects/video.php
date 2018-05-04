@@ -182,7 +182,7 @@ class Video {
         $catTypeCache = $res->fetch_assoc();
         $videoFound = false;
         $audioFound = false;
-        if ($catTypeCache) {
+        if (!empty($catTypeCache)) {
             // 3 means auto
             if ($catTypeCache['manualSet'] == "0") {
                 // start incremental search and save
@@ -368,10 +368,15 @@ class Video {
 
         if (!empty($this->id)) {
             global $global;
-            $sql = "UPDATE videos SET rotation = '{$saneRotation}', modified = now() WHERE id = {$this->id} ";
-            if (!$global['mysqli']->query($sql)) {
+            $sql = "UPDATE videos SET rotation = ?, modified = now() WHERE id = ? ";
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('si', $saneRotation, $this->id);
+            $stmt->execute();
+            if ($global['mysqli']->errno!=0) {
+                $stmt->close();
                 die('Error on update Rotation: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            $stmt->close();
         }
         $this->rotation = $saneRotation;
     }
