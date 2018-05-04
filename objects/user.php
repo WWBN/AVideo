@@ -821,7 +821,7 @@ class User {
         }else{
             $name = $user->getChannelName();
         }
-        $link = "{$global['webSiteRootURL']}channel/{$name}";
+        $link = "{$global['webSiteRootURL']}channel/".urlencode($name);
         return $link;
         
     }
