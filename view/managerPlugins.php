@@ -289,7 +289,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
         </div><!--/.container-->
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
         <script>

@@ -5,13 +5,13 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 $p = YouPHPTubePlugin::loadPlugin("Live");
 
 if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
-    include './view/videoEmbededV2.php';
+    include $global['systemRootPath'].'plugin/Live/view/videoEmbededV2.php';
     exit;
 } else if (!empty($_GET['u']) && !empty($_GET['embed'])) {
-    include './view/videoEmbeded.php';
+    include $global['systemRootPath'].'plugin/Live/view/videoEmbeded.php';
     exit;
 } else if (!empty($_GET['u'])) {
-    include './view/modeYoutubeLive.php';
+    include $global['systemRootPath'].'plugin/Live/view/modeYoutubeLive.php';
     exit;
 } else if (!User::canStream()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not stream live videos"));
@@ -124,7 +124,7 @@ $obj = $p->getDataObject();
                     <div class="panel-heading">
                         <?php
                         $streamName = $trasnmition['key'];
-                        include './view/onlineLabel.php';
+                        include $global['systemRootPath'].'plugin/Live/view/onlineLabel.php';
                         ?>
                     </div>
                     <div class="panel-body">          
