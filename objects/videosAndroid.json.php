@@ -4,6 +4,7 @@ require_once 'video.php';
 require_once 'comment.php';
 require_once 'subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 if(empty($_POST['current']) && !empty($_GET['current'])){
     $_POST['current']=$_GET['current'];
