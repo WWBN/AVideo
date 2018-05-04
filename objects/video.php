@@ -1544,12 +1544,12 @@ if (!class_exists('Video')) {
             } else {
                 if ($type !== "audio") {
                     $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
-                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfound.jpg";
-                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
+                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
                 } else {
                     $obj->poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_waveThumbs.jpg";
+                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/audio_waveThumbsSmall.jpg";
                 }
             }
 
