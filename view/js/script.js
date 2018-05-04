@@ -75,7 +75,11 @@ $(document).ready(function () {
 
     $('.thumbsJPG, .thumbsGIF').lazy({
         effect: 'fadeIn',
-        visibleOnly: true
+        visibleOnly: true,
+        // called after an element was successfully handled
+        afterLoad: function(element) {
+            element.removeClass('blur');
+        }
     });
 
     mainVideoHeight = $('#videoContainer').innerHeight();
