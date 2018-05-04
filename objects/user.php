@@ -793,7 +793,7 @@ class User {
      * @return boolean return true is is unique 
      */
     function setChannelName($channelName) {
-        $channelName = preg_replace("[^0-9A-Za-z_- ]", "", $channelName);
+        $channelName = trim(preg_replace("/[^0-9A-Z_ -]/i", "", $channelName));
         $user = static::getChannelOwner($channelName);
         if(!empty($user)){ // if the channel name exists and it is not from this user, rename the channel name
             if(empty($this->id) ||  $user['id']!=$this->id){
