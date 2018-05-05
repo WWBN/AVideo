@@ -365,7 +365,9 @@ $updateFiles = getUpdatesFilesArray();
                     }
                 ?>
                 
-                
+                <?php
+                    if (!empty($advancedCustom->removeBrowserChannelLinkFromMenu)) {
+                ?>
                 <!-- Channels -->
                 <li>
                     <hr>
@@ -378,6 +380,9 @@ $updateFiles = getUpdatesFilesArray();
                     </a>
                 </li>
                 
+                <?php
+                    }
+                ?>
                 <!-- categories -->
                 <li>
                     <hr>
