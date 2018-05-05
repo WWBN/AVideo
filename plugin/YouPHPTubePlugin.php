@@ -280,5 +280,27 @@ class YouPHPTubePlugin {
             }
         }
     }
+    public static function getLivePanel() {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->getLivePanel();
+            }
+        }
+    }
+    
+    public static function getLiveApplicationArray(){
+        $plugins = Plugin::getAllEnabled();
+        $array = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $appArray = $p->getLiveApplicationArray();
+                $array = array_merge($array, $appArray);
+            }
+        }
+        return $array;
+    }
 
 }

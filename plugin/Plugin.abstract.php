@@ -126,5 +126,16 @@ abstract class PluginAbstract {
         return "";
     }
     
+    public function getLivePanel(){
+        return "";
+    }
+    
+    /**
+     * 
+     * @return type array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
+     */
+    public function getLiveApplicationArray(){
+        return array();
+    }
 
 }
