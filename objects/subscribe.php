@@ -218,7 +218,7 @@ class Subscribe {
         $total = static::getTotalSubscribes($user_id);
         
         $subscribe = "<div class=\"btn-group\">"
-                . "<button class='btn btn-xs subsB subs{$user_id} subscribeButton{$user_id}'><span class='fa'></span> <b class='text'>" . __("Subscribe") . "</b></button>"
+                . "<button class='btn btn-xs subsB subs{$user_id} subscribeButton{$user_id}'><span class='fab fa-youtube'></span> <b class='text'>" . __("Subscribe") . "</b></button>"
                 . "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>{$total}</b></button>"
                 . "</div>";
                 
