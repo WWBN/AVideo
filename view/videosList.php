@@ -202,7 +202,6 @@ foreach ($videos as $key => $value) {
 
                         $(document).ready(function () {
                             setBootPage();
-                            mouseEffect();
                             $('#rowCount, #sortBy').change(function () {
                                 num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
                                 loadPage(num);
@@ -213,12 +212,15 @@ foreach ($videos as $key => $value) {
                                 $('#rowCount, #sortBy').selectpicker();
                             }
 
-                            $('.thumbsJPG, .thumbsGIF').lazy({
+                            $('.thumbsJPG').lazy({
                                 effect: 'fadeIn',
                                 visibleOnly: true,
                                 // called after an element was successfully handled
                                 afterLoad: function(element) {
                                     element.removeClass('blur');
+                                    element.parent().find('.thumbsGIF').lazy({
+                                        effect: 'fadeIn'
+                                    });
                                 }
                             });
                         });
