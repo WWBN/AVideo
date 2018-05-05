@@ -94,7 +94,7 @@ abstract class PluginAbstract {
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = ""; // btn btn-primary btn-block
-        $obj->icon = ""; // fa fa-facebook-square
+        $obj->icon = ""; // fab fa-facebook-square-square
         $obj->type = ""; // Facebook, Google, etc
         $obj->linkToDevelopersPage = ""; //https://console.developers.google.com/apis/credentials , https://developers.facebook.com/apps
         

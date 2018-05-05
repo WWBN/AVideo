@@ -71,7 +71,7 @@ $updateFiles = getUpdatesFilesArray();
 
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
-                                    <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon)?$advancedCustom->uploadButtonDropdownIcon:"fa fa-video-camera"; ?>"></i> <?php echo !empty($advancedCustom->uploadButtonDropdownText)?$advancedCustom->uploadButtonDropdownText:""; ?> <span class="caret"></span>
+                                    <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon)?$advancedCustom->uploadButtonDropdownIcon:"fas fa-video"; ?>"></i> <?php echo !empty($advancedCustom->uploadButtonDropdownText)?$advancedCustom->uploadButtonDropdownText:""; ?> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                     <?php
@@ -208,7 +208,7 @@ $updateFiles = getUpdatesFilesArray();
 
                         <div>
                             <a href="<?php echo User::getChannelLink(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
-                                <span class="fa fa-youtube-play"></span>
+                                <span class="fab fa-youtube"></span>
                                 <?php echo __("My Channel"); ?>
                             </a>
 
@@ -230,7 +230,7 @@ $updateFiles = getUpdatesFilesArray();
                         <li>
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-block" style="border-radius: 0;">
-                                    <span class="fa fa-dashboard"></span>
+                                    <span class="fas fa-tachometer-alt"></span>
                                     <?php echo __("Dashboard"); ?>
                                 </a>
                             </div>
@@ -276,7 +276,7 @@ $updateFiles = getUpdatesFilesArray();
                                 </li>
                                 <li>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>ads">
-                                        <span class="fa fa-money"></span>
+                                        <span class="far fa-money-bill-alt"></span>
                                         <?php echo __("Video Advertising"); ?>
                                     </a>
                                 </li>
