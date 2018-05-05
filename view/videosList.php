@@ -202,6 +202,7 @@ foreach ($videos as $key => $value) {
 
                         $(document).ready(function () {
                             setBootPage();
+                            mouseEffect();
                             $('#rowCount, #sortBy').change(function () {
                                 num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
                                 loadPage(num);
