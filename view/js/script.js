@@ -61,7 +61,7 @@ $(document).ready(function () {
             $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
             $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
             try {
-                $(this).find(".thumbsGIF").lazy();
+                $(this).find(".thumbsGIF").lazy({effect: 'fadeIn'});
             } catch (e) {
             }
             $(this).find(".thumbsGIF").stop(true, true).fadeIn();
@@ -77,11 +77,8 @@ $(document).ready(function () {
         effect: 'fadeIn',
         visibleOnly: true,
         // called after an element was successfully handled
-        afterLoad: function(element) {
+        afterLoad: function (element) {
             element.removeClass('blur');
-            element.parent().find('.thumbsGIF').lazy({
-                effect: 'fadeIn'
-            });
         }
     });
 
@@ -241,12 +238,12 @@ function subscribeNotify(email, user_id) {
             'user_id': user_id
         },
         success: function (response) {
-            if(response.notify){
+            if (response.notify) {
                 $('.notNotify' + user_id).addClass("hidden");
                 $('.notify' + user_id).removeClass("hidden");
-            }else{
+            } else {
                 $('.notNotify' + user_id).removeClass("hidden");
-                $('.notify' + user_id).addClass("hidden");                
+                $('.notify' + user_id).addClass("hidden");
             }
         }
     });
@@ -278,6 +275,10 @@ function closeFloatVideo() {
 function mouseEffect() {
 
     $(".thumbsImage").on("mouseenter", function () {
+        try {
+            $(this).find(".thumbsGIF").lazy({effect: 'fadeIn'});
+        } catch (e) {
+        }
         $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
         $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
         $(this).find(".thumbsGIF").stop(true, true).fadeIn();
