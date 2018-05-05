@@ -543,7 +543,7 @@ $t['Your user has been created!']  = "Kullanıcınız oluşturuldu!";
 $t['Your user has been deleted!']  = "Kullanıcınız silindi!";
 $t['Your user has been saved!']  = "Kullanıcınız kaydedildi!";
 $t['Your user or password is wrong!']  = "Kullanıcı veya şifreniz yanlış!";
-$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fa fa-youtube-play\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fa fa-youtube\'></span> YouTube Account</a><br> '] = "Videonuz <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fa fa-youtube-play'></span> %s</a>, <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fa fa-youtube'></span> YouTube Hesabınıza</a> yüklendi<br> ";
+$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fab fa-youtube\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fa fa-youtube\'></span> YouTube Account</a><br> '] = "Videonuz <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fab fa-youtube'></span> %s</a>, <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fa fa-youtube'></span> YouTube Hesabınıza</a> yüklendi<br> ";
 $t['Your video download is complete, it is encoding now']  = "Video indirme işleminiz tamamlandı, artık kodlanıyor";
 $t['Your video has NOT been deleted!']  = "Videonuz silinmemiş!";
 $t['Your video has NOT been saved!']  = "Videonuz kaydedilmedi!";

@@ -35,7 +35,7 @@ if (User::canStream()) {
             <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
         </div>
         <div style="margin-left: 40px;">
-            <i class="fa fa-video-camera"></i> <strong class="liveTitle"><?php echo __("Title"); ?></strong> <br>
+            <i class="fas fa-video"></i> <strong class="liveTitle"><?php echo __("Title"); ?></strong> <br>
             <span class="label label-success liveUser"><?php echo __("User"); ?></span> <span class="label label-danger liveNow faa-flash faa-slow animated"><?php echo __("LIVE NOW"); ?></span>
         </div>
     </a>

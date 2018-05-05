@@ -519,7 +519,7 @@ $t['Your user has been created!'] = "Your user has been created!";
 $t['Your user has been deleted!'] = "Your user has been deleted!";
 $t['Your user has been saved!'] = "Your user has been saved!";
 $t['Your user or password is wrong!'] = "Your user or password is wrong!";
-$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fa fa-youtube-play\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fa fa-youtube\'></span> YouTube Account</a><br> '] = "Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fa fa-youtube-play'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fa fa-youtube'></span> YouTube Account</a><br> ";
+$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fab fa-youtube\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fa fa-youtube\'></span> YouTube Account</a><br> '] = "Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fab fa-youtube'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fa fa-youtube'></span> YouTube Account</a><br> ";
 $t['Your video download is complete, it is encoding now'] = "Your video download is complete, it is encoding now";
 $t['Your video has NOT been deleted!'] = "Your video has NOT been deleted!";
 $t['Your video has NOT been saved!'] = "Your video has NOT been saved!";

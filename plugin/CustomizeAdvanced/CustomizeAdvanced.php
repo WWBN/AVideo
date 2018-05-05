@@ -41,7 +41,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableAnimatedGif = false;
         $obj->unverifiedEmailsCanNOTLogin = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
-        $obj->uploadButtonDropdownIcon = "fa fa-video-camera";
+        $obj->uploadButtonDropdownIcon = "fas fa-video";
         $obj->uploadButtonDropdownText = "";
         $obj->commentsMaxLength = 200;
         $o = new stdClass();
