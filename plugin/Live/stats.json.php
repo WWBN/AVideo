@@ -77,6 +77,10 @@ foreach ($lifeStream as $value){
         }
     }
 }
+
+$appArray = YouPHPTubePlugin::getLiveApplicationArray();
+$obj->applications = array_merge($obj->applications, $appArray);
+
 echo json_encode($obj);
 
 include $global['systemRootPath'].'objects/include_end.php';
