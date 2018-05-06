@@ -103,7 +103,7 @@ if (!empty($_GET['video_id'])) {
                 if (User::isAdmin()) {
                     ?>
                     <a href="<?php echo $global['webSiteRootURL']; ?>ads" class="btn btn-danger">
-                        <span class="fa fa-money"></span> <?php echo __("Advertising Manager"); ?>
+                        <span class="far fa-money-bill-alt"></span> <?php echo __("Advertising Manager"); ?>
                     </a>
                     <?php
                 }
@@ -142,7 +142,7 @@ if (!empty($_GET['video_id'])) {
                 </button>
                 <?php if (!$config->getDisable_youtubeupload()) { ?>
                 <button class="btn btn-danger" id="uploadYouTubeBtn">
-                    <i class="fa fa-youtube-play" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
+                    <i class="fab fa-youtube" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
                 </button>
                 <?php } ?>
                 <div class="btn-group">
@@ -840,7 +840,7 @@ if (!empty($row)) {
                                                     if (row.youtubeId) {
                                                         //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                                                     }
-                                                    var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fa fa-youtube-play" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
+                                                    var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fab fa-youtube" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
                                                     if (row.status == "d" || row.status == "e") {
                                                         yt = "";
                                                     }

@@ -30,26 +30,9 @@ $channels = Channel::getChannels();
                         <div class="clear clearfix">
                             <img src="<?php echo User::getPhoto($value['id']); ?>" 
                                  class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" />
-                           <?php 
-                                $tmpUrl = "";
-                                if(!empty($value['channelName'])) {
-                                    $tmpUrl = $global['webSiteRootURL']."channel/".$value['channelName'];
-                                } else {
-                                    $tmpUrl = User::getChannelLink($value['id']);
-                                }
-                            ?>
-                            <a href="<?php echo $tmpUrl; ?>" class="btn btn-default">
-                                <i class="fa fa-youtube-play"></i>
-                                
-                                <?php 
-                                    $nameTmp = "";
-                                    if(!empty($value['channelName'])){
-                                        $nameTmp = $value['channelName']." (".User::getNameIdentificationById($value['id']).")";
-                                    } else {
-                                        $nameTmp = User::getNameIdentificationById($value['id']);
-                                    }
-
-                                    echo $nameTmp; ?> 
+                            <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
+                                <i class="fab fa-youtube"></i>
+                                <?php echo User::getNameIdentificationById($value['id']); ?> 
                             </a>
                             <span class="pull-right">
                                 <?php echo Subscribe::getButton($value['id']); ?> 

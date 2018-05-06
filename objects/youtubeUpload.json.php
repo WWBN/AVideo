@@ -102,7 +102,7 @@ foreach ($_POST['id'] as $value) {
             $obj->title = $status['snippet']['title'];
             $obj->id = $status['id'];
             $obj->status = $status;
-            $obj->msg = sprintf(__("Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fa fa-youtube-play'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fa fa-youtube'></span> YouTube Account</a><br> "), $obj->id, $obj->title);
+            $obj->msg = sprintf(__("Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fab fa-youtube'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fa fa-youtube'></span> YouTube Account</a><br> "), $obj->id, $obj->title);
             $v->setYoutubeId($obj->id);
             $v->save();
         } catch (Google_Service_Exception $e) {

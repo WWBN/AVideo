@@ -21,7 +21,7 @@ $balance = $plugin->getBalance(User::getId());
             </li> 
             <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/transferFunds.php">
-                    <i class="fa fa-exchange" aria-hidden="true"></i>
+                    <i class="fas fa-exchange-alt" aria-hidden="true"></i>
                     <?php echo __("Transfer Funds"); ?>
                 </a>
             </li> 
