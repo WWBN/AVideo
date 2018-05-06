@@ -367,7 +367,7 @@ $t['Your user has been created!'] = "使用者已經建立！";
 $t['Your user has been deleted!'] = "使用者已經删除！";
 $t['Your user has been saved!'] = "使用者已經儲存！";
 $t['Your user or password is wrong!'] = "使用者帳號或密碼不正確！";
-$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fab fa-youtube\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fa fa-youtube\'></span> YouTube Account</a><br>'] = "您的影片<a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fab fa-youtube'></span> %s</a> 已經上傳到您的<a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fa fa-youtube'></span> YouTube 帳號</a><br>";
+$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fab fa-youtube\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fab fa-youtube-square\'></span> YouTube Account</a><br>'] = "您的影片<a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fab fa-youtube'></span> %s</a> 已經上傳到您的<a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube 帳號</a><br>";
 $t['Your video download is complete, it is encoding now'] = "影片已經下載完成，正在編碼中";
 $t['Your video has NOT been deleted!'] = "影片尚未删除！";
 $t['Your video has NOT been saved!'] = "影片尚未儲存！";
