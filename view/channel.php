@@ -72,7 +72,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                     <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
                 </div>
                 <div class="col-md-12">
-                    <h1 class="pull-left"><?php
+                    <h1 class="pull-left">
                    <?php     
                        $nameTmp = "";
                         if(!empty($user->getChannelName())){
