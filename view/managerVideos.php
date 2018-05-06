@@ -138,7 +138,7 @@ if (!empty($_GET['video_id'])) {
             ?>
             <div class="pull-left btn-group">       
                 <button class="btn btn-secondary" id="checkBtn">
-                    <i class="fa fa-square-o" aria-hidden="true" id="chk"></i>
+                    <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
                 <?php if (!$config->getDisable_youtubeupload()) { ?>
                 <button class="btn btn-danger" id="uploadYouTubeBtn">
@@ -647,14 +647,14 @@ if (!empty($row)) {
                                             $('#videoFormModal').modal();
                                         });
                                         $("#checkBtn").click(function () {
-                                            var chk = $("#chk").hasClass('fa-check-square-o');
+                                            var chk = $("#chk").hasClass('fa-check-square');
                                             $(".checkboxVideo").each(function (index) {
                                                 if (chk) {
-                                                    $("#chk").removeClass('fa-check-square-o');
-                                                    $("#chk").addClass('fa-square-o');
+                                                    $("#chk").removeClass('fa-check-square');
+                                                    $("#chk").addClass('fa-square');
                                                 } else {
-                                                    $("#chk").removeClass('fa-square-o');
-                                                    $("#chk").addClass('fa-check-square-o');
+                                                    $("#chk").removeClass('fa-square');
+                                                    $("#chk").addClass('fa-check-square');
                                                 }
                                                 $(this).prop('checked', !chk);
                                             });
