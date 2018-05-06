@@ -38,7 +38,7 @@ class LoginTwitter extends PluginAbstract {
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = "btn btn-info btn-block"; 
-        $obj->icon = "fa fa-twitter"; 
+        $obj->icon = "fab fa-twitter"; 
         $obj->type = "Twitter"; 
         $obj->linkToDevelopersPage = "https://apps.twitter.com/";         
         return $obj;
