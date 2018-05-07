@@ -122,7 +122,7 @@ unset($_SESSION['type']);
                             <?php if ((!empty($imgGif)) && (!$o->LiteGalleryNoGifs)) { ?>
                                     <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                         <?php }
-                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $value['categories_id'] . ";");
+                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE status='a' AND categories_id = " . $value['categories_id'] . ";");
                         break;
                     }
                 } else {
@@ -130,7 +130,7 @@ unset($_SESSION['type']);
                     ?>
 				    <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $cat['id']; ?>" />
                     <?php
-                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $cat['id'] . ";");
+                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE status='a' AND categories_id = " . $cat['id'] . ";");
                 }
                 ?>
                             </div>
@@ -763,7 +763,7 @@ unset($_SESSION['type']);
                                 <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                         <?php
                             }
-                            $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $value['categories_id'] . ";");
+                            $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE status='a' AND categories_id = " . $value['categories_id'] . ";");
                         ?>
                     </div>
 						<div class="videoInfo">
@@ -829,7 +829,7 @@ unset($_SESSION['type']);
                                     <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
                                     <?php
                                     }
-                                    $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $value['categories_id'] . ";"); ?>
+                                    $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE status='a' AND categories_id = " . $value['categories_id'] . ";"); ?>
                                 </div>
                                 <div class="">
                                     <div class="videoInfo">
@@ -891,7 +891,7 @@ unset($_SESSION['type']);
             </a>
             <?php } ?>
         </div>        
-        <?php include 'include/footer.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.pkgd.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>

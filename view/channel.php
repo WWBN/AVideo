@@ -263,7 +263,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         </div>
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>
             var currentObject;

@@ -51,7 +51,7 @@ sort($vars);
 
     <body>
         <?php
-        include '../view/include/navbar.php';
+        include $global['systemRootPath'].'view/include/navbar.php';
         ?>
         <div class="container-fluid">
 
@@ -111,7 +111,7 @@ sort($vars);
             ?>
         </div><!--/.container-->
         <?php
-        include '../view/include/footer.php';
+        include $global['systemRootPath'].'view/include/footer.php';
         ?>
         <script>
             var arrayLocale = <?php echo json_encode(array_values($vars)); ?>;
