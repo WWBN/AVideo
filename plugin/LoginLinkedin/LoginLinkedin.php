@@ -38,7 +38,7 @@ class LoginLinkedin extends PluginAbstract {
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = "btn btn-primary btn-block"; 
-        $obj->icon = "fa fa-linkedin-square"; 
+        $obj->icon = "fab fa-linkedin-in"; 
         $obj->type = "LinkedIn"; 
         $obj->linkToDevelopersPage = "https://www.linkedin.com/secure/developer";         
         return $obj;

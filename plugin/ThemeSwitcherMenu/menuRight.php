@@ -42,7 +42,7 @@ $obj = ThemeSwitcherMenu::getCurrent();
             <li class="divider"></li> 
             <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/ThemeSwitcherMenu/reset.php">
-                    <i class="fa fa-repeat" aria-hidden="true"></i>
+                    <i class="fas fa-redo" aria-hidden="true"></i>
                     <?php echo __("Reset to Default"); ?>
                 </a>
             </li> 

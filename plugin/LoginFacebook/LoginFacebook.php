@@ -38,7 +38,7 @@ class LoginFacebook extends PluginAbstract {
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = "btn btn-primary btn-block"; 
-        $obj->icon = "fab fa-facebook-square-square"; 
+        $obj->icon = "fab fa-facebook-square"; 
         $obj->type = "Facebook"; 
         $obj->linkToDevelopersPage = "https://developers.facebook.com/apps";         
         return $obj;
