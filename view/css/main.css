@@ -613,26 +613,26 @@ nav ul.items-container li ul.right-menus li li {
     animation: spin 2s linear infinite;
 }
 .zoom {      
--webkit-transition: all 0.35s ease-in-out;    
--moz-transition: all 0.35s ease-in-out;    
-transition: all 0.35s ease-in-out;     
-cursor: -webkit-zoom-in;      
-cursor: -moz-zoom-in;      
-cursor: zoom-in;  
+    -webkit-transition: all 0.35s ease-in-out;    
+    -moz-transition: all 0.35s ease-in-out;    
+    transition: all 0.35s ease-in-out;     
+    cursor: -webkit-zoom-in;      
+    cursor: -moz-zoom-in;      
+    cursor: zoom-in;  
 }     
 
 .zoom:hover,  
 .zoom:active,   
 .zoom:focus {
-/**adjust scale to desired size, 
-add browser prefixes**/
--ms-transform: scale(2.5);    
--moz-transform: scale(2.5);  
--webkit-transform: scale(2.5);  
--o-transform: scale(2.5);  
-transform: scale(2.5);    
-position:relative;      
-z-index:100;  
+    /**adjust scale to desired size, 
+    add browser prefixes**/
+    -ms-transform: scale(2.5);    
+    -moz-transform: scale(2.5);  
+    -webkit-transform: scale(2.5);  
+    -o-transform: scale(2.5);  
+    transform: scale(2.5);    
+    position:relative;      
+    z-index:100;  
 }
 @keyframes spin {
     0% {
@@ -686,4 +686,8 @@ z-index:100;
 }
 a.h6 h2, a.h6 h1{
     font-weight: bold;
+}
+
+img.blur{
+    filter: blur(5px);
 }

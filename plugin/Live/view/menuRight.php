@@ -21,7 +21,7 @@ if (User::canStream()) {
     <?php
 }
 ?>
-    <li class="dropdown">
+<li class="dropdown">
     <a href="#" class=" btn btn-default navbar-btn" data-toggle="dropdown">
         <span class="fa fa-bell"></span> 
         <span class="badge onlineApplications" style=" background: rgba(255,0,0,1); color: #FFF;">0</span>
@@ -35,8 +35,8 @@ if (User::canStream()) {
             <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
         </div>
         <div style="margin-left: 40px;">
-            <i class="fa fa-video-camera"></i> <strong class="liveTitle"><?php echo __("Title"); ?></strong> <br>
-            <span class="label label-success liveUser"><?php echo __("User"); ?></span> <span class="badge"><?php echo __("is live"); ?></span>
+            <i class="fas fa-video"></i> <strong class="liveTitle"><?php echo __("Title"); ?></strong> <br>
+            <span class="label label-success liveUser"><?php echo __("User"); ?></span> <span class="label label-danger liveNow faa-flash faa-slow animated"><?php echo __("LIVE NOW"); ?></span>
         </div>
     </a>
 </li>
@@ -72,8 +72,10 @@ if (User::canStream()) {
 </div>
 <script>
     /* Use this funtion to display live videos dynamic on pages*/
-    function afterExtraVideos($liveLi){return $liveLi}
-    
+    function afterExtraVideos($liveLi) {
+        return $liveLi
+    }
+
     function createLiveItem(href, title, name, photo, offline, online, views, key) {
         var $liveLi = $('.liveModel').clone();
         if (offline) {
@@ -92,7 +94,7 @@ if (User::canStream()) {
         $('.liveUsersViews_' + key).text(views);
     }
 
-    function createExtraVideos(href, title, name, photo, user, online, views, key,disableGif) {
+    function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif) {
         var id = 'extraVideo' + user;
         id = id.replace(/\W/g, '');
         if ($(".extraVideos").length && $("#" + id).length == 0) {
@@ -109,9 +111,9 @@ if (User::canStream()) {
             $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_" + key);
             $liveLi.find('.liveUsersViews').addClass("liveUsersViews_" + key);
             $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=jpg");
-            if(!disableGif){
+            if (!disableGif) {
                 $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?u=" + user + "&format=gif");
-            }else{
+            } else {
                 $liveLi.find('.thumbsGIF').remove();
             }
             $liveLi = afterExtraVideos($liveLi);
@@ -120,7 +122,7 @@ if (User::canStream()) {
         }
     }
 
-    function getStatsMenu() {
+    function getStatsMenu(recurrentCall) {
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu',
             success: function (response) {
@@ -129,29 +131,35 @@ if (User::canStream()) {
                 if (response.applications.length) {
                     disableGif = response.disableGif;
                     for (i = 0; i < response.applications.length; i++) {
-                        href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=" + response.applications[i].user;
-                        title = response.applications[i].title;
-                        name = response.applications[i].name;
-                        user = response.applications[i].user;
-                        photo = response.applications[i].photo;
-                        online = response.applications[i].users.online;
-                        views = response.applications[i].users.views;
-                        key = response.applications[i].key;
-                        createLiveItem(href, title, name, photo, false, online, views, key);
-                        createExtraVideos(href, title, name, photo, user, online, views, key, disableGif);
+                        if (typeof response.applications[i].html != 'undefined') {
+                            $('#availableLiveStream').append(response.applications[i].html);
+                        } else {
+                            href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=" + response.applications[i].user;
+                            title = response.applications[i].title;
+                            name = response.applications[i].name;
+                            user = response.applications[i].user;
+                            photo = response.applications[i].photo;
+                            online = response.applications[i].users.online;
+                            views = response.applications[i].users.views;
+                            key = response.applications[i].key;
+                            createLiveItem(href, title, name, photo, false, online, views, key);
+                            createExtraVideos(href, title, name, photo, user, online, views, key, disableGif);
+                        }
                     }
                     mouseEffect();
                 } else {
                     createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true);
                 }
-                setTimeout(function () {
-                    getStatsMenu();
-                }, 10000);
+                if (recurrentCall) {
+                    setTimeout(function () {
+                        getStatsMenu(true);
+                    }, 10000);
+                }
             }
         });
     }
 
     $(document).ready(function () {
-        getStatsMenu();
+        getStatsMenu(true);
     });
 </script>

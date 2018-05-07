@@ -18,7 +18,7 @@ $user->setCanStream($_POST['canStream']);
 $user->setCanUpload($_POST['canUpload']);
 $user->setStatus($_POST['status']);
 $unique = $user->setChannelName($_POST['channelName']);
-if(!$unique){
+if(!empty($_POST['channelName']) && !$unique){
     echo '{"error":"'.__("Channel name already exists").'"}';
     exit;
 }
