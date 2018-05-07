@@ -883,8 +883,8 @@ unset($_SESSION['type']);
                 </div>
             </div>
             <?php } else { ?>
-            <h5>Want to watch this again later?</h5>
-		      Sign in to add this video to a playlist. 
+            <h5><?php echo __("Want to watch this again later?"); ?></h5>
+		      <?php echo __("Sign in to add this video to a playlist."); ?>
             <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
                 <span class="glyphicon glyphicon-log-in"></span>
                 <?php echo __("Login"); ?>
