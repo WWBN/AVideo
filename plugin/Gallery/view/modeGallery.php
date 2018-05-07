@@ -115,16 +115,16 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                         <!-- For Live Videos End -->    
                         <?php
                         if ($obj->SortByName) {
-                            createGallery("Sort by name", 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
+                            createGallery(__("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
                         } 
                         if ($obj->DateAdded) {
-                            createGallery("Date added", 'created', $obj->DateAddedRowCount, 'dateAddedOrder', "newest", "oldest", $orderString, "DESC");
+                            createGallery(__("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC");
                         } 
                         if ($obj->MostWatched) {
-                            createGallery("Most watched", 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', "Most", "Lessest", $orderString, "DESC");
+                            createGallery(__("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Lessest"), $orderString, "DESC");
                         }
                         if ($obj->MostPopular) {
-                            createGallery("Most popular", 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', "Most", "Lessest", $orderString, "DESC");
+                            createGallery(__("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Lessest"), $orderString, "DESC");
                         }
                         if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
                             require_once $global['systemRootPath'] . 'objects/subscribe.php';
