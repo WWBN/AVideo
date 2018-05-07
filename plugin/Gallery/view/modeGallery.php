@@ -78,7 +78,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
     </head>
 
     <body>
-        <?php include 'include/navbar.php'; ?>
+        <?php include $global['systemRootPath'].'view/include/navbar.php'; ?>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
             <div class="row text-center" style="padding: 10px;">
                 <?php echo $config->getAdsense(); ?>
@@ -176,7 +176,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
             </div>
         </div>
     </div>
-    <?php include 'include/footer.php'; ?>
+    <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
 </body>
 </html>
 <?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>

@@ -71,7 +71,7 @@ $channels = Channel::getChannels();
         </div>
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>
             $(function () {
