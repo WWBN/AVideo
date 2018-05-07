@@ -62,7 +62,7 @@
             uploadIcon: '<i class="fa fa-upload"></i>',
             uploadRetryIcon: '<i class="fas fa-redo"></i>',
             zoomIcon: '<i class="fa fa-search-plus"></i>',
-            dragIcon: '<i class="fa fa-arrows"></i>',
+            dragIcon: '<i class="fas fa-expand-arrows-alt"></i>',
             indicatorNew: '<i class="fa fa-plus-circle text-warning"></i>',
             indicatorSuccess: '<i class="fa fa-check-circle text-success"></i>',
             indicatorError: '<i class="fa fa-exclamation-circle text-danger"></i>',
