@@ -39,7 +39,7 @@ class LoginGoogle extends PluginAbstract {
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = "btn btn-danger btn-block"; 
-        $obj->icon = "fa fa-google"; 
+        $obj->icon = "fab fa-google"; 
         $obj->type = "Google"; 
         $obj->linkToDevelopersPage = "https://console.developers.google.com/apis/credentials";         
         return $obj;

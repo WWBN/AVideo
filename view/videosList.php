@@ -98,7 +98,7 @@ foreach ($videos as $key => $value) {
                     $img_portrait = "";
                 }
                 ?>
-                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img!=$images->thumbsJpgSmal)?"blur":""; ?>" height="130" />
                 <?php
                 if (!empty($imgGif)) {
                     ?>
@@ -213,9 +213,16 @@ foreach ($videos as $key => $value) {
                                 $('#rowCount, #sortBy').selectpicker();
                             }
 
-                            $('.thumbsJPG, .thumbsGIF').lazy({
+                            $('.thumbsJPG').lazy({
                                 effect: 'fadeIn',
-                                visibleOnly: true
+                                visibleOnly: true,
+                                // called after an element was successfully handled
+                                afterLoad: function(element) {
+                                    element.removeClass('blur');
+                                    element.parent().find('.thumbsGIF').lazy({
+                                        effect: 'fadeIn'
+                                    });
+                                }
                             });
                         });
 </script>

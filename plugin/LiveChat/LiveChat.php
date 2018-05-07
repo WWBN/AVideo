@@ -34,6 +34,7 @@ class LiveChat extends PluginAbstract{
         $obj->port = "8888";
         $obj->websocket = "ws://{$server['host']}:{$obj->port}";
         $obj->onlyForLoggedUsers = false;
+        $obj->loadLastMessages = 10;
         return $obj;
     }
     

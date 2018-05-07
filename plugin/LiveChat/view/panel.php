@@ -64,13 +64,32 @@ $canSendMessage = $p->canSendMessage();
             attempChatConnections = 3;
             $("#chatOffline").slideUp();
             $("#chatOnline").slideDown();
+            
+            modal.showPleaseWait();
+            $.ajax({
+                url: '<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/getChat.json.php',
+                data: {
+                    "live_stream_code": "<?php echo $chatId; ?>"
+                },
+                type: 'post',
+                success: function (response) {
+                    modal.hidePleaseWait();
+                    for(i=0; i<response.length;i++){
+                        if(response[i].users_id == "<?php echo User::getId(); ?>"){
+                            message_side = "right";
+                        }else{                        
+                            message_side = "left";    
+                        }
+                        createMessage(response[i].text, response[i].identification, response[i].photo, message_side);
+                    }
+                    $('.messages').animate({scrollTop: $('.messages').prop('scrollHeight')}, 300);
+                }
+            });
         };
         conn.onmessage = function (e) {
             var messageData = JSON.parse(e.data);
             //this message is not for you
             if (messageData.chatId !== "<?php echo $chatId; ?>") {
-                console.log("<?php echo $chatId; ?>");
-                console.log(messageData);
                 return false;
             }
             var json = getJsonDataObject();
@@ -110,9 +129,10 @@ $canSendMessage = $p->canSendMessage();
     function getJsonDataObject() {
         var chatId = "<?php echo $chatId; ?>";
         var photo = "<?php echo User::getPhoto(); ?>";
+        var userId = "<?php echo User::getId(); ?>";
         var name = "<?php echo User::getNameIdentification(); ?>";
         var text = getMessageText();
-        var json = {"photo": photo, "name": name, "text": text, "chatId": chatId};
+        var json = {"photo": photo, "name": name, "text": text, "chatId": chatId, "userId": userId};
         return json;
     }
     function makeDrag() {

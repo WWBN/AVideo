@@ -96,7 +96,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                     <div class="row mainArea">
                         <!-- For Live Videos -->
                         <div id="liveVideos" class="clear clearfix" style="display: none;">
-                            <h3 class="galleryTitle text-danger"> <i class="fa fa-youtube-play"></i> <?php echo __("Live"); ?></h3>
+                            <h3 class="galleryTitle text-danger"> <i class="fab fa-youtube"></i> <?php echo __("Live"); ?></h3>
                             <div class="row extraVideos"></div>
                         </div>
                         <script>

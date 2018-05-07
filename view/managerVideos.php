@@ -103,7 +103,7 @@ if (!empty($_GET['video_id'])) {
                 if (User::isAdmin()) {
                     ?>
                     <a href="<?php echo $global['webSiteRootURL']; ?>ads" class="btn btn-danger">
-                        <span class="fa fa-money"></span> <?php echo __("Advertising Manager"); ?>
+                        <span class="far fa-money-bill-alt"></span> <?php echo __("Advertising Manager"); ?>
                     </a>
                     <?php
                 }
@@ -138,11 +138,11 @@ if (!empty($_GET['video_id'])) {
             ?>
             <div class="pull-left btn-group">       
                 <button class="btn btn-secondary" id="checkBtn">
-                    <i class="fa fa-square-o" aria-hidden="true" id="chk"></i>
+                    <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
                 <?php if (!$config->getDisable_youtubeupload()) { ?>
                 <button class="btn btn-danger" id="uploadYouTubeBtn">
-                    <i class="fa fa-youtube-play" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
+                    <i class="fab fa-youtube" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
                 </button>
                 <?php } ?>
                 <div class="btn-group">
@@ -370,7 +370,7 @@ if (!empty($_GET['video_id'])) {
             if ((User::isAdmin())&&(!$config->getDisable_youtubeupload())) {
                 ?>
                 <div class="alert alert-info">
-                    <h1><span class="fa fa-youtube"></span> Let us upload your video to YouTube</h1>
+                    <h1><span class="fab fa-youtube-square"></span> Let us upload your video to YouTube</h1>
                     <h2>Before you start</h2>
                     <ol>
                         <li>
@@ -647,14 +647,14 @@ if (!empty($row)) {
                                             $('#videoFormModal').modal();
                                         });
                                         $("#checkBtn").click(function () {
-                                            var chk = $("#chk").hasClass('fa-check-square-o');
+                                            var chk = $("#chk").hasClass('fa-check-square');
                                             $(".checkboxVideo").each(function (index) {
                                                 if (chk) {
-                                                    $("#chk").removeClass('fa-check-square-o');
-                                                    $("#chk").addClass('fa-square-o');
+                                                    $("#chk").removeClass('fa-check-square');
+                                                    $("#chk").addClass('fa-square');
                                                 } else {
-                                                    $("#chk").removeClass('fa-square-o');
-                                                    $("#chk").addClass('fa-check-square-o');
+                                                    $("#chk").removeClass('fa-square');
+                                                    $("#chk").addClass('fa-check-square');
                                                 }
                                                 $(this).prop('checked', !chk);
                                             });
@@ -764,7 +764,7 @@ if (!empty($row)) {
                                                     var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
                                                     var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Activate")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
                                                     var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
-                                                    var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fa fa-repeat " aria-hidden="true"></span></button>';
+                                                    var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fas fa-redo " aria-hidden="true"></span></button>';
                                                     var rotateBtn = "<br>" + rotateLeft + rotateRight;
                                                     var suggestBtn = "";
                                                     <?php
@@ -840,7 +840,7 @@ if (!empty($row)) {
                                                     if (row.youtubeId) {
                                                         //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fa fa-external-link " aria-hidden="true"></span></a>';
                                                     }
-                                                    var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fa fa-youtube-play" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
+                                                    var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fab fa-youtube" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
                                                     if (row.status == "d" || row.status == "e") {
                                                         yt = "";
                                                     }

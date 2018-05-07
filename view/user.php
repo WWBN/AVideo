@@ -129,7 +129,7 @@ $advancedCustom = json_decode($json_file);
                                     <label class="col-md-4 control-label"><?php echo __("Channel Name"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-youtube-play"></i></span>
+                                            <span class="input-group-addon"><i class="fab fa-youtube"></i></span>
                                             <input  id="channelName" placeholder="<?php echo __("Channel Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getChannelName(); ?>" >
                                         </div>
                                     </div>
@@ -358,7 +358,7 @@ $advancedCustom = json_decode($json_file);
                                     <!-- Button -->
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fa fa-sign-in"></span> <?php echo __("Sign in"); ?></button>
+                                            <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fas fa-sign-in-alt"></span> <?php echo __("Sign in"); ?></button>
                                         </div>
                                     </div>
 
