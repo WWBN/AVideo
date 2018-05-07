@@ -17,7 +17,7 @@
         fileActionSettings: {
             removeIcon: '<i class="fa fa-trash"></i>',
             uploadIcon: '<i class="fa fa-upload"></i>',
-            uploadRetryIcon: '<i class="fa fa-repeat"></i>',
+            uploadRetryIcon: '<i class="fas fa-redo"></i>',
             zoomIcon: '<i class="fa fa-search-plus"></i>',
             dragIcon: '<i class="fa fa-bars"></i>',
             indicatorNew: '<i class="fa fa-plus-circle text-warning"></i>',

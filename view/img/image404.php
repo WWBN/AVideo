@@ -2,8 +2,10 @@
 $configFile = dirname(__FILE__).'/../../videos/configuration.php';
 require_once $configFile;
 
-$file = 'static2.gif';
-$type = 'image/gif';
+//$file = 'static2.gif';
+//$type = 'image/gif';
+$file = 'video-placeholder.png';
+$type = 'image/png';
 
 // if the thumb is not ready yet, try to find the default image
 if(preg_match('/videos\/(.*)_thumbs.jpg$/', $_SERVER["REQUEST_URI"], $matches)){

@@ -56,7 +56,11 @@ class LiveChatObj extends ObjectYPT {
         $rows = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
-                $row['photo'] = User::getPhoto($row['users_id']);
+                if(empty($row['users_id'])){
+                    $row['photo'] = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
+                }else{
+                    $row['photo'] = User::getPhoto($row['users_id']);
+                }
                 $row['identification'] = User::getNameIdentificationById($row['users_id']);
                 unset($row['password']);
                 unset($row['recoverPass']);

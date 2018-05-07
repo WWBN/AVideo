@@ -102,7 +102,7 @@ foreach ($_POST['id'] as $value) {
             $obj->title = $status['snippet']['title'];
             $obj->id = $status['id'];
             $obj->status = $status;
-            $obj->msg = sprintf(__("Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fab fa-youtube'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fa fa-youtube'></span> YouTube Account</a><br> "), $obj->id, $obj->title);
+            $obj->msg = sprintf(__("Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fab fa-youtube'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "), $obj->id, $obj->title);
             $v->setYoutubeId($obj->id);
             $v->save();
         } catch (Google_Service_Exception $e) {
@@ -123,7 +123,7 @@ foreach ($_POST['id'] as $value) {
         $client->setState($state);
         $_SESSION['state'] = $state;
         $authUrl = $client->createAuthUrl();
-        $obj->msg = "<h3>Authorization Required</h3><p>You need to <a href=\"{$authUrl}\"  class='btn btn-danger'><span class='fa fa-youtube'></span> authorize access</a> before proceeding.<p>";
+        $obj->msg = "<h3>Authorization Required</h3><p>You need to <a href=\"{$authUrl}\"  class='btn btn-danger'><span class='fab fa-youtube-square'></span> authorize access</a> before proceeding.<p>";
     }
 }
 
