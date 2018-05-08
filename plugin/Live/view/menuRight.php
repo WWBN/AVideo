@@ -36,7 +36,7 @@ if (User::canStream()) {
         </div>
         <div style="margin-left: 40px;">
             <i class="fas fa-video"></i> <strong class="liveTitle"><?php echo __("Title"); ?></strong> <br>
-            <span class="label label-success liveUser"><?php echo __("User"); ?></span> <span class="label label-danger liveNow faa-flash faa-slow animated"><?php echo __("LIVE NOW"); ?></span>
+            <span class="label label-success liveUser"><?php echo __("User"); ?></span> <span class="label label-danger liveNow faa-flash faa-slow animated hidden"><?php echo __("LIVE NOW"); ?></span>
         </div>
     </a>
 </li>
@@ -89,6 +89,10 @@ if (User::canStream()) {
         $liveLi.find('.liveUser').text(name);
         $liveLi.find('.img').attr("src", photo);
         $('#availableLiveStream').append($liveLi);
+        
+        if(href!="#"){
+            $liveLi.find('.liveNow').removeClass("hidden");
+        }
 
         $('.liveUsersOnline_' + key).text(online);
         $('.liveUsersViews_' + key).text(views);
