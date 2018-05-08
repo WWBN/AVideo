@@ -1,4 +1,5 @@
 <?php
+
 // make sure SecureVideosDirectory will be the first
 function cmpPlugin($a, $b) { 
     if ($a['name']=='SecureVideosDirectory')
@@ -872,10 +873,30 @@ function local_get_contents($path){
     }
 }
 
-function url_get_contents($Url) {
+
+function url_get_contents($Url, $ctx="") { 
+    if(empty($ctx)){
+        $opts = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+                "allow_self_signed" => true 
+            )
+        );
+        $context = stream_context_create($opts);
+    } else {
+        $context = $ctx;
+    }
     if (ini_get('allow_url_fopen')) {
-        return file_get_contents($Url);
-    } else if (function_exists('curl_init')) {
+        try{
+            $tmp = @file_get_contents($Url, false,$context);
+            if($tmp!=false){
+                return $tmp;
+            }
+        } catch(ErrorException $e){
+            
+        }
+    } else  if (function_exists('curl_init')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $Url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -883,7 +904,7 @@ function url_get_contents($Url) {
         curl_close($ch);
         return $output;
     }
-    return file_get_contents($Url);
+    return @file_get_contents($Url, false,$context);
 }
 
 function getUpdatesFilesArray() {
