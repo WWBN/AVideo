@@ -33,11 +33,8 @@ $channels = Channel::getChannels();
                             <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
                                 <i class="fab fa-youtube"></i>
                                 <?php
-                            if(($value['channelName']!=uniqid())&&(!empty($value['channelName']))){
-                                echo $value['channelName'];
-                            } else {
                                 echo User::getNameIdentificationById($value['id']);
-                            } ?> 
+                             ?> 
                             </a>
                             <span class="pull-right">
                                 <?php echo Subscribe::getButton($value['id']); ?> 
