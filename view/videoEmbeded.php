@@ -68,6 +68,26 @@ if ($video['type'] !== "audio") {
                 margin: 0 !important;
             }
         </style>
+        
+        <?php
+    $jsFiles = array();
+    //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
+    $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+    $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
+    $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
+    $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
+    $jsFiles[] = "view/js/script.js";
+    $jsFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.js";
+    $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+    $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+    //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/wavesurfer.min.js";
+    //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
+    $jsURL =  combineFiles($jsFiles, "js");
+
+?>
+<script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     </head>
 
     <body>
@@ -90,11 +110,21 @@ if ($video['type'] !== "audio") {
                 <?php
             } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                 ?>
-                <audio controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
+                <audio id="mainAudio" controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
                        poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
+                <?php
+                $ext = "";
+                if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
+                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
+                <?php
+                    $ext = ".ogg";
+                } else { ?>
+                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" /> 
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
+                <?php
+                    $ext = ".mp3";
+                } ?>
                 </audio>
 
                 <script>
@@ -105,7 +135,7 @@ if ($video['type'] !== "audio") {
                 <?php
             } else {
                 ?>
-                <video poster="<?php echo $poster; ?>" controls  width="auto" height="auto"
+                <video id="mainVideo" poster="<?php echo $poster; ?>" controls 
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                     <?php
                     echo getSources($video['filename']);
@@ -145,6 +175,8 @@ if ($video['type'] !== "audio") {
             }
             ?>
         </div>
+        <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
         <?php
         echo YouPHPTubePlugin::getFooterCode();
         ?>
