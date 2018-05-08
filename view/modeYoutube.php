@@ -33,9 +33,7 @@ if (!empty($_GET['type'])) {
 } else {
     unset($_SESSION['type']);
 }
-if (empty($_POST['dontLoadVideoPhP'])) {
-    require_once $global['systemRootPath'] . 'objects/video.php';
-}
+require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/video_ad.php';
 
 $catLink = "";
@@ -462,7 +460,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                             <?php
                                             $url = urlencode($global['webSiteRootURL'] . "{$catLink}video/" . $video['clean_title']);
                                             $title = urlencode($video['title']);
-                                            include './include/social.php';
+                                            include $global['systemRootPath'].'view/include/social.php';
                                             ?>
                                         </div>
                                         <div class="tab-pane" id="tabEmbed">
@@ -592,7 +590,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
                         <?php
                         if (!empty($playlist_id)) {
-                            include './include/playlist.php';
+                            include $global['systemRootPath'].'view/include/playlist.php';
                             ?>
                             <script>
                                 $(document).ready(function () {
@@ -738,7 +736,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         </script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
-        <?php include 'include/footer.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>

@@ -30,10 +30,11 @@ $channels = Channel::getChannels();
                         <div class="clear clearfix">
                             <img src="<?php echo User::getPhoto($value['id']); ?>" 
                                  class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" />
-
                             <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
                                 <i class="fab fa-youtube"></i>
-                                <?php echo User::getNameIdentificationById($value['id']); ?> 
+                                <?php
+                                echo User::getNameIdentificationById($value['id']);
+                             ?> 
                             </a>
                             <span class="pull-right">
                                 <?php echo Subscribe::getButton($value['id']); ?> 
@@ -72,7 +73,7 @@ $channels = Channel::getChannels();
         </div>
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>
             $(function () {
