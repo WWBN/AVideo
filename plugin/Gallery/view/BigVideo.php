@@ -64,7 +64,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </div>
                     <div>
                         <i class="fa fa-user"></i>
-                        <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>/">
+                        <a class="text-muted" href="<?php echo User::getChannelLink($video['users_id']); ?>">
     <?php echo $name; ?>
                         </a>
                     </div>
