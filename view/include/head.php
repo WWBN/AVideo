@@ -21,14 +21,14 @@ $theme = $config->getTheme();
 <?php
     $cssFiles = array();
     //$cssFiles[] = "{$global['webSiteRootURL']}bootstrap/css/bootstrap.css";
-    $cssFiles[] = "{$global['webSiteRootURL']}js/seetalert/sweetalert.css";
-    $cssFiles[] = "{$global['webSiteRootURL']}bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
+    $cssFiles[] = "view/js/seetalert/sweetalert.css";
+    $cssFiles[] = "view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
     //$cssFiles[] = "{$global['webSiteRootURL']}css/flagstrap/css/flags.css";
-    $cssFiles[] = "{$global['webSiteRootURL']}js/bootgrid/jquery.bootgrid.css";
-    $cssFiles[] = "{$global['webSiteRootURL']}css/custom/{$theme}.css";
-    $cssFiles[] = "{$global['webSiteRootURL']}css/main.css";
+    $cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
+    $cssFiles[] = "view/css/custom/{$theme}.css";
+    $cssFiles[] = "view/css/main.css";
     //$cssFiles[] = "{$global['webSiteRootURL']}css/font-awesome-4.7.0/css/font-awesome.min.css";
-    $cssFiles[] = "{$global['webSiteRootURL']}js/bootstrap-toggle/bootstrap-toggle.min.css";
+    $cssFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.css";
     $cssURL =  combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>

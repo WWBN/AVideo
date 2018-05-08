@@ -57,16 +57,16 @@ if (!empty($_GET['msg'])) {
 <?php
     $jsFiles = array();
     //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/seetalert/sweetalert.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootpag/jquery.bootpag.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootgrid/jquery.bootgrid.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/script.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootstrap-toggle/bootstrap-toggle.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/js-cookie/js.cookie.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}css/flagstrap/js/jquery.flagstrap.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.plugins.min.js";
+    $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+    $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
+    $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
+    $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
+    $jsFiles[] = "view/js/script.js";
+    $jsFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.js";
+    $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+    $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
     //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/wavesurfer.min.js";
     //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
     $jsURL =  combineFiles($jsFiles, "js");
