@@ -73,14 +73,9 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                 </div>
                 <div class="col-md-12">
                     <h1 class="pull-left">
-                   <?php     
-                       $nameTmp = "";
-                        if(!empty($user->getChannelName())){
-                            $nameTmp = $user->getChannelName()." (".$user->getNameIdentificationBd().")";
-                        } else {
-                            $nameTmp = $user->getNameIdentificationBd();
-                        }
-                        echo $nameTmp; ?></h1>
+                   <?php  
+                            echo $user->getNameIdentificationBd();
+                        ?></h1>
                     <span class="pull-right">
                         <?php
                         echo Subscribe::getButton($user_id);
