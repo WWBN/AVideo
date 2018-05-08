@@ -32,7 +32,9 @@ $channels = Channel::getChannels();
                                  class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" />
                             <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
                                 <i class="fab fa-youtube"></i>
-                                <?php echo User::getNameIdentificationById($value['id']); ?> 
+                                <?php
+                                echo User::getNameIdentificationById($value['id']);
+                             ?> 
                             </a>
                             <span class="pull-right">
                                 <?php echo Subscribe::getButton($value['id']); ?> 

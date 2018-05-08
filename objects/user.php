@@ -330,7 +330,12 @@ class User {
             }
             return $id;
         } else {
-            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            if($global['mysqli']->error=="Duplicate entry 'admin' for key 'user_UNIQUE'"){
+                echo '{"error":"'.__("User name already exists").'"}';
+                exit;
+            }
+            
+            die(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
     
