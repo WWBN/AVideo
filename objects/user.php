@@ -299,6 +299,9 @@ class User {
         $this->status = $global['mysqli']->real_escape_string($this->status);
         $this->about = $global['mysqli']->real_escape_string($this->about);
         $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
+        if(empty($this->channelName)){
+            $this->channelName = uniqid();
+        }
         
         if (!empty($this->id)) {
             $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
@@ -308,7 +311,7 @@ class User {
             . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
             . " channelName = '{$this->channelName}', emailVerified = '{$this->emailVerified}' , modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now())";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified, channelName) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}')";
         }
         //echo $sql;
         $insert_row = $global['mysqli']->query($sql);
