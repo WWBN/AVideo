@@ -8,6 +8,7 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
+require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 if (!class_exists('Video')) {
 
     class Video {
@@ -521,10 +522,12 @@ if (!class_exists('Video')) {
               echo '<hr />'.$sql;
               }
              */
-            $res = $global['mysqli']->query($sql);
-            if ($res) {
+            //$res = $global['mysqli']->query($sql);
+            $res = sqlDAL::readSql($sql);
+            if ($res!=false) {
+                $video = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
                 require_once 'userGroups.php';
-                $video = $res->fetch_assoc();
                 if (!empty($video)) {
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
                 }
@@ -538,13 +541,11 @@ if (!class_exists('Video')) {
             global $global;
 
             $sql = "SELECT id  FROM videos  WHERE filename = ? LIMIT 1";
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('s', $fileName);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $stmt->close();
-            if ($res) {
-                $video = $res->fetch_assoc();
+
+            $res = sqlDAL::readSql($sql,"s",array($fileName));
+            if ($res!=false) {
+                $video = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
                 if (!empty($video['id'])) {
                     return self::getVideo($video['id'], "");
                 }
@@ -651,11 +652,14 @@ if (!class_exists('Video')) {
                 unset($_GET['limitOnceToOne']);
             }
             //echo $sql;
-            $res = $global['mysqli']->query($sql);
+            //$res = $global['mysqli']->query($sql);
+            $res = sqlDAL::readSql($sql);
             $videos = array();
             if ($res) {
+                $fullResult = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
                 require_once 'userGroups.php';
-                while ($row = $res->fetch_assoc()) {
+                foreach($fullResult as $row) {
                     if ($getStatistcs) {
                         $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
                         $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));

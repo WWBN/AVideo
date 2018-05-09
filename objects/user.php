@@ -4,6 +4,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
+require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 
 class User {
 
@@ -477,11 +478,11 @@ class User {
     static function findByEmail($email) {
         global $global;
 
-        $sql = "SELECT * FROM users WHERE email = '$email'  LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
-        if ($res) {
-            $user = $res->fetch_assoc();
+        $sql = "SELECT * FROM users WHERE email = ?  LIMIT 1";
+        $res = sqlDAL::readSql($sql,"s",array($email));
+        if ($res!=false) {
+            $user = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
         } else {
             $user = false;
         }
@@ -491,15 +492,18 @@ class User {
     static private function getUserDb($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1";
-        $stmt = $global['mysqli']->prepare($sql);
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $stmt->close();
+        
+        $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
+        $res = sqlDAL::readSql($sql,"i",array($id));
+        //$stmt = $global['mysqli']->prepare($sql);
+        //$stmt->bind_param('i', $id);
+        //$stmt->execute();
+        //$res = $stmt->get_result();
+        //$stmt->close();
         
         if ($res) {
-            $user = $res->fetch_assoc();
+            $user = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
         } else {
             $user = false;
         }
@@ -511,11 +515,10 @@ class User {
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $stmt = $global['mysqli']->prepare($sql);
         $stmt->bind_param('s', $user);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $stmt->close();
-        if ($res) {
-            $user = $res->fetch_assoc();
+        $res = sqlDAL::readSql($sql,"s",array($user));
+        if ($res!=false) {
+            $user = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
         } else {
             $user = false;
         }
@@ -572,12 +575,19 @@ class User {
 
         $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
 
-        $res = $global['mysqli']->query($sql);
+       
+        //$res = $global['mysqli']->query($sql);
         $user = array();
-        
+                 
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+$res = sqlDAL::readSql($sql.";");
+
+        if ($res!=false) {
+        // here, we take the fetchAllAssoc-Method because we make requests in the foreach, so we need to close this.
+        $downloadedArray = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+            foreach ($downloadedArray as $row) {
+            
                 $row['groups'] = UserGroups::getUserGroups($row['id']);
                 $row['identification'] = self::getNameIdentificationById($row['id']);
                 $row['photo'] = self::getPhoto();
@@ -593,6 +603,7 @@ class User {
             $user = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+        
         return $user;
     }
 

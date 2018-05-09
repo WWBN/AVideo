@@ -2,7 +2,7 @@
 /*
 tester-execution-code
 $sql = "SELECT * FROM users WHERE id=?;";
-$result = sqlDAL::getSql($sql,"i",array(1));
+$result = sqlDAL::readSql($sql,"i",array(1));
 while($row = sqlDAL::fetchArray($result)){
     echo $row[2]."<br />";
 }
@@ -19,12 +19,13 @@ class iimysqli_result
 }  
 global $disableMysqlNdMethods;
 // this is only to test both methods more easy.
-$disableMysqlNdMethods=false;
+$disableMysqlNdMethods=true;
 class sqlDAL {
- 
+    function changePreparedStatement($sql){
     
+    }
     
-    static function insertSql($preparedStatement,$formats="",$values=array()){
+     function writeSql($preparedStatement,$formats="",$values=array()){
         global $global,$disableMysqlNdMethods;
         $stmt = $global['mysqli']->prepare($preparedStatement);
         if((!empty($formats))&&(!empty($values))){
@@ -35,13 +36,13 @@ class sqlDAL {
             $stmt->close();
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        //$res = $stmt->get_result();
         $stmt->close();
         return true;
     }
     
-    static function getSql($preparedStatement,$formats="",$values=array()){
+    static function readSql($preparedStatement,$formats="",$values=array()){
         global $global,$disableMysqlNdMethods;
+        
         if((function_exists('mysqli_fetch_all'))&&($disableMysqlNdMethods==false)){
             $stmt = $global['mysqli']->prepare($preparedStatement);
             if((!empty($formats))&&(!empty($values))){
@@ -53,11 +54,18 @@ class sqlDAL {
             return $res;
         } else {
             $stmt = $global['mysqli']->prepare($preparedStatement); 
+            if(!$stmt){
+            die(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //echo "stmt: ".$stmt. " after smtm";
+               // $stmt->close();
+               // $stmt = $global['mysqli']->prepare($preparedStatement); 
+            }
+            
             if((!empty($formats))&&(!empty($values))){
                 $stmt->bind_param($formats, $values);
             }
-            //$stmt->execute();
-            mysqli_execute($stmt);
+            $stmt->execute();
+          //  mysqli_execute($stmt);
             $result = self::iimysqli_stmt_get_result($stmt);
           //  $stmt->close();
             return $result;
@@ -65,7 +73,25 @@ class sqlDAL {
         return false;
     }
     
+    static function close($result){
+    global $disableMysqlNdMethods, $global;
     
+     if((!function_exists('mysqli_fetch_all'))||($disableMysqlNdMethods!=false)){
+    if(!is_null($result->stmt)){
+        $result->stmt->close();
+}
+//$global['mysqli']->close();
+}
+        }  
+        
+            static function fetchAllAssoc($result){
+                $ret = array();
+                while($row = self::fetchAssoc($result)){
+                    $ret[] = $row;
+                }
+                return $ret;
+            }
+        
     static function fetchAssoc($result){
         global $global,$disableMysqlNdMethods;
         if((function_exists('mysqli_fetch_all'))&&($disableMysqlNdMethods==false)){
@@ -148,7 +174,7 @@ class sqlDAL {
 
     $code .= ");";
     if (!eval($code)) { return false; };
-if (!mysqli_stmt_fetch($result->stmt)) { $result->stmt->close(); return false; };
+if (!mysqli_stmt_fetch($result->stmt)) { return false; };
     return $ret;
 }
    
@@ -164,10 +190,10 @@ function iimysqli_result_fetch_array(&$result)
     };
 
     $code .= ");";
-    if (!eval($code)) { return NULL; };
+    if (!eval($code)) { return false; };
 
     // This should advance the "$stmt" cursor.
-    if (!mysqli_stmt_fetch($result->stmt)) { $result->stmt->close(); return NULL; };
+    if (!mysqli_stmt_fetch($result->stmt)) {  return false; };
 
     // Return the array we built.
     return $ret;
