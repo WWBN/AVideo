@@ -173,12 +173,11 @@ if (!class_exists('Video')) {
                 return false;
             }
             $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('i', $catId);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $stmt->close();
-            $catTypeCache = $res->fetch_assoc();
+
+            $res = sqlDAL::readSql($sql,"i",array($catID));
+            $catTypeCache = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            
             $videoFound = false;
             $audioFound = false;
             if ($catTypeCache) {
@@ -558,15 +557,17 @@ if (!class_exists('Video')) {
         static function getVideoFromCleanTitle($clean_title) {
             // for some reason in some servers (CPanel) we got the error "Error while sending QUERY packet centos on a select"
             // even increasing the max_allowed_packet it only goes away when close and reopen the connection
-            global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-            $global['mysqli']->close();
-            $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+            global $global;//, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+           // $global['mysqli']->close();
+           // $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
-            $sql = "SELECT id  FROM videos  WHERE clean_title = '{$clean_title}' LIMIT 1";
+            $sql = "SELECT id  FROM videos  WHERE clean_title = ? LIMIT 1";
+            $res = sqlDAL::readSql($sql,"s",array($clean_title));
             //echo $sql;
-            $res = $global['mysqli']->query($sql);
+            //$res = $global['mysqli']->query($sql);
             if ($res) {
-                $video = $res->fetch_assoc();
+                $video = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
                 return self::getVideo($video['id'], "");
                 //$video['groups'] = UserGroups::getVideoGroups($video['id']);
             } else {
@@ -727,7 +728,7 @@ if (!class_exists('Video')) {
             $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
             //echo $sql;exit;
             $res = $global['mysqli']->query($sql);
-
+            //$res = sqlDAL::readSql($sql);
             if (!$res) {
                 return 0;
             }
