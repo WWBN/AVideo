@@ -1,21 +1,17 @@
 <?php
 /*
 tester-execution-code
-            $sql = "SELECT * FROM users;";
-            //$stmt = $global['mysqli']->prepare($sql);
-          //  $stmt->bind_param('i', 1);
-//$stmt->execute();
-//$result = sqlDAL::iimysqli_stmt_get_result($stmt);
-$result = sqlDAL::getSql($sql);
-//var_dump($result);
-//var_dump(sqlDAL::fetchAssoc($result));
+$sql = "SELECT * FROM users WHERE id=?;";
+$result = sqlDAL::getSql($sql,"i",array(1));
 while($row = sqlDAL::fetchArray($result)){
-    echo $row[0]."<br />";
+    echo $row[2]."<br />";
 }
-           // $stmt->execute();
-        //    $res = $stmt->get_result();
-           // $stmt->close();
-die();
+
+OR
+
+while($row = sqlDAL::fetchAssoc($result)){
+    echo $row['user']."<br />";
+}
 */
 class iimysqli_result
 {
