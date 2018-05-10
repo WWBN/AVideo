@@ -7,6 +7,14 @@ if (!empty($_GET['webSiteRootURL'])) {
     $global['webSiteRootURL'] = $_GET['webSiteRootURL'];
 }
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
+
+if(!empty($_GET['c'])){
+    $user = User::getChannelOwner($_GET['c']);
+    if(!empty($user)){
+        $_GET['u'] = $user['user'];
+    }
+}
+
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $t['key'];
 $p = YouPHPTubePlugin::loadPlugin("Live");
