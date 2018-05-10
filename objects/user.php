@@ -492,37 +492,26 @@ class User {
     static private function getUserDb($id) {
         global $global;
         $id = intval($id);
-        
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
-        $res = sqlDAL::readSql($sql,"i",array($id));
-        //$stmt = $global['mysqli']->prepare($sql);
-        //$stmt->bind_param('i', $id);
-        //$stmt->execute();
-        //$res = $stmt->get_result();
-        //$stmt->close();
-        
-        if ($res) {
-            $user = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);
-        } else {
-            $user = false;
-        }
-        return $user;
+        $res = sqlDAL::readSql($sql,"i",array($id));  
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($user!=false) {
+            return $user;
+        } 
+        return false;
     }
 
     static private function getUserDbFromUser($user) {
         global $global;
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $stmt = $global['mysqli']->prepare($sql);
-        $stmt->bind_param('s', $user);
         $res = sqlDAL::readSql($sql,"s",array($user));
-        if ($res!=false) {
-            $user = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);
-        } else {
-            $user = false;
-        }
-        return $user;
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($user!=false) {
+            return $user;
+        } 
+        return false;
     }
 
     function setUser($user) {
@@ -630,14 +619,11 @@ $res = sqlDAL::readSql($sql.";");
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         //$res = $global['mysqli']->query($sql);
         
-        $stmt = $global['mysqli']->prepare($sql);
-        $stmt->bind_param('s', $user);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $stmt->close();
+        $res = sqlDAL::readSql($sql,"s",array($user)); 
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         
-        if ($res->num_rows > 0) {
-            $user = $res->fetch_assoc();
+        if ($user != false) {
             return $user['id'];
         } else {
             return false;
@@ -648,14 +634,10 @@ $res = sqlDAL::readSql($sql.";");
         global $global;
         $users_id = intval($users_id);
         $sql = "SELECT * FROM users WHERE id = ? LIMIT 1";
-        // $res = $global['mysqli']->query($sql);
-        $stmt = $global['mysqli']->prepare($sql);
-        $stmt->bind_param('i', $users_id);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $stmt->close();
-        if ($res->num_rows > 0) {
-            $user = $res->fetch_assoc();
+        $res = sqlDAL::readSql($sql,"i",array($users_id)); 
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($user!=false) {
             return $user['id'];
         } else {
             return false;
