@@ -137,6 +137,14 @@ class User {
         } else {
             return false;
         }
+    }   
+    
+    static function getUserChannelName() {
+        if (self::isLogged()) {
+            return $_SESSION['user']['channelName'];
+        } else {
+            return false;
+        }
     }    
     /**
      * return an name to identify the user
