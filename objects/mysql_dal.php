@@ -1,5 +1,4 @@
 <?php
-
 /*
 tester-execution-code
 $sql = "SELECT * FROM users WHERE id=?;";

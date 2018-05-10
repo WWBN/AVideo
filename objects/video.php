@@ -238,16 +238,18 @@ if (!class_exists('Video')) {
                     } else if ($videoFound) {
                         $sql .= "2";
                     }
-                    $sql .= "' WHERE `category_type_cache`.`categoryId` = '" . $catId . "';";
+                    $sql .= "' WHERE `category_type_cache`.`categoryId` = ?;";
                     //echo $sql;
-                    sqlDAL::writeSql($sql);
+                    sqlDAL::writeSql($sql,"i",array($catId));
                 }
             } else {
                 // start incremental search and save - and a lot of this redundant stuff in a method.. 
-                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $catId . "';";
-                $res = $global['mysqli']->query($sql);
-                if ($res) {
-                    while ($row = $res->fetch_assoc()) {
+                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+                $res = sqlDAL::readSql($sql,"i",array($catId));
+                $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
+                if ($res!=false) {
+                    foreach($fullResult2 as $row) {
                         if ($row['type'] == "audio") {
                             $audioFound = true;
                         } else if ($row['type'] == "video") {
@@ -256,14 +258,19 @@ if (!class_exists('Video')) {
                     }
                 }
                 if (($videoFound == false) || ($audioFound == false)) {
-                    $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '" . $catId . "';";
+                    $sql = "SELECT type,parentId FROM `categories` WHERE parentId = ?;";
+                    $res = sqlDAL::readSql($sql,"i",array($catId));
+                    $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                    sqlDAL::close($res);
                     $res = $global['mysqli']->query($sql);
-                    if ($res) {
-                        while ($cat = $res->fetch_assoc()) {
-                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $cat['parentId'] . "';";
-                            $res = $global['mysqli']->query($sql);
-                            if ($res) {
-                                while ($row = $res->fetch_assoc()) {
+                    if ($res!=false) {
+                        foreach($fullResult2 as $cat) {
+                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+                            $res = sqlDAL::readSql($sql,"i",array($cat['parentId']));
+                            $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                            sqlDAL::close($res);
+                            if ($res!=false) {
+                                foreach($fullResult2 as $row) {
                                     if ($row['type'] == "audio") {
                                         $audioFound = true;
                                     } else if ($row['type'] == "video") {
@@ -274,7 +281,7 @@ if (!class_exists('Video')) {
                         }
                     }
                 }
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES ('" . $catId . "', '";
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, '";
                 if (($videoFound) && ($audioFound)) {
                     $sql .= "0";
                 } else if ($audioFound) {
@@ -283,7 +290,8 @@ if (!class_exists('Video')) {
                     $sql .= "2";
                 }
                 $sql .= "');";
-                $global['mysqli']->query($sql);
+                
+                sqlDAL::writeSql($sql,"i",array($catId));
             }
         }
 
@@ -293,10 +301,12 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5.01')) {
                 return false;
             }
-            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $catId . "';";
-            $res = $global['mysqli']->query($sql);
-            if ($res) {
-                while ($row = $res->fetch_assoc()) {
+            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+            $res = sqlDAL::readSql($sql,"i",array($catId));
+            $fullResult2 = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            if ($res!=false) {
+                foreach($fullResult2 as $row) {
                     if ($row['type'] == "audio") {
                         $audioFound = true;
                     } else if ($row['type'] == "video") {
@@ -305,14 +315,18 @@ if (!class_exists('Video')) {
                 }
             }
             if (($videoFound == false) || ($audioFound == false)) {
-                $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '" . $catId . "';";
-                $res = $global['mysqli']->query($sql);
-                if ($res) {
-                    while ($cat = $res->fetch_assoc()) {
-                        $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $cat['parentId'] . "';";
-                        $res = $global['mysqli']->query($sql);
-                        if ($res) {
-                            while ($row = $res->fetch_assoc()) {
+                $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = ?;";
+                $res = sqlDAL::readSql($sql,"i",array($catId));
+                $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
+                if ($res!=false) {
+                    foreach($fullResult2 as $cat) {
+                        $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+                        $res = sqlDAL::readSql($sql,"i",array($cat['parentId']));
+                        $fullResult = sqlDAL::fetchAllAssoc($res);
+                        sqlDAL::close($res);
+                        if ($res!=false) {
+                            foreach($fullResult as $row) {
                                 if ($row['type'] == "audio") {
                                     $audioFound = true;
                                 } else if ($row['type'] == "video") {
