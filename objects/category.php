@@ -37,19 +37,11 @@ class Category {
         $exist = false;
         // require this cause of Video::autosetCategoryType - but should be moveable easy here..
         require_once dirname(__FILE__) . '/../objects/video.php';
-        
-        //$this->id is already replaced by the new..
-        //$sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$this->id."';";
-        //$res = $global['mysqli']->query($sql);
-        
-        $stmt = $global['mysqli']->prepare("SELECT * FROM `category_type_cache` WHERE categoryId = ?");
-        $stmt->bind_param('i', $this->id);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $stmt->close();
-        
-        $catTypeCache = $res->fetch_assoc();
-        if($catTypeCache){
+        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
+        $res = sqlDAL::readSql($sql,"i",array($this->id));
+        $catTypeCache = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if($catTypeCache!=false){
             $exist = true;
         }
 
@@ -60,30 +52,19 @@ class Category {
             } else {
                 $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?, '0','0')";
             }
-            
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('i', $this->id);
-            $stmt->execute();
-            //$res = $stmt->get_result();
-            $stmt->close();
+            sqlDAL::writeSql($sql,"i",array($this->id));
             
             //$res = $global['mysqli']->query($sql);
             Video::autosetCategoryType($this->id);
         } else {
             if($exist){
                 $sql = "UPDATE `category_type_cache` SET `type` = ?, `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = ?;";
-                $stmt = $global['mysqli']->prepare($sql);
-                $stmt->bind_param('si', $type,$this->id);
+                sqlDAL::writeSql($sql,"si",array($type,$this->id));
 
             } else {
                 $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?,?,'1')";
-                $stmt = $global['mysqli']->prepare($sql);
-                $stmt->bind_param('is',$this->id,$type);
+                sqlDAL::writeSql($sql,"is",array($this->id,$type));
             }
-            $stmt->execute();
-            //$res = $stmt->get_result();
-            $stmt->close();
-            //$res = $global['mysqli']->query($sql);
         }
     }
     

@@ -114,12 +114,12 @@ class Comment {
 
         global $global;
         if (!empty($this->id)) {
-            $sql = "DELETE FROM comments WHERE id = {$this->id}";
+            $sql = "DELETE FROM comments WHERE id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
+        $resp = sqlDAL::writeSql($sql,"i",array($this->id));
+        if ($global['mysqli']->errno!=0) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $resp;
@@ -128,9 +128,11 @@ class Comment {
     private function getComment($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM comments WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        return ($res) ? $res->fetch_assoc() : false;
+        $sql = "SELECT * FROM comments WHERE  id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql,"i",array($id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return ($res!=false) ? $result : false;
     }
 
     static function getAllComments($videoId = 0, $comments_id_pai = 'NULL') {
