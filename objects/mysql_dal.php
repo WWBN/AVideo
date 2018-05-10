@@ -81,7 +81,7 @@ class sqlDAL {
             }
             
             $stmt->execute();
-            $result = self::iimysqli_stmt_get_result($stmt);
+            $result = iimysqli_stmt_get_result($stmt);
            // var_dump($result);
                     if($global['mysqli']->errno!=0){
             $stmt->close();
