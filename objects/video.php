@@ -1,5 +1,9 @@
 <?php
-
+set_error_handler(function($severity, $message, $file, $line) {
+    if (error_reporting() & $severity) {
+        throw new ErrorException($message, 0, $severity, $file, $line);
+    }
+});
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
 }
@@ -8,6 +12,7 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
+require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 if (!class_exists('Video')) {
 
     class Video {
@@ -142,8 +147,8 @@ if (!class_exists('Video')) {
                         . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink) values "
                         . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}')";
             }
-            $insert_row = $global['mysqli']->query($sql);
-
+            //$insert_row = $global['mysqli']->query($sql);
+            $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
@@ -160,6 +165,7 @@ if (!class_exists('Video')) {
                 if (!empty($this->old_categories_id)) {
                     Video::autosetCategoryType($this->old_categories_id);
                 }
+
                 return $id;
             } else {
                 die($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -172,12 +178,11 @@ if (!class_exists('Video')) {
                 return false;
             }
             $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('i', $catId);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $stmt->close();
-            $catTypeCache = $res->fetch_assoc();
+
+            $res = sqlDAL::readSql($sql,"i",array($catId));
+            $catTypeCache = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            
             $videoFound = false;
             $audioFound = false;
             if ($catTypeCache) {
@@ -185,14 +190,12 @@ if (!class_exists('Video')) {
                 if ($catTypeCache['manualSet'] == "0") {
                     // start incremental search and save
                     $sql = "SELECT * FROM `videos` WHERE categories_id = ?";
-                    $stmt = $global['mysqli']->prepare($sql);
-                    $stmt->bind_param('i', $catId);
-                    $stmt->execute();
-                    $res = $stmt->get_result();
-                    $stmt->close();
-                    //$tmpVid = $res->fetch_assoc();
-                    if ($res) {
-                        while ($row = $res->fetch_assoc()) {
+                    $res = sqlDAL::readSql($sql,"i",array($catId));
+                    $fullResult = sqlDAL::fetchAllAssoc($res);
+                    sqlDAL::close($res);
+                    if ($res!=false) {
+                        foreach($fullResult as $row) {
+                            
                             if ($row['type'] == "audio") {
                                 // echo "found audio";
                                 $audioFound = true;
@@ -202,16 +205,20 @@ if (!class_exists('Video')) {
                             }
                         }
                     }
+                    
                     if (($videoFound == false) || ($audioFound == false)) {
-                        $sql = "SELECT parentId,categories_id FROM `categories` WHERE parentId = '" . $catId . "';";
-                        $res = $global['mysqli']->query($sql);
-                        if ($res) {
+                        $sql = "SELECT * FROM `categories` WHERE parentId = ?";
+                        $res = sqlDAL::readSql($sql,"i",array($catId));
+                        $fullResult = sqlDAL::fetchAllAssoc($res);
+                        sqlDAL::close($res);
+                        if ($res!=false) {
                             //$tmpVid = $res->fetch_assoc();
-                            while ($row = mysql_fetch_assoc($res)) {
-                                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $row['parentId'] . "';";
-                                $res = $global['mysqli']->query($sql);
-                                //$tmpVid2 = $res->fetch_assoc();
-                                while ($row = $res->fetch_assoc()) {
+                            foreach ($fullResult as $row) {
+                                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+                                $res = sqlDAL::readSql($sql,"i",array($row['parentId']));
+                                $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                                sqlDAL::close($res);
+                                foreach ($fullResult2 as $row) {
                                     if ($row['type'] == "audio") {
                                         //  echo "found audio";
                                         $audioFound = true;
@@ -231,16 +238,18 @@ if (!class_exists('Video')) {
                     } else if ($videoFound) {
                         $sql .= "2";
                     }
-                    $sql .= "' WHERE `category_type_cache`.`categoryId` = '" . $catId . "';";
+                    $sql .= "' WHERE `category_type_cache`.`categoryId` = ?;";
                     //echo $sql;
-                    $global['mysqli']->query($sql);
+                    sqlDAL::writeSql($sql,"i",array($catId));
                 }
             } else {
                 // start incremental search and save - and a lot of this redundant stuff in a method.. 
-                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $catId . "';";
-                $res = $global['mysqli']->query($sql);
-                if ($res) {
-                    while ($row = $res->fetch_assoc()) {
+                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+                $res = sqlDAL::readSql($sql,"i",array($catId));
+                $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
+                if ($res!=false) {
+                    foreach($fullResult2 as $row) {
                         if ($row['type'] == "audio") {
                             $audioFound = true;
                         } else if ($row['type'] == "video") {
@@ -249,14 +258,19 @@ if (!class_exists('Video')) {
                     }
                 }
                 if (($videoFound == false) || ($audioFound == false)) {
-                    $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '" . $catId . "';";
+                    $sql = "SELECT type,parentId FROM `categories` WHERE parentId = ?;";
+                    $res = sqlDAL::readSql($sql,"i",array($catId));
+                    $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                    sqlDAL::close($res);
                     $res = $global['mysqli']->query($sql);
-                    if ($res) {
-                        while ($cat = $res->fetch_assoc()) {
-                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $cat['parentId'] . "';";
-                            $res = $global['mysqli']->query($sql);
-                            if ($res) {
-                                while ($row = $res->fetch_assoc()) {
+                    if ($res!=false) {
+                        foreach($fullResult2 as $cat) {
+                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+                            $res = sqlDAL::readSql($sql,"i",array($cat['parentId']));
+                            $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                            sqlDAL::close($res);
+                            if ($res!=false) {
+                                foreach($fullResult2 as $row) {
                                     if ($row['type'] == "audio") {
                                         $audioFound = true;
                                     } else if ($row['type'] == "video") {
@@ -267,7 +281,7 @@ if (!class_exists('Video')) {
                         }
                     }
                 }
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES ('" . $catId . "', '";
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, '";
                 if (($videoFound) && ($audioFound)) {
                     $sql .= "0";
                 } else if ($audioFound) {
@@ -276,7 +290,8 @@ if (!class_exists('Video')) {
                     $sql .= "2";
                 }
                 $sql .= "');";
-                $global['mysqli']->query($sql);
+                
+                sqlDAL::writeSql($sql,"i",array($catId));
             }
         }
 
@@ -286,10 +301,12 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5.01')) {
                 return false;
             }
-            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $catId . "';";
-            $res = $global['mysqli']->query($sql);
-            if ($res) {
-                while ($row = $res->fetch_assoc()) {
+            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+            $res = sqlDAL::readSql($sql,"i",array($catId));
+            $fullResult2 = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            if ($res!=false) {
+                foreach($fullResult2 as $row) {
                     if ($row['type'] == "audio") {
                         $audioFound = true;
                     } else if ($row['type'] == "video") {
@@ -298,14 +315,18 @@ if (!class_exists('Video')) {
                 }
             }
             if (($videoFound == false) || ($audioFound == false)) {
-                $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = '" . $catId . "';";
-                $res = $global['mysqli']->query($sql);
-                if ($res) {
-                    while ($cat = $res->fetch_assoc()) {
-                        $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = '" . $cat['parentId'] . "';";
-                        $res = $global['mysqli']->query($sql);
-                        if ($res) {
-                            while ($row = $res->fetch_assoc()) {
+                $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = ?;";
+                $res = sqlDAL::readSql($sql,"i",array($catId));
+                $fullResult2 = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
+                if ($res!=false) {
+                    foreach($fullResult2 as $cat) {
+                        $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+                        $res = sqlDAL::readSql($sql,"i",array($cat['parentId']));
+                        $fullResult = sqlDAL::fetchAllAssoc($res);
+                        sqlDAL::close($res);
+                        if ($res!=false) {
+                            foreach($fullResult as $row) {
                                 if ($row['type'] == "audio") {
                                     $audioFound = true;
                                 } else if ($row['type'] == "video") {
@@ -344,14 +365,10 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 global $global;
                 $sql = "UPDATE videos SET status = '{$status}', modified = now() WHERE id = {$this->id} ";
-                $stmt = $global['mysqli']->prepare($sql);
-                //$stmt->bind_param('s', $fileName);
-                $stmt->execute();
+                $res = sqlDAL::writeSql($sql);
                 if ($global['mysqli']->errno != 0) {
-                    $stmt->close();
                     die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
-                $stmt->close();
             }
             $this->status = $status;
         }
@@ -366,7 +383,8 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 global $global;
                 $sql = "UPDATE videos SET rotation = '{$saneRotation}', modified = now() WHERE id = {$this->id} ";
-                if (!$global['mysqli']->query($sql)) {
+                $res = sqlDAL::writeSql($sql);
+                if ($global['mysqli']->errno!=0) {
                     die('Error on update Rotation: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
             }
@@ -391,7 +409,8 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 global $global;
                 $sql = "UPDATE videos SET zoom = '{$saneZoom}', modified = now() WHERE id = {$this->id} ";
-                if (!$global['mysqli']->query($sql)) {
+                $res = sqlDAL::writeSql($sql);
+                if ($global['mysqli']->errno!=0) {
                     die('Error on update Zoom: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
             }
@@ -512,19 +531,15 @@ if (!class_exists('Video')) {
                 $sql .= " ORDER BY v.Created DESC ";
             }
 
-
-
             $sql .= " LIMIT 1";
 
-            /*
-              if (!empty($random)) {
-              echo '<hr />'.$sql;
-              }
-             */
-            $res = $global['mysqli']->query($sql);
-            if ($res) {
+           // echo $sql."<br />";
+            $res = sqlDAL::readSql($sql);
+            $video = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            if ($res!=false) {
+
                 require_once 'userGroups.php';
-                $video = $res->fetch_assoc();
                 if (!empty($video)) {
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
                 }
@@ -538,13 +553,11 @@ if (!class_exists('Video')) {
             global $global;
 
             $sql = "SELECT id  FROM videos  WHERE filename = ? LIMIT 1";
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('s', $fileName);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $stmt->close();
-            if ($res) {
-                $video = $res->fetch_assoc();
+
+            $res = sqlDAL::readSql($sql,"s",array($fileName));
+            if ($res!=false) {
+                $video = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
                 if (!empty($video['id'])) {
                     return self::getVideo($video['id'], "");
                 }
@@ -557,15 +570,17 @@ if (!class_exists('Video')) {
         static function getVideoFromCleanTitle($clean_title) {
             // for some reason in some servers (CPanel) we got the error "Error while sending QUERY packet centos on a select"
             // even increasing the max_allowed_packet it only goes away when close and reopen the connection
-            global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-            $global['mysqli']->close();
-            $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+            global $global;//, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+           // $global['mysqli']->close();
+           // $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
-            $sql = "SELECT id  FROM videos  WHERE clean_title = '{$clean_title}' LIMIT 1";
+            $sql = "SELECT id  FROM videos  WHERE clean_title = ? LIMIT 1";
+            $res = sqlDAL::readSql($sql,"s",array($clean_title));
             //echo $sql;
-            $res = $global['mysqli']->query($sql);
+            //$res = $global['mysqli']->query($sql);
             if ($res) {
-                $video = $res->fetch_assoc();
+                $video = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
                 return self::getVideo($video['id'], "");
                 //$video['groups'] = UserGroups::getVideoGroups($video['id']);
             } else {
@@ -651,11 +666,14 @@ if (!class_exists('Video')) {
                 unset($_GET['limitOnceToOne']);
             }
             //echo $sql;
-            $res = $global['mysqli']->query($sql);
+            //$res = $global['mysqli']->query($sql);
+            $res = sqlDAL::readSql($sql);
             $videos = array();
-            if ($res) {
+            if ($res!=false) {
+                $fullResult = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
                 require_once 'userGroups.php';
-                while ($row = $res->fetch_assoc()) {
+                foreach($fullResult as $row) {
                     if ($getStatistcs) {
                         $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
                         $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
@@ -685,7 +703,7 @@ if (!class_exists('Video')) {
                 $cn .= " c.clean_name as cn,";
             }
 
-            $sql = "SELECT v.id, c.name as category, {$cn} "
+            $sql = "SELECT COUNT(v.id) as num_rows, v.type, v.id, c.name as category, {$cn} "
                     . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
@@ -722,13 +740,15 @@ if (!class_exists('Video')) {
             }
             $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
             //echo $sql;exit;
-            $res = $global['mysqli']->query($sql);
-
+            //$res = $global['mysqli']->query($sql);
+            $res = sqlDAL::readSql($sql);
+            $data = sqlDAL::fetchAssoc($res);
+            $data['num_rows'];
             if (!$res) {
                 return 0;
             }
 
-            return $res->num_rows;
+            return $data['num_rows'];
         }
 
         static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
@@ -989,13 +1009,7 @@ if (!class_exists('Video')) {
                 error_log("Duration Updated: " . print_r($this, true));
 
                 $sql = "UPDATE videos SET duration = ?, modified = now() WHERE id = ?";
-
-                //$global['mysqli']->query($sql);
-                $stmt = $global['mysqli']->prepare($sql);
-                $stmt->bind_param('si', $this->duration, $this->id);
-                $stmt->execute();
-                $res = $stmt->get_result();
-                $stmt->close();
+                $res = sqlDAL::writeSql($sql,"si",array($this->duration, $this->id));
                 return $this->id;
             } else {
                 error_log("Do not need update duration: " . print_r($this, true));
@@ -1245,9 +1259,10 @@ if (!class_exists('Video')) {
                 $sql .= " AND id != {$videoId} ";
             }
             $sql .= " LIMIT 1";
-            $res = $global['mysqli']->query($sql);
-
-            if ($res && !empty($res->num_rows)) {
+            $res = sqlDAL::readSql($sql); 
+            $cleanTitleExists = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            if ($cleanTitleExists!=false) {
                 return self::fixCleanTitle($clean_title . $count, $count + 1, $videoId);
             }
             return $clean_title;
@@ -1288,15 +1303,13 @@ if (!class_exists('Video')) {
         static function getOwner($videos_id) {
             global $global;
             $sql = "SELECT users_id FROM videos WHERE id = ? LIMIT 1";
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('i', $videos_id);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $stmt->close();
+            $res = sqlDAL::readSql($sql,"i",array($videos_id)); 
+            $videoRow = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
             if ($res) {
                 require_once 'userGroups.php';
-                if ($row = $res->fetch_assoc()) {
-                    return $row['users_id'];
+                if ($videoRow!=false) {
+                    return $videoRow['users_id'];
                 }
             } else {
                 $videos = false;
@@ -1574,15 +1587,14 @@ if (!class_exists('Video')) {
             global $global;
 
             $sql = "SELECT * FROM videos WHERE id = ? LIMIT 1";
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('i', $videos_id);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $stmt->close();
-            if ($res) {
-                if ($row = $res->fetch_assoc()) {
+            
+            $res = sqlDAL::readSql($sql,"i",array($videos_id)); 
+            $videoRow = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
 
-                    return $row['clean_title'];
+            if ($res!=false) {
+                if ($videoRow!=false) {
+                    return $videoRow['clean_title'];
                 }
             } else {
                 $videos = false;
@@ -1595,14 +1607,12 @@ if (!class_exists('Video')) {
             global $global;
 
             $sql = "SELECT * FROM videos WHERE clean_title = ? LIMIT 1";
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('s', $clean_title);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $stmt->close();
-            if ($res) {
-                if ($row = $res->fetch_assoc()) {
-                    return $row['id'];
+            $res = sqlDAL::readSql($sql,"s",array($clean_title)); 
+            $videoRow = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            if ($res!=false) {
+                if ($videoRow!=false) {
+                    return $videoRow['id'];
                 }
             } else {
                 $videos = false;
@@ -1675,17 +1685,15 @@ if (!class_exists('Video')) {
 
             $sql = "SELECT id from videos  WHERE users_id = ?  ";
 
-            $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('i', $users_id);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $stmt->close();
+            $res = sqlDAL::readSql($sql,"i",array($users_id)); 
+            $videoRows = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
 
             $r = array('thumbsUp' => 0, 'thumbsDown' => 0);
 
-            if ($res) {
-                while ($row = $res->fetch_assoc()) {
-                    $sql = "SELECT id from likes WHERE videos_id = {$row['id']} AND `like` = 1  ";
+            if ($res!=false) {
+                foreach($videoRows as $row) {
+                    $sql = "SELECT COUNT(id) as num_rows, id from likes WHERE videos_id = {$row['id']} AND `like` = 1  ";
                     if (!empty($startDate)) {
                         $sql .= " AND `created` >= '{$startDate}' ";
                     }
@@ -1694,9 +1702,11 @@ if (!class_exists('Video')) {
                         $sql .= " AND `created` <= '{$endDate}' ";
                     }
 
-                    $res2 = $global['mysqli']->query($sql);
-
-                    $r['thumbsUp']+=$res2->num_rows;
+                    //$res2 = $global['mysqli']->query($sql);
+                    $res2 = sqlDAL::readSql($sql,"i",array($users_id)); 
+                    $countRow = sqlDAL::fetchAllAssoc($res);
+                    sqlDAL::close($res);
+                    $r['thumbsUp']+=$countRow['num_rows'];
 
                     $sql = "SELECT id from likes WHERE videos_id = {$row['id']} AND `like` = -1  ";
                     if (!empty($startDate)) {
