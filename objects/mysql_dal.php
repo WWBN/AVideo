@@ -19,7 +19,7 @@ class iimysqli_result
 }  
 global $disableMysqlNdMethods;
 // this is only to test both methods more easy.
-$disableMysqlNdMethods=true;
+$disableMysqlNdMethods=false;
 class sqlDAL {
      function writeSql($preparedStatement,$formats="",$values=array()){
         global $global,$disableMysqlNdMethods;
