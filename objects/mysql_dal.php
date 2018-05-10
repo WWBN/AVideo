@@ -81,7 +81,7 @@ class sqlDAL {
             }
             
             $stmt->execute();
-            $result = iimysqli_stmt_get_result($stmt);
+            $result = self::iimysqli_stmt_get_result($stmt);
            // var_dump($result);
                     if($global['mysqli']->errno!=0){
             $stmt->close();
@@ -145,7 +145,7 @@ class sqlDAL {
     }
     // mysqli_stmt_get_result() and a mysqli_result_fetch_array() fail without mysqlnd
     // workaround-methods when no mysqlnd is there - from https://stackoverflow.com/questions/31562359/workaround-for-mysqlnd-missing-driver
-    function iimysqli_stmt_get_result($stmt)
+   static function iimysqli_stmt_get_result($stmt)
 {
         global $global;
     /**    EXPLANATION:
@@ -196,7 +196,7 @@ class sqlDAL {
 }
 // workaround-methods when no mysqlnd is there - from https://stackoverflow.com/questions/31562359/workaround-for-mysqlnd-missing-driver
      // assoc by hersche
- function iimysqli_result_fetch_assoc(&$result)
+ static function iimysqli_result_fetch_assoc(&$result)
 {
      global $global;
     $ret = array();
@@ -215,7 +215,7 @@ if (!mysqli_stmt_fetch($result->stmt)) { return false; };
     return $ret;
 }
    
-function iimysqli_result_fetch_array(&$result)
+static function iimysqli_result_fetch_array(&$result)
 {
     $ret = array();
     $code = "return mysqli_stmt_bind_result(\$result->stmt ";
