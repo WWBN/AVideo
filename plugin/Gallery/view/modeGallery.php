@@ -142,7 +142,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                             ?>
                                         </span>
                                         <a class="btn btn-xs btn-default" href="<?php echo User::getChannelLink($value['users_id']); ?>" style="margin: 0 10px;">
-                                            <i class="fa fa-external-link"></i>
+                                            <i class="fas fa-external-link-alt"></i>
                                         </a>
                                         <?php
                                         echo Subscribe::getButton($value['users_id']);

@@ -51,7 +51,7 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
                     <?php } if (!empty($logId)) { ?>
                 <div id="adUrl" class="adControl"><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
                     <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank"><?php $url = parse_url($ad['redirect']); echo $url['host'];?> 
-                        <i class="fa fa-external-link"></i>
+                        <i class="fas fa-external-link-alt"></i>
                     </a>
 				</div>
 				<a id="adButton" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>>

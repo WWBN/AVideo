@@ -69,7 +69,9 @@ $options = json_decode($obj->addFundsOptions);
                                     ?>
                                 </select>
                             </div>
-                            <button class="btn btn-primary" id="manualAddFundsPageButton"><?php echo $obj->manualAddFundsPageButton; ?></button>
+                            <button class="btn btn-primary" id="manualAddFundsPageButton">
+                                <?php echo $obj->manualAddFundsPageButton; ?>
+                            </button>
                         </div>  
                     </div>
                 </div>
@@ -84,8 +86,27 @@ $options = json_decode($obj->addFundsOptions);
         ?>
         <script>
             $(document).ready(function () {
-                $('#manualAddFundsPageButton').click(function(){
-                                        
+                $('#manualAddFundsPageButton').click(function () {
+                    modal.showPleaseWait();
+                    $.ajax({
+                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/manualAddFunds.json.php',
+                        type: "POST",
+                        data: {
+                            value: $('#value').val()
+                        },
+                        success: function (response) {
+                            modal.hidePleaseWait();
+                            if (response.error) {
+                                setTimeout(function () {
+                                    swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                }, 500);
+                            } else {
+                                setTimeout(function () {
+                                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your request was sent"); ?>", "success");
+                                }, 500);
+                            }
+                        }
+                    });
                 });
             });
         </script>
