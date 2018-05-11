@@ -1,9 +1,4 @@
 <?php
-set_error_handler(function($severity, $message, $file, $line) {
-    if (error_reporting() & $severity) {
-        throw new ErrorException($message, 0, $severity, $file, $line);
-    }
-});
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
 }
@@ -743,24 +738,27 @@ if (!class_exists('Video')) {
             
             //echo $sql;exit;
             // got error Prepare failed: (1140) In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'youPHPTube.v.type'; this is incompatible with sql_mode=only_full_group_by
-            /*
+            
             $res = sqlDAL::readSql($sql);
             $data = sqlDAL::fetchAssoc($res);
-            $data['num_rows'];
+            // Maybe it was because we don't close it?
+            sqlDAL::close($res);
+            
+            // what was this line for?
+            // $data['num_rows'];
             if (!$res) {
                 return 0;
             }
 
             return $data['num_rows'];
-             * 
-             */
+/*
             $res = $global['mysqli']->query($sql);
 
             if (!$res) {
                 return 0;
             }
 
-            return $res->num_rows;
+            return $res->num_rows; */
         }
 
         static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
