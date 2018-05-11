@@ -30,7 +30,10 @@ class sqlDAL {
     function writeSql($preparedStatement, $formats = "", $values = array()) {
         global $global, $disableMysqlNdMethods;
         // echo $preparedStatement;
-        $stmt = $global['mysqli']->prepare($preparedStatement);
+        if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
+            log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
+            exit;
+        }
         if ((!empty($formats)) && (!empty($values))) {
             $code = "return \$stmt->bind_param('" . $formats . "'";
             //var_dump($result->fields);
@@ -46,7 +49,8 @@ class sqlDAL {
         $stmt->execute();
         if ($global['mysqli']->errno != 0) {
             $stmt->close();
-            die($preparedStatement . ' Error in writeSql : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            log_error('Error in writeSql : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error.", SQL-CMD:".$preparedStatement);
+            return false;
         }
         $stmt->close();
         return true;
@@ -56,7 +60,7 @@ class sqlDAL {
         global $global, $disableMysqlNdMethods;
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
-                echo "Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}";
+                log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
                 exit;
             }
             if ((!empty($formats)) && (!empty($values))) {
@@ -74,8 +78,10 @@ class sqlDAL {
             $stmt->close();
             return $res;
         } else {
-            $stmt = $global['mysqli']->prepare($preparedStatement);
-
+            if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
+                log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
+                exit;
+            }
             if ((!empty($formats)) && (!empty($values))) {
                 $code = "return \$stmt->bind_param(\"" . $formats . "\"";
                 $i = 0;
@@ -91,7 +97,8 @@ class sqlDAL {
             $result = self::iimysqli_stmt_get_result($stmt);
             if($global['mysqli']->errno!=0){
                 $stmt->close();
-                die($preparedStatement . ' Error in readSql : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                log_error('Error in readSql (no mysqlnd): (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error.", SQL-CMD:".$preparedStatement);
+                return false;
             }
             return $result;
         }
@@ -105,13 +112,20 @@ class sqlDAL {
         }
     }
 
-    static function num_rows($table, $column = "id") {
-        $sql = "SELECT COUNT(?) as counted_rows FROM ?";
-        $ret = array();
-        while ($row = self::fetchAssoc($result)) {
-            $ret[] = $row;
+    static function num_rows($res) {
+        global $global, $disableMysqlNdMethods;
+        if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
+            if(!$res){
+                return 0;
+            }
+            return $res->num_rows;
+        } else {
+            $i = 0;
+            while ($row = self::fetchAssoc($result)) {
+                $i++;
+            }
+            return $i;
         }
-        return $ret;
     }
 
     static function fetchAllAssoc($result) {
@@ -237,6 +251,13 @@ class sqlDAL {
         if (!mysqli_stmt_fetch($result->stmt)) {  return false; };
         return $ret;
     }
+}
+
+function log_error($err){
+    if(!empty($global['debug'])){
+        echo $err;
+    }
+    error_log($err);
 }
 
 ?>
