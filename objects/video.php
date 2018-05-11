@@ -1705,18 +1705,24 @@ if (!class_exists('Video')) {
 
             if ($res!=false) {
                 foreach($videoRows as $row) {
-                    $sql = "SELECT COUNT(id) as num_rows, id from likes WHERE videos_id = {$row['id']} AND `like` = 1  ";
+                    $values = array($row['id']);
+                    $format = "i";
+                    $sql = "SELECT COUNT(id) as num_rows, id from likes WHERE videos_id = ? AND `like` = 1  ";
                     if (!empty($startDate)) {
-                        $sql .= " AND `created` >= '{$startDate}' ";
+                        $sql .= " AND `created` >= ? ";
+                        $format .="s";
+                        $values[]=$startDate;
                     }
 
                     if (!empty($endDate)) {
-                        $sql .= " AND `created` <= '{$endDate}' ";
+                        $sql .= " AND `created` <= ? ";
+                        $format .="s";
+                        $values[]=$endDate;
                     }
 
                     //$res2 = $global['mysqli']->query($sql);
-                    $res2 = sqlDAL::readSql($sql,"i",array($users_id)); 
-                    $countRow = sqlDAL::fetchAllAssoc($res);
+                    $res2 = sqlDAL::readSql($sql,$format,$values); 
+                    $countRow = sqlDAL::fetchAssoc($res);
                     sqlDAL::close($res);
                     $r['thumbsUp']+=$countRow['num_rows'];
 
