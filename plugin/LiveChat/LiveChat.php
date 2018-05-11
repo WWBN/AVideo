@@ -4,7 +4,8 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class LiveChat extends PluginAbstract{
 
     public function getDescription() {
-        return "A live chat for multiple propouses";
+        global $global;
+        return "A live chat for multiple propouses<br>Initiate it on terminal with the command <code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
     }
     
     public function getName() {
