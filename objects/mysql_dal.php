@@ -128,7 +128,7 @@ class sqlDAL {
             return $i;
         }
     }
-*/
+
     static function fetchAllAssoc($result) {
         $ret = array();
         while ($row = self::fetchAssoc($result)) {
