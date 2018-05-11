@@ -74,19 +74,16 @@ class sqlDAL {
                     $code .= ", \$values[".$i."]";
                     $i++;
                 };
-
                 $code .= ");";
                 eval($code);
-               // echo $code;
             }
             
             $stmt->execute();
             $result = self::iimysqli_stmt_get_result($stmt);
-           // var_dump($result);
-                    if($global['mysqli']->errno!=0){
-            $stmt->close();
-            die($preparedStatement . ' Error in readSql : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+            if($global['mysqli']->errno!=0){
+                $stmt->close();
+                die($preparedStatement . ' Error in readSql : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
             return $result;
         }
         return false;
@@ -119,7 +116,9 @@ class sqlDAL {
     static function fetchAssoc($result){
         global $global,$disableMysqlNdMethods;
         if((function_exists('mysqli_fetch_all'))&&($disableMysqlNdMethods==false)){
-            return $result->fetch_assoc();
+            if($result!=false){
+                return $result->fetch_assoc();
+            }
         } else {
             return self::iimysqli_result_fetch_assoc($result);
         }
@@ -196,45 +195,38 @@ class sqlDAL {
 }
 // workaround-methods when no mysqlnd is there - from https://stackoverflow.com/questions/31562359/workaround-for-mysqlnd-missing-driver
      // assoc by hersche
- static function iimysqli_result_fetch_assoc(&$result)
-{
-     global $global;
-    $ret = array();
-    $code = "return mysqli_stmt_bind_result(\$result->stmt ";
-     //var_dump($result->fields);
-    for ($i=0; $i<$result->nCols; $i++)
-    {
-        $ret[$result->fields[$i]] = NULL;
-        $code .= ", \$ret['" .$result->fields[$i] ."']";
-    };
+    static function iimysqli_result_fetch_assoc(&$result) {
+        global $global;
+        $ret = array();
+        $code = "return mysqli_stmt_bind_result(\$result->stmt ";
+         //var_dump($result->fields);
+        for ($i=0; $i<$result->nCols; $i++)
+        {
+            $ret[$result->fields[$i]] = NULL;
+            $code .= ", \$ret['" .$result->fields[$i] ."']";
+        };
 
-    $code .= ");";
-    if (!eval($code)) { return false; };
-if (!mysqli_stmt_fetch($result->stmt)) { return false; };
-     //echo mysqli_stmt_num_rows ($result->stmt);
-    return $ret;
-}
+        $code .= ");";
+        if (!eval($code)) { return false; };
+        if (!mysqli_stmt_fetch($result->stmt)) { return false; };
+        //echo mysqli_stmt_num_rows ($result->stmt);
+        return $ret;
+    }
    
-static function iimysqli_result_fetch_array(&$result)
-{
-    $ret = array();
-    $code = "return mysqli_stmt_bind_result(\$result->stmt ";
+    static function iimysqli_result_fetch_array(&$result) {
+        $ret = array();
+        $code = "return mysqli_stmt_bind_result(\$result->stmt ";
 
-    for ($i=0; $i<$result->nCols; $i++)
-    {
-        $ret[$i] = NULL;
-        $code .= ", \$ret['" .$i ."']";
-    };
-
-    $code .= ");";
-    if (!eval($code)) { return false; };
-
-    // This should advance the "$stmt" cursor.
-    if (!mysqli_stmt_fetch($result->stmt)) {  return false; };
-
-    // Return the array we built.
-    return $ret;
-}
+        for ($i=0; $i<$result->nCols; $i++)
+        {
+            $ret[$i] = NULL;
+            $code .= ", \$ret['" .$i ."']";
+        };
+        $code .= ");";
+        if (!eval($code)) { return false; };
+        if (!mysqli_stmt_fetch($result->stmt)) {  return false; };
+        return $ret;
+    }
 }
 
 ?>

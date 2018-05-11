@@ -802,7 +802,7 @@ unset($_SESSION['type']);
 		</div>                
         <?php } if ($o->LiteDesign) { ?>
             <div class="row">
-                <h2 style="margin-top: 30px;">Categorys <span class="badge"><?php echo count($category); ?></span></h2>
+                <h2 style="margin-top: 30px;"><?php echo __("Categories"); ?> <span class="badge"><?php echo count($category); ?></span></h2>
                 <div class="carousel">
                     <?php
                     foreach ($category as $cat) {
