@@ -19,14 +19,24 @@
                 </video>
             </div>
             <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
-                <?php 
-                    $streamName = $uuid;
-                    include $global['systemRootPath'].'plugin/Live/view/onlineLabel.php';
-                    include $global['systemRootPath'].'plugin/Live/view/onlineUsers.php';
+                <?php
+                $streamName = $uuid;
+                include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
+                include $global['systemRootPath'] . 'plugin/Live/view/onlineUsers.php';
                 ?>
             </div>
-            
-            
+
+
+            <?php
+            $liveCount = YouPHPTubePlugin::loadPluginIfEnabled('LiveCountdownEvent');
+            $html = array();
+            if ($liveCount) {
+                $html = $liveCount->getNextLiveApplicationFromUser($user_id);
+            }
+            foreach ($html as $value) {
+                echo $value['html'];
+            };
+            ?>
         </div>
     </div> 
 
@@ -37,6 +47,16 @@
     $(document).ready(function () {
         player = videojs('mainVideo');
         player.ready(function () {
+            var err = this.error();
+            if (err && err.code) {
+                $('.vjs-error-display').hide();
+                $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
+<?php
+if (!empty($html)) {
+    echo "showCountDown();";
+}
+?>
+            }
 <?php
 if ($config->getAutoplay()) {
     echo "this.play();";

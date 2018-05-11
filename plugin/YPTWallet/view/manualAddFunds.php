@@ -3,13 +3,12 @@ require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
+if (!User::isLogged()) {
+    header("Location: {$global['webSiteRootURL']}");
+}
 
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
-$paypal = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
 $obj = $plugin->getDataObject();
-if (!empty($paypal)) {
-    $paypalObj = $paypal->getDataObject();
-}
 $options = json_decode($obj->addFundsOptions);
 ?>
 <!DOCTYPE html>
@@ -59,7 +58,7 @@ $options = json_decode($obj->addFundsOptions);
                             }
                             ?>
                             <div class="form-group">
-                                <label for="value"><?php echo __("Add Funds"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
+                                <label for="value"><?php echo __("Specify Ammount"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
                                 <select class="form-control" id="value" >
                                     <?php
                                     foreach ($options as $value) {
@@ -70,9 +69,7 @@ $options = json_decode($obj->addFundsOptions);
                                     ?>
                                 </select>
                             </div>
-                            <?php
-                            $plugin->getAvailablePayments();
-                            ?>
+                            <button class="btn btn-primary" id="manualAddFundsPageButton"><?php echo $obj->manualAddFundsPageButton; ?></button>
                         </div>  
                     </div>
                 </div>
@@ -87,7 +84,9 @@ $options = json_decode($obj->addFundsOptions);
         ?>
         <script>
             $(document).ready(function () {
-
+                $('#manualAddFundsPageButton').click(function(){
+                                        
+                });
             });
         </script>
 

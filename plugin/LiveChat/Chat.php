@@ -3,6 +3,8 @@ namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
+
+require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once dirname(__FILE__) . '/Objects/LiveChatObj.php';
 require_once dirname(__FILE__) . '/../YouPHPTubePlugin.php';
 
@@ -25,9 +27,11 @@ class Chat implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $from, $msg) {
         global $canSendMessage;
         if(empty($canSendMessage)){
+            echo "Cant Send message";
             return false;
         }
         //var_dump($msg);
+        echo "Saving message";
         $lc = new \LiveChatObj(0);
         $object = json_decode($msg);
         $lc->setLive_stream_code($object->chatId);
