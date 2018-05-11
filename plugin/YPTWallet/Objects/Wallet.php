@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class Wallet extends ObjectYPT {
 
-    protected $id, $balance, $users_id;
+    protected $id, $balance, $users_id, $crypto_wallet_address;
 
 
     static function getSearchFieldsNames() {
@@ -46,6 +46,14 @@ class Wallet extends ObjectYPT {
         $this->users_id = $users_id;
     }
     
+    function getCrypto_wallet_address() {
+        return $this->crypto_wallet_address;
+    }
+
+    function setCrypto_wallet_address($crypto_wallet_address) {
+        $this->crypto_wallet_address = $crypto_wallet_address;
+    }
+    
     protected function loadFromUser($users_id) {
         $row = self::getFromUser($users_id);
         if (empty($row))
@@ -68,5 +76,6 @@ class Wallet extends ObjectYPT {
         }
         return $row;
     }
+    
 
 }

@@ -3,14 +3,13 @@ require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
+if (!User::isLogged()) {
+    header("Location: {$global['webSiteRootURL']}");
+}
 
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
-$paypal = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
 $obj = $plugin->getDataObject();
-if (!empty($paypal)) {
-    $paypalObj = $paypal->getDataObject();
-}
-$options = json_decode($obj->addFundsOptions);
+$options = json_decode($obj->withdrawFundsOptions);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -28,10 +27,10 @@ $options = json_decode($obj->addFundsOptions);
         <div class="container">
             <div class="row">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><?php echo __("Add Funds"); ?></div>
+                    <div class="panel-heading"><?php echo __("Withdraw Funds"); ?></div>
                     <div class="panel-body">
                         <div class="col-sm-6">
-                            <?php echo $obj->add_funds_text ?>
+                            <?php echo $obj->withdraw_funds_text ?>
                         </div>
                         <div class="col-sm-6">
                             <?php
@@ -59,7 +58,7 @@ $options = json_decode($obj->addFundsOptions);
                             }
                             ?>
                             <div class="form-group">
-                                <label for="value"><?php echo __("Add Funds"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
+                                <label for="value"><?php echo __("Specify Ammount"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
                                 <select class="form-control" id="value" >
                                     <?php
                                     foreach ($options as $value) {
@@ -70,9 +69,7 @@ $options = json_decode($obj->addFundsOptions);
                                     ?>
                                 </select>
                             </div>
-                            <?php
-                            $plugin->getAvailablePayments();
-                            ?>
+                            <button class="btn btn-primary" id="manualWithdrawFundsPageButton"><?php echo $obj->manualWithdrawFundsPageButton; ?></button>
                         </div>  
                     </div>
                 </div>
@@ -87,7 +84,9 @@ $options = json_decode($obj->addFundsOptions);
         ?>
         <script>
             $(document).ready(function () {
-
+                $('#manualWithdrawFundsPageButton').click(function(){
+                    
+                });
             });
         </script>
 
