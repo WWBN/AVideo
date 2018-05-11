@@ -31,70 +31,80 @@ $obj = YouPHPTubePlugin::getObjectDataIfEnabled("YPTWallet");
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container">
-            <div class="row bgWhite list-group-item">
-                <div class="col-sm-6">
-                    <?php echo $obj->transfer_funds_text ?>
-                </div>
-                <div class="col-sm-6">
-                    <div class="row">
+            <div class="row">
 
-                        <div class="col-sm-12">
-                            <?php
-                            if (!empty($_GET['status'])) {
-                                $text = "unknow";
-                                $class = "danger";
-                                switch ($_GET['status']) {
-                                    case "fail":
-                                        $text = $obj->transfer_funds_success_fail;
-                                        break;
-                                    case "success":
-                                        $text = $obj->transfer_funds_success_success;
-                                        $class = "success";
-                                        break;
-                                }
-                                ?>
-                                <div class="alert alert-<?php echo $class; ?>">
-                                    <?php echo $text; ?>
+                <div class="row ">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><?php echo __("Transfer Funds"); ?></div>
+                        <div class="panel-body">
+                            <div class="col-sm-6">
+                                <?php echo $obj->transfer_funds_text ?>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="col-sm-12">
+                                        <?php
+                                        if (!empty($_GET['status'])) {
+                                            $text = "unknow";
+                                            $class = "danger";
+                                            switch ($_GET['status']) {
+                                                case "fail":
+                                                    $text = $obj->transfer_funds_success_fail;
+                                                    break;
+                                                case "success":
+                                                    $text = $obj->transfer_funds_success_success;
+                                                    $class = "success";
+                                                    break;
+                                            }
+                                            ?>
+                                            <div class="alert alert-<?php echo $class; ?>">
+                                                <?php echo $text; ?>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+
                                 </div>
-                                <?php
-                            }
-                            ?>
-                        </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="value"><?php echo __("Transfer Funds"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
+                                            <input type="number" name="value" id="value" placeholder="<?php echo __("Total Amount"); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="users_name"><i class="fa fa-user"></i> <?php echo __("Transfer Funds to"); ?></label>
+                                            <input type="text" id="users_name" placeholder="<?php echo __("Username or Email"); ?>">
+                                            <input type="hidden" name="users_id" id="users_id">
+                                        </div>
+                                    </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="value"><?php echo __("Transfer Funds"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
-                                <input type="number" name="value" id="value" placeholder="<?php echo __("Total Amount"); ?>">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="users_name"><i class="fa fa-user"></i> <?php echo __("Transfer Funds to"); ?></label>
-                                <input type="text" id="users_name" placeholder="<?php echo __("Username or Email"); ?>">
-                                <input type="hidden" name="users_id" id="users_id">
-                            </div>
-                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
+                                            <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                                            <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <br>
+                                    <div class="col-sm-12 text-center">
+                                        <button class="btn btn-primary" id="transferNow"><i class="fa fa-exchange" aria-hidden="true"></i> <?php echo __("Transfer now"); ?></button>
+                                    </div>
+                                </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
-                                <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                                <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
-                            </div>
+                            </div> 
                         </div>
                     </div>
-                    <div class="row">
-                        <br>
-                        <div class="col-sm-12 text-center">
-                            <button class="btn btn-primary" id="transferNow"><i class="fa fa-exchange" aria-hidden="true"></i> <?php echo __("Transfer now"); ?></button>
-                        </div>
-                    </div>
+                </div>
 
-                </div> 
+
             </div>
         </div>
 

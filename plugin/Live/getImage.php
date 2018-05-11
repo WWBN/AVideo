@@ -4,6 +4,14 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
+
+if(!empty($_GET['c'])){
+    $user = User::getChannelOwner($_GET['c']);
+    if(!empty($user)){
+        $_GET['u'] = $user['user'];
+    }
+}
+
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 if(empty($_GET['format'])){
     $_GET['format'] = "png";

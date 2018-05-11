@@ -4,6 +4,13 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 $p = YouPHPTubePlugin::loadPlugin("Live");
 
+if(!empty($_GET['c'])){
+    $user = User::getChannelOwner($_GET['c']);
+    if(!empty($user)){
+        $_GET['u'] = $user['user'];
+    }
+}
+
 if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
     include $global['systemRootPath'].'plugin/Live/view/videoEmbededV2.php';
     exit;
@@ -89,12 +96,12 @@ $obj = $p->getDataObject();
                             <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8"  readonly="readonly">
                         </div>       
                         <div class="form-group">
-                            <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("YouPHPTube URL"); ?>:</label>
-                            <input type="text" class="form-control" id="youphptubeURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>"  readonly="readonly">
+                            <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("Live URL"); ?>:</label>
+                            <input type="text" class="form-control" id="youphptubeURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode(User::getUserChannelName()); ?>"  readonly="readonly">
                         </div>   
                         <div class="form-group">
                             <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
-                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo User::getUserName(); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
+                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode(User::getUserChannelName()); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
                         </div>
                     </div>
                 </div>

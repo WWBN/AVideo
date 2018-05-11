@@ -79,7 +79,7 @@ if (User::canStream()) {
     function createLiveItem(href, title, name, photo, offline, online, views, key) {
         var $liveLi = $('.liveModel').clone();
         if (offline) {
-            $liveLi.find('.fa-video-camera').removeClass("fa-video-camera").addClass("fa-ban");
+            $liveLi.find('.fa-video').removeClass("fa-video").addClass("fa-ban");
             $liveLi.find('.liveUser').removeClass("label-success").addClass("label-danger");
             $liveLi.find('.badge').text("offline");
         }
