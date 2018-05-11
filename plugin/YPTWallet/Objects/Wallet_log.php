@@ -8,7 +8,7 @@ require_once $global['systemRootPath'].'plugin/YPTWallet/Objects/Wallet.php';
 
 class WalletLog extends ObjectYPT {
 
-    protected $id, $value, $description, $wallet_id, $json_data;
+    protected $id, $value, $description, $wallet_id, $json_data, $status, $type;
 
 
     static function getSearchFieldsNames() {
@@ -50,7 +50,23 @@ class WalletLog extends ObjectYPT {
     function setJson_data($json_data) {
         $this->json_data = $json_data;
     }
-        
+    
+    function getStatus() {
+        return $this->status;
+    }
+
+    function getType() {
+        return $this->type;
+    }
+
+    function setStatus($status) {
+        $this->status = $status;
+    }
+
+    function setType($type) {
+        $this->type = $type;
+    }
+            
     static function getAllFromWallet($wallet_id, $dontReturnEmpty = true) {
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE wallet_id=$wallet_id ";
@@ -103,13 +119,15 @@ class WalletLog extends ObjectYPT {
         return self::getTotalFromWallet($wallet['id'], $dontReturnEmpty);
     }
     
-    static function addLog($wallet_id, $value, $description="", $json_data="{}"){
+    static function addLog($wallet_id, $value, $description="", $json_data="{}", $status="success", $type=""){
         $log = new WalletLog(0);
         $log->setWallet_id($wallet_id);
         $log->setValue($value);
         $log->setDescription($description);
         $log->setJson_data($json_data);
-        $log->save();
+        $log->setStatus($status);        
+        $log->setType($type);
+        return $log->save();
     }
 
 
