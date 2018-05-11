@@ -8,9 +8,9 @@ if (!empty($_GET['webSiteRootURL'])) {
 }
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
-if(!empty($_GET['c'])){
+if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
-    if(!empty($user)){
+    if (!empty($user)) {
         $_GET['u'] = $user['user'];
     }
 }
@@ -89,6 +89,17 @@ if (!empty($objSecure->disableEmbedMode)) {
                 ?>
             </div>
         </div>
+
+        <?php
+        $liveCount = YouPHPTubePlugin::loadPluginIfEnabled('LiveCountdownEvent');
+        $html = array();
+        if ($liveCount) {
+            $html = $liveCount->getNextLiveApplicationFromUser($user_id);
+        }
+        foreach ($html as $value) {
+            echo $value['html'];
+        };
+        ?>
         <script>
             $(function () {
                 $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
@@ -106,6 +117,16 @@ if (!empty($objSecure->disableEmbedMode)) {
             $(document).ready(function () {
                 player = videojs('mainVideo');
                 player.ready(function () {
+                    var err = this.error();
+                    if (err && err.code) {
+                        $('.vjs-error-display').hide();
+                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
+<?php
+if (!empty($html)) {
+    echo "showCountDown();";
+}
+?>
+                    }
 <?php
 if ($config->getAutoplay()) {
     echo "this.play();";
