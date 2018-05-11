@@ -31,10 +31,28 @@ class YPTWallet extends PluginAbstract {
         $obj->transfer_funds_text = "<h1>Transfer money for other users</h1>Transfer funds from your account to another user account";
         $obj->transfer_funds_success_success = "<h1>Thank you,<br> Your funds has been transfered<h1>";
         $obj->transfer_funds_success_fail = "<h1>Sorry,<br> Your funds transfer request has been fail<h1>";
+        $obj->withdraw_funds_text = "<h1>Withdraw money from your</h1>Transfer funds from your account to your credit card or bank account";
+        $obj->withdraw_funds_success_success = "<h1>Thank you,<br> Your request was submited<h1>";
+        $obj->withdraw_funds_success_fail = "<h1>Sorry,<br> Your funds withdraw request has been fail<h1>";
         $obj->currency = "USD";
         $obj->currency_symbol = "$";
         $obj->addFundsOptions = "[5,10,20,50]";
         $obj->showWalletOnlyToAdmin = false;
+        $obj->CryptoWalletName = "Bitcoin Wallet Address";
+        $obj->enableAutomaticAddFundsPage = true;        
+        // add funds
+        $obj->enableManualAddFundsPage = false;        
+        $obj->manualAddFundsMenuTitle = "Add Funds/Deposit";
+        $obj->manualAddFundsPageButton = "Notify Deposit Made";
+        $obj->manualAddFundsNotifyEmail = "yourEmail@yourDomain.com";
+        // sell funds        
+        $obj->enableManualWithdrawFundsPage = true;    
+        $obj->withdrawFundsOptions = "[5,10,20,50,100,1000]";    
+        $obj->manualWithdrawFundsMenuTitle = "Withdraw Funds";
+        $obj->manualWithdrawFundsPageButton = "Request Withdraw";
+        $obj->manualWithdrawFundsNotifyEmail = "yourEmail@yourDomain.com";
+        $obj->manualWithdrawFundsminimum = 1;
+        $obj->manualWithdrawFundsmaximum = 100;
         
         $plugins = self::getAvailablePlugins();
         foreach ($plugins as $value) {
@@ -295,6 +313,60 @@ class YPTWallet extends PluginAbstract {
         global $global;
         $dir = $global['systemRootPath'] . "plugin/YPTWallet/plugins";
         return $dir;
+    }
+    
+    function sendEmails($emailsArray, $subject, $message){
+        global $global, $config;
+        $siteTitle = $config->getWebSiteTitle();
+        $footer = $config->getWebSiteTitle();
+        $body = $this->replaceTemplateTextreplaceTemplateText($siteTitle,$footer,$message);
+        return $this->send($emailsArray, $subject, $body);
+        
+    }
+    
+    private function replaceTemplateText($siteTitle,$footer,$message){
+        global $global, $config;
+        $text = file_get_contents("{$global['systemRootPath']}plugin/Notifications/template.html");        
+        $words = array($siteTitle,$footer,$message);
+        $replace = array('{siteTitle}', '{footer}','{message}');
+        
+        return str_replace($replace, $words, $text);
+    }
+    
+    private function send($emailsArray, $subject, $body){
+        if(empty($emailsArray)){
+            return false;
+        }
+        $emailsArray = array_unique($emailsArray);
+        
+        global $global, $config;
+        
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
+        
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer;
+        setSiteSendMessage($mail);
+        //Set who the message is to be sent from
+        $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
+        //Set who the message is to be sent to
+        foreach ($emailsArray as $value) {
+            if(empty($value)){
+                continue;
+            }
+            $mail->addBCC($value);
+        }        
+        //Set the subject line
+        $mail->Subject = $subject;
+        $mail->msgHTML($body);
+
+        //send the message, check for errors
+        if (!$mail->send()) {
+            error_log("Notification email sent [{$subject}]");
+            return true;
+        } else {
+            error_log("Notification email FAIL [{$subject}]");
+            return false;
+        }
     }
 
 }
