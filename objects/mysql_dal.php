@@ -112,7 +112,6 @@ class sqlDAL {
         }
     }
 
-//    Not useable atm.. maybe like num_rows($res)
     static function num_rows($res) {
         global $global, $disableMysqlNdMethods;
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
