@@ -707,7 +707,7 @@ if (!class_exists('Video')) {
                     . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
-                    . " WHERE 1=1  ";
+                    . " WHERE 1=1 ";
 
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
@@ -739,8 +739,11 @@ if (!class_exists('Video')) {
                 }
             }
             $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
+            
+            
             //echo $sql;exit;
-            //$res = $global['mysqli']->query($sql);
+            // got error Prepare failed: (1140) In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'youPHPTube.v.type'; this is incompatible with sql_mode=only_full_group_by
+            /*
             $res = sqlDAL::readSql($sql);
             $data = sqlDAL::fetchAssoc($res);
             $data['num_rows'];
@@ -749,6 +752,15 @@ if (!class_exists('Video')) {
             }
 
             return $data['num_rows'];
+             * 
+             */
+            $res = $global['mysqli']->query($sql);
+
+            if (!$res) {
+                return 0;
+            }
+
+            return $res->num_rows;
         }
 
         static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
