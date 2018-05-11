@@ -665,8 +665,7 @@ if (!class_exists('Video')) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
             }
-            //echo $sql;
-            //$res = $global['mysqli']->query($sql);
+            /*
             $res = sqlDAL::readSql($sql);
             $videos = array();
             if ($res!=false) {
@@ -674,6 +673,13 @@ if (!class_exists('Video')) {
                 sqlDAL::close($res);
                 require_once 'userGroups.php';
                 foreach($fullResult as $row) {
+             *  Removed because was bringing all videos, has no LIMIT on the query
+             */
+            $res = $global['mysqli']->query($sql);
+            $videos = array();
+            if ($res) {
+                require_once 'userGroups.php';
+                while ($row = $res->fetch_assoc()) {
                     if ($getStatistcs) {
                         $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
                         $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
