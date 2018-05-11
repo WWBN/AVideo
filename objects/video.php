@@ -698,7 +698,7 @@ if (!class_exists('Video')) {
                 $cn .= " c.clean_name as cn,";
             }
 
-            $sql = "SELECT COUNT(v.id) as num_rows, v.type, v.id, c.name as category, {$cn} "
+            $sql = "SELECT v.type, v.id, c.name as category, {$cn} "
                     . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
@@ -740,17 +740,14 @@ if (!class_exists('Video')) {
             // got error Prepare failed: (1140) In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'youPHPTube.v.type'; this is incompatible with sql_mode=only_full_group_by
             
             $res = sqlDAL::readSql($sql);
-            $data = sqlDAL::fetchAssoc($res);
+            $numRows = sqlDal::num_rows($res);
             // Maybe it was because we don't close it?
             sqlDAL::close($res);
             
             // what was this line for?
             // $data['num_rows'];
-            if (!$res) {
-                return 0;
-            }
 
-            return $data['num_rows'];
+            return $numRows;
 /*
             $res = $global['mysqli']->query($sql);
 
