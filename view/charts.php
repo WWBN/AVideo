@@ -76,7 +76,7 @@ foreach ($videos as $value) {
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js" integrity="sha256-+q+dGCSrVbejd3MDuzJHKsk2eXd4sF5XYEMfPZsOnYE=" crossorigin="anonymous"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Chart.bundle.min.js"></script>
         <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <style>
@@ -130,10 +130,10 @@ foreach ($videos as $value) {
         <div class="container-fluid">
             <div class="list-group-item clear clearfix">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a data-toggle="tab" href="#menu1"><i class="fab fa-youtube"></i> <i class="fa fa-eye"></i> Video views - per Channel</a></li>
-                    <li><a data-toggle="tab" href="#menu2"><i class="fa fa-comments"></i> <i class="fa fa-thumbs-up"></i> Comment thumbs up - per Person</a></li>
-                    <li><a data-toggle="tab" href="#menu3"><i class="fab fa-youtube"></i> <i class="fa fa-thumbs-up"></i> Video thumbs up - per Channel</a></li>
+                    <li class="active"><a data-toggle="tab" href="#dashboard"><i class="fas fa-tachometer-alt"></i> <?php echo __("Dashboard"); ?></a></li>
+                    <li><a data-toggle="tab" href="#menu1"><i class="fab fa-youtube"></i> <i class="fa fa-eye"></i> <?php echo __("Video views - per Channel"); ?></a></li>
+                    <li><a data-toggle="tab" href="#menu2"><i class="fa fa-comments"></i> <i class="fa fa-thumbs-up"></i> <?php echo __("Comment thumbs up - per Person"); ?></a></li>
+                    <li><a data-toggle="tab" href="#menu3"><i class="fab fa-youtube"></i> <i class="fa fa-thumbs-up"></i> <?php echo __("Video thumbs up - per Channel"); ?></a></li>
                 </ul>
 
                 <div class="tab-content">

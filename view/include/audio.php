@@ -7,7 +7,7 @@
                $poster = $global['webSiteRootURL']."videos/".$video['filename'].".jpg"; 
             }
         ?>
-        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay data-setup='{controls: true}' poster="<?php echo $poster; ?>">
+        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay data-setup='{"controls": true}' poster="<?php echo $poster; ?>">
             <?php
             $ext = "";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>
@@ -31,7 +31,7 @@
         var mediaId = <?php echo $video['id']; ?>;
         $(document).ready(function () {
             $(".vjs-big-play-button").hide();
-            //$(".vjs-control-bar").show();
+            $(".vjs-control-bar").css("opacity: 1; visibility: visible;
             player = videojs('mainAudio');
             player.ready(function () {
             <?php

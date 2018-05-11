@@ -183,17 +183,13 @@ class Plugin extends ObjectYPT {
     static function getEnabled($uuid) {
         global $global;
         $rows = array();
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' AND uuid = ? ";
-        if ($stmt = $global['mysqli']->prepare($sql)) {
-
-            /* bind parameters for markers */
-            $stmt->bind_param("s", $uuid);
-            $stmt->execute();
-            /* instead of bind_result: */
-            $result = $stmt->get_result();
-            /* now you can fetch the results into an array */
-            while ($result && $myrow = $result->fetch_assoc()) {
-                $rows[] = $myrow;
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' AND uuid = '".$uuid."' ;";
+        $res = sqlDAL::readSql($sql); 
+        $pluginRows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        if($pluginRows!=false){
+            foreach($pluginRows as $row){
+                $rows[] = $row;
             }
         }
         return $rows;

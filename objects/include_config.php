@@ -5,6 +5,9 @@ global $config;
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
 
+// We do not need this any longer, unset for safety purposes
+unset($mysqlPass);
+unset($mysqlUser);
 $now = new DateTime();
 $mins = $now->getOffset() / 60;
 $sgn = ($mins < 0 ? -1 : 1);

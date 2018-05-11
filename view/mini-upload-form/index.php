@@ -28,7 +28,7 @@ if (!User::canUpload()) {
 
     <body>
         <?php
-        include '../include/navbar.php';
+        include $global['systemRootPath'].'view/include/navbar.php';
         ?>
 
         <div class="container">
@@ -78,7 +78,7 @@ if (!User::canUpload()) {
         </div><!--/.container-->
 
 <?php
-include '../include/footer.php';
+include $global['systemRootPath'].'view/include/footer.php';
 ?>
 
 
