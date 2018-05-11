@@ -2,9 +2,9 @@
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
-if(!empty($_GET['c'])){
+if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
-    if(!empty($user)){
+    if (!empty($user)) {
         $_GET['u'] = $user['user'];
     }
 }
@@ -42,6 +42,16 @@ if (!empty($objSecure->disableEmbedMode)) {
                    id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
                 <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
             </video>
+            <?php
+            $liveCount = YouPHPTubePlugin::loadPluginIfEnabled('LiveCountdownEvent');
+            $html = array();
+            if ($liveCount) {
+                $html = $liveCount->getNextLiveApplicationFromUser($user_id);
+            }
+            foreach ($html as $value) {
+                echo $value['html'];
+            };
+            ?>
         </div>
 
         <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
@@ -61,6 +71,16 @@ if (!empty($objSecure->disableEmbedMode)) {
             $(document).ready(function () {
                 player = videojs('mainVideo');
                 player.ready(function () {
+                    var err = this.error();
+                    if (err && err.code) {
+                        $('.vjs-error-display').hide();
+                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
+<?php
+if (!empty($html)) {
+    echo "showCountDown();";
+}
+?>
+                    }
 <?php
 if ($config->getAutoplay()) {
     echo "this.play();";
