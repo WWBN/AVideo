@@ -31,6 +31,7 @@ class Chat implements MessageComponentInterface {
             return false;
         }
         //var_dump($msg);
+        echo "Saving message";
         $lc = new \LiveChatObj(0);
         $object = json_decode($msg);
         $lc->setLive_stream_code($object->chatId);
