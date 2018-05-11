@@ -14,7 +14,10 @@ class BootGrid {
             $sql .= $alternativeOrderBy;
         }
 
-        if(!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount']>0){
+        if(!empty($_POST['rowCount']) && $_POST['rowCount']>0){
+            if(empty($_POST['current'])){
+                $_POST['current'] = 1;
+            }
             $current = ($_POST['current']-1)*$_POST['rowCount'];
             $sql .= " LIMIT $current, {$_POST['rowCount']} ";
         }else{
