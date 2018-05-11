@@ -36,15 +36,17 @@ class TheaterButton extends PluginAbstract {
     }
     
     public function getFooterCode() {
-        global $global, $autoPlayVideo;
-        if (empty($_GET['videoName'])) {
+        global $global, $autoPlayVideo, $isEmbed;
+        if ((empty($_GET['videoName']))||($isEmbed==1)) {
             return "";
         }
         $obj = $this->getDataObject();
         $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/script.js" type="text/javascript"></script>';
         $tmp = "mainVideo";
-        if($_SESSION['type']=="audio"){
-            $tmp = "mainAudio";
+        if(!empty($_SESSION['type'])){
+            if($_SESSION['type']=="audio"){
+                $tmp = "mainAudio";
+            }
         }
         $js .= '<script>var videoJsId = "'.$tmp.'";</script>';
         if(!empty($obj->show_switch_button)){

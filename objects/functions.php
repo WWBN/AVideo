@@ -1,4 +1,5 @@
 <?php
+
 // make sure SecureVideosDirectory will be the first
 function cmpPlugin($a, $b) { 
     if ($a['name']=='SecureVideosDirectory')
@@ -831,17 +832,71 @@ function combineFiles($filesArray, $extension = "js") {
     $md5FileName = md5($fileName) . ".{$extension}";
     if (!file_exists($cacheDir . $md5FileName)) {
         foreach ($filesArray as $value) {
-            $str .= "\n/*{$value}*/\n" . url_get_contents($value);
+            if(file_exists($global['systemRootPath'].$value)){
+                $str .= "\n/*{$value} created local with systemRootPath */\n" . local_get_contents($global['systemRootPath'].$value);
+            }
+            else if(file_exists($value)){
+                $str .= "\n/*{$value} created local with full-path given */\n" . local_get_contents($value);
+            }       
+            else {
+                $allowed = "";
+                if (ini_get('allow_url_fopen')) {
+                    $allowed .= "allow_url_fopen is on and ";
+                }
+                if (function_exists('curl_init')) {
+                    $allowed .= "curl is on";
+                } else {
+                   $allowed .= "curl is off"; 
+                }
+            
+                    $content = url_get_contents($value);
+                    if(empty($content)){
+                        $allowed .= " - web-fallback 1 (add webSiteRootURL)";
+                        $content = url_get_contents($global['webSiteRootURL'] . $value);
+                    }
+                    $str .= "\n/*{$value} created via web with own url ({$allowed}) */\n" . $content;
+                
+            }
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
     return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
 }
 
-function url_get_contents($Url) {
+
+function local_get_contents($path){
+    if (function_exists('fopen')){
+        $myfile = fopen($path, "r") or die("Unable to open file!");
+        $text = fread($myfile,filesize($path));
+        fclose($myfile);
+        return $text;
+    }
+}
+
+
+function url_get_contents($Url, $ctx="") { 
+    if(empty($ctx)){
+        $opts = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+                "allow_self_signed" => true 
+            )
+        );
+        $context = stream_context_create($opts);
+    } else {
+        $context = $ctx;
+    }
     if (ini_get('allow_url_fopen')) {
-        return file_get_contents($Url);
-    } else if (function_exists('curl_init')) {
+        try{
+            $tmp = @file_get_contents($Url, false,$context);
+            if($tmp!=false){
+                return $tmp;
+            }
+        } catch(ErrorException $e){
+            
+        }
+    } else  if (function_exists('curl_init')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $Url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -849,7 +904,7 @@ function url_get_contents($Url) {
         curl_close($ch);
         return $output;
     }
-    return file_get_contents($Url);
+    return @file_get_contents($Url, false,$context);
 }
 
 function getUpdatesFilesArray() {

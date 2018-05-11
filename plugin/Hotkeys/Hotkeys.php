@@ -37,16 +37,8 @@ class Hotkeys extends PluginAbstract {
     public function getFooterCode() {
         global $global;
         $obj = $this->getDataObject();
-        
-        $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        
-        $httpSpacer = 7;
-        if(strpos($global['webSiteRootURL'],"https://")!==false){
-           $httpSpacer = 8;    
-        }
-        $catUrlResult;
-        preg_match("/cat\/(.*)\/video\/(.*)/", $url, $catUrlResult);
-        if((strpos($url,substr($global['webSiteRootURL'],$httpSpacer)."video/")!==false)||(sizeof($catUrlResult)>0)){
+
+        if(!empty($_GET['isMediaPlaySite'])){
             $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script><script> $( document ).ready(function() {";
             if($_SESSION['type']=="audio"){
                 $tmp .= "videojs('mainAudio').ready(function() {";
