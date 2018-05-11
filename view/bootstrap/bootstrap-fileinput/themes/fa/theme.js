@@ -33,7 +33,7 @@
             next: '<i class="fa fa-caret-right fa-lg"></i>',
             toggleheader: '<i class="fa fa-arrows-v"></i>',
             fullscreen: '<i class="fa fa-arrows-alt"></i>',
-            borderless: '<i class="fa fa-external-link"></i>',
+            borderless: '<i class="fas fa-external-link-alt"></i>',
             close: '<i class="fa fa-remove"></i>'
         },
         previewFileIcon: '<i class="fa fa-file"></i>',

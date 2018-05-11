@@ -98,7 +98,7 @@ if (!empty($videos)) {
                                 <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
                                     $url = parse_url($ad['redirect']);
                                     echo $url['host'];
-                                    ?> <i class="fa fa-external-link"></i>
+                                    ?> <i class="fas fa-external-link-alt"></i>
                                 </a>
                             </div>
                             <a id="adButton<?php echo $video['id']; ?>" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
