@@ -171,7 +171,7 @@ class YPTWallet extends PluginAbstract {
         $wallet->setBalance($balance);
         $wallet_id = $wallet->save();     
         
-        WalletLog::addLog($wallet_id, $value, $description, $json_data);
+        WalletLog::addLog($wallet_id, $value, $description, $json_data, "success", "addBalance");
         
         if(!empty($mainWallet_user_id)){
             $wallet = $this->getWallet($mainWallet_user_id);
@@ -180,7 +180,7 @@ class YPTWallet extends PluginAbstract {
             $wallet->setBalance($balance);
             $wallet_id = $wallet->save();     
             $user = new User($users_id);
-            WalletLog::addLog($wallet_id, ($value*-1), " From user ($users_id) ".$user->getUser()." - ".$description , $json_data);
+            WalletLog::addLog($wallet_id, ($value*-1), " From user ($users_id) ".$user->getUser()." - ".$description , $json_data, "success", "addBalance to main wallet");
         }
         
     }
@@ -194,7 +194,7 @@ class YPTWallet extends PluginAbstract {
         $wallet->setBalance($value);
         $wallet_id = $wallet->save();     
         $description = "Admin set your balance, from {$balance} to {$value}";
-        WalletLog::addLog($wallet_id, $value, $description);
+        WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "saveBalance");
     }
     
     public function transferBalance($users_id_from,$users_id_to, $value) {
@@ -226,7 +226,7 @@ class YPTWallet extends PluginAbstract {
         $wallet->setBalance($newBalance);
         $wallet_id = $wallet->save();   
         $description = "Transfer Balance {$value} from user [$users_id_from] {$identificationFrom} to user [{$users_id_to}] {$identificationTo}";
-        WalletLog::addLog($wallet_id, $value, $description);
+        WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance to");
         
         
         $wallet = $this->getWallet($users_id_to);
@@ -235,7 +235,7 @@ class YPTWallet extends PluginAbstract {
         $wallet->setBalance($newBalance);
         $wallet_id = $wallet->save();   
         $description = "Transfer Balance {$value} from user [$users_id_from] {$identificationFrom} to user [{$users_id_to}] {$identificationTo}";
-        WalletLog::addLog($wallet_id, $value, $description);
+        WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
         return true;
     }
 
@@ -319,7 +319,7 @@ class YPTWallet extends PluginAbstract {
         global $global, $config;
         $siteTitle = $config->getWebSiteTitle();
         $footer = $config->getWebSiteTitle();
-        $body = $this->replaceTemplateTextreplaceTemplateText($siteTitle,$footer,$message);
+        $body = $this->replaceTemplateText($siteTitle,$footer,$message);
         return $this->send($emailsArray, $subject, $body);
         
     }
@@ -361,11 +361,11 @@ class YPTWallet extends PluginAbstract {
 
         //send the message, check for errors
         if (!$mail->send()) {
-            error_log("Notification email sent [{$subject}]");
-            return true;
-        } else {
-            error_log("Notification email FAIL [{$subject}]");
+            error_log("Wallet email FAIL [{$subject}] {$mail->ErrorInfo}");
             return false;
+        } else {
+            error_log("Wallet email sent [{$subject}]");
+            return true;
         }
     }
 
