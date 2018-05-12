@@ -77,5 +77,11 @@ class Wallet extends ObjectYPT {
         return $row;
     }
     
+    public function save() {
+        $this->balance = floatval($this->balance);
+        return parent::save();
+    }
+
+    
 
 }
