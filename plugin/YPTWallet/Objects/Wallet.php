@@ -77,6 +77,21 @@ class Wallet extends ObjectYPT {
         return $row;
     }
     
+    static function getFromWalletId($wallet_id) {
+        global $global;
+        $wallet_id = intval($wallet_id);
+        $sql = "SELECT u.*, w.* FROM " . static::getTableName() . " w "
+                . " LEFT JOIN users u ON u.id = users_id WHERE  w.id = $wallet_id LIMIT 1";
+        //echo $sql;
+        $res = $global['mysqli']->query($sql);
+        if ($res) {
+            $row = $res->fetch_assoc();
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
+    
     public function save() {
         $this->balance = floatval($this->balance);
         return parent::save();

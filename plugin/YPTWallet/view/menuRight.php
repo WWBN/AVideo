@@ -66,12 +66,19 @@ $balance = $plugin->getBalance(User::getId());
             </li> 
             <?php
             if (User::isAdmin()) {
+                $total = WalletLog::getTotalFromWallet(0,true,'pending');
                 ?>
                 <li class="dropdown-header">Admin Menu</li>
                 <li class="dropdown-submenu">
                     <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/adminManageWallets.php">
                         <i class="fa fa-users" aria-hidden="true"></i>
                         <?php echo __("Manage Wallets"); ?>
+                    </a>
+                </li> 
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/pendingRequests.php">
+                        <i class="far fa-clock" aria-hidden="true"></i>
+                        <?php echo __("Pending Requests"); ?> <span class="badge"><?php echo $total; ?></span>
                     </a>
                 </li> 
                 <?php
