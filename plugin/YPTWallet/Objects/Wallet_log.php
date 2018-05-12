@@ -67,12 +67,20 @@ class WalletLog extends ObjectYPT {
         $this->type = $type;
     }
             
-    static function getAllFromWallet($wallet_id, $dontReturnEmpty = true) {
+    static function getAllFromWallet($wallet_id, $dontReturnEmpty = true, $status="") {
         global $global;
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE wallet_id=$wallet_id ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 
+        if(!empty($wallet_id)){
+            $sql .= " AND wallet_id=$wallet_id ";
+        }
+        
         if($dontReturnEmpty){
             $sql .= " AND value != 0.0 ";
+        }
+        
+        if(!empty($status)){
+            $sql .= " AND status = '$status' ";
         }
         
         $sql .= self::getSqlFromPost();
@@ -82,6 +90,9 @@ class WalletLog extends ObjectYPT {
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 $row['valueText'] = "{$obj->currency_symbol} ".number_format($row['value'], $obj->decimalPrecision)." {$obj->currency}";
+                $row['wallet'] = Wallet::getFromWalletId($row['wallet_id']);
+                $row['user'] = $row['wallet']['user'];
+                $row['balance'] = $row['wallet']['balance'];
                 $rows[] = $row;
             }
         } else {
@@ -90,12 +101,20 @@ class WalletLog extends ObjectYPT {
         return $rows;
     }
     
-    static function getTotalFromWallet($wallet_id, $dontReturnEmpty = true) {
+    static function getTotalFromWallet($wallet_id, $dontReturnEmpty = true, $status="") {
         global $global;
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE wallet_id=$wallet_id ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
+
+        if(!empty($wallet_id)){
+            $sql .= " AND wallet_id=$wallet_id ";
+        }
         
         if($dontReturnEmpty){
             $sql .= " AND value != 0.0 ";
+        }
+        
+        if(!empty($status)){
+            $sql .= " AND status = '$status' ";
         }
         
         $sql .= self::getSqlSearchFromPost();
