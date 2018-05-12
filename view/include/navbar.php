@@ -366,7 +366,7 @@ $updateFiles = getUpdatesFilesArray();
                 ?>
                 
                 <?php
-                    if (!empty($advancedCustom->removeBrowserChannelLinkFromMenu)) {
+                    if (empty($advancedCustom->removeBrowserChannelLinkFromMenu)) {
                 ?>
                 <!-- Channels -->
                 <li>
