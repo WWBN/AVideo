@@ -31,7 +31,7 @@ if($plugin->transferBalance(User::getId(),$dataObj->manualWithdrawFundsTransferT
     $wallet = $plugin->getOrCreateWallet(User::getId());
     $wallet_id = $wallet->getId();
     $url = "{$global['webSiteRootURL']}plugin/YPTWallet/view/history.php?users_id=".User::getId();
-    $message = "The user [". User::getId()."]". User::getUserName()." request a <strong style='color:#A00;'>".YPTWallet::MANUAL_WITHDRAW."<strong> value of {$value}";
+    $message = "<strong style='color:#A00;'>".YPTWallet::MANUAL_WITHDRAW."<strong> user <strong><a href='{$url}'>[". User::getId()."]". User::getUserName()."</a></strong> value of {$value}";
     $emailMessage = "The user <a href='{$url}'>[". User::getId()."]<strong>". User::getUserName()."</strong></a> request a <strong style='color:#A00;'>".YPTWallet::MANUAL_WITHDRAW."</strong> value of <strong>{$value}</strong>"
     . "<hr><strong>Date: </strong>".  date("Y-m-d h:i:s")
     . "<br><strong>Informations: </strong>".  nl2br($_POST['informations']);
