@@ -1,9 +1,4 @@
 <?php
-set_error_handler(function($severity, $message, $file, $line) {
-    if (error_reporting() & $severity) {
-        throw new ErrorException($message, 0, $severity, $file, $line);
-    }
-});
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
 }
@@ -709,7 +704,7 @@ if (!class_exists('Video')) {
                 $cn .= " c.clean_name as cn,";
             }
 
-            $sql = "SELECT COUNT(v.id) as num_rows, v.type, v.id, c.name as category, {$cn} "
+            $sql = "SELECT v.type, v.id, c.name as category, {$cn} "
                     . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
@@ -744,29 +739,12 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
             }
-            $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));
-            
-            
-            //echo $sql;exit;
-            // got error Prepare failed: (1140) In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'youPHPTube.v.type'; this is incompatible with sql_mode=only_full_group_by
-            /*
+            $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));   
             $res = sqlDAL::readSql($sql);
-            $data = sqlDAL::fetchAssoc($res);
-            $data['num_rows'];
-            if (!$res) {
-                return 0;
-            }
+            $numRows = sqlDal::num_rows($res);
+            sqlDAL::close($res);
 
-            return $data['num_rows'];
-             * 
-             */
-            $res = $global['mysqli']->query($sql);
-
-            if (!$res) {
-                return 0;
-            }
-
-            return $res->num_rows;
+            return $numRows;
         }
 
         static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
@@ -1713,7 +1691,7 @@ if (!class_exists('Video')) {
                 foreach($videoRows as $row) {
                     $values = array($row['id']);
                     $format = "i";
-                    $sql = "SELECT COUNT(id) as num_rows, id from likes WHERE videos_id = ? AND `like` = 1  ";
+                    $sql = "SELECT id from likes WHERE videos_id = ? AND `like` = 1  ";
                     if (!empty($startDate)) {
                         $sql .= " AND `created` >= ? ";
                         $format .="s";
@@ -1725,23 +1703,29 @@ if (!class_exists('Video')) {
                         $format .="s";
                         $values[]=$endDate;
                     }
-
-                    //$res2 = $global['mysqli']->query($sql);
-                    $res2 = sqlDAL::readSql($sql,$format,$values); 
-                    $countRow = sqlDAL::fetchAssoc($res);
+                    $res = sqlDAL::readSql($sql,$format,$values); 
+                    $countRow = sqlDAL::num_rows($res);
                     sqlDAL::close($res);
-                    $r['thumbsUp']+=$countRow['num_rows'];
+                    $r['thumbsUp']+=$countRow;
 
+                    $format="";
+                    $values=array();
                     $sql = "SELECT id from likes WHERE videos_id = {$row['id']} AND `like` = -1  ";
                     if (!empty($startDate)) {
-                        $sql .= " AND `created` >= '{$startDate}' ";
+                        $sql .= " AND `created` >= ? ";
+                        $format .="s";
+                        $values[]=$startDate;
                     }
 
                     if (!empty($endDate)) {
-                        $sql .= " AND `created` <= '{$endDate}' ";
+                        $sql .= " AND `created` <= ? ";
+                        $format .="s";
+                        $values[]=$endDate;
                     }
-                    $res2 = $global['mysqli']->query($sql);
-                    $r['thumbsDown']+=$res2->num_rows;
+                    $res = sqlDAL::readSql($sql,$format,$values); 
+                    $countRow = sqlDAL::num_rows($res);
+                    sqlDAL::close($res);
+                    $r['thumbsDown']+=$countRow;
                 }
             }
 

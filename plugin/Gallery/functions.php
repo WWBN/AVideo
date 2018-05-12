@@ -43,6 +43,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $_POST['sort'][$sort] = $_GET[$getName];
         $_POST['current'] = $_GET['page'];
         $_POST['rowCount'] = $rowCount;
+        
         $total = Video::getTotalVideos("viewableNotAd");
         $totalPages = ceil($total / $_POST['rowCount']);
         $page = $_GET['page'];
@@ -119,7 +120,7 @@ function createGallerySection($videos) {
         $countCols ++;
         ?>
         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>"title="<?php echo $value['title']; ?>">
+            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
                 $imgGif = $images->thumbsGif;
