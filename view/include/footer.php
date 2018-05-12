@@ -26,16 +26,21 @@
     ?>
 </footer>
 <script>
-    <?php
-    if (User::isAdmin()) { ?>
     window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
-    console.log("<?php echo 'A Javascript-error happend. Please tell your admin to clear the folder videos/cache. \r\n If this doesn\'t help, attach these infos to a github-pull-request:'; ?> \r\n Msg:" + errorMsg+" \r\n Url: "+url+ ", line: "+lineNumber);//or any message
+        if(url==""){
+            url="embed in html";
+        }
+        $.ajax({
+            url: webSiteRootURL+"objects/ajaxErrorCatcher.php?error="+encodeURI("JS-Err: "+errorMsg+" @ line "+lineNumber+" in file "+url),
+            context: document.body
+        }).done(function() {
+            console.log("<?php echo 'A Javascript-error happend. Please tell your admin to clear the folder videos/cache. \r\n If this doesn\'t help, attach these infos to a github-pull-request:'; ?> \r\n Msg:" + errorMsg+" \r\n Url: "+url+ ", line: "+lineNumber);
+        });
     return false;
     }
-    <?php } ?>
     
     // Just for testing
-    //throw "A Bug";
+    throw "A Bug";
     $(function () {
 <?php
 if (!empty($_GET['error'])) {
