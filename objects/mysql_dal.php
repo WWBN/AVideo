@@ -26,7 +26,7 @@ class iimysqli_result {
 
 global $disableMysqlNdMethods;
 // this is only to test both methods more easy.
-$disableMysqlNdMethods = false;
+$disableMysqlNdMethods = true;
 
 /*
 * This class exists for making servers avaible, which have no mysqlnd, withouth cause a performance-issue for those who have the driver.
@@ -148,7 +148,7 @@ class sqlDAL {
             return $res->num_rows;
         } else {
             $i = 0;
-            while ($row = self::fetchAssoc($result)) {
+            while ($row = self::fetchAssoc($res)) {
                 $i++;
             }
             return $i;
