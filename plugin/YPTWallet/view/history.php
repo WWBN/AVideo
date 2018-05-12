@@ -11,6 +11,8 @@ if (!User::isLogged()) {
 $users_id = 0;
 if (!empty($_GET['users_id'])) {
     $users_id = $_GET['users_id'];
+}else{
+    $users_id = User::getId();
 }
 ?>
 <!DOCTYPE html>
@@ -28,7 +30,10 @@ if (!empty($_GET['users_id'])) {
         ?>
         <div class="container">
             <div class="panel panel-default">
-                <div class="panel-heading">History</div>
+                <div class="panel-heading"  style="height: 70px;">
+                    <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle pull-left" style="height: 50px; margin-right: 10px;">
+                    <h1><?php echo User::getNameIdentificationById($users_id); ?></h1>
+                </div>
                 <div class="panel-body">
                     <div class="row bgWhite list-group-item">
                         <table id="grid" class="table table-condensed table-hover table-striped">
