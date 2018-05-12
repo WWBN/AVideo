@@ -46,6 +46,7 @@ if (!class_exists('Video')) {
             'ximg' => 'get image error');
         //ver 3.4
         private $youtubeId;
+        static $typeOptions = array('audio', 'video', 'embed');
 
         function __construct($title = "", $filename = "", $id = 0) {
             global $global;
@@ -106,6 +107,10 @@ if (!class_exists('Video')) {
 
             if (empty($this->status)) {
                 $this->status = 'e';
+            }
+            
+            if (empty($this->type) || !in_array($this->type, self::$typeOptions)) {
+                $this->status = 'video';
             }
 
             if (empty($this->isSuggested)) {
