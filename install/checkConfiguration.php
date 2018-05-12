@@ -118,11 +118,15 @@ if ($mysqli->query($sql) !== TRUE) {
 
 $mysqli->close();
 
+if(empty($_POST['salt'])){
+    $_POST['salt'] = uniqid();
+}
 $content = "<?php
 \$global['disableAdvancedConfigurations'] = 0;
 \$global['videoStorageLimitMinutes'] = 0;
 \$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
+\$global['salt'] = '{$_POST['salt']}';
 
 
 \$mysqlHost = '{$_POST['databaseHost']}';

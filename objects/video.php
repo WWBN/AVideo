@@ -253,7 +253,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 if (($videoFound == false) || ($audioFound == false)) {
-                    $sql = "SELECT type,parentId FROM `categories` WHERE parentId = ?;";
+                    $sql = "SELECT parentId FROM `categories` WHERE parentId = ?;";
                     $res = sqlDAL::readSql($sql,"i",array($catId));
                     $fullResult2 = sqlDAL::fetchAllAssoc($res);
                     sqlDAL::close($res);
@@ -310,7 +310,7 @@ if (!class_exists('Video')) {
                 }
             }
             if (($videoFound == false) || ($audioFound == false)) {
-                $sql = "SELECT type,parentId,categories_id FROM `categories` WHERE parentId = ?;";
+                $sql = "SELECT parentId,categories_id FROM `categories` WHERE parentId = ?;";
                 $res = sqlDAL::readSql($sql,"i",array($catId));
                 $fullResult2 = sqlDAL::fetchAllAssoc($res);
                 sqlDAL::close($res);
