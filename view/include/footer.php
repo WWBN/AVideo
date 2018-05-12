@@ -40,7 +40,7 @@
     }
     
     // Just for testing
-    throw "A Bug";
+    // throw "A Bug";
     $(function () {
 <?php
 if (!empty($_GET['error'])) {
