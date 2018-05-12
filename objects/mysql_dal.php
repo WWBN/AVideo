@@ -15,6 +15,9 @@
   }
  */
 
+/*
+* Internal used class
+*/
 class iimysqli_result {
 
     public $stmt, $nCols, $fields;
@@ -25,14 +28,24 @@ global $disableMysqlNdMethods;
 // this is only to test both methods more easy.
 $disableMysqlNdMethods = false;
 
+/*
+* This class exists for making servers avaible, which have no mysqlnd, withouth cause a performance-issue for those who have the driver.
+* It wouldn't be possible without Daan on https://stackoverflow.com/questions/31562359/workaround-for-mysqlnd-missing-driver
+*/
 class sqlDAL {
 
+    /*
+    * For Sql like INSERT and UPDATE. The special point about this method: You do not need to close it (more direct).
+    * @param string $preparedStatement  The Sql-command 
+    * @param string $formats            i=int,d=doube,s=string,b=blob (http://www.php.net/manual/en/mysqli-stmt.bind-param.php)
+    * @param array  $values             A array, containing the values for the prepared statement.
+    * @return boolean                   true on success, false on fail
+    */
     function writeSql($preparedStatement, $formats = "", $values = array()) {
         global $global, $disableMysqlNdMethods;
-        // echo $preparedStatement;
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
-            exit;
+            return false;
         }
         if ((!empty($formats)) && (!empty($values))) {
             $code = "return \$stmt->bind_param('" . $formats . "'";
@@ -56,6 +69,13 @@ class sqlDAL {
         return true;
     }
 
+    /*
+    * For Sql like SELECT. This method needs to be closed anyway. If you start another readSql, while the old is open, it will fail.
+    * @param string $preparedStatement  The Sql-command 
+    * @param string $formats            i=int,d=doube,s=string,b=blob (http://www.php.net/manual/en/mysqli-stmt.bind-param.php)
+    * @param array  $values             A array, containing the values for the prepared statement.
+    * @return Object                    Depend if mysqlnd is active or not, a object, but always false on fail
+    */
     static function readSql($preparedStatement, $formats = "", $values = array()) {
         global $global, $disableMysqlNdMethods;
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
@@ -104,14 +124,21 @@ class sqlDAL {
         }
         return false;
     }
-
+    /*
+    * This closes the readSql
+    * @param Object $result A object from sqlDAL::readSql
+    */
     static function close($result) {
         global $disableMysqlNdMethods, $global;
         if ((!function_exists('mysqli_fetch_all')) || ($disableMysqlNdMethods != false)) {
             $result->stmt->close();
         }
     }
-
+    /*
+    * Get the nr of rows
+    * @param Object $result A object from sqlDAL::readSql
+    * @return int           The nr of rows
+    */
     static function num_rows($res) {
         global $global, $disableMysqlNdMethods;
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
@@ -127,7 +154,16 @@ class sqlDAL {
             return $i;
         }
     }
+    
+    static function cached_num_rows($data) {
+            return sizeof($data);
+    }
 
+    /*
+    * Make a fetch assoc on every row avaible
+    * @param Object $result A object from sqlDAL::readSql
+    * @return array           A array filled with all rows as a assoc array
+    */
     static function fetchAllAssoc($result) {
         $ret = array();
         while ($row = self::fetchAssoc($result)) {
@@ -135,7 +171,11 @@ class sqlDAL {
         }
         return $ret;
     }
-        
+    /*
+    * Make a single assoc fetch 
+    * @param Object $result A object from sqlDAL::readSql
+    * @return int           A single row in a assoc array
+    */      
     static function fetchAssoc($result){
         global $global,$disableMysqlNdMethods;
         if((function_exists('mysqli_fetch_all'))&&($disableMysqlNdMethods==false)){
@@ -147,7 +187,11 @@ class sqlDAL {
         }
         return false;
     }
-
+    /*
+    * Make a fetchArray on every row avaible
+    * @param Object $result A object from sqlDAL::readSql
+    * @return array           A array filled with all rows
+    */
     static function fetchAllArray($result) {
         $ret = array();
         while ($row = self::fetchArray($result)) {
@@ -155,7 +199,11 @@ class sqlDAL {
         }
         return $ret;
     }
-
+    /*
+    * Make a single fetch 
+    * @param Object $result A object from sqlDAL::readSql
+    * @return int           A single row in a array
+    */
     static function fetchArray($result) {
         global $global, $disableMysqlNdMethods;
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
@@ -166,42 +214,14 @@ class sqlDAL {
         return false;
     }
 
-    // mysqli_stmt_get_result() and a mysqli_result_fetch_array() fail without mysqlnd
-    // workaround-methods when no mysqlnd is there - from https://stackoverflow.com/questions/31562359/workaround-for-mysqlnd-missing-driver
-    static function iimysqli_stmt_get_result($stmt) {
+    private static function iimysqli_stmt_get_result($stmt) {
         global $global;
-        /**    EXPLANATION:
-         * We are creating a fake "result" structure to enable us to have
-         * source-level equivalent syntax to a query executed via
-         * mysqli_query().
-         *
-         *    $stmt = mysqli_prepare($conn, "");
-         *    mysqli_bind_param($stmt, "types", ...);
-         *
-         *    $param1 = 0;
-         *    $param2 = 'foo';
-         *    $param3 = 'bar';
-         *    mysqli_execute($stmt);
-         *    $result _mysqli_stmt_get_result($stmt);
-         *        [ $arr = _mysqli_result_fetch_array($result);
-         *            || $assoc = _mysqli_result_fetch_assoc($result); ]
-         *    mysqli_stmt_close($stmt);
-         *    mysqli_close($conn);
-         *
-         * At the source level, there is no difference between this and mysqlnd.
-         * */
         $metadata = mysqli_stmt_result_metadata($stmt);
-        //var_dump($metadata);
-        //num_rows
-        //echo $metadata['num_rows'];
-
         $ret = new iimysqli_result;
         $field_array = array();
         $tmpFields = $metadata->fetch_fields();
         $i = 0;
-        //var_dump($tmpFields);
         foreach ($tmpFields as $f) {
-            //echo $f->name;
             $field_array[$i] = $f->name;
             $i++;
         }
@@ -216,14 +236,11 @@ class sqlDAL {
         mysqli_free_result($metadata);
         return $ret;
     }
-
-// workaround-methods when no mysqlnd is there - from https://stackoverflow.com/questions/31562359/workaround-for-mysqlnd-missing-driver
-     // assoc by hersche
-    static function iimysqli_result_fetch_assoc(&$result) {
+    
+    private static function iimysqli_result_fetch_assoc(&$result) {
         global $global;
         $ret = array();
         $code = "return mysqli_stmt_bind_result(\$result->stmt ";
-         //var_dump($result->fields);
         for ($i=0; $i<$result->nCols; $i++)
         {
             $ret[$result->fields[$i]] = NULL;
@@ -233,11 +250,10 @@ class sqlDAL {
         $code .= ");";
         if (!eval($code)) { return false; };
         if (!mysqli_stmt_fetch($result->stmt)) { return false; };
-        //echo mysqli_stmt_num_rows ($result->stmt);
         return $ret;
     }
    
-    static function iimysqli_result_fetch_array(&$result) {
+    private static function iimysqli_result_fetch_array(&$result) {
         $ret = array();
         $code = "return mysqli_stmt_bind_result(\$result->stmt ";
 
