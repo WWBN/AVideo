@@ -858,6 +858,10 @@ function combineFiles($filesArray, $extension = "js") {
                 
             }
         }
+        if(($extension=="js")&&(!empty($global['minify']))){
+                require_once $global['systemRootPath'] . 'objects/jshrink.php';
+                $str = \JShrink\Minifier::minify($str, array('flaggedComments' => false));
+        }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
     return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
