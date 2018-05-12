@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `wallet_log` (
   `value` DOUBLE(20,10) NOT NULL,
   `description` VARCHAR(255) NULL,
   `wallet_id` INT NOT NULL,
-  `crypto_wallet_address` VARCHAR(255) NULL,
   `status` ENUM('pending', 'success', 'canceled') NOT NULL DEFAULT 'success',
   `type` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),

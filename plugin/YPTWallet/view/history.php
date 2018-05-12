@@ -57,24 +57,26 @@ if (!empty($_GET['users_id'])) {
                     url: "<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/log.json.php?users_id=<?php echo $users_id; ?>",
                                 formatters: {
                                     "status": function (column, row) {
-                                        var status = "<span class='label label-success'>Success</span>";
-                                        if (row.status == 'pending') {
-                                            status = "<span class='label label-warning'>Pending</span>";
-                                        } else if (row.status == 'canceled') {
-                                            status = "<span class='label label-danger'>Canceled</span>";
-                                        }
+                                        var status = "";
+                                        if (row.type == "<?php echo YPTWallet::MANUAL_ADD; ?>" || row.type == "<?php echo YPTWallet::MANUAL_WITHDRAW; ?>") {
+                                            status = "<span class='label label-success'>Success</span>";
+                                            if (row.status == 'pending') {
+                                                status = "<span class='label label-warning'>Pending</span>";
+                                            } else if (row.status == 'canceled') {
+                                                status = "<span class='label label-danger'>Canceled</span>";
+                                            }
 <?php
 if (User::isAdmin()) {
     ?>
-                                        if(row.type == "Manual Add Funds"){
-                                            status += "<br><br><div class=\"btn-group\"><button class='btn btn-success btn-xs command-status-success'>Success</button>";
-                                            status += "<button class='btn btn-warning btn-xs command-status-pending'>Pending</button>";
-                                            status += "<button class='btn btn-danger btn-xs command-status-canceled'>Canceled</button><div>";
-                                        }
-    <?php   
+
+                                                status += "<br><br><div class=\"btn-group\"><button class='btn btn-default btn-xs command-status-success'>Success</button>";
+                                                status += "<button class='btn btn-default btn-xs command-status-pending'>Pending</button>";
+                                                status += "<button class='btn btn-default btn-xs command-status-canceled'>Canceled</button><div>";
+
+    <?php
 }
 ?>
-
+                                        }
                                         return status;
                                     }
                                 }
@@ -118,6 +120,7 @@ if (User::isAdmin()) {
                                         wallet_log_id: wallet_log_id
                                     },
                                     success: function (response) {
+                                        $(".walletBalance").text(response.walletBalance);
                                         modal.hidePleaseWait();
                                         if (response.error) {
                                             setTimeout(function () {

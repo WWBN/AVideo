@@ -129,6 +129,12 @@ class WalletLog extends ObjectYPT {
         $log->setType($type);
         return $log->save();
     }
+    
+    function save() {
+        global $global;
+        $this->description = $global['mysqli']->real_escape_string($this->description);
+        return parent::save();
+    }
 
 
 }
