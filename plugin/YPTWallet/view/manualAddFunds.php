@@ -69,6 +69,10 @@ $options = json_decode($obj->addFundsOptions);
                                     ?>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="informations"><?php echo __("Informations"); ?></label>
+                                <textarea class="form-control" id="informations" name="informations"></textarea>
+                            </div>
                             <button class="btn btn-primary" id="manualAddFundsPageButton">
                                 <?php echo $obj->manualAddFundsPageButton; ?>
                             </button>
@@ -92,7 +96,8 @@ $options = json_decode($obj->addFundsOptions);
                         url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/manualAddFunds.json.php',
                         type: "POST",
                         data: {
-                            value: $('#value').val()
+                            value: $('#value').val(),
+                            informations: $('#informations').val()
                         },
                         success: function (response) {
                             modal.hidePleaseWait();

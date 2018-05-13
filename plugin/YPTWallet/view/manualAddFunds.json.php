@@ -26,16 +26,19 @@ $options = json_decode($dataObj->addFundsOptions);
 $emailsArray = array();
 $emailsArray[] = $dataObj->manualAddFundsNotifyEmail;
 
-$subject = $config->getWebSiteTitle()." ".$dataObj->manualAddFundsPageButton;
+$subject = $config->getWebSiteTitle()." ".$dataObj->manualAddFundsPageButton." from: ".User::getUserName();
 
-$wallet = $plugin->getWallet(User::getId());
+$wallet = $plugin->getOrCreateWallet(User::getId());
 $wallet_id = $wallet->getId();
 $value = floatval($_POST['value']);
+$url = "{$global['webSiteRootURL']}plugin/YPTWallet/view/history.php?users_id=".User::getId();
+$message = "<strong style='color:#0A0;'>".YPTWallet::MANUAL_ADD."</strong> user <strong><a href='{$url}'>[". User::getId()."]". User::getNameIdentification()."</a></strong> value of {$value}";
+$emailMessage = "The user <a href='{$url}'>[". User::getId()."]<strong>". User::getNameIdentification()."</strong></a> request a <strong style='color:#0A0;'>".YPTWallet::MANUAL_ADD."</strong> value of <strong>{$value}</strong>"
+. "<hr><strong>Date: </strong>".  date("Y-m-d h:i:s")
+. "<br><strong>Informations: </strong>".  nl2br($_POST['informations']);
 
-$message = "The user [". User::getId()."]". User::getUserName()." request a manual funds add of {$value}";
-
-if(WalletLog::addLog($wallet_id, $value, $message, "{}", "pending", "Manual Add Funds")){
-    $plugin->sendEmails($emailsArray, $subject, $message);
+if(WalletLog::addLog($wallet_id, $value, $message, "{}", "pending",  YPTWallet::MANUAL_ADD)){
+    $plugin->sendEmails($emailsArray, $subject, $emailMessage."");
     $obj->error = false;
 }
 die(json_encode($obj));

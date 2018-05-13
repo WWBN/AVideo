@@ -69,6 +69,10 @@ $options = json_decode($obj->withdrawFundsOptions);
                                     ?>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="informations"><?php echo __("Informations"); ?></label>
+                                <textarea class="form-control" id="informations" name="informations"></textarea>
+                            </div>
                             <button class="btn btn-primary" id="manualWithdrawFundsPageButton"><?php echo $obj->manualWithdrawFundsPageButton; ?></button>
                         </div>  
                     </div>
@@ -85,7 +89,28 @@ $options = json_decode($obj->withdrawFundsOptions);
         <script>
             $(document).ready(function () {
                 $('#manualWithdrawFundsPageButton').click(function(){
-                    
+                    modal.showPleaseWait();
+                    $.ajax({
+                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/manualWithdrawFunds.json.php',
+                        type: "POST",
+                        data: {
+                            value: $('#value').val(),
+                            informations: $('#informations').val()
+                        },
+                        success: function (response) {
+                            $(".walletBalance").text(response.walletBalance);
+                            modal.hidePleaseWait();
+                            if (response.error) {
+                                setTimeout(function () {
+                                    swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                }, 500);
+                            } else {
+                                setTimeout(function () {
+                                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your request was sent"); ?>", "success");
+                                }, 500);
+                            }
+                        }
+                    });
                 });
             });
         </script>
