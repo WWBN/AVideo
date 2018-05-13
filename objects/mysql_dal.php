@@ -59,9 +59,9 @@ class sqlDAL {
             $code .= ");";
             eval($code);
         }
-        var_dump($stmt);
+        //var_dump($stmt);
         $suc = $stmt->execute();
-        var_dump($stmt);
+        //var_dump($stmt);
         if ($stmt->errno != 0) {
             log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
             $stmt->close();
