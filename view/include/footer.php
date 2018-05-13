@@ -40,7 +40,7 @@
     }
     
     // Just for testing
-    // throw "A Bug";
+    // throw "A Bug"; 
     $(function () {
 <?php
 if (!empty($_GET['error'])) {
@@ -58,10 +58,10 @@ if (!empty($_GET['msg'])) {
 ?>
     });
 </script>
-<script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script> -->
 <?php
     $jsFiles = array();
-    //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
+    $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
     $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
     $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
     $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";

@@ -6,6 +6,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
+require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 class Comment {
     private $id;
     private $comment;
@@ -75,20 +76,23 @@ class Comment {
             $comment = new Comment("", 0, $this->comments_id_pai);
             $this->videos_id = $comment->getVideos_id();
         }
-        
+
         if (!empty($this->id) ) {
             if(!self::userCanAdminComment($this->id)){
                 return false;
             }
             $sql = "UPDATE comments SET "
-                    . " comment = '{$this->comment}', modified = now() WHERE id = {$this->id}";
+                    . " comment = ?, modified = now() WHERE id = ?";
+            $formats = "si";
+            $values = array($this->comment,$this->id);
         } else {
             $id = User::getId();
             $sql = "INSERT INTO comments ( comment,users_id, videos_id, comments_id_pai, created, modified) VALUES "
-                    . " ('{$this->comment}', {$id}, {$this->videos_id}, {$this->comments_id_pai}, now(), now())";
+                    . " (?, ?, ?, ?, now(), now())";
+            $formats = "siii";
+            $values = array($this->comment,$id,$this->videos_id,$this->comments_id_pai);
         }
-        $resp = $global['mysqli']->query($sql);
-        if(empty($resp)){
+        if (!sqlDAL::writeSql($sql,$format,$values)) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         if (empty($this->id)) {
@@ -103,7 +107,7 @@ class Comment {
             YouPHPTubePlugin::afterNewResponse($this->id);
         }
         
-        return $resp;
+        return true;
     }
 
 
@@ -137,12 +141,16 @@ class Comment {
 
     static function getAllComments($videoId = 0, $comments_id_pai = 'NULL') {
         global $global;
+        $format = "";
+        $values = array();
         $sql = "SELECT c.*, u.name as name, u.user as user, "
                 . " (SELECT count(id) FROM comments_likes as l where l.comments_id = c.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM comments_likes as l where l.comments_id = c.id AND `like` = -1 ) as dislikes ";
         
         if (User::isLogged()) {
-            $sql .= ", (SELECT `like` FROM comments_likes as l where l.comments_id = c.id AND users_id = " . User::getId() . " ) as myVote ";
+            $sql .= ", (SELECT `like` FROM comments_likes as l where l.comments_id = c.id AND users_id = ? ) as myVote ";
+            $format .= "i";
+            $values[]=User::getId();
         } else {
             $sql .= ", 0 as myVote ";
         }
@@ -150,32 +158,42 @@ class Comment {
         $sql .= " FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1 ";
         
         if (!empty($videoId)) {
-            $sql .= " AND videos_id = {$videoId} ";
+            $sql .= " AND videos_id = ? ";
+            $format .= "i";
+            $values[] = $videoId;
         }else if(!User::isAdmin() && empty ($comments_id_pai)){
             if(!User::isLogged()){
                 die("can not see comments");
             }
             $users_id = User::getId();
-            $sql .= " AND (v.users_id = {$users_id} OR c.users_id = $users_id) ";
+            $sql .= " AND (v.users_id = ? OR c.users_id = ?) ";
+            $format .= "ii";
+            $values[]=$users_id;
+            $values[]=$users_id;
         }
         
         if($comments_id_pai==='NULL' || empty ($comments_id_pai)){
             $sql .= " AND (comments_id_pai IS NULL ";
             if(empty($videoId) && User::isLogged()){
                 $users_id = User::getId();
-                $sql .= " OR c.users_id = $users_id ";
+                $sql .= " OR c.users_id = ? ";
+                $format .= "i";
+                $values[]=$users_id;
             }
             $sql .= ") ";
         }else{
-            $sql .= " AND comments_id_pai = {$comments_id_pai} ";
+            $sql .= " AND comments_id_pai = ? ";
+            $format .= "i";
+            $values[]=$comments_id_pai;
         }
 
         $sql .= BootGrid::getSqlFromPost(array('name'));
-
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,$format,$values); 
+        $allData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $comment = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($allData as $row) {
                 $row['commentPlain'] = $row['comment'];
                 $row['commentHTML'] = nl2br($row['comment']);
                 $comment[] = $row;
@@ -190,38 +208,53 @@ class Comment {
 
     static function getTotalComments($videoId = 0, $comments_id_pai = 'NULL', $video_owner_users_id=0) {
         global $global;
+        $format = "";
+        $values = array();
         $sql = "SELECT c.id FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1  ";
 
         if (!empty($videoId)) {
-            $sql .= " AND videos_id = {$videoId} ";
+            $sql .= " AND videos_id = ? ";
+            $format .= "i";
+            $values[] = $videoId;
         }else if(!User::isAdmin() && empty ($comments_id_pai)){
             if(!User::isLogged()){
                 die("can not see comments");
             }
             $users_id = User::getId();
-            $sql .= " AND (v.users_id = {$users_id} OR c.users_id = $users_id) ";
+            $sql .= " AND (v.users_id = ? OR c.users_id = ?) ";
+            $format .= "ii";
+            $values[] = $users_id;
+            $values[] = $users_id;
         }
         
         if($comments_id_pai==='NULL' || empty ($comments_id_pai)){
             $sql .= " AND (comments_id_pai IS NULL ";
             if(empty($videoId) && User::isLogged()){
                 $users_id = User::getId();
-                $sql .= " OR c.users_id = $users_id ";
+                $sql .= " OR c.users_id = ? ";
+                $format .= "i";
+                $values[] = $users_id;
             }
             $sql .= ") ";
         }else{
-            $sql .= " AND comments_id_pai = {$comments_id_pai} ";
+            $sql .= " AND comments_id_pai = ? ";
+            $format .= "i";
+            $values[] = $comments_id_pai;
         }
         
         if(!empty($video_owner_users_id)){
-            $sql .= " AND v.users_id = {$video_owner_users_id} ";
+            $sql .= " AND v.users_id = ? ";
+            $format .= "i";
+            $values[] = $video_owner_users_id;
         }
         
         $sql .= BootGrid::getSqlSearchFromPost(array('name'));
 
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,$format,$values); 
+        $countRow = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
 
-        return $res->num_rows;
+        return $countRow;
     }
     
     static function userCanAdminComment($comments_id){
@@ -244,36 +277,50 @@ class Comment {
     
     static function getTotalCommentsThumbsUpFromUser($users_id, $startDate, $endDate) {
         global $global;
-        $sql = "SELECT id from comments  WHERE users_id = {$users_id}  ";
-
-        $res = $global['mysqli']->query($sql);
-        
+        $sql = "SELECT id from comments  WHERE users_id = ?";
+        $res = sqlDAL::readSql($sql,"i",array($users_id)); 
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $r = array('thumbsUp'=>0, 'thumbsDown'=>0 );
-        
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
-                $sql = "SELECT id from comments_likes WHERE comments_id = {$row['id']} AND `like` = 1  ";
+        if ($res!=false) {
+            foreach ($fullData as $row) {
+                $format = "i";
+                $values = array($row['id']);
+                $sql = "SELECT id from comments_likes WHERE comments_id = ? AND `like` = 1  ";
                 if (!empty($startDate)) {
-                    $sql .= " AND `created` >= '{$startDate}' ";
+                    $sql .= " AND `created` >= ? ";
+                    $format .= "s";
+                    $values[] = $startDate;
                 }
 
                 if (!empty($endDate)) {
-                    $sql .= " AND `created` <= '{$endDate}' ";
+                    $sql .= " AND `created` <= ? ";
+                    $format .= "s";
+                    $values[] = $endDate;
                 }
-                $res2 = $global['mysqli']->query($sql);
+                $res = sqlDAL::readSql($sql,$format,$values); 
+                $countRow = sqlDAL::num_rows($res);
+                sqlDAL::close($res);         
+                $r['thumbsUp']+=$countRow;
                 
-                $r['thumbsUp']+=$res2->num_rows;
-                
-                $sql = "SELECT id from comments_likes WHERE comments_id = {$row['id']} AND `like` = -1  ";
+                $format = "i";
+                $values = array($row['id']);
+                $sql = "SELECT id from comments_likes WHERE comments_id = ? AND `like` = -1  ";
                 if (!empty($startDate)) {
-                    $sql .= " AND `created` >= '{$startDate}' ";
+                    $sql .= " AND `created` >= ? ";
+                    $format .= "s";
+                    $values[] = $startDate;
                 }
 
                 if (!empty($endDate)) {
-                    $sql .= " AND `created` <= '{$endDate}' ";
+                    $sql .= " AND `created` <= ? ";
+                    $format .= "s";
+                    $values[] = $endDate;
                 }
-                $res2 = $global['mysqli']->query($sql);
-                $r['thumbsDown']+=$res2->num_rows;
+                $res = sqlDAL::readSql($sql,$format,$values); 
+                $countRow = sqlDAL::num_rows($res);
+                sqlDAL::close($res);
+                $r['thumbsDown']+=$countRow;
             }
         } 
         
