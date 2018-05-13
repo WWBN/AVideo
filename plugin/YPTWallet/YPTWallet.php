@@ -7,7 +7,9 @@ require_once $global['systemRootPath'] . 'plugin/YPTWallet/Objects/Wallet.php';
 require_once $global['systemRootPath'] . 'plugin/YPTWallet/Objects/Wallet_log.php';
 
 class YPTWallet extends PluginAbstract {
-
+    const MANUAL_WITHDRAW = "Manual Withdraw Funds";
+    const MANUAL_ADD = "Manual Add Funds";
+    
     public function getDescription() {
         return "Wallet for YouPHPTube";
     }
@@ -45,6 +47,7 @@ class YPTWallet extends PluginAbstract {
         $obj->manualAddFundsMenuTitle = "Add Funds/Deposit";
         $obj->manualAddFundsPageButton = "Notify Deposit Made";
         $obj->manualAddFundsNotifyEmail = "yourEmail@yourDomain.com";
+        $obj->manualAddFundsTransferFromUserId = 1;
         // sell funds        
         $obj->enableManualWithdrawFundsPage = true;    
         $obj->withdrawFundsOptions = "[5,10,20,50,100,1000]";    
@@ -53,6 +56,7 @@ class YPTWallet extends PluginAbstract {
         $obj->manualWithdrawFundsNotifyEmail = "yourEmail@yourDomain.com";
         $obj->manualWithdrawFundsminimum = 1;
         $obj->manualWithdrawFundsmaximum = 100;
+        $obj->manualWithdrawFundsTransferToUserId = 1;
         
         $plugins = self::getAvailablePlugins();
         foreach ($plugins as $value) {
@@ -95,6 +99,17 @@ class YPTWallet extends PluginAbstract {
         $wallet = new Wallet(0);
         $wallet->setUsers_id($users_id);
         return $wallet;
+    }
+    
+    public function getOrCreateWallet($users_id) {
+        $wallet = new Wallet(0);
+        $wallet->setUsers_id($users_id);
+        if(empty($wallet->getId())){
+            $wallet_id = $wallet->save();
+            $wallet = new Wallet($wallet_id);
+        }
+        return $wallet;
+        
     }
     
     function getAllUsers($activeOnly = true) {
@@ -165,6 +180,7 @@ class YPTWallet extends PluginAbstract {
      * @param type $mainWallet_user_id A user ID where the money comes from and where the money goes for
      */
     public function addBalance($users_id, $value, $description="", $json_data="{}", $mainWallet_user_id=0) {
+        global $global;
         $wallet = $this->getWallet($users_id);
         $balance = $wallet->getBalance();
         $balance+=$value;
@@ -198,6 +214,7 @@ class YPTWallet extends PluginAbstract {
     }
     
     public function transferBalance($users_id_from,$users_id_to, $value) {
+        global $global;
         if(!User::isAdmin()){
             if($users_id_from != User::getId()){
                 error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value");
@@ -225,7 +242,7 @@ class YPTWallet extends PluginAbstract {
         
         $wallet->setBalance($newBalance);
         $wallet_id = $wallet->save();   
-        $description = "Transfer Balance {$value} from user [$users_id_from] {$identificationFrom} to user [{$users_id_to}] {$identificationTo}";
+        $description = "Transfer Balance {$value} from <strong>YOU</strong> to user <a href='{$global['webSiteRootURL']}channel/{$users_id_to}'>{$identificationTo}</a>";
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance to");
         
         
@@ -234,7 +251,7 @@ class YPTWallet extends PluginAbstract {
         $newBalance = $balance+$value;
         $wallet->setBalance($newBalance);
         $wallet_id = $wallet->save();   
-        $description = "Transfer Balance {$value} from user [$users_id_from] {$identificationFrom} to user [{$users_id_to}] {$identificationTo}";
+        $description = "Transfer Balance {$value} from user <a href='{$global['webSiteRootURL']}channel/{$users_id_from}'>{$identificationFrom}</a> to <strong>YOU</strong>";
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
         return true;
     }
@@ -326,7 +343,7 @@ class YPTWallet extends PluginAbstract {
     
     private function replaceTemplateText($siteTitle,$footer,$message){
         global $global, $config;
-        $text = file_get_contents("{$global['systemRootPath']}plugin/Notifications/template.html");        
+        $text = file_get_contents("{$global['systemRootPath']}plugin/YPTWallet/template.html");        
         $words = array($siteTitle,$footer,$message);
         $replace = array('{siteTitle}', '{footer}','{message}');
         
@@ -367,6 +384,58 @@ class YPTWallet extends PluginAbstract {
             error_log("Wallet email sent [{$subject}]");
             return true;
         }
+    }
+    
+    /**
+     * 
+     * @param type $wallet_log_id
+     * @param type $new_status
+     * return true if balance is enought
+     */
+    function processStatus($wallet_log_id, $new_status){
+        $obj = $this->getDataObject();
+        $walletLog = new WalletLog($wallet_log_id);
+        $wallet = new Wallet($walletLog->getWallet_id());
+        $oldStatus = $walletLog->getStatus();
+        if($walletLog->getType() == self::MANUAL_WITHDRAW){
+            if($new_status != $oldStatus){
+                if($oldStatus=="success" || $oldStatus=="pending"){
+                    if($new_status=="canceled"){
+                        // return the value
+                        return $this->transferBalance($obj->manualWithdrawFundsTransferToUserId, $wallet->getUsers_id(), $walletLog->getValue());
+                    }else{
+                        // keep the value
+                        return true;
+                    }
+                }
+                // get the value again
+                if($oldStatus=="canceled"){
+                    return $this->transferBalance($wallet->getUsers_id(), $obj->manualWithdrawFundsTransferToUserId, $walletLog->getValue());
+                }
+            }
+        }else if($walletLog->getType() == self::MANUAL_ADD){
+            if($oldStatus=="pending"){
+                if($new_status=="canceled"){
+                    // do nothing
+                    return true;                    
+                }else if($new_status=="success"){
+                    // transfer the value
+                    return $this->transferBalance($obj->manualAddFundsTransferFromUserId,$wallet->getUsers_id(), $walletLog->getValue());
+                }
+            }else if($oldStatus=="success"){
+                //get the money back
+                return $this->transferBalance($wallet->getUsers_id(),$obj->manualAddFundsTransferFromUserId, $walletLog->getValue());
+            }else if($oldStatus=="canceled"){
+                if($new_status=="pending"){
+                    // do nothing
+                    return true;                    
+                }else if($new_status=="success"){
+                    // transfer the value
+                    return $this->transferBalance($obj->manualAddFundsTransferFromUserId,$wallet->getUsers_id(), $walletLog->getValue());
+                }
+            }
+        }
+        return true;
     }
 
 }

@@ -24,10 +24,14 @@ if(empty($_POST['wallet_log_id'])){
     die(json_encode($obj));
 }
 
-$walletLog = new WalletLog($_POST['wallet_log_id']);
-$walletLog->setStatus($_POST['status']);
-if($walletLog->save()){
-    $obj->error = false;
+if($plugin->processStatus($_POST['wallet_log_id'], $_POST['status'])){
+    $walletLog = new WalletLog($_POST['wallet_log_id']);
+    $walletLog->setStatus($_POST['status']);
+    if($walletLog->save()){
+        $obj->error = false;
+    }
+}else{
+    $obj->msg = ("We could not process your status");
 }
-
+$obj->walletBalance = $plugin->getBalanceFormated(User::getId());
 die(json_encode($obj));
