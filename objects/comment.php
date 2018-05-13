@@ -81,18 +81,27 @@ class Comment {
             if(!self::userCanAdminComment($this->id)){
                 return false;
             }
-            $sql = "UPDATE comments SET "
-                    . " comment = ?, modified = now() WHERE id = ?";
+           /* $sql = "UPDATE comments SET "
+                    . " comment = ?, modified = now() WHERE id = ?;";
             $formats = "si";
             $values = array($this->comment,$this->id);
+            sqlDAL::writeSql($sql,$formats,$values); */
+            $sql = "UPDATE comments SET "
+                    . " comment = '{$this->comment}', modified = now() WHERE id = {$this->id}";
         } else {
             $id = User::getId();
-            $sql = "INSERT INTO comments ( comment,users_id, videos_id, comments_id_pai, created, modified) VALUES "
-                    . " (?, ?, ?, ?, now(), now())";
-            $formats = "siii";
+            // The new prepared line failed like this:
+            // string(220) "Cannot add or update a child row: a foreign key constraint fails (`youtube`.`comments`, CONSTRAINT `fk_comments_comments1` FOREIGN KEY (`comments_id_pai`) REFERENCES `comments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)"
+            /*$sql = "INSERT INTO comments (comment, users_id, videos_id, comments_id_pai, created, modified) VALUES "
+                    . " (?, ?, ?, ?, now(), now());";
+            $formats = "ssss";
             $values = array($this->comment,$id,$this->videos_id,$this->comments_id_pai);
+            sqlDAL::writeSql($sql,$formats,$values);*/
+            $sql = "INSERT INTO comments ( comment,users_id, videos_id, comments_id_pai, created, modified) VALUES "
+                    . " ('{$this->comment}', {$id}, {$this->videos_id}, {$this->comments_id_pai}, now(), now())";
         }
-        if (!sqlDAL::writeSql($sql,$format,$values)) {
+        $resp = $global['mysqli']->query($sql);
+        if(empty($resp)){
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         if (empty($this->id)) {
@@ -107,7 +116,7 @@ class Comment {
             YouPHPTubePlugin::afterNewResponse($this->id);
         }
         
-        return true;
+        return $resp;
     }
 
 
@@ -183,7 +192,7 @@ class Comment {
             $sql .= ") ";
         }else{
             $sql .= " AND comments_id_pai = ? ";
-            $format .= "i";
+            $format .= "s";
             $values[]=$comments_id_pai;
         }
 
@@ -238,7 +247,7 @@ class Comment {
             $sql .= ") ";
         }else{
             $sql .= " AND comments_id_pai = ? ";
-            $format .= "i";
+            $format .= "s";
             $values[] = $comments_id_pai;
         }
         
