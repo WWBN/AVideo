@@ -26,7 +26,7 @@ class iimysqli_result {
 
 global $disableMysqlNdMethods;
 // this is only to test both methods more easy.
-$disableMysqlNdMethods = true;
+$disableMysqlNdMethods = false;
 
 /*
 * This class exists for making servers avaible, which have no mysqlnd, withouth cause a performance-issue for those who have the driver.
