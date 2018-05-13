@@ -102,6 +102,7 @@ class sqlDAL {
                 log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
                 exit;
             }
+            
             if ((!empty($formats)) && (!empty($values))) {
                 $code = "return \$stmt->bind_param(\"" . $formats . "\"";
                 $i = 0;
@@ -110,6 +111,7 @@ class sqlDAL {
                     $i++;
                 };
                 $code .= ");";
+                // echo $code. " : ".$preparedStatement;
                 eval($code);
             }
 
