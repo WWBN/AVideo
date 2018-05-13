@@ -31,7 +31,7 @@
         var mediaId = <?php echo $video['id']; ?>;
         $(document).ready(function () {
             $(".vjs-big-play-button").hide();
-            $(".vjs-control-bar").css("opacity: 1; visibility: visible;
+            $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
             player = videojs('mainAudio');
             player.ready(function () {
             <?php
