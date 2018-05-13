@@ -59,10 +59,12 @@ class sqlDAL {
             $code .= ");";
             eval($code);
         }
-        $stmt->execute();
-        if ($global['mysqli']->errno != 0) {
+        var_dump($stmt);
+        $suc = $stmt->execute();
+        var_dump($stmt);
+        if ($stmt->errno != 0) {
+            log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
             $stmt->close();
-            log_error('Error in writeSql : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error.", SQL-CMD:".$preparedStatement);
             return false;
         }
         $stmt->close();
@@ -95,6 +97,11 @@ class sqlDAL {
             }
             $stmt->execute();
             $res = $stmt->get_result();
+            if($stmt->errno!=0){
+                log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
+                $stmt->close();
+                return false;
+            }
             $stmt->close();
             return $res;
         } else {
@@ -117,9 +124,9 @@ class sqlDAL {
 
             $stmt->execute();
             $result = self::iimysqli_stmt_get_result($stmt);
-            if($global['mysqli']->errno!=0){
+            if($stmt->errno!=0){
+                log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
                 $stmt->close();
-                log_error('Error in readSql (no mysqlnd): (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error.", SQL-CMD:".$preparedStatement);
                 return false;
             }
             return $result;
