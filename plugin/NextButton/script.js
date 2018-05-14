@@ -1,5 +1,7 @@
 // Extend default
-if(typeof player == 'undefined'){player = videojs(videoJsId);}
+$(document).ready(function () { 
+  setTimeout(function(){  if(typeof player == 'undefined'){player = videojs(videoJsId);} 
+
 var Button = videojs.getComponent('Button');
 var nextButton = videojs.extend(Button, {
     //constructor: function(player, options) {
@@ -18,3 +20,5 @@ var nextButton = videojs.extend(Button, {
 // Register the new component
 videojs.registerComponent('nextButton', nextButton);
 player.getChild('controlBar').addChild('nextButton', {}, getPlayerButtonIndex('PlayToggle')+1);
+    
+    }, 30); });
