@@ -138,7 +138,7 @@ if (User::canStream()) {
                         if (typeof response.applications[i].html != 'undefined') {
                             $('#availableLiveStream').append(response.applications[i].html);
                         } else {
-                            href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=" + response.applications[i].user;
+                            href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=" + response.applications[i].channelName;
                             title = response.applications[i].title;
                             name = response.applications[i].name;
                             user = response.applications[i].user;
