@@ -138,6 +138,7 @@ class YPTWallet extends PluginAbstract {
                     $count = 0;
                     foreach ($row as $key => $value) {
                         unset($row[$key]);
+                        $count++;
                         if($count>10){
                             break;
                         }
