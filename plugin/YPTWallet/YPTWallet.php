@@ -135,7 +135,7 @@ class YPTWallet extends PluginAbstract {
                 $row['background'] = User::getBackground($row['user_id']);
                 $row['photo'] = User::getPhoto($row['user_id']);
                 foreach ($row as $key => $value) {
-                    if($key == 'identification'){
+                    if($key == 'users_id'){
                         break;
                     }
                     unset($row['key']);
