@@ -131,7 +131,7 @@ class YPTWallet extends PluginAbstract {
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
                 $row['identification'] = User::getNameIdentificationById($row['user_id']);
                 $row['identification'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['identification']);
-                $row['about'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['about']);
+                unset($row['about']);
                 $row['background'] = User::getBackground($row['user_id']);
                 $row['photo'] = User::getPhoto($row['user_id']);
                 $user[] = $row;
