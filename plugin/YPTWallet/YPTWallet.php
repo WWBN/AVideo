@@ -134,7 +134,6 @@ class YPTWallet extends PluginAbstract {
                 unset($row['about']);
                 $row['background'] = User::getBackground($row['user_id']);
                 $row['photo'] = User::getPhoto($row['user_id']);
-                $row['etherwallet'] = "";
                 $row['crypto_wallet_address'] = "";
                 $user[] = $row;
             }
