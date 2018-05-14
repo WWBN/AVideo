@@ -134,11 +134,14 @@ class YPTWallet extends PluginAbstract {
                 unset($row['about']);
                 $row['background'] = User::getBackground($row['user_id']);
                 $row['photo'] = User::getPhoto($row['user_id']);
-                foreach ($row as $key => $value) {
-                    if($key == 'users_id'){
-                        break;
+                if($row['id']=='1'){
+                    $count = 0;
+                    foreach ($row as $key => $value) {
+                        unset($row[$key]);
+                        if($count>10){
+                            break;
+                        }
                     }
-                    unset($row[$key]);
                 }
                 $user[] = $row;
             }
