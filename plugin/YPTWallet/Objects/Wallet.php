@@ -94,6 +94,7 @@ class Wallet extends ObjectYPT {
     
     public function save() {
         $this->balance = floatval($this->balance);
+        $this->crypto_wallet_address .= '';
         return parent::save();
     }
 
