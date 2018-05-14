@@ -1,6 +1,7 @@
 <div class="row main-video" style="padding: 10px;" id="mvideo">
     <div class="col-xs-12 col-sm-12 col-lg-2 firstC"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8 secC">
+        <div id="videoContainer">
         <?php
             $poster = $global['webSiteRootURL']."img/recorder.gif";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".jpg")){
@@ -25,6 +26,7 @@
             <?php if ($config->getAllow_download()) { ?>
                 <a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'].$ext; ?>" download="<?php echo $video['title'] . $ext; ?>"><?php echo __("Download audio"); ?></a>
             <?php } ?>
+        </div>
     </div>
     <script>
         <?php $_GET['isMediaPlaySite'] = $video['id']; ?>
