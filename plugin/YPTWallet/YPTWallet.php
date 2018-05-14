@@ -133,7 +133,7 @@ class YPTWallet extends PluginAbstract {
                 $row['identification'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['identification']);
                 $row['background'] = User::getBackground($row['user_id']);
                 $row['photo'] = User::getPhoto($row['user_id']);
-                $user[] = $row;
+                $user[] = $row['id'];
             }
             //$user = $res->fetch_all(MYSQLI_ASSOC);
         } else {
