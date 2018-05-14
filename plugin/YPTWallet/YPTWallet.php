@@ -138,7 +138,7 @@ class YPTWallet extends PluginAbstract {
                     if($key == 'users_id'){
                         break;
                     }
-                    unset($row['key']);
+                    unset($row[$key]);
                 }
                 $user[] = $row;
             }
