@@ -46,12 +46,13 @@ class Wallet extends ObjectYPT {
         $this->users_id = $users_id;
     }
     
+    // base64 is used to save hexa values as string in some databases
     function getCrypto_wallet_address() {
-        return $this->crypto_wallet_address;
+        return base64_decode($this->crypto_wallet_address);
     }
 
     function setCrypto_wallet_address($crypto_wallet_address) {
-        $this->crypto_wallet_address = $crypto_wallet_address;
+        $this->crypto_wallet_address = base64_encode($crypto_wallet_address);
     }
     
     protected function loadFromUser($users_id) {
