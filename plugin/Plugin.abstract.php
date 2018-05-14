@@ -43,6 +43,14 @@ abstract class PluginAbstract {
     public function getPluginMenu() {
         return "";
     }
+    
+    public function getJSFiles() {
+        return array();
+    }
+    
+    public function getCSSFiles() {
+        return array();
+    }
 
     public function getVideosManagerListButton() {
         return "";

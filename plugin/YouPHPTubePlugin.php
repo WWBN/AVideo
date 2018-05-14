@@ -39,6 +39,30 @@ class YouPHPTubePlugin {
         }
         return $str;
     }
+    
+    public static function getJSFiles() {
+        $plugins = Plugin::getAllEnabled();
+        $allFiles = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $allFiles = array_merge($allFiles,$p->getJSFiles());
+            }
+        }
+        return $allFiles;
+    }
+    
+    public static function getCSSFiles() {
+        $plugins = Plugin::getAllEnabled();
+        $allFiles = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $allFiles = array_merge($allFiles,$p->getCSSFiles());
+            }
+        }
+        return $allFiles;
+    }
 
     public static function getHTMLBody() {
         $plugins = Plugin::getAllEnabled();
