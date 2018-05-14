@@ -43,7 +43,7 @@ class SeekButton extends PluginAbstract {
             if($_SESSION['type']=="audio"){
                $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainAudio\');} ';
             } else {
-               $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainVideo\');} } '; 
+               $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainVideo\');} '; 
             }
             $js .=  'player.seekButtons({forward: '.$obj->forward.',back: '.$obj->back.' }); }, 30); });'. '</script>';
             return $js;
