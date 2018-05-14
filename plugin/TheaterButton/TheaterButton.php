@@ -29,29 +29,35 @@ class TheaterButton extends PluginAbstract {
         if (empty($_GET['videoName'])) {
             return "";
         }
-        
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/style.css" rel="stylesheet" type="text/css"/>';
-        $css .= '<style></style>';
-        return $css;
-    }
-    
-    public function getFooterCode() {
-        global $global, $autoPlayVideo, $isEmbed;
-        if ((empty($_GET['videoName']))||($isEmbed==1)) {
-            return "";
-        }
-        $obj = $this->getDataObject();
-        $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/script.js" type="text/javascript"></script>';
         $tmp = "mainVideo";
         if(!empty($_SESSION['type'])){
             if($_SESSION['type']=="audio"){
                 $tmp = "mainAudio";
             }
         }
-        $js .= '<script>var videoJsId = "'.$tmp.'";</script>';
+        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/style.css" rel="stylesheet" type="text/css"/>';
+        $css .= '<script>var videoJsId = "'.$tmp.'";</script>';
+        return $css;
+    }
+    public function getJSFiles(){
+        global $global, $autoPlayVideo, $isEmbed;
+        $obj = $this->getDataObject();
+        if ((empty($_GET['videoName']))||($isEmbed==1)) {
+            return array();
+        }
         if(!empty($obj->show_switch_button)){
-            $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/addButton.js" type="text/javascript"></script>';
-        }else{
+            return array("plugin/TheaterButton/script.js","plugin/TheaterButton/addButton.js");
+        }
+        return array("plugin/TheaterButton/script.js");
+    }
+    public function getFooterCode() {
+        global $global, $autoPlayVideo, $isEmbed;
+        if ((empty($_GET['videoName']))||($isEmbed==1)) {
+            return "";
+        }
+        $obj = $this->getDataObject();
+        $js = '';
+        if(empty($obj->show_switch_button)){
             if($obj->compress_is_default){
                 $js .= '<script>$(document).ready(function () {compress(videojs)});</script>';
             }else{
