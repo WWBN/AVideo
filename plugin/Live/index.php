@@ -43,6 +43,15 @@ $vjsClass = "vjs-16-9";
 $trans = new LiveTransmition($trasnmition['id']);
 $groups = $trans->getGroups();
 $obj = $p->getDataObject();
+
+//check if channel name exists
+$channelName = User::getUserChannelName();
+if(empty($channelName)){
+    $channelName = uniqid();
+    $user = new User(User::getId());
+    $user->setChannelName($channelName);
+    $user->save();    
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -97,11 +106,11 @@ $obj = $p->getDataObject();
                         </div>       
                         <div class="form-group">
                             <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("Live URL"); ?>:</label>
-                            <input type="text" class="form-control" id="youphptubeURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode(User::getUserChannelName()); ?>"  readonly="readonly">
+                            <input type="text" class="form-control" id="youphptubeURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode($channelName); ?>"  readonly="readonly">
                         </div>   
                         <div class="form-group">
                             <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
-                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode(User::getUserChannelName()); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
+                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode($channelName); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
                         </div>
                     </div>
                 </div>
