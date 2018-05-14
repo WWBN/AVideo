@@ -8,17 +8,13 @@
                $poster = $global['webSiteRootURL']."videos/".$video['filename'].".jpg"; 
             }
         ?>
-        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay data-setup='{"controls": true}' poster="<?php echo $poster; ?>">
+        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" poster="<?php echo $poster; ?>">
             <?php
             $ext = "";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>
-                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
-                <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
                 <?php
                     $ext = ".ogg";
                 } else { ?>
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" /> 
-                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
                 <?php
                     $ext = ".mp3";
                 } ?>
@@ -34,7 +30,34 @@
         $(document).ready(function () {
             $(".vjs-big-play-button").hide();
             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
-            player = videojs('mainAudio');
+ player = videojs('mainAudio', {
+    controls: true,
+    autoplay: true,
+    fluid: false,
+    loop: false,
+    width: 600,
+    height: 300,
+    plugins: {
+        wavesurfer: {
+            src: '<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'].$ext; ?>',
+            msDisplayMax: 10,
+            debug: true,
+            waveColor: 'grey',
+            progressColor: 'black',
+            cursorColor: 'black',
+            hideScrollbar: true
+        }
+    }
+}, function(){
+    // print version information at startup
+    videojs.log('Using video.js', videojs.VERSION,
+        'with videojs-wavesurfer', videojs.getPluginVersion('wavesurfer'));
+});
+
+// error handling
+player.on('error', function(error) {
+    console.warn('ERROR:', error);
+});
             player.ready(function () {
             <?php
                 if ($config->getAutoplay()) {
