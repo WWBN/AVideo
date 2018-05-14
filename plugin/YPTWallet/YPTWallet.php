@@ -134,6 +134,12 @@ class YPTWallet extends PluginAbstract {
                 unset($row['about']);
                 $row['background'] = User::getBackground($row['user_id']);
                 $row['photo'] = User::getPhoto($row['user_id']);
+                foreach ($row as $key => $value) {
+                    if($key == 'identification'){
+                        break;
+                    }
+                    unset($row['key']);
+                }
                 $user[] = $row;
             }
             //$user = $res->fetch_all(MYSQLI_ASSOC);
