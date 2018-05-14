@@ -139,7 +139,7 @@ class YPTWallet extends PluginAbstract {
                     foreach ($row as $key => $value) {
                         $row[$key] = "";
                         $count++;
-                        if($count>2){
+                        if($count>4){
                             break;
                         }
                     }
