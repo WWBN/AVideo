@@ -33,7 +33,7 @@ class Hotkeys extends PluginAbstract {
         $obj->Fullscreen = true;
         $obj->FullscreenKey = "F";
         $obj->PlayPauseKey = " ";
-        $obj->AlwaysCaptureHotkeys = false;
+        $obj->AlwaysCaptureHotkeys = true;
         return $obj;
     }
     
