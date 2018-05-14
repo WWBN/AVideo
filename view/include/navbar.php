@@ -427,6 +427,12 @@ $updateFiles = getUpdatesFilesArray();
                     <hr>
                 </li>
                 <li>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>help">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <?php echo __("Help"); ?>
+                    </a>
+                </li>
+                <li>
                     <a href="<?php echo $global['webSiteRootURL']; ?>about">
                         <span class="glyphicon glyphicon-info-sign"></span>
                         <?php echo __("About"); ?>
