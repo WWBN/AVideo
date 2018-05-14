@@ -28,6 +28,22 @@ class YouPHPTubePlugin {
         return $str;
     }
 
+    public static function getHelp() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $t = $p->getHelp();
+                $str .= $t;
+                if(!empty($t)){
+                    $str .= "<hr />";
+                }
+            }
+        }
+        return $str;
+    }
+    
     public static function getFooterCode() {
         $plugins = Plugin::getAllEnabled();
         $str = "";

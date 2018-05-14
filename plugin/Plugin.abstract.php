@@ -27,6 +27,10 @@ abstract class PluginAbstract {
     public function getHeadCode() {
         return "";
     }
+    
+    public function getHelp() {
+        return "";
+    }
 
     public function getHTMLBody() {
         return "";

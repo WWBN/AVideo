@@ -17,7 +17,16 @@ class Hotkeys extends PluginAbstract {
         return "11355314-1b30-ff15-afb-67516fcccff7";
     }
     
-    
+    public function getHelp(){
+        $obj = $this->getDataObject();
+        $html = "<h2>Hotkeys</h2><p>Hotkeys allow you shortcuts like press ".$obj->FullscreenKey." for fullscreen.</p>";
+        if($obj->ReplaceVolumeWithPlusMinus){
+            $html .= "<p>Volume: +/-</p>";
+        } else {
+            $html .= "<p>Volume: Up/Down-Arrow</p>";
+        }
+        return $html;
+    }
     public function getJSFiles(){
         if(!empty($_GET['isMediaPlaySite'])){
             return array("plugin/Hotkeys/videojs.hotkeys.min.js");

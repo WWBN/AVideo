@@ -189,6 +189,8 @@
     RewriteRule    ^updateConfig$ objects/configurationUpdate.json.php    [NC,L]
 
     RewriteRule    ^charts$ view/charts.php    [NC,L]
+    
+    RewriteRule    ^help$ view/help.php    [NC,L]
 
     # YouTube Sync
     RewriteRule    ^youtubeUpload$ objects/youtubeUpload.json.php    [NC,L]
