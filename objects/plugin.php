@@ -164,20 +164,22 @@ class Plugin extends ObjectYPT {
     }
 
     static function getAllEnabled() {
-        global $global;
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
-        $res = $global['mysqli']->query($sql);
-        $rows = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
-                $rows[] = $row;
-            }           
+        global $global, $getAllEnabledRows;
+        if(empty($getAllEnabledRows)){
+            $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
+            $res = $global['mysqli']->query($sql);
+            $getAllEnabledRows = array();
+            if ($res) {
+                while ($row = $res->fetch_assoc()) {
+                    $getAllEnabledRows[] = $row;
+                }           
 
-            uasort($rows, 'cmpPlugin');
-        } else {
-            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                uasort($getAllEnabledRows, 'cmpPlugin');
+            } else {
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
         }
-        return $rows;
+        return $getAllEnabledRows;
     }
 
     static function getEnabled($uuid) {
