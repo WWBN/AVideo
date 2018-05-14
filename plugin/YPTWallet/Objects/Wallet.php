@@ -93,6 +93,7 @@ class Wallet extends ObjectYPT {
     }
     
     public function save() {
+        global $global;
         $this->balance = floatval($this->balance);
         $this->crypto_wallet_address = $global['mysqli']->real_escape_string($this->crypto_wallet_address);
         return parent::save();
