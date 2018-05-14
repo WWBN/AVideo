@@ -42,9 +42,9 @@
             src: '<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'].$ext; ?>',
             msDisplayMax: 10,
             debug: true,
-            waveColor: 'grey',
-            progressColor: 'black',
-            cursorColor: 'black',
+            waveColor: 'green',
+            progressColor: 'white',
+            cursorColor: 'blue',
             hideScrollbar: true
         }
     }
