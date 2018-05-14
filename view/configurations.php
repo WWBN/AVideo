@@ -499,7 +499,19 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <input id="smtpPassword" class="form-control"  type="password" value="<?php echo $config->getSmtpPassword(); ?>" >
                                                         </div>
                                                     </div>
-
+                                                    <div class="form-group">
+                                                        <label class="col-md-4"><?php echo __("Test your email"); ?></label>
+                                                        <div class="col-md-4 inputGroupContainer">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
+                                                                <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                                                                <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span class="btn btn-warning btn-lg" id="testEmail" ><?php echo __("Test Email"); ?> <span class="glyphicon glyphicon-send"></span></span>
+                                                        </div>
+                                                    </div>
 
                                                 </fieldset>
                                                 <?php
@@ -577,6 +589,41 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                     var logoSmallImgBase64;
 
                     $(document).ready(function () {
+
+                        $('#btnReloadCapcha').click(function () {
+                            $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
+                            $('#captchaText').val('');
+                        });
+
+                        $('#testEmail').click(function (evt) {
+                            evt.preventDefault();
+                            modal.showPleaseWait();
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>sendEmail',
+                                data: {
+                                    captcha:$('#captchaText').val(),
+                                    first_name: "Your Site test",
+                                    email:"teste@teste.com",
+                                    website: "www.youphptube.com",
+                                    comment:"Teste of comment"
+                                },
+                                type: 'post',
+                                success: function (response) {
+                                    modal.hidePleaseWait();
+                                    if (!response.error) {
+                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
+
+                                        $("#contact_form").hide();
+                                        $("#messageSuccess").fadeIn();
+                                    } else {
+                                        swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
+                                    }
+                                    $('#btnReloadCapcha').trigger('click');
+                                }
+                            });
+                            return false;
+                        });
+
                         // start croppie logo
                         $('#logo').on('change', function () {
                             readFile(this, logoCrop);
