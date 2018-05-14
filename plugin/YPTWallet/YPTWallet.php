@@ -114,7 +114,7 @@ class YPTWallet extends PluginAbstract {
     
     function getAllUsers($activeOnly = true) {
         global $global;
-        $sql = "SELECT w.*, u.*, u.id as user_id, IFNULL(balance, 0) FROM users u "
+        $sql = "SELECT w.*, u.*, u.id as user_id, IFNULL(balance, 0) as balance FROM users u "
                 . " LEFT JOIN wallet w ON u.id = w.users_id WHERE 1=1 ";
 
         if($activeOnly){
