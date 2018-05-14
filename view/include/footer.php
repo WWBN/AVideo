@@ -72,8 +72,10 @@ if (!empty($_GET['msg'])) {
     $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+if($_SESSION['type']=="audio"){
     $jsFiles[] = "view/js/videojs-wavesurfer/wavesurfer.min.js";
     $jsFiles[] = "view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
+}
     $jsURL =  combineFiles($jsFiles, "js");
 
 ?>
