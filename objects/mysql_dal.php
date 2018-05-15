@@ -78,14 +78,14 @@ class sqlDAL {
     * @param array  $values             A array, containing the values for the prepared statement.
     * @return Object                    Depend if mysqlnd is active or not, a object, but always false on fail
     */
-    static function readSql($preparedStatement, $formats = "", $values = array()) {
+    static function readSql($preparedStatement, $formats = "", $values = array(),$refreshCache=false) {
         global $global, $disableMysqlNdMethods, $readSqlCached;
         $crc = $preparedStatement.implode($values);
         if(empty($readSqlCached)){
             $readSqlCached = array();
         }
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
-            if(empty($readSqlCached[$crc])){
+            if((empty($readSqlCached[$crc]))||($refreshCache)){
                  $readSqlCached[$crc]="false";
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
                     log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
