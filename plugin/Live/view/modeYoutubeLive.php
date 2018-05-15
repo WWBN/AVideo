@@ -29,7 +29,7 @@ $imgh = 360;
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $t['title']; ?> - Live Video - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $t['title']; ?> - <?php echo __("Live Video"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
