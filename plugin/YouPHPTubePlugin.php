@@ -27,7 +27,20 @@ class YouPHPTubePlugin {
         }
         return $str;
     }
-
+    public static function getHelpToc() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "<h4>".__("Table of content")."</h4><ul>";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $t = $p->getHelp();
+                if(!empty($t)){
+                    $str .= "<li><a href='#".$value['name']." help'>".$value['name']."</a></li>";
+                }
+            }
+        }
+        return $str."</ul>";
+    }
     public static function getHelp() {
         $plugins = Plugin::getAllEnabled();
         $str = "";
