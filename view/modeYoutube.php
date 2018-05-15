@@ -256,6 +256,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
                             <div class="row">
                                 <div class="col-md-12 watch8-action-buttons text-muted">
+                                    <?php if((($advancedCustom!=false)&&($advancedCustom->disableShareAndPlaylist==false))||($advancedCustom==false)){ ?>
                                     <button class="btn btn-default no-outline" id="addBtn" data-placement="bottom">
                                         <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                                     </button>
@@ -377,7 +378,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                     <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                         <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                     </a>                                    
-                                    <?php echo YouPHPTubePlugin::getWatchActionButton(); ?>                                    
+                                    <?php } echo YouPHPTubePlugin::getWatchActionButton(); ?>                                    
                                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                                         <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
                                     </a>			
@@ -417,7 +418,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                 </div>
                             </div>
                         </div>
-
+                        <?php if((($advancedCustom!=false)&&($advancedCustom->disableShareAndPlaylist==false))||($advancedCustom==false)){ ?>
                         <div class="row bgWhite list-group-item" id="shareDiv">
                             <div class="tabbable-panel">
                                 <div class="tabbable-line text-muted">
@@ -563,6 +564,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                 </div>
                             </div>
                         </div>
+                        <?php } ?>
                         <div class="row bgWhite list-group-item">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-lg-12">
