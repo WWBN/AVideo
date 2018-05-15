@@ -45,6 +45,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->uploadButtonDropdownText = "";
         $obj->EnableWavesurfer = true;
         $obj->EnableMinifyJS = false;
+        $obj->disableShareAndPlaylist = false;
         $obj->commentsMaxLength = 200;
         $o = new stdClass();
         $o->type = "textarea";
