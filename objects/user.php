@@ -142,6 +142,14 @@ class User {
     
     static function getUserChannelName() {
         if (self::isLogged()) {
+            
+            if(empty($_SESSION['user']['channelName'])){
+                $_SESSION['user']['channelName'] = uniqid();
+                $user = new User(User::getId());
+                $user->setChannelName($_SESSION['user']['channelName']);
+                $user->save();
+            }
+            
             return $_SESSION['user']['channelName'];
         } else {
             return false;

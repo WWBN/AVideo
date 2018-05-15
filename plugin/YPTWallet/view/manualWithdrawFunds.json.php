@@ -34,7 +34,8 @@ if($plugin->transferBalance(User::getId(),$dataObj->manualWithdrawFundsTransferT
     $message = "<strong style='color:#A00;'>".YPTWallet::MANUAL_WITHDRAW."</strong> user <strong><a href='{$url}'>[". User::getId()."]". User::getUserName()."</a></strong> value of {$value}";
     $emailMessage = "The user <a href='{$url}'>[". User::getId()."]<strong>". User::getUserName()."</strong></a> request a <strong style='color:#A00;'>".YPTWallet::MANUAL_WITHDRAW."</strong> value of <strong>{$value}</strong>"
     . "<hr><strong>Date: </strong>".  date("Y-m-d h:i:s")
-    . "<br><strong>Informations: </strong>".  nl2br($_POST['informations']);
+    . "<br><strong>Informations: </strong>".  nl2br($_POST['informations'])
+    . "<br><strong>{$dataObj->CryptoWalletName}: </strong>".  $wallet->getCrypto_wallet_address();
 
     if(WalletLog::addLog($wallet_id, $value, $message, "{}", "pending", YPTWallet::MANUAL_WITHDRAW)){
         $plugin->sendEmails($emailsArray, $subject, $emailMessage."");
