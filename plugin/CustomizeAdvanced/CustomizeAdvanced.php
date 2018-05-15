@@ -43,6 +43,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->uploadButtonDropdownIcon = "fas fa-video";
         $obj->uploadButtonDropdownText = "";
+        $obj->EnableWavesurfer = true;
+        $obj->EnableMinifyJS = false;
         $obj->commentsMaxLength = 200;
         $o = new stdClass();
         $o->type = "textarea";
