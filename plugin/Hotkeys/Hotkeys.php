@@ -19,12 +19,21 @@ class Hotkeys extends PluginAbstract {
     
     public function getHelp(){
         $obj = $this->getDataObject();
-        $html = "<h2>Hotkeys</h2><p>Hotkeys allow you shortcuts like press ".$obj->FullscreenKey." for fullscreen.</p>";
+        $html = "<h2 id='Hotkeys help' >Hotkeys</h2><p>When you are watching media, you can use these shortcuts.</p>";
+        $html .= "<p>Seek: Left/right-arrow-key</p>";
         if($obj->ReplaceVolumeWithPlusMinus){
             $html .= "<p>Volume: +/-</p>";
         } else {
             $html .= "<p>Volume: Up/Down-Arrow</p>";
         }
+        if($obj->Fullscreen){
+            $html .= "<p>Fullscreen: ".$obj->FullscreenKey."</p>";
+        } 
+        if($obj->PlayPauseKey==" "){
+            $html .= "<p>Play/pause: space</p>";
+        } else {
+           $html .= "<p>Play/pause: ".$obj->PlayPauseKey."</p>"; 
+        }    
         return $html;
     }
     public function getJSFiles(){
