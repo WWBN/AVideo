@@ -86,4 +86,5 @@ if (!empty($_GET['msg'])) {
 <?php
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 echo YouPHPTubePlugin::getFooterCode();
+echo "<!-- Saved querys: ".$_SESSION['savedQuerys']." -->";
 ?>
