@@ -56,7 +56,7 @@ if(empty($channelName)){
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Live - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Live"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
