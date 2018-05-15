@@ -79,31 +79,44 @@ class sqlDAL {
     * @return Object                    Depend if mysqlnd is active or not, a object, but always false on fail
     */
     static function readSql($preparedStatement, $formats = "", $values = array()) {
-        global $global, $disableMysqlNdMethods;
+        global $global, $disableMysqlNdMethods, $readSqlCached;
+        $crc = $preparedStatement.implode($values);
+        if(empty($readSqlCached)){
+            $readSqlCached = array();
+        }
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
-            if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
-                log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
-                exit;
-            }
-            if ((!empty($formats)) && (!empty($values))) {
-                $code = "return \$stmt->bind_param('" . $formats . "'";
-                $i = 0;
-                foreach ($values as $val) {
-                    $code .= ", \$values[" . $i . "]";
-                    $i++;
-                };
-                $code .= ");";
-                eval($code);
-            }
-            $stmt->execute();
-            $res = $stmt->get_result();
-            if($stmt->errno!=0){
-                log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
+            if(empty($readSqlCached[$crc])){
+                 $readSqlCached[$crc]="false";
+                if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
+                    log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
+                    exit;
+                }
+                if ((!empty($formats)) && (!empty($values))) {
+                    $code = "return \$stmt->bind_param('" . $formats . "'";
+                    $i = 0;
+                    foreach ($values as $val) {
+                        $code .= ", \$values[" . $i . "]";
+                        $i++;
+                    };
+                    $code .= ");";
+                    eval($code);
+                }
+                $stmt->execute();
+                $readSqlCached[$crc] = $stmt->get_result();
+                if($stmt->errno!=0){
+                    log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
+                    $stmt->close();
+                    return false;
+                }
                 $stmt->close();
+            } else {
+                // activate this line, to see how many querys can be saved
+                // echo "saved query!";
+            }
+            if($readSqlCached[$crc]=="false"){
                 return false;
             }
-            $stmt->close();
-            return $res;
+            return $readSqlCached[$crc];
         } else {
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
                 log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
@@ -127,11 +140,12 @@ class sqlDAL {
             if($stmt->errno!=0){
                 log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
                 $stmt->close();
-                return false;
+                $readSqlCached[$crc] =  false;
+                return $readSqlCached[$crc];
             }
-            return $result;
+            $readSqlCached[$crc] = $result;
         }
-        return false;
+        return $readSqlCached[$crc];
     }
     /*
     * This closes the readSql
