@@ -93,6 +93,7 @@ class WalletLog extends ObjectYPT {
                 $row['wallet'] = Wallet::getFromWalletId($row['wallet_id']);
                 $row['user'] = $row['wallet']['user'];
                 $row['balance'] = $row['wallet']['balance'];
+                $row['crypto_wallet_address'] = "";
                 $rows[] = $row;
             }
         } else {
