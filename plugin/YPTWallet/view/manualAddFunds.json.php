@@ -35,7 +35,8 @@ $url = "{$global['webSiteRootURL']}plugin/YPTWallet/view/history.php?users_id=".
 $message = "<strong style='color:#0A0;'>".YPTWallet::MANUAL_ADD."</strong> user <strong><a href='{$url}'>[". User::getId()."]". User::getNameIdentification()."</a></strong> value of {$value}";
 $emailMessage = "The user <a href='{$url}'>[". User::getId()."]<strong>". User::getNameIdentification()."</strong></a> request a <strong style='color:#0A0;'>".YPTWallet::MANUAL_ADD."</strong> value of <strong>{$value}</strong>"
 . "<hr><strong>Date: </strong>".  date("Y-m-d h:i:s")
-. "<br><strong>Informations: </strong>".  nl2br($_POST['informations']);
+. "<br><strong>Informations: </strong>".  nl2br($_POST['informations'])
+. "<br><strong>{$dataObj->CryptoWalletName}: </strong>".  $wallet->getCrypto_wallet_address();
 
 if(WalletLog::addLog($wallet_id, $value, $message, "{}", "pending",  YPTWallet::MANUAL_ADD)){
     $plugin->sendEmails($emailsArray, $subject, $emailMessage."");
