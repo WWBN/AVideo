@@ -102,6 +102,11 @@ if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local
         die(json_encode($obj));
     } 
 }
+
+if(!empty($_POST['categories_id'])){
+    $video->setCategories_id($_POST['categories_id']);
+}
+
 $video_id = $video->save();
 $video->updateDurationIfNeed();
 
