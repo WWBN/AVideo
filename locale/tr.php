@@ -117,6 +117,7 @@ $t['Duration'] = "Süre";
 $t['E-mail'] = "E-mail";
 $t['E-mail Address'] = "E-Mail Adres";
 $t['E-mail sent'] = "E-posta gönder";
+$t['E-mail Verified'] = "E-posta Doğrulandı";
 $t['Edit'] = "Düzenle";
 $t['Edit Video'] = "Videoyu Düzenle";
 $t['Email can not be blank'] = "Email boş bırakılamaz";
