@@ -746,6 +746,8 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         
         if((isset($_GET['isEmbedded']))&&($disableYoutubeIntegration==false)) { if($_GET['isEmbedded']=="y") { ?>
             <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-youtube/Youtube.js" ></script>
+        <?php } else if ($_GET['isEmbedded']=="v"){ ?>
+            <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-vimeo/videojs-vimeo.js" ></script>
         <?php } } ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
