@@ -191,7 +191,7 @@ var Vimeo = function (_Tech) {
   };
 
   Vimeo.prototype.setVolume = function setVolume(v) {
-    return this._player.setVolume(volume);
+    return this._player.setVolume(v);
   };
 
   Vimeo.prototype.duration = function duration() {
