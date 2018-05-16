@@ -27,20 +27,25 @@ class PlayList extends ObjectYPT {
      */
     static function getAllFromUser($userId, $publicOnly = true) {
         global $global;
+        $formats = "";
+        $values = array();
         $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
                 . " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
         if ($publicOnly) {
             $sql .= " AND pl.status = 'public' ";
         }
         if (!empty($userId)) {
-            $sql .= " AND users_id = '{$userId}' ";
+            $sql .= " AND users_id = ? ";
+            $formats .= "i";
+            $values[] = $userId;
         }
         $sql .= self::getSqlFromPost();
-
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,$formats,$values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $rows = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
                 $rows[] = $row;
             }
@@ -58,10 +63,12 @@ class PlayList extends ObjectYPT {
                 . " WHERE playlists_id = {$playlists_id} ORDER BY p.`order` ASC ";
 
         $sql .= self::getSqlFromPost();
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,"i",array($playlists_id));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $rows = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $rows[] = $row;
             }
         } else {
