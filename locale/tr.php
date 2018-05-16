@@ -62,6 +62,7 @@ $t['Change Playlist Name'] = "Oynatma Listesi Adını Değiştir";
 $t['Change Style'] = "Stili Değiştir";
 $t['Channel'] = "Kanal";
 $t['Channels'] = "Kanallar";
+$t['Channel Name'] = "Kanal Adı";
 $t['Clean Name'] = "Bağlantı Adı";
 $t['Clean Title'] = "Bağlantı Başlığı";
 $t['Click here if you agree to continue'] = "Devam etmeyi kabul ediyorsan buraya tıkla";
