@@ -443,20 +443,23 @@ if (!class_exists('Video')) {
 
         static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
             global $global, $config;
-            // there is no c.description 
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
             $id = intval($id);
-
-            $result = $global['mysqli']->query("SHOW TABLES LIKE 'likes'");
-            if (empty($result->num_rows)) {
+            $res = sqlDAL::readSql("SHOW TABLES LIKE 'likes'");
+            $result = sqlDal::num_rows($res);
+            sqlDAL::close($res);
+            
+            if (empty($result)) {
                 $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.0</a>";
                 header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
                 return false;
             }
-            $result = $global['mysqli']->query("SHOW TABLES LIKE 'video_ads'");
-            if (empty($result->num_rows)) {
+            $res = sqlDAL::readSql("SHOW TABLES LIKE 'likes'");
+            $result = sqlDal::num_rows($res);
+            sqlDAL::close($res);
+            if (empty($result)) {
                 $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
                 header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
                 return false;

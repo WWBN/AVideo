@@ -47,18 +47,7 @@ class sqlDAL {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
             return false;
         }
-        if ((!empty($formats)) && (!empty($values))) {
-            $code = "return \$stmt->bind_param('" . $formats . "'";
-            //var_dump($result->fields);
-            $i = 0;
-            foreach ($values as $val) {
-                $code .= ", \$values[" . $i . "]";
-                $i++;
-            };
-
-            $code .= ");";
-            eval($code);
-        }
+        sqlDAL::eval_mysql_bind($stmt,$formats,$values);
         //var_dump($stmt);
         $suc = $stmt->execute();
         //var_dump($stmt);
@@ -91,16 +80,7 @@ class sqlDAL {
                     log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
                     exit;
                 }
-                if ((!empty($formats)) && (!empty($values))) {
-                    $code = "return \$stmt->bind_param('" . $formats . "'";
-                    $i = 0;
-                    foreach ($values as $val) {
-                        $code .= ", \$values[" . $i . "]";
-                        $i++;
-                    };
-                    $code .= ");";
-                    eval($code);
-                }
+                sqlDAL::eval_mysql_bind($stmt,$formats,$values);
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
                 if($stmt->errno!=0){
@@ -126,17 +106,7 @@ class sqlDAL {
                 exit;
             }
             
-            if ((!empty($formats)) && (!empty($values))) {
-                $code = "return \$stmt->bind_param(\"" . $formats . "\"";
-                $i = 0;
-                foreach ($values as $val) {
-                    $code .= ", \$values[" . $i . "]";
-                    $i++;
-                };
-                $code .= ");";
-                // echo $code. " : ".$preparedStatement;
-                eval($code);
-            }
+            sqlDAL::eval_mysql_bind($stmt,$formats,$values);
 
             $stmt->execute();
             $result = self::iimysqli_stmt_get_result($stmt);
@@ -240,6 +210,20 @@ class sqlDAL {
         return false;
     }
 
+    private static function eval_mysql_bind($stmt,$formats,$values){
+        if ((!empty($formats)) && (!empty($values))) {
+            $code = "return \$stmt->bind_param(\"" . $formats . "\"";
+            $i = 0;
+            foreach ($values as $val) {
+                $code .= ", \$values[" . $i . "]";
+                $i++;
+            };
+            $code .= ");";
+            // echo $code. " : ".$preparedStatement;
+            eval($code);
+        }     
+    }
+    
     private static function iimysqli_stmt_get_result($stmt) {
         global $global;
         $metadata = mysqli_stmt_result_metadata($stmt);
