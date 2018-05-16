@@ -33,10 +33,12 @@ class UserGroups {
     static private function getUserGroupsDb($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM users_groups WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $user = $res->fetch_assoc();
+        $sql = "SELECT * FROM users_groups WHERE  id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "i", array($id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($data)) {
+            $user = $data;
         } else {
             $user = false;
         }
@@ -82,9 +84,11 @@ class UserGroups {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM users_groups WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $category = $res->fetch_assoc();
+        $res = sqlDAL::readSql($sql, "i", array($id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($data)) {
+            $category = $data;
         } else {
             $category = false;
         }
@@ -100,10 +104,12 @@ class UserGroups {
 
         $sql .= BootGrid::getSqlFromPost(array('group_name'));
 
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $arr = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $arr[] = $row;
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);
@@ -119,11 +125,10 @@ class UserGroups {
         $sql = "SELECT id FROM users_groups WHERE 1=1  ";
 
         $sql .= BootGrid::getSqlSearchFromPost(array('group_name'));
-
-        $res = $global['mysqli']->query($sql);
-
-
-        return $res->num_rows;
+        $res = sqlDAL::readSql($sql);
+        $numRows = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+        return $numRows;
     }
 
     function getGroup_name() {
@@ -158,8 +163,10 @@ class UserGroups {
 
     static function getUserGroups($users_id) {
         global $global;
-        $result = $global['mysqli']->query("SHOW TABLES LIKE 'users_has_users_groups'");
-        if (empty($result->num_rows)) {
+        $res = sqlDAL::readSql("SHOW TABLES LIKE 'users_has_users_groups'");
+        $result = sqlDAL::num_rows($res);
+        sqlDAL::close($res);  
+        if (empty($result)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.3</a>";
             return array();
         }
@@ -239,12 +246,13 @@ class UserGroups {
         }
 
         $sql = "SELECT * FROM videos_group_view as v "
-                . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = $videos_id ";
-
-        $res = $global['mysqli']->query($sql);
+                . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = ? ";
+        $res = sqlDAL::readSql($sql,"i",array($videos_id));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $arr = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $arr[] = $row;
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);

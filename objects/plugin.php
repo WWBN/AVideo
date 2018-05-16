@@ -72,10 +72,12 @@ class Plugin extends ObjectYPT {
             $getPluginByName = array();
         }
         if(empty($getPluginByName[$name])){
-            $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = '$name' LIMIT 1";
-            $res = $global['mysqli']->query($sql);
-            if ($res) {
-                $getPluginByName[$name] = $res->fetch_assoc();
+            $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = ? LIMIT 1";
+            $res = sqlDAL::readSql($sql, "s", array($name));
+            $data = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            if (!empty($data)) {
+                $getPluginByName[$name] = $data;
             } else {
                 $getPluginByName[$name] = false;
             }
@@ -89,10 +91,12 @@ class Plugin extends ObjectYPT {
             $getPluginByUUID = array();
         }
         if(empty($getPluginByUUID[$uuid])){
-            $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = '$uuid' LIMIT 1";
-            $res = $global['mysqli']->query($sql);
-            if ($res) {
-                $getPluginByUUID[$uuid] = $res->fetch_assoc();
+            $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = ? LIMIT 1";
+            $res = sqlDAL::readSql($sql, "s", array($uuid));
+            $data = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            if (!empty($data)) {
+                $getPluginByUUID[$uuid] = $data;
             } else {
                 $getPluginByUUID[$uuid] = false;
             }
