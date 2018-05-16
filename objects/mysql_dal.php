@@ -80,7 +80,7 @@ class sqlDAL {
     */
     static function readSql($preparedStatement, $formats = "", $values = array(),$refreshCache=false) {
         global $global, $disableMysqlNdMethods, $readSqlCached;
-        $crc = $preparedStatement.implode($values);
+        $crc = md5($preparedStatement.implode($values));
         if(empty($readSqlCached)){
             $readSqlCached = array();
         }
