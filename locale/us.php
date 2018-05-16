@@ -117,6 +117,7 @@ $t['Duration'] = "Duration";
 $t['E-mail'] = "E-mail";
 $t['E-mail Address'] = "E-mail Address";
 $t['E-mail sent'] = "E-mail sent";
+$t['E-mail Verified'] = "E-mail Verified";
 $t['Edit'] = "Edit";
 $t['Edit Video'] = "Edit Video";
 $t['Email can not be blank'] = "Email can not be blank";
