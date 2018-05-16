@@ -81,7 +81,7 @@
                                 });
                                 <?php if (!empty($logId)) { ?>
                                     isPlayingAd = true;
-                                    this.on('ended', function () {
+                                    player.on('ended', function () {
                                     console.log("Finish Video");
                                     if (isPlayingAd) {
                                         isPlayingAd = false;
@@ -95,7 +95,7 @@
                                             }
                                     <?php } ?>
                                     });
-                                    this.on('timeupdate', function () {
+                                    player.on('timeupdate', function () {
                                         var durationLeft = fullDuration - this.currentTime();
                                         $("#adUrl .time").text(secondsToStr(durationLeft + 1, 2));
                                     <?php if (!empty($ad['skip_after_seconds'])) { ?>
@@ -106,7 +106,7 @@
                                     <?php } ?>
                                     });
                                 <?php } else { ?>
-                                    this.on('ended', function () {
+                                    player.on('ended', function () {
                                         console.log("Finish Video");
                                 <?php if (!empty($autoPlayVideo)) { ?>
                                             if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
@@ -116,7 +116,7 @@
 
                                     });
                                 <?php } ?>
-                                });
+                                
         
                                 <?php if (!empty($logId)){
 	                               $sources = getSources($video['filename'], true); ?>
@@ -130,6 +130,7 @@
                                         return false;
                                     });
                                 <?php } ?>
+                                });
                         </script>
                 
                 <?php
