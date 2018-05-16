@@ -66,9 +66,11 @@ class Subscribe {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM subscribes WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $subscribe = $res->fetch_assoc();
+        $res = sqlDAL::readSql($sql,"i",array($id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res!=false) {
+            $subscribe = $data;
         } else {
             $subscribe = false;
         }
@@ -82,9 +84,11 @@ class Subscribe {
             $sql .= " AND status = '{$status}' ";
         }
         $sql .= " LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $subscribe = $res->fetch_assoc();
+        $res = sqlDAL::readSql($sql);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res!=false) {
+            $subscribe = $data;
         } else {
             $subscribe = false;
         }
@@ -107,11 +111,13 @@ class Subscribe {
         }
         $sql .= BootGrid::getSqlFromPost(array('email'));
 
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $subscribe = array();
-        if ($res) {
+        if ($res!=false) {
             $emails = array();
-            while ($row = $res->fetch_assoc()) {
+            foreach ($fullData as $row) {
                 if(in_array($row['email'], $emails)){
                     continue;
                 }
@@ -147,10 +153,12 @@ class Subscribe {
         
         $sql = "SELECT s.* FROM subscribes as s WHERE email='{$email}' ";
         
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $subscribe = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $row['identification'] = User::getNameIdentificationById($row['users_id']);
                 if($row['identification'] === __("Unknown User")){
                     $row['identification'] = $row['email'];
@@ -176,11 +184,12 @@ class Subscribe {
         }
 
         $sql .= BootGrid::getSqlSearchFromPost(array('email'));
+        $res = sqlDAL::readSql($sql);
+        $numRows = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
 
-        $res = $global['mysqli']->query($sql);
 
-
-        return $res->num_rows;
+        return $numRows;
     }
 
     function toggle() {
