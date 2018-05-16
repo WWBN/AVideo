@@ -27,11 +27,11 @@ class Chat implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $from, $msg) {
         global $canSendMessage;
         if(empty($canSendMessage)){
-            echo "Cant Send message";
-            return false;
+            echo "Cant Send message\n";
+            //return false;
         }
         //var_dump($msg);
-        echo "Saving message";
+        echo "Saving message\n";
         $lc = new \LiveChatObj(0);
         $object = json_decode($msg);
         $lc->setLive_stream_code($object->chatId);
