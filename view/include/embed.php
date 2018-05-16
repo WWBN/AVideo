@@ -70,7 +70,10 @@
                                 <?php } ?>
                                         num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
                                         loadPage(num);                 
+                                    player.persistvolume({
+                                        namespace: "YouPHPTube"
                                     });
+                                });
                                 //$(".vjs-big-play-button").hide();
                                 $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
                                 player.on('play', function () {
@@ -114,11 +117,7 @@
                                     });
                                 <?php } ?>
                                 });
-                                player.ready(function () {
-                                    player.persistvolume({
-                                        namespace: "YouPHPTube"
-                                    });
-                                });
+        
                                 <?php if (!empty($logId)){
 	                               $sources = getSources($video['filename'], true); ?>
                                     $('#adButton').click(function () {
