@@ -32,14 +32,13 @@
                 $_GET['isEmbedded'] = "y";
                 ?>
                 
-                <div id="main-video" class="">
+                <div id="main-video" class="embed-responsive embed-responsive-16by9">
                 <video
                     id="mainVideo"
                     class="video-js vjs-default-skin"
                        controls
                        autoplay
-                       width="640" height="264"
-                       data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "<?php echo $video['videoLink']; ?>"}] }' >
+                       data-setup='{  "aspectRatio": "16:9", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "<?php echo $video['videoLink']; ?>"}] }' >
             </video>
                 <script>
                 var player;
