@@ -27,7 +27,36 @@ class YouPHPTubePlugin {
         }
         return $str;
     }
-
+    public static function getHelpToc() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "<h4>".__("Table of content")."</h4><ul>";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $t = $p->getHelp();
+                if(!empty($t)){
+                    $str .= "<li><a href='#".$value['name']." help'>".$value['name']."</a></li>";
+                }
+            }
+        }
+        return $str."</ul>";
+    }
+    public static function getHelp() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $t = $p->getHelp();
+                $str .= $t;
+                if(!empty($t)){
+                    $str .= "<hr />";
+                }
+            }
+        }
+        return $str;
+    }
+    
     public static function getFooterCode() {
         $plugins = Plugin::getAllEnabled();
         $str = "";
@@ -38,6 +67,30 @@ class YouPHPTubePlugin {
             }
         }
         return $str;
+    }
+    
+    public static function getJSFiles() {
+        $plugins = Plugin::getAllEnabled();
+        $allFiles = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $allFiles = array_merge($allFiles,$p->getJSFiles());
+            }
+        }
+        return $allFiles;
+    }
+    
+    public static function getCSSFiles() {
+        $plugins = Plugin::getAllEnabled();
+        $allFiles = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $allFiles = array_merge($allFiles,$p->getCSSFiles());
+            }
+        }
+        return $allFiles;
     }
 
     public static function getHTMLBody() {

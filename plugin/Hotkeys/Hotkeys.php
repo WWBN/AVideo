@@ -16,7 +16,33 @@ class Hotkeys extends PluginAbstract {
     public function getUUID() {
         return "11355314-1b30-ff15-afb-67516fcccff7";
     }
-        
+    
+    public function getHelp(){
+        $obj = $this->getDataObject();
+        $html = "<h2 id='Hotkeys help' >Hotkeys</h2><p>When you are watching media, you can use these shortcuts.</p>";
+        $html .= "<p>Seek: Left/right-arrow-key</p>";
+        if($obj->ReplaceVolumeWithPlusMinus){
+            $html .= "<p>Volume: +/-</p>";
+        } else {
+            $html .= "<p>Volume: Up/Down-Arrow</p>";
+        }
+        if($obj->Fullscreen){
+            $html .= "<p>Fullscreen: ".$obj->FullscreenKey."</p>";
+        } 
+        if($obj->PlayPauseKey==" "){
+            $html .= "<p>Play/pause: space</p>";
+        } else {
+           $html .= "<p>Play/pause: ".$obj->PlayPauseKey."</p>"; 
+        }    
+        return $html;
+    }
+    public function getJSFiles(){
+        if(!empty($_GET['isMediaPlaySite'])){
+            return array("plugin/Hotkeys/videojs.hotkeys.min.js");
+        }
+        return array();
+    }
+    
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
@@ -25,7 +51,7 @@ class Hotkeys extends PluginAbstract {
         $obj->Fullscreen = true;
         $obj->FullscreenKey = "F";
         $obj->PlayPauseKey = " ";
-        $obj->AlwaysCaptureHotkeys = false;
+        $obj->AlwaysCaptureHotkeys = true;
         return $obj;
     }
     
@@ -39,7 +65,7 @@ class Hotkeys extends PluginAbstract {
         $obj = $this->getDataObject();
 
         if(!empty($_GET['isMediaPlaySite'])){
-            $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script><script> $( document ).ready(function() {";
+            $tmp = "<script> $( document ).ready(function() {";
             if($_SESSION['type']=="audio"){
                 $tmp .= "videojs('mainAudio').ready(function() {";
             } else {

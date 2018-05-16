@@ -27,6 +27,10 @@ abstract class PluginAbstract {
     public function getHeadCode() {
         return "";
     }
+    
+    public function getHelp() {
+        return "";
+    }
 
     public function getHTMLBody() {
         return "";
@@ -42,6 +46,14 @@ abstract class PluginAbstract {
 
     public function getPluginMenu() {
         return "";
+    }
+    
+    public function getJSFiles() {
+        return array();
+    }
+    
+    public function getCSSFiles() {
+        return array();
     }
 
     public function getVideosManagerListButton() {

@@ -1,5 +1,8 @@
 /*!
-Default styles for videojs-wavesurfer v2.2.2
+Default styles for videojs-wavesurfer 2.3.2
+*/
+/* Position fullscreen control on right side of the player.
+--------------------------------------------------------------------------------
 */
 .video-js.videojs-wavesurfer .vjs-control.vjs-fullscreen-control {
   position: absolute;

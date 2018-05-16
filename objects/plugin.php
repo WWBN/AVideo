@@ -67,27 +67,37 @@ class Plugin extends ObjectYPT {
     }
 
     static function getPluginByName($name) {
-        global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = '$name' LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $row = $res->fetch_assoc();
-        } else {
-            $row = false;
+        global $global, $getPluginByName;
+        if(empty($getPluginByName)){
+            $getPluginByName = array();
         }
-        return $row;
+        if(empty($getPluginByName[$name])){
+            $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = '$name' LIMIT 1";
+            $res = $global['mysqli']->query($sql);
+            if ($res) {
+                $getPluginByName[$name] = $res->fetch_assoc();
+            } else {
+                $getPluginByName[$name] = false;
+            }
+        }
+        return $getPluginByName[$name];
     }
 
     static function getPluginByUUID($uuid) {
-        global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = '$uuid' LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $row = $res->fetch_assoc();
-        } else {
-            $row = false;
+        global $global,$getPluginByUUID;
+        if(empty($getPluginByUUID)){
+            $getPluginByUUID = array();
         }
-        return $row;
+        if(empty($getPluginByUUID[$uuid])){
+            $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = '$uuid' LIMIT 1";
+            $res = $global['mysqli']->query($sql);
+            if ($res) {
+                $getPluginByUUID[$uuid] = $res->fetch_assoc();
+            } else {
+                $getPluginByUUID[$uuid] = false;
+            }
+        }
+        return $getPluginByUUID[$uuid];
     }
 
     function loadFromUUID($uuid) {
@@ -115,34 +125,36 @@ class Plugin extends ObjectYPT {
     }
 
     static function getAvailablePlugins() {
-        global $global;
-        $dir = $global['systemRootPath'] . "plugin";
-        $result = array();
-        $cdir = scandir($dir);
-        foreach ($cdir as $key => $value) {
-            if (!in_array($value, array(".", ".."))) {
-                if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                    $p = YouPHPTubePlugin::loadPlugin($value);
-                    if (!is_object($p) || $p->hidePlugin()) {
-                        continue;
+        global $global,$getAvailablePlugins;
+        if(empty($getAvailablePlugins)){
+            $dir = $global['systemRootPath'] . "plugin";
+            $getAvailablePlugins = array();
+            $cdir = scandir($dir);
+            foreach ($cdir as $key => $value) {
+                if (!in_array($value, array(".", ".."))) {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
+                        $p = YouPHPTubePlugin::loadPlugin($value);
+                        if (!is_object($p) || $p->hidePlugin()) {
+                            continue;
+                        }
+                        $obj = new stdClass();
+                        $obj->name = $p->getName();
+                        $obj->dir = $value;
+                        $obj->uuid = $p->getUUID();
+                        $obj->description = $p->getDescription();
+                        $obj->installedPlugin = static::getPluginByUUID($obj->uuid);
+                        $obj->enabled = (!empty($obj->installedPlugin['status']) && $obj->installedPlugin['status'] === "active") ? true : false;
+                        $obj->id = (!empty($obj->installedPlugin['id'])) ? $obj->installedPlugin['id'] : 0;
+                        $obj->data_object = $p->getDataObject();
+                        $obj->databaseScript = !empty(static::getDatabaseFile($value));
+                        $obj->pluginMenu = $p->getPluginMenu();
+                        $obj->tags = $p->getTags();
+                        $getAvailablePlugins[] = $obj;
                     }
-                    $obj = new stdClass();
-                    $obj->name = $p->getName();
-                    $obj->dir = $value;
-                    $obj->uuid = $p->getUUID();
-                    $obj->description = $p->getDescription();
-                    $obj->installedPlugin = static::getPluginByUUID($obj->uuid);
-                    $obj->enabled = (!empty($obj->installedPlugin['status']) && $obj->installedPlugin['status'] === "active") ? true : false;
-                    $obj->id = (!empty($obj->installedPlugin['id'])) ? $obj->installedPlugin['id'] : 0;
-                    $obj->data_object = $p->getDataObject();
-                    $obj->databaseScript = !empty(static::getDatabaseFile($value));
-                    $obj->pluginMenu = $p->getPluginMenu();
-                    $obj->tags = $p->getTags();
-                    $result[] = $obj;
                 }
             }
         }
-        return $result;
+        return $getAvailablePlugins;
     }
 
     static function getDatabaseFile($pluginName) {
@@ -164,35 +176,42 @@ class Plugin extends ObjectYPT {
     }
 
     static function getAllEnabled() {
-        global $global;
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
-        $res = $global['mysqli']->query($sql);
-        $rows = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
-                $rows[] = $row;
-            }           
+        global $global, $getAllEnabledRows;
+        if(empty($getAllEnabledRows)){
+            $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
+            $res = $global['mysqli']->query($sql);
+            $getAllEnabledRows = array();
+            if ($res) {
+                while ($row = $res->fetch_assoc()) {
+                    $getAllEnabledRows[] = $row;
+                }           
 
-            uasort($rows, 'cmpPlugin');
-        } else {
-            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                uasort($getAllEnabledRows, 'cmpPlugin');
+            } else {
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
         }
-        return $rows;
+        return $getAllEnabledRows;
     }
 
     static function getEnabled($uuid) {
-        global $global;
-        $rows = array();
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' AND uuid = '".$uuid."' ;";
-        $res = sqlDAL::readSql($sql); 
-        $pluginRows = sqlDAL::fetchAllAssoc($res);
-        sqlDAL::close($res);
-        if($pluginRows!=false){
-            foreach($pluginRows as $row){
-                $rows[] = $row;
+        global $global,$getEnabled;
+        if(empty($getEnabled)){
+            $getEnabled = array();
+        }
+        if(empty($getEnabled[$uuid])){
+            $getEnabled[$uuid] = array();
+            $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' AND uuid = '".$uuid."' ;";
+            $res = sqlDAL::readSql($sql); 
+            $pluginRows = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            if($pluginRows!=false){
+                foreach($pluginRows as $row){
+                    $getEnabled[$uuid][] = $row;
+                }
             }
         }
-        return $rows;
+        return $getEnabled[$uuid];
     }
     
     function save() {

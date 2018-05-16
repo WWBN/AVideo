@@ -26,16 +26,21 @@
     ?>
 </footer>
 <script>
-    <?php
-    if (User::isAdmin()) { ?>
     window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
-    console.log("<?php echo 'A Javascript-error happend. Please tell your admin to clear the folder videos/cache. \r\n If this doesn\'t help, attach these infos to a github-pull-request:'; ?> \r\n Msg:" + errorMsg+" \r\n Url: "+url+ ", line: "+lineNumber);//or any message
+        if(url==""){
+            url="embed in html";
+        }
+        $.ajax({
+            url: webSiteRootURL+"objects/ajaxErrorCatcher.php?error="+encodeURI("JS-Err: "+errorMsg+" @ line "+lineNumber+" in file "+url+" at visit on <?php echo $_SERVER['REQUEST_URI']; ?>"),
+            context: document.body
+        }).done(function() {
+            console.log("<?php echo 'A Javascript-error happend. Please tell your admin to clear the folder videos/cache. \r\n If this doesn\'t help, attach these infos to a github-pull-request:'; ?> \r\n Msg:" + errorMsg+" \r\n Url: "+url+ ", line: "+lineNumber+", Address: <?php echo $_SERVER['REQUEST_URI'] ?>");
+        });
     return false;
     }
-    <?php } ?>
     
     // Just for testing
-    //throw "A Bug";
+    // throw "A Bug"; 
     $(function () {
 <?php
 if (!empty($_GET['error'])) {
@@ -53,10 +58,10 @@ if (!empty($_GET['msg'])) {
 ?>
     });
 </script>
-<script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script> -->
 <?php
     $jsFiles = array();
-    //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
+    $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
     $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
     $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
     $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
@@ -67,8 +72,13 @@ if (!empty($_GET['msg'])) {
     $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-    //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/wavesurfer.min.js";
-    //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
+    if(!empty($_SESSION['type'])){
+        if($_SESSION['type']=="audio"){
+            $jsFiles[] = "view/js/videojs-wavesurfer/wavesurfer.min.js";
+            $jsFiles[] = "view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
+        }   
+    }
+    $jsFiles = array_merge($jsFiles,YouPHPTubePlugin::getJSFiles());
     $jsURL =  combineFiles($jsFiles, "js");
 
 ?>
@@ -76,4 +86,7 @@ if (!empty($_GET['msg'])) {
 <?php
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 echo YouPHPTubePlugin::getFooterCode();
+if(isset($_SESSION['savedQuerys'])){
+    echo "<!-- Saved querys: ".$_SESSION['savedQuerys']." -->";
+}
 ?>
