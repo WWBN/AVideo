@@ -19,6 +19,7 @@ if(!empty($input) && empty($_POST)){
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/category.php';
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
@@ -117,6 +118,7 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->categories = Category::getAllCategories();
 $object->streamServerURL = "";
 $object->streamKey = "";
 if($object->isLogged){
