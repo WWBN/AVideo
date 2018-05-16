@@ -12,6 +12,20 @@
             </div>
             
                 <?php 
+            /*$autoPlayVideo = Video::getVideo($video['next_videos_id']);
+            if($video==$autoPlayVideo){
+                unset($autoPlayVideo);
+            }*/
+            if ($video['rotation'] === "90" || $video['rotation'] === "270") {
+                $aspectRatio = "9:16";
+                $vjsClass = "vjs-9-16";
+                $embedResponsiveClass = "embed-responsive-9by16";
+            } else {
+                $aspectRatio = "16:9";
+                $vjsClass = "vjs-16-9";
+                $embedResponsiveClass = "embed-responsive-16by9";
+            }
+                $playNowVideo = $video;
                 $disableYoutubeIntegration = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                 if($disableYoutubeIntegration!=false){
                     $disableYoutubeIntegration = $disableYoutubeIntegration->disableYoutubePlayerIntegration;
@@ -35,17 +49,44 @@
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
                 <video
                     id="mainVideo"
-                    class="video-js vjs-default-skin"
+                    class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered"
                        controls
-                       autoplay
+                       <?php
+                if ($config->getAutoplay()) {
+                    echo " autoplay ";
+                }
+                ?>
                        data-setup='{  "aspectRatio": "16:9", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "<?php echo $video['videoLink']; ?>"}] }' >
             </video>
                 <script>
                 var player;
+                var mediaId = <?php echo $video['id']; ?>;
+                
+                    <?php if (!$config->getAllow_download()) { ?>
+                    // Prevent HTML5 video from being downloaded (right-click saved)?
+                    $('#mainVideo').bind('contextmenu', function () {
+                        return false;
+                    });
+                    <?php } ?>
+                
                 $(document).ready(function () {
-                    $(".vjs-big-play-button").hide();
-                    $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
                     player = videojs('mainVideo');
+                            player.ready(function () {
+                            <?php if ($config->getAutoplay()) {
+	                           echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play(); }, 50);";
+                            } else { ?>
+                if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                    setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play();}, 50);                    
+                }
+                <?php } ?>
+                            num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
+                            loadPage(num);                 
+                            });
+                    
+
+                    //$(".vjs-big-play-button").hide();
+                    $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
+                    
                     player.on('play', function () {
                         addView(<?php echo $video['id']; ?>);
                     });
