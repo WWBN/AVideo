@@ -112,7 +112,9 @@ class sqlDAL {
             } else {
                 // activate this line, to see how many querys can be saved
                 // echo "saved query!";
-                $_SESSION['savedQuerys']++;
+                if(isset($_SESSION['savedQuerys'])){
+                    $_SESSION['savedQuerys']++;
+                }
             }
             if($readSqlCached[$crc]=="false"){
                 return false;

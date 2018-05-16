@@ -10,7 +10,17 @@
                     <i class="far fa-window-close"></i>
                 </button>
             </div>
-            <div id="main-video" class="embed-responsive embed-responsive-16by9">
+            
+                <?php 
+                $disableYoutubeIntegration = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+                if($disableYoutubeIntegration!=false){
+                    $disableYoutubeIntegration = $disableYoutubeIntegration->disableYoutubePlayerIntegration;
+                }
+                $_GET['isEmbedded'] = "";
+                if((strpos($video['videoLink'],"youtube.com")==false)||($disableYoutubeIntegration)){ 
+                $_GET['isEmbedded'] = "e";
+                ?>
+                <div id="main-video" class="embed-responsive embed-responsive-16by9">
                 <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php
                 echo parseVideos($video['videoLink']);
                 if ($config->getAutoplay()) {
@@ -18,7 +28,33 @@
                 }
                 ?>"></iframe>
 
+                <?php } else { 
+                $_GET['isEmbedded'] = "y";
+                ?>
+                
+                <div id="main-video" class="">
+                <video
+                    id="mainVideo"
+                    class="video-js vjs-default-skin"
+                       controls
+                       autoplay
+                       width="640" height="264"
+                       data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "<?php echo $video['videoLink']; ?>"}] }' >
+            </video>
+                <script>
+                var player;
+                $(document).ready(function () {
+                    $(".vjs-big-play-button").hide();
+                    $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
+                    player = videojs('mainVideo');
+                    player.on('play', function () {
+                        addView(<?php echo $video['id']; ?>);
+                    });
+                });
+                </script>
+                
                 <?php
+                }
                 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
                 // the live users plugin
                 if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
