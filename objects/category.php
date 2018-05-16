@@ -203,7 +203,7 @@ class Category {
         
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
    
-        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId)); 
+        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId),true); 
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         
