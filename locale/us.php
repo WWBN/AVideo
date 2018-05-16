@@ -62,6 +62,7 @@ $t['Change Playlist Name'] = "Change Playlist Name";
 $t['Change Style'] = "Change Style";
 $t['Channel'] = "Channel";
 $t['Channels'] = "Channels";
+$t['Channel Name'] = "Channel Name";
 $t['Clean Name'] = "Clean Name";
 $t['Clean Title'] = "Clean Title";
 $t['Click here if you agree to continue'] = "Click here if you agree to continue";
