@@ -43,13 +43,24 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->uploadButtonDropdownIcon = "fas fa-video";
         $obj->uploadButtonDropdownText = "";
+        $obj->EnableWavesurfer = true;
+        $obj->EnableMinifyJS = false;
+        $obj->disableShareAndPlaylist = false;
         $obj->commentsMaxLength = 200;
+        $obj->disableYoutubePlayerIntegration = false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
         $obj->underMenuBarHTMLCode = $o;// an url for encoder network
         $obj->encoderNetwork = "";// an url for encoder network
         return $obj;
+    }
+    
+    public function getHelp(){
+        if(User::isAdmin()){
+            return "<h2 id='CustomizeAdvanced help'>CustomizeAdvanced (admin)</h2><ul><li>EnableWavesurfer = Enables the visualisation for audio. This will always download full audio first, so with big audio-files, you might better disable it.</li><li>commentsMaxLength = Maximum lenght for comments in videos</li><li>disableYoutubePlayerIntegration = Disables the integrating of youtube-videos and just embed them.</li><li>EnableMinifyJS = Minify your JS. Clear videos/cache after changing this option.</li></ul>";   
+        }
+        return "";
     }
     
     public function getTags() {

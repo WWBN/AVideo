@@ -68,10 +68,10 @@ if (!class_exists('Video')) {
             if (empty($this->id)) {
                 return false;
             }
-            $sql = "UPDATE videos SET views_count = views_count+1, modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE videos SET views_count = views_count+1, modified = now() WHERE id = ?";
 
 
-            $insert_row = $global['mysqli']->query($sql);
+            $insert_row = sqlDAL::writeSql($sql,"i",array($this->id));
 
             if ($insert_row) {
                 VideoStatistic::save($this->id);
@@ -147,7 +147,6 @@ if (!class_exists('Video')) {
                         . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink) values "
                         . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}')";
             }
-            //$insert_row = $global['mysqli']->query($sql);
             $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
                 if (empty($this->id)) {
@@ -262,7 +261,6 @@ if (!class_exists('Video')) {
                     $res = sqlDAL::readSql($sql,"i",array($catId));
                     $fullResult2 = sqlDAL::fetchAllAssoc($res);
                     sqlDAL::close($res);
-                    $res = $global['mysqli']->query($sql);
                     if ($res!=false) {
                         foreach($fullResult2 as $cat) {
                             $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
@@ -552,7 +550,7 @@ if (!class_exists('Video')) {
         static function getVideoFromFileName($fileName) {
             global $global;
 
-            $sql = "SELECT id  FROM videos  WHERE filename = ? LIMIT 1";
+            $sql = "SELECT id FROM videos WHERE filename = ? LIMIT 1";
 
             $res = sqlDAL::readSql($sql,"s",array($fileName));
             if ($res!=false) {
@@ -570,17 +568,15 @@ if (!class_exists('Video')) {
         static function getVideoFromCleanTitle($clean_title) {
             // for some reason in some servers (CPanel) we got the error "Error while sending QUERY packet centos on a select"
             // even increasing the max_allowed_packet it only goes away when close and reopen the connection
-            global $global;//, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-           // $global['mysqli']->close();
-           // $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+            global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+            $global['mysqli']->close();
+            $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
             $sql = "SELECT id  FROM videos  WHERE clean_title = ? LIMIT 1";
             $res = sqlDAL::readSql($sql,"s",array($clean_title));
-            //echo $sql;
-            //$res = $global['mysqli']->query($sql);
+            $video = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
             if ($res) {
-                $video = sqlDAL::fetchAssoc($res);
-                sqlDAL::close($res);
                 return self::getVideo($video['id'], "");
                 //$video['groups'] = UserGroups::getVideoGroups($video['id']);
             } else {
@@ -599,7 +595,6 @@ if (!class_exists('Video')) {
          */
         static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
             global $global, $config;
-            // there is no c.description
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
@@ -665,21 +660,13 @@ if (!class_exists('Video')) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
             }
-            /*
             $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
             $videos = array();
             if ($res!=false) {
-                $fullResult = sqlDAL::fetchAllAssoc($res);
-                sqlDAL::close($res);
                 require_once 'userGroups.php';
-                foreach($fullResult as $row) {
-             *  Removed because was bringing all videos, has no LIMIT on the query
-             */
-            $res = $global['mysqli']->query($sql);
-            $videos = array();
-            if ($res) {
-                require_once 'userGroups.php';
-                while ($row = $res->fetch_assoc()) {
+                foreach ($fullData as $row) {
                     if ($getStatistcs) {
                         $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
                         $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
@@ -885,11 +872,11 @@ if (!class_exists('Video')) {
             global $global;
             if (!empty($this->id)) {
                 $video = self::getVideo($this->id);
-                $sql = "DELETE FROM videos WHERE id = {$this->id}";
+                $sql = "DELETE FROM videos WHERE id = ?";
             } else {
                 return false;
             }
-            $resp = $global['mysqli']->query($sql);
+            $resp = sqlDAL::writeSql($sql,"i",array($this->id));
             if (empty($resp)) {
                 die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             } else {

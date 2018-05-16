@@ -829,6 +829,10 @@ function combineFiles($filesArray, $extension = "js") {
     foreach ($filesArray as $value) {
         $fileName .= $value;
     }
+    $minifyEnabled = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+    if($minifyEnabled!=false){
+        $minifyEnabled = $minifyEnabled->EnableMinifyJS;
+    }
     $md5FileName = md5($fileName) . ".{$extension}";
     if (!file_exists($cacheDir . $md5FileName)) {
         foreach ($filesArray as $value) {
@@ -857,6 +861,10 @@ function combineFiles($filesArray, $extension = "js") {
                     $str .= "\n/*{$value} created via web with own url ({$allowed}) */\n" . $content;
                 
             }
+        }
+        if(($extension=="js")&&($minifyEnabled)){
+                require_once $global['systemRootPath'] . 'objects/jshrink.php';
+                $str = \JShrink\Minifier::minify($str, array('flaggedComments' => false));
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }

@@ -1,4 +1,5 @@
 <?php
+$_SESSION['savedQuerys']=0;
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
 $head = YouPHPTubePlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - YouPHPTube";
@@ -29,6 +30,7 @@ $theme = $config->getTheme();
     $cssFiles[] = "view/css/main.css";
     //$cssFiles[] = "{$global['webSiteRootURL']}css/font-awesome-4.7.0/css/font-awesome.min.css";
     $cssFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.css";
+    $cssFiles = array_merge($cssFiles,YouPHPTubePlugin::getCSSFiles());
     $cssURL =  combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>

@@ -53,8 +53,6 @@ class Category {
                 $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?, '0','0')";
             }
             sqlDAL::writeSql($sql,"i",array($this->id));
-            
-            //$res = $global['mysqli']->query($sql);
             Video::autosetCategoryType($this->id);
         } else {
             if($exist){
@@ -99,14 +97,18 @@ class Category {
         }
         if (!empty($this->id)) {
             $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',description = '{$this->description}',nextVideoOrder = '{$this->nextVideoOrder}',parentId = '{$this->parentId}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
+            $format = "sssiisi";
+            $values = array($this->name,$this->clean_name,$this->description,$this->nextVideoOrder,$this->parentId,$this->getIconClass(),$this->id);
         } else {
             $sql = "INSERT INTO categories ( name,clean_name,description,nextVideoOrder,parentId,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}','{$this->description}','{$this->nextVideoOrder}','{$this->parentId}', '{$this->getIconClass()}',now(), now())";
+            $format = "sssiis";
+            $values = array($this->name,$this->clean_name,$this->description,$this->nextVideoOrder,$this->parentId,$this->getIconClass());
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        
+        if (!sqlDAL::writeSql($sql,$format,$values)) {
+            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error." SQL-CMD: ".$sql);
         }
-        return $resp;
+        return true;
     }
 
     function delete() {
@@ -120,46 +122,50 @@ class Category {
 
         global $global;
         if (!empty($this->id)) {
-            $sql = "DELETE FROM categories WHERE id = {$this->id}";
+            $sql = "DELETE FROM categories WHERE id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        if (!sqlDAL::writeSql($sql,"i",array($this->id))) {
+            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error." SQL-CMD: ".$sql);
         }
-        return $resp;
+        return true;
     }
 
     static function getCategoryType($categoryId){
         global $global;
-        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = '".$categoryId."';";
-        $res = $global['mysqli']->query($sql);
-	if($res) {
-	$sres = $res->fetch_assoc();
-	if(!empty($sres)){
-        	return $sres;
-	} else {
-		return array("categoryId" => "-1","type"=>"0","manualSet" => "0");
-		}
-	}
-	else {
-		return array("categoryId" => "-1","type"=>"0","manualSet" => "0");
-	}
+        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?;";
+        $res = sqlDAL::readSql($sql,"i",array($categoryId));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+	    if($res) {
+	       if(!empty($data)){
+               return $data;
+	       } else {
+               return array("categoryId" => "-1","type"=>"0","manualSet" => "0");
+		   }
+	    }
+	    else {
+            return array("categoryId" => "-1","type"=>"0","manualSet" => "0");
+        }
     }
     static function getCategory($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM categories WHERE id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        return ($res) ? $res->fetch_assoc() : false;
+        $sql = "SELECT * FROM categories WHERE id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql,"i",array($id)); 
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return ($res) ? $result : false;
     }
     
     static function getCategoryByName($name) {
         global $global;
-        $sql = "SELECT * FROM categories WHERE clean_name = '$name' LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        return ($res) ? $res->fetch_assoc() : false;
+        $sql = "SELECT * FROM categories WHERE clean_name = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql,"s",array($name)); 
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return ($res) ? $result : false;
     }
 
     static function getAllCategories() {
@@ -172,11 +178,12 @@ class Category {
             $sql .= "AND parentId = 0 ";
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
-        
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql); 
+        $fullResult = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $category = array();
         if ($res) {
-            while ($row = $res->fetch_assoc()) {
+            foreach ($fullResult as $row) {
                 $category[] = $row;
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);
@@ -192,14 +199,18 @@ class Category {
         if($config->currentVersionLowerThen('5.01')){
             return false;
         }
-        $sql = "SELECT * FROM categories WHERE parentId=".$parentId." AND id!=".$parentId." ";         
+        $sql = "SELECT * FROM categories WHERE parentId=? AND id!=? ";         
         
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
+   
+        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId)); 
+        $fullResult = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         
-        $res = $global['mysqli']->query($sql);
+        //$res = $global['mysqli']->query($sql);
         $category = array();
         if ($res) {
-            while ($row = $res->fetch_assoc()) {
+            foreach ($fullResult as $row) {
                 $category[] = $row;
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);
@@ -219,10 +230,10 @@ class Category {
             $sql .= "AND parentId = 0 OR parentId = -1 ";
         }
         $sql .= BootGrid::getSqlSearchFromPost(array('name'));
-
-        $res = $global['mysqli']->query($sql);
-
-        return $res->num_rows;
+        $res = sqlDAL::readSql($sql);
+        $numRows = sqlDal::num_rows($res);
+        sqlDAL::close($res);
+        return $numRows;
     }
 
     function getIconClass() {

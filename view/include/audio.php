@@ -1,38 +1,77 @@
 <div class="row main-video" style="padding: 10px;" id="mvideo">
     <div class="col-xs-12 col-sm-12 col-lg-2 firstC"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8 secC">
+        <div id="videoContainer">
         <?php
+            $waveSurferEnabled = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+            if($waveSurferEnabled==false){
+                $waveSurferEnabled = true;
+            } else {
+                $waveSurferEnabled = $waveSurferEnabled->EnableWavesurfer;
+            }
             $poster = $global['webSiteRootURL']."img/recorder.gif";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".jpg")){
                $poster = $global['webSiteRootURL']."videos/".$video['filename'].".jpg"; 
             }
         ?>
-        <audio controls class="center-block video-js vjs-default-skin "  id="mainAudio" autoplay data-setup='{"controls": true}' poster="<?php echo $poster; ?>">
+        <audio controls class="center-block video-js vjs-default-skin " <?php if($waveSurferEnabled==false){ ?> autoplay data-setup='{"controls": true}' <?php } ?> id="mainAudio" poster="<?php echo $poster; ?>">
             <?php
             $ext = "";
-            if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>
-                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
-                <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
+            if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ if($waveSurferEnabled==false){ ?>
+                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
+                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
                 <?php
+                    }
                     $ext = ".ogg";
-                } else { ?>
+                } else { if($waveSurferEnabled==false){ ?>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" /> 
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
                 <?php
+                    }
                     $ext = ".mp3";
                 } ?>
         </audio>
             <?php if ($config->getAllow_download()) { ?>
                 <a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'].$ext; ?>" download="<?php echo $video['title'] . $ext; ?>"><?php echo __("Download audio"); ?></a>
             <?php } ?>
+        </div>
     </div>
     <script>
         <?php $_GET['isMediaPlaySite'] = $video['id']; ?>
         var mediaId = <?php echo $video['id']; ?>;
         $(document).ready(function () {
             $(".vjs-big-play-button").hide();
-            $(".vjs-control-bar").css("opacity: 1; visibility: visible;
-            player = videojs('mainAudio');
+            $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
+            <?php if($waveSurferEnabled){ ?>
+            player = videojs('mainAudio', {
+                controls: true,
+                autoplay: true,
+                fluid: false,
+                loop: false,
+                width: 600,
+                height: 300,
+                plugins: {
+                    wavesurfer: {
+                        src: '<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'].$ext; ?>',
+                        msDisplayMax: 10,
+                        debug: true,
+                        waveColor: 'green',
+                        progressColor: 'white',
+                        cursorColor: 'blue',
+                        hideScrollbar: true
+                    }
+                }
+            }, function(){
+                // print version information at startup
+                videojs.log('Using video.js', videojs.VERSION,'with videojs-wavesurfer', videojs.getPluginVersion('wavesurfer'));
+            });
+            <?php } else { ?>
+                player = videojs('mainAudio');
+            <?php } ?>
+            // error handling
+            player.on('error', function(error) {
+                console.warn('VideoJS-ERROR:', error);
+            });
             player.ready(function () {
             <?php
                 if ($config->getAutoplay()) {

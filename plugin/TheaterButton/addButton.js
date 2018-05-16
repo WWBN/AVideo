@@ -1,5 +1,6 @@
 $(document).ready(function () {
 // Extend default
+    setTimeout(function(){
     if (typeof player == 'undefined') {
         player = videojs(videoJsId);
     }
@@ -24,5 +25,5 @@ $(document).ready(function () {
 // Register the new component
     videojs.registerComponent('Theater', Theater);
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('RemainingTimeDisplay') + 1);
-
+    }, 30);
 });
