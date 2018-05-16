@@ -534,6 +534,12 @@ if (!class_exists('Video')) {
            // echo $sql."<br />";
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
+            // to fix the bug null
+            if(is_null($video)){
+                $res = sqlDAL::readSql($sql, "", array(),true);
+                $video = sqlDAL::fetchAssoc($res);
+            }
+            
             sqlDAL::close($res);
             if ($res!=false) {
 
