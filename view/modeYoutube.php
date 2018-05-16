@@ -737,6 +737,16 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                             $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
+        <?php 
+                if($advancedCustom!=false){
+                    $disableYoutubeIntegration = $advancedCustom->disableYoutubePlayerIntegration;
+                } else {
+                   $disableYoutubeIntegration = false; 
+                }
+        
+        if((isset($_GET['isEmbedded']))&&($disableYoutubeIntegration==false)) { if($_GET['isEmbedded']=="y") { ?>
+            <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-youtube/Youtube.js" ></script>
+        <?php } } ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>

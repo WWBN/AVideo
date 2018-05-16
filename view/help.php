@@ -22,6 +22,7 @@ require_once '../plugin/YouPHPTubePlugin.php';
             <p>Here you can find help, how this plattform works.</p>
             <?php if(User::isAdmin()){ ?>
             <h2>Admin's manual</h2>
+            <p>Only you can see this, because you are a admin.</p>
             <h3>Settings and plugins</h3>
             <p>The default <a href='<?php echo $global['webSiteRootURL']; ?>siteConfigurations'>site config</a>, you can find on the menu-point. But there are more settings avaible; go to the <a href='<?php echo $global['webSiteRootURL']; ?>plugins'>plugins</a> and check the "CustomiseAdvanced"-Plugin.</p>
             <p>Like on a lot of plugins, on the right site, you will find a button "Edit parameters". This button is always a click worth.</p>
