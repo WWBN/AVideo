@@ -509,7 +509,8 @@ class User {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
-        $res = sqlDAL::readSql($sql,"i",array($id));  
+        // I had to uncache this quere because it was returning an empty user
+        $res = sqlDAL::readSql($sql,"i",array($id), true);  
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user!=false) {
