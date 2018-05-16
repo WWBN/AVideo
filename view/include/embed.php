@@ -31,7 +31,7 @@
                     $disableYoutubeIntegration = $disableYoutubeIntegration->disableYoutubePlayerIntegration;
                 }
                 $_GET['isEmbedded'] = "";
-                if((strpos($video['videoLink'],"youtube.com")==false)||($disableYoutubeIntegration)){ 
+                if(((strpos($video['videoLink'],"youtube.com")==false)&&(strpos($video['videoLink'],"vimeo.com")==false))||($disableYoutubeIntegration)){ 
                 $_GET['isEmbedded'] = "e";
                 ?>
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
@@ -44,11 +44,15 @@
 
                 <?php } else {     
                     // youtube!
-                    $_GET['isEmbedded'] = "y";
+                    if((strpos($video['videoLink'],"youtube.com")!=false)){
+                        $_GET['isEmbedded'] = "y";
+                    } else if ((strpos($video['videoLink'],"vimeo.com")!=false)){
+                        $_GET['isEmbedded'] = "v";
+                    }
                     $_GET['isMediaPlaySite'] = $video['id'];
                 ?>      
                     <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                        <video id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php if ($config->getAutoplay()) { echo " autoplay "; } ?> data-setup='{"aspectRatio": "16:9", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "<?php echo $video['videoLink']; ?>"}] }' ></video>
+                        <video id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php if ($config->getAutoplay()) { echo " autoplay "; } ?> data-setup='{"aspectRatio": "16:9", "techOrder": ["<?php if($_GET['isEmbedded']=="y"){ echo "youtube"; } else { echo "vimeo"; } ?>"], "sources": [{ "type": "video/<?php if($_GET['isEmbedded']=="y"){ echo "youtube"; } else { echo "vimeo"; } ?>", "src": "<?php echo $video['videoLink']; ?>"}] }' ></video>
                         <script>
                             var player;
                             var mediaId = <?php echo $video['id']; ?>;
