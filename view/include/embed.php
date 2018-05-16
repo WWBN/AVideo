@@ -45,6 +45,7 @@
                 <?php } else {     
                     // youtube!
                     $_GET['isEmbedded'] = "y";
+                    $_GET['isMediaPlaySite'] = $video['id'];
                 ?>      
                     <div id="main-video" class="embed-responsive embed-responsive-16by9">
                         <video id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php if ($config->getAutoplay()) { echo " autoplay "; } ?> data-setup='{"aspectRatio": "16:9", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "<?php echo $video['videoLink']; ?>"}] }' ></video>
