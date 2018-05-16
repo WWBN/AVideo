@@ -74,10 +74,12 @@
                                         }
                                 <?php } ?>
                                         num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
-                                        loadPage(num);                 
+                                        loadPage(num);
+				<?php if($_GET['isEmbedded']!="v") { ?>
                                     player.persistvolume({
                                         namespace: "YouPHPTube"
                                     });
+				<?php } ?>
                                 });
                                 //$(".vjs-big-play-button").hide();
                                 $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
