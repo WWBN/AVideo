@@ -65,6 +65,7 @@ $t['Channels'] = "Kanallar";
 $t['Channel Name'] = "Kanal Adı";
 $t['Clean Name'] = "Bağlantı Adı";
 $t['Clean Title'] = "Bağlantı Başlığı";
+$t['Clear Cache Directory'] = "Önbellek Dizinini Temizle";
 $t['Click here if you agree to continue'] = "Devam etmeyi kabul ediyorsan buraya tıkla";
 $t['Clicks'] = "Tıklanma";
 $t['Close'] = "Kapat";
