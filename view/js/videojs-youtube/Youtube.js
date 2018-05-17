@@ -24,7 +24,7 @@ THE SOFTWARE. */
   if(typeof exports==='object' && typeof module!=='undefined') {
     module.exports = factory(require('video.js'));
   } else if(typeof define === 'function' && define.amd) {
-    define(['video.js'], function(videojs){
+    define(['videojs'], function(videojs){
       return (root.Youtube = factory(videojs));
     });
   } else {
