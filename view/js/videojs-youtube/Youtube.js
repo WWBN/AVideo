@@ -27,6 +27,9 @@ THE SOFTWARE. */
     define(['videojs'], function(videojs){
       return (root.Youtube = factory(videojs));
     });
+    define(['video.js'], function(videojs){
+      return (root.Youtube = factory(videojs));
+    });
   } else {
     root.Youtube = factory(root.videojs);
   }
