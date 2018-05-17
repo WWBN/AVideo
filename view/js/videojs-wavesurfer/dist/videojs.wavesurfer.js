@@ -1,20 +1,20 @@
 /*!
  * videojs-wavesurfer
- * @version 2.3.2
+ * @version 2.4.0
  * @see https://github.com/collab-project/videojs-wavesurfer
  * @copyright 2014-2018 Collab
  * @license MIT
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("videojs"), require("WaveSurfer"));
+		module.exports = factory(require("WaveSurfer"), require("videojs"));
 	else if(typeof define === 'function' && define.amd)
-		define("VideojsWavesurfer", ["videojs", "WaveSurfer"], factory);
+		define("VideojsWavesurfer", ["WaveSurfer", "videojs"], factory);
 	else if(typeof exports === 'object')
-		exports["VideojsWavesurfer"] = factory(require("videojs"), require("WaveSurfer"));
+		exports["VideojsWavesurfer"] = factory(require("WaveSurfer"), require("videojs"));
 	else
-		root["VideojsWavesurfer"] = factory(root["videojs"], root["WaveSurfer"]);
-})(window, function(__WEBPACK_EXTERNAL_MODULE_video_js__, __WEBPACK_EXTERNAL_MODULE_wavesurfer_js__) {
+		root["VideojsWavesurfer"] = factory(root["WaveSurfer"], root["videojs"]);
+})(window, function(__WEBPACK_EXTERNAL_MODULE_wavesurfer_js__, __WEBPACK_EXTERNAL_MODULE_video_js__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -83,7 +83,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/videojs.wavesurfer.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,6 +141,17 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+
+/***/ "./src/css/videojs.wavesurfer.scss":
+/*!*****************************************!*\
+  !*** ./src/css/videojs.wavesurfer.scss ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -557,13 +568,13 @@ var _defaults = __webpack_require__(/*! ./defaults */ "./src/js/defaults.js");
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
-var _tech = __webpack_require__(/*! ./tech */ "./src/js/tech.js");
-
-var _tech2 = _interopRequireDefault(_tech);
-
 var _window = __webpack_require__(/*! global/window */ "./node_modules/global/window.js");
 
 var _window2 = _interopRequireDefault(_window);
+
+var _tech = __webpack_require__(/*! ./tech */ "./src/js/tech.js");
+
+var _tech2 = _interopRequireDefault(_tech);
 
 var _video = __webpack_require__(/*! video.js */ "video.js");
 
@@ -609,9 +620,12 @@ var Wavesurfer = function (_Plugin) {
     function Wavesurfer(player, options) {
         _classCallCheck(this, Wavesurfer);
 
-        // parse options
+        // add plugin style
         var _this = _possibleConstructorReturn(this, (Wavesurfer.__proto__ || Object.getPrototypeOf(Wavesurfer)).call(this, player, options));
 
+        player.addClass('vjs-wavesurfer');
+
+        // parse options
         options = _video2.default.mergeOptions(_defaults2.default, options);
         _this.waveReady = false;
         _this.waveFinished = false;
@@ -622,12 +636,6 @@ var Wavesurfer = function (_Plugin) {
         // attach this instance to the current player so that the tech can
         // access it
         _this.player.activeWavesurferPlugin = _this;
-
-        // check that wavesurfer is initialized in options, and add class to
-        // activate videojs-wavesurfer specific styles
-        if (_this.player.options_.plugins.wavesurfer !== undefined) {
-            _this.player.addClass('videojs-wavesurfer');
-        }
 
         // microphone plugin
         if (options.src === 'live') {
@@ -1422,7 +1430,7 @@ var Wavesurfer = function (_Plugin) {
 // version nr is injected during build
 
 
-Wavesurfer.VERSION = "2.3.2";
+Wavesurfer.VERSION = "2.4.0";
 
 // register plugin once
 _video2.default.Wavesurfer = Wavesurfer;
@@ -1438,6 +1446,19 @@ _video2.default.registerTech('Html5', _tech2.default);
 module.exports = {
     Wavesurfer: Wavesurfer
 };
+
+/***/ }),
+
+/***/ 0:
+/*!******************************************************************************!*\
+  !*** multi ./src/js/videojs.wavesurfer.js ./src/css/videojs.wavesurfer.scss ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! /home/thijs/projects/videojs-wavesurfer/src/js/videojs.wavesurfer.js */"./src/js/videojs.wavesurfer.js");
+module.exports = __webpack_require__(/*! /home/thijs/projects/videojs-wavesurfer/src/css/videojs.wavesurfer.scss */"./src/css/videojs.wavesurfer.scss");
+
 
 /***/ }),
 
