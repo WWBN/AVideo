@@ -65,6 +65,7 @@ $t['Channels'] = "Channels";
 $t['Channel Name'] = "Channel Name";
 $t['Clean Name'] = "Clean Name";
 $t['Clean Title'] = "Clean Title";
+$t['Clear Cache Directory'] = "Clear Cache Directory";
 $t['Click here if you agree to continue'] = "Click here if you agree to continue";
 $t['Clicks'] = "Clicks";
 $t['Close'] = "Close";
