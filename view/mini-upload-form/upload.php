@@ -44,13 +44,21 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0)
     $filename = uniqid($mainName . "_", true);
     $video = new Video(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']) , 0, -4) , $filename, @$_FILES['upl']['videoId']);
     $video->setDuration($duration);
+    
+    if(!empty($_POST['title'])){
+        $video->setTitle($_POST['title']);
+    }
+    
+    if(!empty($_POST['description'])){
+        $video->setDescription($_POST['description']);
+    }
+    
     if ($extension == "mp4")
     {
         $video->setType("video");
     }
     else
-        if (($extension == "mp3") || ($extension == "ogg"))
-        {
+        if (($extension == "mp3") || ($extension == "ogg")){
             $video->setType("audio");
         }
     

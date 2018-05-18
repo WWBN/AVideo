@@ -726,13 +726,19 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
 
 function decideMoveUploadedToVideos($tmp_name, $filename) {
     global $global;
+    $obj = new stdClass();
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
     if (!empty($aws_s3)) {
         $aws_s3->move_uploaded_file($tmp_name, $filename);
     } else {
         if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
-            die(json_encode($obj));
+            if(!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")){
+                if(!copy($tmp_name, "{$global['systemRootPath']}videos/{$filename}")){
+                    $obj->msg = "Error on decideMoveUploadedToVideos({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+                    die(json_encode($obj));
+                }
+            }
+            
         }
     }
 }
