@@ -110,6 +110,15 @@ $updateFiles = getUpdatesFilesArray();
                                         </li>
                                         <?php
                                     }
+                                    if (empty($advancedCustom->doNotShowImportMP4Button)) {
+                                        ?>
+                                        <li>
+                                            <a  href="<?php echo $global['webSiteRootURL']; ?>view/import.php" >
+                                                <span class="fas fa-hdd"></span> <?php echo __("Direct Import Local Videos"); ?>
+                                            </a>
+                                        </li>
+                                        <?php
+                                    }
                                     if (empty($advancedCustom->doNotShowEmbedButton)) {
                                         ?>                                    
                                         <li>
