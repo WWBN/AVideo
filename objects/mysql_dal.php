@@ -77,14 +77,14 @@ class sqlDAL {
             if((empty($readSqlCached[$crc]))||($refreshCache)){
                  $readSqlCached[$crc]="false";
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
-                    log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
+                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
                     exit;
                 }
                 sqlDAL::eval_mysql_bind($stmt,$formats,$values);
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
                 if($stmt->errno!=0){
-                    log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
+                    log_error('Error in readSql (mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
                     $stmt->close();
                     return false;
                 }
@@ -102,7 +102,7 @@ class sqlDAL {
             return $readSqlCached[$crc];
         } else {
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
-                log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
+                log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
                 exit;
             }
             
@@ -130,6 +130,8 @@ class sqlDAL {
             $result->stmt->close();
         }
     }
+    
+    
     /*
     * Get the nr of rows
     * @param Object $result A object from sqlDAL::readSql
