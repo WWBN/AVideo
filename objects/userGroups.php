@@ -241,9 +241,8 @@ class UserGroups {
         //check if table exists if not you need to update
         $sql = "SELECT 1 FROM `videos_group_view` LIMIT 1";
         $res = sqlDAL::readSql($sql);
-        $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if (empty($data)) {
+        if (!$res) {
             if (User::isAdmin()) {
                 $_GET['error'] = "You need to Update YouPHPTube to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
             }
