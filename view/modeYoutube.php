@@ -736,25 +736,28 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                             $.widget.bridge('uibutton', $.ui.button);
                             $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <?php 
-                if($advancedCustom!=false){
-                    $disableYoutubeIntegration = $advancedCustom->disableYoutubePlayerIntegration;
-                } else {
-                   $disableYoutubeIntegration = false; 
-                }
+        $videoJSArray = array("view/js/video.js/video.js");
+        if($advancedCustom!=false){
+            $disableYoutubeIntegration = $advancedCustom->disableYoutubePlayerIntegration;
+        } else {
+           $disableYoutubeIntegration = false; 
+        }
         
-        if((isset($_GET['isEmbedded']))&&($disableYoutubeIntegration==false)) { if($_GET['isEmbedded']=="y") { ?>
-            <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-youtube/Youtube.js" ></script>
-        <?php } else if ($_GET['isEmbedded']=="v"){ ?>
-            <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-vimeo/videojs-vimeo.js" ></script>
-        <?php } } ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
-        <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
+        if((isset($_GET['isEmbedded']))&&($disableYoutubeIntegration==false)) { if($_GET['isEmbedded']=="y") {
+            $videoJSArray[] = "view/js/videojs-youtube/Youtube.js";
+        } else if ($_GET['isEmbedded']=="v"){ 
+            $videoJSArray[] = "view/js/videojs-vimeo/videojs-vimeo.js";
+        } } 
+        $videoJSArray[] = "view/js/videojs-contrib-ads/videojs.ads.min.js";
+        $jsURL =  combineFiles($videoJSArray, "js");
+        ?>
+        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <?php include $global['systemRootPath'] . 'view/include/footer.php';
+        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js","view/js/videojs-persistvolume/videojs.persistvolume.js","view/js/webui-popover/jquery.webui-popover.min.js","view/js/bootstrap-list-filter/bootstrap-list-filter.min.js");
+        $jsURL =  combineFiles($videoJSArray, "js");
+        ?>
+        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     </body>
 </html>
 <?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>
