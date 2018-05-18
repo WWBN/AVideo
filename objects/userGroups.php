@@ -165,7 +165,7 @@ class UserGroups {
         global $global;
         $res = sqlDAL::readSql("SHOW TABLES LIKE 'users_has_users_groups'");
         $result = sqlDAL::num_rows($res);
-        sqlDAL::close($res);  
+        sqlDAL::close($res);
         if (empty($result)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.3</a>";
             return array();
@@ -237,7 +237,7 @@ class UserGroups {
         }
         global $global;
         //check if table exists if not you need to update
-        $res = $global['mysqli']->query('select 1 from `videos_group_view` LIMIT 1');
+        $sql = "SELECT 1 FROM `videos_group_view` LIMIT 1";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
@@ -250,7 +250,7 @@ class UserGroups {
 
         $sql = "SELECT * FROM videos_group_view as v "
                 . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = ? ";
-        $res = sqlDAL::readSql($sql,"i",array($videos_id),true);
+        $res = sqlDAL::readSql($sql,"i",array($videos_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $arr = array();
