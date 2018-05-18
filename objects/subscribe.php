@@ -151,9 +151,9 @@ class Subscribe {
         $user = new User($user_id);
         $email = $user->getEmail();
         
-        $sql = "SELECT s.* FROM subscribes as s WHERE email='{$email}' ";
+        $sql = "SELECT s.* FROM subscribes as s WHERE email=? ";
         
-        $res = sqlDAL::readSql($sql);
+        $res = sqlDAL::readSql($sql,"s",array($email));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $subscribe = array();
