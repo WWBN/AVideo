@@ -300,7 +300,7 @@ class Video_ad {
 
         $sql .= "ORDER BY RAND() LIMIT 1";
         //echo $sql;exit;
-        $res = sqlDAL::readSql($sql);
+        $res = sqlDAL::readSql($sql,"i",array($categories_id));
         $data = sqlDal::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res!=false) {
