@@ -83,7 +83,7 @@ class UserGroups {
     private function getUserGroup($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM users_groups WHERE  id = $id LIMIT 1";
+        $sql = "SELECT * FROM users_groups WHERE  id = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "i", array($id));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
@@ -238,7 +238,10 @@ class UserGroups {
         global $global;
         //check if table exists if not you need to update
         $res = $global['mysqli']->query('select 1 from `videos_group_view` LIMIT 1');
-        if (!$res) {
+        $res = sqlDAL::readSql($sql);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (empty($data)) {
             if (User::isAdmin()) {
                 $_GET['error'] = "You need to Update YouPHPTube to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
             }
@@ -247,7 +250,7 @@ class UserGroups {
 
         $sql = "SELECT * FROM videos_group_view as v "
                 . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = ? ";
-        $res = sqlDAL::readSql($sql,"i",array($videos_id));
+        $res = sqlDAL::readSql($sql,"i",array($videos_id),true);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $arr = array();
