@@ -60,7 +60,7 @@ class PlayList extends ObjectYPT {
         $sql = "SELECT * FROM  playlists_has_videos p "
                 . " LEFT JOIN videos as v ON videos_id = v.id "
                 . " LEFT JOIN users u ON u.id = v.users_id "
-                . " WHERE playlists_id = {$playlists_id} ORDER BY p.`order` ASC ";
+                . " WHERE playlists_id = ? ORDER BY p.`order` ASC ";
 
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql,"i",array($playlists_id));
