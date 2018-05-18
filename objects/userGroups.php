@@ -174,12 +174,14 @@ class UserGroups {
             return array();
         }
         $sql = "SELECT * FROM users_has_users_groups"
-                . " LEFT JOIN users_groups ON users_groups_id = id WHERE users_id = $users_id ";
-
+                . " LEFT JOIN users_groups ON users_groups_id = id WHERE users_id = ? ";
+        $res = sqlDAL::readSql($sql,"i",array($users_id));
+        $fullData = sqlDal::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $res = $global['mysqli']->query($sql);
         $arr = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $arr[] = $row;
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);
