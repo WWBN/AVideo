@@ -131,6 +131,8 @@ class Video_ad {
 
     static function getAllVideos($videos_id = "") {
         global $global;
+        $formats = "";
+        $values = array();
         $sql = "SELECT v.*, va.*, "
                 . " (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id AND clicked = 1) as clicks, "
                 . " (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id) as prints "
@@ -139,12 +141,14 @@ class Video_ad {
                 . " WHERE 1=1 ";
 
         if (!empty($videos_id)) {
-            $sql .= " AND videos_id = {$videos_id} ";
+            $sql .= " AND videos_id = ? ";
+            $formats .= "i";
+            $values[] = $videos_id;
         }
 
         $sql .= BootGrid::getSqlFromPost(array('ad_title', 'title'), "va.");
-        $res = $global['mysqli']->query($sql);
-        $res = sqlDAL::readSql($sql,"i",array($id));
+        //$res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,$formats,$values);
         $fullData = sqlDal::fetchAllAssoc($res);
         sqlDAL::close($res);
         $videos = array();
@@ -164,7 +168,6 @@ class Video_ad {
     static function getTotalVideos() {
         global $global;
         $sql = "SELECT * from video_ads WHERE 1=1 ";
-
         $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description'));
         $res = sqlDAL::readSql($sql);
         $numRows = sqlDal::num_rows($res);
@@ -277,8 +280,10 @@ class Video_ad {
         if (empty($categories_id)) {
             return false;
         }
-        $result = $global['mysqli']->query("SHOW TABLES LIKE 'video_ads'");
-        if (empty($result->num_rows)) {
+        $res = sqlDAL::readSql("SHOW TABLES LIKE 'video_ads'");
+        $numRows = sqlDal::num_rows($res);
+        sqlDAL::close($res);
+        if (empty($numRows)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
             header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
             return false;
@@ -295,7 +300,7 @@ class Video_ad {
 
         $sql .= "ORDER BY RAND() LIMIT 1";
         //echo $sql;exit;
-        $res = sqlDAL::readSql($sql,"i",array($categories_id));
+        $res = sqlDAL::readSql($sql);
         $data = sqlDal::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res!=false) {
