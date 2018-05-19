@@ -119,8 +119,10 @@ class WalletLog extends ObjectYPT {
         }
         
         $sql .= self::getSqlSearchFromPost();
-
         $res = $global['mysqli']->query($sql);
+        if(!$res){
+            return 0;
+        }
 
         return $res->num_rows;
     }
