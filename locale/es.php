@@ -16,7 +16,7 @@ $t['Audio-Gallery by Date'] = "Galería de audio por fecha";
 $t['Autoplay'] = "Auto-reproducción";
 $t['You cannot comment on videos'] = "No puedes comentar videos";
 $t['You must login to be able to comment on videos'] = "Debes iniciar sesión para poder comentar videos";
-
+$t['Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries'] = "Mostrando {{ctx.start}} a {{ctx.end}} de {{ctx.total}} entradas";
 $t['Make it public'] = "Hazlo público";
 $t['Create a New Play List'] = "Crea una nueva lista de reproducción";
 $t['Search...'] = "Buscar...";
