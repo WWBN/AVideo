@@ -13,7 +13,7 @@ $hrs = floor($mins / 60);
 $mins -= $hrs * 60;
 $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
 $global['mysqli']->query("SET time_zone='$offset';");
-
+$_SESSION['savedQuerys']=0;
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 
