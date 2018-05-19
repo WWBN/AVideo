@@ -36,10 +36,10 @@ class VideoStatistic {
 
         $sql = "INSERT INTO videos_statistics "
                 . "(`when`,ip, users_id, videos_id) values "
-                . "(now(),'" . getRealIpAddr() . "',{$userId}, '{$videos_id}')";
-        $insert_row = $global['mysqli']->query($sql);
+                . "(now(),?,?,?)";
+        $insert_row = sqlDAL::readSql($sql,"sii",array(getRealIpAddr(),$userId,$videos_id));
 
-        if ($insert_row) {
+        if (!empty($global['mysqli']->insert_id)) {
             return $global['mysqli']->insert_id;
         } else {
             die($sql . ' Save Video Statistics Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -54,22 +54,30 @@ class VideoStatistic {
             $ast = "*";
         }
         $sql = "SELECT count({$ast}) as total FROM videos_statistics WHERE 1=1 ";
-
+        $formats = "";
+        $values = array();
         if (!empty($videos_id)) {
-            $sql .= " AND videos_id = {$videos_id} ";
+            $sql .= " AND videos_id = ? ";
+            $formats .= "i";
+            $values[] = $videos_id;
         }
         if (!empty($startDate)) {
-            $sql .= " AND `when` >= '{$startDate}' ";
+            $sql .= " AND `when` >= ? ";
+            $formats .= "s";
+            $values[] = $startDate;
         }
 
         if (!empty($endDate)) {
-            $sql .= " AND `when` <= '{$endDate}' ";
+            $sql .= " AND `when` <= ? ";
+            $formats .= "s";
+            $values[] = $endDate;
         }
-        $res = $global['mysqli']->query($sql);
-
-        if ($res && $row = $res->fetch_assoc()) {
+        $res = sqlDAL::readSql($sql,$formats,$values);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($result)) {
             //echo "<hr>".$row['total']." --- ".$sql, "<br>";
-            return $row['total'];
+            return $result['total'];
         }
         return 0;
     }
