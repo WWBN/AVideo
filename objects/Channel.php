@@ -18,14 +18,12 @@ class Channel{
         $res = sqlDAL::readSql($sql); 
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        // $res = $global['mysqli']->query($sql);
         $subscribe = array();
         if ($res!=false) {
             foreach ($fullResult as $row) {
                 unset($row['password']);
                 $subscribe[] = $row;
             }
-            //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $subscribe = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);

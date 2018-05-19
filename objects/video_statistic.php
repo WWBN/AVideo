@@ -41,7 +41,6 @@ class VideoStatistic {
 
         if ($insert_row) {
             return $global['mysqli']->insert_id;
-            ;
         } else {
             die($sql . ' Save Video Statistics Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
