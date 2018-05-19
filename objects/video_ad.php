@@ -110,7 +110,7 @@ class Video_ad {
         $res = sqlDAL::readSql("SHOW TABLES LIKE 'video_ads'");
         $result = sqlDal::num_rows($res);
         sqlDAL::close($res);
-        if (empty($result->num_rows)) {
+        if (empty($result)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
             header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
             return false;
