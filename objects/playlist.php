@@ -63,12 +63,13 @@ class PlayList extends ObjectYPT {
                 . " WHERE playlists_id = ? ORDER BY p.`order` ASC ";
 
         $sql .= self::getSqlFromPost();
-        $res = sqlDAL::readSql($sql,"i",array($playlists_id));
+        $res = sqlDAL::readSql($sql,"i",array($playlists_id),true);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
+                
                 $rows[] = $row;
             }
         } else {
@@ -110,13 +111,22 @@ class PlayList extends ObjectYPT {
 
     public function addVideo($video_id, $add, $order=0) {
         global $global;
+        $formats = "";
+        $values = array();
         if(empty($add) || $add === "false"){
-            $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = {$this->id} AND videos_id = {$video_id} ";
+            $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = ? AND videos_id = ? ";
+            $formats = "ii";
+            $values[] = $this->id;
+            $values[] = $video_id;
         }else{
             $this->addVideo($video_id, false);
-            $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES ({$this->id}, {$video_id}, {$order}) ";
+            $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
+            $formats = "iii";
+            $values[] = $this->id;
+            $values[] = $video_id;
+            $values[] = $order;
         }
-        return $global['mysqli']->query($sql);
+        return sqlDAL::writeSql($sql,$formats,$values);
     }
 
     public function delete() {
@@ -124,9 +134,9 @@ class PlayList extends ObjectYPT {
             return false;
         }
         global $global;
-        $sql = "DELETE FROM playlists WHERE id = {$this->id} ";
+        $sql = "DELETE FROM playlists WHERE id = ? ";
         //echo $sql;
-        return $global['mysqli']->query($sql);
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
     function getId() {
