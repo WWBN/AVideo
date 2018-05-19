@@ -93,6 +93,14 @@ if (!User::canUpload()) {
             $(document).ready(function () {
                 $('#emailMessage').wysihtml5();
                 var grid = $("#grid").bootgrid({
+                    labels: {
+                        noResults: "<?php echo __("No results found!"); ?>",
+                        all: "<?php echo __("All"); ?>",
+                        infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                        loading: "<?php echo __("Loading..."); ?>",
+                        refresh: "<?php echo __("Refresh"); ?>",
+                        search: "<?php echo __("Search"); ?>",
+                    },
                     ajax: true,
                     url: "<?php echo $global['webSiteRootURL'] . "subscribes.json"; ?>",
                     formatters: {
