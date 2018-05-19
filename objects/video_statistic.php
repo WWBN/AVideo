@@ -20,8 +20,10 @@ class VideoStatistic {
         /**
          * Dont crash if is an old version
          */
-        $result = $global['mysqli']->query("SHOW TABLES LIKE 'videos_statistics'");
-        if (empty($result->num_rows)) {
+        $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
+        $result = sqlDal::num_rows($res);
+        sqlDAL::close($res);
+        if (empty($result)) {
             echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
             return false;
         }
