@@ -47,7 +47,10 @@ class sqlDAL {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
             return false;
         }
-        sqlDAL::eval_mysql_bind($stmt,$formats,$values);
+        if(!sqlDAL::eval_mysql_bind($stmt,$formats,$values)){
+            log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+            exit;
+        }
         //var_dump($stmt);
         $suc = $stmt->execute();
         //var_dump($stmt);
@@ -80,7 +83,10 @@ class sqlDAL {
                     log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
                     exit;
                 }
-                sqlDAL::eval_mysql_bind($stmt,$formats,$values);
+                if(!sqlDAL::eval_mysql_bind($stmt,$formats,$values)){
+                    log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+                    exit;
+                }
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
                 if($stmt->errno!=0){
@@ -106,7 +112,10 @@ class sqlDAL {
                 exit;
             }
             
-            sqlDAL::eval_mysql_bind($stmt,$formats,$values);
+            if(!sqlDAL::eval_mysql_bind($stmt,$formats,$values)){
+                log_error("[sqlDAL::readSql] (no mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+                exit;
+            }
 
             $stmt->execute();
             $result = self::iimysqli_stmt_get_result($stmt);
@@ -213,6 +222,9 @@ class sqlDAL {
     }
 
     private static function eval_mysql_bind($stmt,$formats,$values){
+        if(($stmt->param_count!=sizeof($values))||($stmt->param_count!=strlen($formats))){
+            return false;
+        }
         if ((!empty($formats)) && (!empty($values))) {
             $code = "return \$stmt->bind_param(\"" . $formats . "\"";
             $i = 0;
@@ -223,7 +235,8 @@ class sqlDAL {
             $code .= ");";
             // echo $code. " : ".$preparedStatement;
             eval($code);
-        }     
+        }
+        return true;
     }
     
     private static function iimysqli_stmt_get_result($stmt) {
