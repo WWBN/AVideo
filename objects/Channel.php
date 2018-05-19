@@ -15,11 +15,13 @@ class Channel{
                 . " FROM users u "
                 . " HAVING total_videos > 0 ";
         $sql .= BootGrid::getSqlFromPost(array('user', 'about'));
-
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql); 
+        $fullResult = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        // $res = $global['mysqli']->query($sql);
         $subscribe = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullResult as $row) {
                 unset($row['password']);
                 $subscribe[] = $row;
             }
