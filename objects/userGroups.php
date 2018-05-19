@@ -178,7 +178,6 @@ class UserGroups {
         $res = sqlDAL::readSql($sql,"i",array($users_id));
         $fullData = sqlDal::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $res = $global['mysqli']->query($sql);
         $arr = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
