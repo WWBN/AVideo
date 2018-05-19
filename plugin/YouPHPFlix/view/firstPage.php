@@ -661,7 +661,7 @@ unset($_SESSION['type']);
                                     $_GET['catName'] = $intSubCat['clean_name'];
                                     $_GET['limitOnceToOne'] = "1";
                                     $_SESSION['type'] = "video";
-                                    $videos = Video::getAllVideos();
+                                    $videos = Video::getAllVideos("viewableNotAd");
                                     if ((! empty($videos)) || ($i > 10)) {
                                         break;
                                     }
