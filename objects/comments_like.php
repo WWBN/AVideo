@@ -51,7 +51,6 @@ class CommentsLike {
             die('{"error":"You must have user and videos set to get a like"}');
         }
         $sql = "SELECT * FROM comments_likes WHERE users_id = ? AND comments_id = ? LIMIT 1";
-        $res = $global['mysqli']->query($sql);
         $res = sqlDAL::readSql($sql,"ii",array($this->users_id,$this->comments_id));
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

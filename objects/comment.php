@@ -87,7 +87,7 @@ class Comment {
             $values = array($this->comment,$this->id);
             sqlDAL::writeSql($sql,$formats,$values); */
             $sql = "UPDATE comments SET "
-                    . " comment = '{$this->comment}', modified = now() WHERE id = {$this->id}";
+                    . " comment = ?, modified = now() WHERE id = ?";
             $resp = sqlDAL::writeSql($sql,"si",array($this->comment,$this->id));
         } else {
             $id = User::getId();

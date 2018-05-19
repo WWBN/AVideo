@@ -53,7 +53,6 @@ class Configuration {
         global $global;
         $sql = "SELECT * FROM configurations WHERE id = 1 LIMIT 1";
         //echo $sql;exit;
-       //$res = $global['mysqli']->query($sql);
         $res = sqlDAL::readSql($sql);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

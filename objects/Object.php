@@ -64,13 +64,11 @@ abstract class ObjectYPT implements ObjectInterface {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT id FROM  " . static::getTableName() . " WHERE 1=1  ";
-
         $sql .= self::getSqlSearchFromPost();
-
-        $res = $global['mysqli']->query($sql);
-
-
-        return $res->num_rows;
+        $res = sqlDAL::readSql($sql); 
+        $countRow = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+        return $countRow;
     }
 
     static function getSqlFromPost($keyPrefix = "") {
