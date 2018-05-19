@@ -891,17 +891,16 @@ unset($_SESSION['type']);
             </a>
             <?php } ?>
         </div>        
-        <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.pkgd.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/script.js" type="text/javascript"></script>
-        <?php 
+        <?php include $global['systemRootPath'] . 'view/include/footer.php';
+
         if(!empty($tmpSessionType)){
             $_SESSION['type'] = $tmpSessionType;
         } else {
 	   unset($_SESSION['type']);
 	}
+    $jsFiles = array("view/js/bootstrap-list-filter/bootstrap-list-filter.min.js","plugin/YouPHPFlix/view/js/flickty/flickity.pkgd.min.js","view/js/webui-popover/jquery.webui-popover.min.js","plugin/YouPHPFlix/view/js/script.js");
+    $jsURL =  combineFiles($jsFiles, "js");
 ?>
+<script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     </body>
 </html>
