@@ -362,10 +362,12 @@ class User {
     static function getChannelOwner($channelName){
         global $global;
         $channelName = $global['mysqli']->real_escape_string($channelName);
-        $sql = "SELECT * FROM users WHERE channelName = '$channelName' LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql,"s",array($channelName));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res) {
-            $user = $res->fetch_assoc();
+            $user = $result;
         } else {
             $user = false;
         }
@@ -452,7 +454,8 @@ class User {
 
     private function find($user, $pass, $mustBeactive = false, $encodedPass=false) {
         global $global;
-
+        $formats = "";
+        $values = array();
         $user = $global['mysqli']->real_escape_string($user);
         $sql = "SELECT * FROM users WHERE user = '$user' ";
 
@@ -464,13 +467,16 @@ class User {
             if (!$encodedPass || $encodedPass === 'false') {
                 $pass = md5($pass);
             }
-            $sql .= " AND password = '$pass' ";
+            $sql .= " AND password = ? ";
+            $formats = "s";
+            $values = array($pass);
         }
         $sql .= " LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
+        $res = sqlDAL::readSql($sql,$formats,$values);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res) {
-            $user = $res->fetch_assoc();
+            $user = $result;
         } else {
             $user = false;
         }
@@ -480,11 +486,12 @@ class User {
     static private function findById($id) {
         global $global;
 
-        $sql = "SELECT * FROM users WHERE id = '$id'  LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
+        $sql = "SELECT * FROM users WHERE id = ?  LIMIT 1";
+        $res = sqlDAL::readSql($sql,"i",array($id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res) {
-            $user = $res->fetch_assoc();
+            $user = $result;
         } else {
             $user = false;
         }
@@ -496,9 +503,10 @@ class User {
 
         $sql = "SELECT * FROM users WHERE email = ?  LIMIT 1";
         $res = sqlDAL::readSql($sql,"s",array($email));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res!=false) {
-            $user = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);
+            $user = $result;
         } else {
             $user = false;
         }
@@ -624,10 +632,12 @@ $res = sqlDAL::readSql($sql.";");
 
         $sql .= BootGrid::getSqlSearchFromPost(array('name', 'email', 'user'));
 
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $result = sqlDal::num_rows($res);
+        sqlDAL::close($res);
 
 
-        return $res->num_rows;
+        return $result;
     }
 
     static function userExists($user) {

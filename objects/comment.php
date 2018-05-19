@@ -88,6 +88,7 @@ class Comment {
             sqlDAL::writeSql($sql,$formats,$values); */
             $sql = "UPDATE comments SET "
                     . " comment = '{$this->comment}', modified = now() WHERE id = {$this->id}";
+            $resp = sqlDAL::writeSql($sql,"si",array($this->comment,$this->id));
         } else {
             $id = User::getId();
             // The new prepared line failed like this:
@@ -97,14 +98,18 @@ class Comment {
             $formats = "ssss";
             $values = array($this->comment,$id,$this->videos_id,$this->comments_id_pai);
             sqlDAL::writeSql($sql,$formats,$values);*/
+            
+            // with the pai, it fails, like this it works on mine.
             $sql = "INSERT INTO comments ( comment,users_id, videos_id, comments_id_pai, created, modified) VALUES "
-                    . " ('{$this->comment}', {$id}, {$this->videos_id}, {$this->comments_id_pai}, now(), now())";
+                    . " (?, ?, ?, {$this->comments_id_pai}, now(), now())";
+            $resp = sqlDAL::writeSql($sql,"sii",array($this->comment,$id,$this->videos_id));
         }
-        $resp = $global['mysqli']->query($sql);
+        
         if(empty($resp)){
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         if (empty($this->id)) {
+            // log_error("note: insert_id works? ".$global['mysqli']->insert_id); // success!
             $id = $global['mysqli']->insert_id;
             $this->id = $id;
         } else {
