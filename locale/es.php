@@ -21,6 +21,19 @@ $t['Make it public'] = "Hazlo público";
 $t['Create a New Play List'] = "Crea una nueva lista de reproducción";
 $t['Search...'] = "Buscar...";
 
+$t['Last'] = "Último";
+$t['First'] = "Primero";
+$t['Next'] = "Siguiente";
+$t['Showing _START_ to _END_ of _TOTAL_ entries'] = "Mostrando _START_ a _END_ de _TOTAL_ entradas";
+$t['Showing 0 to 0 of 0 entries'] = "Mostrando 0 a 0 de 0 entradas";
+$t['No data available in table'] = "No hay datos disponibles en la tabla";
+$t['Previous'] = "Anterior";
+$t['Processing...'] = "Tratamiento...";
+$t['Loading...'] = "Cargando...";
+$t['Show _MENU_ entries'] = "Mostrar _MENU_ entradas";
+
+
+
 $t['Channel name already exists'] = "El nombre del canal ya existe";
 $t['User name already exists'] = "Nombre de usuario ya existe";
 $t['From'] = "De";
