@@ -126,10 +126,7 @@ class Category {
         } else {
             return false;
         }
-        if (!sqlDAL::writeSql($sql,"i",array($this->id))) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error." SQL-CMD: ".$sql);
-        }
-        return true;
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
     static function getCategoryType($categoryId){
@@ -200,20 +197,15 @@ class Category {
             return false;
         }
         $sql = "SELECT * FROM categories WHERE parentId=? AND id!=? ";         
-        
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
-   
         $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId),true); 
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        
-        //$res = $global['mysqli']->query($sql);
         $category = array();
         if ($res) {
             foreach ($fullResult as $row) {
                 $category[] = $row;
             }
-            //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $category = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);

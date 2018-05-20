@@ -238,7 +238,6 @@ if (!class_exists('Video')) {
                         $sql .= "2";
                     }
                     $sql .= "' WHERE `category_type_cache`.`categoryId` = ?;";
-                    //echo $sql;
                     sqlDAL::writeSql($sql,"i",array($catId));
                 }
             } else {
@@ -279,17 +278,27 @@ if (!class_exists('Video')) {
                         }
                     }
                 }
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, '";
+                $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
+                $res = sqlDAL::readSql($sql,"i",array($catId),true);
+                $exist = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
+                $sqlType = 99;
                 if (($videoFound) && ($audioFound)) {
-                    $sql .= "0";
+                    $sqlType = 0;
                 } else if ($audioFound) {
-                    $sql .= "1";
+                    $sqlType = 1;
                 } else if ($videoFound) {
-                    $sql .= "2";
+                    $sqlType = 2;
                 }
-                $sql .= "');";
-                
-                sqlDAL::writeSql($sql,"i",array($catId));
+                $values = array();
+                if(empty($exist)){
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
+                    $values = array($catId,$sqlType);
+                } else {
+                    $sql = "UPDATE `category_type_cache` SET `type` = ? WHERE `category_type_cache`.`categoryId` = ?;";
+                    $values = array($sqlType,$catId);
+                }
+                sqlDAL::writeSql($sql,"ii",$values);
             }
         }
 
@@ -886,8 +895,8 @@ if (!class_exists('Video')) {
                 return false;
             }
             $resp = sqlDAL::writeSql($sql,"i",array($this->id));
-            if (empty($resp)) {
-                die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            if ($resp==false) {
+                die('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             } else {
                 $this->removeFiles($video['filename']);
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');

@@ -87,7 +87,7 @@ class Video_ad {
                     . "'{$this->redirect}', '{$this->getFinish_max_clicks()}', '{$this->getFinish_max_prints()}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
         }
 
-        $insert_row = $global['mysqli']->query($sql);
+        $insert_row = sqlDAL::writeSql($sql);;
 
         if ($insert_row) {
             if (empty($this->id)) {
@@ -117,7 +117,6 @@ class Video_ad {
         }
 
         $sql = "SELECT * from video_ads WHERE id = ? LIMIT 1";
-        //echo $sql;exit;
         $res = sqlDAL::readSql($sql,"i",array($id));
         $data = sqlDal::fetchAssoc($res);
         sqlDAL::close($res);
@@ -183,15 +182,11 @@ class Video_ad {
 
         global $global;
         if (!empty($this->id)) {
-            $sql = "DELETE FROM video_ads WHERE id = {$this->id}";
+            $sql = "DELETE FROM video_ads WHERE id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
     function getId() {
@@ -299,7 +294,6 @@ class Video_ad {
 
 
         $sql .= "ORDER BY RAND() LIMIT 1";
-        //echo $sql;exit;
         $res = sqlDAL::readSql($sql,"i",array($categories_id));
         $data = sqlDal::fetchAssoc($res);
         sqlDAL::close($res);
@@ -316,10 +310,8 @@ class Video_ad {
         $userId = empty($_SESSION["user"]["id"]) ? "NULL" : $_SESSION["user"]["id"];
         $sql = "INSERT INTO video_ads_logs "
                     . "(datetime, clicked, ip, video_ads_id, users_id) values "
-                    . "(now(),0, '".getRealIpAddr()."', '{$id}',{$userId})";
-
-        $insert_row = $global['mysqli']->query($sql);
-
+                    . "(now(),0, '".getRealIpAddr()."', ?,?)";
+        $insert_row = sqlDAL::writeSql($sql,"ii",array($id,$userId));
         if ($insert_row) {
             return $global['mysqli']->insert_id;
         } else {
@@ -329,9 +321,9 @@ class Video_ad {
 
     static function clickLog($video_ads_log_id){
         global $global;
-        $sql = "UPDATE video_ads_logs set clicked = 1 WHERE id = {$video_ads_log_id}";
+        $sql = "UPDATE video_ads_logs set clicked = 1 WHERE id = ?";
 
-        $insert_row = $global['mysqli']->query($sql);
+        $insert_row = sqlDAL::writeSql($sql,"i",array($video_ads_log_id));
 
         if ($insert_row) {
             return $video_ads_log_id;

@@ -74,12 +74,7 @@ class CommentsLike {
             $formats = "iii";
             $values = array($this->like,$this->users_id,$this->comments_id);
         }
-        //echo $sql;exit;
-        $resp = sqlDAL::writeSql($sql,$formats,$values);
-        if ($global['mysqli']->errno!=0) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,$formats,$values);
     }
 
     static function getLikes($comments_id) {
