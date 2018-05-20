@@ -398,6 +398,7 @@ $t['User not found'] = "User not found";
 $t['UserGroups'] = "UserGroups";
 $t['Users'] = "Users";
 $t['Users Groups'] = "Users Groups";
+$t['Verification Sent']  = "Verification Sent";
 $t['Verify e-mail']  = "Verify E-Mail";
 $t['Video'] = "Video";
 $t['Video Advertising'] = "Video Advertising";
