@@ -48,6 +48,30 @@
             $('#dt2').DataTable().ajax.reload();
         });
         $('#dt2').DataTable({
+            "language": {
+                "decimal":        "",
+                "emptyTable":     "<?php echo __("No data available in table"); ?>",
+                "info":           "<?php echo __("Showing _START_ to _END_ of _TOTAL_ entries"); ?>",
+                "infoEmpty":      "<?php echo __("Showing 0 to 0 of 0 entries"); ?>",
+                "infoFiltered":   "<?php echo __("(filtered from _MAX_ total entries)"); ?>",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "<?php echo __("Show _MENU_ entries"); ?>",
+                "loadingRecords": "<?php echo __("Loading..."); ?>",
+                "processing":     "<?php echo __("Processing..."); ?>",
+                "search":         "<?php echo __("Search"); ?>:",
+                "zeroRecords":    "<?php echo __("No matching records found"); ?>",
+                "paginate": {
+                    "first":      "<?php echo __("First"); ?>",
+                    "last":       "<?php echo __("Last"); ?>",
+                    "next":       "<?php echo __("Next"); ?>",
+                    "previous":   "<?php echo __("Previous"); ?>"
+                },
+                "aria": {
+                    "sortAscending":  "<?php echo __(": activate to sort column ascending"); ?>",
+                    "sortDescending": "<?php echo __(": activate to sort column descending"); ?>"
+                }
+            },
             "ajax": {
                 'type': 'POST',
                 'url': "<?php echo $global['webSiteRootURL']; ?>view/report2.json.php",
