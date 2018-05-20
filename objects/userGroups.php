@@ -50,16 +50,18 @@ class UserGroups {
         if (empty($this->isAdmin)) {
             $this->isAdmin = "false";
         }
+        $formats = "";
+        $values = array();
         if (!empty($this->id)) {
-            $sql = "UPDATE users_groups SET group_name = '{$this->group_name}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE users_groups SET group_name = ?, modified = now() WHERE id = ?";
+            $formats = "si";
+            $values = array($this->group_name,$this->id);
         } else {
-            $sql = "INSERT INTO users_groups ( group_name, created, modified) VALUES ('{$this->group_name}',now(), now())";
+            $sql = "INSERT INTO users_groups ( group_name, created, modified) VALUES (?,now(), now())";
+            $formats = "s";
+            $values = array($this->group_name);
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,$formats,$values);
     }
 
     function delete() {
@@ -69,15 +71,11 @@ class UserGroups {
 
         global $global;
         if (!empty($this->id)) {
-            $sql = "DELETE FROM users_groups WHERE id = {$this->id}";
+            $sql = "DELETE FROM users_groups WHERE id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
     private function getUserGroup($id) {
@@ -150,12 +148,10 @@ class UserGroups {
         }
         self::deleteGroupsFromUser($users_id);
         global $global;
-
+        $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES (?,?)";
         foreach ($array_groups_id as $value) {
             $value = intval($value);
-            $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES ({$users_id},{$value})";
-            //echo $sql;
-            $global['mysqli']->query($sql);
+            sqlDAL::writeSql($sql,"ii",array($users_id,$value));
         }
 
         return true;
@@ -183,7 +179,6 @@ class UserGroups {
             foreach ($fullData as $row) {
                 $arr[] = $row;
             }
-            //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $arr = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -198,15 +193,11 @@ class UserGroups {
 
         global $global;
         if (!empty($users_id)) {
-            $sql = "DELETE FROM users_has_users_groups WHERE users_id = {$users_id}";
+            $sql = "DELETE FROM users_has_users_groups WHERE users_id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($users_id));
     }
 
     // for users end
@@ -223,10 +214,10 @@ class UserGroups {
         self::deleteGroupsFromVideo($videos_id);
         global $global;
 
+        $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
         foreach ($array_groups_id as $value) {
             $value = intval($value);
-            $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES ({$videos_id},{$value})";
-            $global['mysqli']->query($sql);
+            sqlDAL::writeSql($sql,"ii",array($videos_id,$value));
         }
 
         return true;
@@ -258,7 +249,6 @@ class UserGroups {
             foreach ($fullData as $row) {
                 $arr[] = $row;
             }
-            //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $arr = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -273,15 +263,11 @@ class UserGroups {
 
         global $global;
         if (!empty($videos_id)) {
-            $sql = "DELETE FROM videos_group_view WHERE videos_id = {$videos_id}";
+            $sql = "DELETE FROM videos_group_view WHERE videos_id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($videos_id));
     }
 
 }

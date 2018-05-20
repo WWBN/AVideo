@@ -31,10 +31,12 @@ abstract class ObjectYPT implements ObjectInterface {
     static protected function getFromDb($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql,"i",array($id)); 
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res) {
-            $row = $res->fetch_assoc();
+            $row = $data;
         } else {
             $row = false;
         }
@@ -46,11 +48,12 @@ abstract class ObjectYPT implements ObjectInterface {
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 
         $sql .= self::getSqlFromPost();
-
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql); 
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $rows = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $rows[] = $row;
             }
         } else {
@@ -177,12 +180,13 @@ abstract class ObjectYPT implements ObjectInterface {
 
     private function getAllFields() {
         global $global, $mysqlDatabase;
-        $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{$mysqlDatabase}' AND TABLE_NAME = '" . static::getTableName() . "'";
-
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = '" . static::getTableName() . "'";
+        $res = sqlDAL::readSql($sql,"s",array($mysqlDatabase)); 
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $rows = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $rows[] = $row["COLUMN_NAME"];
             }
         } else {

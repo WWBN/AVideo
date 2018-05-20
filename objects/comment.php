@@ -104,9 +104,8 @@ class Comment {
                     . " (?, ?, ?, {$this->comments_id_pai}, now(), now())";
             $resp = sqlDAL::writeSql($sql,"sii",array($this->comment,$id,$this->videos_id));
         }
-        
-        if(empty($resp)){
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        if((empty($resp))&&($global['mysqli']->errno!=0)){
+            die('Error (comment save) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         if (empty($this->id)) {
             // log_error("note: insert_id works? ".$global['mysqli']->insert_id); // success!
@@ -120,7 +119,6 @@ class Comment {
         }else{
             YouPHPTubePlugin::afterNewResponse($this->id);
         }
-        
         return $resp;
     }
 
@@ -136,11 +134,7 @@ class Comment {
         } else {
             return false;
         }
-        $resp = sqlDAL::writeSql($sql,"i",array($this->id));
-        if ($global['mysqli']->errno!=0) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
     private function getComment($id) {

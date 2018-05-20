@@ -389,11 +389,7 @@ class User {
         } else {
             return false;
         }
-        $resp = sqlDAL::writeSql($sql,"i",array($this->id));
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
   
     const USER_LOGGED = 0;
