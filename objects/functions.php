@@ -945,5 +945,8 @@ function UTF8encode($data){
     if(!empty($advancedCustom->utf8Encode)){
         return utf8_encode($data);
     }
+    if(!empty($advancedCustom->utf8Decode)){
+        return utf8_decode($data);
+    }
     return $data;
 }

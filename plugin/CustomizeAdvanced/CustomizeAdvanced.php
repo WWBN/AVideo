@@ -50,6 +50,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->commentsMaxLength = 200;
         $obj->disableYoutubePlayerIntegration = false;
         $obj->utf8Encode = true;
+        $obj->utf8Decode = false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
