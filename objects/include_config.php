@@ -14,6 +14,7 @@ $mins -= $hrs * 60;
 $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
 $global['mysqli']->query("SET time_zone='$offset';");
 
+require_once $global['systemRootPath'].'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 $config = new Configuration();
 
@@ -40,7 +41,6 @@ session_set_cookie_params($config->getSession_timeout());
 session_start();
 $_SESSION['savedQuerys']=0;
 require_once $global['systemRootPath'].'objects/Object.php';
-require_once $global['systemRootPath'].'objects/mysql_dal.php';
 require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'].'objects/plugin.php';
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
