@@ -309,8 +309,8 @@ class Video_ad {
         $userId = empty($_SESSION["user"]["id"]) ? "NULL" : $_SESSION["user"]["id"];
         $sql = "INSERT INTO video_ads_logs "
                     . "(datetime, clicked, ip, video_ads_id, users_id) values "
-                    . "(now(),0, '".getRealIpAddr()."', ?,?)";
-        $insert_row = sqlDAL::writeSql($sql,"ii",array($id,$userId));
+                    . "(now(),0, '".getRealIpAddr()."', ?,".$userId.")";
+        $insert_row = sqlDAL::writeSql($sql,"i",array($id));
         if ($insert_row) {
             return $global['mysqli']->insert_id;
         } else {
