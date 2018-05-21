@@ -238,7 +238,6 @@ if (!class_exists('Video')) {
                         $sql .= "2";
                     }
                     $sql .= "' WHERE `category_type_cache`.`categoryId` = ?;";
-                    //echo $sql;
                     sqlDAL::writeSql($sql,"i",array($catId));
                 }
             } else {
@@ -279,17 +278,27 @@ if (!class_exists('Video')) {
                         }
                     }
                 }
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, '";
+                $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
+                $res = sqlDAL::readSql($sql,"i",array($catId),true);
+                $exist = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
+                $sqlType = 99;
                 if (($videoFound) && ($audioFound)) {
-                    $sql .= "0";
+                    $sqlType = 0;
                 } else if ($audioFound) {
-                    $sql .= "1";
+                    $sqlType = 1;
                 } else if ($videoFound) {
-                    $sql .= "2";
+                    $sqlType = 2;
                 }
-                $sql .= "');";
-                
-                sqlDAL::writeSql($sql,"i",array($catId));
+                $values = array();
+                if(empty($exist)){
+                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
+                    $values = array($catId,$sqlType);
+                } else {
+                    $sql = "UPDATE `category_type_cache` SET `type` = ? WHERE `category_type_cache`.`categoryId` = ?;";
+                    $values = array($sqlType,$catId);
+                }
+                sqlDAL::writeSql($sql,"ii",$values);
             }
         }
 
@@ -443,20 +452,23 @@ if (!class_exists('Video')) {
 
         static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
             global $global, $config;
-            // there is no c.description 
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
             $id = intval($id);
-
-            $result = $global['mysqli']->query("SHOW TABLES LIKE 'likes'");
-            if (empty($result->num_rows)) {
+            $res = sqlDAL::readSql("SHOW TABLES LIKE 'likes'");
+            $result = sqlDal::num_rows($res);
+            sqlDAL::close($res);
+            
+            if (empty($result)) {
                 $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.0</a>";
                 header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
                 return false;
             }
-            $result = $global['mysqli']->query("SHOW TABLES LIKE 'video_ads'");
-            if (empty($result->num_rows)) {
+            $res = sqlDAL::readSql("SHOW TABLES LIKE 'likes'");
+            $result = sqlDal::num_rows($res);
+            sqlDAL::close($res);
+            if (empty($result)) {
                 $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
                 header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
                 return false;
@@ -707,7 +719,7 @@ if (!class_exists('Video')) {
                 $cn .= " c.clean_name as cn,";
             }
 
-            $sql = "SELECT v.type, v.id, c.name as category, {$cn} "
+            $sql = "SELECT v.users_id, v.type, v.id, v.title,v.description, c.name as category, {$cn} "
                     . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
@@ -742,7 +754,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
             }
-            $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));   
+            $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name'));   
             $res = sqlDAL::readSql($sql);
             $numRows = sqlDal::num_rows($res);
             sqlDAL::close($res);
@@ -888,8 +900,8 @@ if (!class_exists('Video')) {
                 return false;
             }
             $resp = sqlDAL::writeSql($sql,"i",array($this->id));
-            if (empty($resp)) {
-                die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            if ($resp==false) {
+                die('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             } else {
                 $this->removeFiles($video['filename']);
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');

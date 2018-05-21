@@ -29,7 +29,7 @@ require_once '../plugin/YouPHPTubePlugin.php';
             <p>Also, when you activate a plugin and you see a button "Install Tables", press it at least once, if you never press it, this can cause bugs!</p>
             <h3>Update via git</h3>
             <p>This project is in a fast development. If you have done your setup via git (like in the howto's), you can update very easy!</p>
-            <p>In the shell, go to the youphptube-folder and type "git pull" there. Or, for copy-paste: "cd <?php echo $global['systemRootPath']; ?>; git pull" . </p>
+            <p>In the shell, go to the youphptube-folder and type "git pull" there. Or, for copy-paste: <code>cd <?php echo $global['systemRootPath']; ?>; git pull</code> . </p>
             <p>It can be, that you will need a database-update after. For this, go as admin to the menu-point "<a href='<?php echo $global['webSiteRootURL']; ?>update'>Update version</a>".</p>
             <p>Done!</p>
             <h3>Issues on github</h3>

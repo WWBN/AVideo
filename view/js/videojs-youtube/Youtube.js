@@ -27,6 +27,9 @@ THE SOFTWARE. */
     define(['videojs'], function(videojs){
       return (root.Youtube = factory(videojs));
     });
+    define(['video.js'], function(videojs){
+      return (root.Youtube = factory(videojs));
+    });
   } else {
     root.Youtube = factory(root.videojs);
   }
@@ -52,6 +55,10 @@ THE SOFTWARE. */
 
           if (_isOnMobile) {
             this.el_.parentNode.className += ' vjs-youtube-mobile';
+          }
+
+          if(_isOnMobile && options.nativeControlsForTouch === true) {
+            this.el_.parentNode.className += ' vjs-controls-disabled';
           }
 
           if (Youtube.isApiReady) {
@@ -138,7 +145,9 @@ THE SOFTWARE. */
       }
 
       if (typeof this.options_.ytControls !== 'undefined') {
-        playerVars.controls = this.options_.ytControls;
+        if (_isOnMobile && this.options_.nativeControlsForTouch) {
+          playerVars.controls = this.options_.ytControls;
+        }
       }
 
       if (typeof this.options_.disablekb !== 'undefined') {
@@ -619,7 +628,9 @@ THE SOFTWARE. */
     reset: function() {},
 
     supportsFullScreen: function() {
-      return true;
+      return document.webkitFullscreenEnabled ||
+        document.mozFullScreenEnabled ||
+        document.msFullscreenEnabled;
     },
 
     // Tries to get the highest resolution thumbnail available for the video

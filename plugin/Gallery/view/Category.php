@@ -85,7 +85,10 @@ if ((!empty($videos)) || ($obj->SubCategorys)) {
                                                 <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                                                 <?php
                                             }
-                                            $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $value['categories_id'] . ";");
+                                            $sql = "SELECT COUNT(title) FROM videos WHERE categories_id = ?;";
+                                            $res = sqlDAL::readSql($sql,"i",array($value['categories_id']));
+                                            $videoCount = sqlDAL::fetchArray($res);
+                                            sqlDAL::close($res);
                                             break;
                                         }
                                     } else {
@@ -93,15 +96,18 @@ if ((!empty($videos)) || ($obj->SubCategorys)) {
                                         ?>
                                         <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $cat['id']; ?>" />
                                         <?php
-                                        $videoCount = $global['mysqli']->query("SELECT COUNT(title) FROM videos WHERE categories_id = " . $cat['id'] . ";");
+                                        $sql = "SELECT COUNT(title) FROM videos WHERE categories_id = ?;";
+                                        $res = sqlDAL::readSql($sql,"i",array($cat['id']));
+                                        $videoCount = sqlDAL::fetchArray($res);
+                                        sqlDAL::close($res);
                                     }
                                     ?>
                                 </div>
                                 <div class="videoInfo">
-                                    <?php if ($videoCount) { ?>
+                                    <?php if (!empty($videoCount)) { ?>
                                         <span class="label label-default" style="top: 1px !important; position: absolute;">
                                             <i class="glyphicon glyphicon-cd"></i>
-                                            <?php echo $videoCount->fetch_array()[0]; ?>
+                                            <?php echo $videoCount[0]; ?>
                                         </span>
                                     <?php } ?>
                                 </div>

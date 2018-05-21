@@ -123,6 +123,14 @@ if (User::canSeeCommentTextarea()) {
     <script>
         $(document).ready(function () {
             var grid = $("#grid").bootgrid({
+                labels: {
+                    noResults: "<?php echo __("No results found!"); ?>",
+                    all: "<?php echo __("All"); ?>",
+                    infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                    loading: "<?php echo __("Loading..."); ?>",
+                    refresh: "<?php echo __("Refresh"); ?>",
+                    search: "<?php echo __("Search"); ?>",
+                },
                 ajax: true,
                 url: "<?php echo $global['webSiteRootURL']; ?>comments.json/<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
                             sorting: false,
@@ -305,6 +313,14 @@ if (User::canSeeCommentTextarea()) {
                             comments_id = $(this).closest('.replySet').attr("comments_id");
                             $(this).closest('.replySet').find(".replyGrid").slideDown();
                             $(this).closest('.replySet').find(".grid").bootgrid({
+                                labels: {
+                                    noResults: "<?php echo __("No results found!"); ?>",
+                                    all: "<?php echo __("All"); ?>",
+                                    infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                                    loading: "<?php echo __("Loading..."); ?>",
+                                    refresh: "<?php echo __("Refresh"); ?>",
+                                    search: "<?php echo __("Search"); ?>",
+                                },
                                 ajax: true,
                                 url: "<?php echo $global['webSiteRootURL']; ?>comments.json/<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
                                 sorting: false,

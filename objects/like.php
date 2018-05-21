@@ -115,19 +115,21 @@ class Like {
         $obj->dislikes = 0;
 
         $sql = "SELECT count(*) as total FROM likes WHERE `like` = 1 "; // like
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql); 
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if (!$res) {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
         $obj->likes = intval($row['total']);
 
         $sql = "SELECT count(*) as total FROM likes WHERE `like` = -1 "; // dislike
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql); 
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if (!$res) {
             die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
         $obj->dislikes = intval($row['total']);
         return $obj;
     }

@@ -87,7 +87,7 @@ class Video_ad {
                     . "'{$this->redirect}', '{$this->getFinish_max_clicks()}', '{$this->getFinish_max_prints()}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
         }
 
-        $insert_row = $global['mysqli']->query($sql);
+        $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {
             if (empty($this->id)) {
@@ -107,18 +107,21 @@ class Video_ad {
         if (empty($id)) {
             return false;
         }
-        $result = $global['mysqli']->query("SHOW TABLES LIKE 'video_ads'");
-        if (empty($result->num_rows)) {
+        $res = sqlDAL::readSql("SHOW TABLES LIKE 'video_ads'");
+        $result = sqlDal::num_rows($res);
+        sqlDAL::close($res);
+        if (empty($result)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
             header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
             return false;
         }
 
-        $sql = "SELECT * from video_ads WHERE id = {$id} LIMIT 1";
-        //echo $sql;exit;
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $ad = $res->fetch_assoc();
+        $sql = "SELECT * from video_ads WHERE id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql,"i",array($id));
+        $data = sqlDal::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res!=false) {
+            $ad = $data;
         } else {
             $ad = false;
         }
@@ -127,6 +130,8 @@ class Video_ad {
 
     static function getAllVideos($videos_id = "") {
         global $global;
+        $formats = "";
+        $values = array();
         $sql = "SELECT v.*, va.*, "
                 . " (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id AND clicked = 1) as clicks, "
                 . " (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id) as prints "
@@ -135,15 +140,19 @@ class Video_ad {
                 . " WHERE 1=1 ";
 
         if (!empty($videos_id)) {
-            $sql .= " AND videos_id = {$videos_id} ";
+            $sql .= " AND videos_id = ? ";
+            $formats .= "i";
+            $values[] = $videos_id;
         }
 
         $sql .= BootGrid::getSqlFromPost(array('ad_title', 'title'), "va.");
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,$formats,$values);
+        $fullData = sqlDal::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $videos = array();
-        if ($res) {
+        if ($res!=false) {
             require_once 'video.php';
-            while ($row = $res->fetch_assoc()) {
+            foreach ($fullResult as $row) {
                 $row['tags'] = Video::getTags($row['videos_id']);
                 $videos[] = $row;
             }
@@ -157,16 +166,11 @@ class Video_ad {
     static function getTotalVideos() {
         global $global;
         $sql = "SELECT * from video_ads WHERE 1=1 ";
-
         $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description'));
-
-        $res = $global['mysqli']->query($sql);
-
-        if (!$res) {
-            return 0;
-        }
-
-        return $res->num_rows;
+        $res = sqlDAL::readSql($sql);
+        $numRows = sqlDal::num_rows($res);
+        sqlDAL::close($res);
+        return $numRows;
     }
 
     function delete() {
@@ -177,15 +181,11 @@ class Video_ad {
 
         global $global;
         if (!empty($this->id)) {
-            $sql = "DELETE FROM video_ads WHERE id = {$this->id}";
+            $sql = "DELETE FROM video_ads WHERE id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
     function getId() {
@@ -274,8 +274,10 @@ class Video_ad {
         if (empty($categories_id)) {
             return false;
         }
-        $result = $global['mysqli']->query("SHOW TABLES LIKE 'video_ads'");
-        if (empty($result->num_rows)) {
+        $res = sqlDAL::readSql("SHOW TABLES LIKE 'video_ads'");
+        $numRows = sqlDal::num_rows($res);
+        sqlDAL::close($res);
+        if (empty($numRows)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
             header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
             return false;
@@ -283,7 +285,7 @@ class Video_ad {
 
         $sql = "SELECT v.*, va.* from video_ads as va "
                 . " LEFT JOIN videos as v on va.videos_id = v.id "
-                . "WHERE va.categories_id = {$categories_id} "
+                . "WHERE va.categories_id = ? "
                 . " AND starts < now()"
                 . " AND (finish IS NULL OR finish = '0000-00-00 00:00:00' OR finish > now()) "
                 . " AND (finish_max_clicks = 0 OR finish_max_clicks > (SELECT count(*) FROM video_ads_logs as val WHERE val.video_ads_id = va.id AND clicked = 1 )) "
@@ -291,10 +293,11 @@ class Video_ad {
 
 
         $sql .= "ORDER BY RAND() LIMIT 1";
-        //echo $sql;exit;
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $ad = $res->fetch_assoc();
+        $res = sqlDAL::readSql($sql,"i",array($categories_id));
+        $data = sqlDal::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res!=false) {
+            $ad = $data;
         } else {
             $ad = false;
         }
@@ -306,10 +309,8 @@ class Video_ad {
         $userId = empty($_SESSION["user"]["id"]) ? "NULL" : $_SESSION["user"]["id"];
         $sql = "INSERT INTO video_ads_logs "
                     . "(datetime, clicked, ip, video_ads_id, users_id) values "
-                    . "(now(),0, '".getRealIpAddr()."', '{$id}',{$userId})";
-
-        $insert_row = $global['mysqli']->query($sql);
-
+                    . "(now(),0, '".getRealIpAddr()."', ?,".$userId.")";
+        $insert_row = sqlDAL::writeSql($sql,"i",array($id));
         if ($insert_row) {
             return $global['mysqli']->insert_id;
         } else {
@@ -319,9 +320,9 @@ class Video_ad {
 
     static function clickLog($video_ads_log_id){
         global $global;
-        $sql = "UPDATE video_ads_logs set clicked = 1 WHERE id = {$video_ads_log_id}";
+        $sql = "UPDATE video_ads_logs set clicked = 1 WHERE id = ?";
 
-        $insert_row = $global['mysqli']->query($sql);
+        $insert_row = sqlDAL::writeSql($sql,"i",array($video_ads_log_id));
 
         if ($insert_row) {
             return $video_ads_log_id;

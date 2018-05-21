@@ -1,7 +1,7 @@
 /**
  * videojs-seek-buttons
- * @version 1.1.0
- * @copyright 2017 Ben Clifford
+ * @version 1.2.4
+ * @copyright 2018 Ben Clifford
  * @license Apache-2.0
  */
 (function (global, factory) {
@@ -12,19 +12,63 @@
 
 videojs = 'default' in videojs ? videojs['default'] : videojs;
 
-var version = "1.1.0";
+var version = "1.2.4";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+
+
+
+
+
+
+
+
+
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
 
 var Button = videojs.getComponent('Button');
 var Component = videojs.getComponent('Component');
 
 // Default options for the plugin.
-var defaults = {};
+var defaults$$1 = {};
 
 // Cross-compatibility for Video.js 5 and 6.
 var registerPlugin = videojs.registerPlugin || videojs.plugin;
@@ -81,7 +125,7 @@ var seekButtons = function seekButtons(options) {
   var _this = this;
 
   this.ready(function () {
-    onPlayerReady(_this, videojs.mergeOptions(defaults, options));
+    onPlayerReady(_this, videojs.mergeOptions(defaults$$1, options));
   });
 };
 
@@ -95,12 +139,12 @@ var seekButtons = function seekButtons(options) {
  */
 
 var SeekButton = function (_Button) {
-  _inherits(SeekButton, _Button);
+  inherits(SeekButton, _Button);
 
   function SeekButton(player, options) {
-    _classCallCheck(this, SeekButton);
+    classCallCheck(this, SeekButton);
 
-    var _this2 = _possibleConstructorReturn(this, _Button.call(this, player, options));
+    var _this2 = possibleConstructorReturn(this, _Button.call(this, player, options));
 
     if (_this2.options_.direction === 'forward') {
       _this2.controlText(_this2.localize('Seek forward {{seconds}} seconds').replace('{{seconds}}', _this2.options_.seconds));

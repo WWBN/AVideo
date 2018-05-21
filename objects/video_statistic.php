@@ -20,8 +20,10 @@ class VideoStatistic {
         /**
          * Dont crash if is an old version
          */
-        $result = $global['mysqli']->query("SHOW TABLES LIKE 'videos_statistics'");
-        if (empty($result->num_rows)) {
+        $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
+        $result = sqlDal::num_rows($res);
+        sqlDAL::close($res);
+        if (empty($result)) {
             echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
             return false;
         }
@@ -34,12 +36,11 @@ class VideoStatistic {
 
         $sql = "INSERT INTO videos_statistics "
                 . "(`when`,ip, users_id, videos_id) values "
-                . "(now(),'" . getRealIpAddr() . "',{$userId}, '{$videos_id}')";
-        $insert_row = $global['mysqli']->query($sql);
+                . "(now(),?,".$userId.",?)";
+        $insert_row = sqlDAL::readSql($sql,"si",array(getRealIpAddr(),$videos_id));
 
-        if ($insert_row) {
+        if (!empty($global['mysqli']->insert_id)) {
             return $global['mysqli']->insert_id;
-            ;
         } else {
             die($sql . ' Save Video Statistics Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
@@ -53,22 +54,30 @@ class VideoStatistic {
             $ast = "*";
         }
         $sql = "SELECT count({$ast}) as total FROM videos_statistics WHERE 1=1 ";
-
+        $formats = "";
+        $values = array();
         if (!empty($videos_id)) {
-            $sql .= " AND videos_id = {$videos_id} ";
+            $sql .= " AND videos_id = ? ";
+            $formats .= "i";
+            $values[] = $videos_id;
         }
         if (!empty($startDate)) {
-            $sql .= " AND `when` >= '{$startDate}' ";
+            $sql .= " AND `when` >= ? ";
+            $formats .= "s";
+            $values[] = $startDate;
         }
 
         if (!empty($endDate)) {
-            $sql .= " AND `when` <= '{$endDate}' ";
+            $sql .= " AND `when` <= ? ";
+            $formats .= "s";
+            $values[] = $endDate;
         }
-        $res = $global['mysqli']->query($sql);
-
-        if ($res && $row = $res->fetch_assoc()) {
+        $res = sqlDAL::readSql($sql,$formats,$values);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($result)) {
             //echo "<hr>".$row['total']." --- ".$sql, "<br>";
-            return $row['total'];
+            return $result['total'];
         }
         return 0;
     }

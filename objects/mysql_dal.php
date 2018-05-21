@@ -47,17 +47,9 @@ class sqlDAL {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
             return false;
         }
-        if ((!empty($formats)) && (!empty($values))) {
-            $code = "return \$stmt->bind_param('" . $formats . "'";
-            //var_dump($result->fields);
-            $i = 0;
-            foreach ($values as $val) {
-                $code .= ", \$values[" . $i . "]";
-                $i++;
-            };
-
-            $code .= ");";
-            eval($code);
+        if(!sqlDAL::eval_mysql_bind($stmt,$formats,$values)){
+            log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+            exit;
         }
         //var_dump($stmt);
         $suc = $stmt->execute();
@@ -88,23 +80,17 @@ class sqlDAL {
             if((empty($readSqlCached[$crc]))||($refreshCache)){
                  $readSqlCached[$crc]="false";
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
-                    log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
+                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
                     exit;
                 }
-                if ((!empty($formats)) && (!empty($values))) {
-                    $code = "return \$stmt->bind_param('" . $formats . "'";
-                    $i = 0;
-                    foreach ($values as $val) {
-                        $code .= ", \$values[" . $i . "]";
-                        $i++;
-                    };
-                    $code .= ");";
-                    eval($code);
+                if(!sqlDAL::eval_mysql_bind($stmt,$formats,$values)){
+                    log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+                    exit;
                 }
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
                 if($stmt->errno!=0){
-                    log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
+                    log_error('Error in readSql (mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
                     $stmt->close();
                     return false;
                 }
@@ -122,20 +108,13 @@ class sqlDAL {
             return $readSqlCached[$crc];
         } else {
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
-                log_error("[sqlDAL::readSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
+                log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
                 exit;
             }
             
-            if ((!empty($formats)) && (!empty($values))) {
-                $code = "return \$stmt->bind_param(\"" . $formats . "\"";
-                $i = 0;
-                foreach ($values as $val) {
-                    $code .= ", \$values[" . $i . "]";
-                    $i++;
-                };
-                $code .= ");";
-                // echo $code. " : ".$preparedStatement;
-                eval($code);
+            if(!sqlDAL::eval_mysql_bind($stmt,$formats,$values)){
+                log_error("[sqlDAL::readSql] (no mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+                exit;
             }
 
             $stmt->execute();
@@ -160,6 +139,8 @@ class sqlDAL {
             $result->stmt->close();
         }
     }
+    
+    
     /*
     * Get the nr of rows
     * @param Object $result A object from sqlDAL::readSql
@@ -240,6 +221,24 @@ class sqlDAL {
         return false;
     }
 
+    private static function eval_mysql_bind($stmt,$formats,$values){
+        if(($stmt->param_count!=sizeof($values))||($stmt->param_count!=strlen($formats))){
+            return false;
+        }
+        if ((!empty($formats)) && (!empty($values))) {
+            $code = "return \$stmt->bind_param(\"" . $formats . "\"";
+            $i = 0;
+            foreach ($values as $val) {
+                $code .= ", \$values[" . $i . "]";
+                $i++;
+            };
+            $code .= ");";
+            // echo $code. " : ".$preparedStatement;
+            eval($code);
+        }
+        return true;
+    }
+    
     private static function iimysqli_stmt_get_result($stmt) {
         global $global;
         $metadata = mysqli_stmt_result_metadata($stmt);

@@ -305,15 +305,20 @@ function getSecondsTotalVideosLength() {
         return 0;
     }
     $sql = "SELECT * FROM videos v ";
-
+    $formats = "";
+    $values = array();
     if (!User::isAdmin()) {
         $id = User::getId();
-        $sql .= " WHERE users_id = {$id} ";
+        $sql .= " WHERE users_id = ? ";
+        $formats = "i";
+        $values = array($id);
     }
 
-    $res = $global['mysqli']->query($sql);
+    $res = sqlDAL::readSql($sql,$formats,$values);
+    $fullData = sqlDAL::fetchAllAssoc($res);
+    sqlDAL::close($res);
     $seconds = 0;
-    while ($row = $res->fetch_assoc()) {
+    foreach ($fullData as $row) {
         $seconds += parseDurationToSeconds($row['duration']);
     }
     return $seconds;

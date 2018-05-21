@@ -370,6 +370,14 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
             $(document).ready(function () {
                 var myTextarea = document.getElementById("inputData");
                 var grid = $("#grid").bootgrid({
+                    labels: {
+                        noResults: "<?php echo __("No results found!"); ?>",
+                        all: "<?php echo __("All"); ?>",
+                        infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                        loading: "<?php echo __("Loading..."); ?>",
+                        refresh: "<?php echo __("Refresh"); ?>",
+                        search: "<?php echo __("Search"); ?>",
+                    },
                     navigation: 0,
                     ajax: true,
                     url: "<?php echo $global['webSiteRootURL'] . "pluginsAvailable.json"; ?>",

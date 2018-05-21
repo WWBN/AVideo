@@ -38,7 +38,7 @@ ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 session_set_cookie_params($config->getSession_timeout());
 
 session_start();
-
+$_SESSION['savedQuerys']=0;
 require_once $global['systemRootPath'].'objects/Object.php';
 require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'].'objects/plugin.php';
