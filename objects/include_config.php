@@ -40,6 +40,7 @@ session_set_cookie_params($config->getSession_timeout());
 session_start();
 $_SESSION['savedQuerys']=0;
 require_once $global['systemRootPath'].'objects/Object.php';
+require_once $global['systemRootPath'].'objects/mysql_dal.php';
 require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'].'objects/plugin.php';
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';

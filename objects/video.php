@@ -7,7 +7,6 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
-require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 if (!class_exists('Video')) {
 
     class Video {
