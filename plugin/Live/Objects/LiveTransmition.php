@@ -98,7 +98,7 @@ class LiveTransmition extends ObjectYPT {
         global $global;
         $user_id = intval($user_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"i",array($user_id)); 
+        $res = sqlDAL::readSql($sql,"i",array($user_id), true); 
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res!=false) {
