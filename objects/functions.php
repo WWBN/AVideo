@@ -944,7 +944,7 @@ function UTF8encode($data){
         
     if(!empty($advancedCustom->utf8Encode)){
         require_once $global['systemRootPath'] . 'objects/Encoding.php';
-        return Encoding::toUTF8($data);
+        return Encoding::fixUTF8($data);
     }
     if(!empty($advancedCustom->utf8Decode)){
         return utf8_decode($data);
