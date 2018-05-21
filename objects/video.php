@@ -749,7 +749,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
             }
-            $sql .= BootGrid::getSqlSearchFromPost(array('title', 'description', 'c.name'));   
+            $sql .= BootGrid::getSqlSearchFromPost(array('title', 'v.description', 'c.name'));   
             $res = sqlDAL::readSql($sql);
             $numRows = sqlDal::num_rows($res);
             sqlDAL::close($res);
