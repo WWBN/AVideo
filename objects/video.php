@@ -546,7 +546,10 @@ if (!class_exists('Video')) {
                 require_once 'userGroups.php';
                 if (!empty($video)) {
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
+                    $video['title'] = UTF8encode($video['title']);
+                    $video['description'] = UTF8encode($video['description']);
                 }
+                
             } else {
                 $video = false;
             }
