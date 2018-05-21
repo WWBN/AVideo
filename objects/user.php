@@ -331,7 +331,7 @@ class User {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified, channelName) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}')";
         }
         //echo $sql;
-        $insert_row = $global['mysqli']->query($sql);
+        $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {
             if (empty($this->id)) {
@@ -362,10 +362,12 @@ class User {
     static function getChannelOwner($channelName){
         global $global;
         $channelName = $global['mysqli']->real_escape_string($channelName);
-        $sql = "SELECT * FROM users WHERE channelName = '$channelName' LIMIT 1";
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql,"s",array($channelName));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res) {
-            $user = $res->fetch_assoc();
+            $user = $result;
         } else {
             $user = false;
         }
@@ -383,15 +385,11 @@ class User {
 
         global $global;
         if (!empty($this->id)) {
-            $sql = "DELETE FROM users WHERE id = {$this->id}";
+            $sql = "DELETE FROM users WHERE id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
   
     const USER_LOGGED = 0;
@@ -424,8 +422,8 @@ class User {
         if (empty($user_id)) {
             die('Error : setLastLogin ');
         }
-        $sql = "UPDATE users SET lastLogin = now(), modified = now() WHERE id = {$user_id}";
-        return $global['mysqli']->query($sql);
+        $sql = "UPDATE users SET lastLogin = now(), modified = now() WHERE id = ?";
+        return sqlDAL::writeSql($sql,"i",array($user_id));
     }
 
     static function logoff() {
@@ -452,7 +450,8 @@ class User {
 
     private function find($user, $pass, $mustBeactive = false, $encodedPass=false) {
         global $global;
-
+        $formats = "";
+        $values = array();
         $user = $global['mysqli']->real_escape_string($user);
         $sql = "SELECT * FROM users WHERE user = '$user' ";
 
@@ -464,13 +463,16 @@ class User {
             if (!$encodedPass || $encodedPass === 'false') {
                 $pass = md5($pass);
             }
-            $sql .= " AND password = '$pass' ";
+            $sql .= " AND password = ? ";
+            $formats = "s";
+            $values = array($pass);
         }
         $sql .= " LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
+        $res = sqlDAL::readSql($sql,$formats,$values);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res) {
-            $user = $res->fetch_assoc();
+            $user = $result;
         } else {
             $user = false;
         }
@@ -480,11 +482,12 @@ class User {
     static private function findById($id) {
         global $global;
 
-        $sql = "SELECT * FROM users WHERE id = '$id'  LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-
+        $sql = "SELECT * FROM users WHERE id = ?  LIMIT 1";
+        $res = sqlDAL::readSql($sql,"i",array($id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res) {
-            $user = $res->fetch_assoc();
+            $user = $result;
         } else {
             $user = false;
         }
@@ -496,9 +499,10 @@ class User {
 
         $sql = "SELECT * FROM users WHERE email = ?  LIMIT 1";
         $res = sqlDAL::readSql($sql,"s",array($email));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res!=false) {
-            $user = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);
+            $user = $result;
         } else {
             $user = false;
         }
@@ -580,20 +584,13 @@ class User {
         $sql = "SELECT * FROM users WHERE 1=1 ";
 
         $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
-
-       
-        //$res = $global['mysqli']->query($sql);
         $user = array();
-                 
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
-$res = sqlDAL::readSql($sql.";");
-
-        if ($res!=false) {
-        // here, we take the fetchAllAssoc-Method because we make requests in the foreach, so we need to close this.
+        $res = sqlDAL::readSql($sql.";");
         $downloadedArray = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
+        if ($res!=false) {
             foreach ($downloadedArray as $row) {
-            
                 $row['groups'] = UserGroups::getUserGroups($row['id']);
                 $row['identification'] = self::getNameIdentificationById($row['id']);
                 $row['photo'] = self::getPhoto();
@@ -604,7 +601,6 @@ $res = sqlDAL::readSql($sql.";");
                 unset($row['recoverPass']);
                 $user[] = $row;
             }
-            //$user = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $user = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -624,18 +620,18 @@ $res = sqlDAL::readSql($sql.";");
 
         $sql .= BootGrid::getSqlSearchFromPost(array('name', 'email', 'user'));
 
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $result = sqlDal::num_rows($res);
+        sqlDAL::close($res);
 
 
-        return $res->num_rows;
+        return $result;
     }
 
     static function userExists($user) {
         global $global;
         $user = $global['mysqli']->real_escape_string($user);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        //$res = $global['mysqli']->query($sql);
-        
         $res = sqlDAL::readSql($sql,"s",array($user)); 
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

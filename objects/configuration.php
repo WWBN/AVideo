@@ -53,9 +53,11 @@ class Configuration {
         global $global;
         $sql = "SELECT * FROM configurations WHERE id = 1 LIMIT 1";
         //echo $sql;exit;
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if ($res) {
-            $config = $res->fetch_assoc();
+            $config = $result;
             //var_dump($config);exit;
             foreach ($config as $key => $value) {
                 $this->$key = $value;
@@ -105,13 +107,7 @@ class Configuration {
                 . " WHERE id = 1";
 
 
-        $insert_row = $global['mysqli']->query($sql);
-
-        if ($insert_row) {
-            return true;
-        } else {
-            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        return sqlDAL::writeSql($sql);
     }
 
     function getVideo_resolution() {

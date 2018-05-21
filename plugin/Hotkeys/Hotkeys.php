@@ -19,22 +19,22 @@ class Hotkeys extends PluginAbstract {
     
     public function getHelp(){
         $obj = $this->getDataObject();
-        $html = "<h2 id='Hotkeys help' >Hotkeys</h2><p>When you are watching media, you can use these shortcuts.</p>";
-        $html .= "<p>Seek: Left/right-arrow-key</p>";
+        $html = "<h2 id='Hotkeys help' >Hotkeys</h2><p>".__("When you are watching media, you can use these keyboard-shortcuts.")."</p><table class='table'><tbody>";
+        $html .= "<tr><td>".__("Seek")."</td><td>".__("Left")."/".__("right")."-".__("arrow")."</td></tr><tr><td>";
         if($obj->ReplaceVolumeWithPlusMinus){
-            $html .= "<p>Volume: +/-</p>";
+            $html .= __("Volume")."</td><td>+/-</td></tr>";
         } else {
-            $html .= "<p>Volume: Up/Down-Arrow</p>";
+            $html .= __("Volume")."Volume</td><td>".__("Up")."/".__("Down")."-".__("Arrow")."</td></tr>";
         }
         if($obj->Fullscreen){
-            $html .= "<p>Fullscreen: ".$obj->FullscreenKey."</p>";
+            $html .= "<tr><td>".__("Fullscreen")."</td><td>".$obj->FullscreenKey."</td></tr>";
         } 
         if($obj->PlayPauseKey==" "){
-            $html .= "<p>Play/pause: space</p>";
+            $html .= "<tr><td>".__("Play")."/".__("pause")."</td><td>".__("space")."</td></tr>";
         } else {
-           $html .= "<p>Play/pause: ".$obj->PlayPauseKey."</p>"; 
+           $html .= "<tr><td>".__("Play")."/".__("pause")."</td><td>".$obj->PlayPauseKey."</td></tr>"; 
         }    
-        return $html;
+        return $html."</tbody></table>";
     }
     public function getJSFiles(){
         if(!empty($_GET['isMediaPlaySite'])){

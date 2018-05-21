@@ -754,6 +754,14 @@ if (!empty($row)) {
                                             $('#inputNextVideo-id').val("");
                                         });
                                         var grid = $("#grid").bootgrid({
+                                            labels: {
+                                                noResults: "<?php echo __("No results found!"); ?>",
+                                                all: "<?php echo __("All"); ?>",
+                                                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                                                loading: "<?php echo __("Loading..."); ?>",
+                                                refresh: "<?php echo __("Refresh"); ?>",
+                                                search: "<?php echo __("Search"); ?>",
+                                            },
                                             ajax: true,
                                             url: "<?php echo $global['webSiteRootURL'] . "videos.json"; ?>",
                                             formatters: {
@@ -770,8 +778,8 @@ if (!empty($row)) {
                                                     <?php
                                                     if(User::isAdmin()){
                                                     ?>
-                                                    var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="fa fa-star" aria-hidden="true"></i></button>';
-                                                    var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fa fa-star-o" aria-hidden="true"></i></button>';
+                                                    var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
+                                                    var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fas fa-star-half" aria-hidden="true"></i></button>';
                                                     suggestBtn = unsuggest;
                                                     if (row.isSuggested == "1") {
                                                         suggestBtn = suggest;

@@ -33,10 +33,12 @@ class UserGroups {
     static private function getUserGroupsDb($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM users_groups WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $user = $res->fetch_assoc();
+        $sql = "SELECT * FROM users_groups WHERE  id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "i", array($id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($data)) {
+            $user = $data;
         } else {
             $user = false;
         }
@@ -48,16 +50,18 @@ class UserGroups {
         if (empty($this->isAdmin)) {
             $this->isAdmin = "false";
         }
+        $formats = "";
+        $values = array();
         if (!empty($this->id)) {
-            $sql = "UPDATE users_groups SET group_name = '{$this->group_name}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE users_groups SET group_name = ?, modified = now() WHERE id = ?";
+            $formats = "si";
+            $values = array($this->group_name,$this->id);
         } else {
-            $sql = "INSERT INTO users_groups ( group_name, created, modified) VALUES ('{$this->group_name}',now(), now())";
+            $sql = "INSERT INTO users_groups ( group_name, created, modified) VALUES (?,now(), now())";
+            $formats = "s";
+            $values = array($this->group_name);
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,$formats,$values);
     }
 
     function delete() {
@@ -67,24 +71,22 @@ class UserGroups {
 
         global $global;
         if (!empty($this->id)) {
-            $sql = "DELETE FROM users_groups WHERE id = {$this->id}";
+            $sql = "DELETE FROM users_groups WHERE id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
     private function getUserGroup($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM users_groups WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $category = $res->fetch_assoc();
+        $sql = "SELECT * FROM users_groups WHERE  id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "i", array($id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($data)) {
+            $category = $data;
         } else {
             $category = false;
         }
@@ -100,10 +102,12 @@ class UserGroups {
 
         $sql .= BootGrid::getSqlFromPost(array('group_name'));
 
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $arr = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $arr[] = $row;
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);
@@ -119,11 +123,10 @@ class UserGroups {
         $sql = "SELECT id FROM users_groups WHERE 1=1  ";
 
         $sql .= BootGrid::getSqlSearchFromPost(array('group_name'));
-
-        $res = $global['mysqli']->query($sql);
-
-
-        return $res->num_rows;
+        $res = sqlDAL::readSql($sql);
+        $numRows = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+        return $numRows;
     }
 
     function getGroup_name() {
@@ -145,12 +148,10 @@ class UserGroups {
         }
         self::deleteGroupsFromUser($users_id);
         global $global;
-
+        $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES (?,?)";
         foreach ($array_groups_id as $value) {
             $value = intval($value);
-            $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES ({$users_id},{$value})";
-            //echo $sql;
-            $global['mysqli']->query($sql);
+            sqlDAL::writeSql($sql,"ii",array($users_id,$value));
         }
 
         return true;
@@ -158,8 +159,10 @@ class UserGroups {
 
     static function getUserGroups($users_id) {
         global $global;
-        $result = $global['mysqli']->query("SHOW TABLES LIKE 'users_has_users_groups'");
-        if (empty($result->num_rows)) {
+        $res = sqlDAL::readSql("SHOW TABLES LIKE 'users_has_users_groups'");
+        $result = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+        if (empty($result)) {
             $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.3</a>";
             return array();
         }
@@ -167,15 +170,15 @@ class UserGroups {
             return array();
         }
         $sql = "SELECT * FROM users_has_users_groups"
-                . " LEFT JOIN users_groups ON users_groups_id = id WHERE users_id = $users_id ";
-
-        $res = $global['mysqli']->query($sql);
+                . " LEFT JOIN users_groups ON users_groups_id = id WHERE users_id = ? ";
+        $res = sqlDAL::readSql($sql,"i",array($users_id));
+        $fullData = sqlDal::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $arr = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $arr[] = $row;
             }
-            //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $arr = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -190,15 +193,11 @@ class UserGroups {
 
         global $global;
         if (!empty($users_id)) {
-            $sql = "DELETE FROM users_has_users_groups WHERE users_id = {$users_id}";
+            $sql = "DELETE FROM users_has_users_groups WHERE users_id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($users_id));
     }
 
     // for users end
@@ -215,10 +214,10 @@ class UserGroups {
         self::deleteGroupsFromVideo($videos_id);
         global $global;
 
+        $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
         foreach ($array_groups_id as $value) {
             $value = intval($value);
-            $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES ({$videos_id},{$value})";
-            $global['mysqli']->query($sql);
+            sqlDAL::writeSql($sql,"ii",array($videos_id,$value));
         }
 
         return true;
@@ -230,7 +229,9 @@ class UserGroups {
         }
         global $global;
         //check if table exists if not you need to update
-        $res = $global['mysqli']->query('select 1 from `videos_group_view` LIMIT 1');
+        $sql = "SELECT 1 FROM `videos_group_view` LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        sqlDAL::close($res);
         if (!$res) {
             if (User::isAdmin()) {
                 $_GET['error'] = "You need to Update YouPHPTube to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
@@ -239,15 +240,15 @@ class UserGroups {
         }
 
         $sql = "SELECT * FROM videos_group_view as v "
-                . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = $videos_id ";
-
-        $res = $global['mysqli']->query($sql);
+                . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = ? ";
+        $res = sqlDAL::readSql($sql,"i",array($videos_id));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $arr = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $arr[] = $row;
             }
-            //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $arr = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -262,15 +263,11 @@ class UserGroups {
 
         global $global;
         if (!empty($videos_id)) {
-            $sql = "DELETE FROM videos_group_view WHERE videos_id = {$videos_id}";
+            $sql = "DELETE FROM videos_group_view WHERE videos_id = ?";
         } else {
             return false;
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,"i",array($videos_id));
     }
 
 }

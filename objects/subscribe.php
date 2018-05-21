@@ -55,20 +55,18 @@ class Subscribe {
         } else {
             $sql = "INSERT INTO subscribes ( users_id, email,status,ip, created, modified) VALUES ('{$this->users_id}','{$this->email}', 'a', '" . getRealIpAddr() . "',now(), now())";
         }
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql);
     }
 
     static function getSubscribe($id) {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM subscribes WHERE  id = $id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $subscribe = $res->fetch_assoc();
+        $res = sqlDAL::readSql($sql,"i",array($id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res!=false) {
+            $subscribe = $data;
         } else {
             $subscribe = false;
         }
@@ -82,9 +80,11 @@ class Subscribe {
             $sql .= " AND status = '{$status}' ";
         }
         $sql .= " LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $subscribe = $res->fetch_assoc();
+        $res = sqlDAL::readSql($sql);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res!=false) {
+            $subscribe = $data;
         } else {
             $subscribe = false;
         }
@@ -107,11 +107,13 @@ class Subscribe {
         }
         $sql .= BootGrid::getSqlFromPost(array('email'));
 
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $subscribe = array();
-        if ($res) {
+        if ($res!=false) {
             $emails = array();
-            while ($row = $res->fetch_assoc()) {
+            foreach ($fullData as $row) {
                 if(in_array($row['email'], $emails)){
                     continue;
                 }
@@ -145,12 +147,14 @@ class Subscribe {
         $user = new User($user_id);
         $email = $user->getEmail();
         
-        $sql = "SELECT s.* FROM subscribes as s WHERE email='{$email}' ";
+        $sql = "SELECT s.* FROM subscribes as s WHERE email=? ";
         
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,"s",array($email));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $subscribe = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $row['identification'] = User::getNameIdentificationById($row['users_id']);
                 if($row['identification'] === __("Unknown User")){
                     $row['identification'] = $row['email'];
@@ -176,11 +180,12 @@ class Subscribe {
         }
 
         $sql .= BootGrid::getSqlSearchFromPost(array('email'));
+        $res = sqlDAL::readSql($sql);
+        $numRows = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
 
-        $res = $global['mysqli']->query($sql);
 
-
-        return $res->num_rows;
+        return $numRows;
     }
 
     function toggle() {
