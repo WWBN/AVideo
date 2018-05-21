@@ -163,8 +163,7 @@ abstract class ObjectYPT implements ObjectInterface {
             }
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
-        //echo $sql;
-        $insert_row = $global['mysqli']->query($sql);
+        $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {
             if (empty($this->id)) {
@@ -199,10 +198,10 @@ abstract class ObjectYPT implements ObjectInterface {
         global $global;
         if (!empty($this->id)) {
             $sql = "DELETE FROM " . static::getTableName() . " ";
-            $sql .= " WHERE id = {$this->id}";
+            $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
             //error_log("Delete Query: ".$sql);
-            return $global['mysqli']->query($sql);
+            return sqlDAL::writeSql($sql,"i",array($this->id));
         }
         error_log("Id for table " . static::getTableName() . " not defined for deletion");
         return false;

@@ -107,13 +107,7 @@ class Configuration {
                 . " WHERE id = 1";
 
 
-        $insert_row = $global['mysqli']->query($sql);
-
-        if ($insert_row) {
-            return true;
-        } else {
-            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        return sqlDAL::writeSql($sql);
     }
 
     function getVideo_resolution() {
