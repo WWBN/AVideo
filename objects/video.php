@@ -714,7 +714,7 @@ if (!class_exists('Video')) {
                 $cn .= " c.clean_name as cn,";
             }
 
-            $sql = "SELECT v.users_id, v.type, v.id, c.name as category, {$cn} "
+            $sql = "SELECT v.users_id, v.type, v.id, v.title,v.description, c.name as category, {$cn} "
                     . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
@@ -749,7 +749,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
             }
-            $sql .= BootGrid::getSqlSearchFromPost(array('title', 'v.description', 'c.name'));   
+            $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name'));   
             $res = sqlDAL::readSql($sql);
             $numRows = sqlDal::num_rows($res);
             sqlDAL::close($res);
