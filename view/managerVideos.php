@@ -779,7 +779,7 @@ if (!empty($row)) {
                                                     if(User::isAdmin()){
                                                     ?>
                                                     var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
-                                                    var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fas fa-star-half" aria-hidden="true"></i></button>';
+                                                    var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="far fa-star" aria-hidden="true"></i></button>';
                                                     suggestBtn = unsuggest;
                                                     if (row.isSuggested == "1") {
                                                         suggestBtn = suggest;
