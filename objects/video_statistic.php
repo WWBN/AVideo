@@ -36,8 +36,8 @@ class VideoStatistic {
 
         $sql = "INSERT INTO videos_statistics "
                 . "(`when`,ip, users_id, videos_id) values "
-                . "(now(),?,?,?)";
-        $insert_row = sqlDAL::readSql($sql,"sii",array(getRealIpAddr(),$userId,$videos_id));
+                . "(now(),?,".$userId.",?)";
+        $insert_row = sqlDAL::readSql($sql,"si",array(getRealIpAddr(),$videos_id));
 
         if (!empty($global['mysqli']->insert_id)) {
             return $global['mysqli']->insert_id;
