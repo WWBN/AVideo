@@ -944,7 +944,12 @@ function UTF8encode($data){
         
     if(!empty($advancedCustom->utf8Encode)){
         require_once $global['systemRootPath'] . 'objects/Encoding.php';
-        return Encoding::fixUTF8($data);
+        if(mb_check_encoding($data, 'UTF-8')){
+            return Encoding::fixUTF8($data);
+        }else{
+            return Encoding::toUTF8($data);
+        }
+        
     }
     if(!empty($advancedCustom->utf8Decode)){
         return utf8_decode($data);
