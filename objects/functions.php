@@ -957,7 +957,7 @@ function UTF8encode($data){
     return $data;
 }
 
-if(function_exists("mb_check_encoding")){
+if(!function_exists("mb_check_encoding")){
     function mb_check_encoding($str, $type) {
         return (bool) preg_match('//u', $str);
     }
