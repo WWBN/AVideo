@@ -7,7 +7,6 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
-require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 if (!class_exists('Video')) {
 
     class Video {
@@ -558,7 +557,10 @@ if (!class_exists('Video')) {
                 require_once 'userGroups.php';
                 if (!empty($video)) {
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
+                    $video['title'] = UTF8encode($video['title']);
+                    $video['description'] = UTF8encode($video['description']);
                 }
+                
             } else {
                 $video = false;
             }
@@ -697,6 +699,8 @@ if (!class_exists('Video')) {
                     }
                     $row['groups'] = UserGroups::getVideoGroups($row['id']);
                     $row['tags'] = self::getTags($row['id']);
+                    $row['title'] = UTF8encode($row['title']);
+                    $row['description'] = UTF8encode($row['description']);
                     $videos[] = $row;
                 }
                 //$videos = $res->fetch_all(MYSQLI_ASSOC);

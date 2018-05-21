@@ -55,7 +55,7 @@ $statistc_last90Days = VideoStatistic::getTotalLastDays("", 90);
 
 $bg = $bc = $labels = $labelsFull = $datas = $datas7 = $datas30 = $datasToday = $datasUnique = array();
 foreach ($videos as $value) {
-    $labelsFull[] = utf8_encode($value["title"]);
+    $labelsFull[] = ($value["title"]);
     $labels[] = substr($value["title"], 0, 20);
     $datas[] = $value["statistc_all"];
     $datasToday[] = $value["statistc_today"];

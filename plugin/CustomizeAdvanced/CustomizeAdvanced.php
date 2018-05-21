@@ -49,6 +49,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableShareAndPlaylist = false;
         $obj->commentsMaxLength = 200;
         $obj->disableYoutubePlayerIntegration = false;
+        $obj->utf8Encode = false;
+        $obj->utf8Decode = false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
