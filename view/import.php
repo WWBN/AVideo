@@ -68,7 +68,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                     </div> 
                     <ul class="list-group" id="files">
                     </ul>
-                    <button class="btn btn-block btn-primary" id="addQueueBtn">Add on Queue</button>
+                    <button class="btn btn-block btn-primary" id="addQueueBtn"><?php echo __("Direct Import all"); ?></button>
 
 
                 </div>
@@ -146,6 +146,9 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                         }
 
                     });
+                    if(!importing){
+                        modal.hidePleaseWait();
+                    }
 
                 });
 
