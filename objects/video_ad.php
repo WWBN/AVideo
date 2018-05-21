@@ -87,7 +87,7 @@ class Video_ad {
                     . "'{$this->redirect}', '{$this->getFinish_max_clicks()}', '{$this->getFinish_max_prints()}', '{$this->videos_id}', '{$this->categories_id}', now(), now())";
         }
 
-        $insert_row = sqlDAL::writeSql($sql);;
+        $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {
             if (empty($this->id)) {
@@ -146,7 +146,6 @@ class Video_ad {
         }
 
         $sql .= BootGrid::getSqlFromPost(array('ad_title', 'title'), "va.");
-        //$res = $global['mysqli']->query($sql);
         $res = sqlDAL::readSql($sql,$formats,$values);
         $fullData = sqlDal::fetchAllAssoc($res);
         sqlDAL::close($res);
