@@ -940,10 +940,12 @@ function getUpdatesFilesArray() {
 }
 
 function UTF8encode($data){
-    global $advancedCustom;
+    global $advancedCustom, $global;
+    
+    require_once $global['systemRootPath'] . 'objects/Encoding.php';
     
     if(!empty($advancedCustom->utf8Encode)){
-        return utf8_encode($data);
+        return Encoding::toUTF8($data);
     }
     if(!empty($advancedCustom->utf8Decode)){
         return utf8_decode($data);
