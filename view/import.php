@@ -27,11 +27,11 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                         <i class="fas fa-question-circle"></i>
                         Here you can direct import multiple videos stored on your hard drive.<br>
                         If there is a file (html or htm or txt) we will import it's content as a description, and the first 
-                        <input type="number" id="length" value="50" style="width: 70px;" /> characteres will be the file title. (choose 0 to use the file name as the title)
+                        <input type="number" id="length" value="100" style="width: 70px;" /> characteres will be the file title. (choose 0 to use the file name as the title)
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
-                            <label><input type="checkbox" value="delete" id="delete"> <?php echo __("Delete files after submit"); ?></label>
+                            <label><input type="checkbox" value="delete" id="delete" checked="true"> <?php echo __("Delete files after submit"); ?></label>
                         </div>
                     </div>
                     <div class="form-group">
