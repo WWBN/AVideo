@@ -938,3 +938,12 @@ function getUpdatesFilesArray() {
     }
     return $updateFiles;
 }
+
+function UTF8encode($data){
+    global $advancedCustom;
+    
+    if(!empty($advancedCustom->utf8Encode)){
+        return utf8_encode($data);
+    }
+    return $data;
+}

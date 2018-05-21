@@ -685,8 +685,8 @@ if (!class_exists('Video')) {
                     }
                     $row['groups'] = UserGroups::getVideoGroups($row['id']);
                     $row['tags'] = self::getTags($row['id']);
-                    //$row['title'] = utf8_encode($row['title']);
-                    //$row['description'] = utf8_encode($row['description']);
+                    $row['title'] = UTF8encode($row['title']);
+                    $row['description'] = UTF8encode($row['description']);
                     $videos[] = $row;
                 }
                 //$videos = $res->fetch_all(MYSQLI_ASSOC);
