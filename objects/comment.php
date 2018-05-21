@@ -6,7 +6,6 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 class Comment {
     private $id;
     private $comment;
