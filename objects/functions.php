@@ -941,10 +941,9 @@ function getUpdatesFilesArray() {
 
 function UTF8encode($data){
     global $advancedCustom, $global;
-    
-    require_once $global['systemRootPath'] . 'objects/Encoding.php';
-    
+        
     if(!empty($advancedCustom->utf8Encode)){
+        require_once $global['systemRootPath'] . 'objects/Encoding.php';
         return Encoding::toUTF8($data);
     }
     if(!empty($advancedCustom->utf8Decode)){
