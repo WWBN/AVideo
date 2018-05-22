@@ -110,7 +110,7 @@ $updateFiles = getUpdatesFilesArray();
                                         </li>
                                         <?php
                                     }
-                                    if (empty($advancedCustom->doNotShowImportMP4Button)) {
+                                    if (empty($advancedCustom->doNotShowImportLocalVideosButton)) {
                                         ?>
                                         <li>
                                             <a  href="<?php echo $global['webSiteRootURL']; ?>view/import.php" >

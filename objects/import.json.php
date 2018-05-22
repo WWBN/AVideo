@@ -17,6 +17,11 @@ $obj->fileURI = pathinfo($_POST['fileURI']);
 $filename = $obj->fileURI['dirname'].DIRECTORY_SEPARATOR.$obj->fileURI['filename'];
 $extensions = array('txt', 'html', 'htm');
 
+$length = intval($_POST['length']);
+if(empty($length) || $length>100){
+    $length = 100;
+}
+
 foreach ($extensions as $value) {
     $_POST['description'] = "";
     $_POST['title'] = "";
@@ -26,7 +31,7 @@ foreach ($extensions as $value) {
         $html = str_ireplace($breaks, "\r\n", $html);
         $_POST['description'] = $html;
         $cleanHTML = strip_tags($html);
-        $_POST['title'] = substr($cleanHTML, 0, $_POST['length']);
+        $_POST['title'] = substr($cleanHTML, 0, $length);
         break;
     }
 }
