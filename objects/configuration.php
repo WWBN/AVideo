@@ -56,7 +56,7 @@ class Configuration {
         $res = sqlDAL::readSql($sql);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res) {
+        if ($res && !empty($result)) {
             $config = $result;
             //var_dump($config);exit;
             foreach ($config as $key => $value) {
