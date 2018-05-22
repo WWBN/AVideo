@@ -75,6 +75,7 @@ class Category {
             // get the category data from category and pass
             $this->name = $name;
         } else {
+            $this->id = $id;
             // get data from id
             $this->load($id);
         }
@@ -102,17 +103,15 @@ class Category {
         $this->nextVideoOrder = intval($this->nextVideoOrder);
         $this->parentId = intval($this->parentId);
         if (!empty($this->id)) {
-            $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',description = '{$this->description}',nextVideoOrder = '{$this->nextVideoOrder}',parentId = '{$this->parentId}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE categories SET name = ?,clean_name = ?,description = ?,nextVideoOrder = ?,parentId = ?,iconClass = ?, modified = now() WHERE id = ?";
             $format = "sssiisi";
             $values = array($this->name,$this->clean_name,$this->description,$this->nextVideoOrder,$this->parentId,$this->getIconClass(),$this->id);
         } else {
-            $sql = "INSERT INTO categories ( name,clean_name,description,nextVideoOrder,parentId,iconClass, created, modified) VALUES ('{$this->name}', '{$this->clean_name}','{$this->description}','{$this->nextVideoOrder}','{$this->parentId}', '{$this->getIconClass()}',now(), now())";
+            $sql = "INSERT INTO categories ( name,clean_name,description,nextVideoOrder,parentId,iconClass, created, modified) VALUES (?, ?,?,?,?,?,now(), now())";
             $format = "sssiis";
             $values = array($this->name,$this->clean_name,$this->description,$this->nextVideoOrder,$this->parentId,$this->getIconClass());
         }
-        //$insert_row = sqlDAL::writeSql($sql,$format,$values);
-        $insert_row = $global['mysqli']->query($sql);
-
+        $insert_row = sqlDAL::writeSql($sql,$format,$values);
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
