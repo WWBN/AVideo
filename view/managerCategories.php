@@ -263,7 +263,7 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
                         data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#inputDescription').val(),"nextVideoOrder": $('#inputNextVideoOrder').val(),"parentId": $('#inputParentId').val(),"type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
                         type: 'post',
                         success: function (response) {
-                            if (response.status === "1") {
+                            if (response.status) {
                                 $('#categoryFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
                                 swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been saved!"); ?>", "success");
