@@ -21,6 +21,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj = new stdClass();
         $obj->doNotShowUploadMP4Button = true;
         $obj->doNotShowImportMP4Button = false;
+        $obj->doNotShowImportLocalVideosButton = false;
         $obj->doNotShowEncoderButton = false;
         $obj->doNotShowEmbedButton = false;
         $obj->doNotShowEncoderResolutionLow = false;
