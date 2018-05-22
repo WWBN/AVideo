@@ -11,6 +11,7 @@ if (!User::isAdmin()) {
 }
 
 require_once 'category.php';
+
 $obj = new Category(@$_POST['id']);
 $obj->setName($_POST['name']);
 $obj->setClean_name($_POST['clean_name']);
@@ -18,5 +19,7 @@ $obj->setDescription(nl2br ($_POST['description']));
 $obj->setIconClass($_POST['iconClass']);
 $obj->setNextVideoOrder($_POST['nextVideoOrder']);
 $obj->setParentId($_POST['parentId']);
+$id = $obj->save();
+$obj = new Category($id);
 $obj->setType($_POST['type']);
 echo '{"status":"'.$obj->save().'"}';

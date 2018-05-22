@@ -81,9 +81,13 @@ class Category {
     }
 
     private function load($id) {
-        $category = self::getCategory($id);
-        $this->id = $category['id'];
-        $this->name = $category['name'];
+        $row = self::getCategory($id);
+        if (empty($row))
+            return false;
+        foreach ($row as $key => $value) {
+            $this->$key = $value;
+        }
+        return true;
     }
 
     function loadSelfCategory() {
@@ -95,6 +99,8 @@ class Category {
         if (empty($this->isAdmin)) {
             $this->isAdmin = "false";
         }
+        $this->nextVideoOrder = intval($this->nextVideoOrder);
+        $this->parentId = intval($this->parentId);
         if (!empty($this->id)) {
             $sql = "UPDATE categories SET name = '{$this->name}',clean_name = '{$this->clean_name}',description = '{$this->description}',nextVideoOrder = '{$this->nextVideoOrder}',parentId = '{$this->parentId}',iconClass = '{$this->getIconClass()}', modified = now() WHERE id = {$this->id}";
             $format = "sssiisi";
@@ -104,11 +110,19 @@ class Category {
             $format = "sssiis";
             $values = array($this->name,$this->clean_name,$this->description,$this->nextVideoOrder,$this->parentId,$this->getIconClass());
         }
-        
-        if (!sqlDAL::writeSql($sql,$format,$values)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error." SQL-CMD: ".$sql);
+        //$insert_row = sqlDAL::writeSql($sql,$format,$values);
+        $insert_row = $global['mysqli']->query($sql);
+
+        if ($insert_row) {
+            if (empty($this->id)) {
+                $id = $global['mysqli']->insert_id;
+            } else {
+                $id = $this->id;
+            }
+            return $id;
+        } else {
+            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        return true;
     }
 
     function delete() {
