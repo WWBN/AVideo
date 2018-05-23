@@ -7,11 +7,11 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 class Comment {
-    private $id;
-    private $comment;
-    private $videos_id;
-    private $users_id;
-    private $comments_id_pai;
+    protected $id;
+    protected $comment;
+    protected $videos_id;
+    protected $users_id;
+    protected $comments_id_pai;
 
     function __construct($comment, $videos_id, $id = 0) {
         if (empty($id)) {
@@ -47,11 +47,13 @@ class Comment {
     }
     
     private function load($id) {
-        $comment = $this->getComment($id);
-        $this->id = $comment['id'];
-        $this->comment = $comment['comment'];
-        $this->videos_id = $comment['videos_id'];
-        $this->users_id = $comment['users_id'];
+        $row = $this->getComment($id);
+        if (empty($row))
+            return false;
+        foreach ($row as $key => $value) {
+            $this->$key = $value;
+        }
+        return true;
     }
 
     function save() {
@@ -140,7 +142,7 @@ class Comment {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM comments WHERE  id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"i",array($id));
+        $res = sqlDAL::readSql($sql,"i",array($id), true);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return ($res!=false) ? $result : false;
