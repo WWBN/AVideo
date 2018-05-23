@@ -73,6 +73,7 @@ class sqlDAL {
     static function readSql($preparedStatement, $formats = "", $values = array(),$refreshCache=false) {
         global $global, $disableMysqlNdMethods, $readSqlCached;
         $crc = md5($preparedStatement.implode($values));
+        
         if(empty($readSqlCached)){
             $readSqlCached = array();
         }
@@ -105,7 +106,6 @@ class sqlDAL {
             if($readSqlCached[$crc]=="false"){
                 return false;
             }
-            return $readSqlCached[$crc];
         } else {
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
                 log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
@@ -123,9 +123,13 @@ class sqlDAL {
                 log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error.", SQL-CMD:".$preparedStatement);
                 $stmt->close();
                 $readSqlCached[$crc] =  false;
-                return $readSqlCached[$crc];
+            }else{
+                $readSqlCached[$crc] = $result;
             }
-            $readSqlCached[$crc] = $result;
+        }
+        // add this in case the cache fail
+        if(is_null($readSqlCached[$crc]->lengths) && !$refreshCache){
+            return self::readSql($preparedStatement, $formats, $values,true);
         }
         return $readSqlCached[$crc];
     }
