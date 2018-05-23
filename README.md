@@ -71,6 +71,23 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
+# Version 5.3
+- User now can Verify Emails and Choose the Channel Name
+
+# Version 5.2
+- Subscribers now can choose to not be notified from new videos (Need the Notification Plugin)
+
+# Version 5.01
+- Category now can have a parent category
+
+# Version 5.0
+- Allow Download and disable youtubeupload on configuration menu
+- Category Description
+- Category Next Video Order
+
+# Version 4.9
+- Increase SMTP fields space to be able to store largers passwords
+
 # Version 4.8
 - Add preferred videos that will randomly appear on first page
 
