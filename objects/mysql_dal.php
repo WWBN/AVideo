@@ -41,7 +41,7 @@ class sqlDAL {
     * @param array  $values             A array, containing the values for the prepared statement.
     * @return boolean                   true on success, false on fail
     */
-    function writeSql($preparedStatement, $formats = "", $values = array()) {
+    static function writeSql($preparedStatement, $formats = "", $values = array()) {
         global $global, $disableMysqlNdMethods;
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))){
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error."<br>\n{$preparedStatement}");
