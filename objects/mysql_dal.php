@@ -129,6 +129,7 @@ class sqlDAL {
         }
         // add this in case the cache fail
         if(is_null($readSqlCached[$crc]->lengths) && !$refreshCache){
+            $_SESSION['savedQuerys']--;
             return self::readSql($preparedStatement, $formats, $values,true);
         }
         return $readSqlCached[$crc];
