@@ -108,6 +108,7 @@ if($resp === User::USER_NOT_VERIFIED){
     $object->error = __("Your user is not verified, we sent you a new e-mail");
     die(json_encode($object));
 }
+$object->siteLogo = $global['webSiteRootURL'].$config->getLogo();
 $object->id = User::getId();
 $object->user = User::getUserName();
 $object->pass = User::getUserPass();
