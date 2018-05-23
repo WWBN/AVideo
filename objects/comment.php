@@ -26,6 +26,11 @@ class Comment {
 
     }
     
+    function getId() {
+        return $this->id;
+    }
+
+        
     function setComments_id_pai($comments_id_pai) {
         $this->comments_id_pai = $comments_id_pai;
     }
