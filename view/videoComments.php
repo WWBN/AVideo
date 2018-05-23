@@ -71,7 +71,7 @@ if (User::canSeeCommentTextarea()) {
         </div>
         <div style="padding-left: 50px;">
             <div class="input-group formRepy" style="display: none;">
-                <textarea class="form-control custom-control" rows="2" style="resize:none" maxlength="200" ></textarea>
+                <textarea class="form-control custom-control" rows="2" style="resize:none" maxlength="<?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>" ></textarea>
 
                 <span class="input-group-addon btn btn-success saveReplyBtn">
                     <span class="glyphicon glyphicon-comment"></span> <?php echo __("Reply"); ?>
