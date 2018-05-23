@@ -8,9 +8,6 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once dirname(__FILE__) . '/Objects/LiveChatObj.php';
 require_once dirname(__FILE__) . '/../YouPHPTubePlugin.php';
 
-$p = \YouPHPTubePlugin::loadPlugin("LiveChat");
-$canSendMessage = $p->canSendMessage();
-
 class Chat implements MessageComponentInterface {
     protected $clients;
 
@@ -25,7 +22,8 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        global $canSendMessage;
+        $p = \YouPHPTubePlugin::loadPlugin("LiveChat");
+        $canSendMessage = $p->canSendMessage($object->userId);
         if(empty($canSendMessage)){
             echo "Cant Send message\n";
             //return false;
