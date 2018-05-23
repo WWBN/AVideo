@@ -525,7 +525,7 @@ class User {
     static private function getUserDbFromUser($user) {
         global $global;
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"s",array($user));
+        $res = sqlDAL::readSql($sql,"s",array($user), true);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user!=false) {
