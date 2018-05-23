@@ -50,9 +50,9 @@ class LiveChat extends PluginAbstract{
         return array('free', 'live', 'streaming', 'live stream', 'chat');
     }
     
-    public function canSendMessage(){
+    public function canSendMessage($isLogged=false){
         $obj = $this->getDataObject();
-        if(empty($obj->onlyForLoggedUsers) || User::isLogged()){
+        if(empty($obj->onlyForLoggedUsers) || (User::isLogged() || $isLogged)){
             return true;
         }
         return false;
