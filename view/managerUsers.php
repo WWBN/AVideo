@@ -198,7 +198,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         for (var index in row.groups) {
                             $('#userGroup' + row.groups[index].id).prop('checked', true);
                         }
-                        $('#isAdmin').prop('checked', (row.isAdmin === "1" ? true : false));
+                        $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
                         $('#canStream').prop('checked', (row.canStream === "1" ? true : false));
                         $('#canUpload').prop('checked', (row.canUpload === "1" ? true : false));
                         $('#status').prop('checked', (row.status === "a" ? true : false));
