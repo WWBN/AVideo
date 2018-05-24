@@ -1,11 +1,12 @@
 <?php
-require_once './plugin.php';
+global $global; // because it's not set in configuration.php
 if(empty($global['systemRootPath'])){
     $global['systemRootPath'] = "../";
 }
 require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
+
 $row = Plugin::getAvailablePlugins();
 $total = count($row);
 
