@@ -82,7 +82,13 @@ class sqlDAL {
             $readSqlCached = array();
         }
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
+            
+            // Mysqlnd enabled
+            
             if ((!isset($readSqlCached[$crc])) || ($refreshCache)) {
+                
+                // When not cached
+                
                 $readSqlCached[$crc] = "false";
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                     log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
@@ -101,19 +107,28 @@ class sqlDAL {
                 }
                 $stmt->close();
             } else {
+                // When cached
+                
                 // this solves objects/video.php line 550
                 $readSqlCached[$crc]->data_seek(0);
-                //log_error("save query");
-                // activate this line, to see how many querys can be saved
-                // echo "saved query!";
                 if (isset($_SESSION['savedQuerys'])) {
                     $_SESSION['savedQuerys'] ++;
                 }
             }
+            
+            //
             if ($readSqlCached[$crc] == "false") {
-                return false;
+                // add this in case the cache fail 
+                // ->lenghts seems to be always NULL.. maybe-fix: $readSqlCached[$crc]->data_seek(0); above
+                //if (is_null($readSqlCached[$crc]->lengths) && !$refreshCache) {
+                    // disabled for testing.
+                  //  return self::readSql($preparedStatement, $formats, $values, true);
+                //}
             }
         } else {
+            
+            // Mysqlnd-fallback
+            
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                 log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
                 exit;
@@ -135,12 +150,7 @@ class sqlDAL {
             }
         }
         
-        // add this in case the cache fail 
-        // ->lenghts seems to be always NULL.. maybe-fix: $readSqlCached[$crc]->data_seek(0); above
-        if (is_null($readSqlCached[$crc]->lengths) && !$refreshCache) {
-            // disabled for testing.
-            //return self::readSql($preparedStatement, $formats, $values, true);
-        }
+
         return $readSqlCached[$crc];
     }
 
