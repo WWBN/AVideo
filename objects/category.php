@@ -187,6 +187,9 @@ class Category {
         if(!empty($_GET['parentsOnly'])){
             $sql .= "AND parentId = 0 ";
         }
+        if(isset($_POST['sort']['title'])){
+            unset($_POST['sort']['title']);
+        }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
         $res = sqlDAL::readSql($sql); 
         $fullResult = sqlDAL::fetchAllAssoc($res);
@@ -211,7 +214,7 @@ class Category {
         }
         $sql = "SELECT * FROM categories WHERE parentId=? AND id!=? ";         
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
-        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId),true); 
+        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId)); 
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $category = array();
