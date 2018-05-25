@@ -616,6 +616,7 @@ unset($_SESSION['type']);
             // $catCount = $global['mysqli']->query("SELECT COUNT(name) FROM categories WHERE parentId = 0 OR parentId = -1;");
             
             $_GET['parentsOnly'] = "1";
+            $liteGalleryCategory = Category::getAllCategories();
             ?>
         <script>
     		  setTimeout(function(){ document.getElementById('mainContainer').style="display: block;";document.getElementById('loading').style="display: none;" }, 1000);
@@ -633,7 +634,7 @@ unset($_SESSION['type']);
             $audioReplacePicture;
             // $_POST['rowCount'] = 12;
             
-            foreach ($category as $cat) {
+            foreach ($liteGalleryCategory as $cat) {
                 unset($_POST['sort']);
                 $catType = Category::getCategoryType($cat['id']);
                 $description = str_ireplace(array("<br />","<br>","<br/>"),"\r\n", $cat['description']);
