@@ -644,7 +644,11 @@ if (!class_exists('Video')) {
             }
 
             if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+                if(User::isLogged()){
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus()) . "') OR (v.status='u' AND v.users_id ='".User::getId()."'))";
+                }else{
+                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+                }
                 if ($status == "viewableNotAd") {
                     $sql .= " having videoAdsCount = 0 ";
                 } elseif ($status == "viewableAd") {
@@ -787,12 +791,19 @@ if (!class_exists('Video')) {
               e = encoding
               x = encoding error
               d = downloading
+              u = unlisted
               xmp4 = encoding mp4 error
               xwebm = encoding webm error
               xmp3 = encoding mp3 error
               xogg = encoding ogg error
              */
-            return array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
+            $viewable = array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
+            if(!empty($_GET['videoName'])){
+                if(self::isOwnerFromCleanTitle($_GET['videoName']) || User::isAdmin()){
+                    $viewable[]="u";
+                }
+            }
+            return $viewable;
         }
 
         static function getVideoConversionStatus($filename) {
@@ -1205,8 +1216,14 @@ if (!class_exists('Video')) {
                 $obj = new stdClass();
                 $obj->label = __("Group");
                 if (empty($groups)) {
-                    $obj->type = "success";
-                    $obj->text = __("Public");
+                    $status = $video->getStatus();
+                    if($status=='u'){                        
+                        $obj->type = "info";
+                        $obj->text = __("Unlisted");
+                    }else{
+                        $obj->type = "success";
+                        $obj->text = __("Public");
+                    }
                     $tags[] = $obj;
                 } else {
                     foreach ($groups as $value) {
@@ -1301,6 +1318,12 @@ if (!class_exists('Video')) {
                 }
             }
             return false;
+        }
+        
+        static function isOwnerFromCleanTitle($clean_title, $users_id=0) {
+            global $global;
+            $video = self::getVideoFromCleanTitle($clean_title);
+            return self::isOwner($video['id'], $users_id);
         }
 
         /**
