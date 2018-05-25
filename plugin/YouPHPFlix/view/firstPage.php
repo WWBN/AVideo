@@ -31,6 +31,7 @@ unset($_SESSION['type']);
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
             var pageDots = <?php echo empty($o->pageDots) ? "false" : "true"; ?>;
+            var forceCatLinks = <?php if($o->ForceCategoryLinks){ echo "true"; } else { echo "false"; } ?>;
         </script>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css" />
@@ -198,7 +199,7 @@ unset($_SESSION['type']);
 							<div class="videoInfo">
 								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
-                                <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                                <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                             <?php if ($config->getAllow_download()) { 
                                             $ext = ".mp4";
                                             if($value['type']=="audio"){
@@ -290,7 +291,7 @@ unset($_SESSION['type']);
 							<div class="videoInfo">
 								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
-                                <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category'];?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                                <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category'];?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                             <?php if ($config->getAllow_download()) { 
                                             $ext = ".mp4";
                                             if($value['type']=="audio"){
@@ -367,7 +368,7 @@ unset($_SESSION['type']);
                                     <div class="videoInfo">
                                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                         <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
-                                        <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" .$value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                                        <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" .$value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                                     <?php if ($config->getAllow_download()) { 
                                             $ext = ".mp4";
                                             if($value['type']=="audio"){
@@ -449,7 +450,7 @@ unset($_SESSION['type']);
 							<div class="videoInfo">
 								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
-                                <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                                <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                             <?php if ($config->getAllow_download()) { 
                                             $ext = ".mp4";
                                             if($value['type']=="audio"){
@@ -560,7 +561,7 @@ unset($_SESSION['type']);
 							<div class="videoInfo">
 								<span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span> 
                                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
-                                <span class="label label-success"><a style="color: inherit;" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+                                <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
                                                             <?php if ($config->getAllow_download()) { 
                                             $ext = ".mp4";
                                             if($value['type']=="audio"){

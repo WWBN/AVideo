@@ -33,6 +33,7 @@ class YouPHPFlix extends PluginAbstract {
         $obj->SortByName = false;
         $obj->separateAudio = false;
         $obj->SubCategorys = false;
+        $obj->ForceCategoryLinks = false;
         return $obj;
     }
     
