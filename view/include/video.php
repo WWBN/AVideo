@@ -144,6 +144,7 @@ if (!empty($logId)){
             $('#adButton').click(function () {
                 isPlayingAd = false;
                 console.log("Change Video");
+                mediaId = <?php echo $video['id']; ?>;
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
                 changeVideoSrc(player, <?php echo json_encode($sources); ?>);
                 addView(<?php echo $video['id']; ?>);
