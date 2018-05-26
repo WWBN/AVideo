@@ -71,7 +71,11 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 <!--/row-->
 <script>
     <?php $_GET['isMediaPlaySite'] = $playNowVideo['id']; ?>
-    var mediaId = <?php echo $playNowVideo['id']; ?>;
+    <?php if (!empty($ad)) { ?>
+        var mediaId = <?php echo $ad['videos_id']; ?>;
+    <?php } else { ?>
+        var mediaId = <?php echo $playNowVideo['id']; ?>;
+    <?php } ?>
     var player;
     $(document).ready(function () {
     <?php if (!$config->getAllow_download()) { ?>
