@@ -66,7 +66,7 @@ if (User::canSeeCommentTextarea()) {
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </button> 
             <button class="btn btn-default no-outline btn-xs pull-right edit userCanAdminComment"> 
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <i class="fas fa-edit" aria-hidden="true"></i>
             </button> 
         </div>
         <div style="padding-left: 50px;">

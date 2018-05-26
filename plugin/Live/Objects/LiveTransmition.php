@@ -136,7 +136,7 @@ class LiveTransmition extends ObjectYPT {
         global $global;
         $userName = $global['mysqli']->real_escape_string($userName);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"s",array($userName)); 
+        $res = sqlDAL::readSql($sql,"s",array($userName), true); 
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res!=false) {
