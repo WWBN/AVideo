@@ -71,6 +71,15 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
+# Coming version
+- Wavesurfer-visualisation for audio
+- Add dynamic /help-page (also usefull for admins)
+- Embeded videos from youtube are in a native player now (allow plugins for it)
+- New options in advancedcustomised-plugin (minify js, disable add + share-button, disable the above player)
+- Backend-work and tons of fixes for it
+- Better translations (de,es,us,tr)
+- Import videos from filesystem
+
 # Version 5.3
 - User now can Verify Emails and Choose the Channel Name
 
@@ -78,7 +87,9 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - Subscribers now can choose to not be notified from new videos (Need the Notification Plugin)
 
 # Version 5.01
-- Category now can have a parent category
+- Category now can have a parent category (enables subcategories)
+- Direct upload and various plugins supports audio
+- Type for categories
 
 # Version 5.0
 - Allow Download and disable youtubeupload on configuration menu
