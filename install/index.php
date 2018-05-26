@@ -215,6 +215,8 @@ require_once '../objects/functions.php';
                                 <select class="selectpicker" data-width="fit" id="mainLanguage">
                                     <option data-content='<span class="flag-icon flag-icon-us"></span> English' value="en">English</option>
                                     <option  data-content='<span class="flag-icon flag-icon-es"></span> Spanish' value="es">Spanish</option>
+                                    <option  data-content='<span class="flag-icon flag-icon-es"></span> Spanish' value="de">German</option>
+                                    <option  data-content='<span class="flag-icon flag-icon-es"></span> Spanish' value="tr">Turkish</option>
                                     <option  data-content='<span class="flag-icon flag-icon-fr"></span> French' value="fr">French</option>
                                     <option  data-content='<span class="flag-icon flag-icon-br"></span> Brazilian Portuguese' value="pt_BR">Brazilian Portuguese</option>
                                 </select>
