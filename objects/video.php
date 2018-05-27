@@ -278,7 +278,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-                $res = sqlDAL::readSql($sql,"i",array($catId),true);
+                $res = sqlDAL::readSql($sql,"i",array($catId));
                 $exist = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
                 $sqlType = 99;
@@ -545,13 +545,16 @@ if (!class_exists('Video')) {
            // echo $sql."<br />";
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
-            // to fix the bug null
-            if(is_null($video)){
+            sqlDAL::close($res);
+            // to fix the bug null // should be fixed, but is still catched, when the sql-result is empty anyway - so prevent doing it double.
+            /*if(is_null($video)){
+                log_error("need to re-get the video ".$id." ".$status);
                 $res = sqlDAL::readSql($sql, "", array(),true);
                 $video = sqlDAL::fetchAssoc($res);
-            }
+                sqlDAL::close($res);
+            }*/
             
-            sqlDAL::close($res);
+            
             if ($res!=false) {
 
                 require_once 'userGroups.php';
