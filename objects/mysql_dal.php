@@ -118,14 +118,21 @@ class sqlDAL {
             }
             
             //
-            if ($readSqlCached[$crc] == "false") {
+           // if ($readSqlCached[$crc] == "false") {
                 // add this in case the cache fail 
                 // ->lenghts seems to be always NULL.. fix: $readSqlCached[$crc]->data_seek(0); above
-                //if (is_null($readSqlCached[$crc]->lengths) && !$refreshCache) {
-                    // disabled for testing.
-                  //  return self::readSql($preparedStatement, $formats, $values, true);
+                //if("SELECT * FROM configurations WHERE id = 1 LIMIT 1"==$preparedStatement){
+                  //  var_dump($readSqlCached[$crc]);
                 //}
+            if ($readSqlCached[$crc] != "false") {   
+                if (is_null($readSqlCached[$crc]->lengths) && !$refreshCache && $readSqlCached[$crc]->num_rows==0 && $readSqlCached[$crc]->field_count==0) {
+                    log_error("[sqlDAL::readSql] (mysqlnd) Something was going wrong, re-get the query. <br>\r\n{$preparedStatement} {$readSqlCached[$crc]->num_rows}");
+                    return self::readSql($preparedStatement, $formats, $values, true);
+                }
+            }  else {
+                $readSqlCached[$crc] = false;
             }
+           // }
         } else {
             
             // Mysqlnd-fallback
