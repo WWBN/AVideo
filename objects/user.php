@@ -512,8 +512,8 @@ class User {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
-        // I had to uncache this quere because it was returning an empty user
-        $res = sqlDAL::readSql($sql,"i",array($id), true);  
+        // I had to uncache this quere because it was returning an empty user // should be fixed
+        $res = sqlDAL::readSql($sql,"i",array($id));  
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user!=false) {
@@ -525,7 +525,7 @@ class User {
     static private function getUserDbFromUser($user) {
         global $global;
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"s",array($user), true);
+        $res = sqlDAL::readSql($sql,"s",array($user));
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user!=false) {

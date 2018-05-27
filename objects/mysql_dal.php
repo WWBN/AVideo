@@ -47,7 +47,7 @@ class sqlDAL {
         global $global, $disableMysqlNdMethods;
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
-            return false;
+            exit;
         }
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
             log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
@@ -57,7 +57,7 @@ class sqlDAL {
         if ($stmt->errno != 0) {
             log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
             $stmt->close();
-            return false;
+            exit;
         }
         $stmt->close();
         return true;
@@ -72,9 +72,9 @@ class sqlDAL {
      */
 
     static function readSql($preparedStatement, $formats = "", $values = array(), $refreshCache = false) {
-        $refreshCache = false;
+        // $refreshCache = true;
         global $global, $disableMysqlNdMethods, $readSqlCached, $crc;
-        $crc = md5($preparedStatement . implode($values));
+        $crc = crc32($preparedStatement . implode($values));
 
         if (!isset($readSqlCached)) {
             $readSqlCached = array();

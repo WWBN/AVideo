@@ -151,6 +151,7 @@ if (!class_exists('Video')) {
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
                     $this->id = $id;
+                    log_error($id);
                 } else {
                     $id = $this->id;
                 }
@@ -159,7 +160,7 @@ if (!class_exists('Video')) {
                     // update the user groups
                     UserGroups::updateVideoGroups($id, $this->videoGroups);
                 }
-                Video::autosetCategoryType($this->categories_id);
+                Video::autosetCategoryType($id);
                 if (!empty($this->old_categories_id)) {
                     Video::autosetCategoryType($this->old_categories_id);
                 }
@@ -291,7 +292,7 @@ if (!class_exists('Video')) {
                 }
                 $values = array();
                 if(empty($exist)){
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
+                    $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
                     $values = array($catId,$sqlType);
                 } else {
                     $sql = "UPDATE `category_type_cache` SET `type` = ? WHERE `category_type_cache`.`categoryId` = ?;";
