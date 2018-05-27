@@ -63,7 +63,7 @@ class PlayList extends ObjectYPT {
                 . " WHERE playlists_id = ? ORDER BY p.`order` ASC ";
 
         $sql .= self::getSqlFromPost();
-        $res = sqlDAL::readSql($sql,"i",array($playlists_id),true);
+        $res = sqlDAL::readSql($sql,"i",array($playlists_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();

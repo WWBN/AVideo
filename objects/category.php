@@ -44,21 +44,14 @@ class Category {
         if($catTypeCache!=false){
             $exist = true;
         }
-
+        
         if($type=="3"){ 
             // auto-cat-type
-            if($exist){
-                $sql = "UPDATE `category_type_cache` SET `manualSet` = '0' WHERE `category_type_cache`.`categoryId` = ?";
-            } else {
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?, '0','0')";
-            }
-            sqlDAL::writeSql($sql,"i",array($this->id));
             Video::autosetCategoryType($this->id);
         } else {
             if($exist){
                 $sql = "UPDATE `category_type_cache` SET `type` = ?, `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = ?;";
                 sqlDAL::writeSql($sql,"si",array($type,$this->id));
-
             } else {
                 $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?,?,'1')";
                 sqlDAL::writeSql($sql,"is",array($this->id,$type));
