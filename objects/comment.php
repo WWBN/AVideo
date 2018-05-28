@@ -147,7 +147,7 @@ class Comment {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM comments WHERE  id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"i",array($id), true);
+        $res = sqlDAL::readSql($sql,"i",array($id));
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return ($res!=false) ? $result : false;

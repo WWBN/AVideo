@@ -47,19 +47,17 @@ class sqlDAL {
         global $global, $disableMysqlNdMethods;
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
-            return false;
+            exit;
         }
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
             log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
             exit;
         }
-        //var_dump($stmt);
-        $suc = $stmt->execute();
-        //var_dump($stmt);
+        $stmt->execute();
         if ($stmt->errno != 0) {
             log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
             $stmt->close();
-            return false;
+            exit;
         }
         $stmt->close();
         return true;
@@ -74,14 +72,21 @@ class sqlDAL {
      */
 
     static function readSql($preparedStatement, $formats = "", $values = array(), $refreshCache = false) {
-        global $global, $disableMysqlNdMethods, $readSqlCached;
-        $crc = md5($preparedStatement . implode($values));
+        // $refreshCache = true;
+        global $global, $disableMysqlNdMethods, $readSqlCached, $crc;
+        $crc = crc32($preparedStatement . implode($values));
 
-        if (empty($readSqlCached)) {
+        if (!isset($readSqlCached)) {
             $readSqlCached = array();
         }
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
-            if ((empty($readSqlCached[$crc])) || ($refreshCache)) {
+            
+            // Mysqlnd enabled
+            
+            if ((!isset($readSqlCached[$crc])) || ($refreshCache)) {
+                
+                // When not cached
+                
                 $readSqlCached[$crc] = "false";
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                     log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
@@ -96,20 +101,42 @@ class sqlDAL {
                 if ($stmt->errno != 0) {
                     log_error('Error in readSql (mysqlnd): (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
                     $stmt->close();
-                    return false;
+                    exit;
                 }
                 $stmt->close();
             } else {
-                // activate this line, to see how many querys can be saved
-                // echo "saved query!";
+                
+                // When cached
+                
+                // reset the stmt for fetch. this solves objects/video.php line 550
+                $readSqlCached[$crc]->data_seek(0);
+                //log_error("set dataseek to 0");
+                // increase a counter for the saved queries.
                 if (isset($_SESSION['savedQuerys'])) {
                     $_SESSION['savedQuerys'] ++;
                 }
             }
-            if ($readSqlCached[$crc] == "false") {
-                return false;
+            
+            //
+           // if ($readSqlCached[$crc] == "false") {
+                // add this in case the cache fail 
+                // ->lenghts seems to be always NULL.. fix: $readSqlCached[$crc]->data_seek(0); above
+                //if("SELECT * FROM configurations WHERE id = 1 LIMIT 1"==$preparedStatement){
+                  //  var_dump($readSqlCached[$crc]);
+                //}
+            if ($readSqlCached[$crc] != "false") {   
+                if (is_null($readSqlCached[$crc]->lengths) && !$refreshCache && $readSqlCached[$crc]->num_rows==0 && $readSqlCached[$crc]->field_count==0) {
+                    log_error("[sqlDAL::readSql] (mysqlnd) Something was going wrong, re-get the query. <br>\r\n{$preparedStatement} {$readSqlCached[$crc]->num_rows}");
+                    return self::readSql($preparedStatement, $formats, $values, true);
+                }
+            }  else {
+                $readSqlCached[$crc] = false;
             }
+           // }
         } else {
+            
+            // Mysqlnd-fallback
+            
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                 log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
                 exit;
@@ -129,10 +156,6 @@ class sqlDAL {
             } else {
                 $readSqlCached[$crc] = $result;
             }
-        }
-        // add this in case the cache fail
-        if (is_null($readSqlCached[$crc]->lengths) && !$refreshCache) {
-            return self::readSql($preparedStatement, $formats, $values, true);
         }
         return $readSqlCached[$crc];
     }
@@ -156,21 +179,28 @@ class sqlDAL {
      */
 
     static function num_rows($res) {
-        global $global, $disableMysqlNdMethods;
-        if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
-            if (!$res) {
-                return 0;
-            }
-            return $res->num_rows;
-        } else {
-            $i = 0;
-            while ($row = self::fetchAssoc($res)) {
-                $i++;
-            }
-            return $i;
+        global $global,$disableMysqlNdMethods,$crc,$num_row_cache;
+        if(!isset($num_row_cache)){
+            $num_row_cache=array();
         }
+        // cache is working - but disable for proper test-results
+        if(!isset($num_row_cache[$crc])){
+            if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
+                // Mysqlnd
+                if (!$res) {
+                    $num_row_cache[$crc] = 0;
+                }
+                $num_row_cache[$crc] = $res->num_rows;
+                return $num_row_cache[$crc];
+            } else {
+                // Mysqlnd-fallback - use fetchAllAssoc because this can be cached.
+                $num_row_cache[$crc] = sizeof(self::fetchAllAssoc($res));
+            }
+        }
+        return $num_row_cache[$crc];
     }
 
+    // unused
     static function cached_num_rows($data) {
         return sizeof($data);
     }
@@ -182,11 +212,18 @@ class sqlDAL {
      */
 
     static function fetchAllAssoc($result) {
-        $ret = array();
-        while ($row = self::fetchAssoc($result)) {
-            $ret[] = $row;
+        global $crc,$fetchAllAssoc_cache;
+        if(!isset($fetchAllAssoc_cache)){
+               $fetchAllAssoc_cache = array();
         }
-        return $ret;
+        if(!isset($fetchAllAssoc_cache[$crc])){
+            $ret = array();
+            while ($row = self::fetchAssoc($result)) {
+                $ret[] = $row;
+            }
+            $fetchAllAssoc_cache[$crc] = $ret;
+        }
+        return $fetchAllAssoc_cache[$crc];
     }
 
     /*
@@ -197,6 +234,7 @@ class sqlDAL {
 
     static function fetchAssoc($result) {
         global $global, $disableMysqlNdMethods;
+        // here, a cache is more/too difficult, because fetch gives always a next. with this kind of cache, we would give always the same.
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
             if ($result != false) {
                 return $result->fetch_assoc();
@@ -214,11 +252,21 @@ class sqlDAL {
      */
 
     static function fetchAllArray($result) {
-        $ret = array();
-        while ($row = self::fetchArray($result)) {
-            $ret[] = $row;
+        global $crc,$fetchAllArray_cache;
+        if(!isset($fetchAllArray_cache)){
+           $fetchAllArray_cache = array();
         }
-        return $ret;
+        // cache is working - but disable for proper test-results
+        if(!isset($fetchAllArray_cache[$crc])){
+            $ret = array();
+            while ($row = self::fetchArray($result)) {
+                $ret[] = $row;
+            }
+            $fetchAllArray_cache[$crc] = $ret;
+        } else {
+            log_error("array-cache");
+        }
+        return $fetchAllArray_cache[$crc];
     }
 
     /*

@@ -121,10 +121,10 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             createGallery(__("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC");
                         } 
                         if ($obj->MostWatched) {
-                            createGallery(__("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Lessest"), $orderString, "DESC");
+                            createGallery(__("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
                         if ($obj->MostPopular) {
-                            createGallery(__("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Lessest"), $orderString, "DESC");
+                            createGallery(__("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
                         if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
                             require_once $global['systemRootPath'] . 'objects/subscribe.php';

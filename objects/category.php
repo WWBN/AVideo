@@ -44,21 +44,14 @@ class Category {
         if($catTypeCache!=false){
             $exist = true;
         }
-
+        
         if($type=="3"){ 
             // auto-cat-type
-            if($exist){
-                $sql = "UPDATE `category_type_cache` SET `manualSet` = '0' WHERE `category_type_cache`.`categoryId` = ?";
-            } else {
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?, '0','0')";
-            }
-            sqlDAL::writeSql($sql,"i",array($this->id));
             Video::autosetCategoryType($this->id);
         } else {
             if($exist){
                 $sql = "UPDATE `category_type_cache` SET `type` = ?, `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = ?;";
                 sqlDAL::writeSql($sql,"si",array($type,$this->id));
-
             } else {
                 $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?,?,'1')";
                 sqlDAL::writeSql($sql,"is",array($this->id,$type));
@@ -187,6 +180,9 @@ class Category {
         if(!empty($_GET['parentsOnly'])){
             $sql .= "AND parentId = 0 ";
         }
+        if(isset($_POST['sort']['title'])){
+            unset($_POST['sort']['title']);
+        }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
         $res = sqlDAL::readSql($sql); 
         $fullResult = sqlDAL::fetchAllAssoc($res);
@@ -211,7 +207,7 @@ class Category {
         }
         $sql = "SELECT * FROM categories WHERE parentId=? AND id!=? ";         
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
-        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId),true); 
+        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId)); 
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $category = array();
