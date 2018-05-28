@@ -32,13 +32,17 @@ class Category {
         $this->parentId = $parentId;
     }
    
-    function setType($type){
+    function setType($type,$overwriteUserId = 0){
         global $global;
+        $internalId = $overwriteUserId;
+        if(empty($internalId)){
+            $internalId = $this->id;
+        }
         $exist = false;
         // require this cause of Video::autosetCategoryType - but should be moveable easy here..
         require_once dirname(__FILE__) . '/../objects/video.php';
         $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-        $res = sqlDAL::readSql($sql,"i",array($this->id));
+        $res = sqlDAL::readSql($sql,"i",array($internalId));
         $catTypeCache = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if($catTypeCache!=false){
@@ -47,14 +51,14 @@ class Category {
         
         if($type=="3"){ 
             // auto-cat-type
-            Video::autosetCategoryType($this->id);
+            Video::autosetCategoryType($internalId);
         } else {
             if($exist){
                 $sql = "UPDATE `category_type_cache` SET `type` = ?, `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = ?;";
-                sqlDAL::writeSql($sql,"si",array($type,$this->id));
+                sqlDAL::writeSql($sql,"si",array($type,$internalId));
             } else {
                 $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?,?,'1')";
-                sqlDAL::writeSql($sql,"is",array($this->id,$type));
+                sqlDAL::writeSql($sql,"is",array($internalId,$type));
             }
         }
     }
