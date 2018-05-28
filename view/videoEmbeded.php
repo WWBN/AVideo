@@ -9,7 +9,7 @@ if (!empty($objSecure->disableEmbedMode)) {
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
-$video = Video::getVideo();
+$video = Video::getVideo("", "viewableNotAd",  false, false, false, true);
 if (empty($video)) {
     die(__("Video not found"));
 }

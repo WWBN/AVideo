@@ -449,7 +449,7 @@ if (!class_exists('Video')) {
             return " AND " . $sql;
         }
 
-        static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
+        static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false, $showUnlisted = false) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
@@ -505,7 +505,7 @@ if (!class_exists('Video')) {
             }
 
             if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 if ($status == "viewableNotAd") {
                     $sql .= " having videoAdsCount = 0 ";
                 } elseif ($status == "viewableAd") {
@@ -613,7 +613,7 @@ if (!class_exists('Video')) {
          * @param type $videosArrayId an array with videos to return (for filter only)
          * @return boolean
          */
-        static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
+        static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
@@ -645,9 +645,9 @@ if (!class_exists('Video')) {
 
             if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
                 if(User::isLogged()){
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus()) . "') OR (v.status='u' AND v.users_id ='".User::getId()."'))";
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='".User::getId()."'))";
                 }else{
-                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
                 if ($status == "viewableNotAd") {
                     $sql .= " having videoAdsCount = 0 ";
@@ -715,7 +715,7 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false) {
+        static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false) {
             global $global;
             $cn = "";
             if (!empty($_GET['catName'])) {
@@ -733,7 +733,7 @@ if (!class_exists('Video')) {
                 $sql .= self::getUserGroupsCanSeeSQL();
             }
             if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 if ($status == "viewableNotAd") {
                     $sql .= " having videoAdsCount = 0 ";
                 } elseif ($status == "viewableAd") {
@@ -784,7 +784,7 @@ if (!class_exists('Video')) {
             return $obj;
         }
 
-        static private function getViewableStatus() {
+        static private function getViewableStatus($showUnlisted = false) {
             /**
               a = active
               i = inactive
@@ -799,7 +799,7 @@ if (!class_exists('Video')) {
              */
             $viewable = array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
             if(!empty($_GET['videoName'])){
-                if(self::isOwnerFromCleanTitle($_GET['videoName']) || User::isAdmin()){
+                if($showUnlisted || self::isOwnerFromCleanTitle($_GET['videoName']) || User::isAdmin()){
                     $viewable[]="u";
                 }
             }
