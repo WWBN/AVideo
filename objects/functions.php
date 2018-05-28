@@ -350,8 +350,9 @@ function setSiteSendMessage(&$mail) {
     global $global;
     require_once $global['systemRootPath'] . 'objects/configuration.php';
     $config = new Configuration();
-
+    
     if ($config->getSmtp()) {
+        error_log("Sending SMTP Email");
         $mail->IsSMTP(); // enable SMTP
         $mail->SMTPAuth = true; // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
@@ -359,7 +360,9 @@ function setSiteSendMessage(&$mail) {
         $mail->Port = $config->getSmtpPort();
         $mail->Username = $config->getSmtpUsername();
         $mail->Password = $config->getSmtpPassword();
+        //error_log(print_r($config, true));
     } else {
+        error_log("Sending SendMail Email");
         $mail->isSendmail();
     }
 }

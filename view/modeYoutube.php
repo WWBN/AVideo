@@ -48,10 +48,10 @@ if (empty($_GET['clean_title'])) {
     $_GET['catName'] = "";
 }
 
-$video = Video::getVideo("", "viewableNotAd", false, false, true);
+$video = Video::getVideo("", "viewableNotAd", false, false, true, true);
 
 if (empty($video)) {
-    $video = Video::getVideo("", "viewableNotAd");
+    $video = Video::getVideo("", "viewableNotAd",  false, false, false, true);
 }
 // add this because if you change the video category the video was not loading anymore
 $_GET['catName'] = $catName;
