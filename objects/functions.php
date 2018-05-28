@@ -360,7 +360,7 @@ function setSiteSendMessage(&$mail) {
         $mail->Port = $config->getSmtpPort();
         $mail->Username = $config->getSmtpUsername();
         $mail->Password = $config->getSmtpPassword();
-        error_log(print_r($config, true));
+        //error_log(print_r($config, true));
     } else {
         error_log("Sending SendMail Email");
         $mail->isSendmail();
