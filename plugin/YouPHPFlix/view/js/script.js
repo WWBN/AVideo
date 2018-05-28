@@ -75,7 +75,6 @@ $(function () {
     $(".thumbsImage").on("click", function () {
         var img = $(this).find(".thumbsGIF").attr('src');
         videos_id = $(this).attr('videos_id');
-
         if (!img || true) {
             img = $(this).attr('poster');
         }
@@ -112,8 +111,11 @@ $(function () {
         });
         video = $(this).attr('video');
         cat = $(this).attr('cat');
+        if(typeof cat == 'undefined'){
+            cat = $(this).find('.tile__cat').attr('cat');
+        }
         var href = 'video/' + video;
-        if (cat && typeof cat != 'undefined') {
+        if ((cat && typeof cat != 'undefined')||(forceCatLinks)) {
             href = 'cat/' + cat + '/' + href;
         }
         $('.playBtn').attr('href', webSiteRootURL + href);

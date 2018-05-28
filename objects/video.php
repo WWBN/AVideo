@@ -151,6 +151,7 @@ if (!class_exists('Video')) {
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
                     $this->id = $id;
+                    log_error($id);
                 } else {
                     $id = $this->id;
                 }
@@ -159,7 +160,7 @@ if (!class_exists('Video')) {
                     // update the user groups
                     UserGroups::updateVideoGroups($id, $this->videoGroups);
                 }
-                Video::autosetCategoryType($this->categories_id);
+                Video::autosetCategoryType($id);
                 if (!empty($this->old_categories_id)) {
                     Video::autosetCategoryType($this->old_categories_id);
                 }
@@ -278,7 +279,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-                $res = sqlDAL::readSql($sql,"i",array($catId),true);
+                $res = sqlDAL::readSql($sql,"i",array($catId));
                 $exist = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
                 $sqlType = 99;
@@ -291,7 +292,7 @@ if (!class_exists('Video')) {
                 }
                 $values = array();
                 if(empty($exist)){
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
+                    $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
                     $values = array($catId,$sqlType);
                 } else {
                     $sql = "UPDATE `category_type_cache` SET `type` = ? WHERE `category_type_cache`.`categoryId` = ?;";
@@ -545,13 +546,16 @@ if (!class_exists('Video')) {
            // echo $sql."<br />";
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
-            // to fix the bug null
-            if(is_null($video)){
+            sqlDAL::close($res);
+            // to fix the bug null // should be fixed, but is still catched, when the sql-result is empty anyway - so prevent doing it double.
+            /*if(is_null($video)){
+                log_error("need to re-get the video ".$id." ".$status);
                 $res = sqlDAL::readSql($sql, "", array(),true);
                 $video = sqlDAL::fetchAssoc($res);
-            }
+                sqlDAL::close($res);
+            }*/
             
-            sqlDAL::close($res);
+            
             if ($res!=false) {
 
                 require_once 'userGroups.php';
