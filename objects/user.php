@@ -800,6 +800,10 @@ class User {
     }
 
     function getChannelName() {
+        if(empty($this->channelName)){
+            $this->channelName = uniqid();
+            $this->save();
+        }        
         return $this->channelName;
     }
 
