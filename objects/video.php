@@ -450,7 +450,7 @@ if (!class_exists('Video')) {
             return " AND " . $sql;
         }
 
-        static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false) {
+        static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggetedOnly = false, $showUnlisted = false) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
@@ -506,7 +506,7 @@ if (!class_exists('Video')) {
             }
 
             if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 if ($status == "viewableNotAd") {
                     $sql .= " having videoAdsCount = 0 ";
                 } elseif ($status == "viewableAd") {
@@ -617,7 +617,7 @@ if (!class_exists('Video')) {
          * @param type $videosArrayId an array with videos to return (for filter only)
          * @return boolean
          */
-        static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
+        static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
@@ -648,7 +648,11 @@ if (!class_exists('Video')) {
             }
 
             if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+                if(User::isLogged()){
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='".User::getId()."'))";
+                }else{
+                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+                }
                 if ($status == "viewableNotAd") {
                     $sql .= " having videoAdsCount = 0 ";
                 } elseif ($status == "viewableAd") {
@@ -715,7 +719,7 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false) {
+        static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false) {
             global $global;
             $cn = "";
             if (!empty($_GET['catName'])) {
@@ -733,7 +737,7 @@ if (!class_exists('Video')) {
                 $sql .= self::getUserGroupsCanSeeSQL();
             }
             if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus()) . "')";
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 if ($status == "viewableNotAd") {
                     $sql .= " having videoAdsCount = 0 ";
                 } elseif ($status == "viewableAd") {
@@ -784,19 +788,26 @@ if (!class_exists('Video')) {
             return $obj;
         }
 
-        static private function getViewableStatus() {
+        static private function getViewableStatus($showUnlisted = false) {
             /**
               a = active
               i = inactive
               e = encoding
               x = encoding error
               d = downloading
+              u = unlisted
               xmp4 = encoding mp4 error
               xwebm = encoding webm error
               xmp3 = encoding mp3 error
               xogg = encoding ogg error
              */
-            return array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
+            $viewable = array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
+            if(!empty($_GET['videoName'])){
+                if($showUnlisted || self::isOwnerFromCleanTitle($_GET['videoName']) || User::isAdmin()){
+                    $viewable[]="u";
+                }
+            }
+            return $viewable;
         }
 
         static function getVideoConversionStatus($filename) {
@@ -1209,8 +1220,14 @@ if (!class_exists('Video')) {
                 $obj = new stdClass();
                 $obj->label = __("Group");
                 if (empty($groups)) {
-                    $obj->type = "success";
-                    $obj->text = __("Public");
+                    $status = $video->getStatus();
+                    if($status=='u'){                        
+                        $obj->type = "info";
+                        $obj->text = __("Unlisted");
+                    }else{
+                        $obj->type = "success";
+                        $obj->text = __("Public");
+                    }
                     $tags[] = $obj;
                 } else {
                     foreach ($groups as $value) {
@@ -1305,6 +1322,12 @@ if (!class_exists('Video')) {
                 }
             }
             return false;
+        }
+        
+        static function isOwnerFromCleanTitle($clean_title, $users_id=0) {
+            global $global;
+            $video = self::getVideoFromCleanTitle($clean_title);
+            return self::isOwner($video['id'], $users_id);
         }
 
         /**

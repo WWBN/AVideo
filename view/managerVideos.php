@@ -160,8 +160,12 @@ if (!empty($_GET['video_id'])) {
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <?php echo __('Status'); ?> <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" onclick="changeStatus('a'); return false;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <?php echo __('Active'); ?></a></li>
-                        <li><a href="#" onclick="changeStatus('i'); return false;"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <?php echo __('Inactive'); ?></a></li>
+                        <li><a href="#" onclick="changeStatus('a'); return false;"><i class="fas fa-eye"></i> <?php echo __('Active'); ?></a></li>
+                        <li><a href="#" onclick="changeStatus('i'); return false;"><i class="fas fa-eye-slash"></i></span> <?php echo __('Inactive'); ?></a></li>
+                        <li><a href="#" onclick="changeStatus('u'); return false;"><i class="fas fa-eye" style="color: #BBB;"></i> <?php echo __('Unlisted'); ?></a></li>
+                        <!--
+                        <li><a href="#" onclick="changeStatus('p'); return false;"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <?php echo __('Private'); ?></a></li>
+                        -->
                     </ul>
                 </div>
                 <button class="btn btn-danger" id="deleteBtn">
@@ -769,8 +773,9 @@ if (!empty($row)) {
                                                 {
                                                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                                                     var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
-                                                    var inactiveBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-                                                    var activeBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Activate")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
+                                                    var activeBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+                                                    var inactiveBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Activate")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
+                                                    var unlistedBtn = '<button style="color: #BBB" type="button" class="btn btn-default btn-xs command-unlisted"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unlisted")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
                                                     var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
                                                     var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fas fa-redo " aria-hidden="true"></span></button>';
                                                     var rotateBtn = "<br>" + rotateLeft + rotateRight;
@@ -798,9 +803,11 @@ if (!empty($row)) {
                                                     }
 
                                                     if (row.status == "i") {
-                                                        status = activeBtn;
-                                                    } else if (row.status == "a") {
                                                         status = inactiveBtn;
+                                                    } else if (row.status == "a") {
+                                                        status = activeBtn;
+                                                    }else if (row.status == "u") {
+                                                        status = unlistedBtn;
                                                     } else if (row.status == "x") {
                                                         return editBtn + deleteBtn;
                                                     } else if (row.status == "d") {
@@ -938,13 +945,27 @@ if (!empty($row)) {
                                                     }
                                                 });
                                             })
-                                                    .end().find(".command-active").on("click", function (e) {
+                                                    .end().find(".command-unlisted").on("click", function (e) {
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
                                                     url: 'setStatusVideo',
-                                                    data: {"id": row.id, "status": "a"},
+                                                    data: {"id": row.id, "status": "i"},
+                                                    type: 'post',
+                                                    success: function (response) {
+                                                        $("#grid").bootgrid("reload");
+                                                        modal.hidePleaseWait();
+                                                    }
+                                                });
+                                            })
+                                            .end().find(".command-active").on("click", function (e) {
+                                                var row_index = $(this).closest('tr').index();
+                                                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                                                modal.showPleaseWait();
+                                                $.ajax({
+                                                    url: 'setStatusVideo',
+                                                    data: {"id": row.id, "status": "u"},
                                                     type: 'post',
                                                     success: function (response) {
                                                         $("#grid").bootgrid("reload");
@@ -958,7 +979,7 @@ if (!empty($row)) {
                                                 modal.showPleaseWait();
                                                 $.ajax({
                                                     url: 'setStatusVideo',
-                                                    data: {"id": row.id, "status": "i"},
+                                                    data: {"id": row.id, "status": "a"},
                                                     type: 'post',
                                                     success: function (response) {
                                                         $("#grid").bootgrid("reload");
