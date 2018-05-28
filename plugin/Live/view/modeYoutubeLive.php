@@ -100,7 +100,9 @@ $imgh = 360;
         ?>
 
                 <?php
-                $p->getChat($uuid);
+                if(!empty($p)){
+                    $p->getChat($uuid);
+                }
                 ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
