@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NULL,
   `email` VARCHAR(45) NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(145) NOT NULL,
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `isAdmin` TINYINT(1) NOT NULL DEFAULT 0,
