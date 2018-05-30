@@ -52,6 +52,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableYoutubePlayerIntegration = false;
         $obj->utf8Encode = false;
         $obj->utf8Decode = false;
+        $obj->embedBackgroundColor = "white";
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
