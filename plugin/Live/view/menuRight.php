@@ -71,6 +71,7 @@ if (User::canStream()) {
     </a>
 </div>
 <script>
+    var loadedExtraVideos = [];
     /* Use this funtion to display live videos dynamic on pages*/
     function afterExtraVideos($liveLi) {
         return $liveLi
@@ -137,6 +138,14 @@ if (User::canStream()) {
                     for (i = 0; i < response.applications.length; i++) {
                         if (typeof response.applications[i].html != 'undefined') {
                             $('#availableLiveStream').append(response.applications[i].html);
+                            if (typeof response.applications[i].htmlExtra != 'undefined') {
+                                var id = $(response.applications[i].htmlExtra).attr('id');
+                                if(loadedExtraVideos.indexOf(id)==-1){
+                                    loadedExtraVideos.push(id)
+                                    $('.extraVideos').append(response.applications[i].htmlExtra);
+                                }
+                            }
+                            $('#liveVideos').slideDown();
                         } else {
                             href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=" + response.applications[i].channelName;
                             title = response.applications[i].title;

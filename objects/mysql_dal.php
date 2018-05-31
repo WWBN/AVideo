@@ -369,6 +369,7 @@ function log_error($err) {
     if (!empty($global['debug'])) {
         echo $err;
     }
+    error_log(print_r(debug_backtrace(), true));
     error_log($err);
 }
 
