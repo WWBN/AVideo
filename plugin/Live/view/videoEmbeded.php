@@ -8,6 +8,7 @@ if (!empty($_GET['c'])) {
         $_GET['u'] = $user['user'];
     }
 }
+$customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $t['key'];
@@ -32,6 +33,16 @@ if (!empty($objSecure->disableEmbedMode)) {
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <style>
+            body {
+                padding: 0 !important;
+                margin: 0 !important;
+                <?php
+                if(!empty($customizedAdvanced->embedBackgroundColor)){
+                    echo "background-color: $customizedAdvanced->embedBackgroundColor;";
+                }
+                ?>
+                
+            }
         </style>
     </head>
 

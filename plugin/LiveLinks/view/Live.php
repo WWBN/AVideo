@@ -1,28 +1,38 @@
 <?php
-require_once '../../videos/configuration.php';
+require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
-require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
-if(!empty($_GET['c'])){
-    $user = User::getChannelOwner($_GET['c']);
-    if(!empty($user)){
-        $_GET['u'] = $user['user'];
-    }
+$plugin = YouPHPTubePlugin::loadPluginIfEnabled('LiveLinks');
+$p = YouPHPTubePlugin::loadPluginIfEnabled('Live');
+
+if(empty($plugin)){
+    die('Plugin disabled');
 }
 
+if(empty($_GET['link'])){
+    die('Link not found');
+}
 
-$t = LiveTransmition::getFromDbByUserName($_GET['u']);
-$uuid = $t['key'];
+$liveLink = new LiveLinksTable($_GET['link']);
 
-$u = new User(0, $_GET['u'], false);
+if($liveLink->getType()=='logged_only' && !User::isLogged()){
+    die('Link for logged only');
+}
+
+$uuid = $_GET['link'];
+$t['users_id'] = $liveLink->getUsers_id();
+$t['title'] = $liveLink->getTitle();
+$t['link'] = $liveLink->getLink();
+
+$u = new User($t['users_id']);
 $user_id = $u->getBdId();
 $subscribe = Subscribe::getButton($user_id);
 $name = $u->getNameIdentificationBd();
 $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
 
-$img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
+$img = "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?link={$_GET['link']}&format=jpg";
 $imgw = 640;
 $imgh = 360;
 ?>
@@ -40,7 +50,7 @@ $imgh = 360;
         <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         
         <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo $_GET['u']; ?>" />
+        <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/Live.php?link=<?php echo $_GET['link']; ?>" />
         <meta property="og:type"               content="video.other" />
         <meta property="og:title"              content="<?php echo str_replace('"', '', $t['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
         <meta property="og:description"        content="<?php echo str_replace('"', '', $t['title']); ?>" />
@@ -52,14 +62,11 @@ $imgh = 360;
     <body>
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
-        $lt = new LiveTransmition($t['id']);
-        if($lt->userCanSeeTransmition()){
         ?>
-        
         <div class="container-fluid principalContainer " itemscope itemtype="http://schema.org/VideoObject">
             <div class="col-md-12">
                 <?php
-                require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
+                require "{$global['systemRootPath']}plugin/LiveLinks/view/liveVideo.php";
                 ?>
             </div>  
         </div>
@@ -77,13 +84,6 @@ $imgh = 360;
                     ?>
             </div>
         </div>
-        <?php
-        }else{
-            ?>
-        <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> <?php echo __("You are not allowed see this streaming"); ?></h1>    
-            <?php
-        }
-        ?>
         
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>

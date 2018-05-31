@@ -3,6 +3,8 @@ global $isEmbed;
 $isEmbed = 1;
 require_once '../videos/configuration.php';
 
+$customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 if (!empty($objSecure->disableEmbedMode)) {
     die('Embed Mode disabled');
@@ -66,6 +68,12 @@ if ($video['type'] !== "audio") {
             body {
                 padding: 0 !important;
                 margin: 0 !important;
+                <?php
+                if(!empty($customizedAdvanced->embedBackgroundColor)){
+                    echo "background-color: $customizedAdvanced->embedBackgroundColor;";
+                }
+                ?>
+                
             }
         </style>
         
