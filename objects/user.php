@@ -40,7 +40,7 @@ class User {
             $this->load($id);
         }
     }
-
+   
     function getEmail() {
         return $this->email;
     }
@@ -473,19 +473,19 @@ class User {
         sqlDAL::close($res);
         
         // we have to analyse, how the db-value is looking for know how to handle
-        if((strpos($result['password'],"{")==0)&&(strpos($result['password'],"}")!=false)){
+        if((strpos($result['password'],"{")===0)&&(strpos($result['password'],"}")!=false)){
             
             // new format
+            
             
             $hashType = substr($result['password'],1,strpos($result['password'],"}")-1);
             $hashedPass = $pass;
             if (!$encodedPass || $encodedPass === 'false') {
-                $hashedPass = hash($hashType, $pass);
+                $hashedPass = "{".$hashType."}".hash($hashType, $pass);
             }
-            if($hashedPass==substr($result['password'],strpos($result['password'],"}")+1,strlen($result['password']))){
-                log_error("log in with success and new method..");
+            if($hashedPass==$result['password']){
                 if($hashType=="md5"){
-                    error_log("Deperacted password-hash for ".$result['user']);
+                    error_log("Deperacted password-hash in new format for ".$result['user']);
                 }
                 return $result;
             } else {
@@ -494,7 +494,7 @@ class User {
         } else {
             
             // old format, fallback
-            
+            $hashedPass = $pass;
             if (!$encodedPass || $encodedPass === 'false') {
                 $hashedPass = hash("md5", $pass);
             }
