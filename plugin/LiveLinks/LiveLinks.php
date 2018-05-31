@@ -87,9 +87,12 @@ class LiveLinks extends PluginAbstract {
         $content = file_get_contents($filename);
         $contentExtra = file_get_contents($filenameExtra);
         
-        $regex = "/".addcslashes($global['webSiteRootURL'],"/")."video\/.*/";
-        $requestComesFromVideoPage = preg_match($regex, $_SERVER["HTTP_REFERER"]);
-        
+        if(empty($_GET['requestComesFromVideoPage'])){
+            $regex = "/".addcslashes($global['webSiteRootURL'],"/")."video\/.*/";
+            $requestComesFromVideoPage = preg_match($regex, $_SERVER["HTTP_REFERER"]);
+        }else{
+            $requestComesFromVideoPage = 1;
+        }
         foreach ($row as $value) {
             
             if($value['type']=='unlisted'){
