@@ -26,6 +26,6 @@ foreach ($_POST['id'] as $value) {
         die(json_encode($obj));
     }
     $obj->setStatus($_POST['status']);
-    $resp = $obj->save();
+    $resp = $value;
 }
 echo '{"status":"' . !empty($resp) . '"}';
