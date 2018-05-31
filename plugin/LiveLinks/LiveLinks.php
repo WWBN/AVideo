@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/LiveLinks/Objects/LiveLinksTabl
 class LiveLinks extends PluginAbstract {
 
     public function getDescription() {
-        return "Register Livestreams external events";
+        return "Register Livestreams external Links from any HLS provider, Wowza and others";
     }
 
     public function getName() {
