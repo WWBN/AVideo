@@ -104,10 +104,10 @@ abstract class PluginAbstract {
                     error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
                     break;
             }
-            $eo = $this->getEmptyDataObject();
-            //var_dump($obj['object_data']);
-            //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         }
+        $eo = $this->getEmptyDataObject();
+        //var_dump($obj['object_data']);
+        //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         return (object) array_merge((array) $eo, (array) $o);
     }
 
