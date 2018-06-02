@@ -71,39 +71,43 @@ abstract class PluginAbstract {
     public function getDataObject() {
         $obj = Plugin::getPluginByUUID($this->getUUID());
         //echo $obj['object_data'];
+        //the strip slashes was breaking the signup agreement plugin
         //$o = json_decode(stripslashes($obj['object_data']));
-        $o = json_decode(($obj['object_data']));
-        switch (json_last_error()) {
-            case JSON_ERROR_NONE:
-                //echo ' - No errors';
-                break;
-            default:
-                error_log('getDataObject - JSON error');
-                error_log($obj['object_data']);
-                error_log('striped slashes');
-                error_log(stripslashes($obj['object_data']));
-            case JSON_ERROR_DEPTH:
-                error_log(' - Maximum stack depth exceeded');
-                break;
-            case JSON_ERROR_STATE_MISMATCH:
-                error_log(' - Underflow or the modes mismatch');
-                break;
-            case JSON_ERROR_CTRL_CHAR:
-                error_log(' - Unexpected control character found');
-                break;
-            case JSON_ERROR_SYNTAX:
-                error_log(' - Syntax error, malformed JSON');
-                error_log($obj['object_data']);
-                error_log('striped slashes');
-                error_log(stripslashes($obj['object_data']));
-                break;
-            case JSON_ERROR_UTF8:
-                error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
-                break;
+        $o = array();
+        if (!empty($obj['object_data'])) {
+            $o = json_decode(($obj['object_data']));
+            switch (json_last_error()) {
+                case JSON_ERROR_NONE:
+                    //echo ' - No errors';
+                    break;
+                default:
+                    error_log('getDataObject - JSON error');
+                    error_log($obj['object_data']);
+                    error_log('striped slashes');
+                    error_log(stripslashes($obj['object_data']));
+                case JSON_ERROR_DEPTH:
+                    error_log(' - Maximum stack depth exceeded');
+                    break;
+                case JSON_ERROR_STATE_MISMATCH:
+                    error_log(' - Underflow or the modes mismatch');
+                    break;
+                case JSON_ERROR_CTRL_CHAR:
+                    error_log(' - Unexpected control character found');
+                    break;
+                case JSON_ERROR_SYNTAX:
+                    error_log(' - Syntax error, malformed JSON');
+                    error_log($obj['object_data']);
+                    error_log('striped slashes');
+                    error_log(stripslashes($obj['object_data']));
+                    break;
+                case JSON_ERROR_UTF8:
+                    error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
+                    break;
+            }
+            $eo = $this->getEmptyDataObject();
+            //var_dump($obj['object_data']);
+            //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         }
-        $eo = $this->getEmptyDataObject();
-        //var_dump($obj['object_data']);
-        //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         return (object) array_merge((array) $eo, (array) $o);
     }
 
