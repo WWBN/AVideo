@@ -71,11 +71,9 @@ abstract class PluginAbstract {
     public function getDataObject() {
         $obj = Plugin::getPluginByUUID($this->getUUID());
         //echo $obj['object_data'];
-        //the strip slashes was breaking the signup agreement plugin
-        //$o = json_decode(stripslashes($obj['object_data']));
         $o = array();
         if (!empty($obj['object_data'])) {
-            $o = json_decode(($obj['object_data']));
+            $o = json_decode(stripslashes($obj['object_data']));
             switch (json_last_error()) {
                 case JSON_ERROR_NONE:
                     //echo ' - No errors';
