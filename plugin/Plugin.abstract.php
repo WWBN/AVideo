@@ -92,6 +92,9 @@ abstract class PluginAbstract {
                 break;
             case JSON_ERROR_SYNTAX:
                 error_log(' - Syntax error, malformed JSON');
+                error_log($obj['object_data']);
+                error_log('striped slashes');
+                error_log(stripslashes($obj['object_data']));
                 break;
             case JSON_ERROR_UTF8:
                 error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
