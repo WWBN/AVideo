@@ -104,7 +104,7 @@ class sqlDAL {
                     return false;
                 }
                 $stmt->close();
-            } else {
+            } else if(is_object($readSqlCached[$crc])) {
                 
                 // When cached
                 
@@ -115,6 +115,8 @@ class sqlDAL {
                 if (isset($_SESSION['savedQuerys'])) {
                     $_SESSION['savedQuerys'] ++;
                 }
+            }else{
+                $readSqlCached[$crc] = "false";
             }
             
             //
