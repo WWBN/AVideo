@@ -47,17 +47,17 @@ class sqlDAL {
         global $global, $disableMysqlNdMethods;
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
-            exit;
+            return false;
         }
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
             log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
-            exit;
+            return false;
         }
         $stmt->execute();
         if ($stmt->errno != 0) {
             log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
             $stmt->close();
-            exit;
+            return false;
         }
         $stmt->close();
         return true;
@@ -90,18 +90,18 @@ class sqlDAL {
                 $readSqlCached[$crc] = "false";
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                     log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
-                    exit;
+                    return false;
                 }
                 if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
                     log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
-                    exit;
+                    return false;
                 }
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
                 if ($stmt->errno != 0) {
                     log_error('Error in readSql (mysqlnd): (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
                     $stmt->close();
-                    exit;
+                    return false;
                 }
                 $stmt->close();
             } else {
@@ -139,12 +139,12 @@ class sqlDAL {
             
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                 log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
-                exit;
+                return false;
             }
 
             if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
                 log_error("[sqlDAL::readSql] (no mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
-                exit;
+                return false;
             }
 
             $stmt->execute();
