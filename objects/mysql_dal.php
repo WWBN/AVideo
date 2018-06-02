@@ -181,7 +181,7 @@ class sqlDAL {
     static function num_rows($res) {
         global $global,$disableMysqlNdMethods,$crc,$num_row_cache;
         if(!isset($num_row_cache)){
-            $num_row_cache=array();
+            $num_row_cache=array(); 
         }
         // cache is working - but disable for proper test-results
         if(!isset($num_row_cache[$crc])){
