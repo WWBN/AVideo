@@ -76,6 +76,11 @@ abstract class PluginAbstract {
             case JSON_ERROR_NONE:
                 //echo ' - No errors';
                 break;
+            default:
+                error_log('getDataObject - JSON error');
+                error_log($obj['object_data']);
+                error_log('striped slashes');
+                error_log(stripslashes($obj['object_data']));
             case JSON_ERROR_DEPTH:
                 error_log(' - Maximum stack depth exceeded');
                 break;
@@ -90,9 +95,6 @@ abstract class PluginAbstract {
                 break;
             case JSON_ERROR_UTF8:
                 error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
-                break;
-            default:
-                error_log(' - Unknown error');
                 break;
         }
         $eo = $this->getEmptyDataObject();
