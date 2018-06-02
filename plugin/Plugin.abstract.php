@@ -71,7 +71,8 @@ abstract class PluginAbstract {
     public function getDataObject() {
         $obj = Plugin::getPluginByUUID($this->getUUID());
         //echo $obj['object_data'];
-        $o = json_decode(stripslashes($obj['object_data']));
+        //$o = json_decode(stripslashes($obj['object_data']));
+        $o = json_decode(($obj['object_data']));
         switch (json_last_error()) {
             case JSON_ERROR_NONE:
                 //echo ' - No errors';
