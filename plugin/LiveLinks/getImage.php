@@ -1,7 +1,6 @@
 <?php
 
 require_once '../../videos/configuration.php';
-session_write_close();
 
 header('Content-Type: image/x-png');
 $filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
@@ -27,6 +26,7 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
         $_SESSION[$url] = array('content' => $content, 'expire' => time("+2 min"));
         error_log($url . " Image Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }
+    session_write_close();
     if(!empty($_SESSION[$url]['content'])){
         echo $_SESSION[$url]['content'];
         error_log($url . " Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
