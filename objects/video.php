@@ -45,7 +45,7 @@ if (!class_exists('Video')) {
             'ximg' => 'get image error');
         //ver 3.4
         private $youtubeId;
-        static $typeOptions = array('audio', 'video', 'embed', 'link');
+        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio');
 
         function __construct($title = "", $filename = "", $id = 0) {
             global $global;
@@ -499,7 +499,7 @@ if (!class_exists('Video')) {
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
-                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'link')";
+                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
@@ -641,7 +641,7 @@ if (!class_exists('Video')) {
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
-                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'link')";
+                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
@@ -756,7 +756,7 @@ if (!class_exists('Video')) {
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
-                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'link')";
+                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }

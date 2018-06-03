@@ -36,7 +36,7 @@ if (!empty($ad)) {
                         <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
                         <?php echo getSources($playNowVideo['filename']); 
                     } else { ?>
-                        <source src="<?php echo $playNowVideo['videoLink']; ?>" type="video/mp4">
+                        <source src="<?php echo $playNowVideo['videoLink']; ?>">
                     <?php } ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
 				    <p class="vjs-no-js"><?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
@@ -84,7 +84,7 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
     $(document).ready(function () {
         
     <?php
-        if($playNowVideo['type']=="link"){
+        if($playNowVideo['type']=="linkVideo"){
             echo '$("time.duration").hide();';
         }
         

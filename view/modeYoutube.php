@@ -207,8 +207,10 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                     <?php
                 }
                 $vType = $video['type'];
-                if($vType=="link"){
+                if($vType=="linkVideo"){
                     $vType="video";
+                } else if($vType=="linkAudio"){
+                    $vType="audio";
                 }
                 require "{$global['systemRootPath']}view/include/{$vType}.php";
                 ?>
