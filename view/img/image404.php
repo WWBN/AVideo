@@ -1,6 +1,7 @@
 <?php
 $configFile = dirname(__FILE__).'/../../videos/configuration.php';
 require_once $configFile;
+session_write_close();
 
 //$file = 'static2.gif';
 //$type = 'image/gif';
