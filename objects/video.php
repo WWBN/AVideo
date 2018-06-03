@@ -1526,7 +1526,7 @@ if (!class_exists('Video')) {
             }
             $token = "";
             $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
-            if (!empty($secure)) {
+            if (!empty($secure) && ($type == ".mp4" || $type == ".webm")) {
                 $token = "?" . $secure->getToken($filename);
             }
             $source = array();
