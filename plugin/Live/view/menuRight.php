@@ -134,6 +134,11 @@ if (User::canStream()) {
                             $('#availableLiveStream').empty();
                             if (typeof response.applications == 'undefined') {
                                 $('.onlineApplications').text(0);
+                                if (recurrentCall) {
+                                    setTimeout(function () {
+                                        getStatsMenu(true);
+                                    }, 2000);
+                                }
                             } else {
                                 $('.onlineApplications').text(response.applications.length);
                                 if (response.applications.length) {
@@ -166,11 +171,11 @@ if (User::canStream()) {
                                 } else {
                                     createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true);
                                 }
-                            }
-                            if (recurrentCall) {
-                                setTimeout(function () {
-                                    getStatsMenu(true);
-                                }, 10000);
+                                if (recurrentCall) {
+                                    setTimeout(function () {
+                                        getStatsMenu(true);
+                                    }, 10000);
+                                }
                             }
                         }
                     });
