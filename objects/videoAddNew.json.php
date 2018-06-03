@@ -37,6 +37,9 @@ if(!empty($_POST['videoLink'])){
     }
     $obj->setVideoLink($_POST['videoLink']);
     $obj->setType('embed');
+    if(!empty($_POST['videoLinkType'])){ 
+        $obj->setType($_POST['videoLinkType']);
+    }
     $obj->setStatus('a');
 }
 $obj->setNext_videos_id($_POST['next_videos_id']);

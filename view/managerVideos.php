@@ -98,7 +98,6 @@ if (!empty($_GET['video_id'])) {
 
 
 
-
                 <?php
                 if (User::isAdmin()) {
                     ?>
@@ -211,6 +210,10 @@ if (!empty($_GET['video_id'])) {
                             <div id="videoLinkContent">                                
                                 <label for="videoLink" class="sr-only"><?php echo __("Video Link"); ?></label>
                                 <input type="text" id="videoLink" class="form-control first" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
+                                <select class="form-control last" id="videoLinkType" required>
+                                    <option value="embed"><?php echo __("Embeded"); ?></option>
+                                    <option value="link"><?php echo __("Direct video-link (webm or mp4)"); ?></option>
+                                </select>
                             </div>
                             <hr>
                             <form class="form-compact"  id="updateCategoryForm" onsubmit="">
@@ -532,7 +535,7 @@ if (!empty($_GET['video_id'])) {
                                     function editVideo(row) {
                                         waitToSubmit = true;
                                         $('#postersImage, #videoIsAdControl, .titles').slideDown();
-                                        if (row.type !== 'embed') {
+                                        if ((row.type !== 'embed')&&(row.type !== 'link')) {
                                             $('#videoLinkContent').slideUp();
                                             $('#videoLink').val(row.videoLink);
                                         }
@@ -630,6 +633,7 @@ if (!empty($row)) {
     }
 }
 ?>
+                                        
                                         $('#linkExternalVideo').click(function () {
                                             $('#inputVideoId').val("");
                                             $('#inputTitle').val("");
@@ -1128,6 +1132,7 @@ if (!empty($row)) {
                                                     "id": $('#inputVideoId').val(),
                                                     "title": $('#inputTitle').val(),
                                                     "videoLink": $('#videoLink').val(),
+                                                    "videoLinkType": $('#videoLinkType').val(),
                                                     "clean_title": $('#inputCleanTitle').val(),
                                                     "description": $('#inputDescription').val(),
                                                     "categories_id": $('#inputCategory').val(),

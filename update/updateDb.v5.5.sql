@@ -1,3 +1,1 @@
-ALTER TABLE `users` CHANGE `password` `password` VARCHAR(145) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
-
-UPDATE users SET password = CONCAT('{md5}',password);
+ALTER TABLE `videos` CHANGE `type` `type` ENUM('audio','video','embed','link') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'video';
