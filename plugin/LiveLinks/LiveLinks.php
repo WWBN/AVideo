@@ -89,7 +89,7 @@ class LiveLinks extends PluginAbstract {
         
         if(empty($_GET['requestComesFromVideoPage'])){
             $regex = "/".addcslashes($global['webSiteRootURL'],"/")."video\/.*/";
-            $requestComesFromVideoPage = preg_match($regex, $_SERVER["HTTP_REFERER"]);
+            $requestComesFromVideoPage = preg_match($regex, @$_SERVER["HTTP_REFERER"]);
         }else{
             $requestComesFromVideoPage = 1;
         }
@@ -103,12 +103,13 @@ class LiveLinks extends PluginAbstract {
                     continue;
                 }
             }
-                        
+            $UserPhoto = User::getPhoto($value['users_id']);   
+            $name = User::getNameIdentificationById($value['users_id']);
             $replace = array(
                 $value['id'],
-                User::getPhoto($value['users_id']),
+                $UserPhoto,
                 $value['title'],
-                User::getNameIdentificationById($value['users_id']),
+                $name,
                 str_replace('"', "", $value['description']),
                 "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$value['id']}",
                 "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg",
@@ -120,7 +121,12 @@ class LiveLinks extends PluginAbstract {
             $newContentExtra = str_replace($search, $replace, $contentExtra);
             $array[] = array(
                 "html" => $newContent,
-                "htmlExtra" => $newContentExtra
+                "htmlExtra" => $newContentExtra,
+                "UserPhoto" => $UserPhoto,
+                "title" => $value['title'],
+                "name" => $name,
+                "poster" => "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg",
+                "link" => "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$value['id']}&embed=1"
             );
         }
 
