@@ -1,5 +1,6 @@
 <?php
 require_once '../../videos/configuration.php';
+session_write_close();
 require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
 $p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
@@ -19,7 +20,6 @@ if(empty($_POST['name']) && !empty($_GET['name'])){
 $obj->name = $_POST['name'];
 $obj->applications = array();
 $_GET['lifetime'] = "10";
-session_write_close();
 if(empty($p)){
     die(json_encode($obj));
 }
