@@ -536,10 +536,12 @@ if (!empty($_GET['video_id'])) {
                                     function editVideo(row) {
                                         waitToSubmit = true;
                                         $('#postersImage, #videoIsAdControl, .titles').slideDown();
-                                        if ((row.type !== 'embed')&&(row.type !== 'linkVideo')&&(row.type !== 'linkAudio')) {
-                                            $('#videoLinkContent').slideUp();
+                                        if ((row.type === 'embed')||(row.type === 'linkVideo')||(row.type === 'linkAudio')) {
+                                            
                                             $('#videoLink').val(row.videoLink);
-                                            $('#videoLinkType').val(row.videoLinkType);
+                                            $('#videoLinkType').val(row.type);
+                                        } else {
+                                            $('#videoLinkContent').slideUp();
                                         }
                                         $('#inputVideoId').val(row.id);
                                         $('#inputTitle').val(row.title);
