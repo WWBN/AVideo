@@ -5,8 +5,7 @@ session_write_close();
 
 header('Content-Type: image/x-png');
 $filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
-echo file_get_contents($filename);
-exit;
+//echo file_get_contents($filename);exit;
 
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
