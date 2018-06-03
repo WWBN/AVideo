@@ -19,6 +19,7 @@ class LiveLinks extends PluginAbstract {
         $obj = new stdClass();
         $obj->onlyAdminCanAddLinks = true;
         $obj->buttonTitle = "Add a Live Link";
+        $obj->disableGifThumbs = false;
         return $obj;
     }
 
@@ -69,6 +70,7 @@ class LiveLinks extends PluginAbstract {
      */
     public function getLiveApplicationArray() {
         global $global;
+        $obj = $this->getDataObject();
         $filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
         $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
         $row = LiveLinks::getAllActive();
@@ -113,7 +115,7 @@ class LiveLinks extends PluginAbstract {
                 str_replace('"', "", $value['description']),
                 "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$value['id']}",
                 "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg",
-                "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif",
+                $obj->disableGifThumbs?"{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif":"",
                 ($requestComesFromVideoPage)?"col-xs-6":"col-lg-2 col-md-4 col-sm-4 col-xs-6"
             );
 
