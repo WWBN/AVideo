@@ -536,7 +536,7 @@ if (!empty($_GET['video_id'])) {
                                     function editVideo(row) {
                                         waitToSubmit = true;
                                         $('#postersImage, #videoIsAdControl, .titles').slideDown();
-                                        if ((row.type !== 'embed')&&(row.type !== 'link')) {
+                                        if ((row.type !== 'embed')&&(row.type !== 'linkVideo')&&(row.type !== 'linkAudio')) {
                                             $('#videoLinkContent').slideUp();
                                             $('#videoLink').val(row.videoLink);
                                             $('#videoLinkType').val(row.videoLinkType);
