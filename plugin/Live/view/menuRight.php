@@ -132,9 +132,10 @@ if (User::canStream()) {
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName'])?"&requestComesFromVideoPage=1":"") ?>',
             success: function (response) {
                 if(typeof response.applications == 'undefined'){
-                    response.applications = [];
+                    $('.onlineApplications').text(0);
+                }else{
+                    $('.onlineApplications').text(response.applications.length);
                 }
-                $('.onlineApplications').text(response.applications.length);
                 $('#availableLiveStream').empty();
                 if (response.applications.length) {
                     disableGif = response.disableGif;
