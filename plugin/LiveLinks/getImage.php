@@ -31,7 +31,7 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
     }else{
         echo file_get_contents($filename);
     }
-    error_log($url . " Image Expired " . intval($_SESSION[$url]['expire'] < time()));
+    error_log($url . " Image Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
 } else {
     echo file_get_contents($filename);
     error_log($url . " Invalid URL ");
