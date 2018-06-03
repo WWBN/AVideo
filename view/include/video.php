@@ -82,7 +82,13 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
     <?php } ?>
     var player;
     $(document).ready(function () {
-    <?php if (!$config->getAllow_download()) { ?>
+        
+    <?php
+        if($playNowVideo['type']=="link"){
+            echo '$("time.duration").hide();';
+        }
+        
+        if (!$config->getAllow_download()) { ?>
         // Prevent HTML5 video from being downloaded (right-click saved)?
         $('#mainVideo').bind('contextmenu', function () {
             return false;

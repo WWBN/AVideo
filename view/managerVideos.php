@@ -538,6 +538,7 @@ if (!empty($_GET['video_id'])) {
                                         if ((row.type !== 'embed')&&(row.type !== 'link')) {
                                             $('#videoLinkContent').slideUp();
                                             $('#videoLink').val(row.videoLink);
+                                            $('#videoLinkType').val(row.videoLinkType);
                                         }
                                         $('#inputVideoId').val(row.id);
                                         $('#inputTitle').val(row.title);
