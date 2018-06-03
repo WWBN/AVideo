@@ -1,5 +1,6 @@
 <?php
 require_once '../../videos/configuration.php';
+session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
@@ -24,7 +25,6 @@ if($lt->userCanSeeTransmition()){
     $video = "{$p->getPlayerServer()}/{$uuid}/index.m3u8";
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
     if(empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()){
-        session_write_close();
         $content = url_get_contents($url);
         session_start();
         $_SESSION[$url] = array('content'=>$content, 'expire' => time("+2 min") ); 
