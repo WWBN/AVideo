@@ -27,7 +27,7 @@ if($lt->userCanSeeTransmition()){
     if(empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()){
         $content = url_get_contents($url);
         session_start();
-        $_SESSION[$url] = array('content'=>$content, 'expire' => time("+2 min") ); 
+        $_SESSION[$url] = array('content'=>$content, 'expire' => strtotime("+2 min") ); 
     }
     echo $_SESSION[$url]['content'];
     error_log($url." Image Expired ".intval($_SESSION[$url]['expire'] < time()));
