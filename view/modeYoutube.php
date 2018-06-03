@@ -51,7 +51,7 @@ if (empty($_GET['clean_title'])) {
 $video = Video::getVideo("", "viewableNotAd", false, false, true, true);
 
 if (empty($video)) {
-    $video = Video::getVideo("", "viewableNotAd",  false, false, false, true);
+    $video = Video::getVideo("", "viewableNotAd", false, false, false, true);
 }
 // add this because if you change the video category the video was not loading anymore
 $_GET['catName'] = $catName;
@@ -125,7 +125,7 @@ if (!empty($_GET['playlist_id'])) {
 if (!empty($video)) {
     $ad = Video_ad::getAdFromCategory($video['categories_id']);
     $name = User::getNameIdentificationById($video['users_id']);
-    $name = "<a href='".User::getChannelLink($video['users_id'])."' class='btn btn-xs btn-default'>{$name}</a>";
+    $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name}</a>";
     $subscribe = Subscribe::getButton($video['users_id']);
     $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br />' . $subscribe . '<br /><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
     $obj = new Video("", "", $video['id']);
@@ -260,128 +260,128 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
                             <div class="row">
                                 <div class="col-md-12 watch8-action-buttons text-muted">
-                                    <?php if((($advancedCustom!=false)&&($advancedCustom->disableShareAndPlaylist==false))||($advancedCustom==false)){ ?>
-                                    <button class="btn btn-default no-outline" id="addBtn" data-placement="bottom">
-                                        <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                                    </button>
-                                    <div class="webui-popover-content">
-                                        <?php if (User::isLogged()) { ?>
-                                            <form role="form">
-                                                <div class="form-group">
-                                                    <input class="form-control" id="searchinput" type="search" placeholder="Search..." />
-                                                </div>
-                                                <div id="searchlist" class="list-group">
-                                                </div>
-                                            </form>
-                                            <div>
-                                                <hr>
-                                                <div class="form-group">
-                                                    <input id="playListName" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
-                                                </div>
-                                                <div class="form-group">
-                                                    <?php echo __("Make it public"); ?>
-                                                    <div class="material-switch pull-right">
-                                                        <input id="publicPlayList" name="publicPlayList" type="checkbox" checked="checked"/>
-                                                        <label for="publicPlayList" class="label-success"></label>
+                                    <?php if ((($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false)) { ?>
+                                        <button class="btn btn-default no-outline" id="addBtn" data-placement="bottom">
+                                            <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
+                                        </button>
+                                        <div class="webui-popover-content">
+                                            <?php if (User::isLogged()) { ?>
+                                                <form role="form">
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="searchinput" type="search" placeholder="Search..." />
+                                                    </div>
+                                                    <div id="searchlist" class="list-group">
+                                                    </div>
+                                                </form>
+                                                <div>
+                                                    <hr>
+                                                    <div class="form-group">
+                                                        <input id="playListName" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <?php echo __("Make it public"); ?>
+                                                        <div class="material-switch pull-right">
+                                                            <input id="publicPlayList" name="publicPlayList" type="checkbox" checked="checked"/>
+                                                            <label for="publicPlayList" class="label-success"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button class="btn btn-success btn-block" id="addPlayList" ><?php echo __("Create a New Play List"); ?></button>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button class="btn btn-success btn-block" id="addPlayList" ><?php echo __("Create a New Play List"); ?></button>
-                                                </div>
-                                            </div>
-                                        <?php } else { ?>
-                                            <h5>Want to watch this again later?</h5>
+                                            <?php } else { ?>
+                                                <h5>Want to watch this again later?</h5>
 
-                                            Sign in to add this video to a playlist.
+                                                Sign in to add this video to a playlist.
 
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
-                                                <span class="glyphicon glyphicon-log-in"></span>
-                                                <?php echo __("Login"); ?>
-                                            </a>
-                                        <?php } ?>
-                                    </div>
-                                    <script>
-                                        function loadPlayLists() {
-                                            $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>playLists.json',
-                                                success: function (response) {
-                                                    $('#searchlist').html('');
-                                                    for (var i in response) {
-                                                        if (!response[i].id) {
-                                                            continue;
-                                                        }
-                                                        var icon = "lock"
-                                                        if (response[i].status == "public") {
-                                                            icon = "globe"
-                                                        }
-
-                                                        var checked = "";
-                                                        for (var x in response[i].videos) {
-                                                            if (
-                                                                    typeof (response[i].videos[x]) === 'object'
-                                                                    && response[i].videos[x].videos_id ==<?php echo $video['id']; ?>) {
-                                                                checked = "checked";
-                                                            }
-                                                        }
-
-                                                        $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
-                                                                + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                                                                + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="'
-                                                                + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
-                                                                + response[i].id + '" class="label-success"></label></div></a>');
-                                                    }
-                                                    $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
-                                                    $('.playListsIds').change(function () {
-                                                        modal.showPleaseWait();
-                                                        $.ajax({
-                                                            url: '<?php echo $global['webSiteRootURL']; ?>playListAddVideo.json',
-                                                            method: 'POST',
-                                                            data: {
-                                                                'videos_id': <?php echo $video['id']; ?>,
-                                                                'add': $(this).is(":checked"),
-                                                                'playlists_id': $(this).val()
-                                                            },
-                                                            success: function (response) {
-                                                                modal.hidePleaseWait();
-                                                            }
-                                                        });
-                                                        return false;
-                                                    });
-                                                }
-                                            });
-                                        }
-                                        $(document).ready(function () {
-                                            loadPlayLists();
-                                            $('#addBtn').webuiPopover();
-                                            $('#addPlayList').click(function () {
-                                                modal.showPleaseWait();
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-log-in"></span>
+                                                    <?php echo __("Login"); ?>
+                                                </a>
+                                            <?php } ?>
+                                        </div>
+                                        <script>
+                                            function loadPlayLists() {
                                                 $.ajax({
-                                                    url: '<?php echo $global['webSiteRootURL']; ?>addNewPlayList',
-                                                    method: 'POST',
-                                                    data: {
-                                                        'videos_id': <?php echo $video['id']; ?>,
-                                                        'status': $('#publicPlayList').is(":checked") ? "public" : "private",
-                                                        'name': $('#playListName').val()
-                                                    },
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>playLists.json',
                                                     success: function (response) {
-                                                        if (response.status * 1 > 0) {
-                                                            // update list
-                                                            loadPlayLists();
-                                                            $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
-                                                            $('#playListName').val("");
-                                                            $('#publicPlayList').prop('checked', true);
+                                                        $('#searchlist').html('');
+                                                        for (var i in response) {
+                                                            if (!response[i].id) {
+                                                                continue;
+                                                            }
+                                                            var icon = "lock"
+                                                            if (response[i].status == "public") {
+                                                                icon = "globe"
+                                                            }
+
+                                                            var checked = "";
+                                                            for (var x in response[i].videos) {
+                                                                if (
+                                                                        typeof (response[i].videos[x]) === 'object'
+                                                                        && response[i].videos[x].videos_id ==<?php echo $video['id']; ?>) {
+                                                                    checked = "checked";
+                                                                }
+                                                            }
+
+                                                            $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
+                                                                    + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
+                                                                    + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="'
+                                                                    + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
+                                                                    + response[i].id + '" class="label-success"></label></div></a>');
                                                         }
-                                                        modal.hidePleaseWait();
+                                                        $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
+                                                        $('.playListsIds').change(function () {
+                                                            modal.showPleaseWait();
+                                                            $.ajax({
+                                                                url: '<?php echo $global['webSiteRootURL']; ?>playListAddVideo.json',
+                                                                method: 'POST',
+                                                                data: {
+                                                                    'videos_id': <?php echo $video['id']; ?>,
+                                                                    'add': $(this).is(":checked"),
+                                                                    'playlists_id': $(this).val()
+                                                                },
+                                                                success: function (response) {
+                                                                    modal.hidePleaseWait();
+                                                                }
+                                                            });
+                                                            return false;
+                                                        });
                                                     }
                                                 });
-                                                return false;
-                                            });
+                                            }
+                                            $(document).ready(function () {
+                                                loadPlayLists();
+                                                $('#addBtn').webuiPopover();
+                                                $('#addPlayList').click(function () {
+                                                    modal.showPleaseWait();
+                                                    $.ajax({
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>addNewPlayList',
+                                                        method: 'POST',
+                                                        data: {
+                                                            'videos_id': <?php echo $video['id']; ?>,
+                                                            'status': $('#publicPlayList').is(":checked") ? "public" : "private",
+                                                            'name': $('#playListName').val()
+                                                        },
+                                                        success: function (response) {
+                                                            if (response.status * 1 > 0) {
+                                                                // update list
+                                                                loadPlayLists();
+                                                                $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
+                                                                $('#playListName').val("");
+                                                                $('#publicPlayList').prop('checked', true);
+                                                            }
+                                                            modal.hidePleaseWait();
+                                                        }
+                                                    });
+                                                    return false;
+                                                });
 
-                                        });
-                                    </script>
-                                    <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                                        <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                                    </a>                                    
+                                            });
+                                        </script>
+                                        <a href="#" class="btn btn-default no-outline" id="shareBtn">
+                                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                                        </a>                                    
                                     <?php } echo YouPHPTubePlugin::getWatchActionButton(); ?>                                    
                                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                                         <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
@@ -422,152 +422,162 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                 </div>
                             </div>
                         </div>
-                        <?php if((($advancedCustom!=false)&&($advancedCustom->disableShareAndPlaylist==false))||($advancedCustom==false)){ ?>
-                        <div class="row bgWhite list-group-item" id="shareDiv">
-                            <div class="tabbable-panel">
-                                <div class="tabbable-line text-muted">
-                                    <ul class="nav nav-tabs">
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="#tabShare" data-toggle="tab">
-                                                <span class="fa fa-share"></span>
-                                                <?php echo __("Share"); ?>
-                                            </a>
-                                        </li>
-
-                                        <?php
-                                        if (empty($objSecure->disableEmbedMode)) {
-                                            ?>
+                        <?php if ((($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false)) { ?>
+                            <div class="row bgWhite list-group-item" id="shareDiv">
+                                <div class="tabbable-panel">
+                                    <div class="tabbable-line text-muted">
+                                        <ul class="nav nav-tabs">
                                             <li class="nav-item">
-                                                <a class="nav-link " href="#tabEmbed" data-toggle="tab">
-                                                    <span class="fa fa-code"></span>
-                                                    <?php echo __("Embed"); ?>
+                                                <a class="nav-link " href="#tabShare" data-toggle="tab">
+                                                    <span class="fa fa-share"></span>
+                                                    <?php echo __("Share"); ?>
                                                 </a>
                                             </li>
-                                            <?php
-                                        }
-                                        ?>
 
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#tabEmail" data-toggle="tab">
-                                                <span class="fa fa-envelope"></span>
-                                                <?php echo __("E-mail"); ?>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#tabPermaLink" data-toggle="tab">
-                                                <span class="fa fa-link"></span>
-                                                <?php echo __("Permanent Link"); ?>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content clearfix">
-                                        <div class="tab-pane active" id="tabShare">
                                             <?php
-                                            $url = urlencode($global['webSiteRootURL'] . "{$catLink}video/" . $video['clean_title']);
-                                            $title = urlencode($video['title']);
-                                            include $global['systemRootPath'].'view/include/social.php';
-                                            ?>
-                                        </div>
-                                        <div class="tab-pane" id="tabEmbed">
-                                            <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
-                                            <textarea class="form-control" style="min-width: 100%" rows="5">
-                                                <?php
-                                                if ($video['type'] == 'video' || $video['type'] == 'embed') {
-                                                    $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
-                                                } else {
-                                                    $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
-                                                }
-                                                echo htmlentities($code);
+                                            if (empty($objSecure->disableEmbedMode)) {
                                                 ?>
-                                            </textarea>
-                                        </div>
-                                        <div class="tab-pane" id="tabEmail">
-                                            <?php if (!User::isLogged()) { ?>
-                                                <strong>
-                                                    <a href="<?php echo $global['webSiteRootURL']; ?>user"><?php echo __("Sign in now!"); ?></a>
-                                                </strong>
-                                            <?php } else { ?>
-                                                <form class="well form-horizontal" action="<?php echo $global['webSiteRootURL']; ?>sendEmail" method="post"  id="contact_form">
-                                                    <fieldset>
-                                                        <!-- Text input-->
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
-                                                            <div class="col-md-8 inputGroupContainer">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                                    <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control"  type="text">
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="#tabEmbed" data-toggle="tab">
+                                                        <span class="fa fa-code"></span>
+                                                        <?php echo __("Embed"); ?>
+                                                    </a>
+                                                </li>
+                                                <?php
+                                            }
+                                            ?>
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#tabEmail" data-toggle="tab">
+                                                    <span class="fa fa-envelope"></span>
+                                                    <?php echo __("E-mail"); ?>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#tabPermaLink" data-toggle="tab">
+                                                    <span class="fa fa-link"></span>
+                                                    <?php echo __("Permanent Link"); ?>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content clearfix">
+                                            <div class="tab-pane active" id="tabShare">
+                                                <?php
+                                                $url = urlencode($global['webSiteRootURL'] . "{$catLink}video/" . $video['clean_title']);
+                                                $title = urlencode($video['title']);
+                                                include $global['systemRootPath'] . 'view/include/social.php';
+                                                ?>
+                                            </div>
+                                            <div class="tab-pane" id="tabEmbed">
+                                                <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
+                                                <textarea class="form-control" style="min-width: 100%" rows="5"><?php
+                                                    if ($video['type'] == 'video' || $video['type'] == 'embed') {
+                                                        $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                    } else {
+                                                        $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                    }
+                                                    echo htmlentities($code);
+                                                    ?>
+                                                </textarea>
+                                            </div>
+                                            <div class="tab-pane" id="tabEmail">
+                                                <?php if (!User::isLogged()) { ?>
+                                                    <strong>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>user"><?php echo __("Sign in now!"); ?></a>
+                                                    </strong>
+                                                <?php } else { ?>
+                                                    <form class="well form-horizontal" action="<?php echo $global['webSiteRootURL']; ?>sendEmail" method="post"  id="contact_form">
+                                                        <fieldset>
+                                                            <!-- Text input-->
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
+                                                                <div class="col-md-8 inputGroupContainer">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                                        <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control"  type="text">
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
-                                                        <!-- Text area -->
+                                                            <!-- Text area -->
 
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label"><?php echo __("Message"); ?></label>
-                                                            <div class="col-md-8 inputGroupContainer">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                                    <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo __("I would like to share this video with you:"); ?> <?php echo Video::getLink($video['id'], $video['clean_title']); ?></textarea>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label"><?php echo __("Message"); ?></label>
+                                                                <div class="col-md-8 inputGroupContainer">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                                        <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo __("I would like to share this video with you:"); ?> <?php echo Video::getLink($video['id'], $video['clean_title']); ?></textarea>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
-                                                            <div class="col-md-8 inputGroupContainer">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
-                                                                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                                                                    <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
+                                                                <div class="col-md-8 inputGroupContainer">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
+                                                                        <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                                                                        <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <!-- Button -->
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label"></label>
-                                                            <div class="col-md-8">
-                                                                <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                                                            <!-- Button -->
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label"></label>
+                                                                <div class="col-md-8">
+                                                                    <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                    </fieldset>
-                                                </form>
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        $('#btnReloadCapcha').click(function () {
-                                                            $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
-                                                            $('#captchaText').val('');
-                                                        });
-                                                        $('#contact_form').submit(function (evt) {
-                                                            evt.preventDefault();
-                                                            modal.showPleaseWait();
-                                                            $.ajax({
-                                                                url: '<?php echo $global['webSiteRootURL']; ?>sendEmail',
-                                                                data: $('#contact_form').serializeArray(),
-                                                                type: 'post',
-                                                                success: function (response) {
-                                                                    modal.hidePleaseWait();
-                                                                    if (!response.error) {
-                                                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
-                                                                    } else {
-                                                                        swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
-                                                                    }
-                                                                    $('#btnReloadCapcha').trigger('click');
-                                                                }
+                                                        </fieldset>
+                                                    </form>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            $('#btnReloadCapcha').click(function () {
+                                                                $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
+                                                                $('#captchaText').val('');
                                                             });
-                                                            return false;
+                                                            $('#contact_form').submit(function (evt) {
+                                                                evt.preventDefault();
+                                                                modal.showPleaseWait();
+                                                                $.ajax({
+                                                                    url: '<?php echo $global['webSiteRootURL']; ?>sendEmail',
+                                                                    data: $('#contact_form').serializeArray(),
+                                                                    type: 'post',
+                                                                    success: function (response) {
+                                                                        modal.hidePleaseWait();
+                                                                        if (!response.error) {
+                                                                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
+                                                                        } else {
+                                                                            swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
+                                                                        }
+                                                                        $('#btnReloadCapcha').trigger('click');
+                                                                    }
+                                                                });
+                                                                return false;
+                                                            });
                                                         });
-                                                    });
-                                                </script>
-                                            <?php } ?>
-                                        </div>
+                                                    </script>
+                                                <?php } ?>
+                                            </div>
 
-                                        <div class="tab-pane" id="tabPermaLink">
-                                            <input value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"/>
+                                            <div class="tab-pane" id="tabPermaLink">                                            
+                                                <div class="form-group">
+                                                    <label class="control-label"><?php echo __("Permanent Link") ?></label>
+                                                    <div class="">
+                                                        <input value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label"><?php echo __("URL Friendly") ?> (SEO)</label>
+                                                    <div class="">
+                                                        <input value="<?php echo Video::getURLFriendly($video['id']); ?>" class="form-control" readonly="readonly"/>
+                                                    </div>
+                                                </div>                                            
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         <?php } ?>
                         <div class="row bgWhite list-group-item">
                             <div class="row">
@@ -596,7 +606,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
                         <?php
                         if (!empty($playlist_id)) {
-                            include $global['systemRootPath'].'view/include/playlist.php';
+                            include $global['systemRootPath'] . 'view/include/playlist.php';
                             ?>
                             <script>
                                 $(document).ready(function () {
@@ -736,30 +746,33 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         </div>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-                            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                            $.widget.bridge('uibutton', $.ui.button);
-                            $.widget.bridge('uitooltip', $.ui.tooltip);
+                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+                        $.widget.bridge('uibutton', $.ui.button);
+                        $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
-        <?php 
+        <?php
         $videoJSArray = array("view/js/video.js/video.js");
-        if($advancedCustom!=false){
+        if ($advancedCustom != false) {
             $disableYoutubeIntegration = $advancedCustom->disableYoutubePlayerIntegration;
         } else {
-           $disableYoutubeIntegration = false; 
+            $disableYoutubeIntegration = false;
         }
-        
-        if((isset($_GET['isEmbedded']))&&($disableYoutubeIntegration==false)) { if($_GET['isEmbedded']=="y") {
-            $videoJSArray[] = "view/js/videojs-youtube/Youtube.js";
-        } else if ($_GET['isEmbedded']=="v"){ 
-            $videoJSArray[] = "view/js/videojs-vimeo/videojs-vimeo.js";
-        } } 
+
+        if ((isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false)) {
+            if ($_GET['isEmbedded'] == "y") {
+                $videoJSArray[] = "view/js/videojs-youtube/Youtube.js";
+            } else if ($_GET['isEmbedded'] == "v") {
+                $videoJSArray[] = "view/js/videojs-vimeo/videojs-vimeo.js";
+            }
+        }
         $videoJSArray[] = "view/js/videojs-contrib-ads/videojs.ads.min.js";
-        $jsURL =  combineFiles($videoJSArray, "js");
+        $jsURL = combineFiles($videoJSArray, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
-        <?php include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js","view/js/videojs-persistvolume/videojs.persistvolume.js","view/js/webui-popover/jquery.webui-popover.min.js","view/js/bootstrap-list-filter/bootstrap-list-filter.min.js");
-        $jsURL =  combineFiles($videoJSArray, "js");
+        <?php
+        include $global['systemRootPath'] . 'view/include/footer.php';
+        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js", "view/js/videojs-persistvolume/videojs.persistvolume.js", "view/js/webui-popover/jquery.webui-popover.min.js", "view/js/bootstrap-list-filter/bootstrap-list-filter.min.js");
+        $jsURL = combineFiles($videoJSArray, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     </body>
