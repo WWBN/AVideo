@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/LiveLinks/Objects/LiveLinksTabl
 class LiveLinks extends PluginAbstract {
 
     public function getDescription() {
-        return "Register Livestreams external events";
+        return "Register Livestreams external Links from any HLS provider, Wowza and others";
     }
 
     public function getName() {
@@ -81,10 +81,18 @@ class LiveLinks extends PluginAbstract {
             '_description_',
             '_link_',
             '_imgJPG_',
-            '_imgGIF_'
+            '_imgGIF_',
+            '_class_'
         );
         $content = file_get_contents($filename);
         $contentExtra = file_get_contents($filenameExtra);
+        
+        if(empty($_GET['requestComesFromVideoPage'])){
+            $regex = "/".addcslashes($global['webSiteRootURL'],"/")."video\/.*/";
+            $requestComesFromVideoPage = preg_match($regex, $_SERVER["HTTP_REFERER"]);
+        }else{
+            $requestComesFromVideoPage = 1;
+        }
         foreach ($row as $value) {
             
             if($value['type']=='unlisted'){
@@ -104,7 +112,8 @@ class LiveLinks extends PluginAbstract {
                 str_replace('"', "", $value['description']),
                 "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$value['id']}",
                 "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg",
-                "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif"
+                "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif",
+                ($requestComesFromVideoPage)?"col-xs-6":"col-lg-2 col-md-4 col-sm-4 col-xs-6"
             );
 
             $newContent = str_replace($search, $replace, $content);
