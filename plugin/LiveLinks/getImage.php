@@ -25,13 +25,16 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
         $content = url_get_contents($url);
         session_start();
         $_SESSION[$url] = array('content' => $content, 'expire' => time("+2 min"));
+        error_log($url . " Image Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }
     if(!empty($_SESSION[$url]['content'])){
         echo $_SESSION[$url]['content'];
+        error_log($url . " Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }else{
         echo file_get_contents($filename);
+        error_log($url . " Get default image ");
     }
-    error_log($url . " Image Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
+    
 } else {
     echo file_get_contents($filename);
     error_log($url . " Invalid URL ");
