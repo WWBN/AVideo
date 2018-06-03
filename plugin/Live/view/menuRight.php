@@ -131,16 +131,9 @@ if (User::canStream()) {
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName']) ? "&requestComesFromVideoPage=1" : "") ?>',
                         success: function (response) {
-                            $('#availableLiveStream').empty();
-                            if (typeof response.applications == 'undefined') {
-                                $('.onlineApplications').text(0);
-                                if (recurrentCall) {
-                                    setTimeout(function () {
-                                        getStatsMenu(true);
-                                    }, 2000);
-                                }
-                            } else {
+                            if (typeof response.applications !== 'undefined') {
                                 $('.onlineApplications').text(response.applications.length);
+                                $('#availableLiveStream').empty();
                                 if (response.applications.length) {
                                     disableGif = response.disableGif;
                                     for (i = 0; i < response.applications.length; i++) {
@@ -171,11 +164,11 @@ if (User::canStream()) {
                                 } else {
                                     createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true);
                                 }
-                                if (recurrentCall) {
-                                    setTimeout(function () {
-                                        getStatsMenu(true);
-                                    }, 10000);
-                                }
+                            }
+                            if (recurrentCall) {
+                                setTimeout(function () {
+                                    getStatsMenu(true);
+                                }, 10000);
                             }
                         }
                     });
