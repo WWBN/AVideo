@@ -9,6 +9,9 @@
             } else {
                 $waveSurferEnabled = $waveSurferEnabled->EnableWavesurfer;
             }
+            if($video['type']!="audio"){
+                $waveSurferEnabled = false;
+            }
             $poster = $global['webSiteRootURL']."img/recorder.gif";
             if(file_exists($global['systemRootPath']."videos/".$video['filename'].".jpg")){
                $poster = $global['webSiteRootURL']."videos/".$video['filename'].".jpg"; 
