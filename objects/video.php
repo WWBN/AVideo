@@ -151,7 +151,6 @@ if (!class_exists('Video')) {
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
                     $this->id = $id;
-                    log_error($id);
                 } else {
                     $id = $this->id;
                 }
