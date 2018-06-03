@@ -102,10 +102,34 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
           });
         player.ready(function () {
 <?php if ($config->getAutoplay()) {
-	echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play();}, 150);";
+	?>
+        setTimeout(function () { 
+            if(typeof player === 'undefined'){ 
+                player = videojs('mainVideo');
+            }
+            try {
+                player.play();
+            }catch(e){
+                setTimeout(function () { 
+                    player.play();
+                }, 1000); 
+            }
+        }, 150);    
+        <?php
 } else { ?>
                 if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                    setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play();}, 150);                    
+                    setTimeout(function () { 
+                        if(typeof player === 'undefined'){ 
+                            player = videojs('mainVideo');
+                        }
+                        try {
+                            player.play();
+                        }catch(e){
+                            setTimeout(function () { 
+                                player.play();
+                            }, 1000); 
+                        }
+                    }, 150);                    
                 }
 <?php }
 if (!empty($logId))

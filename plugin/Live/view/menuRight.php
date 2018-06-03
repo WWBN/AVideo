@@ -129,7 +129,7 @@ if (User::canStream()) {
 
     function getStatsMenu(recurrentCall) {
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu',
+            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName'])?"&requestComesFromVideoPage=1":"") ?>',
             success: function (response) {
                 $('.onlineApplications').text(response.applications.length);
                 $('#availableLiveStream').empty();
