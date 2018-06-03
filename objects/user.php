@@ -23,7 +23,6 @@ class User {
     private $about;
     private $channelName;
     private $emailVerified;
-    private $usedHashType = "sha512";
     private $userGroups = array();
 
     function __construct($id, $user = "", $password = "") {
@@ -466,46 +465,18 @@ class User {
         if ($mustBeactive) {
             $sql .= " AND status = 'a' ";
         }
-
+        if ($pass !== false) {
+            if (!$encodedPass || $encodedPass === 'false') {
+                $pass = md5($pass);
+            }
+            $sql .= " AND password = ? ";
+            $formats = "s";
+            $values = array($pass);
+        }
         $sql .= " LIMIT 1";
         $res = sqlDAL::readSql($sql, $formats, $values);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        
-        // we have to analyse, how the db-value is looking for know how to handle
-        if((strpos($result['password'],"{")===0)&&(strpos($result['password'],"}")!=false)){
-            
-            // new format
-            
-            
-            $hashType = substr($result['password'],1,strpos($result['password'],"}")-1);
-            $hashedPass = $pass;
-            if (!$encodedPass || $encodedPass === 'false') {
-                $hashedPass = "{".$hashType."}".hash($hashType, $pass);
-            }
-            if($hashedPass==$result['password']){
-                if($hashType=="md5"){
-                    error_log("Deperacted password-hash in new format for ".$result['user']);
-                }
-                return $result;
-            } else {
-                return false;
-            }
-        } else {
-            
-            // old format, fallback
-            $hashedPass = $pass;
-            if (!$encodedPass || $encodedPass === 'false') {
-                $hashedPass = hash("md5", $pass);
-            }
-            if($result['password']==$hashedPass){
-                log_error("deprecated log in worked!");
-                return $result;    
-            } else {
-                return false;
-            }     
-        }
-        
         if ($res) {
             $user = $result;
         } else {
@@ -583,7 +554,7 @@ class User {
 
     function setPassword($password) {
         if (!empty($password)) {
-            $this->password = "{".$this->usedHashType."}".hash($this->usedHashType, $password);
+            $this->password = md5($password);
         }
     }
 
@@ -698,7 +669,7 @@ class User {
             if (empty($pass)) {
                 $pass = rand();
             }
-            $pass = "{".$this->usedHashType."}".hash($this->usedHashType, $pass);
+            $pass = md5($pass);
             $userObject = new User(0, $user, $pass);
             $userObject->setEmail($email);
             $userObject->setName($name);
