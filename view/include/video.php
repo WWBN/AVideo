@@ -197,6 +197,7 @@ if (!empty($logId)){
                 removeTracks();
                 player.src({type: 'video/mp4', src: '<?php echo $video['videoLink']; ?>'});
 		player.play();
+                $("time.duration").hide();
                 <?php } ?>
                 addView(<?php echo $video['id']; ?>);
                 $(".ad").removeClass("ad");
