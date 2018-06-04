@@ -1,4 +1,10 @@
 <?php
+require_once '../../videos/configuration.php';
+session_write_close();
+require_once './Objects/LiveTransmition.php';
+require_once '../../objects/user.php';
+$p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
+
 ini_set('max_execution_time', 2);
 set_time_limit(2);
 header('Content-Type: application/json');
@@ -14,11 +20,9 @@ if(empty($_POST['name']) && !empty($_GET['name'])){
 $obj->name = $_POST['name'];
 $obj->applications = array();
 $_GET['lifetime'] = "10";
-require_once '../../videos/configuration.php';
-require_once './Objects/LiveTransmition.php';
-require_once '../../objects/user.php';
-session_write_close();
-$p = YouPHPTubePlugin::loadPlugin("Live");
+if(empty($p)){
+    die(json_encode($obj));
+}
 $xml = $p->getStatsObject();
 $xml = json_encode($xml);
 $xml = json_decode($xml);

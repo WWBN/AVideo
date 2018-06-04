@@ -19,6 +19,7 @@ class LiveLinks extends PluginAbstract {
         $obj = new stdClass();
         $obj->onlyAdminCanAddLinks = true;
         $obj->buttonTitle = "Add a Live Link";
+        $obj->disableGifThumbs = false;
         return $obj;
     }
 
@@ -69,6 +70,7 @@ class LiveLinks extends PluginAbstract {
      */
     public function getLiveApplicationArray() {
         global $global;
+        $obj = $this->getDataObject();
         $filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
         $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
         $row = LiveLinks::getAllActive();
@@ -89,7 +91,7 @@ class LiveLinks extends PluginAbstract {
         
         if(empty($_GET['requestComesFromVideoPage'])){
             $regex = "/".addcslashes($global['webSiteRootURL'],"/")."video\/.*/";
-            $requestComesFromVideoPage = preg_match($regex, $_SERVER["HTTP_REFERER"]);
+            $requestComesFromVideoPage = preg_match($regex, @$_SERVER["HTTP_REFERER"]);
         }else{
             $requestComesFromVideoPage = 1;
         }
@@ -103,16 +105,17 @@ class LiveLinks extends PluginAbstract {
                     continue;
                 }
             }
-                        
+            $UserPhoto = User::getPhoto($value['users_id']);   
+            $name = User::getNameIdentificationById($value['users_id']);
             $replace = array(
                 $value['id'],
-                User::getPhoto($value['users_id']),
+                $UserPhoto,
                 $value['title'],
-                User::getNameIdentificationById($value['users_id']),
+                $name,
                 str_replace('"', "", $value['description']),
                 "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$value['id']}",
-                "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg",
-                "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif",
+                '<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg".'" class="thumbsJPG img-responsive" height="130">',
+                empty($obj->disableGifThumbs)?('<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif".'" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">'):"",
                 ($requestComesFromVideoPage)?"col-xs-6":"col-lg-2 col-md-4 col-sm-4 col-xs-6"
             );
 
@@ -120,7 +123,12 @@ class LiveLinks extends PluginAbstract {
             $newContentExtra = str_replace($search, $replace, $contentExtra);
             $array[] = array(
                 "html" => $newContent,
-                "htmlExtra" => $newContentExtra
+                "htmlExtra" => $newContentExtra,
+                "UserPhoto" => $UserPhoto,
+                "title" => $value['title'],
+                "name" => $name,
+                "poster" => "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg",
+                "link" => "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$value['id']}&embed=1"
             );
         }
 

@@ -235,6 +235,8 @@ if (!class_exists('Video')) {
                         $sql .= "1";
                     } else if ($videoFound) {
                         $sql .= "2";
+                    }else{
+                        $sql .= "0";
                     }
                     $sql .= "' WHERE `category_type_cache`.`categoryId` = ?;";
                     sqlDAL::writeSql($sql,"i",array($catId));
@@ -1529,7 +1531,7 @@ if (!class_exists('Video')) {
             }
             $token = "";
             $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
-            if (!empty($secure)) {
+            if (!empty($secure) && ($type == ".mp4" || $type == ".webm")) {
                 $token = "?" . $secure->getToken($filename);
             }
             $source = array();
