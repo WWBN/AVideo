@@ -1,5 +1,4 @@
 <?php
-
 require_once '../../videos/configuration.php';
 session_write_close();
 header('Content-Type: image/x-png');
@@ -23,7 +22,7 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
         $content = url_get_contents($url);
         session_start();
-        error_log($url . " Image Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
+        error_log($url . " Image Expired in ".  date("d/m/Y H:i:s", @$_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
         $_SESSION[$url] = array('content' => $content, 'expire' => strtotime("+2 min"));
         error_log($url . " New Image will Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }
@@ -38,4 +37,8 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
 } else {
     echo file_get_contents($filename);
     error_log($url . " Invalid URL ");
+}
+$p = YouPHPTubePlugin::loadPluginIfEnabled("Cache");
+if(!empty($p)){
+    $p->getEnd();
 }
