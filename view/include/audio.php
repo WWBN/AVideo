@@ -20,26 +20,22 @@
         <audio controls class="center-block video-js vjs-default-skin " <?php if($waveSurferEnabled==false){ ?> autoplay data-setup='{"controls": true}' <?php } ?> id="mainAudio" poster="<?php echo $poster; ?>">
             <?php
             $ext = "";
+        if($waveSurferEnabled==false){
            if($video['type']=="audio"){ 
-            if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ if($waveSurferEnabled==false){ ?>
-            
-            
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
-                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
-                <?php
-                    }
+            if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ 
                     $ext = ".ogg";
-                } else { if($waveSurferEnabled==false){ ?>
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" /> 
-                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
-                <?php
-                    }
+                } else {
                     $ext = ".mp3";
-                } } else { if($waveSurferEnabled==false){  ?>
-                    <source src="<?php echo $video['videoLink'];?>" /> 
-                    <a href="<?php echo $video['videoLink']; ?>">horse</a>
-            
-            <?php } } ?>
+                } 
+                // usual audio-type
+                $sourceLink = $global['webSiteRootURL']; ?>videos/<?php echo $video['filename'].$ext;
+           } else {  
+                // linkVideo-type
+                $sourceLink = $video['videoLink']; 
+             } ?>
+                <source src="<?php echo $sourceLink;?>" /> 
+                <a href="<?php echo $sourceLink; ?>">horse</a>     
+        <?php } ?>
         </audio>
             <?php if ($config->getAllow_download()) {
             if($video['type']=="audio"){ 
