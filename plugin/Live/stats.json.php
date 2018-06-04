@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 session_write_close();
 require_once './Objects/LiveTransmition.php';
@@ -7,7 +8,6 @@ $p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
 
 ini_set('max_execution_time', 2);
 set_time_limit(2);
-header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "OFFLINE";
