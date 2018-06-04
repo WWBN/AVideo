@@ -17,6 +17,7 @@ require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 $img = "{$global['webSiteRootURL']}img/notfound.jpg";
+$poster = "{$global['webSiteRootURL']}img/notfound.jpg";
 $imgw = 1280;
 $imgh = 720;
 
@@ -134,7 +135,7 @@ if (!empty($video)) {
     // $resp = $obj->addView();
 }
 
-if ($video['type'] !== "audio") {
+if ($video['type'] == "video") {
     $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
