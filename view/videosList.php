@@ -92,7 +92,7 @@ foreach ($videos as $key => $value) {
 
                 $imgGif = $images->thumbsGif;
                 $img = $images->thumbsJpg;
-                if ($value['type'] !== "audio") {
+                if (($value['type'] !== "audio")&&($value['type'] !== "linkAudio")) {
                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                 } else {
                     $img_portrait = "";

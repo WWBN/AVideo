@@ -142,7 +142,7 @@ if ($video['type'] == "video") {
 }
 
 if (!empty($video)) {
-    if ($video['type'] !== "audio") {
+    if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
         $source = Video::getSourceFile($video['filename']);
         $img = $source['url'];
         $data = getimgsize($source['path']);
@@ -650,7 +650,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                         if (file_exists("{$global['systemRootPath']}videos/{$autoPlayVideo['filename']}.gif")) {
                                             $imgGif = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.gif";
                                         }
-                                        if ($autoPlayVideo['type'] !== "audio") {
+                                        if (($autoPlayVideo['type'] !== "audio")&&($autoPlayVideo['type'] !== "linkAudio")) {
                                             $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
                                             $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
                                         } else {

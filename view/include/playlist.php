@@ -41,7 +41,7 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3 nopadding">
                             <?php
-                            if ($value['type'] !== "audio") {
+                            if (($value['type'] !== "audio")&&($value['type'] !== "linkAudio")) {
                                 $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
                                 $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                             } else {

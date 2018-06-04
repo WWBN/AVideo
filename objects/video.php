@@ -1599,7 +1599,7 @@ if (!class_exists('Video')) {
                     im_resize($jpegSource['path'], $thumbsSmallSource['path'], 250, 140, 5);
                 }
             } else {
-                if ($type !== "audio") {
+                if (($type !== "audio")&&($type !== "linkAudio")) {
                     $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
                     $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
                     $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
