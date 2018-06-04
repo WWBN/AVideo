@@ -39,7 +39,7 @@ class User {
             $this->load($id);
         }
     }
-
+   
     function getEmail() {
         return $this->email;
     }
@@ -465,7 +465,6 @@ class User {
         if ($mustBeactive) {
             $sql .= " AND status = 'a' ";
         }
-
         if ($pass !== false) {
             if (!$encodedPass || $encodedPass === 'false') {
                 $pass = md5($pass);
@@ -867,7 +866,7 @@ class User {
             //Set who the message is to be sent to
             $mail->addAddress($email);
             //Set the subject line
-            $mail->Subject = 'Please Verify Your E-mail ' . $webSiteTitle;
+            $mail->Subject = __('Please Verify Your E-mail ') . $webSiteTitle;
 
             $msg = sprintf(__("Hi %s"), $user->getNameIdentificationBd());
             $msg .= "<br><br>" . __("Just a quick note to say a big welcome and an even bigger thank you for registering.");

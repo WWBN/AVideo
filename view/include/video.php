@@ -32,8 +32,12 @@ if (!empty($ad)) {
 			</div>
 			<div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; if (!empty($logId)) { echo " ad"; } ?>">
 				<video preload="auto" poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
-				    <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
-                    <?php echo getSources($playNowVideo['filename']); ?>
+                    <?php if($playNowVideo['type']=="video"){ ?>
+                        <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
+                        <?php echo getSources($playNowVideo['filename']); 
+                    } else { ?>
+                        <source src="<?php echo $playNowVideo['videoLink']; ?>">
+                    <?php } ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
 				    <p class="vjs-no-js"><?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
                         <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -60,11 +64,18 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
             </div>
 		</div>
             <?php if ($config->getAllow_download()) { ?>
+                <?php if ($playNowVideo['type']=="video") { ?>
                 <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $global['webSiteRootURL']."videos/".$playNowVideo['filename']; ?>.mp4" download="<?php echo $playNowVideo['title'].".mp4"; ?>" >
                     <i class="fa fa-download"></i>
                     <?php echo __("Download video"); ?>
                 </a>
-            <?php } ?>
+        <?php } else { ?>
+                <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $video['videoLink']; ?>" download="<?php echo $playNowVideo['title'].".mp4"; ?>" >
+                    <i class="fa fa-download"></i>
+                    <?php echo __("Download video"); ?>
+                </a>      
+        
+            <?php } } ?>
     </div>
 	<div class="col-sm-2 col-md-2"></div>
 </div>
@@ -78,7 +89,13 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
     <?php } ?>
     var player;
     $(document).ready(function () {
-    <?php if (!$config->getAllow_download()) { ?>
+        
+    <?php
+        if($playNowVideo['type']=="linkVideo"){
+            echo '$("time.duration").hide();';
+        }
+        
+        if (!$config->getAllow_download()) { ?>
         // Prevent HTML5 video from being downloaded (right-click saved)?
         $('#mainVideo').bind('contextmenu', function () {
             return false;
@@ -174,7 +191,14 @@ if (!empty($logId)){
                 console.log("Change Video");
                 mediaId = <?php echo $video['id']; ?>;
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
+                <?php if($video['type']=="video"){ ?>
                 changeVideoSrc(player, <?php echo json_encode($sources); ?>);
+                <?php } else { ?>
+                removeTracks();
+                player.src({type: 'video/mp4', src: '<?php echo $video['videoLink']; ?>'});
+		player.play();
+                $("time.duration").hide();
+                <?php } ?>
                 addView(<?php echo $video['id']; ?>);
                 $(".ad").removeClass("ad");
                 return false;

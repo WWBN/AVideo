@@ -31,7 +31,7 @@ class TheaterButton extends PluginAbstract {
         }
         $tmp = "mainVideo";
         if(!empty($_SESSION['type'])){
-            if($_SESSION['type']=="audio"){
+            if(($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio")){
                 $tmp = "mainAudio";
             }
         }

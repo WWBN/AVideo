@@ -17,6 +17,7 @@ require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 $img = "{$global['webSiteRootURL']}img/notfound.jpg";
+$poster = "{$global['webSiteRootURL']}img/notfound.jpg";
 $imgw = 1280;
 $imgh = 720;
 
@@ -134,14 +135,14 @@ if (!empty($video)) {
     // $resp = $obj->addView();
 }
 
-if ($video['type'] !== "audio") {
+if ($video['type'] == "video") {
     $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
 }
 
 if (!empty($video)) {
-    if ($video['type'] !== "audio") {
+    if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
         $source = Video::getSourceFile($video['filename']);
         $img = $source['url'];
         $data = getimgsize($source['path']);
@@ -206,7 +207,13 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                     </div>
                     <?php
                 }
-                require "{$global['systemRootPath']}view/include/{$video['type']}.php";
+                $vType = $video['type'];
+                if($vType=="linkVideo"){
+                    $vType="video";
+                } else if($vType=="linkAudio"){
+                    $vType="audio";
+                }
+                require "{$global['systemRootPath']}view/include/{$vType}.php";
                 ?>
                 <div class="row">
                     <div class="col-sm-1 col-md-1"></div>
@@ -643,7 +650,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                         if (file_exists("{$global['systemRootPath']}videos/{$autoPlayVideo['filename']}.gif")) {
                                             $imgGif = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.gif";
                                         }
-                                        if ($autoPlayVideo['type'] !== "audio") {
+                                        if (($autoPlayVideo['type'] !== "audio")&&($autoPlayVideo['type'] !== "linkAudio")) {
                                             $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
                                             $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
                                         } else {
