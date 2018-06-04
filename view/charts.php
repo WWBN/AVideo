@@ -17,6 +17,11 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 if(!User::isLogged()){
     header("Location: ".$global['webSiteRootURL']);
 }
+
+if(empty($_POST['rowCount'])){
+    $_POST['rowCount'] = 500;
+}
+
 if(User::isAdmin()){
     $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
     $totalVideos = Video::getTotalVideos("viewableNotAd");
