@@ -76,11 +76,11 @@ if (!empty($_GET['msg'])) {
         
         $waveSurferEnabled = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         if($waveSurferEnabled==false){
-            $waveSurferEnabled = true;
+           $waveSurferEnabled = true;
         } else {
             $waveSurferEnabled = $waveSurferEnabled->EnableWavesurfer;
         }
-        if(($_SESSION['type']=="audio")&&($waveSurferEnabled)){
+        if((($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio"))&&($waveSurferEnabled)){
             $jsFiles[] = "view/js/videojs-wavesurfer/wavesurfer.min.js";
             $jsFiles[] = "view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
         }   

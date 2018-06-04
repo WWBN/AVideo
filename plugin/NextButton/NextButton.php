@@ -30,7 +30,7 @@ class NextButton extends PluginAbstract {
         global $global, $autoPlayVideo;
         if (!empty($autoPlayVideo['url'])) {
             $tmp = "mainVideo";
-            if($_SESSION['type']=="audio"){
+            if(($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio")){
                 $tmp = "mainAudio";
             }
             $js = '<script>var autoPlayVideoURL="'.$autoPlayVideo['url'].'"; var videoJsId = "'.$tmp.'";</script>';

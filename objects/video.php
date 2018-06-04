@@ -45,7 +45,7 @@ if (!class_exists('Video')) {
             'ximg' => 'get image error');
         //ver 3.4
         private $youtubeId;
-        static $typeOptions = array('audio', 'video', 'embed');
+        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio');
 
         function __construct($title = "", $filename = "", $id = 0) {
             global $global;
@@ -151,7 +151,6 @@ if (!class_exists('Video')) {
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
                     $this->id = $id;
-                    log_error($id);
                 } else {
                     $id = $this->id;
                 }
@@ -501,7 +500,9 @@ if (!class_exists('Video')) {
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
-                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
+                } else if ($_SESSION['type'] == 'audio') {
+                    $sql .= " AND (v.type = 'audio' OR  v.type = 'linkAudio')";
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
@@ -643,7 +644,9 @@ if (!class_exists('Video')) {
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
-                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
+                } else if ($_SESSION['type'] == 'audio') {
+                    $sql .= " AND (v.type = 'audio' OR  v.type = 'linkAudio')";
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
@@ -758,7 +761,9 @@ if (!class_exists('Video')) {
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
-                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed')";
+                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
+                } else if ($_SESSION['type'] == 'audio') {
+                    $sql .= " AND (v.type = 'audio' OR  v.type = 'linkAudio')";
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
@@ -1594,7 +1599,7 @@ if (!class_exists('Video')) {
                     im_resize($jpegSource['path'], $thumbsSmallSource['path'], 250, 140, 5);
                 }
             } else {
-                if ($type !== "audio") {
+                if (($type !== "audio")&&($type !== "linkAudio")) {
                     $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
                     $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
                     $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";

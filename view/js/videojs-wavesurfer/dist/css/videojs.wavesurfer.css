@@ -1,5 +1,5 @@
 /*!
-Default styles for videojs-wavesurfer 2.4.0
+Default styles for videojs-wavesurfer 2.5.0
 */
 /* Position fullscreen control on right side of the player.
 --------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ Default styles for videojs-wavesurfer 2.4.0
 --------------------------------------------------------------------------------
 */
 .vjs-wavesurfer .vjs-menu-content {
-  z-index: 1; }
+  z-index: 4; }
 
 .vjs-wavesurfer .vjs-modal-dialog, .vjs-text-track-display {
   z-index: 4; }

@@ -71,7 +71,12 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
-# Coming version
+# 5.5
+- Bugfixes & improvements
+- Introduce new video-types (linkVideo and linkAudio)
+- LiveLinks-Plugin
+
+# 5.4
 - Wavesurfer-visualisation for audio
 - Add dynamic /help-page (also usefull for admins)
 - Embeded videos from youtube are in a native player now (allow plugins for it)
