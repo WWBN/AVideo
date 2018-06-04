@@ -191,11 +191,12 @@ if (!empty($logId)){
                 console.log("Change Video");
                 mediaId = <?php echo $video['id']; ?>;
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
-                <?php if($playNowVideo['type']=="video"){ ?>
+                <?php if($video['type']=="video"){ ?>
                 changeVideoSrc(player, <?php echo json_encode($sources); ?>);
                 <?php } else { ?>
                 removeTracks();
-                player.src({type: 'video/mp4', src: '<?php echo $video['videoLink']; ?>'})
+                player.src({type: 'video/mp4', src: '<?php echo $video['videoLink']; ?>'});
+		player.play();
                 <?php } ?>
                 addView(<?php echo $video['id']; ?>);
                 $(".ad").removeClass("ad");
