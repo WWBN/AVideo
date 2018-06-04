@@ -35,6 +35,12 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
 $img = "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?link={$_GET['link']}&format=jpg";
 $imgw = 640;
 $imgh = 360;
+
+if(!empty($_GET['embed'])){
+    include $global['systemRootPath'].'plugin/LiveLinks/view/videoEmbeded.php';
+    return false;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

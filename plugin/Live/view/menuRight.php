@@ -90,8 +90,8 @@ if (User::canStream()) {
         $liveLi.find('.liveUser').text(name);
         $liveLi.find('.img').attr("src", photo);
         $('#availableLiveStream').append($liveLi);
-        
-        if(href!="#"){
+
+        if (href != "#") {
             $liveLi.find('.liveNow').removeClass("hidden");
         }
 
@@ -129,50 +129,52 @@ if (User::canStream()) {
 
     function getStatsMenu(recurrentCall) {
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName'])?"&requestComesFromVideoPage=1":"") ?>',
-            success: function (response) {
-                $('.onlineApplications').text(response.applications.length);
-                $('#availableLiveStream').empty();
-                if (response.applications.length) {
-                    disableGif = response.disableGif;
-                    for (i = 0; i < response.applications.length; i++) {
-                        if (typeof response.applications[i].html != 'undefined') {
-                            $('#availableLiveStream').append(response.applications[i].html);
-                            if (typeof response.applications[i].htmlExtra != 'undefined') {
-                                var id = $(response.applications[i].htmlExtra).attr('id');
-                                if(loadedExtraVideos.indexOf(id)==-1){
-                                    loadedExtraVideos.push(id)
-                                    $('.extraVideos').append(response.applications[i].htmlExtra);
+            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName']) ? "&requestComesFromVideoPage=1" : "") ?>',
+                        success: function (response) {
+                            if (typeof response.applications !== 'undefined') {
+                                $('.onlineApplications').text(response.applications.length);
+                                $('#availableLiveStream').empty();
+                                if (response.applications.length) {
+                                    disableGif = response.disableGif;
+                                    for (i = 0; i < response.applications.length; i++) {
+                                        if (typeof response.applications[i].html != 'undefined') {
+                                            $('#availableLiveStream').append(response.applications[i].html);
+                                            if (typeof response.applications[i].htmlExtra != 'undefined') {
+                                                var id = $(response.applications[i].htmlExtra).attr('id');
+                                                if (loadedExtraVideos.indexOf(id) == -1) {
+                                                    loadedExtraVideos.push(id)
+                                                    $('.extraVideos').append(response.applications[i].htmlExtra);
+                                                }
+                                            }
+                                            $('#liveVideos').slideDown();
+                                        } else {
+                                            href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=" + response.applications[i].channelName;
+                                            title = response.applications[i].title;
+                                            name = response.applications[i].name;
+                                            user = response.applications[i].user;
+                                            photo = response.applications[i].photo;
+                                            online = response.applications[i].users.online;
+                                            views = response.applications[i].users.views;
+                                            key = response.applications[i].key;
+                                            createLiveItem(href, title, name, photo, false, online, views, key);
+                                            createExtraVideos(href, title, name, photo, user, online, views, key, disableGif);
+                                        }
+                                    }
+                                    mouseEffect();
+                                } else {
+                                    createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true);
                                 }
                             }
-                            $('#liveVideos').slideDown();
-                        } else {
-                            href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=" + response.applications[i].channelName;
-                            title = response.applications[i].title;
-                            name = response.applications[i].name;
-                            user = response.applications[i].user;
-                            photo = response.applications[i].photo;
-                            online = response.applications[i].users.online;
-                            views = response.applications[i].users.views;
-                            key = response.applications[i].key;
-                            createLiveItem(href, title, name, photo, false, online, views, key);
-                            createExtraVideos(href, title, name, photo, user, online, views, key, disableGif);
+                            if (recurrentCall) {
+                                setTimeout(function () {
+                                    getStatsMenu(true);
+                                }, 10000);
+                            }
                         }
-                    }
-                    mouseEffect();
-                } else {
-                    createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true);
+                    });
                 }
-                if (recurrentCall) {
-                    setTimeout(function () {
-                        getStatsMenu(true);
-                    }, 10000);
-                }
-            }
-        });
-    }
 
-    $(document).ready(function () {
-        getStatsMenu(true);
-    });
+                $(document).ready(function () {
+                    getStatsMenu(true);
+                });
 </script>
