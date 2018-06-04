@@ -29,7 +29,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
 }
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
-if ($video['type'] !== "audio") {
+if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
     $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
