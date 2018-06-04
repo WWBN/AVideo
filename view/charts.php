@@ -19,7 +19,7 @@ if(!User::isLogged()){
 }
 
 if(empty($_POST['rowCount'])){
-    $_POST['rowCount'] = 500;
+    $_POST['rowCount'] = 100;
 }
 
 if(User::isAdmin()){
