@@ -176,7 +176,7 @@ class YouPHPTubePlugin {
         if (file_exists($file)) {
             require_once $file;
             $code = "\$p = new {$name}();";
-            $codeReult = @eval($code.' return \$p;');
+            $codeResult = @eval($code." return \$p;");
             if($codeResult==false){
                 log_error("[loadPlugin] eval failed for plugin ".$name );
             }
