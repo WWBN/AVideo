@@ -106,9 +106,8 @@ class Cache extends PluginAbstract {
         }else{
             $type = "User: Not Logged - ".$type;            
         }
-        $browser = get_browser(null, true);
         $total_time = round(($finish - $global['start']), 4);
-        error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$browser['parent']} - {$browser['platform']}");
+        error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
     }
 
 }
