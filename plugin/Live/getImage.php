@@ -32,3 +32,7 @@ if($lt->userCanSeeTransmition()){
     echo $_SESSION[$url]['content'];
     error_log($url." Image Expired ".intval($_SESSION[$url]['expire'] < time()));
 }
+$p = YouPHPTubePlugin::loadPluginIfEnabled("Cache");
+if(!empty($p)){
+    $p->getEnd();
+}
