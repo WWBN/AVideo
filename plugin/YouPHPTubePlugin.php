@@ -175,8 +175,12 @@ class YouPHPTubePlugin {
         $file = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         if (file_exists($file)) {
             require_once $file;
-            eval("\$p = new {$name}();");
-            return $p;
+            $code = "\$p = new {$name}();";
+            $codeReult = @eval($code.' return \$p;');
+            if($codeResult==false){
+                log_error("[loadPlugin] eval failed for plugin ".$name );
+            }
+            return $codeResult;
         }
         return false;
     }
