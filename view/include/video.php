@@ -64,11 +64,18 @@ if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
             </div>
 		</div>
             <?php if ($config->getAllow_download()) { ?>
+                <?php if ($playNowVideo['type']=="video") { ?>
                 <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $global['webSiteRootURL']."videos/".$playNowVideo['filename']; ?>.mp4" download="<?php echo $playNowVideo['title'].".mp4"; ?>" >
                     <i class="fa fa-download"></i>
                     <?php echo __("Download video"); ?>
                 </a>
-            <?php } ?>
+        <?php } else { ?>
+                <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $video['videoLink']; ?>" download="<?php echo $playNowVideo['title'].".mp4"; ?>" >
+                    <i class="fa fa-download"></i>
+                    <?php echo __("Download video"); ?>
+                </a>      
+        
+            <?php } } ?>
     </div>
 	<div class="col-sm-2 col-md-2"></div>
 </div>
@@ -184,7 +191,12 @@ if (!empty($logId)){
                 console.log("Change Video");
                 mediaId = <?php echo $video['id']; ?>;
                 fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
+                <?php if($playNowVideo['type']=="video"){ ?>
                 changeVideoSrc(player, <?php echo json_encode($sources); ?>);
+                <?php } else { ?>
+                removeTracks();
+                player.src({type: 'video/mp4', src: '<?php echo $video['videoLink']; ?>'})
+                <?php } ?>
                 addView(<?php echo $video['id']; ?>);
                 $(".ad").removeClass("ad");
                 return false;
