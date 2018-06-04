@@ -1,8 +1,5 @@
-console.log('zoomrotate: Start');
-
 (function(){
     var defaults, extend;
-    console.log('zoomrotate: Init defaults');
     defaults = {
       zoom: 1,
       rotate: 0,
@@ -31,7 +28,6 @@ console.log('zoomrotate: Start');
     * register the zoomrotate plugin
     */
     videojs.plugin('zoomrotate', function(settings){
-        if (defaults.debug) console.log('zoomrotate: Register init');
 
         var options, player, video, poster;
         options = extend(defaults, settings);
@@ -40,11 +36,6 @@ console.log('zoomrotate: Start');
         player = this.el();
         video = this.el().getElementsByTagName('video')[0];
         poster = this.el().getElementsByTagName('div')[1]; // div vjs-poster
-
-        if (options.debug) console.log('zoomrotate: '+video.style);
-        if (options.debug) console.log('zoomrotate: '+poster.style);
-        if (options.debug) console.log('zoomrotate: '+options.rotate);
-        if (options.debug) console.log('zoomrotate: '+options.zoom);
 
         /* Array of possible browser specific settings for transformation */
         var properties = ['transform', 'WebkitTransform', 'MozTransform',
@@ -66,8 +57,6 @@ console.log('zoomrotate: Start');
         player.style.overflow = 'hidden';
         video.style[prop]='scale('+options.zoom+') rotate('+options.rotate+'deg)';
         poster.style[prop]='scale('+options.zoom+') rotate('+options.rotate+'deg)';
-        if (options.debug) console.log('zoomrotate: Register end');
     });
 })();
 
-console.log('zoomrotate: End');
