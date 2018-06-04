@@ -147,7 +147,7 @@ class Video_ad {
 
         $sql .= BootGrid::getSqlFromPost(array('ad_title', 'title'), "va.");
         $res = sqlDAL::readSql($sql,$formats,$values);
-        $fullData = sqlDal::fetchAllAssoc($res);
+        $fullResult = sqlDal::fetchAllAssoc($res);
         sqlDAL::close($res);
         $videos = array();
         if ($res!=false) {
