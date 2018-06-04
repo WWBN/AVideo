@@ -66,7 +66,7 @@ class Hotkeys extends PluginAbstract {
 
         if(!empty($_GET['isMediaPlaySite'])){
             $tmp = "<script> $( document ).ready(function() {";
-            if($_SESSION['type']=="audio"){
+            if(($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio")){
                 $tmp .= "videojs('mainAudio').ready(function() {";
             } else {
                 $tmp .= "videojs('mainVideo').ready(function() {";
