@@ -21,6 +21,8 @@ require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
+error_log("Start Login Request");
+
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
 
@@ -137,4 +139,6 @@ if($object->isLogged){
         $object->encoder = $config->getEncoderURL();
     }
 }
-echo json_encode($object);
+$json = json_encode($object);
+header("Content-length: ".  strlen($json));
+echo $json;
