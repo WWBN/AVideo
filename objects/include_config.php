@@ -30,7 +30,7 @@ if (empty($global['salt'])) {
 
 $global['dont_show_us_flag'] = false;
 // this is for old versions
-session_write_close ();
+session_write_close();
 
 // server should keep session data for AT LEAST 1 hour
 ini_set('session.gc_maxlifetime', $config->getSession_timeout());
@@ -39,6 +39,8 @@ ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 session_set_cookie_params($config->getSession_timeout());
 
 session_start();
+ob_start();
+$_SESSION['lastUpdate'] = time();
 $_SESSION['savedQuerys']=0;
 require_once $global['systemRootPath'].'objects/Object.php';
 require_once $global['systemRootPath'].'locale/function.php';
