@@ -831,7 +831,10 @@ class User {
     }
 
     static function getChannelLink($users_id = 0) {
-        global $global;
+        global $global, $config;
+        if($config->currentVersionLowerThen('5.3')){
+            return "{$global['webSiteRootURL']}channel/UpDateYourVersion";
+        }
         if (empty($users_id)) {
             $users_id = self::getId();
         }
