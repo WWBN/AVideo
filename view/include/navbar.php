@@ -12,7 +12,8 @@ if (empty($_SESSION['language'])) {
 $json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
-
+$thisScriptFile = pathinfo( $_SERVER["SCRIPT_FILENAME"]);
+if(empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()){
 $updateFiles = getUpdatesFilesArray();
 ?>
 <nav class="navbar navbar-default navbar-fixed-top ">
@@ -460,5 +461,8 @@ $updateFiles = getUpdatesFilesArray();
 <?php
 if (!empty($advancedCustom->underMenuBarHTMLCode->value)) {
     echo $advancedCustom->underMenuBarHTMLCode->value;
+}
+}else if($thisScriptFile["basename"] !== 'user.php'){
+    header("Location: {$global['webSiteRootURL']}user"); 
 }
 ?>

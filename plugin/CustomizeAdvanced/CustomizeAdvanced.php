@@ -53,6 +53,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->utf8Encode = false;
         $obj->utf8Decode = false;
         $obj->embedBackgroundColor = "white";
+        $obj->userMustBeLoggedIn = false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
