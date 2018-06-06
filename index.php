@@ -24,6 +24,9 @@ SimpleRouter::get($basePath."signUp", function() {
 SimpleRouter::post($basePath."addNewAd", function() {
     require_once "objects/video_adsAddNew.json.php";
 });
+SimpleRouter::post($basePath."addNewVideo", function() {
+    require_once "objects/videoAddNew.json.php";
+});
 SimpleRouter::post($basePath."createUser", function() {
     require_once "objects/userCreate.json.php";
 });
@@ -54,6 +57,9 @@ SimpleRouter::get($basePath."videosAndroid.json", function() {
 SimpleRouter::get($basePath."videoAndroid.json", function() {
     require_once "objects/videoAndroid.json.php";
 });
+SimpleRouter::post($basePath."deleteVideo", function() {
+    require_once "objects/videoDelete.json.php";
+});
 SimpleRouter::post($basePath."updateUser", function() {
     require_once "objects/userUpdate.json.php";
 });
@@ -81,14 +87,75 @@ SimpleRouter::get($basePath."charts", function() {
 SimpleRouter::get($basePath."update", function() {
     require_once "update/update.php";
 });
+SimpleRouter::post($basePath."youtubeUpload", function() {
+    require_once "objects/youtubeUpload.json.php";
+});
+SimpleRouter::post($basePath."googleAdView", function() {
+    require_once "view/googleAdView.php";
+});
+SimpleRouter::post($basePath."notifications.json", function() {
+    require_once "objects/notifications.json.php";
+});
+SimpleRouter::get($basePath."subscribes.json", function() {
+    require_once "objects/subscribes.json.php";
+});
+SimpleRouter::get($basePath."subscribe.json", function() {
+    require_once "objects/subscribe.json.php";
+});
+SimpleRouter::get($basePath."notifySubscribers.json", function() {
+    require_once "objects/notifySubscribers.json.php";
+});
+SimpleRouter::post($basePath."subscribes", function() {
+    require_once "view/managerSubscribes.php";
+});
+SimpleRouter::post($basePath."addViewCountVideo", function() {
+    require_once "objects/videoAddViewCount.json.php";
+});
+SimpleRouter::post($basePath."rotateVideo", function() {
+    require_once "objects/videoRotate.json.php";
+});
+SimpleRouter::post($basePath."reencodeVideo", function() {
+    require_once "objects/videoReencode.json.php";
+});
+SimpleRouter::post($basePath."setCategoryVideo", function() {
+    require_once "objects/videoCategory.json.php";
+});
+SimpleRouter::post($basePath."setStatusVideo", function() {
+    require_once "objects/videoStatus.json.php";
+});
+SimpleRouter::post($basePath."refreshVideo", function() {
+    require_once "objects/videoRefresh.json.php";
+});
+SimpleRouter::post($basePath."videosList", function() {
+    require_once "view/videosList.php";
+});
+SimpleRouter::post($basePath."getDownloadProgress", function() {
+    require_once "objects/downloadVideoProgress.php";
+});
+SimpleRouter::post($basePath."downloadNow", function() {
+    require_once "objects/downloadVideo.php";
+});
 SimpleRouter::get($basePath."comments", function() {
     require_once "view/managerComments.php";
+});
+SimpleRouter::post($basePath."saveComment", function() {
+    require_once "objects/commentAddNew.json.php";
+});
+SimpleRouter::post($basePath."comments.json/{videoId}", function($videoId) {
+    $_GET['video_id'] = $videoId;
+    require_once "objects/comments.json.php";
 });
 SimpleRouter::post($basePath."status", function() {
     require_once "objects/status.json.php";
 });
 SimpleRouter::get($basePath."plugins", function() {
     require_once "view/managerPlugins.php";
+});
+SimpleRouter::post($basePath."youPHPTubeQueueEncoder.json", function() {
+    require_once "objects/youPHPTubeQueueEncoder.json.php";
+});
+SimpleRouter::post($basePath."youPHPTubeEncoder.json", function() {
+    require_once "objects/youPHPTubeEncoder.json.php";
 });
 SimpleRouter::post($basePath."pluginsAvailable.json", function() {
     require_once "objects/pluginsAvailable.json.php";
@@ -99,6 +166,9 @@ SimpleRouter::post($basePath."plugins.json", function() {
 
 SimpleRouter::get($basePath."channels", function() {
     require_once "view/channels.php";
+});
+SimpleRouter::get($basePath."help", function() {
+    require_once "view/help.php";
 });
 
 SimpleRouter::get($basePath."like", function() {
