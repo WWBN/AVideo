@@ -1,5 +1,5 @@
 <?php
-if (empty($global['systemRootPath'])) {
+if (!isset($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
