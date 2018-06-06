@@ -150,27 +150,34 @@ SimpleRouter::get($basePath."dislike", function() {
 SimpleRouter::get($basePath."channel/{channelName?}", function ($channelName = '') {
     $_GET['channelName'] = $channelName;
     require_once 'view/channel.php';
-});
+},['defaultParameterRegex' => '[\w\-]+']);
 SimpleRouter::get($basePath."cat/{catName?}", function ($catName = '') {
     $_GET['catName'] = $catName;
     require_once 'view/index.php';
-});
+},['defaultParameterRegex' => '[\w\-]+']);
 SimpleRouter::get($basePath."upload", function () {
     require_once 'view/mini-upload-form/index.php';
 });
 
+
+SimpleRouter::get($basePath."cat/{catName}/video/{videoName?}", function ($catName,$videoName = '') {
+    $_GET['catName'] = $catName;
+    $_GET['videoName'] = $videoName;
+    require_once 'view/index.php';
+},['defaultParameterRegex' => '[\w\-]+']);
+
 SimpleRouter::get($basePath."cat/{catName?}", function ($catName = '') {
     $_GET['catName'] = $catName;
     require_once 'view/index.php';
-});
+},['defaultParameterRegex' => '[\w\-]+']);
 SimpleRouter::get($basePath."video/{videoName?}", function ($videoName = '') {
     $_GET['videoName'] = $videoName;
     require_once 'view/index.php';
-});
+},['defaultParameterRegex' => '[\w\-]+']);
 SimpleRouter::get($basePath."v/{videoName?}", function ($videoName = '') {
     $_GET['v'] = $videoName;
     require_once 'view/index.php';
-});
+},['defaultParameterRegex' => '[\w\-]+']);
 
 // if it's used external, by encoder or so
 SimpleRouter::post($basePath."login", function() {
