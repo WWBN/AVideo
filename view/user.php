@@ -263,7 +263,7 @@ $advancedCustom = json_decode($json_file);
                                 return false;
                             } else {
                                 $.ajax({
-                                    url: 'updateUser',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/userUpdate.json.php',
                                     data: {
                                         "user": $('#inputUser').val(),
                                         "pass": $('#inputPassword').val(),
@@ -281,7 +281,7 @@ $advancedCustom = json_decode($json_file);
                                             }).then(function (resp) {
                                                 $.ajax({
                                                     type: "POST",
-                                                    url: "savePhoto",
+                                                    url: "<?php echo $global['webSiteRootURL']; ?>objects/userSavePhoto.php",
                                                     data: {
                                                         imgBase64: resp
                                                     }
@@ -292,7 +292,7 @@ $advancedCustom = json_decode($json_file);
                                                     }).then(function (resp) {
                                                         $.ajax({
                                                             type: "POST",
-                                                            url: "saveBackground",
+                                                            url: "<?php echo $global['webSiteRootURL']; ?>objects/userSaveBackground.php",
                                                             data: {
                                                                 imgBase64: resp
                                                             }
@@ -418,7 +418,7 @@ $advancedCustom = json_decode($json_file);
                             evt.preventDefault();
                             modal.showPleaseWait();
                             $.ajax({
-                                url: 'login',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
                                 data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val()},
                                 type: 'post',
                                 success: function (response) {
