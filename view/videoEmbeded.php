@@ -52,7 +52,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="img/favicon.ico">
+        <link rel="icon" href="view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
@@ -122,7 +122,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
             } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                 ?>
                 <audio id="mainAudio" controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
-                       poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
+                       poster="<?php echo $global['webSiteRootURL']; ?>view/img/recorder.gif">
                 <?php
                 $ext = "";
                 if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>

@@ -9,19 +9,14 @@ if ((!file_exists('videos/configuration.php')) && (empty($global['systemRootPath
     }
     header("Location: install/index.php");
 }
-if (empty($global['systemRootPath'])) {
-    require_once 'videos/configuration.php';
-} else {
-    require_once $global['systemRootPath'] . 'videos/configuration.php';
-}
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
-$img = "{$global['webSiteRootURL']}img/notfound.jpg";
-$poster = "{$global['webSiteRootURL']}img/notfound.jpg";
+$img = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+$poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
 $imgw = 1280;
 $imgh = 720;
 
