@@ -1,14 +1,9 @@
 <?php
 $configFile = 'videos/configuration.php';
-global $global;
-if (!file_exists($configFile)) {
-    if (!file_exists('install/index.php')) {
-        die("No Configuration and no Installation");
-    }
-    header("Location: install/index.php");
-    exit;
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $configFile;
 if (empty($config)) {
     // update config file for version 2.8
     $txt = 'require_once $global[\'systemRootPath\'].\'objects/include_config.php\';';
