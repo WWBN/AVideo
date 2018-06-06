@@ -1,7 +1,9 @@
 <?php
-global $global, $config;
 header('Access-Control-Allow-Origin: *');
-require_once $global['systemRootPath'] . 'videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'plugin/MobileManager/MobileManager.php';
 require_once 'functions.php';
 header('Content-Type: application/json');

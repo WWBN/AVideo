@@ -3,7 +3,6 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 $obj = new stdClass();
 $obj->error = true; 

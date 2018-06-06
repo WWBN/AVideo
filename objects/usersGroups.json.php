@@ -3,7 +3,6 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 header('Content-Type: application/json');
 $users = UserGroups::getAllUsersGroups();
