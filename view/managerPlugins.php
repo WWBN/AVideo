@@ -383,7 +383,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     },
                     navigation: 0,
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "pluginsAvailable.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/pluginsAvailable.json.php"; ?>",
                     formatters: {
                         "commands": function (column, row) {
                             var editBtn = '';
