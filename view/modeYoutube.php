@@ -1,12 +1,16 @@
 <?php
-if ((!file_exists('../videos/configuration.php')) && (empty($global['systemRootPath']))) {
-    if (!file_exists('../install/index.php')) {
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+if ((!file_exists('videos/configuration.php')) && (empty($global['systemRootPath']))) {
+    if (!file_exists('install/index.php')) {
         die("No Configuration and no Installation");
     }
     header("Location: install/index.php");
 }
 if (empty($global['systemRootPath'])) {
-    require_once '../videos/configuration.php';
+    require_once 'videos/configuration.php';
 } else {
     require_once $global['systemRootPath'] . 'videos/configuration.php';
 }
@@ -162,12 +166,12 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         <title><?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?></title>
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <link rel="image_src" href="<?php echo $img; ?>" />
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
         <meta property="og:type"               content="video.other" />

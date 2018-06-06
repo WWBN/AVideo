@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 $json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");

@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 $tags = User::getTags(User::getId());
@@ -18,8 +21,8 @@ $advancedCustom = json_decode($json_file);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
     </head>
 
     <body>

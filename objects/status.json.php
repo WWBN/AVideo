@@ -1,7 +1,5 @@
 <?php
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
-}
+global $global, $config;
 header('Access-Control-Allow-Origin: *');
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/MobileManager/MobileManager.php';

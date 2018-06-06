@@ -1,5 +1,5 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';

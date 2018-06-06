@@ -1,7 +1,10 @@
 <?php
 global $isEmbed;
 $isEmbed = 1;
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 
 $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 

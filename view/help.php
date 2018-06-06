@@ -1,6 +1,6 @@
 <?php
-require_once '../videos/configuration.php';
-require_once '../plugin/YouPHPTubePlugin.php';
+global $global, $config;
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
