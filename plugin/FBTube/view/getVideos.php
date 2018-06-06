@@ -179,7 +179,7 @@ if (!empty($videos)) {
                         <script>
                             function loadPlayLists<?php echo $video['id']; ?>() {
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>playLists.json',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
                                     success: function (response) {
                                         $('#searchlist<?php echo $video['id']; ?>').html('');
                                         for (var i in response) {
@@ -228,7 +228,7 @@ if (!empty($videos)) {
                                 $('#addPlayList<?php echo $video['id']; ?>').click(function () {
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>addNewPlayList',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
                                         method: 'POST',
                                         data: {
                                             'videos_id': <?php echo $video['id']; ?>,

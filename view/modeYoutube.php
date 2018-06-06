@@ -3,12 +3,6 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-if ((!file_exists('videos/configuration.php')) && (empty($global['systemRootPath']))) {
-    if (!file_exists('install/index.php')) {
-        die("No Configuration and no Installation");
-    }
-    header("Location: install/index.php");
-}
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
@@ -305,7 +299,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                         <script>
                                             function loadPlayLists() {
                                                 $.ajax({
-                                                    url: '<?php echo $global['webSiteRootURL']; ?>playLists.json',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
                                                     success: function (response) {
                                                         $('#searchlist').html('');
                                                         for (var i in response) {
@@ -358,7 +352,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                                 $('#addPlayList').click(function () {
                                                     modal.showPleaseWait();
                                                     $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>addNewPlayList',
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
                                                         method: 'POST',
                                                         data: {
                                                             'videos_id': <?php echo $video['id']; ?>,
