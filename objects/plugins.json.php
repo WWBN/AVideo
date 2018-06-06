@@ -1,9 +1,9 @@
 <?php
-require_once './plugin.php';
-if(empty($global['systemRootPath'])){
-    $global['systemRootPath'] = "../";
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
+require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
 $row = Plugin::getAll();

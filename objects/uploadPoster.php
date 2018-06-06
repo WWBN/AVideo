@@ -1,9 +1,8 @@
 <?php
-$configFile = '../../videos/configuration.php';
-if (!file_exists($configFile)) {
-    $configFile = '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $configFile;
 require_once $global['systemRootPath'] . 'objects/video.php';
 $obj = new stdClass();
 $obj->error = true;

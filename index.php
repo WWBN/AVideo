@@ -42,6 +42,18 @@ SimpleRouter::get($basePath."user", function() {
 SimpleRouter::get($basePath."users", function() {
     require_once "view/managerUsers.php";
 });
+SimpleRouter::get($basePath."mvideos", function() {
+    require_once "view/managerVideos.php";
+});
+SimpleRouter::get($basePath."videos.json", function() {
+    require_once "objects/videos.json.php";
+});
+SimpleRouter::get($basePath."videosAndroid.json", function() {
+    require_once "objects/videosAndroid.json.php";
+});
+SimpleRouter::get($basePath."videoAndroid.json", function() {
+    require_once "objects/videoAndroid.json.php";
+});
 SimpleRouter::post($basePath."updateUser", function() {
     require_once "objects/userUpdate.json.php";
 });
@@ -87,6 +99,15 @@ SimpleRouter::post($basePath."plugins.json", function() {
 
 SimpleRouter::get($basePath."channels", function() {
     require_once "view/channels.php";
+});
+
+SimpleRouter::get($basePath."like", function() {
+    $_GET['like']="1";
+    require_once "objects/like.json.php";
+});
+SimpleRouter::get($basePath."dislike", function() {
+    $_GET['like']="-1";
+    require_once "objects/like.json.php";
 });
 SimpleRouter::get($basePath."channel/{channelName?}", function ($channelName = '') {
     $_GET['channelName'] = $channelName;
