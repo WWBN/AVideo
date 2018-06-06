@@ -1,4 +1,5 @@
 <?php
+global $global, $config;
 if (!isset($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
 }
