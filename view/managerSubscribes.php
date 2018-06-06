@@ -105,7 +105,7 @@ if (!User::canUpload()) {
                         search: "<?php echo __("Search"); ?>",
                     },
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "subscribes.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/subscribes.json.php"; ?>",
                     formatters: {
                         "status": function (column, row) {
                             var subscribe = '<button type="button" class="btn btn-xs btn-success command-status" id="subscribe' + row.id + '" data-toggle="tooltip" data-placement="left" title="Unsubscribe"><span class="fa fa-check" aria-hidden="true"></span></button>'

@@ -95,7 +95,7 @@ if (!empty($videos)) {
                         </video>
                         <?php if (!empty($logId)) { ?>
                             <div id="adUrl<?php echo $video['id']; ?>" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
+                                <a href="<?php echo $global['webSiteRootURL']; ?>objects/video_adClickLog.php?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
                                     $url = parse_url($ad['redirect']);
                                     echo $url['host'];
                                     ?> <i class="fas fa-external-link-alt"></i>
@@ -522,7 +522,7 @@ if (!empty($videos)) {
                                 if ($('#comment<?php echo $video['id']; ?>').val().length > 5) {
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>saveComment',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/commentAddNew.json.php',
                                         method: 'POST',
                                         data: {'comment': $('#comment<?php echo $video['id']; ?>').val(), 'video': "<?php echo $video['id']; ?>"},
                                         success: function (response) {

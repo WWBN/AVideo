@@ -152,7 +152,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         search: "<?php echo __("Search"); ?>",
                     },
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "ads.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/video_ads.json.php"; ?>",
                     formatters: {
                         "commands": function (column, row)
                         {
@@ -266,7 +266,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     evt.preventDefault();
                     modal.showPleaseWait();
                     $.ajax({
-                        url: 'addNewAd',
+                        url: '<?php echo $global['webSiteRootURL'] . "objects/video_adsAddNew.json.php"; ?>',
                         data: {
                             id: $('#inputAdId').val(),
                             title: $('#inputAdTitle').val(),

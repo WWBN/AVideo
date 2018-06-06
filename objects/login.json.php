@@ -133,7 +133,7 @@ if($object->isLogged){
     }
     $p = YouPHPTubePlugin::loadPluginIfEnabled("MobileManager");
     if(!empty($p)){
-        $object->streamer = json_decode(url_get_contents($global['webSiteRootURL']."status"));
+        $object->streamer = json_decode(url_get_contents($global['webSiteRootURL']."objects/status.json.php"));
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }

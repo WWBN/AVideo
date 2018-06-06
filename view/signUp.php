@@ -138,7 +138,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                             return false;
                         } else {
                             $.ajax({
-                                url: 'createUser',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/userCreate.json.php',
                                 data: {
                                     "user": $('#inputUser').val(), 
                                     "pass": $('#inputPassword').val(), 

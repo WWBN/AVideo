@@ -148,7 +148,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                     evt.preventDefault();
                     modal.showPleaseWait();
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>saveRecoverPassword',
+                        url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPassSave.json.php',
                         data: $('#recoverPassForm').serializeArray(),
                         type: 'post',
                         success: function (response) {

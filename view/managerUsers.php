@@ -225,7 +225,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                          modal.showPleaseWait();
                          $.ajax({
-                         url: 'deleteUser',
+                         url: '<?php echo $global['webSiteRootURL']; ?>objects/userDelete.json.php',
                          data: {"id": row.id},
                          type: 'post',
                          success: function (response) {
@@ -274,7 +274,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     });
 
                     $.ajax({
-                        url: 'addNewUser',
+                        url: '<?php echo $global['webSiteRootURL']; ?>objects/userAddNew.json.php',
                         data: {
                             "id": $('#inputUserId').val(),
                             "user": $('#inputUser').val(),

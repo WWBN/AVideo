@@ -7,11 +7,9 @@ require_once 'objects/configuration.php';
 $basePath = parse_url ($global['webSiteRootURL'], PHP_URL_PATH);
 use Pecee\SimpleRouter\SimpleRouter;
 $config = new Configuration();
-// echo $global['webSiteRootURL'];
 SimpleRouter::get($basePath, function() {
     require_once "view/index.php";
 });
-
 SimpleRouter::get($basePath, function() {
     require_once "view/index.php";
 });
@@ -23,12 +21,6 @@ SimpleRouter::get($basePath."signUp", function() {
 });
 SimpleRouter::post($basePath."addNewAd", function() {
     require_once "objects/video_adsAddNew.json.php";
-});
-SimpleRouter::post($basePath."addNewVideo", function() {
-    require_once "objects/videoAddNew.json.php";
-});
-SimpleRouter::post($basePath."createUser", function() {
-    require_once "objects/userCreate.json.php";
 });
 SimpleRouter::post($basePath."ads", function() {
     require_once "view/managerAds.php";
@@ -45,42 +37,21 @@ SimpleRouter::get($basePath."user", function() {
 SimpleRouter::get($basePath."users", function() {
     require_once "view/managerUsers.php";
 });
+SimpleRouter::get($basePath."usersGroups", function() {
+    require_once "view/managerUsersGroups.php";
+});
 SimpleRouter::get($basePath."mvideos", function() {
     require_once "view/managerVideos.php";
-});/*
-SimpleRouter::get($basePath."videos.json", function() {
-    require_once "objects/videos.json.php";
-});*/
+});
 SimpleRouter::get($basePath."videosAndroid.json", function() {
     require_once "objects/videosAndroid.json.php";
 });
 SimpleRouter::get($basePath."videoAndroid.json", function() {
     require_once "objects/videoAndroid.json.php";
 });
-SimpleRouter::post($basePath."deleteVideo", function() {
-    require_once "objects/videoDelete.json.php";
-});
-/*
-SimpleRouter::post($basePath."updateUser", function() {
-    require_once "objects/userUpdate.json.php";
-});
-SimpleRouter::post($basePath."savePhoto", function() {
-    require_once "objects/userSavePhoto.php";
-});
-SimpleRouter::post($basePath."saveBackground", function() {
-    require_once "objects/userSaveBackground.php";
-});
-SimpleRouter::post($basePath."users.json", function() {
-    require_once "objects/users.json.php";
-});*/
 SimpleRouter::get($basePath."captcha", function() {
     require_once "objects/getCaptcha.php";
 });
-/*
-SimpleRouter::post($basePath."login", function() {
-    require_once "objects/login.json.php";
-});
-*/
 SimpleRouter::get($basePath."logoff", function() {
     require_once "objects/logoff.php";
 });
@@ -99,22 +70,11 @@ SimpleRouter::post($basePath."googleAdView", function() {
 SimpleRouter::post($basePath."notifications.json", function() {
     require_once "objects/notifications.json.php";
 });
-SimpleRouter::get($basePath."subscribes.json", function() {
-    require_once "objects/subscribes.json.php";
-});
-/*
-SimpleRouter::get($basePath."subscribe.json", function() {
-    require_once "objects/subscribe.json.php";
-});
-*/
 SimpleRouter::get($basePath."notifySubscribers.json", function() {
     require_once "objects/notifySubscribers.json.php";
 });
 SimpleRouter::post($basePath."subscribes", function() {
     require_once "view/managerSubscribes.php";
-});
-SimpleRouter::post($basePath."addViewCountVideo", function() {
-    require_once "objects/videoAddViewCount.json.php";
 });
 SimpleRouter::post($basePath."rotateVideo", function() {
     require_once "objects/videoRotate.json.php";
@@ -143,13 +103,13 @@ SimpleRouter::post($basePath."downloadNow", function() {
 SimpleRouter::get($basePath."comments", function() {
     require_once "view/managerComments.php";
 });
-SimpleRouter::post($basePath."saveComment", function() {
-    require_once "objects/commentAddNew.json.php";
-});
+
 SimpleRouter::post($basePath."comments.json/{videoId}", function($videoId) {
     $_GET['video_id'] = $videoId;
     require_once "objects/comments.json.php";
 });
+
+// eventualy incomplete
 SimpleRouter::post($basePath."status", function() {
     require_once "objects/status.json.php";
 });
@@ -195,9 +155,7 @@ SimpleRouter::get($basePath."cat/{catName?}", function ($catName = '') {
 SimpleRouter::get($basePath."upload", function () {
     require_once 'view/mini-upload-form/index.php';
 });
-SimpleRouter::post($basePath."fileUpload", function () {
-    require_once 'view/mini-upload-form/upload.php';
-});
+
 SimpleRouter::get($basePath."cat/{catName?}", function ($catName = '') {
     $_GET['catName'] = $catName;
     require_once 'view/index.php';
@@ -210,5 +168,51 @@ SimpleRouter::get($basePath."v/{videoName?}", function ($videoName = '') {
     $_GET['v'] = $videoName;
     require_once 'view/index.php';
 });
+
+// if it's used external, by encoder or so
+SimpleRouter::post($basePath."login", function() {
+    require_once "objects/login.json.php";
+});
+/*
+SimpleRouter::post($basePath."saveComment", function() {
+    require_once "objects/commentAddNew.json.php";
+});
+SimpleRouter::post($basePath."fileUpload", function () {
+    require_once 'view/mini-upload-form/upload.php';
+});
+SimpleRouter::post($basePath."addNewVideo", function() {
+    require_once "objects/videoAddNew.json.php";
+});
+SimpleRouter::post($basePath."createUser", function() {
+    require_once "objects/userCreate.json.php";
+});
+SimpleRouter::get($basePath."subscribes.json", function() {
+    require_once "objects/subscribes.json.php";
+});
+SimpleRouter::get($basePath."subscribe.json", function() {
+    require_once "objects/subscribe.json.php";
+});
+SimpleRouter::post($basePath."deleteVideo", function() {
+    require_once "objects/videoDelete.json.php";
+});
+SimpleRouter::post($basePath."updateUser", function() {
+    require_once "objects/userUpdate.json.php";
+});
+SimpleRouter::post($basePath."savePhoto", function() {
+    require_once "objects/userSavePhoto.php";
+});
+SimpleRouter::post($basePath."saveBackground", function() {
+    require_once "objects/userSaveBackground.php";
+});
+SimpleRouter::post($basePath."users.json", function() {
+    require_once "objects/users.json.php";
+});
+SimpleRouter::get($basePath."videos.json", function() {
+    require_once "objects/videos.json.php";
+});
+SimpleRouter::post($basePath."addViewCountVideo", function() {
+    require_once "objects/videoAddViewCount.json.php";
+});
+*/
 SimpleRouter::start();
 ?>
