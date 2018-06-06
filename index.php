@@ -47,10 +47,10 @@ SimpleRouter::get($basePath."users", function() {
 });
 SimpleRouter::get($basePath."mvideos", function() {
     require_once "view/managerVideos.php";
-});
+});/*
 SimpleRouter::get($basePath."videos.json", function() {
     require_once "objects/videos.json.php";
-});
+});*/
 SimpleRouter::get($basePath."videosAndroid.json", function() {
     require_once "objects/videosAndroid.json.php";
 });
@@ -60,6 +60,7 @@ SimpleRouter::get($basePath."videoAndroid.json", function() {
 SimpleRouter::post($basePath."deleteVideo", function() {
     require_once "objects/videoDelete.json.php";
 });
+/*
 SimpleRouter::post($basePath."updateUser", function() {
     require_once "objects/userUpdate.json.php";
 });
@@ -71,13 +72,15 @@ SimpleRouter::post($basePath."saveBackground", function() {
 });
 SimpleRouter::post($basePath."users.json", function() {
     require_once "objects/users.json.php";
-});
+});*/
 SimpleRouter::get($basePath."captcha", function() {
     require_once "objects/getCaptcha.php";
 });
+/*
 SimpleRouter::post($basePath."login", function() {
     require_once "objects/login.json.php";
 });
+*/
 SimpleRouter::get($basePath."logoff", function() {
     require_once "objects/logoff.php";
 });
@@ -99,9 +102,11 @@ SimpleRouter::post($basePath."notifications.json", function() {
 SimpleRouter::get($basePath."subscribes.json", function() {
     require_once "objects/subscribes.json.php";
 });
+/*
 SimpleRouter::get($basePath."subscribe.json", function() {
     require_once "objects/subscribe.json.php";
 });
+*/
 SimpleRouter::get($basePath."notifySubscribers.json", function() {
     require_once "objects/notifySubscribers.json.php";
 });

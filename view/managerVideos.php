@@ -341,7 +341,7 @@ if (!empty($_GET['video_id'])) {
                                             minLength: 0,
                                             source: function (req, res) {
                                                 $.ajax({
-                                                    url: '<?php echo $global['webSiteRootURL']; ?>videos.json',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php',
                                                     type: "POST",
                                                     data: {
                                                         searchPhrase: req.term
@@ -778,7 +778,7 @@ if (!empty($row)) {
                                                 search: "<?php echo __("Search"); ?>",
                                             },
                                             ajax: true,
-                                            url: "<?php echo $global['webSiteRootURL'] . "videos.json"; ?>",
+                                            url: "<?php echo $global['webSiteRootURL'] . "objects/videos.json.php"; ?>",
                                             formatters: {
                                                 "commands": function (column, row)
                                                 {

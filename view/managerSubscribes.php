@@ -54,7 +54,7 @@ if (!User::canUpload()) {
                 $('#subscribe' + id + ' span').addClass("fa-spinner");
                 $('#subscribe' + id + ' span').addClass("fa-spin");
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>subscribe.json',
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/subscribe.json.php',
                     method: 'POST',
                     data: {'email': email, 'user_id':user_id},
                     success: function (response) {
