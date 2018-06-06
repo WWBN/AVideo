@@ -325,7 +325,7 @@ if (!empty($_GET['video_id'])) {
                                 <div class="row">
                                     <h3><?php echo __("Autoplay Next Video"); ?> <button class="btn btn-danger btn-sm" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button></h3>
                                     <div class="col-md-4">
-                                        <img id="inputNextVideo-poster" src="img/notfound.jpg" class="ui-state-default" alt="">
+                                        <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
                                     </div>
                                     <div class="col-md-8">                                        
                                         <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control">
@@ -763,7 +763,7 @@ if (!empty($row)) {
                                         });
                                         $('[data-toggle="tooltip"]').tooltip();
                                         $('#removeAutoplay').click(function () {
-                                            $('#inputNextVideo-poster').attr('src', "img/notfound.jpg");
+                                            $('#inputNextVideo-poster').attr('src', "view/img/notfound.jpg");
                                             $('#inputNextVideo').val("");
                                             $('#inputNextVideoClean').val("");
                                             $('#inputNextVideo-id').val("");
