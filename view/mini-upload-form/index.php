@@ -1,6 +1,9 @@
 <?php
-require_once '../../videos/configuration.php';
-require_once '../../objects/functions.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/functions.php';
 
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
