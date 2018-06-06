@@ -72,7 +72,7 @@ SimpleRouter::post($basePath."saveBackground", function() {
 SimpleRouter::post($basePath."users.json", function() {
     require_once "objects/users.json.php";
 });
-SimpleRouter::post($basePath."captcha", function() {
+SimpleRouter::get($basePath."captcha", function() {
     require_once "objects/getCaptcha.php";
 });
 SimpleRouter::post($basePath."login", function() {
