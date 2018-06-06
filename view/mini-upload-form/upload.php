@@ -1,16 +1,11 @@
 <?php
-$configFile = '../../videos/configuration.php';
-
-if (!file_exists($configFile))
-{
-    $configFile = '../videos/configuration.php';
-}
-
+global $global, $config;
 session_write_close();
 $obj = new stdClass();
 $obj->error = true;
-require_once $configFile;
-
+if(!isset($global['systemRootPath'])){
+    require_once '../../videos/configuration.php';
+}
 if (!User::canUpload())
 {
     $obj->msg = "Only logged users can upload";

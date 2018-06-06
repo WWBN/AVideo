@@ -120,7 +120,7 @@ SimpleRouter::get($basePath."cat/{catName?}", function ($catName = '') {
 SimpleRouter::get($basePath."upload", function () {
     require_once 'view/mini-upload-form/index.php';
 });
-SimpleRouter::get($basePath."fileUpload", function () {
+SimpleRouter::post($basePath."fileUpload", function () {
     require_once 'view/mini-upload-form/upload.php';
 });
 SimpleRouter::get($basePath."cat/{catName?}", function ($catName = '') {
