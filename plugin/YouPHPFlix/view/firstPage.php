@@ -31,7 +31,7 @@ unset($_SESSION['type']);
             var forceCatLinks = <?php if($o->ForceCategoryLinks){ echo "true"; } else { echo "false"; } ?>;
         </script>
 
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix/view/js/flickty/flickity.min.css" rel="stylesheet" type="text/css" />
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <title><?php echo $config->getWebSiteTitle(); ?></title>
