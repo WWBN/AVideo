@@ -424,7 +424,7 @@ if (!empty($_GET['video_id'])) {
                                             }
                                         });
                                         $.ajax({
-                                            url: 'setStatusVideo',
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
                                             data: {"id": vals, "status": status},
                                             type: 'post',
                                             success: function (response) {
@@ -452,7 +452,7 @@ if (!empty($_GET['video_id'])) {
                                             }
                                         });
                                         $.ajax({
-                                            url: 'setCategoryVideo',
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/videoCategory.json.php',
                                             data: {"id": vals, "category_id": category_id},
                                             type: 'post',
                                             success: function (response) {
@@ -947,7 +947,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'refreshVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoRefresh.json.php',
                                                     data: {"id": row.id},
                                                     type: 'post',
                                                     success: function (response) {
@@ -961,7 +961,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'setStatusVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
                                                     data: {"id": row.id, "status": "i"},
                                                     type: 'post',
                                                     success: function (response) {
@@ -975,7 +975,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'setStatusVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
                                                     data: {"id": row.id, "status": "u"},
                                                     type: 'post',
                                                     success: function (response) {
@@ -989,7 +989,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'setStatusVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
                                                     data: {"id": row.id, "status": "a"},
                                                     type: 'post',
                                                     success: function (response) {
@@ -1003,7 +1003,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'rotateVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoRotate.json.php',
                                                     data: {"id": row.id, "type": $(this).attr('data-row-id')},
                                                     type: 'post',
                                                     success: function (response) {
@@ -1017,7 +1017,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'reencodeVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoReencode.json.php',
                                                     data: {"id": row.id, "status": "i", "type": $(this).attr('data-row-id')},
                                                     type: 'post',
                                                     success: function (response) {
