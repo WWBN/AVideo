@@ -436,7 +436,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         modal.showPleaseWait();
                         $.ajax({
-                            url: 'switchPlugin',
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
                             data: {"uuid": row.uuid, "name": row.name, "dir": row.dir, "enable": $('#enable' + row.uuid).is(":checked")},
                             type: 'post',
                             success: function (response) {
@@ -461,7 +461,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         $('#inputData').val(JSON.stringify(row.data_object));
                         modal.showPleaseWait();
                         $.ajax({
-                            url: 'runDBScriptPlugin.json',
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginRunDatabaseScript.json.php',
                             data: {"name": row.name},
                             type: 'post',
                             success: function (response) {

@@ -1,15 +1,18 @@
 <?php
 global $global, $config;
 ini_set('error_log', $global['systemRootPath'].'videos/youphptube.log');
+if (!file_exists('videos/configuration.php')) {
+    if (!file_exists('install/index.php')) {
+        die("No Configuration and no Installation");
+    }
+    header("Location: install/index.php");
+}
 require_once 'objects/simple-php-router/vendor/autoload.php';
 require_once 'videos/configuration.php';
 require_once 'objects/configuration.php';
 $basePath = parse_url ($global['webSiteRootURL'], PHP_URL_PATH);
 use Pecee\SimpleRouter\SimpleRouter;
 $config = new Configuration();
-SimpleRouter::get($basePath, function() {
-    require_once "view/index.php";
-});
 SimpleRouter::get($basePath, function() {
     require_once "view/index.php";
 });

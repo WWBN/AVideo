@@ -104,7 +104,7 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
                 });
 
                 function refreshSubCategoryList(){
-                    $.getJSON( "<?php echo $global['webSiteRootURL'] . "categories.json"; ?>", function( data ) {
+                    $.getJSON( "<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>", function( data ) {
   		                var tmpHtml = "<option value='0' ><?php echo __("None (Parent)"); ?></option>";
                         fullCatList = data;
                         $.each( data.rows, function( key, val ) {
@@ -132,7 +132,7 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
                         search: "<?php echo __("Search"); ?>",
                     },
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "categories.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>",
                     formatters: {
                         "nextVideoOrder": function(column, row){
                             if(row.nextVideoOrder==0){
@@ -217,7 +217,7 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
 
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: 'deleteCategory',
+                                        url: '<?php echo $global['webSiteRootURL'] . "objects/categoryDelete.json.php"; ?>',
                                         data: {"id": row.id},
                                         type: 'post',
                                         success: function (response) {
@@ -262,7 +262,7 @@ require_once $global['systemRootPath'] . 'objects/category.php'; ?>
                     evt.preventDefault();
                     modal.showPleaseWait();
                     $.ajax({
-                        url: 'addNewCategory',
+                        url: '<?php echo $global['webSiteRootURL'] . "objects/categoryAddNew.json.php"; ?>',
                         data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(),"description": $('#inputDescription').val(),"nextVideoOrder": $('#inputNextVideoOrder').val(),"parentId": $('#inputParentId').val(),"type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
                         type: 'post',
                         success: function (response) {
