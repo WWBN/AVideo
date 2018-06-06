@@ -308,7 +308,7 @@ function copyToClipboard(text) {
 
 function addView(videos_id) {
     $.ajax({
-        url: webSiteRootURL + 'addViewCountVideo',
+        url: webSiteRootURL + 'objects/videoAddViewCount.json.php',
         method: 'POST',
         data: {
             'id': videos_id

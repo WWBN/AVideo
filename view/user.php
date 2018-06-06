@@ -455,7 +455,7 @@ $advancedCustom = json_decode($json_file);
                                     function () {
                                         modal.showPleaseWait();
                                         $.ajax({
-                                            url: 'recoverPass',
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
                                             data: {"user": $('#inputUser').val(), "captcha": $('#captchaText').val()},
                                             type: 'post',
                                             success: function (response) {

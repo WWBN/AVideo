@@ -87,7 +87,7 @@ This will make your videos private. Only users who are in the same group as the 
                         search: "<?php echo __("Search"); ?>",
                     },
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "usersGroups.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/usersGroups.json.php"; ?>",
                     formatters: {
                         "commands": function (column, row)
                         {
@@ -124,7 +124,7 @@ This will make your videos private. Only users who are in the same group as the 
 
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: 'deleteUserGroups',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/userGroupsDelete.json.php',
                                         data: {"id": row.id},
                                         type: 'post',
                                         success: function (response) {
@@ -157,7 +157,7 @@ This will make your videos private. Only users who are in the same group as the 
                     evt.preventDefault();
                     modal.showPleaseWait();
                     $.ajax({
-                        url: 'addNewUserGroups',
+                        url: '<?php echo $global['webSiteRootURL'] . "objects/userGroupsAddNew.json.php"; ?>',
                         data: {"id": $('#inputUserGroupsId').val(), "group_name": $('#inputName').val()},
                         type: 'post',
                         success: function (response) {

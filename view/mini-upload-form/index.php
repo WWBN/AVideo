@@ -37,7 +37,7 @@ if (!User::canUpload()) {
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-lg-9">
-                    <form id="upload" method="post" action="fileUpload" enctype="multipart/form-data">
+                    <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                         <div id="drop">
                             <?php echo __("Drop Here"); ?>
 

@@ -28,11 +28,11 @@ if (!empty($_GET['video_id'])) {
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
             /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
             $.widget.bridge('uibutton', $.ui.button);
@@ -408,7 +408,7 @@ if (!empty($_GET['video_id'])) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 
         <script>
                                     var timeOut;
@@ -729,7 +729,7 @@ if (!empty($row)) {
                                                             }
                                                         });
                                                         $.ajax({
-                                                            url: 'deleteVideo',
+                                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/videoDelete.json.php',
                                                             data: {"id": vals},
                                                             type: 'post',
                                                             success: function (response) {
@@ -928,7 +928,7 @@ if (!empty($row)) {
                                                             swal.close();
                                                             modal.showPleaseWait();
                                                             $.ajax({
-                                                                url: 'deleteVideo',
+                                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/videoDelete.json.php',
                                                                 data: {"id": row.id},
                                                                 type: 'post',
                                                                 success: function (response) {
@@ -1134,7 +1134,7 @@ if (!empty($row)) {
                                             }
                                             modal.showPleaseWait();
                                             $.ajax({
-                                                url: 'addNewVideo',
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/videoAddNew.json.php',
                                                 data: {
                                                     "id": $('#inputVideoId').val(),
                                                     "title": $('#inputTitle').val(),
