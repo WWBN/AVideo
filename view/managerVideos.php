@@ -574,7 +574,7 @@ if (!empty($_GET['video_id'])) {
                                         $('#videoIsAd').trigger("change");
                                         $('#input-jpg, #input-gif').fileinput('destroy');
                                         $("#input-jpg").fileinput({
-                                            uploadUrl: "uploadPoster/" + row.id + "/jpg",
+                                            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
                                             autoReplace: true,
                                             overwriteInitial: true,
                                             showUploadedThumbs: false,
@@ -590,7 +590,7 @@ if (!empty($_GET['video_id'])) {
                                             allowedFileExtensions: ["jpg"]
                                         });
                                         $("#input-gif").fileinput({
-                                            uploadUrl: "uploadPoster/" + row.id + "/gif",
+                                            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
                                             autoReplace: true,
                                             overwriteInitial: true,
                                             showUploadedThumbs: false,
