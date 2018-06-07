@@ -140,7 +140,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                     format: 'yyyy-mm-dd hh:ii',
                     autoclose: true
                 });
-
                 $('[data-toggle="tooltip"]').tooltip();
                 var grid = $("#grid").bootgrid({
                     labels: {
@@ -152,7 +151,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         search: "<?php echo __("Search"); ?>",
                     },
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "objects/video_ads.json.php"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "ads.json"; ?>",
                     formatters: {
                         "commands": function (column, row)
                         {
@@ -240,7 +239,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: 'deleteVideoAd',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/video_adDelete.json.php',
                                         data: {"id": row.id},
                                         type: 'post',
                                         success: function (response) {
