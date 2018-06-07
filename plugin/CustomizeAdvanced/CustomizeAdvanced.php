@@ -57,7 +57,10 @@ class CustomizeAdvanced extends PluginAbstract {
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
-        $obj->underMenuBarHTMLCode = $o;// an url for encoder network
+        $obj->menuBarHTMLCode = $o;
+        $o->type = "textarea";
+        $o->value = "";        
+        $obj->underMenuBarHTMLCode = $o;
         $obj->encoderNetwork = "";// an url for encoder network
         return $obj;
     }

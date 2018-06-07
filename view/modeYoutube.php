@@ -151,6 +151,10 @@ if (!empty($video)) {
     } else {
         $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
     }
+    $images = Video::getImageFromFilename($video['filename']);
+    $poster = $images->poster;
+}else{
+    $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
 }
 
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
