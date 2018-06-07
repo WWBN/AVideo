@@ -684,7 +684,7 @@ if (!empty($row)) {
                                                 }
                                             });
                                             $.ajax({
-                                                url: 'youtubeUpload',
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php',
                                                 data: {"id": vals},
                                                 type: 'post',
                                                 success: function (response) {
@@ -1035,7 +1035,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'youtubeUpload',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php',
                                                     data: {"id": row.id},
                                                     type: 'post',
                                                     success: function (response) {

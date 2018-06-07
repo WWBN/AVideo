@@ -42,7 +42,7 @@ function loadPlayLists() {
             $('.playListsIds').change(function () {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: webSiteRootURL + 'playListAddVideo.json',
+                    url: webSiteRootURL + 'objects/playListAddVideo.json.php',
                     method: 'POST',
                     data: {
                         'videos_id': videos_id,

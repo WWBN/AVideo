@@ -19,6 +19,9 @@ SimpleRouter::get($basePath, function() {
 SimpleRouter::get($basePath."info", function() {
     require_once "view/info.php";
 });
+SimpleRouter::get($basePath."siteConfigurations", function() {
+    require_once "view/configurations.php";
+});
 SimpleRouter::get($basePath."signUp", function() {
     require_once "view/signUp.php";
 });
@@ -27,6 +30,9 @@ SimpleRouter::post($basePath."ads", function() {
 });
 SimpleRouter::get($basePath."about", function() {
     require_once "view/about.php";
+});
+SimpleRouter::get($basePath."orphanFiles", function() {
+    require_once "view/orphanFiles.php";
 });
 SimpleRouter::get($basePath."contact", function() {
     require_once "view/contact.php";
@@ -59,10 +65,7 @@ SimpleRouter::get($basePath."charts", function() {
     require_once "view/charts.php";
 });
 SimpleRouter::get($basePath."update", function() {
-    require_once "update/update.php";
-});
-SimpleRouter::post($basePath."youtubeUpload", function() {
-    require_once "objects/youtubeUpload.json.php";
+    require_once "view/update.php";
 });
 SimpleRouter::post($basePath."googleAdView", function() {
     require_once "view/googleAdView.php";
@@ -114,11 +117,11 @@ SimpleRouter::get($basePath."channels", function() {
 SimpleRouter::get($basePath."help", function() {
     require_once "view/help.php";
 });
-SimpleRouter::get($basePath."like", function() {
+SimpleRouter::post($basePath."like", function() {
     $_GET['like']="1";
     require_once "objects/like.json.php";
 });
-SimpleRouter::get($basePath."dislike", function() {
+SimpleRouter::post($basePath."dislike", function() {
     $_GET['like']="-1";
     require_once "objects/like.json.php";
 });
@@ -156,6 +159,9 @@ SimpleRouter::post($basePath."login", function() {
     require_once "objects/login.json.php";
 });
 /*
+SimpleRouter::post($basePath."youtubeUpload", function() {
+    require_once "objects/youtubeUpload.json.php";
+});
 SimpleRouter::post($basePath."addNewAd", function() {
     require_once "objects/video_adsAddNew.json.php";
 });
