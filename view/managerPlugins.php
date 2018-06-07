@@ -473,7 +473,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 $('#savePluginBtn').click(function (evt) {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: 'addDataObjectPlugin.json',
+                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginAddDataObject.json.php',
                         data: {"id": $('#inputPluginId').val(), "object_data": $('#inputData').val()},
                         type: 'post',
                         success: function (response) {
@@ -487,7 +487,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     $('#pluginsImportFormModal').modal();
                 });
                 $('#input-b1').fileinput({
-                    uploadUrl: '<?php echo $global['webSiteRootURL']; ?>pluginImport.json',
+                    uploadUrl: '<?php echo $global['webSiteRootURL']; ?>objects/pluginImport.json.php',
                     allowedFileExtensions: ['zip']
                 }).on('fileuploaded', function (event, data, id, index) {
                     $("#grid").bootgrid('reload');

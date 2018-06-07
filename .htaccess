@@ -37,10 +37,16 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^.*$ index.php [L,QSA]
 
+# big exception, we need to rename or move that update-folder
+RewriteRule ^update/?$ update/update.php [NC,L]
+
 # from official example
 # RewriteEngine on
 # RewriteCond %{SCRIPT_FILENAME} !-f
 # RewriteCond %{SCRIPT_FILENAME} !-d
 # RewriteCond %{SCRIPT_FILENAME} !-l
 # RewriteRule ^(.*)$ index.php/$1
+</IfModule>
+    <IfModule mod_xsendfile.c>
+       RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [QSA]
 </IfModule>

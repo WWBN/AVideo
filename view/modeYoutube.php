@@ -330,7 +330,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                                         $('.playListsIds').change(function () {
                                                             modal.showPleaseWait();
                                                             $.ajax({
-                                                                url: '<?php echo $global['webSiteRootURL']; ?>playListAddVideo.json',
+                                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
                                                                 method: 'POST',
                                                                 data: {
                                                                     'videos_id': <?php echo $video['id']; ?>,
@@ -536,7 +536,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                                                 evt.preventDefault();
                                                                 modal.showPleaseWait();
                                                                 $.ajax({
-                                                                    url: '<?php echo $global['webSiteRootURL']; ?>sendEmail',
+                                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
                                                                     data: $('#contact_form').serializeArray(),
                                                                     type: 'post',
                                                                     success: function (response) {

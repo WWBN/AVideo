@@ -205,7 +205,7 @@ if (!empty($videos)) {
                                         $('.playListsIds').change(function () {
                                             modal.showPleaseWait();
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>playListAddVideo.json',
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
                                                 method: 'POST',
                                                 data: {
                                                     'videos_id': <?php echo $video['id']; ?>,
@@ -429,7 +429,7 @@ if (!empty($videos)) {
                                                     evt.preventDefault();
                                                     modal.showPleaseWait();
                                                     $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>sendEmail',
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
                                                         data: $('#contact_form<?php echo $video['id']; ?>').serializeArray(),
                                                         type: 'post',
                                                         success: function (response) {
@@ -509,7 +509,7 @@ if (!empty($videos)) {
                                     search: "<?php echo __("Search"); ?>",
                                 },
                                 ajax: true,
-                                url: "<?php echo $global['webSiteRootURL'] . "comments.json/" . $video['id']; ?>",
+                                url: "<?php echo $global['webSiteRootURL'] . "objects/comments.json.php?video_id=" . $video['id']; ?>",
                                 sorting: false,
                                 templates: {
                                     header: ""

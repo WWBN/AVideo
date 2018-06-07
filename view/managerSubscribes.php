@@ -79,7 +79,7 @@ if (!User::canUpload()) {
             function notify(){
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>notifySubscribers.json',
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/notifySubscribers.json.php',
                     method: 'POST',
                     data: {'message': $('#emailMessage').val()},
                     success: function (response) {
