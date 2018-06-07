@@ -28,6 +28,9 @@ SimpleRouter::get($basePath."signUp", function() {
 SimpleRouter::get($basePath."ads", function() {
     require_once "view/managerAds.php"; exit;
 });
+SimpleRouter::post($basePath."ads.json", function() {
+    require_once "objects/video_ads.json.php"; exit;
+});
 SimpleRouter::get($basePath."categories", function() {
     require_once "view/managerCategories.php"; exit;
 });
