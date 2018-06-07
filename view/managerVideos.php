@@ -212,7 +212,7 @@ if (!empty($_GET['video_id'])) {
                                 <input type="text" id="videoLink" class="form-control first" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
                                 <select class="form-control last" id="videoLinkType" required>
                                     <option value="embed"><?php echo __("Embeded"); ?></option>
-                                    <option value="linkVideo"><?php echo __("Direct video-link (webm or mp4)"); ?></option>
+                                    <option value="linkVideo"><?php echo __("Direct video-link (mp4)"); ?></option>
                                     <option value="linkAudio"><?php echo __("Direct audio-link (mp3 or ogg)"); ?></option>
                                 </select>
                             </div>
