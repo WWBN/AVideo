@@ -125,6 +125,12 @@ SimpleRouter::post($basePath."youPHPTubeQueueEncoder.json", function() {
 SimpleRouter::post($basePath."youPHPTubeEncoder.json", function() {
     require_once "objects/youPHPTubeEncoder.json.php"; exit;
 });
+SimpleRouter::get($basePath."youPHPTubeQueueEncoder.json", function() {
+    require_once "objects/youPHPTubeQueueEncoder.json.php"; exit;
+});
+SimpleRouter::get($basePath."youPHPTubeEncoder.json", function() {
+    require_once "objects/youPHPTubeEncoder.json.php"; exit;
+});
 SimpleRouter::post($basePath."plugins.json", function() {
     require_once "objects/plugins.json.php"; exit;
 });
@@ -173,6 +179,9 @@ SimpleRouter::get($basePath."v/{videoName?}", function ($videoName = '') {
 },['defaultParameterRegex' => '[\w\-]+']);
 // if it's used external, by encoder or so
 SimpleRouter::post($basePath."login", function() {
+    require_once "objects/login.json.php"; exit;
+});
+SimpleRouter::get($basePath."login", function() {
     require_once "objects/login.json.php"; exit;
 });
 /*
