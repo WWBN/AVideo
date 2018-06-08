@@ -356,7 +356,11 @@ if (!class_exists('Video')) {
         function setDuration($duration) {
             $this->duration = $duration;
         }
-
+        
+        function getDuration() {
+            return $this->duration;
+        }
+        
         function getIsSuggested() {
             return $this->isSuggested;
         }
