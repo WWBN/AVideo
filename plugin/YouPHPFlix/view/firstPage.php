@@ -173,7 +173,6 @@ unset($_SESSION['type']);
 		if(!empty($videos)){
                 ?>
             <div class="row">
-            <div class="col-md-12">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
                     echo __("Date added (newest)");
@@ -417,8 +416,8 @@ unset($_SESSION['type']);
             
             if ($o->MostPopular) {
                 ?>
-            <span class="md-col-12">&nbsp;</span>
             <div class="row">
+            <span class="md-col-12">&nbsp;</span>
 			<h2>
 				<i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); ?>
             </h2>
