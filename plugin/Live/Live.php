@@ -26,13 +26,21 @@ class Live extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $server = parse_url($global['webSiteRootURL']);
+        
+        $scheme = "http";
+        $port = "8080";
+        if(strtolower($server["scheme"])=="https"){
+            $scheme = "https";
+            $port = "444";
+        }        
+        
         $obj = new stdClass();
         $obj->button_title = "LIVE";
         $obj->server = "rtmp://{$server['host']}/live";
-        $obj->playerServer = "http://{$server['host']}:8080/live";
+        $obj->playerServer = "{$scheme}://{$server['host']}:{$port}/live";
         // for secure connections
         //$obj->playerServer = "https://{$server['host']}:444/live";
-        $obj->stats = "http://{$server['host']}:8080/stat";
+        $obj->stats = "{$scheme}://{$server['host']}:{$port}/stat";
         $obj->disableGifThumbs = false;
         $obj->useLowResolution = false;
         $obj->experimentalWebcam = false;
