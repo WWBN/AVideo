@@ -302,6 +302,8 @@ class User {
         if (empty($this->status)) {
             $this->status = 'a';
         }
+        if(empty($this->emailVerified))
+            $this->emailVerified = "false";
 
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
@@ -331,6 +333,7 @@ class User {
                     . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
                     . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
                     . " channelName = '{$this->channelName}', emailVerified = '{$this->emailVerified}' , modified = now() WHERE id = {$this->id}";
+            print $sql."<br>\n";
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified, channelName) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}')";
         }
@@ -602,6 +605,7 @@ class User {
                 $row['background'] = self::getBackground();
                 $row['tags'] = self::getTags($row['id']);
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
+                $row['isEmailVerified']=$row['emailVerified'];
                 unset($row['password']);
                 unset($row['recoverPass']);
                 $user[] = $row;
@@ -768,7 +772,19 @@ class User {
             $obj->text = __("Inactive");
             $tags[] = $obj;
         }
-
+        if($user->getEmailVerified())
+        {
+            $obj = new stdClass(); 
+            $obj->type="success"; 
+            $obj->text = __("E-mail Verified");
+            $tags[] = $obj; 
+        }else
+        {
+            $obj = new stdClass(); 
+            $obj->type="warning"; 
+            $obj->text = __("E-mail Not Verified");
+            $tags[] = $obj; 
+        }
         global $global;
         if (!empty($global['systemRootPath'])) {
             require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -827,7 +843,12 @@ class User {
     }
 
     function setEmailVerified($emailVerified) {
-        $this->emailVerified = $emailVerified;
+        if (empty($emailVerified) || $emailVerified === "false") {
+            $emailVerified = "false";
+        } else {
+            $emailVerified = "true";
+        }
+        $this->emailVerified = $emailVerified;    
     }
 
     static function getChannelLink($users_id = 0) {
