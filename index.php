@@ -97,6 +97,14 @@ SimpleRouter::post($basePath."downloadNow", function() {
 SimpleRouter::get($basePath."comments", function() {
     require_once "view/managerComments.php"; exit;
 });
+SimpleRouter::get($basePath."videoOnly", function() {
+    $_GET['type'] = "video";
+    require_once "view/index.php"; exit;
+});
+SimpleRouter::get($basePath."audioOnly", function() {
+  $_GET['type'] = "audio";
+  require_once "view/index.php"; exit;
+});
 SimpleRouter::post($basePath."comments.json/{videoId}", function($videoId) {
     $_GET['video_id'] = $videoId;
     require_once "objects/comments.json.php"; exit;
