@@ -5,12 +5,14 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 abstract class PluginAbstract {
 
     /**
+     * the plugin identification, that is what differ one prlugin from other, so it needs to be unique
      * return the universally unique identifier (UUID) is a 128-bit number used to identify information in computer systems
      * if you not sure get one here https://www.uuidgenerator.net/
      */
     abstract function getUUID();
 
     /**
+     * most of the cases it must be the same name as the plugin
      * return the name ot the plugin
      */
     abstract function getName();

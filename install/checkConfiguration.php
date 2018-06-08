@@ -1,6 +1,6 @@
 <?php
 
-$installationVersion = "5.5";
+$installationVersion = "5.6";
 
 
 header('Content-Type: application/json');
@@ -80,7 +80,7 @@ if ($mysqli->query($sql) !== TRUE) {
 }
 
 
-$sql = "INSERT INTO users (id, user, password, created, modified, isAdmin) VALUES (1, 'admin', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
+$sql = "INSERT INTO users (id, user, email, password, created, modified, isAdmin) VALUES (1, 'admin', '" . $_POST['contactEmail'] . "', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating admin user: " . $mysqli->error;
     echo json_encode($obj);
