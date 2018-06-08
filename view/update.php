@@ -64,7 +64,7 @@ if (!User::isAdmin()) {
             } else {
                 $obj = new stdClass();
                 $templine = '';
-                $lines = file("{$global['systemRootPath']}update/{$_POST['updateFile']}");
+                $lines = file("{$global['systemRootPath']}updatedb/{$_POST['updateFile']}");
                 $obj->error = "";
                 foreach ($lines as $line) {
                     if (substr($line, 0, 2) == '--' || $line == '')
