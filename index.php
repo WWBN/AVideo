@@ -19,6 +19,9 @@ SimpleRouter::get($basePath, function() {
 SimpleRouter::get($basePath."info", function() {
     require_once "view/info.php"; exit;
 });
+SimpleRouter::post($basePath."subscribes.json", function() {
+    require_once "objects/subscribes.json.php";
+});
 SimpleRouter::get($basePath."siteConfigurations", function() {
     require_once "view/configurations.php"; exit;
 });
@@ -209,9 +212,7 @@ SimpleRouter::post($basePath."addNewVideo", function() {
 SimpleRouter::post($basePath."createUser", function() {
     require_once "objects/userCreate.json.php";
 });
-SimpleRouter::get($basePath."subscribes.json", function() {
-    require_once "objects/subscribes.json.php";
-});
+
 SimpleRouter::get($basePath."subscribe.json", function() {
     require_once "objects/subscribe.json.php";
 });
