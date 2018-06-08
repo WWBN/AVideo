@@ -19,9 +19,9 @@ SimpleRouter::get($basePath, function() {
 SimpleRouter::get($basePath."info", function() {
     require_once "view/info.php"; exit;
 });
-SimpleRouter::post($basePath."subscribes.json", function() {
-    require_once "objects/subscribes.json.php";
-});
+/*SimpleRouter::post($basePath."subscribes.json", function() {
+    require_once "objects/subscribe.json.php";
+});*/
 SimpleRouter::get($basePath."siteConfigurations", function() {
     require_once "view/configurations.php"; exit;
 });

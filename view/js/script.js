@@ -207,7 +207,7 @@ function validateEmail(email) {
 
 function subscribe(email, user_id) {
     $.ajax({
-        url: webSiteRootURL + 'subscribe.json',
+        url: webSiteRootURL + 'objects/subscribe.json.php',
         method: 'POST',
         data: {
             'email': email,
