@@ -1,7 +1,7 @@
 <?php
 
 // make sure SecureVideosDirectory will be the first
-function cmpPlugin($a, $b) { 
+function cmpPlugin($a, $b) {
     if ($a['name']=='SecureVideosDirectory')
         return -1;
     return 1;
@@ -350,7 +350,7 @@ function setSiteSendMessage(&$mail) {
     global $global;
     require_once $global['systemRootPath'] . 'objects/configuration.php';
     $config = new Configuration();
-    
+
     if ($config->getSmtp()) {
         error_log("Sending SMTP Email");
         $mail->IsSMTP(); // enable SMTP
@@ -412,7 +412,7 @@ function parseVideos($videoString = null) {
                 '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549 
+        //the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//player.vimeo.com/video/' . $id;
     } else if (strpos($link, 'vimeo.com') !== FALSE) {
@@ -421,7 +421,7 @@ function parseVideos($videoString = null) {
                 '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549 
+        //the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//player.vimeo.com/video/' . $id;
     } else if (strpos($link, 'dailymotion.com') !== FALSE) {
@@ -430,7 +430,7 @@ function parseVideos($videoString = null) {
                 '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549 
+        //the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//www.dailymotion.com/embed/video/' . $id;
     } else if (strpos($link, 'metacafe.com') !== FALSE) {
@@ -501,7 +501,7 @@ function parseVideos($videoString = null) {
                 '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches
         );
 
-        //the YouPHPTube site 
+        //the YouPHPTube site
         $site = $matches[1];
         $id = $matches[2];
         return $site . '/videoEmbeded/' . $id;
@@ -573,7 +573,7 @@ function getSources($fileName, $returnArray = false) {
       if (!empty($cached)) {
       return $cached->result;
       }
-     * 
+     *
      */
     if ($returnArray) {
         $videoSources = $audioTracks = $subtitleTracks = array();
@@ -615,7 +615,7 @@ function getSources($fileName, $returnArray = false) {
 }
 
 /**
- * 
+ *
  * @param type $file_src
  * @return typeget image size with cache
  */
@@ -746,7 +746,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
                     die(json_encode($obj));
                 }
             }
-            
+
         }
     }
 }
@@ -855,7 +855,7 @@ function combineFiles($filesArray, $extension = "js") {
             }
             else if(file_exists($value)){
                 $str .= "\n/*{$value} created local with full-path given */\n" . local_get_contents($value);
-            }       
+            }
             else {
                 $allowed = "";
                 if (ini_get('allow_url_fopen')) {
@@ -864,16 +864,16 @@ function combineFiles($filesArray, $extension = "js") {
                 if (function_exists('curl_init')) {
                     $allowed .= "curl is on";
                 } else {
-                   $allowed .= "curl is off"; 
+                   $allowed .= "curl is off";
                 }
-            
+
                     $content = url_get_contents($value);
                     if(empty($content)){
                         $allowed .= " - web-fallback 1 (add webSiteRootURL)";
                         $content = url_get_contents($global['webSiteRootURL'] . $value);
                     }
                     $str .= "\n/*{$value} created via web with own url ({$allowed}) */\n" . $content;
-                
+
             }
         }
         if(($extension=="js")&&($minifyEnabled)){
@@ -896,13 +896,13 @@ function local_get_contents($path){
 }
 
 
-function url_get_contents($Url, $ctx="") { 
+function url_get_contents($Url, $ctx="") {
     if(empty($ctx)){
         $opts = array(
             "ssl" => array(
                 "verify_peer" => false,
                 "verify_peer_name" => false,
-                "allow_self_signed" => true 
+                "allow_self_signed" => true
             )
         );
         $context = stream_context_create($opts);
@@ -916,7 +916,7 @@ function url_get_contents($Url, $ctx="") {
                 return $tmp;
             }
         } catch(ErrorException $e){
-            
+
         }
     } else  if (function_exists('curl_init')) {
         $ch = curl_init();
@@ -934,7 +934,7 @@ function getUpdatesFilesArray() {
     if (!class_exists('User') || !User::isAdmin()) {
         return array();
     }
-    $files1 = scandir($global['systemRootPath'] . "update");
+    $files1 = scandir($global['systemRootPath'] . "updatedb");
     $updateFiles = array();
     foreach ($files1 as $value) {
         preg_match("/updateDb.v([0-9.]*).sql/", $value, $match);
@@ -949,13 +949,13 @@ function getUpdatesFilesArray() {
 
 function UTF8encode($data){
     global $advancedCustom, $global;
-    
+
     if(empty($advancedCustom)){
         $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
     }
-    
+
     if(!empty($advancedCustom->utf8Encode)){
-        return utf8_encode($data);        
+        return utf8_encode($data);
     }
     if(!empty($advancedCustom->utf8Decode)){
         return utf8_decode($data);
