@@ -332,7 +332,7 @@ class User {
                     . "canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', "
                     . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
                     . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
-                    . " channelName = '{$this->channelName}', emailVerified = '{$this->emailVerified}' , modified = now() WHERE id = {$this->id}";
+                    . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , modified = now() WHERE id = {$this->id}";
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified, channelName) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}')";
         }
@@ -702,6 +702,7 @@ class User {
         }
         return self::isAdmin();
     }
+    
 
     static function canComment() {
         global $global, $config;
@@ -842,11 +843,6 @@ class User {
     }
 
     function setEmailVerified($emailVerified) {
-        if (empty($emailVerified) || $emailVerified === "false") {
-            $emailVerified = "false";
-        } else {
-            $emailVerified = "true";
-        }
         $this->emailVerified = $emailVerified;    
     }
 
