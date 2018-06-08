@@ -59,12 +59,14 @@ if (!empty($_GET['video_id'])) {
         <div class="container">
         <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
             <div class="btn-group" >
+                <?php if(User::isAdmin()){ ?>
                 <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
                     <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
                 </a>
                 <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
                     <span class="fa fa-user"></span> <?php echo __("Users"); ?>
                 </a>
+                <?php } ?>
                 <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info">
                     <span class="fa fa-bar-chart"></span>
                     <?php echo __("Video Chart"); ?>
@@ -215,7 +217,7 @@ if (!empty($_GET['video_id'])) {
                                 <input type="text" id="videoLink" class="form-control first" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
                                 <select class="form-control last" id="videoLinkType" required>
                                     <option value="embed"><?php echo __("Embeded"); ?></option>
-                                    <option value="linkVideo"><?php echo __("Direct video-link (webm or mp4)"); ?></option>
+                                    <option value="linkVideo"><?php echo __("Direct video-link (mp4)"); ?></option>
                                     <option value="linkAudio"><?php echo __("Direct audio-link (mp3 or ogg)"); ?></option>
                                 </select>
                             </div>

@@ -1623,6 +1623,11 @@ if (!class_exists('Video')) {
             }
             return $obj;
         }
+        
+        static function getImageFromID($videos_id, $type = "video") {
+            $video = new Video("", "", $videos_id);
+            return self::getImageFromFilename($video->getFilename());
+        }
 
         function getViews_count() {
             return intval($this->views_count);
