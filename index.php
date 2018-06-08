@@ -82,7 +82,7 @@ SimpleRouter::post($basePath."notifications.json", function() {
 SimpleRouter::get($basePath."notifySubscribers.json", function() {
     require_once "objects/notifySubscribers.json.php"; exit;
 });
-SimpleRouter::post($basePath."subscribes", function() {
+SimpleRouter::get($basePath."subscribes", function() {
     require_once "view/managerSubscribes.php"; exit;
 });
 SimpleRouter::post($basePath."videosList", function() {
