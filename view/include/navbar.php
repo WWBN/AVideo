@@ -76,68 +76,86 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         if (User::canUpload()) {
                             ?>
                             <li>
-
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
                                         <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon) ? $advancedCustom->uploadButtonDropdownIcon : "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
-                                        <?php
-                                        if (!empty($advancedCustom->encoderNetwork)) {
-                                            ?>
-                                            <li>
-                                                <a href="<?php echo $advancedCustom->encoderNetwork, "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" target="encoder" >
-                                                    <span class="fa fa-cogs"></span> <?php echo __("Encoder Network"); ?>
-                                                </a>
-                                            </li>
+                                    <?php
+                                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload) 
+                                    ){
+                                    ?>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <?php
-                                        }
-                                        if (empty($advancedCustom->doNotShowEncoderButton)) {
-                                            if (!empty($config->getEncoderURL())) {
+                                            if (!empty($advancedCustom->encoderNetwork)) {
                                                 ?>
                                                 <li>
-                                                    <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" target="encoder" >
-                                                        <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
+                                                    <a href="<?php echo $advancedCustom->encoderNetwork, "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" target="encoder" >
+                                                        <span class="fa fa-cogs"></span> <?php echo __("Encoder Network"); ?>
                                                     </a>
                                                 </li>
                                                 <?php
-                                            } else {
+                                            }
+                                            if (empty($advancedCustom->doNotShowEncoderButton)) {
+                                                if (!empty($config->getEncoderURL())) {
+                                                    ?>
+                                                    <li>
+                                                        <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" target="encoder" >
+                                                            <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
+                                                        </a>
+                                                    </li>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <li>
+                                                        <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" ><span class="fa fa-cogs"></span> <?php echo __("Configure an Encoder URL"); ?></a>
+                                                    </li>
+                                                    <?php
+                                                }
+                                            }
+                                            if (empty($advancedCustom->doNotShowUploadMP4Button)) {
                                                 ?>
                                                 <li>
-                                                    <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" ><span class="fa fa-cogs"></span> <?php echo __("Configure an Encoder URL"); ?></a>
+                                                    <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
+                                                        <span class="fa fa-upload"></span> <?php echo __("Direct upload"); ?>
+                                                    </a>
                                                 </li>
                                                 <?php
                                             }
-                                        }
-                                        if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                                            if (empty($advancedCustom->doNotShowImportLocalVideosButton)) {
+                                                ?>
+                                                <li>
+                                                    <a  href="<?php echo $global['webSiteRootURL']; ?>view/import.php" >
+                                                        <span class="fas fa-hdd"></span> <?php echo __("Direct Import Local Videos"); ?>
+                                                    </a>
+                                                </li>
+                                                <?php
+                                            }
+                                            if (empty($advancedCustom->doNotShowEmbedButton)) {
+                                                ?>                                    
+                                                <li>
+                                                    <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
+                                                        <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
+                                                    </a>
+                                                </li>
+                                                <?php
+                                            }
                                             ?>
-                                            <li>
-                                                <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
-                                                    <span class="fa fa-upload"></span> <?php echo __("Direct upload"); ?>
-                                                </a>
-                                            </li>
-                                            <?php
-                                        }
-                                        if (empty($advancedCustom->doNotShowImportLocalVideosButton)) {
-                                            ?>
-                                            <li>
-                                                <a  href="<?php echo $global['webSiteRootURL']; ?>view/import.php" >
-                                                    <span class="fas fa-hdd"></span> <?php echo __("Direct Import Local Videos"); ?>
-                                                </a>
-                                            </li>
-                                            <?php
-                                        }
-                                        if (empty($advancedCustom->doNotShowEmbedButton)) {
-                                            ?>                                    
-                                            <li>
-                                                <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
-                                                    <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
-                                                </a>
-                                            </li>
-                                            <?php
-                                        }
-                                        ?>
-                                    </ul>
+                                        </ul>
+                                    <?php
+                                    }
+                                    else{
+                                    ?>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                                <li>
+                                                    <a  href="" >
+                                                        <span class="fa fa-exclamation"></span> <?php echo __("Only verified users can upload"); ?>
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
 
                             </li>
