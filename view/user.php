@@ -136,6 +136,17 @@ $advancedCustom = json_decode($json_file);
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Analytics Code"); ?></label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-chart-line"></i></span>
+                                            <input  id="analyticsCode" placeholder="UA-123456789-1" class="form-control"  type="text" value="<?php echo $user->getAnalyticsCode(); ?>" >
+                                        </div>
+                                        <small><?php echo __("Track your videos with Google analytics"); ?></small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
@@ -178,6 +189,11 @@ $advancedCustom = json_decode($json_file);
                 </div>
                 <script>
                     var uploadCrop;
+                    
+                    function isAnalytics() {
+                        str = $('#analyticsCode').val();
+                        return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
+                    }
                     function readFile(input, crop) {
                         console.log(input);
                         console.log($(input)[0]);
@@ -250,6 +266,11 @@ $advancedCustom = json_decode($json_file);
                         }, 1000);
                         $('#updateUserForm').submit(function (evt) {
                             evt.preventDefault();
+                            if(!isAnalytics()){
+                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
+                                $('#inputAnalyticsCode').focus();
+                                return false;
+                            }
                             modal.showPleaseWait();
                             var pass1 = $('#inputPassword').val();
                             var pass2 = $('#inputPasswordConfirm').val();
@@ -267,7 +288,8 @@ $advancedCustom = json_decode($json_file);
                                         "email": $('#inputEmail').val(),
                                         "name": $('#inputName').val(),
                                         "about": $('#textAbout').val(),
-                                        "channelName": $('#channelName').val()
+                                        "channelName": $('#channelName').val(),
+                                        "analyticsCode": $('#analyticsCode').val()
                                     },
                                     type: 'post',
                                     success: function (response) {
