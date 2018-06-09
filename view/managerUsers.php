@@ -70,7 +70,10 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
                                 <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" >
                                 <label for="inputChannelName" class="sr-only"><?php echo __("Channel Name"); ?></label>
-                                <input type="text" id="inputChannelName" class="form-control last" placeholder="<?php echo __("Channel Name"); ?>" >
+                                <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" >
+                                <label for="inputAnalyticsCode" class="sr-only"><?php echo __("Analytics Code"); ?></label>
+                                <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="UA-123456789-1" >
+                                <small>Do not paste the full javascript code, paste only the gtag id</small>
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         <?php echo __("is Admin"); ?>
@@ -139,6 +142,10 @@ $userGroups = UserGroups::getAllUsersGroups();
         ?>
 
         <script>
+            function isAnalytics(){
+                str = $('#inputAnalyticsCode').val();
+                return str==='' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
+            }
             $(document).ready(function () {
 
 
@@ -193,6 +200,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         $('#inputEmail').val(row.email);
                         $('#inputName').val(row.name);
                         $('#inputChannelName').val(row.channelName);
+                        $('#inputAnalyticsCode').val(row.analyticsCode);
 
                         $('.userGroups').prop('checked', false);
                         for (var index in row.groups) {
@@ -249,6 +257,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     $('#inputEmail').val('');
                     $('#inputName').val('');
                     $('#inputChannelName').val('');
+                    $('#inputAnalyticsCode').val('');
                     $('#isAdmin').prop('checked', false);
                     $('#canStream').prop('checked', false);
                     $('#canUpload').prop('checked', false);
@@ -264,6 +273,12 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                 $('#updateUserForm').submit(function (evt) {
                     evt.preventDefault();
+                    if(!isAnalytics()){
+                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
+                        $('#inputAnalyticsCode').focus();
+                        return false;
+                    }
+                    
                     modal.showPleaseWait();
                     var selectedUserGroups = [];
                     $('.userGroups:checked').each(function () {
@@ -279,6 +294,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             "email": $('#inputEmail').val(),
                             "name": $('#inputName').val(),
                             "channelName": $('#inputChannelName').val(),
+                            "analyticsCode": $('#inputAnalyticsCode').val(),
                             "isAdmin": $('#isAdmin').is(':checked'),
                             "canStream": $('#canStream').is(':checked'),
                             "canUpload": $('#canUpload').is(':checked'),
