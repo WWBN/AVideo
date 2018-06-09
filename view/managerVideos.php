@@ -5,6 +5,7 @@ if (!User::canUpload()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage videos"));
     exit;
 }
+
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -71,30 +72,39 @@ if (!empty($_GET['video_id'])) {
                 <?php
                 $categories = Category::getAllCategories();
                 if (empty($advancedCustom->doNotShowEncoderButton)) {
-                    if (!empty($config->getEncoderURL())) {
-                        ?>
-                        <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
-                            <span class="fa fa-cog"></span>
-                            <?php echo __("Encode video and audio"); ?>
+                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload) 
+                        ){                
+                        if (!empty($config->getEncoderURL())) {
+                            ?>
+                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
+                                <span class="fa fa-cog"></span>
+                                <?php echo __("Encode video and audio"); ?>
+                            </a>
+                            <?php
+                        }
+                    }
+                }
+                if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload) 
+                        ){                
+                    ?>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
+                            <span class="fa fa-upload"></span>
+                            <?php echo __("Upload a MP4 File"); ?>
                         </a>
                         <?php
                     }
                 }
-                if (empty($advancedCustom->doNotShowUploadMP4Button)) {
-                    ?>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
-                        <span class="fa fa-upload"></span>
-                        <?php echo __("Upload a MP4 File"); ?>
-                    </a>
-                    <?php
-                }
                 if (empty($advancedCustom->doNotShowEmbedButton)) {
+                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload) 
+                        ){                
                     ?>                                    
-                    <button class="btn btn-default" id="linkExternalVideo">
-                        <span class="fa fa-link"></span>
-                        <?php echo __("Embed a video link"); ?>
-                    </button>
-                    <?php
+                        <button class="btn btn-default" id="linkExternalVideo">
+                            <span class="fa fa-link"></span>
+                            <?php echo __("Embed a video link"); ?>
+                        </button>
+                        <?php
+                    }
                 }
                 ?>
 
@@ -214,7 +224,7 @@ if (!empty($_GET['video_id'])) {
                                 <input type="text" id="videoLink" class="form-control first" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
                                 <select class="form-control last" id="videoLinkType" required>
                                     <option value="embed"><?php echo __("Embeded"); ?></option>
-                                    <option value="linkVideo"><?php echo __("Direct video-link (mp4)"); ?></option>
+                                    <option value="linkVideo"><?php echo __("Direct video-link (webm or mp4)"); ?></option>
                                     <option value="linkAudio"><?php echo __("Direct audio-link (mp3 or ogg)"); ?></option>
                                 </select>
                             </div>

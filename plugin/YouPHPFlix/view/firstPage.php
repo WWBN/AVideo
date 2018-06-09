@@ -173,10 +173,10 @@ unset($_SESSION['type']);
 		if(!empty($videos)){
                 ?>
             <div class="row">
-			<h2>
-				<i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                echo __("Date added (newest)");
-                ?>
+                <h2>
+                    <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
+                    echo __("Date added (newest)");
+                    ?>
                 </h2>
 			<div class="carousel">
                     <?php
@@ -332,6 +332,7 @@ unset($_SESSION['type']);
                 } 
             } //there
             if ($o->MostWatched) { ?>
+            <span class="md-col-12">&nbsp;</span>
             <div class="row">
 			<h2>
 				<i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
@@ -416,6 +417,7 @@ unset($_SESSION['type']);
             if ($o->MostPopular) {
                 ?>
             <div class="row">
+            <span class="md-col-12">&nbsp;</span>
 			<h2>
 				<i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); ?>
             </h2>

@@ -54,6 +54,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->utf8Decode = false;
         $obj->embedBackgroundColor = "white";
         $obj->userMustBeLoggedIn = false;
+        $obj->onlyVerifiedEmailCanUpload= false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
