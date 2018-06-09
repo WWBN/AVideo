@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `about` TEXT NULL,
   `channelName` VARCHAR(45) NULL,
   `emailVerified` TINYINT(1) NOT NULL DEFAULT 0,
+  `analyticsCode` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
