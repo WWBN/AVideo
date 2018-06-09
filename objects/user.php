@@ -335,6 +335,8 @@ if (typeof gtag !== \"function\") {
         if (empty($this->status)) {
             $this->status = 'a';
         }
+        if(empty($this->emailVerified))
+            $this->emailVerified = "false";
 
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
@@ -635,6 +637,7 @@ if (typeof gtag !== \"function\") {
                 $row['background'] = self::getBackground();
                 $row['tags'] = self::getTags($row['id']);
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
+                $row['isEmailVerified']=$row['emailVerified'];
                 unset($row['password']);
                 unset($row['recoverPass']);
                 $user[] = $row;
@@ -732,6 +735,7 @@ if (typeof gtag !== \"function\") {
         }
         return self::isAdmin();
     }
+    
 
     static function canComment() {
         global $global, $config;
@@ -801,7 +805,19 @@ if (typeof gtag !== \"function\") {
             $obj->text = __("Inactive");
             $tags[] = $obj;
         }
-
+        if($user->getEmailVerified())
+        {
+            $obj = new stdClass(); 
+            $obj->type="success"; 
+            $obj->text = __("E-mail Verified");
+            $tags[] = $obj; 
+        }else
+        {
+            $obj = new stdClass(); 
+            $obj->type="warning"; 
+            $obj->text = __("E-mail Not Verified");
+            $tags[] = $obj; 
+        }
         global $global;
         if (!empty($global['systemRootPath'])) {
             require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -860,7 +876,7 @@ if (typeof gtag !== \"function\") {
     }
 
     function setEmailVerified($emailVerified) {
-        $this->emailVerified = $emailVerified;
+        $this->emailVerified = $emailVerified;    
     }
 
     static function getChannelLink($users_id = 0) {

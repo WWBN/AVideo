@@ -81,7 +81,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             <input type="checkbox" value="isAdmin" id="isAdmin"/>
                                             <label for="isAdmin" class="label-success"></label>
                                         </div>
-                                    </li>
+                                    </li>                                  
                                     <li class="list-group-item">
                                         <?php echo __("Can Stream Videos"); ?>
                                         <div class="material-switch pull-right">
@@ -97,12 +97,19 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         </div>
                                     </li>
                                     <li class="list-group-item">
+                                        <?php echo __("E-mail Verified"); ?>
+                                        <div class="material-switch pull-right">
+                                            <input type="checkbox" value="isEmailVerified" id="isEmailVerified"/>
+                                            <label for="isEmailVerified" class="label-success"></label>
+                                        </div>
+                                    </li>                                      
+                                    <li class="list-group-item">
                                         <?php echo __("is Active"); ?>
                                         <div class="material-switch pull-right">
                                             <input type="checkbox" value="status" id="status"/>
                                             <label for="status" class="label-success"></label>
                                         </div>
-                                    </li>
+                                    </li>                                 
                                 </ul>
                                 <ul class="list-group">
                                     <li class="list-group-item active">
@@ -210,6 +217,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
                         $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
                         $('#status').prop('checked', (row.status === "a" ? true : false));
+                        $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false)); 
 
                         $('#userFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
@@ -263,6 +271,8 @@ $userGroups = UserGroups::getAllUsersGroups();
                     $('#canUpload').prop('checked', false);
                     $('.userGroups').prop('checked', false);
                     $('#status').prop('checked', true);
+                    $('#isEmailVerified').prop('checked', false);
+                    
 
                     $('#userFormModal').modal();
                 });
@@ -299,6 +309,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             "canStream": $('#canStream').is(':checked'),
                             "canUpload": $('#canUpload').is(':checked'),
                             "status": $('#status').is(':checked') ? 'a' : 'i',
+                            "isEmailVerified": $('#isEmailVerified').is(':checked'),
                             "userGroups": selectedUserGroups
                         },
                         type: 'post',
