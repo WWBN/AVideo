@@ -1,5 +1,5 @@
 <?php
-require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 $head = YouPHPTubePlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - YouPHPTube";
 if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
@@ -18,18 +18,18 @@ $theme = $config->getTheme();
 <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-5.0.10/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
 <?php
-    $cssFiles = array();
-    //$cssFiles[] = "{$global['webSiteRootURL']}bootstrap/css/bootstrap.css";
-    $cssFiles[] = "view/js/seetalert/sweetalert.css";
-    $cssFiles[] = "view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
-    //$cssFiles[] = "{$global['webSiteRootURL']}css/flagstrap/css/flags.css";
-    $cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
-    $cssFiles[] = "view/css/custom/{$theme}.css";
-    $cssFiles[] = "view/css/main.css";
-    //$cssFiles[] = "{$global['webSiteRootURL']}css/font-awesome-4.7.0/css/font-awesome.min.css";
-    $cssFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.css";
-    $cssFiles = array_merge($cssFiles,YouPHPTubePlugin::getCSSFiles());
-    $cssURL =  combineFiles($cssFiles, "css");
+$cssFiles = array();
+//$cssFiles[] = "{$global['webSiteRootURL']}bootstrap/css/bootstrap.css";
+$cssFiles[] = "view/js/seetalert/sweetalert.css";
+$cssFiles[] = "view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
+//$cssFiles[] = "{$global['webSiteRootURL']}css/flagstrap/css/flags.css";
+$cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
+$cssFiles[] = "view/css/custom/{$theme}.css";
+$cssFiles[] = "view/css/main.css";
+//$cssFiles[] = "{$global['webSiteRootURL']}css/font-awesome-4.7.0/css/font-awesome.min.css";
+$cssFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.css";
+$cssFiles = array_merge($cssFiles, YouPHPTubePlugin::getCSSFiles());
+$cssURL = combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.3.1.min.js"></script>
@@ -38,30 +38,31 @@ $theme = $config->getTheme();
 </script>
 <?php
 if (!$config->getDisable_analytics()) {
-?>
-<script>
-    // YouPHPTube Analytics
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ?>
+    <script>
+        // YouPHPTube Analytics
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-96597943-1', 'auto', 'youPHPTube');
-    ga('youPHPTube.send', 'pageview');
-</script>
-<?php
+        ga('create', 'UA-96597943-1', 'auto', 'youPHPTube');
+        ga('youPHPTube.send', 'pageview');
+    </script>
+    <?php
 }
 echo $config->getHead();
 echo $head;
-
-$userAnalytics = new User($video['users_id']);
-echo $userAnalytics->getAnalytics();
-unset($userAnalytics);
+if (!empty($video)) {
+    $userAnalytics = new User($video['users_id']);
+    echo $userAnalytics->getAnalytics();
+    unset($userAnalytics);
+}
 ?>
