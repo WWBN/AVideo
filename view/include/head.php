@@ -61,7 +61,8 @@ if (!$config->getDisable_analytics()) {
 echo $config->getHead();
 echo $head;
 if (!empty($video)) {
-    $user = new User($video['users_id']);
-    echo $user->getAnalytics();
+    $userAnalytics = new User($video['users_id']);
+    echo $userAnalytics->getAnalytics();
+    unset($userAnalytics);
 }
 ?>
