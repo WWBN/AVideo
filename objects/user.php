@@ -83,11 +83,11 @@ class User {
 
     function setAnalyticsCode($analyticsCode) {
         preg_match("/(ua-\d{4,9}-\d{1,4})/i", $analyticsCode, $matches);
-	if(!empty($matches[1])){
-		$this->analyticsCode = $matches[1]; 
-	}else{
-		$this->analyticsCode = ""; 
-	}
+        if(!empty($matches[1])){
+            $this->analyticsCode = $matches[1];
+        }else{
+            $this->analyticsCode = "";
+        }
     }
     
     function getAnalytics(){
