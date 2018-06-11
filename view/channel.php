@@ -1,5 +1,8 @@
 <?php
 global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
@@ -18,7 +21,7 @@ if (empty($_GET['channelName'])) {
         $_GET['user_id'] = $user['id'];
     }else{
         $_GET['user_id'] = $_GET['channelName'];
-    }    
+    }
 }
 $user_id = $_GET['user_id'];
 
@@ -44,7 +47,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channel"); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
-        ?>        
+        ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
@@ -73,7 +76,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                 </div>
                 <div class="col-md-12">
                     <h1 class="pull-left">
-                   <?php  
+                   <?php
                             echo $user->getNameIdentificationBd();
                         ?></h1>
                     <span class="pull-right">
@@ -120,7 +123,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 ?>
                             </div>
                         </div>
-                    </div>    
+                    </div>
                 </div>
 
                 <div class="col-md-12">
@@ -141,7 +144,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist['id']; ?>" class="btn btn-xs btn-default playAll"><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a>
                                 <?php
                                 if ($isMyChannel) {
-                                    ?>     
+                                    ?>
                                     <script>
                                         $(function () {
                                             $("#sortable<?php echo $playlist['id']; ?>").sortable({
@@ -163,7 +166,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                             });
                                             $("#sortable<?php echo $playlist['id']; ?>").disableSelection();
                                         });
-                                    </script>  
+                                    </script>
                                     <div class="pull-right btn-group">
                                         <button class="btn btn-xs btn-info" ><i class="fa fa-info-circle"></i> <?php echo __("Drag and drop to sort"); ?></button>
                                         <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><span class="fa fa-trash-o"></span> <?php echo __("Delete"); ?></button>
@@ -365,6 +368,3 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
         </script>
     </body>
 </html>
-
-
-
