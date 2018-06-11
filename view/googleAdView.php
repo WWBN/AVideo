@@ -10,7 +10,10 @@
     </head>
     <body>
         <?php
-        require_once '../videos/configuration.php';
+        global $global, $config;
+        if(!isset($global['systemRootPath'])){
+            require_once '../videos/configuration.php';
+        }
         echo $config->getAdsense();
         ?>
     </body>
