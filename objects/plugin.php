@@ -138,6 +138,7 @@ class Plugin extends ObjectYPT {
                     if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
                         $p = YouPHPTubePlugin::loadPlugin($value);
                         if (!is_object($p) || $p->hidePlugin()) {
+                            error_log("Plugin Not Found: {$value}");
                             continue;
                         }
                         $obj = new stdClass();
