@@ -178,11 +178,11 @@ class YouPHPTubePlugin {
             $code = "\$p = new {$name}();";
             $codeResult = @eval($code." return \$p;");
             if($codeResult==false){
-                log_error("[loadPlugin] eval failed for plugin ".$name );
+                error_log("[loadPlugin] eval failed for plugin ".$name );
             }
             return $codeResult;
         }else{
-            log_error("Plugin File Not found ".$file );
+            error_log("Plugin File Not found ".$file );
         }
         return false;
     }
