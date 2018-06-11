@@ -1,7 +1,10 @@
 <?php
-error_reporting(0);
-require_once '../videos/configuration.php';
-require_once 'video_ad.php';
+//error_reporting(0);
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/video_ad.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
 $videos = Video_ad::getAllVideos();

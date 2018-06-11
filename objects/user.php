@@ -272,7 +272,7 @@ if (typeof gtag !== \"function\") {
             }
         }
         if (empty($photo)) {
-            $photo = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
+            $photo = $global['webSiteRootURL'] . "view/img/userSilhouette.jpg";
         }
         return $photo;
     }
@@ -299,7 +299,7 @@ if (typeof gtag !== \"function\") {
             }
         }
         if (empty($photo)) {
-            $photo = $global['webSiteRootURL'] . "img/background.png";
+            $photo = $global['webSiteRootURL'] . "view/img/background.png";
         }
         return $photo;
     }

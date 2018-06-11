@@ -132,7 +132,7 @@ if (User::canSeeCommentTextarea()) {
                     search: "<?php echo __("Search"); ?>",
                 },
                 ajax: true,
-                url: "<?php echo $global['webSiteRootURL']; ?>comments.json/<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
+                url: "<?php echo $global['webSiteRootURL']; ?>objects/comments.json.php?video_id=<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
                             sorting: false,
                             templates: {
                                 header: ""
@@ -211,7 +211,7 @@ if (User::canSeeCommentTextarea()) {
                         if (comment.length > 5) {
                             modal.showPleaseWait();
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>saveComment',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/commentAddNew.json.php',
                                 method: 'POST',
                                 data: {'comment': comment, 'video': video, 'comments_id': comments_id, 'id': id},
                                 success: function (response) {
@@ -322,7 +322,7 @@ if (User::canSeeCommentTextarea()) {
                                     search: "<?php echo __("Search"); ?>",
                                 },
                                 ajax: true,
-                                url: "<?php echo $global['webSiteRootURL']; ?>comments.json/<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
+                                url: "<?php echo $global['webSiteRootURL']; ?>objects/comments.json.php?video_id=<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
                                 sorting: false,
                                 templates: {
                                     header: ""

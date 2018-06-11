@@ -1,8 +1,11 @@
 <?php
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once dirname(__FILE__) . '/../videos/configuration.php';
+}
 
-require_once dirname(__FILE__) . '/../videos/configuration.php';
-require_once dirname(__FILE__) . '/../objects/bootGrid.php';
-require_once dirname(__FILE__) . '/../objects/user.php';
+require_once $global['systemRootPath'] . 'objects/bootGrid.php';
+require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Category {
 
