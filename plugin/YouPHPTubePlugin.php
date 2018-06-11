@@ -181,6 +181,8 @@ class YouPHPTubePlugin {
                 log_error("[loadPlugin] eval failed for plugin ".$name );
             }
             return $codeResult;
+        }else{
+            log_error("Plugin File Not found ".$file );
         }
         return false;
     }
