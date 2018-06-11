@@ -1,5 +1,13 @@
 <?php
-$configFile = 'videos/configuration.php';
+$configFile = '../videos/configuration.php';
+
+if (!file_exists($configFile)) {
+    if (!file_exists('../install/index.php')) {
+        die("No Configuration and no Installation");
+    }
+    header("Location: install/index.php");
+    exit;
+}
 global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
