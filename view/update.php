@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 //check if there is a update
 if (!User::isAdmin()) {
@@ -61,7 +64,7 @@ if (!User::isAdmin()) {
             } else {
                 $obj = new stdClass();
                 $templine = '';
-                $lines = file("{$global['systemRootPath']}update/{$_POST['updateFile']}");
+                $lines = file("{$global['systemRootPath']}updatedb/{$_POST['updateFile']}");
                 $obj->error = "";
                 foreach ($lines as $line) {
                     if (substr($line, 0, 2) == '--' || $line == '')

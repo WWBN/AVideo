@@ -1,9 +1,8 @@
 <?php
-global $global; // because it's not set in configuration.php
-if(empty($global['systemRootPath'])){
-    $global['systemRootPath'] = "../";
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
 

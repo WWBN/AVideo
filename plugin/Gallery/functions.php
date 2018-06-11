@@ -43,7 +43,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $_POST['sort'][$sort] = $_GET[$getName];
         $_POST['current'] = $_GET['page'];
         $_POST['rowCount'] = $rowCount;
-        
+
         $total = Video::getTotalVideos("viewableNotAd");
         $totalPages = ceil($total / $_POST['rowCount']);
         $page = $_GET['page'];
@@ -51,7 +51,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $page = $totalPages;
             $_POST['current'] = $totalPages;
         }
-        $videos = Video::getAllVideos();
+        $videos = Video::getAllVideos("viewableNotAd");
         createGallerySection($videos);
         ?>
         <div class="col-sm-12" style="z-index: 1;">
@@ -70,7 +70,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                 window.location.replace("<?php echo $url; ?>" + num + args);
             });
         });
-    </script>    
+    </script>
     <?php
 }
 
@@ -133,7 +133,7 @@ function createGallerySection($videos) {
                     <?php } ?>
                 </div>
                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-            </a> 
+            </a>
             <a class="h6" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                 <h2><?php echo $value['title']; ?></h2>
             </a>
@@ -145,7 +145,7 @@ function createGallerySection($videos) {
                             <?php
                             if (!empty($value['iconClass'])) {
                                 ?>
-                                <i class="<?php echo $value['iconClass']; ?>"></i> 
+                                <i class="<?php echo $value['iconClass']; ?>"></i>
                                 <?php
                             }
                             ?>
