@@ -23,6 +23,7 @@ class User {
     private $about;
     private $channelName;
     private $emailVerified;
+    private $analyticsCode;
     private $userGroups = array();
 
     function __construct($id, $user = "", $password = "") {
@@ -75,7 +76,43 @@ class User {
     function setCanUpload($canUpload) {
         $this->canUpload = $canUpload;
     }
+    
+    function getAnalyticsCode() {
+        return $this->analyticsCode;
+    }
 
+    function setAnalyticsCode($analyticsCode) {
+        preg_match("/(ua-\d{4,9}-\d{1,4})/i", $analyticsCode, $matches);
+        if(!empty($matches[1])){
+            $this->analyticsCode = $matches[1];
+        }else{
+            $this->analyticsCode = "";
+        }
+    }
+    
+    function getAnalytics(){
+        $id = $this->getId();
+        $aCode = $this->getAnalyticsCode();
+        if(!empty($id) && !empty($aCode)){
+            $code = "<!-- Global site tag (gtag.js) - Google Analytics From user {$id} -->
+<script async src=\"https://www.googletagmanager.com/gtag/js?id={$aCode}\"></script>
+<script>
+if (typeof gtag !== \"function\") { 
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+}
+
+  gtag('config', '{$aCode}');
+</script>
+";
+        }else{
+            $code = "<!-- No Analytics for this user {$id} -->";
+        }
+        return $code;
+        
+    }
+    
     private function load($id) {
         $user = self::getUserDb($id);
         if (empty($user))
@@ -302,6 +339,8 @@ class User {
         if (empty($this->status)) {
             $this->status = 'a';
         }
+        if(empty($this->emailVerified))
+            $this->emailVerified = "false";
 
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
@@ -330,9 +369,9 @@ class User {
                     . "canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', "
                     . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
                     . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
-                    . " channelName = '{$this->channelName}', emailVerified = '{$this->emailVerified}' , modified = now() WHERE id = {$this->id}";
+                    . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}' , modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified, channelName) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}')";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified, channelName, analyticsCode) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}')";
         }
         //echo $sql;
         $insert_row = sqlDAL::writeSql($sql);
@@ -602,6 +641,7 @@ class User {
                 $row['background'] = self::getBackground();
                 $row['tags'] = self::getTags($row['id']);
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
+                $row['isEmailVerified']=$row['emailVerified'];
                 unset($row['password']);
                 unset($row['recoverPass']);
                 $user[] = $row;
@@ -699,6 +739,7 @@ class User {
         }
         return self::isAdmin();
     }
+    
 
     static function canComment() {
         global $global, $config;
@@ -768,7 +809,19 @@ class User {
             $obj->text = __("Inactive");
             $tags[] = $obj;
         }
-
+        if($user->getEmailVerified())
+        {
+            $obj = new stdClass(); 
+            $obj->type="success"; 
+            $obj->text = __("E-mail Verified");
+            $tags[] = $obj; 
+        }else
+        {
+            $obj = new stdClass(); 
+            $obj->type="warning"; 
+            $obj->text = __("E-mail Not Verified");
+            $tags[] = $obj; 
+        }
         global $global;
         if (!empty($global['systemRootPath'])) {
             require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -827,7 +880,7 @@ class User {
     }
 
     function setEmailVerified($emailVerified) {
-        $this->emailVerified = $emailVerified;
+        $this->emailVerified = $emailVerified;    
     }
 
     static function getChannelLink($users_id = 0) {

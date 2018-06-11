@@ -17,6 +17,8 @@ $user->setIsAdmin($_POST['isAdmin']);
 $user->setCanStream($_POST['canStream']);
 $user->setCanUpload($_POST['canUpload']);
 $user->setStatus($_POST['status']);
+$user->setEmailVerified($_POST['isEmailVerified']);
+$user->setAnalyticsCode($_POST['analyticsCode']);
 $unique = $user->setChannelName($_POST['channelName']);
 if(!empty($_POST['channelName']) && !$unique){
     echo '{"error":"'.__("Channel name already exists").'"}';

@@ -247,6 +247,5 @@ SimpleRouter::post($basePath."addViewCountVideo", function() {
     require_once "objects/videoAddViewCount.json.php";
 });
 */
-
 SimpleRouter::start();
 ?>
