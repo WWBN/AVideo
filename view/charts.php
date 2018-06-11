@@ -1,7 +1,9 @@
 <?php
 $limitVideos = 50; 
 global $global, $config;
-require_once '../videos/configuration.php';
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
@@ -170,7 +172,7 @@ foreach ($videos as $value) {
 
         <script type="text/javascript">
             $(document).ready(function () {
-                
+
             });
         </script>
     </body>

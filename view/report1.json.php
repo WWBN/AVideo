@@ -1,9 +1,9 @@
 <?php
 header('Content-Type: application/json');
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/Channel.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
@@ -45,4 +45,3 @@ $obj = new stdClass();
 $obj->data = $rows;
 
 echo json_encode($obj);
-
