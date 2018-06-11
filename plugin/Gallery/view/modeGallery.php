@@ -3,7 +3,6 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
@@ -110,14 +109,14 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                         <?php
                         echo YouPHPTubePlugin::getGallerySection();
                         ?>
-                        <!-- For Live Videos End -->    
+                        <!-- For Live Videos End -->
                         <?php
                         if ($obj->SortByName) {
                             createGallery(__("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
-                        } 
+                        }
                         if ($obj->DateAdded) {
                             createGallery(__("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC");
-                        } 
+                        }
                         if ($obj->MostWatched) {
                             createGallery(__("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
@@ -128,7 +127,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             require_once $global['systemRootPath'] . 'objects/subscribe.php';
                             $channels = Subscribe::getSubscribedChannels(User::getId());
                             foreach ($channels as $value) {
-                                ?>    
+                                ?>
                                 <div class="clear clearfix">
                                     <h3 class="galleryTitle">
                                         <img src="<?php
@@ -167,7 +166,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                 <?php } else { ?>
                     <div class="alert alert-warning">
                         <span class="glyphicon glyphicon-facetime-video"></span>
-                        <strong><?php echo __("Warning"); ?>!</strong> 
+                        <strong><?php echo __("Warning"); ?>!</strong>
                         <?php echo __("We have not found any videos or audios to show"); ?>.
                     </div>
                 <?php } ?>
