@@ -1,5 +1,8 @@
 <?php
 global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
@@ -16,7 +19,7 @@ global $global, $config;
         ?>
 
         <div class="container">
-            <div class="bgWhite">  
+            <div class="bgWhite">
                 <?php
                 $custom = "";
                 if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
