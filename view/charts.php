@@ -1,5 +1,6 @@
 <?php
 global $global, $config;
+require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
@@ -11,7 +12,7 @@ if(!User::isLogged()){
 }
 
 if(empty($_POST['rowCount'])){
-    $_POST['rowCount'] = 50;
+    //$_POST['rowCount'] = 50;
 }
 
 if(User::isAdmin()){
