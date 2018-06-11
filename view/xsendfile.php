@@ -1,6 +1,8 @@
 <?php
-
-require_once dirname(__FILE__) . '/../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';

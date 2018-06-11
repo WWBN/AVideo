@@ -1,5 +1,9 @@
 <?php
-require_once 'comment.php';
+global $global, $config;
+if (!isset($global['systemRootPath'])) {
+    $global['systemRootPath'] = '../';
+}
+require_once $global['systemRootPath'] . 'objects/comment.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';

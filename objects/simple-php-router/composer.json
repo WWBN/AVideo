@@ -1,0 +1,40 @@
+{
+  "name": "pecee/simple-router",
+  "description": "Simple, fast PHP router that is easy to get integrated and in almost any project. Heavily inspired by the Laravel router.",
+  "keywords": [
+    "router",
+    "router",
+    "routing",
+    "route",
+    "simple-php-router",
+    "laravel",
+    "pecee",
+    "php",
+    "framework",
+    "url-handling",
+    "input-handler",
+    "routing-engine",
+    "request-handler"
+  ],
+  "license": "MIT",
+  "support": {
+    "source": "https://github.com/skipperbent/simple-php-router/issues"
+  },
+  "authors": [
+    {
+      "name": "Simon Sessingø",
+      "email": "simon.sessingoe@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.7.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pecee\\": "src/Pecee/"
+    }
+  }
+}

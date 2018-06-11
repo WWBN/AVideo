@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 $json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
@@ -135,7 +138,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                             return false;
                         } else {
                             $.ajax({
-                                url: 'createUser',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/userCreate.json.php',
                                 data: {
                                     "user": $('#inputUser').val(), 
                                     "pass": $('#inputPassword').val(), 
