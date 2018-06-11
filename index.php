@@ -1,6 +1,7 @@
 <?php
 global $global, $config;
 ini_set('error_log', $global['systemRootPath'].'videos/youphptube.log');
+// it is needed for installation
 if (!file_exists('videos/configuration.php')) {
     if (!file_exists('install/index.php')) {
         die("No Configuration and no Installation");
