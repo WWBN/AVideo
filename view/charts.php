@@ -1,4 +1,5 @@
 <?php
+$limitVideos = 50; 
 global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
@@ -14,7 +15,7 @@ if(!User::isLogged()){
 }
 
 if(empty($_POST['rowCount'])){
-    $_POST['rowCount'] = 50;
+    $_POST['rowCount'] = $limitVideos;
 }
 
 if(User::isAdmin()){
@@ -23,6 +24,7 @@ if(User::isAdmin()){
     $totalUsers = User::getTotalUsers();
     $totalSubscriptions = Subscribe::getTotalSubscribes();
     $totalComents = Comment::getTotalComments();
+    unset($_POST['rowCount']);
     $totalInfos = Video::getTotalVideosInfo("viewableNotAd", false, false, array(), true);
 }else{
     $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
@@ -30,8 +32,10 @@ if(User::isAdmin()){
     $totalUsers = User::getTotalUsers();
     $totalSubscriptions = Subscribe::getTotalSubscribes(User::getId());
     $totalComents = Comment::getTotalComments(0, 'NULL', User::getId());
+    unset($_POST['rowCount']);
     $totalInfos = Video::getTotalVideosInfo("", true, false, array(), true);
 }
+
 $labelToday = array();
 for ($i = 0; $i < 24; $i++) {
     $labelToday[] = "{$i} h";
