@@ -1,5 +1,5 @@
 <?php
-require_once 'objects/captcha.php';
+require_once 'captcha.php';
 
 $largura = empty($_GET['l']) ? 120 : $_GET['l']; // recebe a largura
 $altura = empty($_GET['a']) ? 40 : $_GET['a']; // recebe a altura
