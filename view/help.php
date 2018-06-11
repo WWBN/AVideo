@@ -1,5 +1,8 @@
 <?php
 global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 ?>
 <!DOCTYPE html>
