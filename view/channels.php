@@ -1,5 +1,8 @@
 <?php
 global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/Channel.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
@@ -13,7 +16,7 @@ $channels = Channel::getChannels();
         <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channels"); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
-        ?>   
+        ?>
     </head>
 
     <body>
@@ -28,16 +31,16 @@ $channels = Channel::getChannels();
                     ?>
                     <div class="  bgWhite clear clearfix" style="margin: 10px 0;">
                         <div class="clear clearfix">
-                            <img src="<?php echo User::getPhoto($value['id']); ?>" 
+                            <img src="<?php echo User::getPhoto($value['id']); ?>"
                                  class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" />
                             <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
                                 <i class="fab fa-youtube"></i>
                                 <?php
                                 echo User::getNameIdentificationById($value['id']);
-                             ?> 
+                             ?>
                             </a>
                             <span class="pull-right">
-                                <?php echo Subscribe::getButton($value['id']); ?> 
+                                <?php echo Subscribe::getButton($value['id']); ?>
                             </span>
                             <div>
                                 <?php echo nl2br(htmlentities($value['about'])); ?>
@@ -81,6 +84,3 @@ $channels = Channel::getChannels();
         </script>
     </body>
 </html>
-
-
-

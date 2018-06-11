@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
     return false;
 }
@@ -26,7 +29,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                     <div class="alert alert-info">
                         <i class="fas fa-question-circle"></i>
                         Here you can direct import multiple videos stored on your hard drive.<br>
-                        If there is a file (html or htm or txt) we will import it's content as a description, and the first 
+                        If there is a file (html or htm or txt) we will import it's content as a description, and the first
                         <input type="number" id="length" value="100" style="width: 70px;" /> characteres will be the file title. (choose 0 to use the file name as the title)
                     </div>
                     <div class="form-group">
@@ -65,7 +68,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                             }
                             ?>
                         </select>
-                    </div> 
+                    </div>
                     <ul class="list-group" id="files">
                     </ul>
                     <button class="btn btn-block btn-primary" id="addQueueBtn"><?php echo __("Direct Import all"); ?></button>
