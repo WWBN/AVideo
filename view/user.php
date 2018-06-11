@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 $tags = User::getTags(User::getId());
@@ -18,8 +21,8 @@ $advancedCustom = json_decode($json_file);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -281,7 +284,7 @@ $advancedCustom = json_decode($json_file);
                                 return false;
                             } else {
                                 $.ajax({
-                                    url: 'updateUser',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/userUpdate.json.php',
                                     data: {
                                         "user": $('#inputUser').val(),
                                         "pass": $('#inputPassword').val(),
@@ -300,7 +303,7 @@ $advancedCustom = json_decode($json_file);
                                             }).then(function (resp) {
                                                 $.ajax({
                                                     type: "POST",
-                                                    url: "savePhoto",
+                                                    url: "<?php echo $global['webSiteRootURL']; ?>objects/userSavePhoto.php",
                                                     data: {
                                                         imgBase64: resp
                                                     }
@@ -311,7 +314,7 @@ $advancedCustom = json_decode($json_file);
                                                     }).then(function (resp) {
                                                         $.ajax({
                                                             type: "POST",
-                                                            url: "saveBackground",
+                                                            url: "<?php echo $global['webSiteRootURL']; ?>objects/userSaveBackground.php",
                                                             data: {
                                                                 imgBase64: resp
                                                             }
@@ -437,7 +440,7 @@ $advancedCustom = json_decode($json_file);
                             evt.preventDefault();
                             modal.showPleaseWait();
                             $.ajax({
-                                url: 'login',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
                                 data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val()},
                                 type: 'post',
                                 success: function (response) {
@@ -474,7 +477,7 @@ $advancedCustom = json_decode($json_file);
                                     function () {
                                         modal.showPleaseWait();
                                         $.ajax({
-                                            url: 'recoverPass',
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
                                             data: {"user": $('#inputUser').val(), "captcha": $('#captchaText').val()},
                                             type: 'post',
                                             success: function (response) {

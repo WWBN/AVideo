@@ -1,6 +1,10 @@
 <?php
-require_once 'captcha.php';
-require_once 'configuration.php';
+
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'].'objects/captcha.php';
 $config = new Configuration();
 $valid = Captcha::validation($_POST['captcha']);
 $obj = new stdClass();

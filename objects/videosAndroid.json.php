@@ -1,8 +1,11 @@
 <?php
-require_once '../videos/configuration.php';
-require_once 'video.php';
-require_once 'comment.php';
-require_once 'subscribe.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'].'objects/video.php';
+require_once $global['systemRootPath'].'objects/comment.php';
+require_once $global['systemRootPath'].'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');

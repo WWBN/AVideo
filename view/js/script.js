@@ -160,7 +160,7 @@ function changeVideoSrc(vid_obj, source) {
 }
 
 /**
- * 
+ *
  * @param {String} str 00:00:00
  * @returns {int} int of seconds
  */
@@ -173,7 +173,7 @@ function strToSeconds(str) {
 }
 
 /**
- * 
+ *
  * @param {int} seconds
  * @param {int} level 3 = 00:00:00 2 = 00:00 1 = 00
  * @returns {String} 00:00:00
@@ -207,7 +207,7 @@ function validateEmail(email) {
 
 function subscribe(email, user_id) {
     $.ajax({
-        url: webSiteRootURL + 'subscribe.json',
+        url: webSiteRootURL + 'objects/subscribe.json.php',
         method: 'POST',
         data: {
             'email': email,
@@ -308,7 +308,7 @@ function copyToClipboard(text) {
 
 function addView(videos_id) {
     $.ajax({
-        url: webSiteRootURL + 'addViewCountVideo',
+        url: webSiteRootURL + 'objects/videoAddViewCount.json.php',
         method: 'POST',
         data: {
             'id': videos_id

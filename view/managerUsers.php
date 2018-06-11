@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage users"));
@@ -167,7 +170,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         search: "<?php echo __("Search"); ?>",
                     },
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "users.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/users.json.php"; ?>",
                     formatters: {
                         "commands": function (column, row) {
                             var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
@@ -238,7 +241,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                          modal.showPleaseWait();
                          $.ajax({
-                         url: 'deleteUser',
+                         url: '<?php echo $global['webSiteRootURL']; ?>objects/userDelete.json.php',
                          data: {"id": row.id},
                          type: 'post',
                          success: function (response) {
@@ -296,7 +299,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     });
 
                     $.ajax({
-                        url: 'addNewUser',
+                        url: '<?php echo $global['webSiteRootURL']; ?>objects/userAddNew.json.php',
                         data: {
                             "id": $('#inputUserId').val(),
                             "user": $('#inputUser').val(),

@@ -1,7 +1,10 @@
 <?php
 error_reporting(0);
-require_once '../videos/configuration.php';
-require_once 'video.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/video.php';
 $obj = new stdClass();
 $obj->success = false;
 require_once $global['systemRootPath'] . 'objects/functions.php';

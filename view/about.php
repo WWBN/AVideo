@@ -1,5 +1,5 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
