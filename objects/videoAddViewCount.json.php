@@ -1,9 +1,13 @@
 <?php
 header('Content-Type: application/json');
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 if (empty($_POST['id'])) {
     die('{"error":"'.__("Permission denied").'"}');
 }
-require_once 'video.php';
+require_once $global['systemRootPath'].'objects/video.php';
 $obj = new Video("", "", $_POST['id']);
 if(empty($obj)){
     die("Object not found");

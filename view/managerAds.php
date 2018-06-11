@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage ads"));
@@ -19,7 +22,7 @@ $userGroups = UserGroups::getAllUsersGroups();
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
@@ -129,7 +132,7 @@ $userGroups = UserGroups::getAllUsersGroups();
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
 
@@ -137,7 +140,6 @@ $userGroups = UserGroups::getAllUsersGroups();
                     format: 'yyyy-mm-dd hh:ii',
                     autoclose: true
                 });
-
                 $('[data-toggle="tooltip"]').tooltip();
                 var grid = $("#grid").bootgrid({
                     labels: {
@@ -237,7 +239,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: 'deleteVideoAd',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/video_adDelete.json.php',
                                         data: {"id": row.id},
                                         type: 'post',
                                         success: function (response) {
@@ -263,7 +265,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                     evt.preventDefault();
                     modal.showPleaseWait();
                     $.ajax({
-                        url: 'addNewAd',
+                        url: '<?php echo $global['webSiteRootURL'] . "objects/video_adsAddNew.json.php"; ?>',
                         data: {
                             id: $('#inputAdId').val(),
                             title: $('#inputAdTitle').val(),

@@ -1,6 +1,8 @@
 <?php
-
-require_once dirname(__FILE__) . '/../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 header('Content-Type: application/json');
 
 if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {

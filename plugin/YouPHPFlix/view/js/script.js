@@ -17,7 +17,7 @@ function isFlickityEnabled(selector){
 
 function loadPlayLists() {
     $.ajax({
-        url: webSiteRootURL + 'playLists.json',
+        url: webSiteRootURL + 'objects/playlists.json.php',
         success: function (response) {
             $('#searchlist').html('');
             for (var i in response) {
@@ -42,7 +42,7 @@ function loadPlayLists() {
             $('.playListsIds').change(function () {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: webSiteRootURL + 'playListAddVideo.json',
+                    url: webSiteRootURL + 'objects/playListAddVideo.json.php',
                     method: 'POST',
                     data: {
                         'videos_id': videos_id,
@@ -137,7 +137,7 @@ $(function () {
     $('#addPlayList').click(function () {
         modal.showPleaseWait();
         $.ajax({
-            url: webSiteRootURL + 'addNewPlayList',
+            url: webSiteRootURL + 'objects/playlistAddNew.json.php',
             method: 'POST',
             data: {
                 'videos_id': videos_id,

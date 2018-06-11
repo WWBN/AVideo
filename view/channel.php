@@ -1,5 +1,5 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
@@ -149,7 +149,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                                     modal.showPleaseWait();
                                                     var list = $(this).sortable("toArray");
                                                     $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>sortPlaylist',
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php',
                                                         data: {
                                                             "list": list,
                                                             "playlist_id": <?php echo $playlist['id']; ?>
@@ -279,7 +279,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 var playlist_id = $(currentObject).attr('playlist_id');
                                 var video_id = $(currentObject).attr('video_id');
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>removeVideoFromPlaylist',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
                                     data: {
                                         "playlist_id": playlist_id,
                                         "video_id": video_id
@@ -309,7 +309,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 var playlist_id = $(currentObject).attr('playlist_id');
                                 console.log(playlist_id);
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>removePlaylist',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
                                     data: {
                                         "playlist_id": playlist_id
                                     },
@@ -346,7 +346,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                 var playlist_id = $(currentObject).attr('playlist_id');
                                 console.log(playlist_id);
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>renamePlaylist',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php',
                                     data: {
                                         "playlist_id": playlist_id,
                                         "name": inputValue

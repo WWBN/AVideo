@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage videos"));
@@ -26,11 +29,11 @@ if (!empty($_GET['video_id'])) {
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
             /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
             $.widget.bridge('uibutton', $.ui.button);
@@ -334,7 +337,7 @@ if (!empty($_GET['video_id'])) {
                                 <div class="row">
                                     <h3><?php echo __("Autoplay Next Video"); ?> <button class="btn btn-danger btn-sm" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button></h3>
                                     <div class="col-md-4">
-                                        <img id="inputNextVideo-poster" src="img/notfound.jpg" class="ui-state-default" alt="">
+                                        <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
                                     </div>
                                     <div class="col-md-8">                                        
                                         <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control">
@@ -350,7 +353,7 @@ if (!empty($_GET['video_id'])) {
                                             minLength: 0,
                                             source: function (req, res) {
                                                 $.ajax({
-                                                    url: '<?php echo $global['webSiteRootURL']; ?>videos.json',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php',
                                                     type: "POST",
                                                     data: {
                                                         searchPhrase: req.term
@@ -417,7 +420,7 @@ if (!empty($_GET['video_id'])) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 
         <script>
                                     var timeOut;
@@ -433,7 +436,7 @@ if (!empty($_GET['video_id'])) {
                                             }
                                         });
                                         $.ajax({
-                                            url: 'setStatusVideo',
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
                                             data: {"id": vals, "status": status},
                                             type: 'post',
                                             success: function (response) {
@@ -461,7 +464,7 @@ if (!empty($_GET['video_id'])) {
                                             }
                                         });
                                         $.ajax({
-                                            url: 'setCategoryVideo',
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/videoCategory.json.php',
                                             data: {"id": vals, "category_id": category_id},
                                             type: 'post',
                                             success: function (response) {
@@ -583,7 +586,7 @@ if (!empty($_GET['video_id'])) {
                                         $('#videoIsAd').trigger("change");
                                         $('#input-jpg, #input-gif').fileinput('destroy');
                                         $("#input-jpg").fileinput({
-                                            uploadUrl: "uploadPoster/" + row.id + "/jpg",
+                                            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
                                             autoReplace: true,
                                             overwriteInitial: true,
                                             showUploadedThumbs: false,
@@ -599,7 +602,7 @@ if (!empty($_GET['video_id'])) {
                                             allowedFileExtensions: ["jpg"]
                                         });
                                         $("#input-gif").fileinput({
-                                            uploadUrl: "uploadPoster/" + row.id + "/gif",
+                                            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
                                             autoReplace: true,
                                             overwriteInitial: true,
                                             showUploadedThumbs: false,
@@ -693,7 +696,7 @@ if (!empty($row)) {
                                                 }
                                             });
                                             $.ajax({
-                                                url: 'youtubeUpload',
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php',
                                                 data: {"id": vals},
                                                 type: 'post',
                                                 success: function (response) {
@@ -738,7 +741,7 @@ if (!empty($row)) {
                                                             }
                                                         });
                                                         $.ajax({
-                                                            url: 'deleteVideo',
+                                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/videoDelete.json.php',
                                                             data: {"id": vals},
                                                             type: 'post',
                                                             success: function (response) {
@@ -772,7 +775,7 @@ if (!empty($row)) {
                                         });
                                         $('[data-toggle="tooltip"]').tooltip();
                                         $('#removeAutoplay').click(function () {
-                                            $('#inputNextVideo-poster').attr('src', "img/notfound.jpg");
+                                            $('#inputNextVideo-poster').attr('src', "view/img/notfound.jpg");
                                             $('#inputNextVideo').val("");
                                             $('#inputNextVideoClean').val("");
                                             $('#inputNextVideo-id').val("");
@@ -787,7 +790,7 @@ if (!empty($row)) {
                                                 search: "<?php echo __("Search"); ?>",
                                             },
                                             ajax: true,
-                                            url: "<?php echo $global['webSiteRootURL'] . "videos.json"; ?>",
+                                            url: "<?php echo $global['webSiteRootURL'] . "objects/videos.json.php"; ?>",
                                             formatters: {
                                                 "commands": function (column, row)
                                                 {
@@ -937,7 +940,7 @@ if (!empty($row)) {
                                                             swal.close();
                                                             modal.showPleaseWait();
                                                             $.ajax({
-                                                                url: 'deleteVideo',
+                                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/videoDelete.json.php',
                                                                 data: {"id": row.id},
                                                                 type: 'post',
                                                                 success: function (response) {
@@ -956,7 +959,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'refreshVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoRefresh.json.php',
                                                     data: {"id": row.id},
                                                     type: 'post',
                                                     success: function (response) {
@@ -970,7 +973,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'setStatusVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
                                                     data: {"id": row.id, "status": "i"},
                                                     type: 'post',
                                                     success: function (response) {
@@ -984,7 +987,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'setStatusVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
                                                     data: {"id": row.id, "status": "u"},
                                                     type: 'post',
                                                     success: function (response) {
@@ -998,7 +1001,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'setStatusVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
                                                     data: {"id": row.id, "status": "a"},
                                                     type: 'post',
                                                     success: function (response) {
@@ -1012,7 +1015,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'rotateVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoRotate.json.php',
                                                     data: {"id": row.id, "type": $(this).attr('data-row-id')},
                                                     type: 'post',
                                                     success: function (response) {
@@ -1026,7 +1029,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'reencodeVideo',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoReencode.json.php',
                                                     data: {"id": row.id, "status": "i", "type": $(this).attr('data-row-id')},
                                                     type: 'post',
                                                     success: function (response) {
@@ -1044,7 +1047,7 @@ if (!empty($row)) {
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: 'youtubeUpload',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php',
                                                     data: {"id": row.id},
                                                     type: 'post',
                                                     success: function (response) {
@@ -1143,7 +1146,7 @@ if (!empty($row)) {
                                             }
                                             modal.showPleaseWait();
                                             $.ajax({
-                                                url: 'addNewVideo',
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/videoAddNew.json.php',
                                                 data: {
                                                     "id": $('#inputVideoId').val(),
                                                     "title": $('#inputTitle').val(),
