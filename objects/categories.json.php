@@ -1,6 +1,10 @@
 <?php
 error_reporting(0);
-require_once 'category.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'].'objects/category.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $categories = Category::getAllCategories();

@@ -95,7 +95,7 @@ if (!empty($videos)) {
                         </video>
                         <?php if (!empty($logId)) { ?>
                             <div id="adUrl<?php echo $video['id']; ?>" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
+                                <a href="<?php echo $global['webSiteRootURL']; ?>objects/video_adClickLog.php?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
                                     $url = parse_url($ad['redirect']);
                                     echo $url['host'];
                                     ?> <i class="fas fa-external-link-alt"></i>
@@ -179,7 +179,7 @@ if (!empty($videos)) {
                         <script>
                             function loadPlayLists<?php echo $video['id']; ?>() {
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>playLists.json',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
                                     success: function (response) {
                                         $('#searchlist<?php echo $video['id']; ?>').html('');
                                         for (var i in response) {
@@ -205,7 +205,7 @@ if (!empty($videos)) {
                                         $('.playListsIds').change(function () {
                                             modal.showPleaseWait();
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>playListAddVideo.json',
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
                                                 method: 'POST',
                                                 data: {
                                                     'videos_id': <?php echo $video['id']; ?>,
@@ -228,7 +228,7 @@ if (!empty($videos)) {
                                 $('#addPlayList<?php echo $video['id']; ?>').click(function () {
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>addNewPlayList',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
                                         method: 'POST',
                                         data: {
                                             'videos_id': <?php echo $video['id']; ?>,
@@ -429,7 +429,7 @@ if (!empty($videos)) {
                                                     evt.preventDefault();
                                                     modal.showPleaseWait();
                                                     $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>sendEmail',
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
                                                         data: $('#contact_form<?php echo $video['id']; ?>').serializeArray(),
                                                         type: 'post',
                                                         success: function (response) {
@@ -509,7 +509,7 @@ if (!empty($videos)) {
                                     search: "<?php echo __("Search"); ?>",
                                 },
                                 ajax: true,
-                                url: "<?php echo $global['webSiteRootURL'] . "comments.json/" . $video['id']; ?>",
+                                url: "<?php echo $global['webSiteRootURL'] . "objects/comments.json.php?video_id=" . $video['id']; ?>",
                                 sorting: false,
                                 templates: {
                                     header: ""
@@ -522,7 +522,7 @@ if (!empty($videos)) {
                                 if ($('#comment<?php echo $video['id']; ?>').val().length > 5) {
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>saveComment',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/commentAddNew.json.php',
                                         method: 'POST',
                                         data: {'comment': $('#comment<?php echo $video['id']; ?>').val(), 'video': "<?php echo $video['id']; ?>"},
                                         success: function (response) {

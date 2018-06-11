@@ -1,5 +1,5 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 //var_dump($config);exit;
@@ -599,7 +599,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                             evt.preventDefault();
                             modal.showPleaseWait();
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>sendEmail',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
                                 data: {
                                     captcha:$('#captchaText').val(),
                                     first_name: "Your Site test",
@@ -726,7 +726,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                     logoImgBase64 = resp;
 
                                     $.ajax({
-                                        url: 'updateConfig',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/configurationUpdate.json.php',
                                         data: {
                                             "logoSmallImgBase64": logoSmallImgBase64,
                                             "logoImgBase64": logoImgBase64,

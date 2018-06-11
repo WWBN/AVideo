@@ -1,5 +1,9 @@
 <?php
-require_once 'like.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/like.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
 

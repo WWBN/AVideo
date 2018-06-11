@@ -13,10 +13,10 @@ $theme = $config->getTheme();
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="<?php echo $custom; ?>">
-<link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>img/favicon.png">
-<link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-5.0.10/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>view/img/favicon.png">
+<link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-5.0.10/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
 <?php
 $cssFiles = array();
 //$cssFiles[] = "{$global['webSiteRootURL']}bootstrap/css/bootstrap.css";
@@ -32,7 +32,7 @@ $cssFiles = array_merge($cssFiles, YouPHPTubePlugin::getCSSFiles());
 $cssURL = combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
-<script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.3.1.min.js"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js"></script>
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
 </script>

@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage plugins"));
@@ -380,7 +383,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     },
                     navigation: 0,
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "pluginsAvailable.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/pluginsAvailable.json.php"; ?>",
                     formatters: {
                         "commands": function (column, row) {
                             var editBtn = '';
@@ -433,7 +436,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         modal.showPleaseWait();
                         $.ajax({
-                            url: 'switchPlugin',
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
                             data: {"uuid": row.uuid, "name": row.name, "dir": row.dir, "enable": $('#enable' + row.uuid).is(":checked")},
                             type: 'post',
                             success: function (response) {
@@ -458,7 +461,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         $('#inputData').val(JSON.stringify(row.data_object));
                         modal.showPleaseWait();
                         $.ajax({
-                            url: 'runDBScriptPlugin.json',
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginRunDatabaseScript.json.php',
                             data: {"name": row.name},
                             type: 'post',
                             success: function (response) {
@@ -470,7 +473,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 $('#savePluginBtn').click(function (evt) {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: 'addDataObjectPlugin.json',
+                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginAddDataObject.json.php',
                         data: {"id": $('#inputPluginId').val(), "object_data": $('#inputData').val()},
                         type: 'post',
                         success: function (response) {
@@ -484,7 +487,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     $('#pluginsImportFormModal').modal();
                 });
                 $('#input-b1').fileinput({
-                    uploadUrl: '<?php echo $global['webSiteRootURL']; ?>pluginImport.json',
+                    uploadUrl: '<?php echo $global['webSiteRootURL']; ?>objects/pluginImport.json.php',
                     allowedFileExtensions: ['zip']
                 }).on('fileuploaded', function (event, data, id, index) {
                     $("#grid").bootgrid('reload');

@@ -1,6 +1,6 @@
 <?php
 if (User::isAdmin()) {
-    $files1 = scandir($global['systemRootPath']."update");
+    $files1 = scandir($global['systemRootPath']."updatedb/");
     $updateFiles = array();
     foreach ($files1 as $value) {
     preg_match("/updateDb.v([0-9.]*).sql/", $value, $match);

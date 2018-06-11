@@ -2,8 +2,9 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/functions.php';
 // gettig the mobile submited value
@@ -134,7 +135,7 @@ if($object->isLogged){
     }
     $p = YouPHPTubePlugin::loadPluginIfEnabled("MobileManager");
     if(!empty($p)){
-        $object->streamer = json_decode(url_get_contents($global['webSiteRootURL']."status"));
+        $object->streamer = json_decode(url_get_contents($global['webSiteRootURL']."objects/status.json.php"));
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }
