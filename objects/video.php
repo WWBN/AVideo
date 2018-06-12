@@ -1138,6 +1138,7 @@ if (!class_exists('Video')) {
               e = encoding
               x = encoding error
               d = downloading
+              u = unlisted
               xmp4 = encoding mp4 error
               xwebm = encoding webm error
               xmp3 = encoding mp3 error

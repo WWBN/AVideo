@@ -194,6 +194,23 @@ if (!User::isAdmin()) {
             </div><!-- /.modal -->
 
 
+            <div id="chartFormModal" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document" style="width: 800px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><?php echo __("Charts"); ?></h4>
+                        </div>
+                        <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
+                            <canvas id="canvas"></canvas>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
             <div id="btnModelVideos" style="display: none;">
                 <button href="" class="editor_delete_video btn btn-danger btn-xs">
                     <i class="fa fa-trash"></i>
@@ -204,6 +221,9 @@ if (!User::isAdmin()) {
                 <div class="btn-group pull-right"> 
                     <button href="" class="editor_add_video btn btn-success btn-xs">
                         <i class="fa fa-video"></i> Add Video
+                    </button>
+                    <button href="" class="editor_chart btn btn-info btn-xs">
+                        <i class="fas fa-chart-area "></i>
                     </button>
                     <button href="" class="editor_edit_link btn btn-default btn-xs">
                         <i class="fa fa-edit"></i>
@@ -220,6 +240,7 @@ if (!User::isAdmin()) {
         <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Chart.bundle.min.js"></script>
 
         <script type="text/javascript">
             function clearVideoForm() {
@@ -231,8 +252,45 @@ if (!User::isAdmin()) {
                 $('#adDetails').slideUp();
                 $('#videos_id').val(0);
             }
+            var barChartData = {
+                labels: ['Impression', 'First Quartile', 'Midpoint', 'Third Quartile', 'Complete', 'ClickThrough'],
+                datasets: [{
+                        label: 'Campaign',
+                        backgroundColor: 'rgba(0, 100, 255, 0.3)',
+                        borderColor: 'rgba(0, 100, 255, 0.5)',
+                        borderWidth: 1,
+                        data: [1, 1, 1, 1, 1, 1]
+                    }]
 
+            };
             $(document).ready(function () {
+                var ctx = document.getElementById('canvas').getContext('2d');
+                window.myBar = new Chart(ctx, {
+                    type: 'bar',
+                    data: barChartData,
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        callback: function (value, index, values) {
+                                            if (Math.floor(value) === value) {
+                                                return value;
+                                            }
+                                        }
+                                    }
+                                }]
+                        },
+                        responsive: true,
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Chart.js Bar Chart'
+                        }
+                    }
+                });
                 $(".pluginSwitch").on("change", function (e) {
                     modal.showPleaseWait();
                     $.ajax({
@@ -411,6 +469,24 @@ if (!User::isAdmin()) {
                     clearVideoForm();
                     $('#videoFormModal').modal();
                     tableVideos.ajax.reload();
+                });
+                $('#campaignTable').on('click', 'button.editor_chart', function (e) {
+                    e.preventDefault();
+                    var tr = $(this).closest('tr')[0];
+                    var data = tableLinks.row(tr).data();
+                    console.log(data);
+                    barChartData.datasets[0].label = '<?php echo __("Campaign"); ?>: '+data.name;
+                    //'Impression', 'First Quartile', 'Midpoint', 'Third Quartile', 'Complete', 'ClickThrough'
+                    barChartData.datasets[0].data = [
+                        data.data.Impression,
+                        data.data.firstQuartile,
+                        data.data.midpoint,
+                        data.data.thirdQuartile,
+                        data.data.complete,
+                        data.data.ClickThrough
+                    ];
+                    $('#chartFormModal').modal();
+                    window.myBar.update();
                 });
                 $('#campaignTable').on('click', 'button.editor_delete_link', function (e) {
                     e.preventDefault();
