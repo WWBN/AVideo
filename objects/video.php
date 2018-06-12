@@ -1164,6 +1164,10 @@ if (!class_exists('Video')) {
                         $obj->type = "info";
                         $obj->text = __("Downloading");
                         break;
+                    case 'u':
+                        $obj->type = "info";
+                        $obj->text = __("Unlisted");
+                        break;
                     case 'xmp4':
                         $obj->type = "danger";
                         $obj->text = __("Encoding mp4 error");
