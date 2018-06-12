@@ -117,7 +117,6 @@ if (!empty($_GET['playlist_id'])) {
 }
 
 if (!empty($video)) {
-    $ad = Video_ad::getAdFromCategory($video['categories_id']);
     $name = User::getNameIdentificationById($video['users_id']);
     $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name}</a>";
     $subscribe = Subscribe::getButton($video['users_id']);
