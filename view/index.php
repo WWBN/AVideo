@@ -1,16 +1,16 @@
 <?php
-$configFile = '../videos/configuration.php';
-
-if (!file_exists($configFile)) {
-    if (!file_exists('../install/index.php')) {
-        die("No Configuration and no Installation");
-    }
-    header("Location: install/index.php");
-    exit;
-}
 global $global, $config;
+$configFile = '../videos/configuration.php';
 if(!isset($global['systemRootPath'])){
-    require_once '../videos/configuration.php';
+    if (!file_exists($configFile)) {
+        if (!file_exists('../install/index.php')) {
+            die("No Configuration and no Installation");
+          }
+          header("Location: install/index.php");
+          exit;
+    } else {
+      require_once '../videos/configuration.php';
+    }
 }
 if (empty($config)) {
     // update config file for version 2.8
@@ -21,7 +21,7 @@ if (empty($config)) {
 
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
 $firstPage = YouPHPTubePlugin::getFirstPage();
-if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName'])) {
+if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['v']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName'])) {
     require $global['systemRootPath'].'view/modeYoutube.php';
 }else{
     require $firstPage;

@@ -10,6 +10,10 @@
     ExpiresByType text/javascript "access plus 216000 seconds"
     ExpiresByType application/x-javascript "access plus 216000 seconds"
 </ifModule>
+<Files routes.php>
+  Order Allow,Deny
+  Deny from all
+</Files>
 # END Expires
 # BEGIN Caching
 <ifModule mod_headers.c>
@@ -64,7 +68,7 @@
     RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L,QSA]
     RewriteRule    ^cat/([A-Za-z0-9-]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L,QSA]
 
-    
+
     #for the video name
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/?$ view/?videoName=$1    [QSA]
     RewriteRule    ^v/([0-9]+)/?$ view/?v=$1    [QSA]
@@ -171,8 +175,8 @@
     RewriteRule    ^login$ objects/login.json.php    [NC,L]
     RewriteRule    ^logoff$ objects/logoff.php    [NC,L]
 
-    RewriteRule    ^like$ objects/like.json.php?like=1    [QSA] 
-    RewriteRule    ^dislike$ objects/like.json.php?like=-1    [QSA] 
+    RewriteRule    ^like$ objects/like.json.php?like=1    [QSA]
+    RewriteRule    ^dislike$ objects/like.json.php?like=-1    [QSA]
 
 
     #manager configuration
@@ -182,7 +186,7 @@
     RewriteRule    ^updateConfig$ objects/configurationUpdate.json.php    [NC,L]
 
     RewriteRule    ^charts$ view/charts.php    [NC,L]
-    
+
     RewriteRule    ^help$ view/help.php    [NC,L]
 
     # YouTube Sync
@@ -204,4 +208,3 @@
     RewriteRule .*$ img/image404.php [NC,L]
 
 </IfModule>
- 
