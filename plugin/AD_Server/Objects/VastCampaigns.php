@@ -200,7 +200,7 @@ class VastCampaigns extends ObjectYPT {
     static public function getValidCampaigns(){
         global $global;
 
-            $sql = "SELECT * from " . static::getTableName() . "  WHERE status = 'a' AND start_date <= now() AND end_date >=now() ORDER BY priority ";
+            $sql = "SELECT * from " . static::getTableName() . "  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cmp_current_prints ORDER BY priority ";
 
             $res = sqlDAL::readSql($sql); 
             $rows = sqlDAL::fetchAllAssoc($res);
@@ -226,17 +226,26 @@ class VastCampaigns extends ObjectYPT {
         $rows = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
-                $row['data'] = VastCampaignsLogs::getDataFromCampaign($row['id']);
-                if(empty($row['data']['Impression'])){
-                    $row['data']['Impression']=0;
-                }
-                $row['printsLeft'] = $row['cpm_max_prints'] - $row['data']['Impression'];
+                $row['printsLeft'] = $row['cpm_max_prints'] - $row['cpm_current_prints'];
                 $rows[] = $row;
             }
         } else {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+    
+    function addView() {
+        global $global;
+        if (!empty($this->id)) {
+            $sql = "UPDATE " . static::getTableName() . " SET cpm_current_prints = cpm_current_prints+1 ";
+            $sql .= " WHERE id = ?";
+            $global['lastQuery'] = $sql;
+            //error_log("Delete Query: ".$sql);
+            return sqlDAL::writeSql($sql,"i",array($this->id));
+        }
+        error_log("Id for table " . static::getTableName() . " not defined for add view");
+        return false;
     }
 
 }
