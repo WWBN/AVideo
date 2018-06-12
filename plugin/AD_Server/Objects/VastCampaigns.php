@@ -226,6 +226,7 @@ class VastCampaigns extends ObjectYPT {
         $rows = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
+                $row['data'] = VastCampaignsLogs::getDataFromCampaign($row['id']);
                 $row['printsLeft'] = $row['cpm_max_prints'] - $row['cpm_current_prints'];
                 $rows[] = $row;
             }
