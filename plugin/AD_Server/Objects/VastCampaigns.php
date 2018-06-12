@@ -200,7 +200,7 @@ class VastCampaigns extends ObjectYPT {
     static public function getValidCampaigns(){
         global $global;
 
-            $sql = "SELECT * from " . static::getTableName() . "  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cmp_current_prints ORDER BY priority ";
+            $sql = "SELECT * from " . static::getTableName() . "  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cpm_current_prints ORDER BY priority ";
 
             $res = sqlDAL::readSql($sql); 
             $rows = sqlDAL::fetchAllAssoc($res);

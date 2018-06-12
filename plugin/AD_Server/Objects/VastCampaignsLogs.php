@@ -77,8 +77,10 @@ class VastCampaignsLogs extends ObjectYPT {
     
     static function getDataFromCampaign($vast_campaigns_id){
         global $global;
-        $sql = "SELECT `type`, count(vast_campaigns_id) as total FROM vast_campaigns_logs vcl LEFT JOIN vast_campaigns_has_videos vchv ON vast_campaigns_id = vchv.id WHERE vast_campaigns_id = $vast_campaigns_id GROUP BY `type`";
-
+        $sql = "SELECT `type`, count(vast_campaigns_id) as total FROM vast_campaigns_logs vcl "
+                . " LEFT JOIN vast_campaigns_has_videos vchv ON vast_campaigns_has_videos_id = vchv.id "
+                . " WHERE vast_campaigns_id = $vast_campaigns_id GROUP BY `type`";
+//echo $sql."\n";
         $res = sqlDAL::readSql($sql); 
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);

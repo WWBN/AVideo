@@ -54,6 +54,8 @@ $files = getVideosURL($video->getFilename());
                                 <ClickThrough id="GDFP"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=ClickThrough&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></ClickThrough>
                             </VideoClicks>
                             <?php
+                        }else{
+                            error_log("VastCampaignsVideos has not a valid link: {$link}");
                         }
                         ?>
                         <MediaFiles>

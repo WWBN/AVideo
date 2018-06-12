@@ -287,7 +287,7 @@ if (!User::isAdmin()) {
                         },
                         title: {
                             display: true,
-                            text: 'Chart.js Bar Chart'
+                            text: 'Campaigns'
                         }
                     }
                 });
@@ -397,7 +397,7 @@ if (!User::isAdmin()) {
                 $('#addVideoBtn').click(function () {
                     $.ajax({
                         url: '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/addCampaignVideo.php',
-                        data: {vast_campaigns_id: $('#vast_campaigns_id').val(), videos_id: $('#videos_id').val(), title: $('#inputVideoURI').val(), uri: $('#inputVideoTitle').val()},
+                        data: {vast_campaigns_id: $('#vast_campaigns_id').val(), videos_id: $('#videos_id').val(), uri: $('#inputVideoURI').val(), title: $('#inputVideoTitle').val()},
                         type: 'post',
                         success: function (response) {
                             if (response.error) {
@@ -475,7 +475,7 @@ if (!User::isAdmin()) {
                     var tr = $(this).closest('tr')[0];
                     var data = tableLinks.row(tr).data();
                     console.log(data);
-                    barChartData.datasets[0].label = '<?php echo __("Campaign"); ?>: '+data.name;
+                    barChartData.datasets[0].label = data.name;
                     //'Impression', 'First Quartile', 'Midpoint', 'Third Quartile', 'Complete', 'ClickThrough'
                     barChartData.datasets[0].data = [
                         data.data.Impression,
