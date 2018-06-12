@@ -21,7 +21,7 @@ if (empty($config)) {
 
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
 $firstPage = YouPHPTubePlugin::getFirstPage();
-if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName'])) {
+if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['v']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName'])) {
     require $global['systemRootPath'].'view/modeYoutube.php';
 }else{
     require $firstPage;
