@@ -47,3 +47,8 @@ RewriteRule ^.*$ index.php [L,QSA]
     <IfModule mod_xsendfile.c>
        RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [QSA]
 </IfModule>
+
+<Files routes.php>
+Order Allow,Deny
+Deny from all
+</Files>
