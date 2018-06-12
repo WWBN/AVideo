@@ -1089,8 +1089,6 @@ if (!empty($row)) {
                                                     "categories_id": $('#inputCategory').val(),
                                                     "public": isPublic,
                                                     "videoGroups": selectedVideoGroups,
-                                                    "isAd": isAd,
-                                                    "adElements": adElements,
                                                     "next_videos_id": $('#inputNextVideo-id').val()
                                                 },
                                                 type: 'post',

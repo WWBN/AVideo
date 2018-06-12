@@ -43,9 +43,9 @@ if ($obj->sortReverseable) {
     $orderString = str_replace("&&", "&", $orderString);
     $orderString = str_replace("//", "/", $orderString);
 }
-$video = Video::getVideo("", "viewableNotAd", false, false, true);
+$video = Video::getVideo("", "viewable", false, false, true);
 if (empty($video)) {
-    $video = Video::getVideo("", "viewableNotAd");
+    $video = Video::getVideo("", "viewable");
 }
 if (empty($_GET['page'])) {
     $_GET['page'] = 1;
@@ -152,8 +152,8 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                                         $_POST['sort']['created'] = "DESC";
                                         $_POST['current'] = 1;
                                         $_POST['rowCount'] = $obj->SubscribedChannelsRowCount;
-                                        $total = Video::getTotalVideos("viewableNotAd", $value['users_id']);
-                                        $videos = Video::getAllVideos("viewableNotAd", $value['users_id']);
+                                        $total = Video::getTotalVideos("viewable", $value['users_id']);
+                                        $videos = Video::getAllVideos("viewable", $value['users_id']);
                                         createGallerySection($videos);
                                         ?>
                                     </div>

@@ -15,7 +15,6 @@ if (!empty($_GET['type'])) {
     }
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
-require_once $global['systemRootPath'] . 'objects/video_ad.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
 if (empty($_GET['page'])) {
@@ -27,7 +26,7 @@ $_POST['rowCount'] = 4;
 $half = floor($_POST['rowCount'] / 2);
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
-$videos = Video::getAllVideos("viewableNotAd");
+$videos = Video::getAllVideos("viewable");
 foreach ($videos as $key => $value) {
     $videos[$key] = Video::getVideo($value['id']);
     $name = empty($value['name']) ? $value['user'] : $value['name'];
@@ -37,7 +36,6 @@ $count = 0;
 if (!empty($videos)) {
     foreach ($videos as $video) {
         $count++;
-        $ad = Video_ad::getAdFromCategory($video['categories_id']);
         $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
         $playNowVideo = $video;
         $transformation = "{rotate:" . $video['rotation'] . ", zoom: " . $video['zoom'] . "}";
@@ -50,12 +48,7 @@ if (!empty($videos)) {
             $vjsClass = "vjs-16-9";
             $embedResponsiveClass = "embed-responsive-16by9";
         }
-
-        if (!empty($ad)) {
-            $playNowVideo = $ad;
-            $logId = Video_ad::log($ad['id']);
-        }
-        if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
+        if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
         } else {
             $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
@@ -68,9 +61,6 @@ if (!empty($videos)) {
                 <div><?php echo nl2br(textToLink($video['description'])); ?></div>
                 <div class="main-video embed-responsive <?php
                 echo $embedResponsiveClass;
-                if (!empty($logId)) {
-                    echo " ad";
-                }
                 ?>">
                          <?php
                          if ($video['type'] === "embed") {
@@ -93,17 +83,7 @@ if (!empty($videos)) {
                                 <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
                             </p>
                         </video>
-                        <?php if (!empty($logId)) { ?>
-                            <div id="adUrl<?php echo $video['id']; ?>" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>objects/video_adClickLog.php?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
-                                    $url = parse_url($ad['redirect']);
-                                    echo $url['host'];
-                                    ?> <i class="fas fa-external-link-alt"></i>
-                                </a>
-                            </div>
-                            <a id="adButton<?php echo $video['id']; ?>" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
-                            <?php
-                        }
+                        <?php
                     }
                     ?>
 
@@ -588,51 +568,20 @@ if (!empty($videos)) {
                             player<?php echo $video['id']; ?>.zoomrotate(<?php echo $transformation; ?>);
                             player<?php echo $video['id']; ?>.ready(function () {
 
-            <?php if (!empty($logId)) { ?>
-                                    isPlayingAd<?php echo $video['id']; ?> = true;
-                                    this.on('ended', function () {
-                                        console.log("Finish Video");
-                                        if (isPlayingAd<?php echo $video['id']; ?>) {
-                                            isPlayingAd<?php echo $video['id']; ?> = false;
-                                            $('#adButton<?php echo $video['id']; ?>').trigger("click");
-                                        }
 
-                                    });
-                                    this.on('timeupdate', function () {
-                                        var durationLeft = fullDuration<?php echo $video['id']; ?> - this.currentTime();
-                                        $("#adUrl<?php echo $video['id']; ?> .time").text(secondsToStr(durationLeft + 1, 2));
-                <?php if (!empty($ad['skip_after_seconds'])) {
-                    ?>
-                                            if (isPlayingAd<?php echo $video['id']; ?> && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
-                                                $('#adButton<?php echo $video['id']; ?>').fadeIn();
-                                            }
-                <?php }
-                ?>
-                                    });
-            <?php } else {
-                ?>
-                                    this.on('ended', function () {
-                                        console.log("Finish Video");
-                                    });
-            <?php }
-            ?>
+                                this.on('ended', function () {
+                                    console.log("Finish Video");
+                                });
+
                             });
                             player<?php echo $video['id']; ?>.persistvolume({
                                 namespace: "YouPHPTube"
                             });
-            <?php if (!empty($logId)) { ?>
-                                $('#adButton<?php echo $video['id']; ?>').click(function () {
-                                    console.log("Change Video");
-                                    fullDuration<?php echo $video['id']; ?> = strToSeconds('<?php echo $video['duration']; ?>');
-                                    changeVideoSrc(player<?php echo $video['id']; ?>, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
-                                                $('#mainVideo<?php echo $video['id']; ?>').parent().removeClass("ad");
-                                                return false;
-                                            });
-            <?php }
+            <?php
         }
         ?>
 
-                                });
+                    });
                 </script>
             </div>
         </div>

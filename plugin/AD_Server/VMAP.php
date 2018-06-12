@@ -8,6 +8,14 @@ if(empty($ad_server)){
     die("not enabled");
 }
 
+if(empty($_GET['video_length'])){
+    $_GET['video_length'] = 300;
+}
+
+if(empty($_GET['vmap_id'])){
+    $_GET['vmap_id'] = uniqid();
+}
+
 if(!empty($_GET['vmap_id']) && !empty($_SESSION['vmap'][$_GET['vmap_id']])){
     $vmaps = unserialize($_SESSION['vmap'][$_GET['vmap_id']]);
 }else{

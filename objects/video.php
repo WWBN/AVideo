@@ -32,7 +32,6 @@ if (!class_exists('Video')) {
         private $isSuggested;
         static $types = array('webm', 'mp4', 'mp3', 'ogg');
         private $videoGroups;
-        private $videoAdsCount;
         static $statusDesc = array(
             'a' => 'active',
             'i' => 'inactive',
@@ -487,8 +486,7 @@ if (!class_exists('Video')) {
                     . " nv.id as next_id,"
                     . " c.id as category_id,c.iconClass,c.name as category,c.iconClass,  c.clean_name as clean_category,c.description as category_description,c.nextVideoOrder as category_order, v.created as videoCreation, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
-                    . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes, "
-                    . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount ";
+                    . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
             if (User::isLogged()) {
                 $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = " . User::getId() . " ) as myVote ";
             } else {
@@ -513,13 +511,8 @@ if (!class_exists('Video')) {
                 }
             }
 
-            if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
+            if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-                if ($status == "viewableNotAd") {
-                    $sql .= " having videoAdsCount = 0 ";
-                } elseif ($status == "viewableAd") {
-                    $sql .= " having videoAdsCount > 0 ";
-                }
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
@@ -631,7 +624,6 @@ if (!class_exists('Video')) {
                 return false;
             }
             $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified, "
-                    . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
                     . " FROM videos as v "
@@ -657,16 +649,11 @@ if (!class_exists('Video')) {
                 }
             }
 
-            if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
+            if ($status == "viewable") {
                 if(User::isLogged()){
                     $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='".User::getId()."'))";
                 }else{
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-                }
-                if ($status == "viewableNotAd") {
-                    $sql .= " having videoAdsCount = 0 ";
-                } elseif ($status == "viewableAd") {
-                    $sql .= " having videoAdsCount > 0 ";
                 }
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
@@ -733,11 +720,10 @@ if (!class_exists('Video')) {
             global $global;
             $cn = "";
             if (!empty($_GET['catName'])) {
-                $cn .= " c.clean_name as cn,";
+                $cn .= ", c.clean_name as cn,";
             }
 
-            $sql = "SELECT v.users_id, v.type, v.id, v.title,v.description, c.name as category, {$cn} "
-                    . " (SELECT count(id) FROM video_ads as va where va.videos_id = v.id) as videoAdsCount "
+            $sql = "SELECT v.users_id, v.type, v.id, v.title,v.description, c.name as category {$cn} "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
                     . " WHERE 1=1 ";
@@ -746,13 +732,8 @@ if (!class_exists('Video')) {
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
             }
-            if ($status == "viewable" || $status == "viewableNotAd" || $status == "viewableAdOnly") {
+            if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-                if ($status == "viewableNotAd") {
-                    $sql .= " having videoAdsCount = 0 ";
-                } elseif ($status == "viewableAd") {
-                    $sql .= " having videoAdsCount > 0 ";
-                }
             } elseif (!empty($status)) {
                 $sql .= " AND status = '{$status}'";
             }
@@ -1151,20 +1132,6 @@ if (!class_exists('Video')) {
             $video = new Video("", "", $video_id);
             $tags = array();
 
-            if (empty($type) || $type === "ad") {
-                $obj = new stdClass();
-                $obj->label = __("Is Ad");
-                if ($video->getIsAd()) {
-                    $obj->type = "success";
-                    $obj->text = __("Yes");
-                    $tags[] = $obj;
-                } else {
-                    $obj->type = "danger";
-                    $obj->text = __("No");
-                    $tags[] = $obj;
-                }
-            }
-
             /**
               a = active
               i = inactive
@@ -1290,10 +1257,6 @@ if (!class_exists('Video')) {
             return $this->type;
         }
 
-        function getIsAd() {
-            return !empty($this->videoAdsCount);
-        }
-
         static function fixCleanTitle($clean_title, $count, $videoId) {
             global $global;
 
@@ -1393,7 +1356,7 @@ if (!class_exists('Video')) {
         }
 
         static function getRandom($excludeVideoId = false) {
-            return static::getVideo("", "viewableNotAd", false, $excludeVideoId);
+            return static::getVideo("", "viewable", false, $excludeVideoId);
         }
 
         static function getVideoQueryFileter() {

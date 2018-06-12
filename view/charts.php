@@ -19,15 +19,15 @@ if(empty($_POST['rowCount'])){
 }
 
 if(User::isAdmin()){
-    $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
-    $totalVideos = Video::getTotalVideos("viewableNotAd");
+    $videos = Video::getAllVideos("viewable", true, true, array(), true);
+    $totalVideos = Video::getTotalVideos("viewable");
     $totalUsers = User::getTotalUsers();
     $totalSubscriptions = Subscribe::getTotalSubscribes();
     $totalComents = Comment::getTotalComments();
     unset($_POST['rowCount']);
-    $totalInfos = Video::getTotalVideosInfo("viewableNotAd", false, false, array(), true);
+    $totalInfos = Video::getTotalVideosInfo("viewable", false, false, array(), true);
 }else{
-    $videos = Video::getAllVideos("viewableNotAd", true, true, array(), true);
+    $videos = Video::getAllVideos("viewable", true, true, array(), true);
     $totalVideos = Video::getTotalVideos("", true);
     $totalUsers = User::getTotalUsers();
     $totalSubscriptions = Subscribe::getTotalSubscribes(User::getId());

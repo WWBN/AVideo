@@ -44,14 +44,14 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $_POST['current'] = $_GET['page'];
         $_POST['rowCount'] = $rowCount;
 
-        $total = Video::getTotalVideos("viewableNotAd");
+        $total = Video::getTotalVideos("viewable");
         $totalPages = ceil($total / $_POST['rowCount']);
         $page = $_GET['page'];
         if ($totalPages < $_GET['page']) {
             $page = $totalPages;
             $_POST['current'] = $totalPages;
         }
-        $videos = Video::getAllVideos("viewableNotAd");
+        $videos = Video::getAllVideos("viewable");
         createGallerySection($videos);
         ?>
         <div class="col-sm-12" style="z-index: 1;">

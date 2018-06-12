@@ -100,6 +100,12 @@ if (!User::isAdmin()) {
                             </div>
                         </div>
                         <div class="col-sm-8">
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <label><?php echo __("VMAP Link"); ?>:</label>
+                                    <input type="text" class="form-control input-sm" readonly value="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VMAP.php" >
+                                </div>
+                            </div>
                             <div class="panel panel-default ">
                                 <div class="panel-heading"><?php echo __("Edit Campaigns"); ?></div>
                                 <div class="panel-body">

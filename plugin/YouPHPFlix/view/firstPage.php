@@ -92,7 +92,7 @@ unset($_SESSION['type']);
                 unset($_POST['sort']);
                 $_POST['sort']['title'] = "ASC";
                 $_GET['limitOnceToOne'] = "1";
-                $videos = Video::getAllVideos("viewableNotAd");
+                $videos = Video::getAllVideos("viewable");
                 // make a row each 6 cols
                 if ($countCols % 6 === 0) {
                     echo '</div><div class="row aligned-row ">';
@@ -165,7 +165,7 @@ unset($_SESSION['type']);
                 } else {
                     unset($_SESSION['type']);
                 }
-                $videos = Video::getAllVideos("viewableNotAd");
+                $videos = Video::getAllVideos("viewable");
                 unset($_SESSION['type']);
 		if(!empty($videos)){
                 ?>
@@ -243,7 +243,7 @@ unset($_SESSION['type']);
                 unset($_POST['sort']);
 		$_POST['sort']['created'] = "DESC";
                 $_SESSION['type'] = "audio";
-                $videos = Video::getAllVideos("viewableNotAd");
+                $videos = Video::getAllVideos("viewable");
                 unset($_SESSION['type']);
                 // check, if we are in a 
                 $ok = true;
@@ -346,7 +346,7 @@ unset($_SESSION['type']);
                     unset($_SESSION['type']);
                 }
                 
-                $videos = Video::getAllVideos("viewableNotAd");
+                $videos = Video::getAllVideos("viewable");
                 unset($_SESSION['type']);
                 foreach ($videos as $value) {
                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -429,7 +429,7 @@ unset($_SESSION['type']);
                 } else {
                     unset($_SESSION['type']);
                 }
-                $videos = Video::getAllVideos("viewableNotAd");
+                $videos = Video::getAllVideos("viewable");
                 unset($_SESSION['type']);
                 foreach ($videos as $value) {
                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -526,7 +526,7 @@ unset($_SESSION['type']);
                 } else {
                     unset($_SESSION['type']);
                 }
-                $videos = Video::getAllVideos("viewableNotAd");
+                $videos = Video::getAllVideos("viewable");
                 unset($_SESSION['type']);
                 if (empty($videos)) {
                     continue;
@@ -643,7 +643,7 @@ unset($_SESSION['type']);
                     $_GET['limitOnceToOne'] = "1";
                     $_POST['sort']['title'] = "ASC";
                     $_SESSION['type'] = "video";
-                    $videos = Video::getAllVideos("viewableNotAd");
+                    $videos = Video::getAllVideos("viewable");
                     $i = 0;
                     
                     // when this cat has no video for preview..
@@ -662,7 +662,7 @@ unset($_SESSION['type']);
                                     $_GET['catName'] = $intSubCat['clean_name'];
                                     $_GET['limitOnceToOne'] = "1";
                                     $_SESSION['type'] = "video";
-                                    $videos = Video::getAllVideos("viewableNotAd");
+                                    $videos = Video::getAllVideos("viewable");
                                     if ((! empty($videos)) || ($i > 10)) {
                                         break;
                                     }
@@ -809,7 +809,7 @@ unset($_SESSION['type']);
                     foreach ($category as $cat) {
                         $_GET['catName'] = $cat['clean_name'];
                         $_GET['limitOnceToOne'] = "1";
-                        $videos = Video::getAllVideos("viewableNotAd");
+                        $videos = Video::getAllVideos("viewable");
                         if (empty($videos)) {
                             continue;
                         }

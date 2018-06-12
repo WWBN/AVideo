@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 if (!empty($_POST['video_id'])) {
-    $video = Video::getVideo($_POST['video_id'], "viewableNotAd");
+    $video = Video::getVideo($_POST['video_id'], "viewable");
 }
 
 $catLink = "";
@@ -41,8 +41,8 @@ $_SESSION['rowCount'] = $_POST['rowCount'];
 $_SESSION['sort'] = $_POST['sort'];
 
 
-$videos = Video::getAllVideos("viewableNotAd");
-$total = Video::getTotalVideos("viewableNotAd");
+$videos = Video::getAllVideos("viewable");
+$total = Video::getTotalVideos("viewable");
 $totalPages = ceil($total / $_POST['rowCount']);
 if (empty($totalPages)) {
     $totalPages = 1;
