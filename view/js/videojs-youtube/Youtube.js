@@ -27,16 +27,13 @@ THE SOFTWARE. */
     define(['videojs'], function(videojs){
       return (root.Youtube = factory(videojs));
     });
-    define(['video.js'], function(videojs){
-      return (root.Youtube = factory(videojs));
-    });
   } else {
     root.Youtube = factory(root.videojs);
   }
 }(this, function(videojs) {
   'use strict';
 
-  var _isOnMobile = videojs.browser.IS_IOS || videojs.browser.IS_ANDROID;
+  var _isOnMobile = videojs.browser.IS_IOS || videojs.browser.IS_NATIVE_ANDROID;
   var Tech = videojs.getTech('Tech');
 
   var Youtube = videojs.extend(Tech, {
@@ -55,10 +52,6 @@ THE SOFTWARE. */
 
           if (_isOnMobile) {
             this.el_.parentNode.className += ' vjs-youtube-mobile';
-          }
-
-          if(_isOnMobile && options.nativeControlsForTouch === true) {
-            this.el_.parentNode.className += ' vjs-controls-disabled';
           }
 
           if (Youtube.isApiReady) {
@@ -145,9 +138,7 @@ THE SOFTWARE. */
       }
 
       if (typeof this.options_.ytControls !== 'undefined') {
-        if (_isOnMobile && this.options_.nativeControlsForTouch) {
-          playerVars.controls = this.options_.ytControls;
-        }
+        playerVars.controls = this.options_.ytControls;
       }
 
       if (typeof this.options_.disablekb !== 'undefined') {
@@ -233,7 +224,7 @@ THE SOFTWARE. */
       this.activeVideoId = this.url ? this.url.videoId : null;
       this.activeList = playerVars.list;
 
-      this.ytPlayer = new YT.Player(this.options_.techId, {
+      var playerConfig = {
         videoId: this.activeVideoId,
         playerVars: playerVars,
         events: {
@@ -244,7 +235,13 @@ THE SOFTWARE. */
           onVolumeChange: this.onPlayerVolumeChange.bind(this),
           onError: this.onPlayerError.bind(this)
         }
-      });
+      };
+
+      if (typeof this.options_.enablePrivacyEnhancedMode !== 'undefined' && this.options_.enablePrivacyEnhancedMode) {
+        playerConfig.host = 'https://www.youtube-nocookie.com';
+      }
+
+      this.ytPlayer = new YT.Player(this.options_.techId, playerConfig);
     },
 
     onPlayerReady: function() {
@@ -626,11 +623,37 @@ THE SOFTWARE. */
     preload: function() {},
     load: function() {},
     reset: function() {},
+    networkState: function () {
+      if (!this.ytPlayer) {
+        return 0; //NETWORK_EMPTY
+      }
+      switch (this.ytPlayer.getPlayerState()) {
+        case -1: //unstarted
+          return 0; //NETWORK_EMPTY
+        case 3: //buffering
+          return 2; //NETWORK_LOADING
+        default:
+          return 1; //NETWORK_IDLE
+      }
+    },
+    readyState: function () {
+      if (!this.ytPlayer) {
+        return 0; //HAVE_NOTHING
+      }
+      switch (this.ytPlayer.getPlayerState()) {
+        case -1: //unstarted
+          return 0; //HAVE_NOTHING
+        case 5: //video cued
+          return 1; //HAVE_METADATA
+        case 3: //buffering
+          return 2; //HAVE_CURRENT_DATA
+        default:
+          return 4; //HAVE_ENOUGH_DATA
+      }
+    },
 
     supportsFullScreen: function() {
-      return document.webkitFullscreenEnabled ||
-        document.mozFullScreenEnabled ||
-        document.msFullscreenEnabled;
+      return true;
     },
 
     // Tries to get the highest resolution thumbnail available for the video
