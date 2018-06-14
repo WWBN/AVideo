@@ -247,7 +247,7 @@ if (!User::isAdmin()) {
 
         <script type="text/javascript">
             function clearVideoForm() {
-                $('#inputVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>img/notfound.jpg");
+                $('#inputVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>view/img/notfound.jpg");
                 $('#inputVideo').val('');
                 $('#inputVideoClean').val('');
                 $('#inputVideoURI').val('');
