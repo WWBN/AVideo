@@ -49,7 +49,7 @@ $files = getVideosURL($video->getFilename());
                         $campaignVideo = new VastCampaignsVideos($_GET['campaign_has_videos_id']);
                         $link = $campaignVideo->getLink();
                         if (filter_var($link, FILTER_VALIDATE_URL)) {
-                            ?>                  
+                            ?>
                             <VideoClicks>
                                 <ClickThrough id="GDFP"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=ClickThrough&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></ClickThrough>
                             </VideoClicks>
@@ -75,7 +75,7 @@ $files = getVideosURL($video->getFilename());
                 <Creative id="<?php echo $_GET['campaign_has_videos_id']; ?>" sequence="1">
                     <CompanionAds>
                         <Companion id="<?php echo $_GET['campaign_has_videos_id']; ?>" width="300" height="250">
-                            <StaticResource creativeType="image/png"><![CDATA[<?php echo $global['webSiteRootURL']; ?>img/logo.png]]></StaticResource>
+                            <StaticResource creativeType="image/png"><![CDATA[<?php echo $global['webSiteRootURL']; ?>view/img/logo.png]]></StaticResource>
                             <TrackingEvents>
                                 <Tracking event="creativeView"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=creativeView&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>
                             </TrackingEvents>
