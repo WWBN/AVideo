@@ -1,5 +1,8 @@
 <?php
-require_once '../../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../../videos/configuration.php';
+}
 
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
 
@@ -14,10 +17,10 @@ if (!User::isAdmin()) {
         <title><?php echo $config->getWebSiteTitle(); ?>  :: VAST</title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
-        ?>            
-        <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/> 
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        ?>
+        <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
 
         <style>
             #campaignVideosTable td img {
@@ -39,7 +42,7 @@ if (!User::isAdmin()) {
                     <i class="fas fa-link"></i> <?php echo __("Configure your Ads"); ?>
                     <div class="pull-right" style="width: 200px;">
                         <div class="material-switch ">
-                            <?php echo __("Enable Ads Plugin"); ?> &nbsp;&nbsp;&nbsp; 
+                            <?php echo __("Enable Ads Plugin"); ?> &nbsp;&nbsp;&nbsp;
                             <input name="enable1" id="enable1" type="checkbox" value="0" class="pluginSwitch" <?php
                             if (is_object($plugin)) {
                                 echo " checked='checked' ";
@@ -47,9 +50,9 @@ if (!User::isAdmin()) {
                             ?> />
                             <label for="enable1" class="label-success"></label>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
-                <div class="panel-body"> 
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="panel panel-default ">
@@ -73,7 +76,7 @@ if (!User::isAdmin()) {
                                             <div class="form-group col-sm-6">
                                                 <label for="maxPrints"><?php echo __("Max Prints"); ?>:</label>
                                                 <input type="number" id="maxPrints" name="maxPrints" class="form-control input-sm" placeholder="<?php echo __("End on"); ?>" required>
-                                            </div> 
+                                            </div>
                                             <div class="form-group col-sm-6">
                                                 <label for="status"><?php echo __("Status"); ?>:</label>
                                                 <select class="form-control input-sm" name="status" id="status">
@@ -94,8 +97,8 @@ if (!User::isAdmin()) {
                                                 <div class="btn-group pull-right">
                                                     <span class="btn btn-success" id="newLiveLink"><i class="fas fa-plus"></i> <?php echo __("New"); ?></span>
                                                     <button class="btn btn-primary" id="addLiveLink" type="submit"><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
-                                                </div> 
-                                            </div> 
+                                                </div>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -114,21 +117,21 @@ if (!User::isAdmin()) {
                                     <table id="campaignTable" class="display" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Start</th>
-                                                <th>End</th>
-                                                <th>Status</th>
-                                                <th>Prints Left</th>
+                                                <th><?php echo __("Name"); ?></th>
+                                                <th><?php echo __("Start"); ?></th>
+                                                <th><?php echo __("End"); ?></th>
+                                                <th><?php echo __("Status"); ?></th>
+                                                <th><?php echo __("Prints Left"); ?></th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Start</th>
-                                                <th>End</th>
-                                                <th>Status</th>
-                                                <th>Prints Left</th>
+                                                <th><?php echo __("Name"); ?></th>
+                                                <th><?php echo __("Start"); ?></th>
+                                                <th><?php echo __("End"); ?></th>
+                                                <th><?php echo __("Status"); ?></th>
+                                                <th><?php echo __("Prints Left"); ?></th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
@@ -153,22 +156,22 @@ if (!User::isAdmin()) {
                                 <div class="col-md-4">
                                     <img id="inputVideo-poster" src="<?php echo $global['webSiteRootURL']; ?>img/notfound.jpg" class="ui-state-default img-responsive" alt="">
                                 </div>
-                                <div class="col-md-8">                                        
+                                <div class="col-md-8">
                                     <input id="inputVideo" placeholder="<?php echo __("Video"); ?>" class="form-control">
                                     <input id="inputVideoClean" placeholder="<?php echo __("Video URL"); ?>" class="form-control" readonly="readonly">
                                     <div id="adDetails">
                                         <input id="inputVideoURI" type="url" placeholder="<?php echo __("Video Redirect URI"); ?>" class="form-control" >
                                         <input id="inputVideoTitle" placeholder="<?php echo __("Ad Title"); ?>" class="form-control" >
                                     </div>
-                                    <input type="hidden" id="vast_campaigns_id">                                        
-                                    <input type="hidden" id="videos_id">                                        
+                                    <input type="hidden" id="vast_campaigns_id">
+                                    <input type="hidden" id="videos_id">
                                 </div>
                             </div>
                             <hr>
-                            <button type="button" class="btn btn-success" id="addVideoBtn"><?php echo __("Add Video"); ?></button>                
+                            <button type="button" class="btn btn-success" id="addVideoBtn"><?php echo __("Add Video"); ?></button>
                             <hr>
                             <div class="row">
-                                <div class="col-md-12"> 
+                                <div class="col-md-12">
                                     <table id="campaignVideosTable" class="display" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -217,10 +220,10 @@ if (!User::isAdmin()) {
                 <button href="" class="editor_delete_video btn btn-danger btn-xs">
                     <i class="fa fa-trash"></i>
                 </button>
-            </div>    
+            </div>
 
             <div id="btnModelLinks" style="display: none;">
-                <div class="btn-group pull-right"> 
+                <div class="btn-group pull-right">
                     <button href="" class="editor_add_video btn btn-success btn-xs">
                         <i class="fa fa-video"></i> Add Video
                     </button>
@@ -233,7 +236,7 @@ if (!User::isAdmin()) {
                     <button href="" class="editor_delete_link btn btn-danger btn-xs">
                         <i class="fa fa-trash"></i>
                     </button>
-                </div>    
+                </div>
             </div>
         </div>
         <?php
@@ -246,7 +249,7 @@ if (!User::isAdmin()) {
 
         <script type="text/javascript">
             function clearVideoForm() {
-                $('#inputVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>img/notfound.jpg");
+                $('#inputVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>view/img/notfound.jpg");
                 $('#inputVideo').val('');
                 $('#inputVideoClean').val('');
                 $('#inputVideoURI').val('');

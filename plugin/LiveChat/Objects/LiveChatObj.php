@@ -14,7 +14,7 @@ class LiveChatObj extends ObjectYPT {
     static function getTableName() {
         return 'LiveChat';
     }
-    
+
     function getText() {
         return $this->text;
     }
@@ -57,7 +57,7 @@ class LiveChatObj extends ObjectYPT {
         if ($res) {
             while ($row = $res->fetch_assoc()) {
                 if(empty($row['users_id'])){
-                    $row['photo'] = $global['webSiteRootURL'] . "img/userSilhouette.jpg";
+                    $row['photo'] = $global['webSiteRootURL'] . "view/img/userSilhouette.jpg";
                 }else{
                     $row['photo'] = User::getPhoto($row['users_id']);
                 }
@@ -69,12 +69,12 @@ class LiveChatObj extends ObjectYPT {
         } else {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        
+
         $rows = array_reverse($rows);
-        
+
         return $rows;
     }
-    
+
     public function save() {
         global $global;
         if(empty($this->users_id)){

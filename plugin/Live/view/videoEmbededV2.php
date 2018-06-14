@@ -30,7 +30,7 @@ if (!empty($objSecure->disableEmbedMode)) {
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="img/favicon.ico">
+        <link rel="icon" href="view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?> </title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
@@ -46,8 +46,8 @@ if (!empty($objSecure->disableEmbedMode)) {
                 padding: 0;
             }
             .container-fluid {
-                padding-right: 0 !important; 
-                padding-left: 0 !important; 
+                padding-right: 0 !important;
+                padding-left: 0 !important;
             }
             .liveChat .messages{
                 -webkit-transition: all 1s ease; /* Safari */
@@ -64,7 +64,7 @@ if (!empty($objSecure->disableEmbedMode)) {
                     echo "background-color: $customizedAdvanced->embedBackgroundColor;";
                 }
                 ?>
-                
+
             }
         </style>
     </head>
@@ -76,8 +76,8 @@ if (!empty($objSecure->disableEmbedMode)) {
                 echo $config->getAdsense();
                 ?>
                 <div class="embed-responsive  embed-responsive-16by9" >
-                    <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls autoplay="autoplay" 
-                           class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
+                    <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls autoplay="autoplay"
+                           class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered"
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
                         <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
                     </video>

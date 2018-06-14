@@ -23,7 +23,7 @@ if(preg_match('/videos\/(.*)_thumbs.jpg$/', $_SERVER["REQUEST_URI"], $matches)){
 }
 
 if(empty($_GET['notFound'])){
-    header("Location: {$global['webSiteRootURL']}img/image404.php?notFound=1");
+    header("Location: {$global['webSiteRootURL']}view/img/image404.php?notFound=1");
     exit;
 }
 
@@ -34,7 +34,7 @@ header("Pragma: no-cache");
 header("Pragma-directive: no-cache");
 header("Cache-directive: no-cache");
 header("Expires: 0");
- * 
+ *
  */
 header("HTTP/1.0 404 Not Found");
 header('Content-Type:' . $type);

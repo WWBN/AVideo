@@ -19,14 +19,11 @@ $theme = $config->getTheme();
 <link href="<?php echo $global['webSiteRootURL']; ?>view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
 <?php
 $cssFiles = array();
-//$cssFiles[] = "{$global['webSiteRootURL']}bootstrap/css/bootstrap.css";
 $cssFiles[] = "view/js/seetalert/sweetalert.css";
 $cssFiles[] = "view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
-//$cssFiles[] = "{$global['webSiteRootURL']}css/flagstrap/css/flags.css";
 $cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
 $cssFiles[] = "view/css/custom/{$theme}.css";
 $cssFiles[] = "view/css/main.css";
-//$cssFiles[] = "{$global['webSiteRootURL']}css/font-awesome-4.7.0/css/font-awesome.min.css";
 $cssFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.css";
 $cssFiles = array_merge($cssFiles, YouPHPTubePlugin::getCSSFiles());
 $cssURL = combineFiles($cssFiles, "css");
