@@ -22,8 +22,8 @@ if(empty($_POST['searchPhrase']) && !empty($_GET['searchPhrase'])){
     $_POST['searchPhrase']=$_GET['searchPhrase'];
 }
 
-$videos = Video::getAllVideos("viewableNotAd");
-$total = Video::getTotalVideos("viewableNotAd");
+$videos = Video::getAllVideos("viewable");
+$total = Video::getTotalVideos("viewable");
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);

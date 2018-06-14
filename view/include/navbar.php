@@ -85,7 +85,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                         <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon) ? $advancedCustom->uploadButtonDropdownIcon : "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
                                     </button>
                                     <?php
-                                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload) 
+                                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
                                     ){
                                     ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
@@ -135,7 +135,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                                 <?php
                                             }
                                             if (empty($advancedCustom->doNotShowEmbedButton)) {
-                                                ?>                                    
+                                                ?>
                                                 <li>
                                                     <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
                                                         <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
@@ -156,7 +156,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                                     </a>
                                                 </li>
                                         </ul>
-                                    
+
                                     <?php
                                     }
                                     ?>
@@ -314,12 +314,6 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>ads">
-                                            <span class="far fa-money-bill-alt"></span>
-            <?php echo __("Video Advertising"); ?>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>categories">
                                             <span class="glyphicon glyphicon-list"></span>
             <?php echo __("Categories"); ?>
@@ -350,7 +344,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                     </li>
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>plugins">
-                                            <span class="fa fa-plug"></span> 
+                                            <span class="fa fa-plug"></span>
             <?php echo __("Plugins"); ?>
                                         </a>
                                     </li>

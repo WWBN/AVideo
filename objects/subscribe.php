@@ -176,7 +176,7 @@ class Subscribe {
         global $global;
         $sql = "SELECT id FROM subscribes WHERE status = 'a' ";
         if (!empty($user_id)) {
-            $sql .= " AND users_id = {$user_id} ";
+            $sql .= " AND users_id = '{$user_id}' ";
         }
 
         $sql .= BootGrid::getSqlSearchFromPost(array('email'));
@@ -251,7 +251,7 @@ trigger: 'manual',
             function toogleNotify{$user_id}(){
                 email = $('#subscribeEmail{$user_id}').val();
                 if (validateEmail(email)) {
-                    subscribeNotify(email, {$user_id});
+                    subscribeNotify(email, '{$user_id}');
                 }
             }
             $(document).ready(function () {
@@ -259,7 +259,7 @@ trigger: 'manual',
                 $(\".subscribeButton{$user_id}\").click(function () {
                     email = $('#subscribeEmail{$user_id}').val();
                     if (validateEmail(email)) {
-                        subscribe(email, {$user_id});
+                        subscribe(email, '{$user_id}');
                     }
                 });
                 $('[data-toggle=\"tooltip\"]').tooltip(); 

@@ -28,7 +28,6 @@ if (!empty($_GET['type'])) {
     unset($_SESSION['type']);
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
-require_once $global['systemRootPath'] . 'objects/video_ad.php';
 
 $catLink = "";
 if (!empty($_GET['catName'])) {
@@ -42,10 +41,10 @@ if (empty($_GET['clean_title'])) {
     $_GET['catName'] = "";
 }
 
-$video = Video::getVideo("", "viewableNotAd", false, false, true, true);
+$video = Video::getVideo("", "viewable", false, false, true, true);
 
 if (empty($video)) {
-    $video = Video::getVideo("", "viewableNotAd", false, false, false, true);
+    $video = Video::getVideo("", "viewable", false, false, false, true);
 }
 // add this because if you change the video category the video was not loading anymore
 $_GET['catName'] = $catName;
@@ -70,7 +69,7 @@ if (!empty($_GET['playlist_id'])) {
     }
 
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['playlist_id']);
-    $videosPlayList = Video::getAllVideos("viewableNotAd");
+    $videosPlayList = Video::getAllVideos("viewable");
     $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
     $video = Video::getVideo($videosPlayList[$playlist_index]['id']);
     if (!empty($videosPlayList[$playlist_index + 1])) {
@@ -117,7 +116,6 @@ if (!empty($_GET['playlist_id'])) {
 }
 
 if (!empty($video)) {
-    $ad = Video_ad::getAdFromCategory($video['categories_id']);
     $name = User::getNameIdentificationById($video['users_id']);
     $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name}</a>";
     $subscribe = Subscribe::getButton($video['users_id']);
