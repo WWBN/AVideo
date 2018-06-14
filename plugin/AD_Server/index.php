@@ -81,13 +81,15 @@ if (!User::isAdmin()) {
                                                     <option value="i"><?php echo __("Inactive"); ?></option>
                                                 </select>
                                             </div> 
+                                            <!--
                                             <div class="form-group col-sm-6">
                                                 <label for="visibility"><?php echo __("Visibility"); ?>:</label>
                                                 <select class="form-control input-sm" name="visibility" id="visibility">
                                                     <option value="listed"><?php echo __("Listed"); ?></option>
                                                     <option value="unlisted"><?php echo __("Unlisted"); ?></option>
                                                 </select>
-                                            </div> 
+                                            </div>
+                                            -->
                                             <div class="form-group col-sm-12">
                                                 <div class="btn-group pull-right">
                                                     <span class="btn btn-success" id="newLiveLink"><i class="fas fa-plus"></i> <?php echo __("New"); ?></span>
@@ -528,7 +530,7 @@ if (!User::isAdmin()) {
                     $('#endDate').val(data.end_date);
                     $('#maxPrints').val(data.cpm_max_prints);
                     $('#status').val(data.status);
-                    $('#visibility').val(data.visibility);
+                    //$('#visibility').val(data.visibility);
                 });
             });
         </script>

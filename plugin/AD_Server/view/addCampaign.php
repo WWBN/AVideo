@@ -24,7 +24,7 @@ $o->setPricing_model("CPM");
 $o->setPriority(10);
 $o->setUsers_id(User::getId());
 $o->setCpm_max_prints($_POST['maxPrints']);
-$o->setVisibility($_POST['visibility']);
+$o->setVisibility('listed');
 
 if($o->save()){
     $obj->error = false;
