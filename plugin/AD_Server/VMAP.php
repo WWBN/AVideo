@@ -3,7 +3,7 @@ header('Content-type: application/xml');
 
 require_once '../../videos/configuration.php';
 $server = parse_url($global['webSiteRootURL']);
-header('Access-Control-Allow-Origin: "'.$server["scheme"].'://imasdk.googleapis.com"');
+header('Access-Control-Allow-Origin: '.$server["scheme"].'://imasdk.googleapis.com');
 $ad_server = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
 if(empty($ad_server)){
     die("not enabled");
