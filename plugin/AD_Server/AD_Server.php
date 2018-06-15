@@ -27,7 +27,7 @@ class AD_Server extends PluginAbstract {
 
     public function getHeadCode() {
         $obj = $this->getDataObject();
-        if (empty($_GET['videoName']) || empty($obj->showMarkers)) {
+        if (empty($_GET['videoName'])) {
             return "";
         }
         global $global;
@@ -35,7 +35,10 @@ class AD_Server extends PluginAbstract {
         
         $js   = '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
         $css  = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
-        $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
+        
+        if(!empty($obj->showMarkers)){
+            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';            
+        }
         $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
         return $js . $css;
     }
@@ -54,7 +57,7 @@ class AD_Server extends PluginAbstract {
 
     public function getFooterCode() {
         $obj = $this->getDataObject();
-        if (empty($_GET['videoName']) || empty($obj->showMarkers)) {
+        if (empty($_GET['videoName'])) {
             return "";
         }
         global $global;
@@ -71,8 +74,11 @@ class AD_Server extends PluginAbstract {
             $_SESSION['vmap'][$_GET['vmap_id']] = serialize($vmaps);
         }
         
-
-        include $global['systemRootPath'] . 'plugin/AD_Server/footer.php';
+        if($this->VMAPsHasVideos()){
+            include $global['systemRootPath'] . 'plugin/AD_Server/footer.php';
+        }else{
+            echo "<!-- NO Videos found for VAST ads -->";
+        }
     }
 
     public function getVMAPs($video_length) {
@@ -94,9 +100,21 @@ class AD_Server extends PluginAbstract {
         $vmaps[] = new VMAP("end", new VAST(5), $video_length);
         return $vmaps;
     }
+    
+    public function VMAPsHasVideos() {
+        $vmaps = $this->getVMAPs(100);
+        //var_dump($vmaps);exit;
+        foreach($vmaps as $value){
+            if(empty($value->VAST->campaing)){
+                return false;
+            }
+        }
+        return true;
+    }
 
     static public function getVideos() {
         $campaings = VastCampaigns::getValidCampaigns();
+        //var_dump($campaings);
         $videos = array();
         foreach ($campaings as $key => $value) {
             $v = VastCampaignsVideos::getValidVideos($value['id']);
