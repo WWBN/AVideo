@@ -1,5 +1,5 @@
 <?php
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://imasdk.googleapis.com');
 header('Content-type: application/xml');
 
 require_once '../../videos/configuration.php';
