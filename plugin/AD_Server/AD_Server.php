@@ -52,6 +52,7 @@ class AD_Server extends PluginAbstract {
         $obj->end = true;
         $obj->skipoffset = "10%";
         $obj->showMarkers = true;
+        $obj->showAdsOnEachVideoView = 1;
         return $obj;
     }
 
@@ -83,8 +84,11 @@ class AD_Server extends PluginAbstract {
 
     public function getVMAPs($video_length) {
         $vmaps = array();
-        $vmaps[] = new VMAP("start", new VAST(1));
+        
         $obj = $this->getDataObject();
+        if (!empty($obj->start)) {
+            $vmaps[] = new VMAP("start", new VAST(1));
+        }
         if (!empty($obj->mid25Percent)) {
             $val = $video_length * (25 / 100);
             $vmaps[] = new VMAP($val, new VAST(2));
@@ -97,7 +101,10 @@ class AD_Server extends PluginAbstract {
             $val = $video_length * (75 / 100);
             $vmaps[] = new VMAP($val, new VAST(4));
         }
-        $vmaps[] = new VMAP("end", new VAST(5), $video_length);
+        if (!empty($obj->end)) {
+            $vmaps[] = new VMAP("end", new VAST(5), $video_length);
+        }
+        
         return $vmaps;
     }
     
@@ -110,6 +117,13 @@ class AD_Server extends PluginAbstract {
             }
         }
         return true;
+    }
+    
+    public function showAdsNow(){
+        if(!$this->VMAPsHasVideos()){
+            return false;
+        }
+        
     }
 
     static public function getVideos() {
