@@ -1,8 +1,9 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 header('Content-type: application/xml');
 
 require_once '../../videos/configuration.php';
+$server = parse_url($global['webSiteRootURL']);
+header('Access-Control-Allow-Origin: '.$server["scheme"].'://imasdk.googleapis.com');
 require_once $global['systemRootPath'] . 'objects/video.php';
 $ad_server = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
 $obj = YouPHPTubePlugin::getObjectDataIfEnabled('AD_Server');

@@ -720,7 +720,7 @@ if (!class_exists('Video')) {
             global $global;
             $cn = "";
             if (!empty($_GET['catName'])) {
-                $cn .= ", c.clean_name as cn,";
+                $cn .= ", c.clean_name as cn";
             }
 
             $sql = "SELECT v.users_id, v.type, v.id, v.title,v.description, c.name as category {$cn} "
@@ -743,7 +743,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
             }
             if (!empty($_GET['catName'])) {
-                $sql .= " AND cn = '{$_GET['catName']}'";
+                $sql .= " AND c.clean_name = '{$_GET['catName']}'";
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
