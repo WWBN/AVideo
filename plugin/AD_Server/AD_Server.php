@@ -27,7 +27,7 @@ class AD_Server extends PluginAbstract {
 
     public function getHeadCode() {
         $obj = $this->getDataObject();
-        if (empty($_GET['videoName']) || empty($obj->showMarkers)) {
+        if (empty($_GET['videoName'])) {
             return "";
         }
         global $global;
@@ -35,7 +35,10 @@ class AD_Server extends PluginAbstract {
         
         $js   = '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
         $css  = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
-        $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
+        
+        if(!empty($obj->showMarkers)){
+            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';            
+        }
         $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
         return $js . $css;
     }
@@ -49,12 +52,13 @@ class AD_Server extends PluginAbstract {
         $obj->end = true;
         $obj->skipoffset = "10%";
         $obj->showMarkers = true;
+        $obj->showAdsOnEachVideoView = 1;
         return $obj;
     }
 
     public function getFooterCode() {
         $obj = $this->getDataObject();
-        if (empty($_GET['videoName']) || empty($obj->showMarkers)) {
+        if (empty($_GET['videoName'])) {
             return "";
         }
         global $global;
@@ -71,14 +75,20 @@ class AD_Server extends PluginAbstract {
             $_SESSION['vmap'][$_GET['vmap_id']] = serialize($vmaps);
         }
         
-
-        include $global['systemRootPath'] . 'plugin/AD_Server/footer.php';
+        if($this->VMAPsHasVideos()){
+            include $global['systemRootPath'] . 'plugin/AD_Server/footer.php';
+        }else{
+            echo "<!-- NO Videos found for VAST ads -->";
+        }
     }
 
     public function getVMAPs($video_length) {
         $vmaps = array();
-        $vmaps[] = new VMAP("start", new VAST(1));
+        
         $obj = $this->getDataObject();
+        if (!empty($obj->start)) {
+            $vmaps[] = new VMAP("start", new VAST(1));
+        }
         if (!empty($obj->mid25Percent)) {
             $val = $video_length * (25 / 100);
             $vmaps[] = new VMAP($val, new VAST(2));
@@ -91,12 +101,34 @@ class AD_Server extends PluginAbstract {
             $val = $video_length * (75 / 100);
             $vmaps[] = new VMAP($val, new VAST(4));
         }
-        $vmaps[] = new VMAP("end", new VAST(5), $video_length);
+        if (!empty($obj->end)) {
+            $vmaps[] = new VMAP("end", new VAST(5), $video_length);
+        }
+        
         return $vmaps;
+    }
+    
+    public function VMAPsHasVideos() {
+        $vmaps = $this->getVMAPs(100);
+        //var_dump($vmaps);exit;
+        foreach($vmaps as $value){
+            if(empty($value->VAST->campaing)){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public function showAdsNow(){
+        if(!$this->VMAPsHasVideos()){
+            return false;
+        }
+        
     }
 
     static public function getVideos() {
         $campaings = VastCampaigns::getValidCampaigns();
+        //var_dump($campaings);
         $videos = array();
         foreach ($campaings as $key => $value) {
             $v = VastCampaignsVideos::getValidVideos($value['id']);
