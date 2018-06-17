@@ -37,7 +37,10 @@ class YouPHPTubePlugin {
       foreach ($plugins as $value) {
           $p = static::loadPlugin($value['dirName']);
           if (is_object($p)) {
-              $str .= $p->getChartContent();
+              $checkStr = $p->getChartContent();
+              if(!empty($checkStr)){
+                $str .= '<div id="pluginMenu'.$p->getName().'" class="tab-pane fade" style="padding: 10px;"><div class="row">'.$checkStr.'</div></div>';
+              }
           }
       }
       return $str;
