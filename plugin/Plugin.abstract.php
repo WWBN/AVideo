@@ -17,7 +17,6 @@ abstract class PluginAbstract {
      */
     abstract function getName();
 
-
     /**
      * return the description of the plugin
      */
@@ -43,10 +42,6 @@ abstract class PluginAbstract {
         return "";
     }
 
-    public function getChartContent() {
-        return "";
-    }
-
     public function getHTMLMenuRight() {
         return "";
     }
@@ -68,7 +63,7 @@ abstract class PluginAbstract {
     }
 
     public function getTags() {
-
+        
     }
 
     public function getGallerySection() {
@@ -180,8 +175,11 @@ abstract class PluginAbstract {
         return "";
     }
 
+    public function getPlayListButtons($playlist_id) {
+	return "";
+    }
     /**
-     *
+     * 
      * @return type array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
      */
     public function getLiveApplicationArray() {
