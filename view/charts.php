@@ -1,5 +1,5 @@
 <?php
-$limitVideos = 50; 
+$limitVideos = 50;
 global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
@@ -9,6 +9,7 @@ require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 
 if(!User::isLogged()){
     header("Location: ".$global['webSiteRootURL']);
@@ -138,6 +139,7 @@ foreach ($videos as $value) {
                     <li><a data-toggle="tab" href="#menu1"><i class="fab fa-youtube"></i> <i class="fa fa-eye"></i> <?php echo __("Video views - per Channel"); ?></a></li>
                     <li><a data-toggle="tab" href="#menu2"><i class="fa fa-comments"></i> <i class="fa fa-thumbs-up"></i> <?php echo __("Comment thumbs up - per Person"); ?></a></li>
                     <li><a data-toggle="tab" href="#menu3"><i class="fab fa-youtube"></i> <i class="fa fa-thumbs-up"></i> <?php echo __("Video thumbs up - per Channel"); ?></a></li>
+                    <?php echo YouPHPTubePlugin::getChartTabs(); ?>
                 </ul>
 
                 <div class="tab-content">
@@ -161,6 +163,7 @@ foreach ($videos as $value) {
                             include $global['systemRootPath'].'view/report3.php';
                         ?>
                     </div>
+                    <?php echo YouPHPTubePlugin::getChartContent(); ?>
                 </div>
             </div>
         </div>
