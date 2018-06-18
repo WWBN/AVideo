@@ -313,7 +313,13 @@ if (typeof gtag !== \"function\") {
     }
 
     function save($updateUserGroups = false) {
-        global $global;
+        global $global, $config;
+        
+        if($config->currentVersionLowerThen('5.6')){
+            // they dont have analytics code
+            return false;
+        }
+        
         if (empty($this->user) || empty($this->password)) {
             echo "u:" . $this->user . "|p:" . strlen($this->password);
             die('Error : ' . __("You need a user and passsword to register"));
