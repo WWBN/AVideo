@@ -11,7 +11,7 @@ $showOnlyLoggedUserVideos = true;
 if (User::isAdmin()) {
     $showOnlyLoggedUserVideos = false;
 }
-$videos = Video::getAllVideos('', $showOnlyLoggedUserVideos, true);
+$videos = Video::getAllVideosLight('', $showOnlyLoggedUserVideos, false);
 foreach ($videos as $key => $value) {
     if(empty($_GET['type'])){
         echo Video::getPermaLink($videos[$key]['id']);
