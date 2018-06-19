@@ -763,7 +763,7 @@ if (!class_exists('Video')) {
         }
 
         static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false) {
-            global $global;
+            global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
