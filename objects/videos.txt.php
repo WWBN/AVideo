@@ -16,7 +16,7 @@ foreach ($videos as $key => $value) {
     if(empty($_GET['type'])){
         echo Video::getPermaLink($videos[$key]['id']);
     }else{
-        echo Video::getURLFriendly($videos[$key]['id']);
+        echo Video::getURLFriendlyFromCleanTitle($videos[$key]['clean_title']);
     }
     echo "\r\n";
 }
