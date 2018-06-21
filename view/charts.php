@@ -175,7 +175,9 @@ foreach ($videos as $value) {
 
         <script type="text/javascript">
             $(document).ready(function () {
-
+              <?php if(!empty($_GET['jump'])) { ?>
+                $('#<?php echo $_GET['jump']; ?>').click();
+              <?php } ?>
             });
         </script>
     </body>
