@@ -24,7 +24,7 @@ class YouPHPTubePlugin {
           if (is_object($p)) {
               $checkStr = $p->getChartContent();
               if(!empty($checkStr)){
-                $str .= '<li><a data-toggle="tab" href="#pluginMenu'.$p->getName().'">'.$p->getName().'</a></li>';
+                $str .= '<li><a data-toggle="tab" id="pluginMenuLink'.$p->getName().'" href="#pluginMenu'.$p->getName().'">'.$p->getName().'</a></li>';
               }
           }
       }
