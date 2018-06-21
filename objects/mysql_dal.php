@@ -236,6 +236,7 @@ class sqlDAL {
 
     static function fetchAssoc($result) {
         global $global, $disableMysqlNdMethods;
+        ini_set('memory_limit', '-1');
         // here, a cache is more/too difficult, because fetch gives always a next. with this kind of cache, we would give always the same.
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
             if ($result != false) {

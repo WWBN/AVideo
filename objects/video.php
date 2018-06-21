@@ -715,9 +715,58 @@ if (!class_exists('Video')) {
             }
             return $videos;
         }
+        
+        /**
+         * Same as getAllVideos() method but a lighter query
+         * @global type $global
+         * @global type $config
+         * @param type $showOnlyLoggedUserVideos
+         * @return boolean
+         */
+        static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false) {
+            global $global, $config;
+            if ($config->currentVersionLowerThen('5')) {
+                return false;
+            }
+            $sql = "SELECT v.* "
+                    . " FROM videos as v "
+                    . " WHERE 1=1 ";
+            
+            if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
+                $sql .= " AND v.users_id = '" . User::getId() . "'";
+            } elseif (!empty($showOnlyLoggedUserVideos)) {
+                $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
+            }
+            if ($status == "viewable") {
+                if(User::isLogged()){
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='".User::getId()."'))";
+                }else{
+                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+                }
+            } elseif (!empty($status)) {
+                $sql .= " AND v.status = '{$status}'";
+            }
+            $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            $videos = array();
+            if ($res!=false) {
+                foreach ($fullData as $row) {
+                    $videos[] = $row;
+                }
+                //$videos = $res->fetch_all(MYSQLI_ASSOC);
+            } else {
+                $videos = false;
+                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+            return $videos;
+        }
 
         static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false) {
-            global $global;
+            global $global, $config;
+            if ($config->currentVersionLowerThen('5')) {
+                return false;
+            }
             $cn = "";
             if (!empty($_GET['catName'])) {
                 $cn .= ", c.clean_name as cn";
