@@ -6,7 +6,9 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class CustomizeAdvanced extends PluginAbstract {
 
     public function getDescription() {
-        return "Fine Tuning your YouPHPTube";
+        $txt = "Fine Tuning your YouPHPTube";
+        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Advanced-Customization-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        return $txt.$help;
     }
 
     public function getName() {
