@@ -201,20 +201,36 @@ class YouPHPTubePlugin {
     }
 
     static function loadPlugin($name) {
-        global $global;
-        $file = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
-        if (file_exists($file)) {
-            require_once $file;
-            $code = "\$p = new {$name}();";
-            $codeResult = @eval($code." return \$p;");
-            if($codeResult==false){
-                error_log("[loadPlugin] eval failed for plugin ".$name );
-            }
-            return $codeResult;
-        }else{
-            error_log("Plugin File Not found ".$file );
+        global $global, $pluginIsLoaded;
+        if(empty($pluginIsLoaded)){
+          $pluginIsLoaded = array();
         }
-        return false;
+        $file = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
+        $crc = crc32($name);
+        if(!isset($pluginIsLoaded[$crc])){
+
+          if (file_exists($file)) {
+              require_once $file;
+              $code = "\$p = new {$name}();";
+              $codeResult = @eval($code." return \$p;");
+              if($codeResult==false){
+                  error_log("[loadPlugin] eval failed for plugin ".$name );
+                }
+                $pluginIsLoaded[$crc]=$codeResult;
+                return $codeResult;
+          } else {
+            // error_log("Plugin File Not found ".$file );
+            $pluginIsLoaded[$crc]="false"; // only for pass empty-function
+          }
+        } else {
+          if(!empty($global['debug'])){
+            error_log("Plugin was already executed ".$file );
+          }
+        }
+        if($pluginIsLoaded[$crc]=="false"){
+          return false;
+        }
+        return $pluginIsLoaded[$crc];
     }
 
     static function loadPluginIfEnabled($name) {

@@ -16,6 +16,7 @@ class User {
     private $isAdmin;
     private $canStream;
     private $canUpload;
+    private $canViewChart;
     private $status;
     private $photoURL;
     private $backgroundURL;
@@ -40,7 +41,7 @@ class User {
             $this->load($id);
         }
     }
-   
+
     function getEmail() {
         return $this->email;
     }
@@ -69,6 +70,14 @@ class User {
         $this->canStream = $canStream;
     }
 
+  function getCanViewChart() {
+      return $this->canViewChart;
+    }
+
+    function setCanViewChart($canViewChart) {
+      $this->canViewChart = $canViewChart;
+    }
+
     function getCanUpload() {
         return $this->canUpload;
     }
@@ -76,7 +85,7 @@ class User {
     function setCanUpload($canUpload) {
         $this->canUpload = $canUpload;
     }
-    
+
     function getAnalyticsCode() {
         return $this->analyticsCode;
     }
@@ -89,7 +98,7 @@ class User {
             $this->analyticsCode = "";
         }
     }
-    
+
     function getAnalytics(){
         $id = $this->getId();
         $aCode = $this->getAnalyticsCode();
@@ -97,7 +106,7 @@ class User {
             $code = "<!-- Global site tag (gtag.js) - Google Analytics From user {$id} -->
 <script async src=\"https://www.googletagmanager.com/gtag/js?id={$aCode}\"></script>
 <script>
-if (typeof gtag !== \"function\") { 
+if (typeof gtag !== \"function\") {
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -110,9 +119,9 @@ if (typeof gtag !== \"function\") {
             $code = "<!-- No Analytics for this user {$id} -->";
         }
         return $code;
-        
+
     }
-    
+
     private function load($id) {
         $user = self::getUserDb($id);
         if (empty($user))
@@ -314,12 +323,12 @@ if (typeof gtag !== \"function\") {
 
     function save($updateUserGroups = false) {
         global $global, $config;
-        
+
         if($config->currentVersionLowerThen('5.6')){
             // they dont have analytics code
             return false;
         }
-        
+
         if (empty($this->user) || empty($this->password)) {
             echo "u:" . $this->user . "|p:" . strlen($this->password);
             die('Error : ' . __("You need a user and passsword to register"));
@@ -372,12 +381,12 @@ if (typeof gtag !== \"function\") {
         if (!empty($this->id)) {
             $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
                     . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
-                    . "canStream = {$this->canStream},canUpload = {$this->canUpload}, status = '{$this->status}', "
+                    . "canStream = {$this->canStream},canUpload = {$this->canUpload},canViewChart = {$this->canViewChart}, status = '{$this->status}', "
                     . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
                     . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
                     . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}' , modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, status,photoURL,recoverPass, created, modified, channelName, analyticsCode) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}')";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, {$this->canViewChart}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}')";
         }
         //echo $sql;
         $insert_row = sqlDAL::writeSql($sql);
@@ -564,7 +573,7 @@ if (typeof gtag !== \"function\") {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
-        $res = sqlDAL::readSql($sql,"i",array($id)); 
+        $res = sqlDAL::readSql($sql,"i",array($id));
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user != false) {
@@ -745,7 +754,15 @@ if (typeof gtag !== \"function\") {
         }
         return self::isAdmin();
     }
-    
+
+    static function canViewChart() {
+        global $global, $config;
+        if (self::isLogged() && !empty($_SESSION['user']['canViewChart'])) {
+            return true;
+        }
+        return self::isAdmin();
+    }
+
 
     static function canComment() {
         global $global, $config;
@@ -817,16 +834,16 @@ if (typeof gtag !== \"function\") {
         }
         if($user->getEmailVerified())
         {
-            $obj = new stdClass(); 
-            $obj->type="success"; 
+            $obj = new stdClass();
+            $obj->type="success";
             $obj->text = __("E-mail Verified");
-            $tags[] = $obj; 
+            $tags[] = $obj;
         }else
         {
-            $obj = new stdClass(); 
-            $obj->type="warning"; 
+            $obj = new stdClass();
+            $obj->type="warning";
             $obj->text = __("E-mail Not Verified");
-            $tags[] = $obj; 
+            $tags[] = $obj;
         }
         global $global;
         if (!empty($global['systemRootPath'])) {
@@ -860,7 +877,7 @@ if (typeof gtag !== \"function\") {
         if(empty($this->channelName)){
             $this->channelName = uniqid();
             $this->save();
-        }        
+        }
         return $this->channelName;
     }
 
@@ -869,9 +886,9 @@ if (typeof gtag !== \"function\") {
     }
 
     /**
-     * 
+     *
      * @param type $channelName
-     * @return boolean return true is is unique 
+     * @return boolean return true is is unique
      */
     function setChannelName($channelName) {
         $channelName = trim(preg_replace("/[^0-9A-Z_ -]/i", "", $channelName));
@@ -886,7 +903,7 @@ if (typeof gtag !== \"function\") {
     }
 
     function setEmailVerified($emailVerified) {
-        $this->emailVerified = $emailVerified;    
+        $this->emailVerified = $emailVerified;
     }
 
     static function getChannelLink($users_id = 0) {
@@ -943,7 +960,7 @@ if (typeof gtag !== \"function\") {
             $resp = $mail->send();
             if(!$resp){
                 error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
-            }            
+            }
             return $resp;
         } catch (phpmailerException $e) {
             error_log($e->errorMessage()); //Pretty error messages from PHPMailer
