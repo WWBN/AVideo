@@ -18,6 +18,7 @@ $config->setLanguage($_POST['language']);
 $config->setWebSiteTitle($_POST['webSiteTitle']);
 $config->setAuthCanComment($_POST['authCanComment']);
 $config->setAuthCanUploadVideos($_POST['authCanUploadVideos']);
+$config->setAuthCanViewChart($_POST['authCanViewChart']);
 if (empty($global['disableAdvancedConfigurations'])) {
     $config->setDisable_analytics($_POST['disable_analytics']);
     $config->setDisable_youtubeupload($_POST['disable_youtubeupload']);

@@ -11,12 +11,18 @@ $from = date("Y-m-d 00:00:00", strtotime($_POST['dateFrom']));
 $to = date('Y-m-d 23:59:59', strtotime($_POST['dateTo']));
 
 // list all channels
-if(User::isAdmin()){
+if($config->getAuthCanViewChart() == 0){
+  if(User::isAdmin()){
     $users = User::getAllUsers();
-}else if(User::isLogged()){
+  }else if(User::isLogged()){
     $users = array(array('id'=> User::getId()));
-}else{
+  }else{
     $users = array();
+  }
+} else if($config->getAuthCanViewChart() == 1){
+  if((!empty($_SESSION['user']['canViewChart']))||(User::isAdmin())) {
+    $users = User::getAllUsers(true);
+  }
 }
 
 $rows = array();
