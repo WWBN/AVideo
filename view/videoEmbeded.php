@@ -10,7 +10,7 @@ $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvance
 
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 if (!empty($objSecure->disableEmbedMode)) {
-    die('Embed Mode disabled');
+    die(__('Embed Mode disabled'));
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -76,10 +76,10 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                     echo "background-color: $customizedAdvanced->embedBackgroundColor;";
                 }
                 ?>
-                
+
             }
         </style>
-        
+
         <?php
     $jsFiles = array();
     //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
@@ -131,7 +131,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                 <?php
                     $ext = ".ogg";
                 } else { ?>
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" /> 
+                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
                 <?php
                     $ext = ".mp3";
@@ -146,7 +146,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                 <?php
             } else {
                 ?>
-                <video id="mainVideo" poster="<?php echo $poster; ?>" controls 
+                <video id="mainVideo" poster="<?php echo $poster; ?>" controls
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                     <?php
                     echo getSources($video['filename']);
