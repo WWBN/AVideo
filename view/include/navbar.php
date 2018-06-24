@@ -266,6 +266,10 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                     </a>
                                 </div>
                             </li>
+                            <?php
+                          }
+                            if ((($config->getAuthCanViewChart()==0)&&(User::canUpload()))||(($config->getAuthCanViewChart()==1)&&(User::canViewChart()))) {
+                                ?>
                             <li>
                                 <div>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-block" style="border-radius: 0;">
@@ -274,6 +278,9 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                     </a>
                                 </div>
                             </li>
+                            <?php
+                          } if (User::canUpload()) {
+                                ?>
                             <li>
                                 <div>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-block" style="border-radius: 0">

@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `backgroundURL` VARCHAR(255) NULL,
   `canStream` TINYINT(1) NULL,
   `canUpload` TINYINT(1) NULL,
+  `canViewChart` TINYINT(1) NULL,
   `about` TEXT NULL,
   `channelName` VARCHAR(45) NULL,
   `emailVerified` TINYINT(1) NOT NULL DEFAULT 0,
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `clean_name` VARCHAR(45) NOT NULL,
-  `description` TEXT NULL, 
+  `description` TEXT NULL,
   `nextVideoOrder` INT(2) NOT NULL DEFAULT '0',
   `parentId` INT NOT NULL DEFAULT '0',
   `created` DATETIME NOT NULL,
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `categories_id` INT NOT NULL,
   `filename` VARCHAR(255) NOT NULL,
   `duration` VARCHAR(15) NOT NULL,
-  `type` ENUM('audio', 'video', 'embed') NOT NULL DEFAULT 'video',
+  `type` ENUM('audio','video','embed','linkVideo','linkAudio','torrent') NOT NULL DEFAULT 'video',
   `videoDownloadedLink` VARCHAR(255) NULL,
   `order` INT UNSIGNED NOT NULL DEFAULT 1,
   `rotation` SMALLINT NULL DEFAULT 0,
@@ -153,6 +154,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `authFacebook_key` VARCHAR(255) NULL,
   `authFacebook_enabled` TINYINT(1) NOT NULL DEFAULT 0,
   `authCanUploadVideos` TINYINT(1) NOT NULL DEFAULT 0,
+  `authCanViewChart` TINYINT(2) NOT NULL DEFAULT 0,
   `authCanComment` TINYINT(1) NOT NULL DEFAULT 1,
   `head` TEXT NULL,
   `logo` VARCHAR(255) NULL,
@@ -404,7 +406,7 @@ CREATE TABLE `category_type_cache` (
   `categoryId` int(11) NOT NULL,
   `type` int(2) NOT NULL COMMENT '0=both, 1=audio, 2=video' DEFAULT 0,
   `manualSet` int(1) NOT NULL COMMENT '0=auto, 1=manual' DEFAULT 0
-    
+
 ) ENGINE=InnoDB;
 
 ALTER TABLE `category_type_cache`

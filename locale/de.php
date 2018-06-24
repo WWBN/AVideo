@@ -146,6 +146,7 @@ $t['Loading...'] = "Lade...";
 $t['Local File'] = "Lokale Datei";
 $t['Login error'] = "Login Fehler";
 $t['Login'] = "Login";
+$t['login'] = "anmelden";
 $t['Logoff'] = "Ausloggen";
 $t['Make it public'] = "Mache es öffentlich";
 $t['Make sure that the video you are going to download has a duration of less than %d minute(s)!'] = "Stelle sicher, dass das Video, das Du herunterladen möchtest, eine Dauer von weniger als % d Minute (n) hat!";
