@@ -10,6 +10,21 @@ if (!User::isAdmin()) {
     exit;
 }
 
+function rrmdir($dir) {
+    if (is_dir($dir)) {
+        $objects = scandir($dir);
+        foreach ($objects as $object) {
+            if ($object != "." && $object != "..") {
+                if (is_dir($dir . "/" . $object))
+                    rrmdir($dir . "/" . $object);
+                else
+                    unlink($dir . "/" . $object);
+            }
+        }
+        rmdir($dir);
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
@@ -79,6 +94,8 @@ if (!User::isAdmin()) {
                         $templine = '';
                     }
                 }
+                $dir = "{$global['systemRootPath']}videos/cache";
+                rrmdir($dir);
                 // insert configuration if is version 1.0
                 if ($config->currentVersionLowerThen('1.0')) {
                     $sql = "DELETE FROM configurations WHERE id = 1 ";
