@@ -79,6 +79,15 @@ function rrmdir($dir) {
             } else {
                 $obj = new stdClass();
                 $templine = '';
+                $logfile = = "{$global['systemRootPath']}videos/youphptube.";
+                if(file_exists ($logfile."log")){
+                  unlink($logfile."log");
+                  error_log("youphptube.log deleted by update");
+                }
+                if(file_exists ($logfile."js.log")){
+                  unlink($logfile."js.log");
+                  error_log("youphptube.js.log deleted by update");
+                }
                 $lines = file("{$global['systemRootPath']}updatedb/{$_POST['updateFile']}");
                 $obj->error = "";
                 foreach ($lines as $line) {
