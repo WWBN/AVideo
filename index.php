@@ -1,5 +1,6 @@
 <?php
-global $global, $config;
+global $global, $config, $phprouter;
+$phprouter = true;
 if (!file_exists('.htaccess')) { ?>
   <!DOCTYPE html>
   <html lang="en">
