@@ -5,7 +5,7 @@ videojs.addLanguage("sk",{
  "Pause": "Pozastaviť",
  "Replay": "Prehrať znova",
  "Current Time": "Aktuálny čas",
- "Duration Time": "Čas trvania",
+ "Duration": "Čas trvania",
  "Remaining Time": "Zostávajúci čas",
  "Stream Type": "Typ stopy",
  "LIVE": "NAŽIVO",

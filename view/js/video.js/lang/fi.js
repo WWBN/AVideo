@@ -2,7 +2,7 @@ videojs.addLanguage("fi",{
  "Play": "Toisto",
  "Pause": "Tauko",
  "Current Time": "Tämänhetkinen aika",
- "Duration Time": "Kokonaisaika",
+ "Duration": "Kokonaisaika",
  "Remaining Time": "Jäljellä oleva aika",
  "Stream Type": "Lähetystyyppi",
  "LIVE": "LIVE",

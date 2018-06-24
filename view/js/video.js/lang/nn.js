@@ -2,7 +2,7 @@ videojs.addLanguage("nn",{
  "Play": "Spel",
  "Pause": "Pause",
  "Current Time": "Aktuell tid",
- "Duration Time": "Varigheit",
+ "Duration": "Varigheit",
  "Remaining Time": "Tid attende",
  "Stream Type": "Type straum",
  "LIVE": "DIREKTE",

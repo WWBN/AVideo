@@ -2,7 +2,7 @@ videojs.addLanguage("nb",{
  "Play": "Spill",
  "Pause": "Pause",
  "Current Time": "Aktuell tid",
- "Duration Time": "Varighet",
+ "Duration": "Varighet",
  "Remaining Time": "Gjenstående tid",
  "Stream Type": "Type strøm",
  "LIVE": "DIREKTE",
