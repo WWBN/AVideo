@@ -79,7 +79,7 @@ function rrmdir($dir) {
             } else {
                 $obj = new stdClass();
                 $templine = '';
-                $logfile = = "{$global['systemRootPath']}videos/youphptube.";
+                $logfile = "{$global['systemRootPath']}videos/youphptube.";
                 if(file_exists ($logfile."log")){
                   unlink($logfile."log");
                   error_log("youphptube.log deleted by update");
