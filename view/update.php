@@ -10,6 +10,21 @@ if (!User::isAdmin()) {
     exit;
 }
 
+function rrmdir($dir) {
+    if (is_dir($dir)) {
+        $objects = scandir($dir);
+        foreach ($objects as $object) {
+            if ($object != "." && $object != "..") {
+                if (is_dir($dir . "/" . $object))
+                    rrmdir($dir . "/" . $object);
+                else
+                    unlink($dir . "/" . $object);
+            }
+        }
+        rmdir($dir);
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
@@ -64,6 +79,15 @@ if (!User::isAdmin()) {
             } else {
                 $obj = new stdClass();
                 $templine = '';
+                $logfile = "{$global['systemRootPath']}videos/youphptube.";
+                if(file_exists ($logfile."log")){
+                  unlink($logfile."log");
+                  error_log("youphptube.log deleted by update");
+                }
+                if(file_exists ($logfile."js.log")){
+                  unlink($logfile."js.log");
+                  error_log("youphptube.js.log deleted by update");
+                }
                 $lines = file("{$global['systemRootPath']}updatedb/{$_POST['updateFile']}");
                 $obj->error = "";
                 foreach ($lines as $line) {
@@ -79,6 +103,8 @@ if (!User::isAdmin()) {
                         $templine = '';
                     }
                 }
+                $dir = "{$global['systemRootPath']}videos/cache";
+                rrmdir($dir);
                 // insert configuration if is version 1.0
                 if ($config->currentVersionLowerThen('1.0')) {
                     $sql = "DELETE FROM configurations WHERE id = 1 ";

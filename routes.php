@@ -167,67 +167,171 @@ SimpleRouter::post($basePath."login", function() {
 SimpleRouter::get($basePath."login", function() {
     require_once "objects/login.json.php"; exit;
 });
-/*
-SimpleRouter::post($basePath."youtubeUpload", function() {
-    require_once "objects/youtubeUpload.json.php";
+
+
+// Translated!
+
+SimpleRouter::get($basePath.__("info"), function() {
+    require_once "view/info.php"; exit;
 });
-SimpleRouter::post($basePath."addNewAd", function() {
-    require_once "objects/video_adsAddNew.json.php";
+/*SimpleRouter::post($basePath."subscribes.json", function() {
+    require_once "objects/subscribe.json.php";
+});*/
+SimpleRouter::get($basePath.__("siteConfigurations"), function() {
+    require_once "view/configurations.php"; exit;
 });
-SimpleRouter::post($basePath."setStatusVideo", function() {
-    require_once "objects/videoStatus.json.php";
+SimpleRouter::get($basePath.__("signUp"), function() {
+    require_once "view/signUp.php"; exit;
 });
-SimpleRouter::post($basePath."setCategoryVideo", function() {
-    require_once "objects/videoCategory.json.php";
+SimpleRouter::get($basePath.__("categories"), function() {
+    require_once "view/managerCategories.php"; exit;
 });
-SimpleRouter::post($basePath."refreshVideo", function() {
-    require_once "objects/videoRefresh.json.php";
+SimpleRouter::get($basePath.__("about"), function() {
+    require_once "view/about.php"; exit;
 });
-SimpleRouter::post($basePath."pluginsAvailable.json", function() {
-    require_once "objects/pluginsAvailable.json.php";
+SimpleRouter::get($basePath.__("orphanFiles"), function() {
+    require_once "view/orphanFiles.php"; exit;
 });
-SimpleRouter::post($basePath."rotateVideo", function() {
-    require_once "objects/videoRotate.json.php";
+SimpleRouter::get($basePath.__("contact"), function() {
+    require_once "view/contact.php"; exit;
 });
-SimpleRouter::post($basePath."reencodeVideo", function() {
-    require_once "objects/videoReencode.json.php";
+SimpleRouter::get($basePath.__("user"), function() {
+    require_once "view/user.php"; exit;
 });
-SimpleRouter::post($basePath."saveComment", function() {
-    require_once "objects/commentAddNew.json.php";
+SimpleRouter::get($basePath.__("users"), function() {
+    require_once "view/managerUsers.php"; exit;
 });
-SimpleRouter::post($basePath."fileUpload", function () {
-    require_once 'view/mini-upload-form/upload.php';
+SimpleRouter::get($basePath.__("usersGroups"), function() {
+    require_once "view/managerUsersGroups.php"; exit;
 });
-SimpleRouter::post($basePath."addNewVideo", function() {
-    require_once "objects/videoAddNew.json.php";
+SimpleRouter::get($basePath.__("mvideos"), function() {
+    require_once "view/managerVideos.php"; exit;
 });
-SimpleRouter::post($basePath."createUser", function() {
-    require_once "objects/userCreate.json.php";
+SimpleRouter::get($basePath."videosAndroid.json", function() {
+    require_once "objects/videosAndroid.json.php"; exit;
+});
+SimpleRouter::get($basePath."videoAndroid.json", function() {
+    require_once "objects/videoAndroid.json.php"; exit;
+});
+SimpleRouter::get($basePath."captcha", function() {
+    require_once "objects/getCaptcha.php"; exit;
+});
+SimpleRouter::get($basePath.__("logoff"), function() {
+    require_once "objects/logoff.php"; exit;
+});
+SimpleRouter::get($basePath.__("charts"), function() {
+    require_once "view/charts.php"; exit;
+});
+SimpleRouter::get($basePath.__("update"), function() {
+    require_once "view/update.php"; exit;
+});
+SimpleRouter::post($basePath."googleAdView", function() {
+    require_once "view/googleAdView.php"; exit;
+});
+SimpleRouter::post($basePath."notifications.json", function() {
+    require_once "objects/notifications.json.php"; exit;
+});
+SimpleRouter::get($basePath."notifySubscribers.json", function() {
+    require_once "objects/notifySubscribers.json.php"; exit;
+});
+SimpleRouter::get($basePath.__("subscribes"), function() {
+    require_once "view/managerSubscribes.php"; exit;
+});
+SimpleRouter::post($basePath.__("videosList"), function() {
+    require_once "view/videosList.php"; exit;
+});
+SimpleRouter::post($basePath."getDownloadProgress", function() {
+    require_once "objects/downloadVideoProgress.php"; exit;
+});
+SimpleRouter::post($basePath."downloadNow", function() {
+    require_once "objects/downloadVideo.php"; exit;
+});
+SimpleRouter::get($basePath."comments", function() {
+    require_once "view/managerComments.php"; exit;
+});
+SimpleRouter::get($basePath.__("videoOnly"), function() {
+    $_GET['type'] = "video";
+    require_once "view/index.php"; exit;
+});
+SimpleRouter::get($basePath.__("audioOnly"), function() {
+  $_GET['type'] = "audio";
+  require_once "view/index.php"; exit;
+});
+SimpleRouter::post($basePath."comments.json/{videoId}", function($videoId) {
+    $_GET['video_id'] = $videoId;
+    require_once "objects/comments.json.php"; exit;
+});
+// eventualy incomplete
+SimpleRouter::post($basePath."status", function() {
+    require_once "objects/status.json.php"; exit;
+});
+SimpleRouter::get($basePath."plugins", function() {
+    require_once "view/managerPlugins.php"; exit;
+});
+SimpleRouter::post($basePath."youPHPTubeQueueEncoder.json", function() {
+    require_once "objects/youPHPTubeQueueEncoder.json.php"; exit;
+});
+SimpleRouter::post($basePath."youPHPTubeEncoder.json", function() {
+    require_once "objects/youPHPTubeEncoder.json.php"; exit;
+});
+SimpleRouter::get($basePath."youPHPTubeQueueEncoder.json", function() {
+    require_once "objects/youPHPTubeQueueEncoder.json.php"; exit;
+});
+SimpleRouter::get($basePath."youPHPTubeEncoder.json", function() {
+    require_once "objects/youPHPTubeEncoder.json.php"; exit;
+});
+SimpleRouter::post($basePath."plugins.json", function() {
+    require_once "objects/plugins.json.php"; exit;
+});
+SimpleRouter::get($basePath."channels", function() {
+    require_once "view/channels.php"; exit;
+});
+SimpleRouter::get($basePath.__("help"), function() {
+    require_once "view/help.php"; exit;
+});
+SimpleRouter::post($basePath."like", function() {
+    $_GET['like']="1";
+    require_once "objects/like.json.php"; exit;
+});
+SimpleRouter::post($basePath."dislike", function() {
+    $_GET['like']="-1";
+    require_once "objects/like.json.php"; exit;
+});
+SimpleRouter::get($basePath.__("channel")."/{channelName?}", function ($channelName = '') {
+    $_GET['channelName'] = $channelName;
+    require_once 'view/channel.php'; exit;
+},['defaultParameterRegex' => '[\w\-]+']);
+SimpleRouter::get($basePath.__("cat")."/{catName?}", function ($catName = '') {
+    $_GET['catName'] = $catName;
+    require_once 'view/index.php'; exit;
+},['defaultParameterRegex' => '[\w\-]+']);
+SimpleRouter::get($basePath."upload", function () {
+    require_once 'view/mini-upload-form/index.php'; exit;
+});
+SimpleRouter::get($basePath.__("cat")."/{catName}/video/{videoName?}", function ($catName,$videoName = '') {
+    $_GET['catName'] = $catName;
+    $_GET['videoName'] = $videoName;
+    require_once 'view/index.php'; exit;
+},['defaultParameterRegex' => '[\w\-]+']);
+
+SimpleRouter::get($basePath.__("cat")."/{catName?}", function ($catName = '') {
+    $_GET['catName'] = $catName;
+    require_once 'view/index.php'; exit;
+},['defaultParameterRegex' => '[\w\-]+']);
+SimpleRouter::get($basePath."video/{videoName?}", function ($videoName = '') {
+    $_GET['videoName'] = $videoName;
+    require_once 'view/index.php'; exit;
+},['defaultParameterRegex' => '[\w\-]+']);
+SimpleRouter::get($basePath."v/{videoName?}", function ($videoName = '') {
+    $_GET['v'] = $videoName;
+    require_once 'view/index.php'; exit;
+},['defaultParameterRegex' => '[\w\-]+']);
+// if it's used external, by encoder or so
+SimpleRouter::post($basePath.__("login"), function() {
+    require_once "objects/login.json.php"; exit;
+});
+SimpleRouter::get($basePath.__("login"), function() {
+    require_once "objects/login.json.php"; exit;
 });
 
-SimpleRouter::get($basePath."subscribe.json", function() {
-    require_once "objects/subscribe.json.php";
-});
-SimpleRouter::post($basePath."deleteVideo", function() {
-    require_once "objects/videoDelete.json.php";
-});
-SimpleRouter::post($basePath."updateUser", function() {
-    require_once "objects/userUpdate.json.php";
-});
-SimpleRouter::post($basePath."savePhoto", function() {
-    require_once "objects/userSavePhoto.php";
-});
-SimpleRouter::post($basePath."saveBackground", function() {
-    require_once "objects/userSaveBackground.php";
-});
-SimpleRouter::post($basePath."users.json", function() {
-    require_once "objects/users.json.php";
-});
-SimpleRouter::get($basePath."videos.json", function() {
-    require_once "objects/videos.json.php";
-});
-SimpleRouter::post($basePath."addViewCountVideo", function() {
-    require_once "objects/videoAddViewCount.json.php";
-});
-*/
 ?>
