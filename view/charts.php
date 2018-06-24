@@ -18,25 +18,38 @@ if(!User::isLogged()){
 if(empty($_POST['rowCount'])){
     $_POST['rowCount'] = $limitVideos;
 }
-
-if(User::isAdmin()){
+if($config->getAuthCanViewChart() == 0){
+    if(User::isAdmin()){
+      $videos = Video::getAllVideos("viewable", true, true, array(), true);
+      $totalVideos = Video::getTotalVideos("viewable");
+      $totalUsers = User::getTotalUsers();
+      $totalSubscriptions = Subscribe::getTotalSubscribes();
+      $totalComents = Comment::getTotalComments();
+      unset($_POST['rowCount']);
+      $totalInfos = Video::getTotalVideosInfo("viewable", false, false, array(), true);
+    }else{
+      $videos = Video::getAllVideos("viewable", true, true, array(), true);
+      $totalVideos = Video::getTotalVideos("", true);
+      $totalUsers = User::getTotalUsers();
+      $totalSubscriptions = Subscribe::getTotalSubscribes(User::getId());
+      $totalComents = Comment::getTotalComments(0, 'NULL', User::getId());
+      unset($_POST['rowCount']);
+      $totalInfos = Video::getTotalVideosInfo("", true, false, array(), true);
+    }
+} else if($config->getAuthCanViewChart() == 1){
+  // mode 1 means selected users see admin-charts.
+  if((!empty($_SESSION['user']['canViewChart']))||(User::isAdmin())) {
     $videos = Video::getAllVideos("viewable", true, true, array(), true);
     $totalVideos = Video::getTotalVideos("viewable");
-    $totalUsers = User::getTotalUsers();
-    $totalSubscriptions = Subscribe::getTotalSubscribes();
-    $totalComents = Comment::getTotalComments();
+    $totalUsers = User::getTotalUsers(true);
+    $totalSubscriptions = Subscribe::getTotalSubscribes(true);
+    $totalComents = Comment::getTotalComments(true);
     unset($_POST['rowCount']);
     $totalInfos = Video::getTotalVideosInfo("viewable", false, false, array(), true);
-}else{
-    $videos = Video::getAllVideos("viewable", true, true, array(), true);
-    $totalVideos = Video::getTotalVideos("", true);
-    $totalUsers = User::getTotalUsers();
-    $totalSubscriptions = Subscribe::getTotalSubscribes(User::getId());
-    $totalComents = Comment::getTotalComments(0, 'NULL', User::getId());
-    unset($_POST['rowCount']);
-    $totalInfos = Video::getTotalVideosInfo("", true, false, array(), true);
+  } else {
+    die("403 - You have no access here!");
+  }
 }
-
 $labelToday = array();
 for ($i = 0; $i < 24; $i++) {
     $labelToday[] = "{$i} h";
@@ -136,9 +149,9 @@ foreach ($videos as $value) {
             <div class="list-group-item clear clearfix">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#dashboard"><i class="fas fa-tachometer-alt"></i> <?php echo __("Dashboard"); ?></a></li>
-                    <li><a data-toggle="tab" href="#menu1"><i class="fab fa-youtube"></i> <i class="fa fa-eye"></i> <?php echo __("Video views - per Channel"); ?></a></li>
-                    <li><a data-toggle="tab" href="#menu2"><i class="fa fa-comments"></i> <i class="fa fa-thumbs-up"></i> <?php echo __("Comment thumbs up - per Person"); ?></a></li>
-                    <li><a data-toggle="tab" href="#menu3"><i class="fab fa-youtube"></i> <i class="fa fa-thumbs-up"></i> <?php echo __("Video thumbs up - per Channel"); ?></a></li>
+                    <li><a data-toggle="tab" id="viewperchannel" href="#menu1"><i class="fab fa-youtube"></i> <i class="fa fa-eye"></i> <?php echo __("Video views - per Channel"); ?></a></li>
+                    <li><a data-toggle="tab" id="commentthumbs" href="#menu2"><i class="fa fa-comments"></i> <i class="fa fa-thumbs-up"></i> <?php echo __("Comment thumbs up - per Person"); ?></a></li>
+                    <li><a data-toggle="tab" id="videothumbs" href="#menu3"><i class="fab fa-youtube"></i> <i class="fa fa-thumbs-up"></i> <?php echo __("Video thumbs up - per Channel"); ?></a></li>
                     <?php echo YouPHPTubePlugin::getChartTabs(); ?>
                 </ul>
 
