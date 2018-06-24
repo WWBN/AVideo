@@ -107,7 +107,7 @@ if (!class_exists('Video')) {
             if (empty($this->status)) {
                 $this->status = 'e';
             }
-            
+
             if (empty($this->type) || !in_array($this->type, self::$typeOptions)) {
                 $this->status = 'video';
             }
@@ -180,7 +180,7 @@ if (!class_exists('Video')) {
             $res = sqlDAL::readSql($sql,"i",array($catId));
             $catTypeCache = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
-            
+
             $videoFound = false;
             $audioFound = false;
             if ($catTypeCache) {
@@ -193,7 +193,7 @@ if (!class_exists('Video')) {
                     sqlDAL::close($res);
                     if ($res!=false) {
                         foreach($fullResult as $row) {
-                            
+
                             if ($row['type'] == "audio") {
                                 // echo "found audio";
                                 $audioFound = true;
@@ -203,7 +203,7 @@ if (!class_exists('Video')) {
                             }
                         }
                     }
-                    
+
                     if (($videoFound == false) || ($audioFound == false)) {
                         $sql = "SELECT * FROM `categories` WHERE parentId = ?";
                         $res = sqlDAL::readSql($sql,"i",array($catId));
@@ -242,7 +242,7 @@ if (!class_exists('Video')) {
                     sqlDAL::writeSql($sql,"i",array($catId));
                 }
             } else {
-                // start incremental search and save - and a lot of this redundant stuff in a method.. 
+                // start incremental search and save - and a lot of this redundant stuff in a method..
                 $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
                 $res = sqlDAL::readSql($sql,"i",array($catId));
                 $fullResult2 = sqlDAL::fetchAllAssoc($res);
@@ -356,11 +356,11 @@ if (!class_exists('Video')) {
         function setDuration($duration) {
             $this->duration = $duration;
         }
-        
+
         function getDuration() {
             return $this->duration;
         }
-        
+
         function getIsSuggested() {
             return $this->isSuggested;
         }
@@ -442,7 +442,7 @@ if (!class_exists('Video')) {
             }
             $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
             if (User::isLogged()) {
-                require_once 'userGroups.php';
+                require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 $userGroups = UserGroups::getUserGroups(User::getId());
                 $groups_id = array();
                 foreach ($userGroups as $value) {
@@ -464,7 +464,7 @@ if (!class_exists('Video')) {
             $res = sqlDAL::readSql("SHOW TABLES LIKE 'likes'");
             $result = sqlDal::num_rows($res);
             sqlDAL::close($res);
-            
+
             if (empty($result)) {
                 $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.0</a>";
                 header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
@@ -544,28 +544,17 @@ if (!class_exists('Video')) {
 
             $sql .= " LIMIT 1";
 
-           // echo $sql."<br />";
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
-            // to fix the bug null // should be fixed, but is still catched, when the sql-result is empty anyway - so prevent doing it double.
-            /*if(is_null($video)){
-                log_error("need to re-get the video ".$id." ".$status);
-                $res = sqlDAL::readSql($sql, "", array(),true);
-                $video = sqlDAL::fetchAssoc($res);
-                sqlDAL::close($res);
-            }*/
-            
-            
             if ($res!=false) {
-
-                require_once 'userGroups.php';
+                require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 if (!empty($video)) {
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
                 }
-                
+
             } else {
                 $video = false;
             }
@@ -715,7 +704,7 @@ if (!class_exists('Video')) {
             }
             return $videos;
         }
-        
+
         /**
          * Same as getAllVideos() method but a lighter query
          * @global type $global
@@ -731,7 +720,7 @@ if (!class_exists('Video')) {
             $sql = "SELECT v.* "
                     . " FROM videos as v "
                     . " WHERE 1=1 ";
-            
+
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
@@ -803,7 +792,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
             }
-            $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name'));   
+            $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name'));
             $res = sqlDAL::readSql($sql);
             $numRows = sqlDal::num_rows($res);
             sqlDAL::close($res);
@@ -868,7 +857,7 @@ if (!class_exists('Video')) {
                 if (!empty($content)) {
                     $object->$value = self::parseProgress($content);
                 } else {
-                    
+
                 }
 
                 if (!empty($object->$value->progress) && !is_numeric($object->$value->progress)) {
@@ -1254,7 +1243,7 @@ if (!class_exists('Video')) {
                 $obj->label = __("Group");
                 if (empty($groups)) {
                     $status = $video->getStatus();
-                    if($status=='u'){                        
+                    if($status=='u'){
                         $obj->type = "info";
                         $obj->text = __("Unlisted");
                     }else{
@@ -1319,7 +1308,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND id != {$videoId} ";
             }
             $sql .= " LIMIT 1";
-            $res = sqlDAL::readSql($sql); 
+            $res = sqlDAL::readSql($sql);
             $cleanTitleExists = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($cleanTitleExists!=false) {
@@ -1329,7 +1318,7 @@ if (!class_exists('Video')) {
         }
 
         /**
-         * 
+         *
          * @global type $global
          * @param type $videos_id
          * @param type $users_id if is empty will use the logged user
@@ -1352,7 +1341,7 @@ if (!class_exists('Video')) {
             }
             return false;
         }
-        
+
         static function isOwnerFromCleanTitle($clean_title, $users_id=0) {
             global $global;
             $video = self::getVideoFromCleanTitle($clean_title);
@@ -1360,7 +1349,7 @@ if (!class_exists('Video')) {
         }
 
         /**
-         * 
+         *
          * @global type $global
          * @param type $videos_id
          * @param type $users_id if is empty will use the logged user
@@ -1369,7 +1358,7 @@ if (!class_exists('Video')) {
         static function getOwner($videos_id) {
             global $global;
             $sql = "SELECT users_id FROM videos WHERE id = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql,"i",array($videos_id)); 
+            $res = sqlDAL::readSql($sql,"i",array($videos_id));
             $videoRow = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($res) {
@@ -1385,7 +1374,7 @@ if (!class_exists('Video')) {
         }
 
         /**
-         * 
+         *
          * @param type $videos_id
          * @param type $users_id if is empty will use the logged user
          * @return boolean
@@ -1529,7 +1518,7 @@ if (!class_exists('Video')) {
         }
 
         /**
-         * 
+         *
          * @param type $filename
          * @param type $type
          * @return type .jpg .gif _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
@@ -1542,7 +1531,7 @@ if (!class_exists('Video')) {
               if(!empty($cached)){
               return (array) $cached;
               }
-             * 
+             *
              */
             $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
             if (!empty($aws_s3)) {
@@ -1593,7 +1582,7 @@ if (!class_exists('Video')) {
               if(!empty($cached)){
               return $cached;
               }
-             * 
+             *
              */
             $obj = new stdClass();
             $gifSource = self::getSourceFile($filename, ".gif");
@@ -1644,7 +1633,7 @@ if (!class_exists('Video')) {
             }
             return $obj;
         }
-        
+
         static function getImageFromID($videos_id, $type = "video") {
             $video = new Video("", "", $videos_id);
             return self::getImageFromFilename($video->getFilename());
@@ -1658,8 +1647,8 @@ if (!class_exists('Video')) {
             global $global;
 
             $sql = "SELECT * FROM videos WHERE id = ? LIMIT 1";
-            
-            $res = sqlDAL::readSql($sql,"i",array($videos_id)); 
+
+            $res = sqlDAL::readSql($sql,"i",array($videos_id));
             $videoRow = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
 
@@ -1678,7 +1667,7 @@ if (!class_exists('Video')) {
             global $global;
 
             $sql = "SELECT * FROM videos WHERE clean_title = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql,"s",array($clean_title)); 
+            $res = sqlDAL::readSql($sql,"s",array($clean_title));
             $videoRow = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($res!=false) {
@@ -1693,7 +1682,7 @@ if (!class_exists('Video')) {
         }
 
         /**
-         * 
+         *
          * @global type $global
          * @param type $videos_id
          * @param type $clean_title
@@ -1756,7 +1745,7 @@ if (!class_exists('Video')) {
 
             $sql = "SELECT id from videos  WHERE users_id = ?  ";
 
-            $res = sqlDAL::readSql($sql,"i",array($users_id)); 
+            $res = sqlDAL::readSql($sql,"i",array($users_id));
             $videoRows = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
 
@@ -1778,7 +1767,7 @@ if (!class_exists('Video')) {
                         $format .="s";
                         $values[]=$endDate;
                     }
-                    $res = sqlDAL::readSql($sql,$format,$values); 
+                    $res = sqlDAL::readSql($sql,$format,$values);
                     $countRow = sqlDAL::num_rows($res);
                     sqlDAL::close($res);
                     $r['thumbsUp']+=$countRow;
@@ -1797,7 +1786,7 @@ if (!class_exists('Video')) {
                         $format .="s";
                         $values[]=$endDate;
                     }
-                    $res = sqlDAL::readSql($sql,$format,$values); 
+                    $res = sqlDAL::readSql($sql,$format,$values);
                     $countRow = sqlDAL::num_rows($res);
                     sqlDAL::close($res);
                     $r['thumbsDown']+=$countRow;
