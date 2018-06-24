@@ -16,6 +16,7 @@ class Configuration {
     private $users_id;
     private $version;
     private $authCanUploadVideos;
+    private $authCanViewChart;
     private $authCanComment;
     private $head;
     private $logo;
@@ -84,6 +85,7 @@ class Configuration {
                 . "contactEmail = '{$this->contactEmail}',"
                 . "users_id = '{$this->users_id}',  "
                 . "authCanUploadVideos = '{$this->authCanUploadVideos}',"
+                . "authCanViewChart = '{$this->authCanViewChart}',"
                 . "authCanComment = '{$this->authCanComment}',"
                 . "encoderURL = '{$global['mysqli']->real_escape_string($this->getEncoderURL())}',"
                 . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
@@ -172,12 +174,20 @@ class Configuration {
         return $this->authCanUploadVideos;
     }
 
+    function getAuthCanViewChart() {
+        return $this->authCanViewChart;
+    }
+
     function getAuthCanComment() {
         return $this->authCanComment;
     }
 
     function setAuthCanUploadVideos($authCanUploadVideos) {
         $this->authCanUploadVideos = $authCanUploadVideos;
+    }
+
+    function setAuthCanViewChart($authCanViewChart) {
+        $this->authCanViewChart = $authCanViewChart;
     }
 
     function setAuthCanComment($authCanComment) {
@@ -237,7 +247,7 @@ class Configuration {
     function getDisable_analytics() {
         return $this->disable_analytics;
     }
-    
+
     function getDisable_youtubeupload() {
         return $this->disable_youtubeupload;
     }
@@ -245,7 +255,7 @@ class Configuration {
     function getAllow_download() {
         return $this->allow_download;
     }
-    
+
     function getSession_timeout() {
         return $this->session_timeout;
     }
@@ -253,11 +263,11 @@ class Configuration {
     function setDisable_analytics($disable_analytics) {
         $this->disable_analytics = ($disable_analytics == 'true' || $disable_analytics == '1') ? 1 : 0;
     }
-    
+
     function setDisable_youtubeupload($disable_youtubeupload) {
         $this->disable_youtubeupload = ($disable_youtubeupload == 'true' || $disable_youtubeupload == '1') ? 1 : 0;
     }
-    
+
     function setAllow_download($allow_download) {
         $this->allow_download = ($allow_download == 'true' || $allow_download == '1') ? 1 : 0;
     }
