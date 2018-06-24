@@ -2,7 +2,7 @@ videojs.addLanguage("hu",{
  "Play": "Lejátszás",
  "Pause": "Szünet",
  "Current Time": "Aktuális időpont",
- "Duration Time": "Hossz",
+ "Duration": "Hossz",
  "Remaining Time": "Hátralévő idő",
  "Stream Type": "Adatfolyam típusa",
  "LIVE": "ÉLŐ",

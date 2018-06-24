@@ -2,7 +2,7 @@ videojs.addLanguage("ca",{
  "Play": "Reproducció",
  "Pause": "Pausa",
  "Current Time": "Temps reproduït",
- "Duration Time": "Durada total",
+ "Duration": "Durada total",
  "Remaining Time": "Temps restant",
  "Stream Type": "Tipus de seqüència",
  "LIVE": "EN DIRECTE",

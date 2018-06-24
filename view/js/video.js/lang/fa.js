@@ -5,7 +5,7 @@ videojs.addLanguage("fa",{
  "Pause": "مکث",
  "Replay": "بازپخش",
  "Current Time": "زمان کنونی",
- "Duration Time": "مدت زمان",
+ "Duration": "مدت زمان",
  "Remaining Time": "زمان باقیمانده",
  "Stream Type": "نوع استریم",
  "LIVE": "زنده",
