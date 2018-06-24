@@ -18,7 +18,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>        
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/themes/fa/theme.min.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/themes/explorer/theme.min.css" rel="stylesheet" type="text/css"/>
@@ -209,15 +209,15 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                     </div>
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
-                        </div>            
+                        </div>
                         <div id="pluginsImportFormModal" class="modal fade" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <?php
                                 $dir = "{$global['systemRootPath']}plugin";
                                 if (!isUnzip()) {
-                                    ?>                                
+                                    ?>
                                     <div class="alert alert-warning">
-                                        Make sure you have the unzip app on your server 
+                                        <?php echo __("Make sure you have the unzip app on your server"); ?>
                                         <pre><code>sudo apt-get install unzip</code></pre>
                                     </div>
                                     <?php
@@ -237,13 +237,13 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                 } else {
                                     ?>
                                     <div class="alert alert-danger">
-                                        You need to make the plugin dir writable before upload, run this command and refresh this page
+                                        <?php echo __("You need to make the plugin dir writable before upload, run this command and refresh this page"); ?>
                                         <pre><code>chown www-data:www-data <?php echo $dir; ?> && chmod 755 <?php echo $dir; ?></code></pre>
                                     </div>
                                     <?php
                                 }
                                 ?>
-                            </div>                
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -285,7 +285,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="https://easytube.club/signUp" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>
+                        <a href="https://easytube.club/signUp" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
                     </div>
                 </div>
             </li>
@@ -307,7 +307,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         label = $('<label />', {"text": i + ": "});
                         if(val.type === 'textarea'){
                             input = $('<textarea />', {"class": 'form-control jsonElement', "name": i, "pluginType":"object"});
-                            
+
                             input.text(val.value);
                         }else{
                             input = $('<input />', {"class": 'form-control jsonElement', "type": val.type, "name": i, "value": val.value, "pluginType":"object"});
