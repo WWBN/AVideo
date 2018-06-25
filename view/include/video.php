@@ -31,6 +31,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                         autoplay="true"
                         muted="muted" 
                     <?php } ?>
+                    playsinline
                     preload="auto" 
                     poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
                         <?php if ($playNowVideo['type'] == "video") { ?>
