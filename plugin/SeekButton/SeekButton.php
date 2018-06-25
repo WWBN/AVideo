@@ -31,7 +31,7 @@ class SeekButton extends PluginAbstract {
             return "";
         }
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css" rel="stylesheet" type="text/css"/>';
-        $css .= '<style></style>';
+        $css .= '<style>.video-js .vjs-seek-button {font-size: 20px;}</style>';
         return $css;
     }
     
