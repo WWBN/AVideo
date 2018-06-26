@@ -390,10 +390,10 @@ if (typeof gtag !== \"function\") {
                     . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
                     . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}' , modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, {$this->canViewChart}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}')";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, false, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}')";
         }
         //echo $sql;
-        //error_log($sql);
+        error_log($sql);
         $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {
