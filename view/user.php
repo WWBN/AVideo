@@ -70,7 +70,7 @@ $advancedCustom = json_decode($json_file);
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                             <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="<?php echo $user->getEmail(); ?>" required >
                                         </div>
-                                    </div>                                    
+                                    </div>
                                     <div class="col-md-2">
                                         <?php
                                         if ($user->getEmailVerified()) {
@@ -192,7 +192,7 @@ $advancedCustom = json_decode($json_file);
                 </div>
                 <script>
                     var uploadCrop;
-                    
+
                     function isAnalytics() {
                         str = $('#analyticsCode').val();
                         return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
@@ -430,10 +430,6 @@ $advancedCustom = json_decode($json_file);
         ?>
                             swal("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
         <?php
-    }
-    $refererUrl = $_SERVER["HTTP_REFERER"];
-    if (strpos($_SERVER["HTTP_REFERER"], "?error=" . __("You%20can%20not%20manage")) != false) {
-        $refererUrl = substr($_SERVER["HTTP_REFERER"], 0, strpos($_SERVER["HTTP_REFERER"], "?"));
     }
     ?>
                         $('#loginForm').submit(function (evt) {
