@@ -14,8 +14,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
         <style>
             .img-radio {
                 opacity: 0.5;
@@ -335,7 +335,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     </div>
                                                 </div>
 
-
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("Authenticated users can upload videos"); ?></label>
                                                     <div class="col-md-8 inputGroupContainer">
@@ -344,6 +343,19 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <select class="form-control" id="authCanUploadVideos" >
                                                                 <option value="1" <?php echo ($config->getAuthCanUploadVideos() == 1) ? "selected" : ""; ?>><?php echo __("Yes"); ?></option>
                                                                 <option value="0" <?php echo ($config->getAuthCanUploadVideos() == 0) ? "selected" : ""; ?>><?php echo __("No"); ?></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label"><?php echo __("Authenticated users can view chart"); ?></label>
+                                                    <div class="col-md-8 inputGroupContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-cloud-upload"></i></span>
+                                                            <select class="form-control" id="authCanViewChart" >
+                                                                <option value="0" <?php echo ($config->getAuthCanViewChart() == 0) ? "selected" : ""; ?>><?php echo __("For uploaders"); ?></option>
+                                                                <option value="1" <?php echo ($config->getAuthCanViewChart() == 1) ? "selected" : ""; ?>><?php echo __("For selected, admin view"); ?></option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -738,6 +750,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "language": $('#inputLanguage').val(),
                                             "contactEmail": $('#inputEmail').val(),
                                             "authCanUploadVideos": $('#authCanUploadVideos').val(),
+                                            "authCanViewChart": $('#authCanViewChart').val(),
                                             "authCanComment": $('#authCanComment').val(),
                                             "head": $('#head').val(),
                                             "adsense": $('#adsense').val(),

@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -20,7 +20,6 @@ if (!empty($_GET['video_id'])) {
         $row = Video::getVideo($_GET['video_id']);
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -58,15 +57,15 @@ if (!empty($_GET['video_id'])) {
     <body>
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container">
-        <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
+            <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
             <div class="btn-group" >
-                <?php if(User::isAdmin()){ ?>
-                <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
-                    <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
-                </a>
-                <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
-                    <span class="fa fa-user"></span> <?php echo __("Users"); ?>
-                </a>
+                <?php if (User::isAdmin()) { ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-warning">
+                        <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
+                    </a>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-primary">
+                        <span class="fa fa-user"></span> <?php echo __("Users"); ?>
+                    </a>
                 <?php } ?>
                 <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info">
                     <span class="fa fa-bar-chart"></span>
@@ -75,8 +74,8 @@ if (!empty($_GET['video_id'])) {
                 <?php
                 $categories = Category::getAllCategories();
                 if (empty($advancedCustom->doNotShowEncoderButton)) {
-                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload) 
-                        ){                
+                    if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
+                    ) {
                         if (!empty($config->getEncoderURL())) {
                             ?>
                             <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
@@ -88,9 +87,9 @@ if (!empty($_GET['video_id'])) {
                     }
                 }
                 if (empty($advancedCustom->doNotShowUploadMP4Button)) {
-                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload) 
-                        ){                
-                    ?>
+                    if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
+                    ) {
+                        ?>
                         <a href="<?php echo $global['webSiteRootURL']; ?>upload" class="btn btn-default">
                             <span class="fa fa-upload"></span>
                             <?php echo __("Upload a MP4 File"); ?>
@@ -99,9 +98,9 @@ if (!empty($_GET['video_id'])) {
                     }
                 }
                 if (empty($advancedCustom->doNotShowEmbedButton)) {
-                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload) 
-                        ){                
-                    ?>                                    
+                    if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
+                    ) {
+                        ?>                                    
                         <button class="btn btn-default" id="linkExternalVideo">
                             <span class="fa fa-link"></span>
                             <?php echo __("Embed a video link"); ?>
@@ -155,9 +154,9 @@ if (!empty($_GET['video_id'])) {
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
                 <?php if (!$config->getDisable_youtubeupload()) { ?>
-                <button class="btn btn-danger" id="uploadYouTubeBtn">
-                    <i class="fab fa-youtube" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
-                </button>
+                    <button class="btn btn-danger" id="uploadYouTubeBtn">
+                        <i class="fab fa-youtube" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
+                    </button>
                 <?php } ?>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -335,8 +334,16 @@ if (!empty($_GET['video_id'])) {
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+            <div class="btn-group pull-right" role="group">
+                <a href="<?php echo $global['webSiteRootURL']; ?>objects/videos.txt.php?type=seo" target="_blank" class="btn btn-default btn-sm">
+                    <i class="fas fa-download"></i> <?php echo __("Download your videos list"); ?> (SEO .txt file)
+                </a>
+                <a href="<?php echo $global['webSiteRootURL']; ?>objects/videos.txt.php" target="_blank" class="btn btn-default btn-sm">
+                    <i class="fas fa-download"></i> <?php echo __("Download your videos list"); ?> (Permalink .txt file)
+                </a>
+            </div>
             <?php
-            if ((User::isAdmin())&&(!$config->getDisable_youtubeupload())) {
+            if ((User::isAdmin()) && (!$config->getDisable_youtubeupload())) {
                 ?>
                 <div class="alert alert-info">
                     <h1><span class="fab fa-youtube-square"></span> Let us upload your video to YouTube</h1>
@@ -497,8 +504,8 @@ if (!empty($_GET['video_id'])) {
                                     function editVideo(row) {
                                         waitToSubmit = true;
                                         $('#postersImage, #videoIsAdControl, .titles').slideDown();
-                                        if ((row.type === 'embed')||(row.type === 'linkVideo')||(row.type === 'linkAudio')) {
-                                            
+                                        if ((row.type === 'embed') || (row.type === 'linkVideo') || (row.type === 'linkAudio')) {
+
                                             $('#videoLink').val(row.videoLink);
                                             $('#videoLinkType').val(row.type);
                                         } else {
@@ -598,7 +605,7 @@ if (!empty($row)) {
     }
 }
 ?>
-                                        
+
                                         $('#linkExternalVideo').click(function () {
                                             $('#inputVideoId').val("");
                                             $('#inputTitle').val("");
@@ -632,41 +639,41 @@ if (!empty($row)) {
                                                 $(this).prop('checked', !chk);
                                             });
                                         });
-                                        <?php if (!$config->getDisable_youtubeupload()) { ?>
-                                        $("#uploadYouTubeBtn").click(function () {
-                                            modal.showPleaseWait();
-                                            var vals = [];
-                                            $(".checkboxVideo").each(function (index) {
-                                                if ($(this).is(":checked")) {
-                                                    vals.push($(this).val());
-                                                }
-                                            });
-                                            $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php',
-                                                data: {"id": vals},
-                                                type: 'post',
-                                                success: function (response) {
-                                                    console.log(response);
-                                                    modal.hidePleaseWait();
-                                                    if (!response.success) {
-                                                        swal({
-                                                            title: "<?php echo __("Sorry!"); ?>",
-                                                            text: response.msg,
-                                                            type: "error",
-                                                            html: true
-                                                        });
-                                                    } else {
-                                                        swal({
-                                                            title: "<?php echo __("Success!"); ?>",
-                                                            text: response.msg,
-                                                            type: "success",
-                                                            html: true
-                                                        });
+<?php if (!$config->getDisable_youtubeupload()) { ?>
+                                            $("#uploadYouTubeBtn").click(function () {
+                                                modal.showPleaseWait();
+                                                var vals = [];
+                                                $(".checkboxVideo").each(function (index) {
+                                                    if ($(this).is(":checked")) {
+                                                        vals.push($(this).val());
                                                     }
-                                                }
+                                                });
+                                                $.ajax({
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php',
+                                                    data: {"id": vals},
+                                                    type: 'post',
+                                                    success: function (response) {
+                                                        console.log(response);
+                                                        modal.hidePleaseWait();
+                                                        if (!response.success) {
+                                                            swal({
+                                                                title: "<?php echo __("Sorry!"); ?>",
+                                                                text: response.msg,
+                                                                type: "error",
+                                                                html: true
+                                                            });
+                                                        } else {
+                                                            swal({
+                                                                title: "<?php echo __("Success!"); ?>",
+                                                                text: response.msg,
+                                                                type: "success",
+                                                                html: true
+                                                            });
+                                                        }
+                                                    }
+                                                });
                                             });
-                                        });
-                                        <?php } ?>
+<?php } ?>
                                         $("#deleteBtn").click(function () {
                                             swal({
                                                 title: "<?php echo __("Are you sure?"); ?>",
@@ -749,18 +756,18 @@ if (!empty($row)) {
                                                     var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fas fa-redo " aria-hidden="true"></span></button>';
                                                     var rotateBtn = "<br>" + rotateLeft + rotateRight;
                                                     var suggestBtn = "";
-                                                    <?php
-                                                    if(User::isAdmin()){
-                                                    ?>
-                                                    var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
-                                                    var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="far fa-star" aria-hidden="true"></i></button>';
-                                                    suggestBtn = unsuggest;
-                                                    if (row.isSuggested == "1") {
-                                                        suggestBtn = suggest;
-                                                    }
-                                                    <?php
-                                                    }
-                                                    ?>
+<?php
+if (User::isAdmin()) {
+    ?>
+                                                        var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
+                                                        var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="far fa-star" aria-hidden="true"></i></button>';
+                                                        suggestBtn = unsuggest;
+                                                        if (row.isSuggested == "1") {
+                                                            suggestBtn = suggest;
+                                                        }
+    <?php
+}
+?>
                                                     if (row.type == "audio") {
                                                         rotateBtn = "";
                                                     }
@@ -775,7 +782,7 @@ if (!empty($row)) {
                                                         status = inactiveBtn;
                                                     } else if (row.status == "a") {
                                                         status = activeBtn;
-                                                    }else if (row.status == "u") {
+                                                    } else if (row.status == "u") {
                                                         status = unlistedBtn;
                                                     } else if (row.status == "x") {
                                                         return editBtn + deleteBtn;
@@ -786,16 +793,16 @@ if (!empty($row)) {
                                                     }
 
                                                     var nextIsSet;
-                                                    if(row.next_video == null || row.next_video.length==0){
-                                                            nextIsSet="<span class='label label-danger'>Next video NOT set</span>";
+                                                    if (row.next_video == null || row.next_video.length == 0) {
+                                                        nextIsSet = "<span class='label label-danger'>Next video NOT set</span>";
                                                     } else {
                                                         var nextVideoTitle;
-                                                        if(row.next_video.title.length>20){
-                                                            nextVideoTitle = row.next_video.title.substring(0,18)+"..";
+                                                        if (row.next_video.title.length > 20) {
+                                                            nextVideoTitle = row.next_video.title.substring(0, 18) + "..";
                                                         } else {
-                                                           nextVideoTitle = row.next_video.title; 
+                                                            nextVideoTitle = row.next_video.title;
                                                         }
-                                                        nextIsSet="<span class='label label-success' data-toggle='tooltip' title='"+row.next_video.title+"'>Next video: "+nextVideoTitle+"</span>";
+                                                        nextIsSet = "<span class='label label-success' data-toggle='tooltip' title='" + row.next_video.title + "'>Next video: " + nextVideoTitle + "</span>";
                                                     }
                                                     return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + "<br>" + download + nextIsSet;
 
@@ -808,7 +815,7 @@ if (!empty($row)) {
                                                         }
                                                         tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                                                     }
-                                                    tags += "<span class='label label-primary fix-width'><?php echo __("Type").":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
+                                                    tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
                                                     return tags;
                                                 },
                                                 "checkbox": function (column, row) {
@@ -818,17 +825,19 @@ if (!empty($row)) {
                                                 "titleTag": function (column, row) {
                                                     var tags = "";
                                                     var youTubeLink = "", youTubeUpload = "";
-                                                    <?php if (!$config->getDisable_youtubeupload()) { ?>
-                                                    youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
-                                                    
-                                                    if (row.youtubeId) {
-                                                        //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fas fa-external-link-alt " aria-hidden="true"></span></a>';
-                                                    }
-                                                    var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fab fa-youtube" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
-                                                    if (row.status == "d" || row.status == "e") {
-                                                        yt = "";
-                                                    }
-                                                    <?php } else { echo "yt='';"; } ?>
+<?php if (!$config->getDisable_youtubeupload()) { ?>
+                                                        youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
+
+                                                        if (row.youtubeId) {
+                                                            //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fas fa-external-link-alt " aria-hidden="true"></span></a>';
+                                                        }
+                                                        var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fab fa-youtube" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
+                                                        if (row.status == "d" || row.status == "e") {
+                                                            yt = "";
+                                                        }
+<?php } else {
+    echo "yt='';";
+} ?>
                                                     if (row.status !== "a") {
                                                         tags += '<div id="encodeProgress' + row.id + '"></div>';
                                                     }
@@ -842,11 +851,11 @@ if (!empty($row)) {
                                                     var type, img, is_portrait;
                                                     if (row.type === "audio") {
                                                         type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
-                                                        img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/"+row.filename+".jpg?"+Math.random()+"' style='max-height:80px; margin-right: 5px;'> ";
+                                                        img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "' style='max-height:80px; margin-right: 5px;'> ";
                                                     } else {
                                                         type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
                                                         is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
-                                                        img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?"+Math.random()+"'  style='max-height:80px; margin-right: 5px;'> ";
+                                                        img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                     }
                                                     return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt;
                                                 }
@@ -928,7 +937,7 @@ if (!empty($row)) {
                                                     }
                                                 });
                                             })
-                                            .end().find(".command-active").on("click", function (e) {
+                                                    .end().find(".command-active").on("click", function (e) {
                                                 var row_index = $(this).closest('tr').index();
                                                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                                 modal.showPleaseWait();
@@ -1018,27 +1027,27 @@ if (!empty($row)) {
                                                     }
                                                 });
                                             });
-                                            <?php
-                                                if(User::isAdmin()){
-                                            ?>
-                                            grid.find(".command-suggest").on("click", function (e) {
-                                                var row_index = $(this).closest('tr').index();
-                                                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                                                var isSuggested = $(this).hasClass('unsuggest');
-                                                modal.showPleaseWait();
-                                                $.ajax({
-                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoSuggest.php',
-                                                    data: {"id": row.id, "isSuggested": isSuggested},
-                                                    type: 'post',
-                                                    success: function (response) {
-                                                        $("#grid").bootgrid("reload");
-                                                        modal.hidePleaseWait();
-                                                    }
+<?php
+if (User::isAdmin()) {
+    ?>
+                                                grid.find(".command-suggest").on("click", function (e) {
+                                                    var row_index = $(this).closest('tr').index();
+                                                    var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                                                    var isSuggested = $(this).hasClass('unsuggest');
+                                                    modal.showPleaseWait();
+                                                    $.ajax({
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/videoSuggest.php',
+                                                        data: {"id": row.id, "isSuggested": isSuggested},
+                                                        type: 'post',
+                                                        success: function (response) {
+                                                            $("#grid").bootgrid("reload");
+                                                            modal.hidePleaseWait();
+                                                        }
+                                                    });
                                                 });
-                                            });
-                                            <?php
-                                                }
-                                            ?>
+    <?php
+}
+?>
                                             setTimeout(function () {
                                                 checkProgress()
                                             }, 500);

@@ -3,7 +3,7 @@ videojs.addLanguage("gl",{
  "Play Video": "Reprodución Vídeo",
  "Pause": "Pausa",
  "Current Time": "Tempo reproducido",
- "Duration Time": "Duración total",
+ "Duration": "Duración total",
  "Remaining Time": "Tempo restante",
  "Stream Type": "Tipo de secuencia",
  "LIVE": "DIRECTO",

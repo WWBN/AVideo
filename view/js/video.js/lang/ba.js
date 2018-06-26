@@ -2,7 +2,7 @@ videojs.addLanguage("ba",{
  "Play": "Pusti",
  "Pause": "Pauza",
  "Current Time": "Trenutno vrijeme",
- "Duration Time": "Vrijeme trajanja",
+ "Duration": "Vrijeme trajanja",
  "Remaining Time": "Preostalo vrijeme",
  "Stream Type": "Način strimovanja",
  "LIVE": "UŽIVO",
