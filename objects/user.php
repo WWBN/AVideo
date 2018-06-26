@@ -378,6 +378,10 @@ if (typeof gtag !== \"function\") {
             $this->channelName = uniqid();
         }
 
+        if(!isset($this->canViewChart)){
+          //$this->canViewChart = 0;
+        }
+
         if (!empty($this->id)) {
             $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
                     . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
