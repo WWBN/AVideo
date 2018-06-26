@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `backgroundURL` VARCHAR(255) NULL,
   `canStream` TINYINT(1) NULL,
   `canUpload` TINYINT(1) NULL,
-  `canViewChart` TINYINT(1) NULL,
+  `canViewChart` TINYINT(1) NOT NULL DEFAULT 0,
   `about` TEXT NULL,
   `channelName` VARCHAR(45) NULL,
   `emailVerified` TINYINT(1) NOT NULL DEFAULT 0,
