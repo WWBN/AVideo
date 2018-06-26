@@ -2,7 +2,7 @@ videojs.addLanguage("cs",{
  "Play": "Přehrát",
  "Pause": "Pauza",
  "Current Time": "Aktuální čas",
- "Duration Time": "Doba trvání",
+ "Duration": "Doba trvání",
  "Remaining Time": "Zbývající čas",
  "Stream Type": "Stream Type",
  "LIVE": "ŽIVĚ",

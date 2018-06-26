@@ -1,5 +1,13 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/user.php';
+$email = "";
+if (User::isLogged()) {
+    $email = User::getEmail_();
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -12,10 +20,22 @@ require_once '../videos/configuration.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
-        <div class="container">
+        <div class="container list-group-item">
+            <div style="display: none;" id="messageSuccess">
+                <div class="alert alert-success clear clearfix">
+                    <div class="col-md-3">
+                        <i class="fa fa-5x fa-check-circle-o"></i>
+                    </div>
+                    <div class="col-md-9">
+                        <h1><?php echo __("Congratulations!"); ?></h1>
+                        <h2><?php echo __("Your message has been sent!"); ?></h2>
+                    </div>
+                </div>
+                <a class="btn btn-success btn-block" href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Go back to the main page"); ?></a>
+            </div>
             <form class="well form-horizontal" action=" " method="post"  id="contact_form">
                 <fieldset>
 
@@ -29,7 +49,7 @@ require_once '../videos/configuration.php';
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input  name="first_name" placeholder="<?php echo __("Name"); ?>" class="form-control"  type="text">
+                                <input  name="first_name" placeholder="<?php echo __("Name"); ?>" class="form-control"  type="text" required="true">
                             </div>
                         </div>
                     </div>
@@ -41,14 +61,14 @@ require_once '../videos/configuration.php';
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control"  type="text">
+                                <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control" value="<?php echo $email; ?>"  type="email"  required="true">
                             </div>
                         </div>
                     </div>
 
 
                     <!-- Text input-->
-                    <div class="form-group">
+                    <div class="form-group <?php echo empty($advancedCustom->doNotShowWebsiteOnContactForm) ? "" : "hidden" ?>">
                         <label class="col-md-4 control-label"><?php echo __("Website"); ?></label>
                         <div class="col-md-4 inputGroupContainer">
                             <div class="input-group">
@@ -94,9 +114,9 @@ require_once '../videos/configuration.php';
 
     </div><!--/.container-->
 
-        <?php
-        include 'include/footer.php';
-        ?>
+    <?php
+    include $global['systemRootPath'] . 'view/include/footer.php';
+    ?>
 
     <script>
         $(document).ready(function () {
@@ -117,6 +137,9 @@ require_once '../videos/configuration.php';
                         modal.hidePleaseWait();
                         if (!response.error) {
                             swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
+
+                            $("#contact_form").hide();
+                            $("#messageSuccess").fadeIn();
                         } else {
                             swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
                         }

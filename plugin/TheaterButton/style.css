@@ -1,4 +1,33 @@
 .compress{
     position: absolute;
-    top: 50px;
+    top: 0;
+}
+footer{
+    margin-top: 100px;
+}
+
+.ypt-compress:before {
+    -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  content: "\f010";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.ypt-expand:before {
+    -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  content: "\f00e";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
 }

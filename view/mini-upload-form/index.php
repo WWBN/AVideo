@@ -1,6 +1,9 @@
 <?php
-require_once '../../videos/configuration.php';
-require_once '../../objects/functions.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/functions.php';
 
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
@@ -28,13 +31,13 @@ if (!User::canUpload()) {
 
     <body>
         <?php
-        include '../include/navbar.php';
+        include $global['systemRootPath'].'view/include/navbar.php';
         ?>
 
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-lg-9">
-                    <form id="upload" method="post" action="fileUpload" enctype="multipart/form-data">
+                    <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                         <div id="drop">
                             <?php echo __("Drop Here"); ?>
 
@@ -60,7 +63,7 @@ if (!User::canUpload()) {
                     <div class="alert alert-warning">
                         <h1>
                             <span class="glyphicon glyphicon-warning-sign" style="font-size:1em;"></span>
-                            <?php echo __("This page works only with a MP4 File, if you have or need any other format, try to install your own <a href='https://github.com/DanielnetoDotCom/YouPHPTube-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder.youphptube.com/' class='btn btn-warning btn-xs'>public</a> one"); ?>
+                            <?php echo __("This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/DanielnetoDotCom/YouPHPTube-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder.youphptube.com/' class='btn btn-warning btn-xs'>public</a> one"); ?>
                         </h1>
                     </div>
                     <?php
@@ -78,7 +81,7 @@ if (!User::canUpload()) {
         </div><!--/.container-->
 
 <?php
-include '../include/footer.php';
+include $global['systemRootPath'].'view/include/footer.php';
 ?>
 
 

@@ -1,7 +1,8 @@
 $(document).ready(function () {
 // Extend default
+    setTimeout(function(){
     if (typeof player == 'undefined') {
-        player = videojs('mainVideo');
+        player = videojs(videoJsId);
     }
 // Extend default
     var Button = videojs.getComponent('Button');
@@ -9,9 +10,7 @@ $(document).ready(function () {
         //constructor: function(player, options) {
         constructor: function () {
             Button.apply(this, arguments);
-            //this.addClass('vjs-chapters-button');
-            this.addClass('fa');
-            this.addClass('fa-compress');
+            this.addClass('ypt-compress');
             this.addClass('vjs-button-fa-size');
             this.controlText("Theater");
             if (Cookies.get('compress') === "true") {
@@ -26,5 +25,5 @@ $(document).ready(function () {
 // Register the new component
     videojs.registerComponent('Theater', Theater);
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('RemainingTimeDisplay') + 1);
-
+    }, 30);
 });

@@ -19,9 +19,13 @@ I don´t want to read I just want you to show me how to install!!
 
 Ok, check this out! https://tutorials.youphptube.com/video/streamer-and-encoder
 
-### Mobile APP 
-Android: https://play.google.com/store/apps/details?id=mobile.youphptube.com
+For text-based tutorials and manual, look here: https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Admin-manual
 
+There, you can find some hints for troubleshooting as well.
+
+
+### Mobile APP
+Android: https://play.google.com/store/apps/details?id=mobile.youphptube.com
 
 ### Are you having a hard time to configure or install YouPHPTube or any of its resources? fell free to ask us for help:
 
@@ -29,7 +33,7 @@ https://www.youphptube.com/services
 
 ### Do you need new features, do you want us to implement it for you?
 
-**Funding Us** 
+**Funding Us**
 
 https://easytube.club/#funding
 
@@ -70,6 +74,45 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - PHP 5.6+
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
+
+# Comming version (already in code on master)
+- Better support for Nginx and Microsofts IIS (experimental)
+
+# Version 5.6
+- Google analytics per user
+
+# Version 5.5
+- Bugfixes & improvements
+- Introduce new video-types (linkVideo and linkAudio)
+- LiveLinks-Plugin
+
+# Version 5.4
+- Wavesurfer-visualisation for audio
+- Add dynamic /help-page (also usefull for admins)
+- Embeded videos from youtube are in a native player now (allow plugins for it)
+- New options in advancedcustomised-plugin (minify js, disable add + share-button, disable the above player)
+- Backend-work and tons of fixes for it
+- Better translations (de,es,us,tr)
+- Import videos from filesystem
+
+# Version 5.3
+- User now can Verify Emails and Choose the Channel Name
+
+# Version 5.2
+- Subscribers now can choose to not be notified from new videos (Need the Notification Plugin)
+
+# Version 5.01
+- Category now can have a parent category (enables subcategories)
+- Direct upload and various plugins supports audio
+- Type for categories
+
+# Version 5.0
+- Allow Download and disable youtubeupload on configuration menu
+- Category Description
+- Category Next Video Order
+
+# Version 4.9
+- Increase SMTP fields space to be able to store largers passwords
 
 # Version 4.8
 - Add preferred videos that will randomly appear on first page

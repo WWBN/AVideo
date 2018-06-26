@@ -2,16 +2,16 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once 'comment.php';
 require_once 'subscribe.php';
 
 // gettig the mobile submited value
-$inputJSON = file_get_contents('php://input');
+$inputJSON = url_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE); //convert JSON into array
 if(!empty($input) && empty($_POST)){
     foreach ($input as $key => $value) {

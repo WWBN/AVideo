@@ -6,7 +6,7 @@ class Hotkeys extends PluginAbstract {
 
     public function getDescription() {
         global $global;
-        return "Enable hotkeys for videos, like F for fullscreen, space for play/pause, etc..";
+        return "Enable hotkeys for videos, like F for fullscreen, space for play/pause, etc..<br />Author: <a href='http://hersche.github.io' target='_blank' >Vinzenz Hersche</a>";
     }
 
     public function getName() {
@@ -16,7 +16,33 @@ class Hotkeys extends PluginAbstract {
     public function getUUID() {
         return "11355314-1b30-ff15-afb-67516fcccff7";
     }
-        
+    
+    public function getHelp(){
+        $obj = $this->getDataObject();
+        $html = "<h2 id='Hotkeys help' >Hotkeys</h2><p>".__("When you are watching media, you can use these keyboard-shortcuts.")."</p><table class='table'><tbody>";
+        $html .= "<tr><td>".__("Seek")."</td><td>".__("Left")."/".__("right")."-".__("arrow")."</td></tr><tr><td>";
+        if($obj->ReplaceVolumeWithPlusMinus){
+            $html .= __("Volume")."</td><td>+/-</td></tr>";
+        } else {
+            $html .= __("Volume")."Volume</td><td>".__("Up")."/".__("Down")."-".__("Arrow")."</td></tr>";
+        }
+        if($obj->Fullscreen){
+            $html .= "<tr><td>".__("Fullscreen")."</td><td>".$obj->FullscreenKey."</td></tr>";
+        } 
+        if($obj->PlayPauseKey==" "){
+            $html .= "<tr><td>".__("Play")."/".__("pause")."</td><td>".__("space")."</td></tr>";
+        } else {
+           $html .= "<tr><td>".__("Play")."/".__("pause")."</td><td>".$obj->PlayPauseKey."</td></tr>"; 
+        }    
+        return $html."</tbody></table>";
+    }
+    public function getJSFiles(){
+        if(!empty($_GET['isMediaPlaySite'])){
+            return array("plugin/Hotkeys/videojs.hotkeys.min.js");
+        }
+        return array();
+    }
+    
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
@@ -25,7 +51,7 @@ class Hotkeys extends PluginAbstract {
         $obj->Fullscreen = true;
         $obj->FullscreenKey = "F";
         $obj->PlayPauseKey = " ";
-        $obj->AlwaysCaptureHotkeys = false;
+        $obj->AlwaysCaptureHotkeys = true;
         return $obj;
     }
     
@@ -37,22 +63,15 @@ class Hotkeys extends PluginAbstract {
     public function getFooterCode() {
         global $global;
         $obj = $this->getDataObject();
-        
-        $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        
-        $httpSpacer = 7;
-        if(strpos($global['webSiteRootURL'],"https://")!==false){
-           $httpSpacer = 8;    
-        }
-        $catUrlResult;
-        preg_match("/cat\/(.*)\/video\/(.*)/", $url, $catUrlResult);
-        if((strpos($url,substr($global['webSiteRootURL'],$httpSpacer)."video/")!==false)||(sizeof($catUrlResult)>0)){
-            
-            $tmp = "<script src=\"{$global['webSiteRootURL']}plugin/Hotkeys/videojs.hotkeys.min.js\"> </script>
-                    <script>
-                        videojs('mainVideo').ready(function() {
-                            this.hotkeys({
-                            seekStep: 5,";
+
+        if(!empty($_GET['isMediaPlaySite'])){
+            $tmp = "<script> $( document ).ready(function() {";
+            if(($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio")){
+                $tmp .= "videojs('mainAudio').ready(function() {";
+            } else {
+                $tmp .= "videojs('mainVideo').ready(function() {";
+            }
+            $tmp .= "this.hotkeys({ seekStep: 5,";
                
             if($obj->Volume){
                 $tmp .= "enableVolumeScroll: true,";
@@ -85,7 +104,7 @@ class Hotkeys extends PluginAbstract {
                       });  
             });";
 
-            $tmp .= "</script>";
+            $tmp .= "});</script>";
             return $tmp;
         }
         return "";

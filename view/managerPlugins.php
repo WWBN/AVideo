@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage plugins"));
@@ -15,7 +18,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>        
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/themes/fa/theme.min.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/bootstrap-fileinput/themes/explorer/theme.min.css" rel="stylesheet" type="text/css"/>
@@ -146,10 +149,13 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container-fluid">
+                    <?php
+        include $global['systemRootPath'] . 'view/include/updateCheck.php';
+        ?>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#menu0"><i class="fa fa-plug"></i> Installed Plugins</a></li>
                 <li><a data-toggle="tab" href="#menu1"><i class="fa fa-cart-plus"></i> Plugins Store</a></li>
@@ -203,15 +209,15 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                     </div>
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
-                        </div>            
+                        </div>
                         <div id="pluginsImportFormModal" class="modal fade" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <?php
                                 $dir = "{$global['systemRootPath']}plugin";
                                 if (!isUnzip()) {
-                                    ?>                                
+                                    ?>
                                     <div class="alert alert-warning">
-                                        Make sure you have the unzip app on your server 
+                                        <?php echo __("Make sure you have the unzip app on your server"); ?>
                                         <pre><code>sudo apt-get install unzip</code></pre>
                                     </div>
                                     <?php
@@ -231,13 +237,13 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                 } else {
                                     ?>
                                     <div class="alert alert-danger">
-                                        You need to make the plugin dir writable before upload, run this command and refresh this page
+                                        <?php echo __("You need to make the plugin dir writable before upload, run this command and refresh this page"); ?>
                                         <pre><code>chown www-data:www-data <?php echo $dir; ?> && chmod 755 <?php echo $dir; ?></code></pre>
                                     </div>
                                     <?php
                                 }
                                 ?>
-                            </div>                
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -279,14 +285,14 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="https://easytube.club/signUp" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> Buy This Plugin </a>
+                        <a href="https://easytube.club/signUp" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
                     </div>
                 </div>
             </li>
 
         </div><!--/.container-->
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
         <script>
@@ -301,7 +307,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         label = $('<label />', {"text": i + ": "});
                         if(val.type === 'textarea'){
                             input = $('<textarea />', {"class": 'form-control jsonElement', "name": i, "pluginType":"object"});
-                            
+
                             input.text(val.value);
                         }else{
                             input = $('<input />', {"class": 'form-control jsonElement', "type": val.type, "name": i, "value": val.value, "pluginType":"object"});
@@ -367,9 +373,17 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
             $(document).ready(function () {
                 var myTextarea = document.getElementById("inputData");
                 var grid = $("#grid").bootgrid({
+                    labels: {
+                        noResults: "<?php echo __("No results found!"); ?>",
+                        all: "<?php echo __("All"); ?>",
+                        infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                        loading: "<?php echo __("Loading..."); ?>",
+                        refresh: "<?php echo __("Refresh"); ?>",
+                        search: "<?php echo __("Search"); ?>",
+                    },
                     navigation: 0,
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "pluginsAvailable.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/pluginsAvailable.json.php"; ?>",
                     formatters: {
                         "commands": function (column, row) {
                             var editBtn = '';
@@ -422,7 +436,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         modal.showPleaseWait();
                         $.ajax({
-                            url: 'switchPlugin',
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
                             data: {"uuid": row.uuid, "name": row.name, "dir": row.dir, "enable": $('#enable' + row.uuid).is(":checked")},
                             type: 'post',
                             success: function (response) {
@@ -447,7 +461,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         $('#inputData').val(JSON.stringify(row.data_object));
                         modal.showPleaseWait();
                         $.ajax({
-                            url: 'runDBScriptPlugin.json',
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginRunDatabaseScript.json.php',
                             data: {"name": row.name},
                             type: 'post',
                             success: function (response) {
@@ -459,7 +473,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 $('#savePluginBtn').click(function (evt) {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: 'addDataObjectPlugin.json',
+                        url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginAddDataObject.json.php',
                         data: {"id": $('#inputPluginId').val(), "object_data": $('#inputData').val()},
                         type: 'post',
                         success: function (response) {
@@ -473,7 +487,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     $('#pluginsImportFormModal').modal();
                 });
                 $('#input-b1').fileinput({
-                    uploadUrl: '<?php echo $global['webSiteRootURL']; ?>pluginImport.json',
+                    uploadUrl: '<?php echo $global['webSiteRootURL']; ?>objects/pluginImport.json.php',
                     allowedFileExtensions: ['zip']
                 }).on('fileuploaded', function (event, data, id, index) {
                     $("#grid").bootgrid('reload');

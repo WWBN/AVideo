@@ -10,6 +10,10 @@
     ExpiresByType text/javascript "access plus 216000 seconds"
     ExpiresByType application/x-javascript "access plus 216000 seconds"
 </ifModule>
+<Files routes.php>
+Order Allow,Deny
+Deny from all
+</Files>
 # END Expires
 # BEGIN Caching
 <ifModule mod_headers.c>
@@ -42,7 +46,7 @@
     RewriteRule    ^js/(.+)$ view/js/$1 [NC,L]
     RewriteRule    ^css/(.+)$ view/css/$1 [NC,L]
     RewriteRule    ^img/(.+)$ view/img/$1 [NC,L]
-    RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [NC,L]
+    RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [QSA]
     RewriteRule    ^videoOnly/?$ view/?type=video    [NC,L]
     RewriteRule    ^audioOnly/?$ view/?type=audio    [NC,L]
     RewriteRule    ^download$ view/downloadExternalVideo.php    [NC,L]
@@ -61,10 +65,10 @@
     RewriteRule    ^videosList/cat/([A-Za-z0-9-]+)/video/([A-Za-z0-9-_.]+)/page/([0-9]+)/?$ view/videosList.php?catName=$1&videoName=$2&page=$3    [QSA]
 
     #for the category name
-    RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L]
-    RewriteRule    ^cat/([A-Za-z0-9-]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L]
+    RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L,QSA]
+    RewriteRule    ^cat/([A-Za-z0-9-]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L,QSA]
 
-    
+
     #for the video name
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/?$ view/?videoName=$1    [QSA]
     RewriteRule    ^v/([0-9]+)/?$ view/?v=$1    [QSA]
@@ -106,13 +110,6 @@
     RewriteRule    ^addNewUserGroups$ objects/userGroupsAddNew.json.php    [NC,L]
     RewriteRule    ^deleteUserGroups$ objects/userGroupsDelete.json.php    [NC,L]
 
-    # Ads
-    RewriteRule    ^ads$ view/managerAds.php    [NC,L]
-    RewriteRule    ^addNewAd$ objects/video_adsAddNew.json.php    [NC,L]
-    RewriteRule    ^ads.json$ objects/video_ads.json.php    [NC,L]
-    RewriteRule    ^deleteVideoAd$ objects/video_adDelete.json.php    [NC,L]
-    RewriteRule    ^adClickLog objects/video_adClickLog.php    [NC,L]
-
     #manager category
     RewriteRule    ^categories$ view/managerCategories.php    [NC,L]
     RewriteRule    ^categories.json$ objects/categories.json.php    [NC,L]
@@ -140,7 +137,7 @@
     RewriteRule    ^removePlaylist/?$ objects/playlistRemove.php    [NC,L]
     RewriteRule    ^renamePlaylist/?$ objects/playlistRename.php    [NC,L]
     RewriteRule    ^sortPlaylist/?$ objects/playlistSort.php    [NC,L]
-    RewriteRule    ^channel/([0-9]+)/?$ view/channel.php?user_id=$1    [NC,L]
+    RewriteRule    ^channel/([^/]+)/?$ view/channel.php?channelName=$1    [NC,L]
     RewriteRule    ^channel/?$ view/channel.php    [NC,L]
     RewriteRule    ^channels/?$ view/channels.php    [NC,L]
 
@@ -178,17 +175,19 @@
     RewriteRule    ^login$ objects/login.json.php    [NC,L]
     RewriteRule    ^logoff$ objects/logoff.php    [NC,L]
 
-    RewriteRule    ^like$ objects/like.json.php?like=1    [QSA] 
-    RewriteRule    ^dislike$ objects/like.json.php?like=-1    [QSA] 
+    RewriteRule    ^like$ objects/like.json.php?like=1    [QSA]
+    RewriteRule    ^dislike$ objects/like.json.php?like=-1    [QSA]
 
 
     #manager configuration
 
-    RewriteRule    ^update/?$ update/update.php    [NC,L]
+    RewriteRule    ^update/?$ view/update.php    [NC,L]
     RewriteRule    ^siteConfigurations$ view/configurations.php    [NC,L]
     RewriteRule    ^updateConfig$ objects/configurationUpdate.json.php    [NC,L]
 
     RewriteRule    ^charts$ view/charts.php    [NC,L]
+
+    RewriteRule    ^help$ view/help.php    [NC,L]
 
     # YouTube Sync
     RewriteRule    ^youtubeUpload$ objects/youtubeUpload.json.php    [NC,L]
@@ -199,7 +198,7 @@
 
     # It must be before image not found
     <IfModule mod_xsendfile.c>
-       #RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [NC,L]
+       RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [QSA]
     </IfModule>
 
     # if image do not exists

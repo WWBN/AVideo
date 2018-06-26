@@ -2,9 +2,13 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
-
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/functions.php';
 // gettig the mobile submited value
-$inputJSON = file_get_contents('php://input');
+$inputJSON = url_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE); //convert JSON into array
 if(!empty($input) && empty($_POST)){
     foreach ($input as $key => $value) {
@@ -12,12 +16,13 @@ if(!empty($input) && empty($_POST)){
     }
 }
 
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
-}
+
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/category.php';
+
+error_log("Start Login Request");
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
@@ -97,10 +102,16 @@ if(!empty($_GET['encodedPass'])){
 }
 if(empty($_POST['user']) || empty($_POST['pass'])){
     $object->error = __("User and Password can not be blank");
-     die(json_encode($object));
+    die(json_encode($object));
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
-$user->login(false, @$_POST['encodedPass']);
+$resp = $user->login(false, @$_POST['encodedPass']);
+
+if($resp === User::USER_NOT_VERIFIED){
+    $object->error = __("Your user is not verified, we sent you a new e-mail");
+    die(json_encode($object));
+}
+$object->siteLogo = $global['webSiteRootURL'].$config->getLogo();
 $object->id = User::getId();
 $object->user = User::getUserName();
 $object->pass = User::getUserPass();
@@ -111,6 +122,7 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->categories = Category::getAllCategories();
 $object->streamServerURL = "";
 $object->streamKey = "";
 if($object->isLogged){
@@ -123,9 +135,11 @@ if($object->isLogged){
     }
     $p = YouPHPTubePlugin::loadPluginIfEnabled("MobileManager");
     if(!empty($p)){
-        $object->streamer = json_decode(file_get_contents($global['webSiteRootURL']."status"));
+        $object->streamer = json_decode(url_get_contents($global['webSiteRootURL']."objects/status.json.php"));
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }
 }
-echo json_encode($object);
+$json = json_encode($object);
+header("Content-length: ".  strlen($json));
+echo $json;

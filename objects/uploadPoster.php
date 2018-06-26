@@ -1,14 +1,13 @@
 <?php
-$configFile = '../../videos/configuration.php';
-if (!file_exists($configFile)) {
-    $configFile = '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $configFile;
 require_once $global['systemRootPath'] . 'objects/video.php';
 $obj = new stdClass();
 $obj->error = true;
-if (!User::canUpload()) {
-    $obj->msg = 'Only logged users can file_dataoad';
+if (!Video::canEdit($_GET['video_id'])) {
+    $obj->msg = 'You cant edit this file';
     die(json_encode($obj));
 }
 header('Content-Type: application/json');
@@ -32,6 +31,9 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     if (!move_uploaded_file($_FILES['file_data']['tmp_name'], "{$global['systemRootPath']}videos/" . $video->getFilename().".{$_GET['type']}")) {
         $obj->msg = "Error on move_file_dataoaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename.".{$_GET['type']})";
         die(json_encode($obj));
+    }else{
+        // delete thumbs from poster
+        Video::deleteThumbs($video->getFilename());
     }
     $obj->error = false;
     echo "{}";

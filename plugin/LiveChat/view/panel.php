@@ -1,26 +1,39 @@
 <?php
 $p = YouPHPTubePlugin::loadPlugin("LiveChat");
+$canSendMessage = $p->canSendMessage();
 ?>
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/style.css" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/script.js" type="text/javascript"></script>
-<link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
 <div class="alert alert-warning" id="chatOffline">
-    Trying to establish a chat server connection
+    <?php echo __("Trying to establish a chat server connection"); ?>
 </div>
 <div style="display: none" id="chatOnline">
     <div class="panel panel-default liveChat">
-        <div class="panel-heading"><i class="fa fa-comments-o"></i> Live Chat <button class="btn btn-xs btn-default pull-right" id="collapseBtn"><i class="fa fa-minus-square"></i></button></div>
+        <div class="panel-heading"><i class="fa fa-comments-o"></i> <?php echo __("Live Chat"); ?> <button class="btn btn-xs btn-default pull-right" id="collapseBtn"><i class="fa fa-minus-square"></i></button></div>
         <div class="colapsibleArea">
-            <div class="panel-body">  
+            <div class="panel-body">
                 <ul class="messages"></ul>
             </div>
+
             <div class="panel-footer">
-                <div class="input-group">
-                    <input type="text" class="form-control message_input" placeholder="Type your message...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-secondary send_message" type="button"><i class="fa fa-send"></i> Send</button>
-                    </span>
-                </div>
+                <?php
+                if ($canSendMessage) {
+                    ?>
+                    <div class="input-group">
+                        <input type="text" class="form-control message_input" placeholder="<?php echo __("Type your message..."); ?>">
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary send_message" type="button"><i class="fa fa-send"></i> <?php echo __("Send"); ?></button>
+                        </span>
+                    </div>
+                    <?php
+                }else{
+                ?>
+                <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-default"> <?php echo __('Login'); ?></a>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>
@@ -35,6 +48,7 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
         </li>
     </div>
 </div>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <script>
     var attempChatConnections = 3;
     var conn;
@@ -50,13 +64,32 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
             attempChatConnections = 3;
             $("#chatOffline").slideUp();
             $("#chatOnline").slideDown();
+
+            modal.showPleaseWait();
+            $.ajax({
+                url: '<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/getChat.json.php',
+                data: {
+                    "live_stream_code": "<?php echo $chatId; ?>"
+                },
+                type: 'post',
+                success: function (response) {
+                    modal.hidePleaseWait();
+                    for(i=0; i<response.length;i++){
+                        if(response[i].users_id == "<?php echo User::getId(); ?>"){
+                            message_side = "right";
+                        }else{
+                            message_side = "left";
+                        }
+                        createMessage(response[i].text, response[i].identification, response[i].photo, message_side);
+                    }
+                    $('.messages').animate({scrollTop: $('.messages').prop('scrollHeight')}, 300);
+                }
+            });
         };
         conn.onmessage = function (e) {
             var messageData = JSON.parse(e.data);
             //this message is not for you
             if (messageData.chatId !== "<?php echo $chatId; ?>") {
-                console.log("<?php echo $chatId; ?>");
-                console.log(messageData);
                 return false;
             }
             var json = getJsonDataObject();
@@ -96,16 +129,15 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
     function getJsonDataObject() {
         var chatId = "<?php echo $chatId; ?>";
         var photo = "<?php echo User::getPhoto(); ?>";
+        var userId = "<?php echo User::getId(); ?>";
         var name = "<?php echo User::getNameIdentification(); ?>";
         var text = getMessageText();
-        var json = {"photo": photo, "name": name, "text": text, "chatId": chatId};
+        var json = {"photo": photo, "name": name, "text": text, "chatId": chatId, "userId": userId};
         return json;
     }
     function makeDrag() {
         //$("#chatOnline").draggable('destroy');
-        $("#chatOnline").draggable({
-            handle: ".panel-heading"
-        });
+        $("#chatOnline").draggable({handle: ".panel-heading"});
     }
     $(function () {
         $('#collapseBtn').click(function (e) {
@@ -113,15 +145,23 @@ $p = YouPHPTubePlugin::loadPlugin("LiveChat");
                 //makeDrag();
             });
         });
-        $('.send_message').click(function (e) {
-            sendJsonMessage(JSON.stringify(getJsonDataObject()), 'right');
-        });
-        $('.message_input').keyup(function (e) {
-            if (e.which === 13) {
+
+<?php
+if ($canSendMessage) {
+    ?>
+            $('.send_message').click(function (e) {
                 sendJsonMessage(JSON.stringify(getJsonDataObject()), 'right');
-                $('.message_input').val('');
-            }
-        });
+            });
+            $('.message_input').keyup(function (e) {
+                if (e.which === 13) {
+                    sendJsonMessage(JSON.stringify(getJsonDataObject()), 'right');
+                    $('.message_input').val('');
+                }
+            });
+
+    <?php
+}
+?>
         connect();
         makeDrag();
     });

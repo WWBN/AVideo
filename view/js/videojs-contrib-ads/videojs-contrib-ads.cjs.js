@@ -2,9 +2,11 @@
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var window = _interopDefault(require('global/window'));
 var videojs = _interopDefault(require('video.js'));
+var window = _interopDefault(require('global/window'));
 var document = _interopDefault(require('global/document'));
+
+var version = "6.2.1";
 
 /*
 The goal of this feature is to make player events work as an integrator would
@@ -38,7 +40,6 @@ var prefixEvent = function prefixEvent(player, prefix, event) {
   cancelEvent(player, event);
   player.trigger({
     type: prefix + event.type,
-    state: player.ads.state,
     originalEvent: event
   });
 };
@@ -48,7 +49,6 @@ var prefixEvent = function prefixEvent(player, prefix, event) {
 // * Normal playing event when there is no preroll
 // * No playing event before preroll
 // * At least one playing event after preroll
-// * A single adplaying event when an ad begins
 var handlePlaying = function handlePlaying(player, event) {
   if (player.ads.isInAdMode()) {
 
@@ -58,10 +58,6 @@ var handlePlaying = function handlePlaying(player, event) {
       if (player.ads._contentEnding) {
         prefixEvent(player, 'content', event);
       }
-
-      // adplaying was already sent due to cancelContentPlay. Avoid sending another.
-    } else if (player.ads._cancelledPlay) {
-      cancelEvent(player, event);
 
       // Prefix all other playing events during ads.
     } else {
@@ -78,18 +74,35 @@ var handlePlaying = function handlePlaying(player, event) {
 var handleEnded = function handleEnded(player, event) {
   if (player.ads.isInAdMode()) {
 
-    // The true ended event fired by plugin.js either after the postroll
-    // or because there was no postroll.
+    // Cancel ended events during content resuming. Normally we would
+    // prefix them, but `contentended` has a special meaning. In the
+    // future we'd like to rename the existing `contentended` to
+    // `readyforpostroll`, then we could remove the special `resumeended`
+    // and do a conventional content prefix here.
     if (player.ads.isContentResuming()) {
-      return;
+      cancelEvent(player, event);
+
+      // Important: do not use this event outside of videojs-contrib-ads.
+      // It will be removed and your code will break.
+      // Ideally this would simply be `contentended`, but until
+      // `contentended` no longer has a special meaning it cannot be
+      // changed.
+      player.trigger('resumeended');
+
+      // Ad prefix in ad mode
+    } else {
+      prefixEvent(player, 'ad', event);
     }
 
-    // Prefix ended due to ad ending.
-    prefixEvent(player, 'ad', event);
-  } else {
+    // Prefix ended due to content ending before postroll check
+  } else if (!player.ads._contentHasEnded) {
 
-    // Prefix ended due to content ending.
+    // This will change to cancelEvent after the contentended deprecation
+    // period (contrib-ads 7)
     prefixEvent(player, 'content', event);
+
+    // Content ended for the first time, time to check for postrolls
+    player.trigger('readyforpostroll');
   }
 };
 
@@ -106,7 +119,7 @@ var handleLoadEvent = function handleLoadEvent(player, event) {
     return;
 
     // Ad playing
-  } else if (player.ads.isAdPlaying()) {
+  } else if (player.ads.inAdBreak()) {
     prefixEvent(player, 'ad', event);
 
     // Source change
@@ -126,18 +139,21 @@ var handleLoadEvent = function handleLoadEvent(player, event) {
 // Play requests are unique because they represent user intention to play. They happen
 // because the user clicked play, or someone called player.play(), etc. It could happen
 // multiple times during ad loading, regardless of where we are in the process. With our
-// current architecture, this will always cause the content to play. Therefor, contrib-ads
-// must always cancelContentPlay if there is any possible chance the play caused the
-// content to play, even if we are technically in ad mode. In order for that to happen,
-// play events need to be unprefixed until the last possible moment. A better solution
-// would be to have a way to intercept play events rather than "cancel" them by pausing
-// after each one. To be continued...
+// current architecture, this could cause the content to start playing.
+// Therefore, contrib-ads must always either:
+//   - cancelContentPlay if there is any possible chance the play caused the
+//     content to start playing, even if we are technically in ad mode. In order for
+//     that to happen, play events need to be unprefixed until the last possible moment.
+//   - use playMiddleware to stop the play from reaching the Tech so there is no risk
+//     of the content starting to play.
+// Currently, playMiddleware is only supported on desktop browsers with
+// video.js after version 6.7.1.
 var handlePlay = function handlePlay(player, event) {
-  var resumingAfterNoPreroll = player.ads._cancelledPlay && !player.ads.isInAdMode();
-
-  if (player.ads.isAdPlaying()) {
+  if (player.ads.inAdBreak()) {
     prefixEvent(player, 'ad', event);
-  } else if (player.ads.isContentResuming() || resumingAfterNoPreroll) {
+
+    // Content resuming
+  } else if (player.ads.isContentResuming()) {
     prefixEvent(player, 'content', event);
   }
 };
@@ -171,235 +187,6 @@ function redispatch(event) {
 }
 
 /*
-The snapshot feature is responsible for saving the player state before an ad, then
-restoring the player state after an ad.
-*/
-
-/*
- * Returns an object that captures the portions of player state relevant to
- * video playback. The result of this function can be passed to
- * restorePlayerSnapshot with a player to return the player to the state it
- * was in when this function was invoked.
- * @param {Object} player The videojs player object
- */
-function getPlayerSnapshot(player) {
-  var currentTime = void 0;
-
-  if (videojs.browser.IS_IOS && player.ads.isLive(player)) {
-    // Record how far behind live we are
-    if (player.seekable().length > 0) {
-      currentTime = player.currentTime() - player.seekable().end(0);
-    } else {
-      currentTime = player.currentTime();
-    }
-  } else {
-    currentTime = player.currentTime();
-  }
-
-  var tech = player.$('.vjs-tech');
-  var remoteTracks = player.remoteTextTracks ? player.remoteTextTracks() : [];
-  var tracks = player.textTracks ? player.textTracks() : [];
-  var suppressedRemoteTracks = [];
-  var suppressedTracks = [];
-  var snapshotObject = {
-    ended: player.ended(),
-    currentSrc: player.currentSrc(),
-    src: player.tech_.src(),
-    currentTime: currentTime,
-    type: player.currentType()
-  };
-
-  if (tech) {
-    snapshotObject.nativePoster = tech.poster;
-    snapshotObject.style = tech.getAttribute('style');
-  }
-
-  for (var i = 0; i < remoteTracks.length; i++) {
-    var track = remoteTracks[i];
-
-    suppressedRemoteTracks.push({
-      track: track,
-      mode: track.mode
-    });
-    track.mode = 'disabled';
-  }
-  snapshotObject.suppressedRemoteTracks = suppressedRemoteTracks;
-
-  for (var _i = 0; _i < tracks.length; _i++) {
-    var _track = tracks[_i];
-
-    suppressedTracks.push({
-      track: _track,
-      mode: _track.mode
-    });
-    _track.mode = 'disabled';
-  }
-  snapshotObject.suppressedTracks = suppressedTracks;
-
-  return snapshotObject;
-}
-
-/*
- * Attempts to modify the specified player so that its state is equivalent to
- * the state of the snapshot.
- * @param {Object} player - the videojs player object
- * @param {Object} snapshotObject - the player state to apply
- */
-function restorePlayerSnapshot(player, snapshotObject) {
-  if (player.ads.disableNextSnapshotRestore === true) {
-    player.ads.disableNextSnapshotRestore = false;
-    return;
-  }
-
-  // The playback tech
-  var tech = player.$('.vjs-tech');
-
-  // the number of[ remaining attempts to restore the snapshot
-  var attempts = 20;
-
-  var suppressedRemoteTracks = snapshotObject.suppressedRemoteTracks;
-  var suppressedTracks = snapshotObject.suppressedTracks;
-
-  var trackSnapshot = void 0;
-  var restoreTracks = function restoreTracks() {
-    for (var i = 0; i < suppressedRemoteTracks.length; i++) {
-      trackSnapshot = suppressedRemoteTracks[i];
-      trackSnapshot.track.mode = trackSnapshot.mode;
-    }
-
-    for (var _i2 = 0; _i2 < suppressedTracks.length; _i2++) {
-      trackSnapshot = suppressedTracks[_i2];
-      trackSnapshot.track.mode = trackSnapshot.mode;
-    }
-  };
-
-  // finish restoring the playback state
-  var resume = function resume() {
-    var currentTime = void 0;
-
-    if (videojs.browser.IS_IOS && player.ads.isLive(player)) {
-      if (snapshotObject.currentTime < 0) {
-        // Playback was behind real time, so seek backwards to match
-        if (player.seekable().length > 0) {
-          currentTime = player.seekable().end(0) + snapshotObject.currentTime;
-        } else {
-          currentTime = player.currentTime();
-        }
-        player.currentTime(currentTime);
-      }
-    } else if (snapshotObject.ended) {
-      player.currentTime(player.duration());
-    } else {
-      player.currentTime(snapshotObject.currentTime);
-    }
-
-    // Resume playback if this wasn't a postroll
-    if (!snapshotObject.ended) {
-      player.play();
-    }
-
-    // if we added autoplay to force content loading on iOS, remove it now
-    // that it has served its purpose
-    if (player.ads.shouldRemoveAutoplay_) {
-      player.autoplay(false);
-      player.ads.shouldRemoveAutoplay_ = false;
-    }
-  };
-
-  // determine if the video element has loaded enough of the snapshot source
-  // to be ready to apply the rest of the state
-  var tryToResume = function tryToResume() {
-
-    // tryToResume can either have been called through the `contentcanplay`
-    // event or fired through setTimeout.
-    // When tryToResume is called, we should make sure to clear out the other
-    // way it could've been called by removing the listener and clearing out
-    // the timeout.
-    player.off('contentcanplay', tryToResume);
-    if (player.ads.tryToResumeTimeout_) {
-      player.clearTimeout(player.ads.tryToResumeTimeout_);
-      player.ads.tryToResumeTimeout_ = null;
-    }
-
-    // Tech may have changed depending on the differences in sources of the
-    // original video and that of the ad
-    tech = player.el().querySelector('.vjs-tech');
-
-    if (tech.readyState > 1) {
-      // some browsers and media aren't "seekable".
-      // readyState greater than 1 allows for seeking without exceptions
-      return resume();
-    }
-
-    if (tech.seekable === undefined) {
-      // if the tech doesn't expose the seekable time ranges, try to
-      // resume playback immediately
-      return resume();
-    }
-
-    if (tech.seekable.length > 0) {
-      // if some period of the video is seekable, resume playback
-      return resume();
-    }
-
-    // delay a bit and then check again unless we're out of attempts
-    if (attempts--) {
-      window.setTimeout(tryToResume, 50);
-    } else {
-      try {
-        resume();
-      } catch (e) {
-        videojs.log.warn('Failed to resume the content after an advertisement', e);
-      }
-    }
-  };
-
-  if (snapshotObject.nativePoster) {
-    tech.poster = snapshotObject.nativePoster;
-  }
-
-  if ('style' in snapshotObject) {
-    // overwrite all css style properties to restore state precisely
-    tech.setAttribute('style', snapshotObject.style || '');
-  }
-
-  // Determine whether the player needs to be restored to its state
-  // before ad playback began. With a custom ad display or burned-in
-  // ads, the content player state hasn't been modified and so no
-  // restoration is required
-
-  if (player.ads.videoElementRecycled()) {
-    // on ios7, fiddling with textTracks too early will cause safari to crash
-    player.one('contentloadedmetadata', restoreTracks);
-
-    // adding autoplay guarantees that Safari will load the content so we can
-    // seek back to the correct time after ads
-    if (videojs.browser.IS_IOS && !player.autoplay()) {
-      player.autoplay(true);
-
-      // if we get here, the player was not originally configured to autoplay,
-      // so we should remove it after it has served its purpose
-      player.ads.shouldRemoveAutoplay_ = true;
-    }
-
-    // if the src changed for ad playback, reset it
-    player.src({ src: snapshotObject.currentSrc, type: snapshotObject.type });
-
-    // and then resume from the snapshots time once the original src has loaded
-    // in some browsers (firefox) `canplay` may not fire correctly.
-    // Reace the `canplay` event with a timeout.
-    player.one('contentcanplay', tryToResume);
-    player.ads.tryToResumeTimeout_ = player.setTimeout(tryToResume, 2000);
-  } else if (!player.ended() || !snapshotObject.ended) {
-    // if we didn't change the src, just restore the tracks
-    restoreTracks();
-    // the src didn't change and this wasn't a postroll
-    // just resume playback at the current time.
-    player.play();
-  }
-}
-
-/*
 This feature sends a `contentupdate` event when the player source changes.
 */
 
@@ -412,12 +199,21 @@ function initializeContentupdate(player) {
   // modifying the player's source
   player.ads.contentSrc = player.currentSrc();
 
+  player.ads._seenInitialLoadstart = false;
+
   // Check if a new src has been set, if so, trigger contentupdate
   var checkSrc = function checkSrc() {
-    if (player.ads.state !== 'ad-playback') {
+    if (!player.ads.inAdBreak()) {
       var src = player.currentSrc();
 
       if (src !== player.ads.contentSrc) {
+
+        if (player.ads._seenInitialLoadstart) {
+          player.trigger({
+            type: 'contentchanged'
+          });
+        }
+
         player.trigger({
           type: 'contentupdate',
           oldValue: player.ads.contentSrc,
@@ -425,44 +221,13 @@ function initializeContentupdate(player) {
         });
         player.ads.contentSrc = src;
       }
+
+      player.ads._seenInitialLoadstart = true;
     }
   };
 
   // loadstart reliably indicates a new src has been set
   player.on('loadstart', checkSrc);
-  // check immediately in case we missed the loadstart
-  window.setTimeout(checkSrc, 1);
-}
-
-/*
-This feature makes sure the player is paused during ad loading.
-
-It does this by pausing the player immediately after a "play" where ads will be requested,
-then signalling that we should play after the ad is done.
-*/
-
-function cancelContentPlay(player) {
-  if (player.ads.cancelPlayTimeout) {
-    // another cancellation is already in flight, so do nothing
-    return;
-  }
-
-  // The timeout is necessary because pausing a video element while processing a `play`
-  // event on iOS can cause the video element to continuously toggle between playing and
-  // paused states.
-  player.ads.cancelPlayTimeout = window.setTimeout(function () {
-    // deregister the cancel timeout so subsequent cancels are scheduled
-    player.ads.cancelPlayTimeout = null;
-
-    // pause playback so ads can be handled.
-    if (!player.paused()) {
-      player.pause();
-    }
-
-    // When the 'content-playback' state is entered, this will let us know to play.
-    // This is needed if there is no preroll or if it errors, times out, etc.
-    player.ads._cancelledPlay = true;
-  }, 1);
 }
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -588,8 +353,62 @@ var asyncGenerator = function () {
   };
 }();
 
+
+
+
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+
+
+
+
+
+
+
+
+
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
 /*
-This feature provides an optional method for ad integrations to insert run-time values
+This feature provides an optional method for ad plugins to insert run-time values
 into an ad server URL or configuration.
 */
 
@@ -616,7 +435,7 @@ var customFields = function customFields(mediainfo, macros, customFieldsName) {
   }
 };
 
-// Public method that integrations use for ad macros.
+// Public method that ad plugins use for ad macros.
 // "string" is any string with macros to be replaced
 // "uriEncode" if true will uri encode macro values when replaced
 // "customMacros" is a object with custom macros and values to map them to
@@ -837,34 +656,1526 @@ cueTextTracks.processAdTrack = function (player, cues, processCue, cancelAdsHand
   }
 };
 
+function initCancelContentPlay(player, debug) {
+  if (debug) {
+    videojs.log('ADS:', 'Using cancelContentPlay to block content playback');
+  }
+
+  // Listen to play events to "cancel" them afterward
+  player.on('play', cancelContentPlay);
+}
+
 /*
-This main plugin file is responsible for integration logic and enabling the features
+This feature makes sure the player is paused during ad loading.
+
+It does this by pausing the player immediately after a "play" where ads will be requested,
+then signalling that we should play after the ad is done.
+*/
+
+function cancelContentPlay() {
+  var player = this;
+
+  if (player.ads._shouldBlockPlay === false) {
+    // Only block play if the ad plugin is in a state when content
+    // playback should be blocked. This currently means during
+    // BeforePrerollState and PrerollState.
+    return;
+  }
+
+  // pause playback so ads can be handled.
+  if (!player.paused()) {
+    player.ads.debug('Playback was canceled by cancelContentPlay');
+    player.pause();
+  }
+
+  // When the 'content-playback' state is entered, this will let us know to play.
+  // This is needed if there is no preroll or if it errors, times out, etc.
+  player.ads._cancelledPlay = true;
+}
+
+var obj = {};
+// This reference allows videojs to be mocked in unit tests
+// while still using the available videojs import in the source code
+// @see obj.testHook
+var videojsReference = videojs;
+
+/**
+ * Checks if middleware mediators are available and
+ * can be used on this platform.
+ * Currently we can only use mediators on desktop platforms.
+ */
+obj.isMiddlewareMediatorSupported = function () {
+
+  if (videojsReference.browser.IS_IOS || videojsReference.browser.IS_ANDROID) {
+    return false;
+  } else if (
+  // added when middleware was introduced in video.js
+  videojsReference.use &&
+  // added when mediators were introduced in video.js
+  videojsReference.middleware && videojsReference.middleware.TERMINATOR) {
+    return true;
+  }
+
+  return false;
+};
+
+obj.playMiddleware = function (player) {
+  return {
+    setSource: function setSource(srcObj, next) {
+      next(null, srcObj);
+    },
+    callPlay: function callPlay() {
+      // Block play calls while waiting for an ad, only if this is an
+      // ad supported player
+      if (player.ads && player.ads._shouldBlockPlay === true) {
+        player.ads.debug('Using playMiddleware to block content playback');
+        player.ads._playBlocked = true;
+        return videojsReference.middleware.TERMINATOR;
+      }
+    },
+    play: function play(terminated, value) {
+      if (player.ads && player.ads._playBlocked && terminated) {
+        player.ads.debug('Play call to Tech was terminated.');
+        // Trigger play event to match the user's intent to play.
+        // The call to play on the Tech has been blocked, so triggering
+        // the event on the Player will not affect the Tech's playback state.
+        player.trigger('play');
+        // At this point the player has technically started
+        player.addClass('vjs-has-started');
+        // Reset playBlocked
+        player.ads._playBlocked = false;
+      }
+    }
+  };
+};
+
+obj.testHook = function (testVjs) {
+  videojsReference = testVjs;
+};
+
+var State = function () {
+  State._getName = function _getName() {
+    return 'Anonymous State';
+  };
+
+  function State(player) {
+    classCallCheck(this, State);
+
+    this.player = player;
+  }
+
+  /*
+   * This is the only allowed way to perform state transitions. State transitions usually
+   * happen in player event handlers. They can also happen recursively in `init`. They
+   * should _not_ happen in `cleanup`.
+   */
+
+
+  State.prototype.transitionTo = function transitionTo(NewState) {
+    var player = this.player;
+    var previousState = this;
+
+    previousState.cleanup(player);
+    var newState = new NewState(player);
+
+    player.ads._state = newState;
+    player.ads.debug(previousState.constructor._getName() + ' -> ' + newState.constructor._getName());
+
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    newState.init.apply(newState, [player].concat(args));
+  };
+
+  /*
+   * Implemented by subclasses to provide initialization logic when transitioning
+   * to a new state.
+   */
+
+
+  State.prototype.init = function init() {};
+
+  /*
+   * Implemented by subclasses to provide cleanup logic when transitioning
+   * to a new state.
+   */
+
+
+  State.prototype.cleanup = function cleanup() {};
+
+  /*
+   * Default event handlers. Different states can override these to provide behaviors.
+   */
+
+
+  State.prototype.onPlay = function onPlay() {};
+
+  State.prototype.onPlaying = function onPlaying() {};
+
+  State.prototype.onEnded = function onEnded() {};
+
+  State.prototype.onAdsReady = function onAdsReady() {
+    videojs.log.warn('Unexpected adsready event');
+  };
+
+  State.prototype.onAdsError = function onAdsError() {};
+
+  State.prototype.onAdsCanceled = function onAdsCanceled() {};
+
+  State.prototype.onAdTimeout = function onAdTimeout() {};
+
+  State.prototype.onAdStarted = function onAdStarted() {};
+
+  State.prototype.onContentChanged = function onContentChanged() {};
+
+  State.prototype.onContentResumed = function onContentResumed() {};
+
+  State.prototype.onReadyForPostroll = function onReadyForPostroll() {
+    videojs.log.warn('Unexpected readyforpostroll event');
+  };
+
+  State.prototype.onNoPreroll = function onNoPreroll() {};
+
+  State.prototype.onNoPostroll = function onNoPostroll() {};
+
+  /*
+   * Method handlers. Different states can override these to provide behaviors.
+   */
+
+
+  State.prototype.startLinearAdMode = function startLinearAdMode() {
+    videojs.log.warn('Unexpected startLinearAdMode invocation ' + '(State via ' + this.constructor._getName() + ')');
+  };
+
+  State.prototype.endLinearAdMode = function endLinearAdMode() {
+    videojs.log.warn('Unexpected endLinearAdMode invocation ' + '(State via ' + this.constructor._getName() + ')');
+  };
+
+  State.prototype.skipLinearAdMode = function skipLinearAdMode() {
+    videojs.log.warn('Unexpected skipLinearAdMode invocation ' + '(State via ' + this.constructor._getName() + ')');
+  };
+
+  /*
+   * Overridden by ContentState and AdState. Should not be overriden elsewhere.
+   */
+
+
+  State.prototype.isAdState = function isAdState() {
+    throw new Error('isAdState unimplemented for ' + this.constructor._getName());
+  };
+
+  /*
+   * Overridden by Preroll and Postroll. Midrolls jump right into the ad break
+   * so there is no "waiting" state for them.
+   */
+
+
+  State.prototype.isWaitingForAdBreak = function isWaitingForAdBreak() {
+    return false;
+  };
+
+  /*
+   * Overridden by Preroll, Midroll, and Postroll.
+   */
+
+
+  State.prototype.isContentResuming = function isContentResuming() {
+    return false;
+  };
+
+  State.prototype.inAdBreak = function inAdBreak() {
+    return false;
+  };
+
+  /*
+   * Invoke event handler methods when events come in.
+   */
+
+
+  State.prototype.handleEvent = function handleEvent(type) {
+    var player = this.player;
+
+    if (type === 'play') {
+      this.onPlay(player);
+    } else if (type === 'adsready') {
+      this.onAdsReady(player);
+    } else if (type === 'adserror') {
+      this.onAdsError(player);
+    } else if (type === 'adscanceled') {
+      this.onAdsCanceled(player);
+    } else if (type === 'adtimeout') {
+      this.onAdTimeout(player);
+    } else if (type === 'ads-ad-started') {
+      this.onAdStarted(player);
+    } else if (type === 'contentchanged') {
+      this.onContentChanged(player);
+    } else if (type === 'contentresumed') {
+      this.onContentResumed(player);
+    } else if (type === 'readyforpostroll') {
+      this.onReadyForPostroll(player);
+    } else if (type === 'playing') {
+      this.onPlaying(player);
+    } else if (type === 'ended') {
+      this.onEnded(player);
+    } else if (type === 'nopreroll') {
+      this.onNoPreroll(player);
+    } else if (type === 'nopostroll') {
+      this.onNoPostroll(player);
+    }
+  };
+
+  return State;
+}();
+
+/*
+ * This class contains logic for all ads, be they prerolls, midrolls, or postrolls.
+ * Primarily, this involves handling startLinearAdMode and endLinearAdMode.
+ * It also handles content resuming.
+ */
+
+var AdState = function (_State) {
+  inherits(AdState, _State);
+
+  function AdState(player) {
+    classCallCheck(this, AdState);
+
+    var _this = possibleConstructorReturn(this, _State.call(this, player));
+
+    _this.contentResuming = false;
+    _this.waitingForAdBreak = false;
+    return _this;
+  }
+
+  /*
+   * Overrides State.isAdState
+   */
+
+
+  AdState.prototype.isAdState = function isAdState() {
+    return true;
+  };
+
+  /*
+   * We end the content-resuming process on the playing event because this is the exact
+   * moment that content playback is no longer blocked by ads.
+   */
+
+
+  AdState.prototype.onPlaying = function onPlaying() {
+    if (this.contentResuming) {
+      this.transitionTo(ContentPlayback);
+    }
+  };
+
+  /*
+   * If the ad plugin does not result in a playing event when resuming content after an
+   * ad, they should instead trigger a contentresumed event to signal that content should
+   * resume. The main use case for this is when ads are stitched into the content video.
+   */
+
+
+  AdState.prototype.onContentResumed = function onContentResumed() {
+    if (this.contentResuming) {
+      this.transitionTo(ContentPlayback);
+    }
+  };
+
+  /*
+   * Check if we are in an ad state waiting for the ad plugin to start
+   * an ad break.
+   */
+
+
+  AdState.prototype.isWaitingForAdBreak = function isWaitingForAdBreak() {
+    return this.waitingForAdBreak;
+  };
+
+  /*
+   * Allows you to check if content is currently resuming after an ad break.
+   */
+
+
+  AdState.prototype.isContentResuming = function isContentResuming() {
+    return this.contentResuming;
+  };
+
+  /*
+   * Allows you to check if an ad break is in progress.
+   */
+
+
+  AdState.prototype.inAdBreak = function inAdBreak() {
+    return this.player.ads._inLinearAdMode === true;
+  };
+
+  return AdState;
+}(State);
+
+var ContentState = function (_State) {
+  inherits(ContentState, _State);
+
+  function ContentState() {
+    classCallCheck(this, ContentState);
+    return possibleConstructorReturn(this, _State.apply(this, arguments));
+  }
+
+  /*
+   * Overrides State.isAdState
+   */
+  ContentState.prototype.isAdState = function isAdState() {
+    return false;
+  };
+
+  /*
+   * Source change sends you back to preroll checks. contentchanged does not
+   * fire during ad breaks, so we don't need to worry about that.
+   */
+
+
+  ContentState.prototype.onContentChanged = function onContentChanged(player) {
+    player.ads.debug('Received contentchanged event (ContentState)');
+    if (player.paused()) {
+      this.transitionTo(BeforePreroll);
+    } else {
+      this.transitionTo(Preroll, false);
+      player.pause();
+      player.ads._pausedOnContentupdate = true;
+    }
+  };
+
+  return ContentState;
+}(State);
+
+/*
+The snapshot feature is responsible for saving the player state before an ad, then
+restoring the player state after an ad.
+*/
+
+/*
+ * Returns an object that captures the portions of player state relevant to
+ * video playback. The result of this function can be passed to
+ * restorePlayerSnapshot with a player to return the player to the state it
+ * was in when this function was invoked.
+ * @param {Object} player The videojs player object
+ */
+function getPlayerSnapshot(player) {
+  var currentTime = void 0;
+
+  if (videojs.browser.IS_IOS && player.ads.isLive(player)) {
+    // Record how far behind live we are
+    if (player.seekable().length > 0) {
+      currentTime = player.currentTime() - player.seekable().end(0);
+    } else {
+      currentTime = player.currentTime();
+    }
+  } else {
+    currentTime = player.currentTime();
+  }
+
+  var tech = player.$('.vjs-tech');
+  var tracks = player.textTracks ? player.textTracks() : [];
+  var suppressedTracks = [];
+  var snapshotObject = {
+    ended: player.ended(),
+    currentSrc: player.currentSrc(),
+    src: player.tech_.src(),
+    currentTime: currentTime,
+    type: player.currentType()
+  };
+
+  if (tech) {
+    snapshotObject.nativePoster = tech.poster;
+    snapshotObject.style = tech.getAttribute('style');
+  }
+
+  for (var i = 0; i < tracks.length; i++) {
+    var track = tracks[i];
+
+    suppressedTracks.push({
+      track: track,
+      mode: track.mode
+    });
+    track.mode = 'disabled';
+  }
+  snapshotObject.suppressedTracks = suppressedTracks;
+
+  return snapshotObject;
+}
+
+/*
+ * Attempts to modify the specified player so that its state is equivalent to
+ * the state of the snapshot.
+ * @param {Object} player - the videojs player object
+ * @param {Object} snapshotObject - the player state to apply
+ */
+function restorePlayerSnapshot(player, snapshotObject, callback) {
+  if (callback === undefined) {
+    callback = function callback() {};
+  }
+
+  if (player.ads.disableNextSnapshotRestore === true) {
+    player.ads.disableNextSnapshotRestore = false;
+    callback();
+    return;
+  }
+
+  // The playback tech
+  var tech = player.$('.vjs-tech');
+
+  // the number of[ remaining attempts to restore the snapshot
+  var attempts = 20;
+
+  var suppressedTracks = snapshotObject.suppressedTracks;
+
+  var trackSnapshot = void 0;
+  var restoreTracks = function restoreTracks() {
+    for (var i = 0; i < suppressedTracks.length; i++) {
+      trackSnapshot = suppressedTracks[i];
+      trackSnapshot.track.mode = trackSnapshot.mode;
+    }
+  };
+
+  // Finish restoring the playback state.
+  // This only happens if the content video element was reused for ad playback.
+  var resume = function resume() {
+    var currentTime = void 0;
+
+    // Live video on iOS has special logic to try to seek to the right place after
+    // an ad.
+    if (videojs.browser.IS_IOS && player.ads.isLive(player)) {
+      if (snapshotObject.currentTime < 0) {
+        // Playback was behind real time, so seek backwards to match
+        if (player.seekable().length > 0) {
+          currentTime = player.seekable().end(0) + snapshotObject.currentTime;
+        } else {
+          currentTime = player.currentTime();
+        }
+        player.currentTime(currentTime);
+      }
+
+      // Restore the video position after an ad.
+      // We check snapshotObject.ended because the content starts at the beginning again
+      // after being restored.
+    } else if (snapshotObject.ended) {
+      // For postrolls, seek to the player's current duration.
+      // It could be different from the snapshot's currentTime due to
+      // inaccuracy in HLS.
+      player.currentTime(player.duration());
+    } else {
+      // Prerolls and midrolls, just seek to the player time before the ad.
+      player.currentTime(snapshotObject.currentTime);
+      player.play();
+    }
+
+    // if we added autoplay to force content loading on iOS, remove it now
+    // that it has served its purpose
+    if (player.ads.shouldRemoveAutoplay_) {
+      player.autoplay(false);
+      player.ads.shouldRemoveAutoplay_ = false;
+    }
+  };
+
+  // Determine if the video element has loaded enough of the snapshot source
+  // to be ready to apply the rest of the state.
+  // This only happens if the content video element was reused for ad playback.
+  var tryToResume = function tryToResume() {
+
+    // tryToResume can either have been called through the `contentcanplay`
+    // event or fired through setTimeout.
+    // When tryToResume is called, we should make sure to clear out the other
+    // way it could've been called by removing the listener and clearing out
+    // the timeout.
+    player.off('contentcanplay', tryToResume);
+    if (player.ads.tryToResumeTimeout_) {
+      player.clearTimeout(player.ads.tryToResumeTimeout_);
+      player.ads.tryToResumeTimeout_ = null;
+    }
+
+    // Tech may have changed depending on the differences in sources of the
+    // original video and that of the ad
+    tech = player.el().querySelector('.vjs-tech');
+
+    if (tech.readyState > 1) {
+      // some browsers and media aren't "seekable".
+      // readyState greater than 1 allows for seeking without exceptions
+      return resume();
+    }
+
+    if (tech.seekable === undefined) {
+      // if the tech doesn't expose the seekable time ranges, try to
+      // resume playback immediately
+      return resume();
+    }
+
+    if (tech.seekable.length > 0) {
+      // if some period of the video is seekable, resume playback
+      return resume();
+    }
+
+    // delay a bit and then check again unless we're out of attempts
+    if (attempts--) {
+      player.setTimeout(tryToResume, 50);
+    } else {
+      try {
+        resume();
+      } catch (e) {
+        videojs.log.warn('Failed to resume the content after an advertisement', e);
+      }
+    }
+  };
+
+  if (snapshotObject.nativePoster) {
+    tech.poster = snapshotObject.nativePoster;
+  }
+
+  if ('style' in snapshotObject) {
+    // overwrite all css style properties to restore state precisely
+    tech.setAttribute('style', snapshotObject.style || '');
+  }
+
+  // Determine whether the player needs to be restored to its state
+  // before ad playback began. With a custom ad display or burned-in
+  // ads, the content player state hasn't been modified and so no
+  // restoration is required
+
+  if (player.ads.videoElementRecycled()) {
+    // Snapshot restore is done, so now we're really finished.
+    player.one('resumeended', callback);
+
+    // on ios7, fiddling with textTracks too early will cause safari to crash
+    player.one('contentloadedmetadata', restoreTracks);
+
+    // adding autoplay guarantees that Safari will load the content so we can
+    // seek back to the correct time after ads
+    if (videojs.browser.IS_IOS && !player.autoplay()) {
+      player.autoplay(true);
+
+      // if we get here, the player was not originally configured to autoplay,
+      // so we should remove it after it has served its purpose
+      player.ads.shouldRemoveAutoplay_ = true;
+    }
+
+    // if the src changed for ad playback, reset it
+    player.src({ src: snapshotObject.currentSrc, type: snapshotObject.type });
+
+    // and then resume from the snapshots time once the original src has loaded
+    // in some browsers (firefox) `canplay` may not fire correctly.
+    // Reace the `canplay` event with a timeout.
+    player.one('contentcanplay', tryToResume);
+    player.ads.tryToResumeTimeout_ = player.setTimeout(tryToResume, 2000);
+  } else {
+    // if we didn't change the src, just restore the tracks
+    restoreTracks();
+
+    // we don't need to check snapshotObject.ended here because the content video
+    // element wasn't recycled
+    if (!player.ended()) {
+      // the src didn't change and this wasn't a postroll
+      // just resume playback at the current time.
+      player.play();
+    }
+
+    // snapshot restore is complete
+    callback();
+  }
+}
+
+/*
+ * Encapsulates logic for starting and ending ad breaks. An ad break
+ * is the time between startLinearAdMode and endLinearAdMode. The ad
+ * plugin may play 0 or more ads during this time.
+ */
+
+function start(player) {
+  player.ads.debug('Starting ad break');
+
+  player.ads._inLinearAdMode = true;
+
+  // No longer does anything, used to move us to ad-playback
+  player.trigger('adstart');
+
+  // Capture current player state snapshot
+  if (!player.ads.shouldPlayContentBehindAd(player)) {
+    player.ads.snapshot = getPlayerSnapshot(player);
+  }
+
+  // Mute the player behind the ad
+  if (player.ads.shouldPlayContentBehindAd(player)) {
+    player.ads.preAdVolume_ = player.volume();
+    player.volume(0);
+  }
+
+  // Add css to the element to indicate and ad is playing.
+  player.addClass('vjs-ad-playing');
+
+  // We should remove the vjs-live class if it has been added in order to
+  // show the adprogress control bar on Android devices for falsely
+  // determined LIVE videos due to the duration incorrectly reported as Infinity
+  if (player.hasClass('vjs-live')) {
+    player.removeClass('vjs-live');
+  }
+
+  // This removes the native poster so the ads don't show the content
+  // poster if content element is reused for ad playback. The snapshot
+  // will restore it afterwards.
+  player.ads.removeNativePoster();
+}
+
+function end(player, callback) {
+  player.ads.debug('Ending ad break');
+
+  if (callback === undefined) {
+    callback = function callback() {};
+  }
+
+  player.ads.adType = null;
+
+  player.ads._inLinearAdMode = false;
+
+  // Signals the end of the ad break to anyone listening.
+  player.trigger('adend');
+
+  player.removeClass('vjs-ad-playing');
+
+  // We should add the vjs-live class back if the video is a LIVE video
+  // If we dont do this, then for a LIVE Video, we will get an incorrect
+  // styled control, which displays the time for the video
+  if (player.ads.isLive(player)) {
+    player.addClass('vjs-live');
+  }
+
+  // Restore snapshot
+  if (!player.ads.shouldPlayContentBehindAd(player)) {
+    restorePlayerSnapshot(player, player.ads.snapshot, callback);
+
+    // Reset the volume to pre-ad levels
+  } else {
+    player.volume(player.ads.preAdVolume_);
+    callback();
+  }
+}
+
+var obj$1 = { start: start, end: end };
+
+/*
+ * This state encapsulates waiting for prerolls, preroll playback, and
+ * content restoration after a preroll.
+ */
+
+var Preroll = function (_AdState) {
+  inherits(Preroll, _AdState);
+
+  function Preroll() {
+    classCallCheck(this, Preroll);
+    return possibleConstructorReturn(this, _AdState.apply(this, arguments));
+  }
+
+  /*
+   * Allows state name to be logged even after minification.
+   */
+  Preroll._getName = function _getName() {
+    return 'Preroll';
+  };
+
+  /*
+   * For state transitions to work correctly, initialization should
+   * happen here, not in a constructor.
+   */
+
+
+  Preroll.prototype.init = function init(player, adsReady, shouldResumeToContent) {
+    this.waitingForAdBreak = true;
+
+    // Loading spinner from now until ad start or end of ad break.
+    player.addClass('vjs-ad-loading');
+
+    // If adserror, adscanceled, nopreroll or skipLinearAdMode already
+    // ocurred, resume to content immediately
+    if (shouldResumeToContent || player.ads.nopreroll_) {
+      return this.resumeAfterNoPreroll(player);
+    }
+
+    // Determine preroll timeout based on plugin settings
+    var timeout = player.ads.settings.timeout;
+
+    if (typeof player.ads.settings.prerollTimeout === 'number') {
+      timeout = player.ads.settings.prerollTimeout;
+    }
+
+    // Start the clock ticking for ad timeout
+    this._timeout = player.setTimeout(function () {
+      player.trigger('adtimeout');
+    }, timeout);
+
+    // If adsready already happened, lets get started. Otherwise,
+    // wait until onAdsReady.
+    if (adsReady) {
+      this.handleAdsReady();
+    } else {
+      this.adsReady = false;
+    }
+  };
+
+  /*
+   * Adsready event after play event.
+   */
+
+
+  Preroll.prototype.onAdsReady = function onAdsReady(player) {
+    if (!player.ads.inAdBreak()) {
+      player.ads.debug('Received adsready event (Preroll)');
+      this.handleAdsReady();
+    } else {
+      videojs.log.warn('Unexpected adsready event (Preroll)');
+    }
+  };
+
+  /*
+   * Ad plugin is ready. Let's get started on this preroll.
+   */
+
+
+  Preroll.prototype.handleAdsReady = function handleAdsReady() {
+    this.adsReady = true;
+    this.readyForPreroll();
+  };
+
+  /*
+   * Helper to call a callback only after a loadstart event.
+   * If we start content or ads before loadstart, loadstart
+   * will not be prefixed correctly.
+   */
+
+
+  Preroll.prototype.afterLoadStart = function afterLoadStart(callback) {
+    var player = this.player;
+
+    if (player.ads._hasThereBeenALoadStartDuringPlayerLife) {
+      callback();
+    } else {
+      player.ads.debug('Waiting for loadstart...');
+      player.one('loadstart', function () {
+        player.ads.debug('Received loadstart event');
+        callback();
+      });
+    }
+  };
+
+  /*
+   * If there is no preroll, play content instead.
+   */
+
+
+  Preroll.prototype.noPreroll = function noPreroll() {
+    var _this2 = this;
+
+    this.afterLoadStart(function () {
+      _this2.player.ads.debug('Skipping prerolls due to nopreroll event (Preroll)');
+      _this2.resumeAfterNoPreroll(_this2.player);
+    });
+  };
+
+  /*
+   * Fire the readyforpreroll event. If loadstart hasn't happened yet,
+   * wait until loadstart first.
+   */
+
+
+  Preroll.prototype.readyForPreroll = function readyForPreroll() {
+    var player = this.player;
+
+    this.afterLoadStart(function () {
+      player.ads.debug('Triggered readyforpreroll event (Preroll)');
+      player.trigger('readyforpreroll');
+    });
+  };
+
+  /*
+   * adscanceled cancels all ads for the source. Play content now.
+   */
+
+
+  Preroll.prototype.onAdsCanceled = function onAdsCanceled(player) {
+    var _this3 = this;
+
+    player.ads.debug('adscanceled (Preroll)');
+
+    this.afterLoadStart(function () {
+      _this3.resumeAfterNoPreroll(player);
+    });
+  };
+
+  /*
+   * An ad error occured. Play content instead.
+   */
+
+
+  Preroll.prototype.onAdsError = function onAdsError(player) {
+    var _this4 = this;
+
+    videojs.log('adserror (Preroll)');
+    // In the future, we may not want to do this automatically.
+    // Ad plugins should be able to choose to continue the ad break
+    // if there was an error.
+    if (this.inAdBreak()) {
+      player.ads.endLinearAdMode();
+    } else {
+      this.afterLoadStart(function () {
+        _this4.resumeAfterNoPreroll(player);
+      });
+    }
+  };
+
+  /*
+   * Ad plugin invoked startLinearAdMode, the ad break starts now.
+   */
+
+
+  Preroll.prototype.startLinearAdMode = function startLinearAdMode() {
+    var player = this.player;
+
+    if (this.adsReady && !player.ads.inAdBreak() && !this.isContentResuming()) {
+      player.clearTimeout(this._timeout);
+      player.ads.adType = 'preroll';
+      this.waitingForAdBreak = false;
+      obj$1.start(player);
+
+      // We don't need to block play calls anymore
+      player.ads._shouldBlockPlay = false;
+    } else {
+      videojs.log.warn('Unexpected startLinearAdMode invocation (Preroll)');
+    }
+  };
+
+  /*
+   * An ad has actually started playing.
+   * Remove the loading spinner.
+   */
+
+
+  Preroll.prototype.onAdStarted = function onAdStarted(player) {
+    player.removeClass('vjs-ad-loading');
+  };
+
+  /*
+   * Ad plugin invoked endLinearAdMode, the ad break ends now.
+   */
+
+
+  Preroll.prototype.endLinearAdMode = function endLinearAdMode() {
+    var player = this.player;
+
+    if (this.inAdBreak()) {
+      player.removeClass('vjs-ad-loading');
+      player.addClass('vjs-ad-content-resuming');
+      obj$1.end(player);
+      this.contentResuming = true;
+    }
+  };
+
+  /*
+   * Ad skipped by ad plugin. Play content instead.
+   */
+
+
+  Preroll.prototype.skipLinearAdMode = function skipLinearAdMode() {
+    var _this5 = this;
+
+    var player = this.player;
+
+    if (player.ads.inAdBreak() || this.isContentResuming()) {
+      videojs.log.warn('Unexpected skipLinearAdMode invocation');
+    } else {
+      this.afterLoadStart(function () {
+        player.trigger('adskip');
+        player.ads.debug('skipLinearAdMode (Preroll)');
+        _this5.resumeAfterNoPreroll(player);
+      });
+    }
+  };
+
+  /*
+   * Prerolls took too long! Play content instead.
+   */
+
+
+  Preroll.prototype.onAdTimeout = function onAdTimeout(player) {
+    var _this6 = this;
+
+    this.afterLoadStart(function () {
+      player.ads.debug('adtimeout (Preroll)');
+      _this6.resumeAfterNoPreroll(player);
+    });
+  };
+
+  /*
+   * Check if nopreroll event was too late before handling it.
+   */
+
+
+  Preroll.prototype.onNoPreroll = function onNoPreroll(player) {
+    if (player.ads.inAdBreak() || this.isContentResuming()) {
+      videojs.log.warn('Unexpected nopreroll event (Preroll)');
+    } else {
+      this.noPreroll();
+    }
+  };
+
+  Preroll.prototype.resumeAfterNoPreroll = function resumeAfterNoPreroll(player) {
+    // Resume to content and unblock play as there is no preroll ad
+    this.contentResuming = true;
+    player.ads._shouldBlockPlay = false;
+
+    // Play the content if we had requested play or we paused on 'contentupdate'
+    // and we haven't played yet. This happens if there was no preroll or if it
+    // errored, timed out, etc. Otherwise snapshot restore would play.
+    if (player.paused() && (player.ads._playRequested || player.ads._pausedOnContentupdate)) {
+      player.play();
+    }
+  };
+
+  /*
+   * Cleanup timeouts and spinner.
+   */
+
+
+  Preroll.prototype.cleanup = function cleanup(player) {
+    if (!player.ads._hasThereBeenALoadStartDuringPlayerLife) {
+      videojs.log.warn('Leaving Preroll state before loadstart event can cause issues.');
+    }
+
+    player.removeClass('vjs-ad-loading');
+    player.removeClass('vjs-ad-content-resuming');
+    player.clearTimeout(this._timeout);
+  };
+
+  return Preroll;
+}(AdState);
+
+var Midroll = function (_AdState) {
+  inherits(Midroll, _AdState);
+
+  function Midroll() {
+    classCallCheck(this, Midroll);
+    return possibleConstructorReturn(this, _AdState.apply(this, arguments));
+  }
+
+  /*
+   * Allows state name to be logged even after minification.
+   */
+  Midroll._getName = function _getName() {
+    return 'Midroll';
+  };
+
+  /*
+   * Midroll breaks happen when the ad plugin calls startLinearAdMode,
+   * which can happen at any time during content playback.
+   */
+
+
+  Midroll.prototype.init = function init(player) {
+    player.ads.adType = 'midroll';
+    obj$1.start(player);
+    player.addClass('vjs-ad-loading');
+  };
+
+  /*
+   * An ad has actually started playing.
+   * Remove the loading spinner.
+   */
+
+
+  Midroll.prototype.onAdStarted = function onAdStarted(player) {
+    player.removeClass('vjs-ad-loading');
+  };
+
+  /*
+   * Midroll break is done.
+   */
+
+
+  Midroll.prototype.endLinearAdMode = function endLinearAdMode() {
+    var player = this.player;
+
+    if (this.inAdBreak()) {
+      this.contentResuming = true;
+      player.addClass('vjs-ad-content-resuming');
+      player.removeClass('vjs-ad-loading');
+      obj$1.end(player);
+    }
+  };
+
+  /*
+   * End midroll break if there is an error.
+   */
+
+
+  Midroll.prototype.onAdsError = function onAdsError(player) {
+    // In the future, we may not want to do this automatically.
+    // Ad plugins should be able to choose to continue the ad break
+    // if there was an error.
+    if (this.inAdBreak()) {
+      player.ads.endLinearAdMode();
+    }
+  };
+
+  /*
+   * Cleanup CSS classes.
+   */
+
+
+  Midroll.prototype.cleanup = function cleanup(player) {
+    player.removeClass('vjs-ad-loading');
+    player.removeClass('vjs-ad-content-resuming');
+  };
+
+  return Midroll;
+}(AdState);
+
+var Postroll = function (_AdState) {
+  inherits(Postroll, _AdState);
+
+  function Postroll() {
+    classCallCheck(this, Postroll);
+    return possibleConstructorReturn(this, _AdState.apply(this, arguments));
+  }
+
+  /*
+   * Allows state name to be logged even after minification.
+   */
+  Postroll._getName = function _getName() {
+    return 'Postroll';
+  };
+
+  /*
+   * For state transitions to work correctly, initialization should
+   * happen here, not in a constructor.
+   */
+
+
+  Postroll.prototype.init = function init(player) {
+    this.waitingForAdBreak = true;
+
+    // Legacy name that now simply means "handling postrolls".
+    player.ads._contentEnding = true;
+
+    // Start postroll process.
+    if (!player.ads.nopostroll_) {
+      player.addClass('vjs-ad-loading');
+
+      // Determine postroll timeout based on plugin settings
+      var timeout = player.ads.settings.timeout;
+
+      if (typeof player.ads.settings.postrollTimeout === 'number') {
+        timeout = player.ads.settings.postrollTimeout;
+      }
+
+      this._postrollTimeout = player.setTimeout(function () {
+        player.trigger('adtimeout');
+      }, timeout);
+
+      // No postroll, ads are done
+    } else {
+      this.resumeContent(player);
+      this.transitionTo(AdsDone);
+    }
+  };
+
+  /*
+   * Start the postroll if it's not too late.
+   */
+
+
+  Postroll.prototype.startLinearAdMode = function startLinearAdMode() {
+    var player = this.player;
+
+    if (!player.ads.inAdBreak() && !this.isContentResuming()) {
+      player.ads.adType = 'postroll';
+      player.clearTimeout(this._postrollTimeout);
+      this.waitingForAdBreak = false;
+      obj$1.start(player);
+    } else {
+      videojs.log.warn('Unexpected startLinearAdMode invocation (Postroll)');
+    }
+  };
+
+  /*
+   * An ad has actually started playing.
+   * Remove the loading spinner.
+   */
+
+
+  Postroll.prototype.onAdStarted = function onAdStarted(player) {
+    player.removeClass('vjs-ad-loading');
+  };
+
+  /*
+   * Ending a postroll triggers the ended event.
+   */
+
+
+  Postroll.prototype.endLinearAdMode = function endLinearAdMode() {
+    var _this2 = this;
+
+    var player = this.player;
+
+    if (this.inAdBreak()) {
+      player.removeClass('vjs-ad-loading');
+      this.resumeContent(player);
+      obj$1.end(player, function () {
+        _this2.transitionTo(AdsDone);
+      });
+    }
+  };
+
+  /*
+   * Postroll skipped, time to clean up.
+   */
+
+
+  Postroll.prototype.skipLinearAdMode = function skipLinearAdMode() {
+    var player = this.player;
+
+    if (player.ads.inAdBreak() || this.isContentResuming()) {
+      videojs.log.warn('Unexpected skipLinearAdMode invocation');
+    } else {
+      player.ads.debug('Postroll abort (skipLinearAdMode)');
+      player.trigger('adskip');
+      this.abort(player);
+    }
+  };
+
+  /*
+   * Postroll timed out, time to clean up.
+   */
+
+
+  Postroll.prototype.onAdTimeout = function onAdTimeout(player) {
+    player.ads.debug('Postroll abort (adtimeout)');
+    this.abort(player);
+  };
+
+  /*
+   * Postroll errored out, time to clean up.
+   */
+
+
+  Postroll.prototype.onAdsError = function onAdsError(player) {
+    player.ads.debug('Postroll abort (adserror)');
+
+    // In the future, we may not want to do this automatically.
+    // Ad plugins should be able to choose to continue the ad break
+    // if there was an error.
+    if (player.ads.inAdBreak()) {
+      player.ads.endLinearAdMode();
+    } else {
+      this.abort(player);
+    }
+  };
+
+  /*
+   * Handle content change if we're not in an ad break.
+   */
+
+
+  Postroll.prototype.onContentChanged = function onContentChanged(player) {
+    // Content resuming after Postroll. Content is paused
+    // at this point, since it is done playing.
+    if (this.isContentResuming()) {
+      this.transitionTo(BeforePreroll);
+
+      // Waiting for postroll to start. Content is considered playing
+      // at this point, since it had to be playing to start the postroll.
+    } else if (!this.inAdBreak()) {
+      this.transitionTo(Preroll);
+    }
+  };
+
+  /*
+   * Wrap up if there is no postroll.
+   */
+
+
+  Postroll.prototype.onNoPostroll = function onNoPostroll(player) {
+    if (!this.isContentResuming() && !this.inAdBreak()) {
+      this.transitionTo(AdsDone);
+    } else {
+      videojs.log.warn('Unexpected nopostroll event (Postroll)');
+    }
+  };
+
+  Postroll.prototype.resumeContent = function resumeContent(player) {
+    this.contentResuming = true;
+    player.addClass('vjs-ad-content-resuming');
+  };
+
+  /*
+   * Helper for ending Postrolls. In the future we may want to
+   * refactor this class so that `cleanup` handles all of this.
+   */
+
+
+  Postroll.prototype.abort = function abort(player) {
+    this.resumeContent(player);
+    player.removeClass('vjs-ad-loading');
+    this.transitionTo(AdsDone);
+  };
+
+  /*
+   * Cleanup timeouts and state.
+   */
+
+
+  Postroll.prototype.cleanup = function cleanup(player) {
+    player.removeClass('vjs-ad-content-resuming');
+    player.clearTimeout(this._postrollTimeout);
+    player.ads._contentEnding = false;
+  };
+
+  return Postroll;
+}(AdState);
+
+/*
+ * This is the initial state for a player with an ad plugin. Normally, it remains in this
+ * state until a "play" event is seen. After that, we enter the Preroll state to check for
+ * prerolls. This happens regardless of whether or not any prerolls ultimately will play.
+ * Errors and other conditions may lead us directly from here to ContentPlayback.
+ */
+
+var BeforePreroll = function (_ContentState) {
+  inherits(BeforePreroll, _ContentState);
+
+  function BeforePreroll() {
+    classCallCheck(this, BeforePreroll);
+    return possibleConstructorReturn(this, _ContentState.apply(this, arguments));
+  }
+
+  /*
+   * Allows state name to be logged even after minification.
+   */
+  BeforePreroll._getName = function _getName() {
+    return 'BeforePreroll';
+  };
+
+  /*
+   * For state transitions to work correctly, initialization should
+   * happen here, not in a constructor.
+   */
+
+
+  BeforePreroll.prototype.init = function init(player) {
+    this.adsReady = false;
+    this.shouldResumeToContent = false;
+
+    // Content playback should be blocked until we are done
+    // playing ads or we know there are no ads to play
+    player.ads._shouldBlockPlay = true;
+  };
+
+  /*
+   * The ad plugin may trigger adsready before the play request. If so,
+   * we record that adsready already happened so the Preroll state will know.
+   */
+
+
+  BeforePreroll.prototype.onAdsReady = function onAdsReady(player) {
+    player.ads.debug('Received adsready event (BeforePreroll)');
+    this.adsReady = true;
+  };
+
+  /*
+   * Ad mode officially begins on the play request, because at this point
+   * content playback is blocked by the ad plugin.
+   */
+
+
+  BeforePreroll.prototype.onPlay = function onPlay(player) {
+    player.ads.debug('Received play event (BeforePreroll)');
+
+    // Check for prerolls
+    this.transitionTo(Preroll, this.adsReady, this.shouldResumeToContent);
+  };
+
+  /*
+   * All ads for the entire video are canceled.
+   */
+
+
+  BeforePreroll.prototype.onAdsCanceled = function onAdsCanceled(player) {
+    player.ads.debug('adscanceled (BeforePreroll)');
+    this.shouldResumeToContent = true;
+  };
+
+  /*
+   * An ad error occured. Play content instead.
+   */
+
+
+  BeforePreroll.prototype.onAdsError = function onAdsError() {
+    this.player.ads.debug('adserror (BeforePreroll)');
+    this.shouldResumeToContent = true;
+  };
+
+  /*
+   * If there is no preroll, don't wait for a play event to move forward.
+   */
+
+
+  BeforePreroll.prototype.onNoPreroll = function onNoPreroll() {
+    this.player.ads.debug('Skipping prerolls due to nopreroll event (BeforePreroll)');
+    this.shouldResumeToContent = true;
+  };
+
+  /*
+   * Prerolls skipped by ad plugin. Play content instead.
+   */
+
+
+  BeforePreroll.prototype.skipLinearAdMode = function skipLinearAdMode() {
+    var player = this.player;
+
+    player.trigger('adskip');
+    player.ads.debug('skipLinearAdMode (BeforePreroll)');
+    this.shouldResumeToContent = true;
+  };
+
+  /*
+   * Content source change before preroll is currently not handled. When
+   * developed, this is where to start.
+   */
+
+
+  BeforePreroll.prototype.onContentChanged = function onContentChanged() {};
+
+  return BeforePreroll;
+}(ContentState);
+
+/*
+ * This state represents content playback the first time through before
+ * content ends. After content has ended once, we check for postrolls and
+ * move on to the AdsDone state rather than returning here.
+ */
+
+var ContentPlayback = function (_ContentState) {
+  inherits(ContentPlayback, _ContentState);
+
+  function ContentPlayback() {
+    classCallCheck(this, ContentPlayback);
+    return possibleConstructorReturn(this, _ContentState.apply(this, arguments));
+  }
+
+  /*
+   * Allows state name to be logged even after minification.
+   */
+  ContentPlayback._getName = function _getName() {
+    return 'ContentPlayback';
+  };
+
+  /*
+   * For state transitions to work correctly, initialization should
+   * happen here, not in a constructor.
+   */
+
+
+  ContentPlayback.prototype.init = function init(player) {
+    // Don't block calls to play in content playback
+    player.ads._shouldBlockPlay = false;
+  };
+
+  /*
+   * In the case of a timeout, adsready might come in late. This assumes the behavior
+   * that if an ad times out, it could still interrupt the content and start playing.
+   * An ad plugin could behave otherwise by ignoring this event.
+   */
+
+
+  ContentPlayback.prototype.onAdsReady = function onAdsReady(player) {
+    player.ads.debug('Received adsready event (ContentPlayback)');
+
+    if (!player.ads.nopreroll_) {
+      player.ads.debug('Triggered readyforpreroll event (ContentPlayback)');
+      player.trigger('readyforpreroll');
+    }
+  };
+
+  /*
+   * Content ended before postroll checks.
+   */
+
+
+  ContentPlayback.prototype.onReadyForPostroll = function onReadyForPostroll(player) {
+    player.ads.debug('Received readyforpostroll event');
+    this.transitionTo(Postroll);
+  };
+
+  /*
+   * This is how midrolls start.
+   */
+
+
+  ContentPlayback.prototype.startLinearAdMode = function startLinearAdMode() {
+    this.transitionTo(Midroll);
+  };
+
+  return ContentPlayback;
+}(ContentState);
+
+var AdsDone = function (_ContentState) {
+  inherits(AdsDone, _ContentState);
+
+  function AdsDone() {
+    classCallCheck(this, AdsDone);
+    return possibleConstructorReturn(this, _ContentState.apply(this, arguments));
+  }
+
+  /*
+   * Allows state name to be logged even after minification.
+   */
+  AdsDone._getName = function _getName() {
+    return 'AdsDone';
+  };
+
+  /*
+   * For state transitions to work correctly, initialization should
+   * happen here, not in a constructor.
+   */
+
+
+  AdsDone.prototype.init = function init(player) {
+    // From now on, `ended` events won't be redispatched
+    player.ads._contentHasEnded = true;
+    player.trigger('ended');
+  };
+
+  /*
+   * Midrolls do not play after ads are done.
+   */
+
+
+  AdsDone.prototype.startLinearAdMode = function startLinearAdMode() {
+    videojs.log.warn('Unexpected startLinearAdMode invocation (AdsDone)');
+  };
+
+  return AdsDone;
+}(ContentState);
+
+/*
+ * This file is necessary to avoid this rollup issue:
+ * https://github.com/rollup/rollup/issues/1089
+ */
+
+/*
+This main plugin file is responsible for the public API and enabling the features
 that live in in separate files.
 */
 
+var playMiddleware = obj.playMiddleware;
+var isMiddlewareMediatorSupported = obj.isMiddlewareMediatorSupported;
+
 var VIDEO_EVENTS = videojs.getTech('Html5').Events;
 
-/*
- * Remove the poster attribute from the video element tech, if present. When
- * reusing a video element for multiple videos, the poster image will briefly
- * reappear while the new source loads. Removing the attribute ahead of time
- * prevents the poster from showing up between videos.
- *
- * @param {Object} player The videojs player object
- */
-var removeNativePoster = function removeNativePoster(player) {
-  var tech = player.$('.vjs-tech');
-
-  if (tech) {
-    tech.removeAttribute('poster');
-  }
-};
-
-// ---------------------------------------------------------------------------
-// Ad Framework
-// ---------------------------------------------------------------------------
-
-// default framework settings
+// default settings
 var defaults = {
   // maximum amount of time in ms to wait to receive `adsready` from the ad
   // implementation after play has been requested. Ad implementations are
@@ -875,11 +2186,11 @@ var defaults = {
   // maximum amount of time in ms to wait for the ad implementation to start
   // linear ad mode after `readyforpreroll` has fired. This is in addition to
   // the standard timeout.
-  prerollTimeout: 100,
+  prerollTimeout: undefined,
 
   // maximum amount of time in ms to wait for the ad implementation to start
-  // linear ad mode after `contentended` has fired.
-  postrollTimeout: 100,
+  // linear ad mode after `readyforpostroll` has fired.
+  postrollTimeout: undefined,
 
   // when truthy, instructs the plugin to output additional information about
   // plugin state to the video.js log. On most devices, the video.js log is
@@ -906,9 +2217,23 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
   // Set up redispatching of player events
   player.on(videoEvents, redispatch);
 
+  // Set up features to block content playback while waiting for ads.
+  // Play middleware is only supported on later versions of video.js
+  // and on desktop currently(as the user-gesture requirement on mobile
+  // will disallow calling play once play blocking is lifted)
+  // The middleware must also be registered outside of the plugin,
+  // to avoid a middleware factory being created for each player
+  if (isMiddlewareMediatorSupported() && settings.debug) {
+    // We log the debug message here as the plugin settings are available here
+    videojs.log('ADS:', 'Play middleware has been registered with videojs');
+  } else {
+    // Register the cancelContentPlay feature on the player
+    initCancelContentPlay(player, settings.debug);
+  }
+
   // If we haven't seen a loadstart after 5 seconds, the plugin was not initialized
   // correctly.
-  window.setTimeout(function () {
+  player.setTimeout(function () {
     if (!player.ads._hasThereBeenALoadStartDuringPlayerLife && player.src() !== '') {
       videojs.log.error('videojs-contrib-ads has not seen a loadstart event 5 seconds ' + 'after being initialized, but a source is present. This indicates that ' + 'videojs-contrib-ads was initialized too late. It must be initialized ' + 'immediately after video.js in the same tick. As a result, some ads will not ' + 'play and some media events will be incorrect. For more information, see ' + 'https://github.com/videojs/videojs-contrib-ads#important-note-about-initialization');
     }
@@ -922,11 +2247,17 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
     }
   });
 
+  // video.js removes the vjs-waiting class on timeupdate. We want
+  // to make sure this still happens during content restoration.
+  player.on('contenttimeupdate', function () {
+    player.removeClass('vjs-waiting');
+  });
+
   // We now auto-play when an ad gets loaded if we're playing ads in the same video
   // element as the content.
   // The problem is that in IE11, we cannot play in addurationchange but in iOS8, we
   // cannot play from adcanplay.
-  // This will prevent ad-integrations from needing to do this themselves.
+  // This will prevent ad plugins from needing to do this themselves.
   player.on(['addurationchange', 'adcanplay'], function () {
     if (player.ads.snapshot && player.currentSrc() === player.ads.snapshot.currentSrc) {
       return;
@@ -934,7 +2265,7 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
 
     // If an ad isn't playing, don't try to play an ad. This could result from prefixed
     // events when the player is blocked by a preroll check, but there is no preroll.
-    if (!player.ads.isAdPlaying()) {
+    if (!player.ads.inAdBreak()) {
       return;
     }
 
@@ -942,22 +2273,24 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
   });
 
   player.on('nopreroll', function () {
+    player.ads.debug('Received nopreroll event');
     player.ads.nopreroll_ = true;
   });
 
   player.on('nopostroll', function () {
+    player.ads.debug('Received nopostroll event');
     player.ads.nopostroll_ = true;
-  });
-
-  // Remove ad-loading class when ad plays or when content plays (in case there was no ad)
-  // If you remove this class too soon you can get a flash of content!
-  player.on(['ads-ad-started', 'playing'], function () {
-    player.removeClass('vjs-ad-loading');
   });
 
   // Restart the cancelContentPlay process.
   player.on('playing', function () {
     player.ads._cancelledPlay = false;
+    player.ads._pausedOnContentupdate = false;
+  });
+
+  // Keep track of whether a play event has happened
+  player.on('play', function () {
+    player.ads._playRequested = true;
   });
 
   player.one('loadstart', function () {
@@ -974,7 +2307,7 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
 
   // Replace the plugin constructor with the ad namespace
   player.ads = {
-    state: 'content-set',
+    settings: settings,
     disableNextSnapshotRestore: false,
 
     // This is true if we have finished actual content playback but haven't
@@ -1001,13 +2334,20 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
     // Are we after startLinearAdMode and before endLinearAdMode?
     _inLinearAdMode: false,
 
+    // Should we block calls to play on the content player?
+    _shouldBlockPlay: false,
+    // Was play blocked by the plugin's playMiddleware feature?
+    _playBlocked: false,
+    // Tracks whether play has been requested for this source,
+    // either by the play method or user interaction
+    _playRequested: false,
+
     // This is an estimation of the current ad type being played
     // This is experimental currently. Do not rely on its presence or behavior!
     adType: null,
 
-    VERSION: '__VERSION__',
+    VERSION: version,
 
-    // TODO reset state to content-set here instead of in every contentupdate case
     reset: function reset() {
       player.ads.disableNextSnapshotRestore = false;
       player.ads._contentEnding = false;
@@ -1017,40 +2357,33 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
       player.ads._hasThereBeenALoadedData = false;
       player.ads._hasThereBeenALoadedMetaData = false;
       player.ads._cancelledPlay = false;
+      player.ads._shouldBlockPlay = false;
+      player.ads._playBlocked = false;
+      player.ads.nopreroll_ = false;
+      player.ads.nopostroll_ = false;
+      player.ads._playRequested = false;
     },
 
 
     // Call this when an ad response has been received and there are
     // linear ads ready to be played.
     startLinearAdMode: function startLinearAdMode() {
-      if (player.ads.state === 'preroll?' || player.ads.state === 'content-playback' || player.ads.state === 'postroll?') {
-        player.ads._inLinearAdMode = true;
-        player.trigger('adstart');
-      }
+      player.ads._state.startLinearAdMode();
     },
 
 
     // Call this when a linear ad pod has finished playing.
     endLinearAdMode: function endLinearAdMode() {
-      if (player.ads.state === 'ad-playback') {
-        player.ads._inLinearAdMode = false;
-        player.trigger('adend');
-        // In the case of an empty ad response, we want to make sure that
-        // the vjs-ad-loading class is always removed. We could probably check for
-        // duration on adPlayer for an empty ad but we remove it here just to make sure
-        player.removeClass('vjs-ad-loading');
-      }
+      player.ads._state.endLinearAdMode();
     },
 
 
     // Call this when an ad response has been received but there are no
     // linear ads to be played (i.e. no ads available, or overlays).
-    // This has no effect if we are already in a linear ad mode.  Always
+    // This has no effect if we are already in an ad break.  Always
     // use endLinearAdMode() to exit from linear ad-playback state.
     skipLinearAdMode: function skipLinearAdMode() {
-      if (player.ads.state !== 'ad-playback') {
-        player.trigger('adskip');
-      }
+      player.ads._state.skipLinearAdMode();
     },
     stitchedAds: function stitchedAds(arg) {
       if (arg !== undefined) {
@@ -1121,440 +2454,78 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
     // * An asynchronous ad request is ongoing while content is playing
     // * A non-linear ad is active
     isInAdMode: function isInAdMode() {
+      return this._state.isAdState();
+    },
 
-      // Saw "play" but not "adsready"
-      return player.ads.state === 'ads-ready?' ||
 
-      // Waiting to learn about preroll
-      player.ads.state === 'preroll?' ||
-
-      // A linear ad is active
-      player.ads.state === 'ad-playback' ||
-
-      // Content is not playing again yet
-      player.ads.state === 'content-resuming';
+    // Returns true if in ad mode but an ad break hasn't started yet.
+    isWaitingForAdBreak: function isWaitingForAdBreak() {
+      return this._state.isWaitingForAdBreak();
     },
 
 
     // Returns true if content is resuming after an ad. This is part of ad mode.
     isContentResuming: function isContentResuming() {
-      return player.ads.state === 'content-resuming';
+      return this._state.isContentResuming();
     },
 
 
-    // Returns true if a linear ad is playing. This is part of ad mode.
-    // This relies on startLinearAdMode and endLinearAdMode because that is the
-    // most authoritative way of determinining if an ad is playing.
+    // Deprecated because the name was misleading. Use inAdBreak instead.
     isAdPlaying: function isAdPlaying() {
-      return this._inLinearAdMode;
+      return this._state.inAdBreak();
+    },
+
+
+    // Returns true if an ad break is ongoing. This is part of ad mode.
+    // An ad break is the time between startLinearAdMode and endLinearAdMode.
+    inAdBreak: function inAdBreak() {
+      return this._state.inAdBreak();
+    },
+
+
+    /*
+     * Remove the poster attribute from the video element tech, if present. When
+     * reusing a video element for multiple videos, the poster image will briefly
+     * reappear while the new source loads. Removing the attribute ahead of time
+     * prevents the poster from showing up between videos.
+     *
+     * @param {Object} player The videojs player object
+     */
+    removeNativePoster: function removeNativePoster() {
+      var tech = player.$('.vjs-tech');
+
+      if (tech) {
+        tech.removeAttribute('poster');
+      }
+    },
+    debug: function debug() {
+      if (this.settings.debug) {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        if (args.length === 1 && typeof args[0] === 'string') {
+          videojs.log('ADS: ' + args[0]);
+        } else {
+          videojs.log.apply(videojs, ['ADS:'].concat(args));
+        }
+      }
     }
   };
+
+  player.ads._state = new BeforePreroll(player);
+  player.ads._state.init(player);
 
   player.ads.stitchedAds(settings.stitchedAds);
 
   player.ads.cueTextTracks = cueTextTracks;
   player.ads.adMacroReplacement = adMacroReplacement.bind(player);
 
-  // Start sending contentupdate events for this player
+  // Start sending contentupdate and contentchanged events for this player
   initializeContentupdate(player);
 
-  // Global contentupdate handler for resetting plugin state
-  player.on('contentupdate', player.ads.reset);
-
-  // Ad Playback State Machine
-  var states = {
-    'content-set': {
-      events: {
-        adscanceled: function adscanceled() {
-          this.state = 'content-playback';
-        },
-        adsready: function adsready() {
-          this.state = 'ads-ready';
-        },
-        play: function play() {
-          this.state = 'ads-ready?';
-          cancelContentPlay(player);
-          // remove the poster so it doesn't flash between videos
-          removeNativePoster(player);
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ads-ready': {
-      events: {
-        play: function play() {
-          this.state = 'preroll?';
-          cancelContentPlay(player);
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'preroll?': {
-      enter: function enter() {
-        if (player.ads.nopreroll_) {
-          // This will start the ads manager in case there are later ads
-          player.trigger('readyforpreroll');
-
-          // If we don't wait a tick, entering content-playback will cancel
-          // cancelPlayTimeout, causing the video to not pause for the ad
-          window.setTimeout(function () {
-            // Don't wait for a preroll
-            player.trigger('nopreroll');
-          }, 1);
-        } else {
-          // Change class to show that we're waiting on ads
-          player.addClass('vjs-ad-loading');
-          // Schedule an adtimeout event to fire if we waited too long
-          player.ads.adTimeoutTimeout = window.setTimeout(function () {
-            player.trigger('adtimeout');
-          }, settings.prerollTimeout);
-
-          // Signal to ad plugin that it's their opportunity to play a preroll
-          if (player.ads._hasThereBeenALoadStartDuringPlayerLife) {
-            player.trigger('readyforpreroll');
-
-            // Don't play preroll before loadstart, otherwise the content loadstart event
-            // will get misconstrued as an ad loadstart. This is only a concern for the
-            // initial source; for source changes the whole ad process is kicked off by
-            // loadstart so it has to have happened already.
-          } else {
-            player.one('loadstart', function () {
-              player.trigger('readyforpreroll');
-            });
-          }
-        }
-      },
-      leave: function leave() {
-        window.clearTimeout(player.ads.adTimeoutTimeout);
-      },
-
-      events: {
-        play: function play() {
-          cancelContentPlay(player);
-        },
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          player.ads.adType = 'preroll';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        },
-        nopreroll: function nopreroll() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ads-ready?': {
-      enter: function enter() {
-        player.addClass('vjs-ad-loading');
-        player.ads.adTimeoutTimeout = window.setTimeout(function () {
-          player.trigger('adtimeout');
-        }, settings.timeout);
-      },
-      leave: function leave() {
-        window.clearTimeout(player.ads.adTimeoutTimeout);
-        player.removeClass('vjs-ad-loading');
-      },
-
-      events: {
-        play: function play() {
-          cancelContentPlay(player);
-        },
-        adscanceled: function adscanceled() {
-          this.state = 'content-playback';
-        },
-        adsready: function adsready() {
-          this.state = 'preroll?';
-        },
-        adskip: function adskip() {
-          this.state = 'content-playback';
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-playback';
-        },
-        adserror: function adserror() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'ad-playback': {
-      enter: function enter() {
-        // capture current player state snapshot (playing, currentTime, src)
-        if (!player.ads.shouldPlayContentBehindAd(player)) {
-          this.snapshot = getPlayerSnapshot(player);
-        }
-
-        // Mute the player behind the ad
-        if (player.ads.shouldPlayContentBehindAd(player)) {
-          this.preAdVolume_ = player.volume();
-          player.volume(0);
-        }
-
-        // add css to the element to indicate and ad is playing.
-        player.addClass('vjs-ad-playing');
-
-        // We should remove the vjs-live class if it has been added in order to
-        // show the adprogress control bar on Android devices for falsely
-        // determined LIVE videos due to the duration incorrectly reported as Infinity
-        if (player.hasClass('vjs-live')) {
-          player.removeClass('vjs-live');
-        }
-
-        // remove the poster so it doesn't flash between ads
-        removeNativePoster(player);
-
-        // We no longer need to supress play events once an ad is playing.
-        // Clear it if we were.
-        if (player.ads.cancelPlayTimeout) {
-          // If we don't wait a tick, we could cancel the pause for cancelContentPlay,
-          // resulting in content playback behind the ad
-          window.setTimeout(function () {
-            window.clearTimeout(player.ads.cancelPlayTimeout);
-            player.ads.cancelPlayTimeout = null;
-          }, 1);
-        }
-      },
-      leave: function leave() {
-        player.removeClass('vjs-ad-playing');
-
-        // We should add the vjs-live class back if the video is a LIVE video
-        // If we dont do this, then for a LIVE Video, we will get an incorrect
-        // styled control, which displays the time for the video
-        if (player.ads.isLive(player)) {
-          player.addClass('vjs-live');
-        }
-        if (!player.ads.shouldPlayContentBehindAd(player)) {
-          restorePlayerSnapshot(player, this.snapshot);
-        }
-
-        // Reset the volume to pre-ad levels
-        if (player.ads.shouldPlayContentBehindAd(player)) {
-          player.volume(this.preAdVolume_);
-        }
-      },
-
-      events: {
-        adend: function adend() {
-          this.state = 'content-resuming';
-          player.ads.adType = null;
-        },
-        adserror: function adserror() {
-          player.ads.endLinearAdMode();
-        }
-      }
-    },
-    'content-resuming': {
-      enter: function enter() {
-        if (this._contentHasEnded) {
-          window.clearTimeout(player.ads._fireEndedTimeout);
-          // in some cases, ads are played in a swf or another video element
-          // so we do not get an ended event in this state automatically.
-          // If we don't get an ended event we can use, we need to trigger
-          // one ourselves or else we won't actually ever end the current video.
-          player.ads._fireEndedTimeout = window.setTimeout(function () {
-            player.trigger('ended');
-          }, 1000);
-        }
-      },
-      leave: function leave() {
-        window.clearTimeout(player.ads._fireEndedTimeout);
-      },
-
-      events: {
-        contentupdate: function contentupdate() {
-          this.state = 'content-set';
-        },
-
-
-        // This is for stitched ads only.
-        contentresumed: function contentresumed() {
-          this.state = 'content-playback';
-        },
-        playing: function playing() {
-          this.state = 'content-playback';
-        },
-        ended: function ended() {
-          this.state = 'content-playback';
-        }
-      }
-    },
-    'postroll?': {
-      enter: function enter() {
-        player.ads._contentEnding = true;
-        this.snapshot = getPlayerSnapshot(player);
-        if (player.ads.nopostroll_) {
-          window.setTimeout(function () {
-            // content-resuming happens after the timeout for backward-compatibility
-            // with plugins that relied on a postrollTimeout before nopostroll was
-            // implemented
-            player.ads.state = 'content-resuming';
-            player.trigger('ended');
-          }, 1);
-        } else {
-          player.addClass('vjs-ad-loading');
-
-          player.ads.adTimeoutTimeout = window.setTimeout(function () {
-            player.trigger('adtimeout');
-          }, settings.postrollTimeout);
-        }
-      },
-      leave: function leave() {
-        window.clearTimeout(player.ads.adTimeoutTimeout);
-        player.removeClass('vjs-ad-loading');
-      },
-
-      events: {
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          player.ads.adType = 'postroll';
-        },
-        adskip: function adskip() {
-          this.state = 'content-resuming';
-          window.setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        adtimeout: function adtimeout() {
-          this.state = 'content-resuming';
-          window.setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        adserror: function adserror() {
-          this.state = 'content-resuming';
-          window.setTimeout(function () {
-            player.trigger('ended');
-          }, 1);
-        },
-        contentupdate: function contentupdate() {
-          this.state = 'ads-ready?';
-        }
-      }
-    },
-    'content-playback': {
-      enter: function enter() {
-        // make sure that any cancelPlayTimeout is cleared
-        if (player.ads.cancelPlayTimeout) {
-          window.clearTimeout(player.ads.cancelPlayTimeout);
-          player.ads.cancelPlayTimeout = null;
-        }
-
-        // This was removed because now that "playing" is fixed to only play after
-        // preroll, any integration should just use the "playing" event. However,
-        // we found out some 3rd party code relied on this event, so we've temporarily
-        // added it back in to give people more time to update their code.
-        player.trigger({
-          type: 'contentplayback',
-          triggerevent: player.ads.triggerevent
-        });
-
-        // Play the content if cancelContentPlay happened and we haven't played yet.
-        // This happens if there was no preroll or if it errored, timed out, etc.
-        // Otherwise snapshot restore would play.
-        if (player.ads._cancelledPlay) {
-          if (player.paused()) {
-            player.play();
-          }
-        }
-      },
-
-      events: {
-        // In the case of a timeout, adsready might come in late.
-        // This assumes the behavior that if an ad times out, it could still
-        // interrupt the content and start playing. An integration could
-        // still decide to behave otherwise.
-        adsready: function adsready() {
-          player.trigger('readyforpreroll');
-        },
-        adstart: function adstart() {
-          this.state = 'ad-playback';
-          // This is a special case in which preroll is specifically set
-          if (player.ads.adType !== 'preroll') {
-            player.ads.adType = 'midroll';
-          }
-        },
-        contentupdate: function contentupdate() {
-          if (player.paused()) {
-            this.state = 'content-set';
-          } else {
-            this.state = 'ads-ready?';
-          }
-        },
-        contentended: function contentended() {
-
-          // If _contentHasEnded is true it means we already checked for postrolls and
-          // played postrolls if needed, so now we're ready to send an ended event
-          if (this._contentHasEnded) {
-            // Causes ended event to trigger in content-resuming.enter.
-            // From there, the ended event event is not redispatched.
-            // Then we end up back in content-playback state.
-            this.state = 'content-resuming';
-            return;
-          }
-
-          this._contentEnding = false;
-          this._contentHasEnded = true;
-          this.state = 'postroll?';
-        }
-      }
-    }
-  };
-
-  var processEvent = function processEvent(event) {
-
-    var state = player.ads.state;
-
-    // Execute the current state's handler for this event
-    var eventHandlers = states[state].events;
-
-    if (eventHandlers) {
-      var handler = eventHandlers[event.type];
-
-      if (handler) {
-        handler.apply(player.ads);
-      }
-    }
-
-    // If the state has changed...
-    if (state !== player.ads.state) {
-      var previousState = state;
-      var newState = player.ads.state;
-
-      // Record the event that caused the state transition
-      player.ads.triggerevent = event.type;
-
-      // Execute "leave" method for the previous state
-      if (states[previousState].leave) {
-        states[previousState].leave.apply(player.ads);
-      }
-
-      // Execute "enter" method for the new state
-      if (states[newState].enter) {
-        states[newState].enter.apply(player.ads);
-      }
-
-      // Debug log message for state changes
-      if (settings.debug) {
-        videojs.log('ads', player.ads.triggerevent + ' triggered: ' + previousState + ' -> ' + newState);
-      }
-    }
-  };
+  // Global contentchanged handler for resetting plugin state
+  player.on('contentchanged', player.ads.reset);
 
   // A utility method for textTrackChangeHandler to define the conditions
   // when text tracks should be disabled.
@@ -1564,7 +2535,7 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
     // If the platform matches iOS with native text tracks
     // and this occurs during ad playback, we should disable tracks again.
     // If shouldPlayContentBehindAd, no special handling is needed.
-    return !player.ads.shouldPlayContentBehindAd(player) && player.ads.isAdPlaying() && player.tech_.featuresNativeTextTracks && videojs.browser.IS_IOS &&
+    return !player.ads.shouldPlayContentBehindAd(player) && player.ads.inAdBreak() && player.tech_.featuresNativeTextTracks && videojs.browser.IS_IOS &&
     // older versions of video.js did not use an emulated textTrackList
     !Array.isArray(player.textTracks());
   };
@@ -1594,51 +2565,28 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
     player.textTracks().addEventListener('change', textTrackChangeHandler);
   });
 
-  // Register our handler for the events that the state machine will process
-  player.on(VIDEO_EVENTS.concat([
-  // Events emitted by this plugin
-  'adtimeout', 'contentupdate', 'contentplaying', 'contentended', 'contentresumed',
-  // Triggered by startLinearAdMode()
-  'adstart',
-  // Triggered by endLinearAdMode()
-  'adend',
-  // Triggered by skipLinearAdMode()
-  'adskip',
-
-  // Events emitted by integrations
-  'adsready', 'adserror', 'adscanceled', 'nopreroll']), processEvent);
+  // Event handling for the current state.
+  player.on(['play', 'playing', 'ended', 'adsready', 'adscanceled', 'adskip', 'adserror', 'adtimeout', 'ads-ad-started', 'contentchanged', 'contentresumed', 'readyforpostroll', 'nopreroll', 'nopostroll'], function (e) {
+    player.ads._state.handleEvent(e.type);
+  });
 
   // Clear timeouts and handlers when player is disposed
   player.on('dispose', function () {
-    if (player.ads.adTimeoutTimeout) {
-      window.clearTimeout(player.ads.adTimeoutTimeout);
-    }
-
-    if (player.ads._fireEndedTimeout) {
-      window.clearTimeout(player.ads._fireEndedTimeout);
-    }
-
-    if (player.ads.cancelPlayTimeout) {
-      window.clearTimeout(player.ads.cancelPlayTimeout);
-    }
-
-    if (player.ads.tryToResumeTimeout_) {
-      player.clearTimeout(player.ads.tryToResumeTimeout_);
-    }
-
     player.textTracks().removeEventListener('change', textTrackChangeHandler);
   });
-
-  // If we're autoplaying, the state machine will immidiately process
-  // a synthetic play event
-  if (!player.paused()) {
-    processEvent({ type: 'play' });
-  }
 };
 
 var registerPlugin = videojs.registerPlugin || videojs.plugin;
 
 // Register this plugin with videojs
 registerPlugin('ads', contribAdsPlugin);
+
+// Register the Play Middleware with video.js on script execution,
+// to avoid a new playMiddleware factory being created on
+// videojs for each player created.
+if (isMiddlewareMediatorSupported()) {
+  // Register the play middleware
+  videojs.use('*', playMiddleware);
+}
 
 module.exports = contribAdsPlugin;

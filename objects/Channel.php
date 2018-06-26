@@ -1,8 +1,8 @@
 <?php
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
@@ -15,15 +15,15 @@ class Channel{
                 . " FROM users u "
                 . " HAVING total_videos > 0 ";
         $sql .= BootGrid::getSqlFromPost(array('user', 'about'));
-
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql); 
+        $fullResult = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $subscribe = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullResult as $row) {
                 unset($row['password']);
                 $subscribe[] = $row;
             }
-            //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $subscribe = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);

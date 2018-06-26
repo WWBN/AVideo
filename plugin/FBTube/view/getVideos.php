@@ -14,9 +14,7 @@ if (!empty($_GET['type'])) {
         unset($_SESSION['type']);
     }
 }
-
 require_once $global['systemRootPath'] . 'objects/video.php';
-require_once $global['systemRootPath'] . 'objects/video_ad.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
 if (empty($_GET['page'])) {
@@ -28,17 +26,16 @@ $_POST['rowCount'] = 4;
 $half = floor($_POST['rowCount'] / 2);
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
-$videos = Video::getAllVideos("viewableNotAd");
+$videos = Video::getAllVideos("viewable");
 foreach ($videos as $key => $value) {
     $videos[$key] = Video::getVideo($value['id']);
     $name = empty($value['name']) ? $value['user'] : $value['name'];
-    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails" style="margin-left:60px;"><div class="commenterName"><strong><a href="' . $global['webSiteRootURL'] . 'channel/' . $value['users_id'] . '/">' . $name . '</a></strong><br><span class="text-muted">' . humanTiming(strtotime($value['videoCreation'])) . '</span></div></div>';
+    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails" style="margin-left:60px;"><div class="commenterName"><strong><a href="' . User::getChannelLink($value['users_id']) . '/">' . $name . '</a></strong><br><span class="text-muted">' . humanTiming(strtotime($value['videoCreation'])) . '</span></div></div>';
 }
 $count = 0;
 if (!empty($videos)) {
     foreach ($videos as $video) {
         $count++;
-        $ad = Video_ad::getAdFromCategory($video['categories_id']);
         $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
         $playNowVideo = $video;
         $transformation = "{rotate:" . $video['rotation'] . ", zoom: " . $video['zoom'] . "}";
@@ -51,12 +48,7 @@ if (!empty($videos)) {
             $vjsClass = "vjs-16-9";
             $embedResponsiveClass = "embed-responsive-16by9";
         }
-
-        if (!empty($ad)) {
-            $playNowVideo = $ad;
-            $logId = Video_ad::log($ad['id']);
-        }
-        if ($video['type'] !== "audio") {
+        if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
         } else {
             $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
@@ -69,9 +61,6 @@ if (!empty($videos)) {
                 <div><?php echo nl2br(textToLink($video['description'])); ?></div>
                 <div class="main-video embed-responsive <?php
                 echo $embedResponsiveClass;
-                if (!empty($logId)) {
-                    echo " ad";
-                }
                 ?>">
                          <?php
                          if ($video['type'] === "embed") {
@@ -94,17 +83,7 @@ if (!empty($videos)) {
                                 <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
                             </p>
                         </video>
-                        <?php if (!empty($logId)) { ?>
-                            <div id="adUrl<?php echo $video['id']; ?>" class="adControl" ><?php echo __("Ad"); ?> <span class="time">0:00</span> <i class="fa fa-info-circle"></i>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>adClickLog?video_ads_logs_id=<?php echo $logId; ?>&adId=<?php echo $ad['id']; ?>" target="_blank" ><?php
-                                    $url = parse_url($ad['redirect']);
-                                    echo $url['host'];
-                                    ?> <i class="fa fa-external-link"></i>
-                                </a>
-                            </div>
-                            <a id="adButton<?php echo $video['id']; ?>" href="#" class="adControl" <?php if (!empty($ad['skip_after_seconds'])) { ?> style="display: none;" <?php } ?>><?php echo __("Skip Ad"); ?> <span class="fa fa-step-forward"></span></a>
-                            <?php
-                        }
+                        <?php
                     }
                     ?>
 
@@ -180,7 +159,7 @@ if (!empty($videos)) {
                         <script>
                             function loadPlayLists<?php echo $video['id']; ?>() {
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>playLists.json',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
                                     success: function (response) {
                                         $('#searchlist<?php echo $video['id']; ?>').html('');
                                         for (var i in response) {
@@ -206,7 +185,7 @@ if (!empty($videos)) {
                                         $('.playListsIds').change(function () {
                                             modal.showPleaseWait();
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>playListAddVideo.json',
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
                                                 method: 'POST',
                                                 data: {
                                                     'videos_id': <?php echo $video['id']; ?>,
@@ -229,7 +208,7 @@ if (!empty($videos)) {
                                 $('#addPlayList<?php echo $video['id']; ?>').click(function () {
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>addNewPlayList',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
                                         method: 'POST',
                                         data: {
                                             'videos_id': <?php echo $video['id']; ?>,
@@ -347,9 +326,9 @@ if (!empty($videos)) {
                                     $googleURL = "https://plus.google.com/share?url={$url}";
                                     ?>
                                     <ul class="social-network social-circle">
-                                        <li><a href="<?php echo $facebookURL; ?>" target="_blank" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                                        <li><a href="<?php echo $twitterURL; ?>" target="_blank"  class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-                                        <li><a href="<?php echo $googleURL; ?>" target="_blank"  class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>
+                                        <li><a href="<?php echo $facebookURL; ?>" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>
+                                        <li><a href="<?php echo $twitterURL; ?>" target="_blank"  class="icoTwitter" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="<?php echo $googleURL; ?>" target="_blank"  class="icoGoogle" title="Google +"><i class="fab fa-google-plus"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="tab-pane" id="tabEmbeded<?php echo $video['id']; ?>">
@@ -430,7 +409,7 @@ if (!empty($videos)) {
                                                     evt.preventDefault();
                                                     modal.showPleaseWait();
                                                     $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>sendEmail',
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
                                                         data: $('#contact_form<?php echo $video['id']; ?>').serializeArray(),
                                                         type: 'post',
                                                         success: function (response) {
@@ -501,8 +480,16 @@ if (!empty($videos)) {
                     <script>
                         $(document).ready(function () {
                             var grid = $("#grid<?php echo $video['id']; ?>").bootgrid({
+                                labels: {
+                                    noResults: "<?php echo __("No results found!"); ?>",
+                                    all: "<?php echo __("All"); ?>",
+                                    infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                                    loading: "<?php echo __("Loading..."); ?>",
+                                    refresh: "<?php echo __("Refresh"); ?>",
+                                    search: "<?php echo __("Search"); ?>",
+                                },
                                 ajax: true,
-                                url: "<?php echo $global['webSiteRootURL'] . "comments.json/" . $video['id']; ?>",
+                                url: "<?php echo $global['webSiteRootURL'] . "objects/comments.json.php?video_id=" . $video['id']; ?>",
                                 sorting: false,
                                 templates: {
                                     header: ""
@@ -515,7 +502,7 @@ if (!empty($videos)) {
                                 if ($('#comment<?php echo $video['id']; ?>').val().length > 5) {
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>saveComment',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/commentAddNew.json.php',
                                         method: 'POST',
                                         data: {'comment': $('#comment<?php echo $video['id']; ?>').val(), 'video': "<?php echo $video['id']; ?>"},
                                         success: function (response) {
@@ -581,51 +568,20 @@ if (!empty($videos)) {
                             player<?php echo $video['id']; ?>.zoomrotate(<?php echo $transformation; ?>);
                             player<?php echo $video['id']; ?>.ready(function () {
 
-            <?php if (!empty($logId)) { ?>
-                                    isPlayingAd<?php echo $video['id']; ?> = true;
-                                    this.on('ended', function () {
-                                        console.log("Finish Video");
-                                        if (isPlayingAd<?php echo $video['id']; ?>) {
-                                            isPlayingAd<?php echo $video['id']; ?> = false;
-                                            $('#adButton<?php echo $video['id']; ?>').trigger("click");
-                                        }
 
-                                    });
-                                    this.on('timeupdate', function () {
-                                        var durationLeft = fullDuration<?php echo $video['id']; ?> - this.currentTime();
-                                        $("#adUrl<?php echo $video['id']; ?> .time").text(secondsToStr(durationLeft + 1, 2));
-                <?php if (!empty($ad['skip_after_seconds'])) {
-                    ?>
-                                            if (isPlayingAd<?php echo $video['id']; ?> && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
-                                                $('#adButton<?php echo $video['id']; ?>').fadeIn();
-                                            }
-                <?php }
-                ?>
-                                    });
-            <?php } else {
-                ?>
-                                    this.on('ended', function () {
-                                        console.log("Finish Video");
-                                    });
-            <?php }
-            ?>
+                                this.on('ended', function () {
+                                    console.log("Finish Video");
+                                });
+
                             });
                             player<?php echo $video['id']; ?>.persistvolume({
                                 namespace: "YouPHPTube"
                             });
-            <?php if (!empty($logId)) { ?>
-                                $('#adButton<?php echo $video['id']; ?>').click(function () {
-                                    console.log("Change Video");
-                                    fullDuration<?php echo $video['id']; ?> = strToSeconds('<?php echo $video['duration']; ?>');
-                                    changeVideoSrc(player<?php echo $video['id']; ?>, "<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>");
-                                                $('#mainVideo<?php echo $video['id']; ?>').parent().removeClass("ad");
-                                                return false;
-                                            });
-            <?php }
+            <?php
         }
         ?>
 
-                                });
+                    });
                 </script>
             </div>
         </div>

@@ -1,8 +1,8 @@
 <?php
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class PlayList extends ObjectYPT {
@@ -27,20 +27,25 @@ class PlayList extends ObjectYPT {
      */
     static function getAllFromUser($userId, $publicOnly = true) {
         global $global;
+        $formats = "";
+        $values = array();
         $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
                 . " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
         if ($publicOnly) {
             $sql .= " AND pl.status = 'public' ";
         }
         if (!empty($userId)) {
-            $sql .= " AND users_id = {$userId} ";
+            $sql .= " AND users_id = ? ";
+            $formats .= "i";
+            $values[] = $userId;
         }
         $sql .= self::getSqlFromPost();
-
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,$formats,$values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $rows = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
                 $rows[] = $row;
             }
@@ -55,13 +60,16 @@ class PlayList extends ObjectYPT {
         $sql = "SELECT * FROM  playlists_has_videos p "
                 . " LEFT JOIN videos as v ON videos_id = v.id "
                 . " LEFT JOIN users u ON u.id = v.users_id "
-                . " WHERE playlists_id = {$playlists_id} ORDER BY p.`order` ASC ";
+                . " WHERE playlists_id = ? ORDER BY p.`order` ASC ";
 
         $sql .= self::getSqlFromPost();
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql,"i",array($playlists_id));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         $rows = array();
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
+        if ($res!=false) {
+            foreach ($fullData as $row) {
+                
                 $rows[] = $row;
             }
         } else {
@@ -103,13 +111,22 @@ class PlayList extends ObjectYPT {
 
     public function addVideo($video_id, $add, $order=0) {
         global $global;
+        $formats = "";
+        $values = array();
         if(empty($add) || $add === "false"){
-            $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = {$this->id} AND videos_id = {$video_id} ";
+            $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = ? AND videos_id = ? ";
+            $formats = "ii";
+            $values[] = $this->id;
+            $values[] = $video_id;
         }else{
             $this->addVideo($video_id, false);
-            $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES ({$this->id}, {$video_id}, {$order}) ";
+            $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
+            $formats = "iii";
+            $values[] = $this->id;
+            $values[] = $video_id;
+            $values[] = $order;
         }
-        return $global['mysqli']->query($sql);
+        return sqlDAL::writeSql($sql,$formats,$values);
     }
 
     public function delete() {
@@ -117,9 +134,9 @@ class PlayList extends ObjectYPT {
             return false;
         }
         global $global;
-        $sql = "DELETE FROM playlists WHERE id = {$this->id} ";
+        $sql = "DELETE FROM playlists WHERE id = ? ";
         //echo $sql;
-        return $global['mysqli']->query($sql);
+        return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
     function getId() {

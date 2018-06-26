@@ -1,8 +1,8 @@
 <?php
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'].'objects/user.php';
 class Like {
     private $id;
@@ -50,9 +50,11 @@ class Like {
             header('Content-Type: application/json');
             die('{"error":"You must have user and videos set to get a like"}');
         }
-        $sql = "SELECT * FROM likes WHERE users_id = $this->users_id AND videos_id = $this->videos_id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        return ($res) ? $res->fetch_assoc() : false;
+        $sql = "SELECT * FROM likes WHERE users_id = ? AND videos_id = ".$this->videos_id." LIMIT 1;";
+        $res = sqlDAL::readSql($sql,"i",array($this->users_id)); 
+        $dbLike = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return $dbLike;
     }
 
     private function save() {
@@ -62,16 +64,17 @@ class Like {
             die('{"error":"'.__("Permission denied").'"}');
         }
         if (!empty($this->id)) {
-            $sql = "UPDATE likes SET `like` = '{$this->like}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE likes SET `like` = ?, modified = now() WHERE id = ?;";
+            $res = sqlDAL::writeSql($sql,"ii",array($this->like, $this->id)); 
         } else {
-            $sql = "INSERT INTO likes ( `like`,users_id, videos_id, created, modified) VALUES ('{$this->like}', {$this->users_id}, {$this->videos_id}, now(), now())";
+            $sql = "INSERT INTO likes (`like`,users_id, videos_id, created, modified) VALUES (?, ?, ?, now(), now());";
+            $res = sqlDAL::writeSql($sql,"iii",array($this->like, $this->users_id, $this->videos_id)); 
         }
-        //echo $sql;exit;
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
+        //echo $sql;
+        if ($global['mysqli']->errno!=0) {
             die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        return $resp;
+        return $res;
     }
 
     static function getLikes($videos_id) {
@@ -83,20 +86,23 @@ class Like {
         $obj->dislikes = 0;
         $obj->myVote = self::getMyVote($videos_id);
 
-        $sql = "SELECT count(*) as total FROM likes WHERE videos_id = {$videos_id} AND `like` = 1 "; // like
-        $res = $global['mysqli']->query($sql);
-        if (!$res) {
+        $sql = "SELECT count(*) as total FROM likes WHERE videos_id = ? AND `like` = 1 "; // like
+        $res = sqlDAL::readSql($sql,"i",array($videos_id)); 
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($global['mysqli']->errno!=0) {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
         $obj->likes = intval($row['total']);
 
-        $sql = "SELECT count(*) as total FROM likes WHERE videos_id = {$videos_id} AND `like` = -1 "; // dislike
-        $res = $global['mysqli']->query($sql);
-        if (!$res) {
+        $sql = "SELECT count(*) as total FROM likes WHERE videos_id = ? AND `like` = -1 "; // dislike
+        
+        $res = sqlDAL::readSql($sql,"i",array($videos_id)); 
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($global['mysqli']->errno!=0) {
             die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
         $obj->dislikes = intval($row['total']);
         return $obj;
     }
@@ -109,19 +115,21 @@ class Like {
         $obj->dislikes = 0;
 
         $sql = "SELECT count(*) as total FROM likes WHERE `like` = 1 "; // like
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql); 
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if (!$res) {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
         $obj->likes = intval($row['total']);
 
         $sql = "SELECT count(*) as total FROM likes WHERE `like` = -1 "; // dislike
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql); 
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if (!$res) {
             die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
         $obj->dislikes = intval($row['total']);
         return $obj;
     }
@@ -132,10 +140,13 @@ class Like {
             return 0;
         }
         $id = User::getId();
-        $sql = "SELECT `like` FROM likes WHERE videos_id = {$videos_id} AND users_id = {$id} "; // like
-        $res = $global['mysqli']->query($sql);
-        if ($row = $res->fetch_assoc()) {
-            return intval($row['like']);
+        $sql = "SELECT `like` FROM likes WHERE videos_id = ? AND users_id = ? "; // like
+        
+        $res = sqlDAL::readSql($sql,"ii",array($videos_id,$id)); 
+        $dbLike = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($dbLike!=false) {
+            return intval($dbLike['like']);
         }
         return 0;
     }

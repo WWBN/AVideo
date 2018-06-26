@@ -13,10 +13,10 @@
                 Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary btn-xs" target="_blank">YouPHPTube v<?php echo $config->getVersion(); ?></a>
             </li>
             <li>
-                <a href="https://www.facebook.com/mediasharingtube/" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Facebook</span><i class="fa fa-fw fa-facebook"></i></a>
+                <a href="https://www.facebook.com/mediasharingtube/" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Facebook</span><i class="fab fa-facebook-square"></i></a>
             </li>
             <li>
-                <a href="https://plus.google.com/u/0/113820501552689289262" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Google Plus</span><i class="fa fa-fw fa-google-plus"></i></a>
+                <a href="https://plus.google.com/u/0/113820501552689289262" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Google Plus</span><i class="fab fa-google-plus-g"></i></a>
             </li>
         </ul>
         <?php
@@ -25,17 +25,22 @@
     }
     ?>
 </footer>
-<script type="application/ld+json">
-    {
-    "@context": "http://schema.org/",
-    "@type": "Product",
-    "name": "YouPHPTube",
-    "version": "<?php echo $config->getVersion(); ?>",
-    "image": "http://youphptube.com/img/logo.png",
-    "description": "The Best YouTube Clone Script, a free web solution to build your own video sahring site."
-    }
-</script>
 <script>
+    window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+        if(url==""){
+            url="embed in html";
+        }
+        $.ajax({
+            url: webSiteRootURL+"objects/ajaxErrorCatcher.php?error="+encodeURI("JS-Err: "+errorMsg+" @ line "+lineNumber+" in file "+url+" at visit on <?php echo $_SERVER['REQUEST_URI']; ?>"),
+            context: document.body
+        }).done(function() {
+            console.log("<?php echo 'A Javascript-error happend. Please tell your admin to clear the folder videos/cache. \r\n If this doesn\'t help, attach these infos to a github-pull-request:'; ?> \r\n Msg:" + errorMsg+" \r\n Url: "+url+ ", line: "+lineNumber+", Address: <?php echo $_SERVER['REQUEST_URI'] ?>");
+        });
+    return false;
+    }
+    
+    // Just for testing
+    // throw "A Bug"; 
     $(function () {
 <?php
 if (!empty($_GET['error'])) {
@@ -44,26 +49,51 @@ if (!empty($_GET['error'])) {
     <?php
 }
 ?>
+<?php
+if (!empty($_GET['msg'])) {
+    ?>
+            swal({title: "Ops!", text: "<?php echo $_GET['msg']; ?>", type: "info", html: true});
+    <?php
+}
+?>
     });
 </script>
-<script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script> -->
 <?php
     $jsFiles = array();
-    //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/seetalert/sweetalert.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootpag/jquery.bootpag.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootgrid/jquery.bootgrid.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/script.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/bootstrap-toggle/bootstrap-toggle.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/js-cookie/js.cookie.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}css/flagstrap/js/jquery.flagstrap.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.min.js";
-    $jsFiles[] = "{$global['webSiteRootURL']}js/jquery.lazy/jquery.lazy.plugins.min.js";
+    $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
+    $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+    $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
+    $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
+    $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
+    $jsFiles[] = "view/js/script.js";
+    $jsFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.js";
+    $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+    $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+    if(!empty($_SESSION['type'])){
+        
+        $waveSurferEnabled = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+        if($waveSurferEnabled==false){
+           $waveSurferEnabled = true;
+        } else {
+            $waveSurferEnabled = $waveSurferEnabled->EnableWavesurfer;
+        }
+        if((($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio"))&&($waveSurferEnabled)){
+            $jsFiles[] = "view/js/videojs-wavesurfer/wavesurfer.min.js";
+            $jsFiles[] = "view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
+        }   
+    }
+    $jsFiles = array_merge($jsFiles,YouPHPTubePlugin::getJSFiles());
     $jsURL =  combineFiles($jsFiles, "js");
+
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
 <?php
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 echo YouPHPTubePlugin::getFooterCode();
+if(isset($_SESSION['savedQuerys'])){
+    echo "<!-- Saved querys: ".$_SESSION['savedQuerys']." -->";
+}
 ?>

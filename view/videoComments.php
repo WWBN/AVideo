@@ -3,7 +3,7 @@ if (User::canSeeCommentTextarea()) {
     if (!empty($video['id'])) {
         ?>
         <div class="input-group">
-            <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="200" <?php
+            <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="<?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>" <?php
             if (!User::canComment()) {
                 echo "disabled";
             }
@@ -25,7 +25,7 @@ if (User::canSeeCommentTextarea()) {
         <div class="pull-right" id="count_message"></div>
         <script>
             $(document).ready(function () {
-                var text_max = 200;
+                var text_max = <?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>;
                 $('#count_message').html(text_max + ' <?php echo __("remaining"); ?>');
                 $('#comment').keyup(function () {
                     var text_length = $(this).val().length;
@@ -66,12 +66,12 @@ if (User::canSeeCommentTextarea()) {
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </button> 
             <button class="btn btn-default no-outline btn-xs pull-right edit userCanAdminComment"> 
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <i class="fas fa-edit" aria-hidden="true"></i>
             </button> 
         </div>
         <div style="padding-left: 50px;">
             <div class="input-group formRepy" style="display: none;">
-                <textarea class="form-control custom-control" rows="2" style="resize:none" maxlength="200" ></textarea>
+                <textarea class="form-control custom-control" rows="2" style="resize:none" maxlength="<?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>" ></textarea>
 
                 <span class="input-group-addon btn btn-success saveReplyBtn">
                     <span class="glyphicon glyphicon-comment"></span> <?php echo __("Reply"); ?>
@@ -123,8 +123,16 @@ if (User::canSeeCommentTextarea()) {
     <script>
         $(document).ready(function () {
             var grid = $("#grid").bootgrid({
+                labels: {
+                    noResults: "<?php echo __("No results found!"); ?>",
+                    all: "<?php echo __("All"); ?>",
+                    infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                    loading: "<?php echo __("Loading..."); ?>",
+                    refresh: "<?php echo __("Refresh"); ?>",
+                    search: "<?php echo __("Search"); ?>",
+                },
                 ajax: true,
-                url: "<?php echo $global['webSiteRootURL']; ?>comments.json/<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
+                url: "<?php echo $global['webSiteRootURL']; ?>objects/comments.json.php?video_id=<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
                             sorting: false,
                             templates: {
                                 header: ""
@@ -203,7 +211,7 @@ if (User::canSeeCommentTextarea()) {
                         if (comment.length > 5) {
                             modal.showPleaseWait();
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>saveComment',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/commentAddNew.json.php',
                                 method: 'POST',
                                 data: {'comment': comment, 'video': video, 'comments_id': comments_id, 'id': id},
                                 success: function (response) {
@@ -305,8 +313,16 @@ if (User::canSeeCommentTextarea()) {
                             comments_id = $(this).closest('.replySet').attr("comments_id");
                             $(this).closest('.replySet').find(".replyGrid").slideDown();
                             $(this).closest('.replySet').find(".grid").bootgrid({
+                                labels: {
+                                    noResults: "<?php echo __("No results found!"); ?>",
+                                    all: "<?php echo __("All"); ?>",
+                                    infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                                    loading: "<?php echo __("Loading..."); ?>",
+                                    refresh: "<?php echo __("Refresh"); ?>",
+                                    search: "<?php echo __("Search"); ?>",
+                                },
                                 ajax: true,
-                                url: "<?php echo $global['webSiteRootURL']; ?>comments.json/<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
+                                url: "<?php echo $global['webSiteRootURL']; ?>objects/comments.json.php?video_id=<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
                                 sorting: false,
                                 templates: {
                                     header: ""

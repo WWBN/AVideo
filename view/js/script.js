@@ -61,7 +61,7 @@ $(document).ready(function () {
             $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
             $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
             try {
-                $(this).find(".thumbsGIF").lazy();
+                $(this).find(".thumbsGIF").lazy({effect: 'fadeIn'});
             } catch (e) {
             }
             $(this).find(".thumbsGIF").stop(true, true).fadeIn();
@@ -73,9 +73,13 @@ $(document).ready(function () {
     });
 
 
-    $('.thumbsJPG, .thumbsGIF').lazy({
+    $('.thumbsJPG').lazy({
         effect: 'fadeIn',
-        visibleOnly: true
+        visibleOnly: true,
+        // called after an element was successfully handled
+        afterLoad: function (element) {
+            element.removeClass('blur');
+        }
     });
 
     mainVideoHeight = $('#videoContainer').innerHeight();
@@ -156,7 +160,7 @@ function changeVideoSrc(vid_obj, source) {
 }
 
 /**
- * 
+ *
  * @param {String} str 00:00:00
  * @returns {int} int of seconds
  */
@@ -169,7 +173,7 @@ function strToSeconds(str) {
 }
 
 /**
- * 
+ *
  * @param {int} seconds
  * @param {int} level 3 = 00:00:00 2 = 00:00 1 = 00
  * @returns {String} 00:00:00
@@ -203,16 +207,13 @@ function validateEmail(email) {
 
 function subscribe(email, user_id) {
     $.ajax({
-        url: webSiteRootURL + 'subscribe.json',
+        url: webSiteRootURL + 'objects/subscribe.json.php',
         method: 'POST',
         data: {
             'email': email,
             'user_id': user_id
         },
         success: function (response) {
-            console.log(response);
-
-
             if (response.subscribe == "i") {
                 $('.subs' + user_id).removeClass("subscribed");
                 $('.subs' + user_id + ' b.text').text("Subscribe");
@@ -224,6 +225,26 @@ function subscribe(email, user_id) {
             }
             $('#popover-content #subscribeEmail').val(email);
             $('.subscribeButton' + user_id).popover('hide');
+        }
+    });
+}
+
+function subscribeNotify(email, user_id) {
+    $.ajax({
+        url: webSiteRootURL + 'objects/subscribeNotify.json.php',
+        method: 'POST',
+        data: {
+            'email': email,
+            'user_id': user_id
+        },
+        success: function (response) {
+            if (response.notify) {
+                $('.notNotify' + user_id).addClass("hidden");
+                $('.notify' + user_id).removeClass("hidden");
+            } else {
+                $('.notNotify' + user_id).removeClass("hidden");
+                $('.notify' + user_id).addClass("hidden");
+            }
         }
     });
 }
@@ -254,6 +275,10 @@ function closeFloatVideo() {
 function mouseEffect() {
 
     $(".thumbsImage").on("mouseenter", function () {
+        try {
+            $(this).find(".thumbsGIF").lazy({effect: 'fadeIn'});
+        } catch (e) {
+        }
         $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
         $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
         $(this).find(".thumbsGIF").stop(true, true).fadeIn();
@@ -283,14 +308,13 @@ function copyToClipboard(text) {
 
 function addView(videos_id) {
     $.ajax({
-        url: webSiteRootURL + 'addViewCountVideo',
+        url: webSiteRootURL + 'objects/videoAddViewCount.json.php',
         method: 'POST',
         data: {
             'id': videos_id
         },
         success: function (response) {
             $('.view-count' + videos_id).text(response.count);
-            console.log(response);
         }
     });
 }

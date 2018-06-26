@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 $tags = User::getTags(User::getId());
@@ -7,7 +10,7 @@ $tagsStr = "";
 foreach ($tags as $value) {
     $tagsStr .= "<span class=\"label label-{$value->type} fix-width\">{$value->text}</span>";
 }
-$json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
+$json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
 ?>
@@ -18,14 +21,12 @@ $advancedCustom = json_decode($json_file);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
     </head>
 
     <body>
-        <?php
-        include 'include/navbar.php';
-        ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid">
             <?php
@@ -64,11 +65,46 @@ $advancedCustom = json_decode($json_file);
 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
-                                    <div class="col-md-8 inputGroupContainer">
+                                    <div class="col-md-6 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                             <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="<?php echo $user->getEmail(); ?>" required >
                                         </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <?php
+                                        if ($user->getEmailVerified()) {
+                                            ?>
+                                            <span class="btn btn-success"><i class="fa fa-check"></i> <?php echo __("E-mail Verified"); ?></span>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <button class="btn btn-warning" id="verifyEmail"><i class="fa fa-envelope"></i> <?php echo __("Verify e-mail"); ?></button>
+
+                                            <script>
+                                                $(document).ready(function () {
+
+                                                    $('#verifyEmail').click(function (e) {
+                                                        e.preventDefault();
+                                                        modal.showPleaseWait();
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "<?php echo $global['webSiteRootURL'] ?>objects/userVerifyEmail.php?users_id=<?php echo $user->getBdId(); ?>"
+                                                        }).done(function (response) {
+                                                            if(response.error){
+                                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                            }else{
+                                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
+                                                            }
+                                                            modal.hidePleaseWait();
+                                                        });
+                                                    });
+
+                                                });
+                                            </script>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
 
@@ -93,6 +129,27 @@ $advancedCustom = json_decode($json_file);
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Channel Name"); ?></label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fab fa-youtube"></i></span>
+                                            <input  id="channelName" placeholder="<?php echo __("Channel Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getChannelName(); ?>" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><?php echo __("Analytics Code"); ?></label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-chart-line"></i></span>
+                                            <input  id="analyticsCode" placeholder="UA-123456789-1" class="form-control"  type="text" value="<?php echo $user->getAnalyticsCode(); ?>" >
+                                        </div>
+                                        <small><?php echo __("Track your videos with Google analytics"); ?></small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
@@ -101,7 +158,9 @@ $advancedCustom = json_decode($json_file);
                                 <div class="form-group">
                                     <div class="col-md-12 ">
                                         <div id="croppie"></div>
-                                        <a id="upload-btn" class="btn btn-primary btn-xs btn-block"><?php echo __("Upload a Photo"); ?></a>
+                                        <center>
+                                            <a id="upload-btn" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo __("Upload a Photo"); ?></a>
+                                        </center>
                                     </div>
                                     <input type="file" id="upload" value="Choose a file" accept="image/*" style="display: none;" />
                                 </div>
@@ -109,7 +168,9 @@ $advancedCustom = json_decode($json_file);
                                 <div class="form-group">
                                     <div class="col-md-12 ">
                                         <div id="croppieBg"></div>
-                                        <a id="upload-btnBg" class="btn btn-success btn-xs btn-block"><?php echo __("Upload a Background"); ?></a>
+                                        <center>
+                                            <a id="upload-btnBg" class="btn btn-success"><i class="fa fa-upload"></i> <?php echo __("Upload a Background"); ?></a>
+                                        </center>
                                     </div>
                                     <input type="file" id="uploadBg" value="Choose a file" accept="image/*" style="display: none;" />
                                 </div>
@@ -117,9 +178,11 @@ $advancedCustom = json_decode($json_file);
 
                                 <!-- Button -->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"></label>
-                                    <div class="col-md-8">
-                                        <button type="submit" class="btn btn-primary" ><?php echo __("Save"); ?> <span class="glyphicon glyphicon-save"></span></button>
+                                    <hr>
+                                    <div class="col-md-12">
+                                        <center>
+                                            <button type="submit" class="btn btn-primary btn-lg" ><?php echo __("Save"); ?> <span class="fa fa-save"></span></button>
+                                        </center>
                                     </div>
                                 </div>
                             </fieldset>
@@ -129,6 +192,11 @@ $advancedCustom = json_decode($json_file);
                 </div>
                 <script>
                     var uploadCrop;
+
+                    function isAnalytics() {
+                        str = $('#analyticsCode').val();
+                        return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
+                    }
                     function readFile(input, crop) {
                         console.log(input);
                         console.log($(input)[0]);
@@ -178,9 +246,9 @@ $advancedCustom = json_decode($json_file);
                                 height: 300
                             }
                         });
-                        setTimeout(function(){
+                        setTimeout(function () {
                             uploadCrop.croppie('setZoom', 1);
-                        },1000);
+                        }, 1000);
 
                         uploadCropBg = $('#croppieBg').croppie({
                             url: '<?php echo $user->getBackgroundURL(); ?>',
@@ -196,11 +264,16 @@ $advancedCustom = json_decode($json_file);
                                 height: 300
                             }
                         });
-                        setTimeout(function(){
+                        setTimeout(function () {
                             uploadCropBg.croppie('setZoom', 1);
-                        },1000);
+                        }, 1000);
                         $('#updateUserForm').submit(function (evt) {
                             evt.preventDefault();
+                            if(!isAnalytics()){
+                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
+                                $('#inputAnalyticsCode').focus();
+                                return false;
+                            }
                             modal.showPleaseWait();
                             var pass1 = $('#inputPassword').val();
                             var pass2 = $('#inputPasswordConfirm').val();
@@ -211,13 +284,15 @@ $advancedCustom = json_decode($json_file);
                                 return false;
                             } else {
                                 $.ajax({
-                                    url: 'updateUser',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/userUpdate.json.php',
                                     data: {
-                                        "user": $('#inputUser').val(), 
-                                        "pass": $('#inputPassword').val(), 
-                                        "email": $('#inputEmail').val(), 
-                                        "name": $('#inputName').val(), 
-                                        "about": $('#textAbout').val()
+                                        "user": $('#inputUser').val(),
+                                        "pass": $('#inputPassword').val(),
+                                        "email": $('#inputEmail').val(),
+                                        "name": $('#inputName').val(),
+                                        "about": $('#textAbout').val(),
+                                        "channelName": $('#channelName').val(),
+                                        "analyticsCode": $('#analyticsCode').val()
                                     },
                                     type: 'post',
                                     success: function (response) {
@@ -228,7 +303,7 @@ $advancedCustom = json_decode($json_file);
                                             }).then(function (resp) {
                                                 $.ajax({
                                                     type: "POST",
-                                                    url: "savePhoto",
+                                                    url: "<?php echo $global['webSiteRootURL']; ?>objects/userSavePhoto.php",
                                                     data: {
                                                         imgBase64: resp
                                                     }
@@ -239,7 +314,7 @@ $advancedCustom = json_decode($json_file);
                                                     }).then(function (resp) {
                                                         $.ajax({
                                                             type: "POST",
-                                                            url: "saveBackground",
+                                                            url: "<?php echo $global['webSiteRootURL']; ?>objects/userSaveBackground.php",
                                                             data: {
                                                                 imgBase64: resp
                                                             }
@@ -249,6 +324,9 @@ $advancedCustom = json_decode($json_file);
                                                     });
                                                 });
                                             });
+                                        } else if (response.error) {
+                                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                            modal.hidePleaseWait();
                                         } else {
                                             swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
                                             modal.hidePleaseWait();
@@ -305,7 +383,7 @@ $advancedCustom = json_decode($json_file);
                                     <!-- Button -->
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fa fa-sign-in"></span> <?php echo __("Sign in"); ?></button>
+                                            <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fas fa-sign-in-alt"></span> <?php echo __("Sign in"); ?></button>
                                         </div>
                                     </div>
 
@@ -358,15 +436,19 @@ $advancedCustom = json_decode($json_file);
                             evt.preventDefault();
                             modal.showPleaseWait();
                             $.ajax({
-                                url: 'login',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
                                 data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val()},
                                 type: 'post',
                                 success: function (response) {
                                     if (!response.isLogged) {
                                         modal.hidePleaseWait();
-                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
+                                        if(response.error){
+                                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                        }else{
+                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
+                                        }
                                     } else {
-                                        document.location = '<?php echo!empty($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : $global['webSiteRootURL']; ?>'
+                                        document.location = '<?php echo $global['webSiteRootURL']; ?>'
                                     }
                                 }
                             });
@@ -391,7 +473,7 @@ $advancedCustom = json_decode($json_file);
                                     function () {
                                         modal.showPleaseWait();
                                         $.ajax({
-                                            url: 'recoverPass',
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
                                             data: {"user": $('#inputUser').val(), "captcha": $('#captchaText').val()},
                                             type: 'post',
                                             success: function (response) {
@@ -422,7 +504,7 @@ $advancedCustom = json_decode($json_file);
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
     </body>

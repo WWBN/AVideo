@@ -1,7 +1,6 @@
 /nbproject/private/
 /videos/
 /nbproject/
-/docker/
 /plugin/LiveOnlineUsers/
 /plugin/LiveUsers/
 /plugin/VideoResolutionSwitcher/
@@ -12,11 +11,13 @@
 /plugin/Customize/
 /plugin/VideoThumbnails/
 /plugin/MP4ThumbsAndGif/
+/plugin/MP4ThumbsAndGifLocal/
 /plugin/VideoLogoOverlay/
 /plugin/FloatVideo/
 /plugin/ShareSocialButtonsOnEmbed/
 /plugin/PayPalToWatch/
 /plugin/PredefinedCategory/
+/plugin/predefinedCategory/
 /plugin/SecureVideosDirectory/
 /plugin/PointsSystem/
 /plugin/GoogleAds_IMA/
@@ -27,3 +28,12 @@
 /plugin/SubtitleSwitcher/
 /plugin/AWS_S3/
 /plugin/SignUpAgreement/
+/plugin/PromoteVideos/
+/plugin/Livesearch/
+/plugin/AudioVisualizer/
+/plugin/Notifications/
+/plugin/DIY/
+/plugin/AutoShare/
+/plugin/LiveCountdownEvent/
+/plugin/ReturnToLastPosition/
+/plugin/SecondWatch/

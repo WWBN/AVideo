@@ -1,8 +1,8 @@
 <?php
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'].'objects/user.php';
 class CommentsLike {
     private $id;
@@ -50,9 +50,11 @@ class CommentsLike {
             header('Content-Type: application/json');
             die('{"error":"You must have user and videos set to get a like"}');
         }
-        $sql = "SELECT * FROM comments_likes WHERE users_id = $this->users_id AND comments_id = $this->comments_id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        return ($res) ? $res->fetch_assoc() : false;
+        $sql = "SELECT * FROM comments_likes WHERE users_id = ? AND comments_id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql,"ii",array($this->users_id,$this->comments_id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return ($res) ? $result : false;
     }
 
     private function save() {
@@ -61,17 +63,18 @@ class CommentsLike {
             header('Content-Type: application/json');
             die('{"error":"'.__("Permission denied").'"}');
         }
+        $formats = "";
+        $values = array();
         if (!empty($this->id)) {
-            $sql = "UPDATE comments_likes SET `like` = '{$this->like}', modified = now() WHERE id = {$this->id}";
+            $sql = "UPDATE comments_likes SET `like` = ?, modified = now() WHERE id = ?";
+            $formats = "ii";
+            $values = array($this->like,$this->id);
         } else {
-            $sql = "INSERT INTO comments_likes ( `like`,users_id, comments_id, created, modified) VALUES ('{$this->like}', {$this->users_id}, {$this->comments_id}, now(), now())";
+            $sql = "INSERT INTO comments_likes ( `like`,users_id, comments_id, created, modified) VALUES (?, ?, ?, now(), now())";
+            $formats = "iii";
+            $values = array($this->like,$this->users_id,$this->comments_id);
         }
-        //echo $sql;exit;
-        $resp = $global['mysqli']->query($sql);
-        if (empty($resp)) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
-        return $resp;
+        return sqlDAL::writeSql($sql,$formats,$values);
     }
 
     static function getLikes($comments_id) {
@@ -83,21 +86,23 @@ class CommentsLike {
         $obj->dislikes = 0;
         $obj->myVote = self::getMyVote($comments_id);
 
-        $sql = "SELECT count(*) as total FROM comments_likes WHERE comments_id = {$comments_id} AND `like` = 1 "; // like
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT count(*) as total FROM comments_likes WHERE comments_id = ? AND `like` = 1 "; // like
+        $res = sqlDAL::readSql($sql,"i",array($comments_id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if (!$res) {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
-        $obj->likes = intval($row['total']);
+        $obj->likes = intval($result['total']);
 
-        $sql = "SELECT count(*) as total FROM comments_likes WHERE comments_id = {$comments_id} AND `like` = -1 "; // dislike
-        $res = $global['mysqli']->query($sql);
+        $sql = "SELECT count(*) as total FROM comments_likes WHERE comments_id = ? AND `like` = -1 "; // dislike
+        $res = sqlDAL::readSql($sql,"i",array($comments_id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if (!$res) {
             die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
-        $obj->dislikes = intval($row['total']);
+        $obj->dislikes = intval($result['total']);
         return $obj;
     }
     
@@ -109,20 +114,22 @@ class CommentsLike {
         $obj->dislikes = 0;
 
         $sql = "SELECT count(*) as total FROM comments_likes WHERE `like` = 1 "; // like
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if (!$res) {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
-        $obj->likes = intval($row['total']);
+        $obj->likes = intval($result['total']);
 
         $sql = "SELECT count(*) as total FROM comments_likes WHERE `like` = -1 "; // dislike
-        $res = $global['mysqli']->query($sql);
+        $res = sqlDAL::readSql($sql);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
         if (!$res) {
             die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        $row = $res->fetch_assoc();
-        $obj->dislikes = intval($row['total']);
+        $obj->dislikes = intval($result['total']);
         return $obj;
     }
 
@@ -132,10 +139,12 @@ class CommentsLike {
             return 0;
         }
         $id = User::getId();
-        $sql = "SELECT `like` FROM comments_likes WHERE comments_id = {$comments_id} AND users_id = {$id} "; // like
-        $res = $global['mysqli']->query($sql);
-        if ($row = $res->fetch_assoc()) {
-            return intval($row['like']);
+        $sql = "SELECT `like` FROM comments_likes WHERE comments_id = ? AND users_id = ? "; // like
+        $res = sqlDAL::readSql($sql,"ii",array($comments_id,$id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($result)) {
+            return intval($result['like']);
         }
         return 0;
     }

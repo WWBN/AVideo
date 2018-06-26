@@ -1,12 +1,15 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-$json_file = file_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
+$json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
 if(!empty($advancedCustom->disableNativeSignUp)){
-    die("Sign Up Disabled");
+    die(__("Sign Up Disabled"));
 }
 
 $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
@@ -22,7 +25,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container">
@@ -84,13 +87,13 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <?php
                             if(!empty($agreement)){
                                 $agreement->getSignupCheckBox();
                             }
                             ?>
-                            
+
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
@@ -101,8 +104,8 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+
+
                             <!-- Button -->
                             <div class="form-group">
                                 <label class="col-md-4 control-label"></label>
@@ -118,7 +121,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
             </div>
             <script>
                 $(document).ready(function () {
-                    
+
                     $('#btnReloadCapcha').click(function () {
                         $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
                         $('#captchaText').val('');
@@ -135,12 +138,12 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                             return false;
                         } else {
                             $.ajax({
-                                url: 'createUser',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/userCreate.json.php',
                                 data: {
-                                    "user": $('#inputUser').val(), 
-                                    "pass": $('#inputPassword').val(), 
-                                    "email": $('#inputEmail').val(), 
-                                    "name": $('#inputName').val(), 
+                                    "user": $('#inputUser').val(),
+                                    "pass": $('#inputPassword').val(),
+                                    "email": $('#inputEmail').val(),
+                                    "name": $('#inputName').val(),
                                     "captcha": $('#captchaText').val()
                                 },
                                 type: 'post',
@@ -172,7 +175,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
     </body>

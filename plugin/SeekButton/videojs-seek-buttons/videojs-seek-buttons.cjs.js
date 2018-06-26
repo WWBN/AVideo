@@ -4,7 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var videojs = _interopDefault(require('video.js'));
 
-var version = "1.1.0";
+var version = "1.2.4";
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {

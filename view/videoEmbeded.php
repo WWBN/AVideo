@@ -1,9 +1,20 @@
 <?php
 global $isEmbed;
 $isEmbed = 1;
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+
+$customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+
+$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
+if (!empty($objSecure->disableEmbedMode)) {
+    die(__('Embed Mode disabled'));
+}
+
 require_once $global['systemRootPath'] . 'objects/video.php';
-$video = Video::getVideo();
+$video = Video::getVideo("", "viewable",  false, false, false, true);
 if (empty($video)) {
     die(__("Video not found"));
 }
@@ -21,7 +32,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
 }
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
-if ($video['type'] !== "audio") {
+if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
     $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
@@ -41,27 +52,51 @@ if ($video['type'] !== "audio") {
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="img/favicon.ico">
+        <link rel="icon" href="view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
-        <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>css/social.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/script.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
         <style>
             body {
                 padding: 0 !important;
                 margin: 0 !important;
+                <?php
+                if(!empty($customizedAdvanced->embedBackgroundColor)){
+                    echo "background-color: $customizedAdvanced->embedBackgroundColor;";
+                }
+                ?>
+
             }
         </style>
+
+        <?php
+    $jsFiles = array();
+    //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
+    $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+    $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
+    $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
+    $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
+    $jsFiles[] = "view/js/script.js";
+    $jsFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.js";
+    $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+    $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+    //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/wavesurfer.min.js";
+    //$jsFiles[] = "{$global['webSiteRootURL']}view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
+    $jsURL =  combineFiles($jsFiles, "js");
+
+?>
+<script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     </head>
 
     <body>
@@ -84,11 +119,21 @@ if ($video['type'] !== "audio") {
                 <?php
             } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
                 ?>
-                <audio controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
-                       poster="<?php echo $global['webSiteRootURL']; ?>img/recorder.gif">
+                <audio id="mainAudio" controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
+                       poster="<?php echo $global['webSiteRootURL']; ?>view/img/recorder.gif">
+                <?php
+                $ext = "";
+                if(file_exists($global['systemRootPath']."videos/".$video['filename'].".ogg")){ ?>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
+                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
+                <?php
+                    $ext = ".ogg";
+                } else { ?>
                     <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
+                <?php
+                    $ext = ".mp3";
+                } ?>
                 </audio>
 
                 <script>
@@ -99,7 +144,7 @@ if ($video['type'] !== "audio") {
                 <?php
             } else {
                 ?>
-                <video poster="<?php echo $poster; ?>" controls  width="auto" height="auto"
+                <video id="mainVideo" poster="<?php echo $poster; ?>" controls
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                     <?php
                     echo getSources($video['filename']);
@@ -139,6 +184,8 @@ if ($video['type'] !== "audio") {
             }
             ?>
         </div>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
         <?php
         echo YouPHPTubePlugin::getFooterCode();
         ?>

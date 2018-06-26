@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 // gettig the mobile submited value
-$inputJSON = file_get_contents('php://input');
+$inputJSON = url_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE); //convert JSON into array
 if(!empty($input) && empty($_POST)){
     foreach ($input as $key => $value) {
@@ -24,7 +24,7 @@ if(!empty($_POST['user']) && !empty($_POST['pass'])){
 
 $obj = new stdClass();
 if(YouPHPTubePlugin::loadPluginIfEnabled("Live")){
-    $liveStats = file_get_contents("{$global['webSiteRootURL']}plugin/Live/stats.json.php");
+    $liveStats = url_get_contents("{$global['webSiteRootURL']}plugin/Live/stats.json.php");
     $obj->live = json_decode($liveStats);
 }
 

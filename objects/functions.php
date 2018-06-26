@@ -1,5 +1,11 @@
 <?php
 
+// make sure SecureVideosDirectory will be the first
+function cmpPlugin($a, $b) {
+    if ($a['name']=='SecureVideosDirectory')
+        return -1;
+    return 1;
+}
 // Returns a file size limit in bytes based on the PHP upload_max_filesize
 // and post_max_size
 function file_upload_max_size() {
@@ -294,10 +300,25 @@ function getSecondsTotalVideosLength() {
     $configFile = dirname(__FILE__) . '/../videos/configuration.php';
     require_once $configFile;
     global $global;
+
+    if (!User::isLogged()) {
+        return 0;
+    }
     $sql = "SELECT * FROM videos v ";
-    $res = $global['mysqli']->query($sql);
+    $formats = "";
+    $values = array();
+    if (!User::isAdmin()) {
+        $id = User::getId();
+        $sql .= " WHERE users_id = ? ";
+        $formats = "i";
+        $values = array($id);
+    }
+
+    $res = sqlDAL::readSql($sql,$formats,$values);
+    $fullData = sqlDAL::fetchAllAssoc($res);
+    sqlDAL::close($res);
     $seconds = 0;
-    while ($row = $res->fetch_assoc()) {
+    foreach ($fullData as $row) {
         $seconds += parseDurationToSeconds($row['duration']);
     }
     return $seconds;
@@ -331,6 +352,7 @@ function setSiteSendMessage(&$mail) {
     $config = new Configuration();
 
     if ($config->getSmtp()) {
+        error_log("Sending SMTP Email");
         $mail->IsSMTP(); // enable SMTP
         $mail->SMTPAuth = true; // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
@@ -338,7 +360,9 @@ function setSiteSendMessage(&$mail) {
         $mail->Port = $config->getSmtpPort();
         $mail->Username = $config->getSmtpUsername();
         $mail->Password = $config->getSmtpPassword();
+        //error_log(print_r($config, true));
     } else {
+        error_log("Sending SendMail Email");
         $mail->isSendmail();
     }
 }
@@ -388,7 +412,7 @@ function parseVideos($videoString = null) {
                 '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549 
+        //the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//player.vimeo.com/video/' . $id;
     } else if (strpos($link, 'vimeo.com') !== FALSE) {
@@ -397,7 +421,7 @@ function parseVideos($videoString = null) {
                 '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549 
+        //the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//player.vimeo.com/video/' . $id;
     } else if (strpos($link, 'dailymotion.com') !== FALSE) {
@@ -406,7 +430,7 @@ function parseVideos($videoString = null) {
                 '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549 
+        //the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//www.dailymotion.com/embed/video/' . $id;
     } else if (strpos($link, 'metacafe.com') !== FALSE) {
@@ -463,7 +487,7 @@ function parseVideos($videoString = null) {
 
         $id = $matches[2];
         return '//player.twitch.tv/?video=' . $id . '#';
-    }else if (strpos($link, 'twitch.tv') !== FALSE) {
+    } else if (strpos($link, 'twitch.tv') !== FALSE) {
         //extract the ID
         preg_match(
                 '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches
@@ -471,13 +495,13 @@ function parseVideos($videoString = null) {
 
         $id = $matches[2];
         return '//player.twitch.tv/?channel=' . $id . '#';
-    }   else if (strpos($link, '/video/') !== FALSE) {
+    } else if (strpos($link, '/video/') !== FALSE) {
         //extract the ID
         preg_match(
                 '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches
         );
 
-        //the YouPHPTube site 
+        //the YouPHPTube site
         $site = $matches[1];
         $id = $matches[2];
         return $site . '/videoEmbeded/' . $id;
@@ -545,11 +569,11 @@ function getVideosURL($fileName) {
 function getSources($fileName, $returnArray = false) {
     $name = "getSources_{$fileName}_" . intval($returnArray);
     /*
-    $cached = ObjectYPT::getCache($name, 86400); //one day
-    if (!empty($cached)) {
-        return $cached->result;
-    }
-     * 
+      $cached = ObjectYPT::getCache($name, 86400); //one day
+      if (!empty($cached)) {
+      return $cached->result;
+      }
+     *
      */
     if ($returnArray) {
         $videoSources = $audioTracks = $subtitleTracks = array();
@@ -591,7 +615,7 @@ function getSources($fileName, $returnArray = false) {
 }
 
 /**
- * 
+ *
  * @param type $file_src
  * @return typeget image size with cache
  */
@@ -620,35 +644,35 @@ function getimgsize($file_src) {
     return $size;
 }
 
-function im_resize($file_src, $file_dest, $wd, $hd) {
-    if(empty($file_dest)){
+function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
+    if (empty($file_dest)) {
         return false;
     }
-    if (!file_exists($file_src)){
+    if (!file_exists($file_src)) {
         error_log("im_resize: Source not found: {$file_src}");
         return false;
     }
     $size = getimgsize($file_src);
-    if ($size === false){
+    if ($size === false) {
         error_log("im_resize: Could not get image size: {$file_src}");
-        return false;        
+        return false;
     }
     if ($size['mime'] == 'image/pjpeg')
         $size['mime'] = 'image/jpeg';
 
     $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
-    if(empty($format)){
+    if (empty($format)) {
         $format = 'jpeg';
     }
     $destformat = strtolower(substr($file_dest, -4));
-    if(empty($destformat)){
+    if (empty($destformat)) {
         error_log("destformat not found {$file_dest}");
         $destformat = ".jpg";
     }
     $icfunc = "imagecreatefrom" . $format;
-    if (!function_exists($icfunc)){
+    if (!function_exists($icfunc)) {
         error_log("im_resize: Function does not exists: {$icfunc}");
-        return false;        
+        return false;
     }
 
     $src = $icfunc($file_src);
@@ -694,8 +718,6 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
 
     imagecopyresampled($dest, $src, 0, 0, ($ws - $wc) / 2, ($hs - $hc) / 2, $wd, $hd, $wc, $hc);
     $saved = false;
-    if (!isset($q))
-        $q = 50;
     if ($destformat == '.png')
         $saved = imagepng($dest, $file_dest);
     if ($destformat == '.jpg')
@@ -712,13 +734,19 @@ function im_resize($file_src, $file_dest, $wd, $hd) {
 
 function decideMoveUploadedToVideos($tmp_name, $filename) {
     global $global;
+    $obj = new stdClass();
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
     if (!empty($aws_s3)) {
         $aws_s3->move_uploaded_file($tmp_name, $filename);
     } else {
         if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
-            die(json_encode($obj));
+            if(!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")){
+                if(!copy($tmp_name, "{$global['systemRootPath']}videos/{$filename}")){
+                    $obj->msg = "Error on decideMoveUploadedToVideos({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+                    die(json_encode($obj));
+                }
+            }
+
         }
     }
 }
@@ -787,7 +815,7 @@ if (!function_exists('mime_content_type')) {
             'odt' => 'application/vnd.oasis.opendocument.text',
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         );
-        
+
         $explode = explode('.', $filename);
         $ext = strtolower(array_pop($explode));
         if (array_key_exists($ext, $mime_types)) {
@@ -804,34 +832,109 @@ if (!function_exists('mime_content_type')) {
 
 }
 
-function combineFiles($filesArray, $extension = "js"){
+function combineFiles($filesArray, $extension = "js") {
     global $global;
     $cacheDir = $global['systemRootPath'] . 'videos/cache/';
-    if(!is_dir($cacheDir)){
+    if (!is_dir($cacheDir)) {
         mkdir($cacheDir, 0777, true);
     }
     $str = "";
     $fileName = "";
     foreach ($filesArray as $value) {
         $fileName .= $value;
-    }    
-    $md5FileName = md5($fileName).".{$extension}";
-    if(!file_exists($cacheDir.$md5FileName)){
-        foreach ($filesArray as $value) {
-            $str .= "\n/*{$value}*/\n".file_get_contents($value);
-        }
-        file_put_contents($cacheDir.$md5FileName, $str);
     }
-    return  $global['webSiteRootURL'] . 'videos/cache/'.$md5FileName;
-    
+    $minifyEnabled = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+    if($minifyEnabled!=false){
+        $minifyEnabled = $minifyEnabled->EnableMinifyJS;
+    }
+    $md5FileName = md5($fileName) . ".{$extension}";
+    if (!file_exists($cacheDir . $md5FileName)) {
+        foreach ($filesArray as $value) {
+            if(file_exists($global['systemRootPath'].$value)){
+                $str .= "\n/*{$value} created local with systemRootPath */\n" . local_get_contents($global['systemRootPath'].$value);
+            }
+            else if(file_exists($value)){
+                $str .= "\n/*{$value} created local with full-path given */\n" . local_get_contents($value);
+            }
+            else {
+                $allowed = "";
+                if (ini_get('allow_url_fopen')) {
+                    $allowed .= "allow_url_fopen is on and ";
+                }
+                if (function_exists('curl_init')) {
+                    $allowed .= "curl is on";
+                } else {
+                   $allowed .= "curl is off";
+                }
+
+                    $content = url_get_contents($value);
+                    if(empty($content)){
+                        $allowed .= " - web-fallback 1 (add webSiteRootURL)";
+                        $content = url_get_contents($global['webSiteRootURL'] . $value);
+                    }
+                    $str .= "\n/*{$value} created via web with own url ({$allowed}) */\n" . $content;
+
+            }
+        }
+        if(($extension=="js")&&($minifyEnabled)){
+                require_once $global['systemRootPath'] . 'objects/jshrink.php';
+                $str = \JShrink\Minifier::minify($str, array('flaggedComments' => false));
+        }
+        file_put_contents($cacheDir . $md5FileName, $str);
+    }
+    return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
 }
 
-function getUpdatesFilesArray(){
+
+function local_get_contents($path){
+    if (function_exists('fopen')){
+        $myfile = fopen($path, "r") or die("Unable to open file!");
+        $text = fread($myfile,filesize($path));
+        fclose($myfile);
+        return $text;
+    }
+}
+
+
+function url_get_contents($Url, $ctx="") {
+    if(empty($ctx)){
+        $opts = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+                "allow_self_signed" => true
+            )
+        );
+        $context = stream_context_create($opts);
+    } else {
+        $context = $ctx;
+    }
+    if (ini_get('allow_url_fopen')) {
+        try{
+            $tmp = @file_get_contents($Url, false,$context);
+            if($tmp!=false){
+                return $tmp;
+            }
+        } catch(ErrorException $e){
+
+        }
+    } else  if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+    return @file_get_contents($Url, false,$context);
+}
+
+function getUpdatesFilesArray() {
     global $config, $global;
-    if(!class_exists('User') || !User::isAdmin()){
+    if (!class_exists('User') || !User::isAdmin()) {
         return array();
     }
-    $files1 = scandir($global['systemRootPath']."update");
+    $files1 = scandir($global['systemRootPath'] . "updatedb");
     $updateFiles = array();
     foreach ($files1 as $value) {
         preg_match("/updateDb.v([0-9.]*).sql/", $value, $match);
@@ -842,4 +945,30 @@ function getUpdatesFilesArray(){
         }
     }
     return $updateFiles;
+}
+
+function UTF8encode($data){
+    global $advancedCustom, $global;
+
+    if(empty($advancedCustom)){
+        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+    }
+
+    if(!empty($advancedCustom->utf8Encode)){
+        return utf8_encode($data);
+    }
+    if(!empty($advancedCustom->utf8Decode)){
+        return utf8_decode($data);
+    }
+    return $data;
+}
+
+//detect search engine bots
+function isBot(){
+    return false;
+    $bot_regex = '/BotLink|bingbot|AhrefsBot|ahoy|AlkalineBOT|anthill|appie|arale|araneo|AraybOt|ariadne|arks|ATN_Worldwide|Atomz|bbot|Bjaaland|Ukonline|borg\-bot\/0\.9|boxseabot|bspider|calif|christcrawler|CMC\/0\.01|combine|confuzzledbot|CoolBot|cosmos|Internet Cruiser Robot|cusco|cyberspyder|cydralspider|desertrealm, desert realm|digger|DIIbot|grabber|downloadexpress|DragonBot|dwcp|ecollector|ebiness|elfinbot|esculapio|esther|fastcrawler|FDSE|FELIX IDE|ESI|fido|H�m�h�kki|KIT\-Fireball|fouineur|Freecrawl|gammaSpider|gazz|gcreep|golem|googlebot|griffon|Gromit|gulliver|gulper|hambot|havIndex|hotwired|htdig|iajabot|INGRID\/0\.1|Informant|InfoSpiders|inspectorwww|irobot|Iron33|JBot|jcrawler|Teoma|Jeeves|jobo|image\.kapsi\.net|KDD\-Explorer|ko_yappo_robot|label\-grabber|larbin|legs|Linkidator|linkwalker|Lockon|logo_gif_crawler|marvin|mattie|mediafox|MerzScope|NEC\-MeshExplorer|MindCrawler|udmsearch|moget|Motor|msnbot|muncher|muninn|MuscatFerret|MwdSearch|sharp\-info\-agent|WebMechanic|NetScoop|newscan\-online|ObjectsSearch|Occam|Orbsearch\/1\.0|packrat|pageboy|ParaSite|patric|pegasus|perlcrawler|phpdig|piltdownman|Pimptrain|pjspider|PlumtreeWebAccessor|PortalBSpider|psbot|Getterrobo\-Plus|Raven|RHCS|RixBot|roadrunner|Robbie|robi|RoboCrawl|robofox|Scooter|Search\-AU|searchprocess|Senrigan|Shagseeker|sift|SimBot|Site Valet|skymob|SLCrawler\/2\.0|slurp|ESI|snooper|solbot|speedy|spider_monkey|SpiderBot\/1\.0|spiderline|nil|suke|http:\/\/www\.sygol\.com|tach_bw|TechBOT|templeton|titin|topiclink|UdmSearch|urlck|Valkyrie libwww\-perl|verticrawl|Victoria|void\-bot|Voyager|VWbot_K|crawlpaper|wapspider|WebBandit\/1\.0|webcatcher|T\-H\-U\-N\-D\-E\-R\-S\-T\-O\-N\-E|WebMoose|webquest|webreaper|webs|webspider|WebWalker|wget|winona|whowhere|wlm|WOLP|WWWC|none|XGET|Nederland\.zoek|AISearchBot|woriobot|NetSeer|Nutch|YandexBot|YandexMobileBot|SemrushBot|FatBot|MJ12bot|DotBot|AddThis|baiduspider|SeznamBot|mod_pagespeed|CCBot|openstat.ru\/Bot|m2e/i';
+    $userAgent = empty($_SERVER['HTTP_USER_AGENT']) ? FALSE : $_SERVER['HTTP_USER_AGENT'];
+    $isBot = !$userAgent || preg_match($bot_regex, $userAgent);
+
+    return $isBot;
 }

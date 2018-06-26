@@ -5,7 +5,9 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class Cache extends PluginAbstract {
 
     public function getDescription() {
-        return "YouPHPTube application accelerator to cache pages.<br>Your website has 10,000 visitors who are online, and your dynamic page has to send 10,000 times the same queries to database on every page load. With this plugin, your page only sends 1 query to your DB, and uses the cache to serve the 9,999 other visitors.";
+        $txt = "YouPHPTube application accelerator to cache pages.<br>Your website has 10,000 visitors who are online, and your dynamic page has to send 10,000 times the same queries to database on every page load. With this plugin, your page only sends 1 query to your DB, and uses the cache to serve the 9,999 other visitors.";
+        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Cache-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        return $txt.$help;
     }
 
     public function getName() {
@@ -32,6 +34,9 @@ class Cache extends PluginAbstract {
     }
     
     private function getFileName(){
+        if(empty($_SERVER['REQUEST_URI'])){
+            $_SERVER['REQUEST_URI'] = "";
+        }
         $obj = $this->getDataObject();
         $user = "";
         if(!empty($obj->enableCachePerUser)){
@@ -52,8 +57,9 @@ class Cache extends PluginAbstract {
             if(!empty($_GET['lifetime'])){
                 $lifetime = intval($_GET['lifetime']);
             }            
-            if (file_exists($cachefile) && time() - $lifetime <= filemtime($cachefile)) {
-                $c = @file_get_contents($cachefile);
+            // if is a bot always show a cache
+            if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile))) || isBot()) {
+                $c = @url_get_contents($cachefile);
                 echo $c;
                 if ($obj->logPageLoadTime) {
                     $this->end("Cache");
@@ -103,9 +109,8 @@ class Cache extends PluginAbstract {
         }else{
             $type = "User: Not Logged - ".$type;            
         }
-        
         $total_time = round(($finish - $global['start']), 4);
-        error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']})");
+        error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
     }
 
 }

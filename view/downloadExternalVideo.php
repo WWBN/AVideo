@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
     header("location: {$global['webSiteRootURL']}user");
@@ -21,7 +24,7 @@ function isYoutubeDl() {
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container">
@@ -170,7 +173,7 @@ function isYoutubeDl() {
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
     </body>

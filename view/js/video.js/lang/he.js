@@ -5,7 +5,7 @@ videojs.addLanguage("he",{
  "Pause": "השהה",
  "Replay": "נַגֵּן שוב",
  "Current Time": "זמן נוכחי",
- "Duration Time": "זמן כולל",
+ "Duration": "זמן כולל",
  "Remaining Time": "זמן נותר",
  "Stream Type": "סוג Stream",
  "LIVE": "שידור חי",

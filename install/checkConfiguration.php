@@ -1,6 +1,7 @@
 <?php
 
-$installationVersion = "4.9";
+$installationVersion = "5.7";
+
 
 header('Content-Type: application/json');
 
@@ -78,7 +79,8 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
-$sql = "INSERT INTO users (id, user, password, created, modified, isAdmin) VALUES (1, 'admin', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
+
+$sql = "INSERT INTO users (id, user, email, password, created, modified, isAdmin) VALUES (1, 'admin', '" . $_POST['contactEmail'] . "', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating admin user: " . $mysqli->error;
     echo json_encode($obj);
@@ -92,7 +94,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
-$sql = "INSERT INTO categories (id, name, clean_name, created, modified) VALUES (1, 'Default', 'default', now(), now())";
+$sql = "INSERT INTO categories (id, name, clean_name, description, created, modified) VALUES (1, 'Default', 'default','', now(), now())";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating category: " . $mysqli->error;
     echo json_encode($obj);
@@ -117,11 +119,15 @@ if ($mysqli->query($sql) !== TRUE) {
 
 $mysqli->close();
 
+if(empty($_POST['salt'])){
+    $_POST['salt'] = uniqid();
+}
 $content = "<?php
 \$global['disableAdvancedConfigurations'] = 0;
 \$global['videoStorageLimitMinutes'] = 0;
 \$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
+\$global['salt'] = '{$_POST['salt']}';
 
 
 \$mysqlHost = '{$_POST['databaseHost']}';

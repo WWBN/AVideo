@@ -4,7 +4,8 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class LiveChat extends PluginAbstract{
 
     public function getDescription() {
-        return "A live chat for multiple propouses";
+        global $global;
+        return "A live chat for multiple propouses<br>Initiate it on terminal with the command <code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
     }
     
     public function getName() {
@@ -30,8 +31,20 @@ class LiveChat extends PluginAbstract{
     public function getEmptyDataObject() {
         global $global;
         $server = parse_url($global['webSiteRootURL']);
+        
         $obj = new stdClass();
-        $obj->websocket = "ws://{$server['host']}:8888";
+        $obj->port = "8888";
+        
+        $scheme = "ws";
+        $port = ":{$obj->port}";
+        if(strtolower($server["scheme"])=="https"){
+            $scheme = "wss";
+            $port = "/wss/";
+        }        
+        
+        $obj->websocket = "{$scheme}://{$server['host']}{$port}";
+        $obj->onlyForLoggedUsers = false;
+        $obj->loadLastMessages = 10;
         return $obj;
     }
     
@@ -44,6 +57,14 @@ class LiveChat extends PluginAbstract{
     
     public function getTags() {
         return array('free', 'live', 'streaming', 'live stream', 'chat');
+    }
+    
+    public function canSendMessage($isLogged=false){
+        $obj = $this->getDataObject();
+        if(empty($obj->onlyForLoggedUsers) || (User::isLogged() || $isLogged)){
+            return true;
+        }
+        return false;
     }
 
 }

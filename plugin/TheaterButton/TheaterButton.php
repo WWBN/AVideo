@@ -29,23 +29,35 @@ class TheaterButton extends PluginAbstract {
         if (empty($_GET['videoName'])) {
             return "";
         }
-        
+        $tmp = "mainVideo";
+        if(!empty($_SESSION['type'])){
+            if(($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio")){
+                $tmp = "mainAudio";
+            }
+        }
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/style.css" rel="stylesheet" type="text/css"/>';
-        $css .= '<style></style>';
+        $css .= '<script>var videoJsId = "'.$tmp.'";</script>';
         return $css;
     }
-    
+    public function getJSFiles(){
+        global $global, $autoPlayVideo, $isEmbed;
+        $obj = $this->getDataObject();
+        if ((empty($_GET['videoName']))||($isEmbed==1)) {
+            return array();
+        }
+        if(!empty($obj->show_switch_button)){
+            return array("plugin/TheaterButton/script.js","plugin/TheaterButton/addButton.js");
+        }
+        return array("plugin/TheaterButton/script.js");
+    }
     public function getFooterCode() {
-        global $global, $autoPlayVideo;
-        if (empty($_GET['videoName'])) {
+        global $global, $autoPlayVideo, $isEmbed;
+        if ((empty($_GET['videoName']))||($isEmbed==1)) {
             return "";
         }
         $obj = $this->getDataObject();
-        $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/script.js" type="text/javascript"></script>';
-        
-        if(!empty($obj->show_switch_button)){
-            $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/addButton.js" type="text/javascript"></script>';
-        }else{
+        $js = '';
+        if(empty($obj->show_switch_button)){
             if($obj->compress_is_default){
                 $js .= '<script>$(document).ready(function () {compress(videojs)});</script>';
             }else{

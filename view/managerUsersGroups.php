@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage categories"));
@@ -19,7 +22,7 @@ require_once $global['systemRootPath'] . 'objects/userGroups.php';
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';;
         ?>
 
         <div class="container">
@@ -70,13 +73,21 @@ This will make your videos private. Only users who are in the same group as the 
             </div><!-- /.modal -->
         </div><!--/.container-->
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>
             $(document).ready(function () {
                 var grid = $("#grid").bootgrid({
+                    labels: {
+                        noResults: "<?php echo __("No results found!"); ?>",
+                        all: "<?php echo __("All"); ?>",
+                        infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                        loading: "<?php echo __("Loading..."); ?>",
+                        refresh: "<?php echo __("Refresh"); ?>",
+                        search: "<?php echo __("Search"); ?>",
+                    },
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "usersGroups.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/usersGroups.json.php"; ?>",
                     formatters: {
                         "commands": function (column, row)
                         {
@@ -113,7 +124,7 @@ This will make your videos private. Only users who are in the same group as the 
 
                                     modal.showPleaseWait();
                                     $.ajax({
-                                        url: 'deleteUserGroups',
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/userGroupsDelete.json.php',
                                         data: {"id": row.id},
                                         type: 'post',
                                         success: function (response) {
@@ -146,7 +157,7 @@ This will make your videos private. Only users who are in the same group as the 
                     evt.preventDefault();
                     modal.showPleaseWait();
                     $.ajax({
-                        url: 'addNewUserGroups',
+                        url: '<?php echo $global['webSiteRootURL'] . "objects/userGroupsAddNew.json.php"; ?>',
                         data: {"id": $('#inputUserGroupsId').val(), "group_name": $('#inputName').val()},
                         type: 'post',
                         success: function (response) {

@@ -17,7 +17,7 @@ function isFlickityEnabled(selector){
 
 function loadPlayLists() {
     $.ajax({
-        url: webSiteRootURL + 'playLists.json',
+        url: webSiteRootURL + 'objects/playlists.json.php',
         success: function (response) {
             $('#searchlist').html('');
             for (var i in response) {
@@ -42,7 +42,7 @@ function loadPlayLists() {
             $('.playListsIds').change(function () {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: webSiteRootURL + 'playListAddVideo.json',
+                    url: webSiteRootURL + 'objects/playListAddVideo.json.php',
                     method: 'POST',
                     data: {
                         'videos_id': videos_id,
@@ -75,7 +75,6 @@ $(function () {
     $(".thumbsImage").on("click", function () {
         var img = $(this).find(".thumbsGIF").attr('src');
         videos_id = $(this).attr('videos_id');
-
         if (!img || true) {
             img = $(this).attr('poster');
         }
@@ -112,8 +111,11 @@ $(function () {
         });
         video = $(this).attr('video');
         cat = $(this).attr('cat');
+        if(typeof cat == 'undefined'){
+            cat = $(this).find('.tile__cat').attr('cat');
+        }
         var href = 'video/' + video;
-        if (cat && typeof cat != 'undefined') {
+        if ((cat && typeof cat != 'undefined')||(forceCatLinks)) {
             href = 'cat/' + cat + '/' + href;
         }
         $('.playBtn').attr('href', webSiteRootURL + href);
@@ -135,7 +137,7 @@ $(function () {
     $('#addPlayList').click(function () {
         modal.showPleaseWait();
         $.ajax({
-            url: webSiteRootURL + 'addNewPlayList',
+            url: webSiteRootURL + 'objects/playlistAddNew.json.php',
             method: 'POST',
             data: {
                 'videos_id': videos_id,

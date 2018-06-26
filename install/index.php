@@ -11,6 +11,7 @@ require_once '../objects/functions.php';
         <title>Install YouPHPTube</title>
         <link rel="icon" href="../view/img/favicon.png">
         <link href="../view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        
         <link href="../view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/js/seetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
         <script src="../view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
@@ -214,6 +215,8 @@ require_once '../objects/functions.php';
                                 <select class="selectpicker" data-width="fit" id="mainLanguage">
                                     <option data-content='<span class="flag-icon flag-icon-us"></span> English' value="en">English</option>
                                     <option  data-content='<span class="flag-icon flag-icon-es"></span> Spanish' value="es">Spanish</option>
+                                    <option  data-content='<span class="flag-icon flag-icon-de"></span> German' value="de">German</option>
+                                    <option  data-content='<span class="flag-icon flag-icon-tr"></span> Turkish' value="tr">Turkish</option>
                                     <option  data-content='<span class="flag-icon flag-icon-fr"></span> French' value="fr">French</option>
                                     <option  data-content='<span class="flag-icon flag-icon-br"></span> Brazilian Portuguese' value="pt_BR">Brazilian Portuguese</option>
                                 </select>
@@ -236,8 +239,11 @@ require_once '../objects/functions.php';
             </div>
         <?php } ?>
         <script src="../view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../view/css/flagstrap/js/jquery.flagstrap.min.js" type="text/javascript"></script>
         <script src="../view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="../view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
+        <script src="../view/js/jquery.lazy/jquery.lazy.min.js" type="text/javascript"></script>
+        <script src="../view/js/jquery.lazy/jquery.lazy.plugins.min.js" type="text/javascript"></script>
         <script src="../view/js/script.js" type="text/javascript"></script>
 
         <script>

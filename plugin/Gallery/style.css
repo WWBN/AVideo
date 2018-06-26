@@ -45,6 +45,7 @@ h3.galleryTitle{
 }
 
 .aspectRatio16_9 {
+    position: relative;
     display: block;
     width: 100%;
     height: 0;
@@ -145,4 +146,22 @@ h3.galleryTitle{
 }
 a.h6{
     text-decoration: none !important;
+}
+
+.popover-title { 
+    color: black;
+    background-color: lightgray;
+} 
+
+.popover-content{
+    color: black !important; 
+    background-color: lightgray;
+}
+.gallery .label{
+    font-size: 100%;
+    border-radius: 0;
+}
+
+.galleryTitle a:hover{
+    background-color: transparent;
 }

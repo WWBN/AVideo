@@ -1,9 +1,13 @@
 <?php
-require_once '../videos/configuration.php';
-require_once 'video.php';
-require_once 'comment.php';
-require_once 'subscribe.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'].'objects/video.php';
+require_once $global['systemRootPath'].'objects/comment.php';
+require_once $global['systemRootPath'].'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 if(empty($_POST['current']) && !empty($_GET['current'])){
     $_POST['current']=$_GET['current'];
@@ -18,13 +22,14 @@ if(empty($_POST['searchPhrase']) && !empty($_GET['searchPhrase'])){
     $_POST['searchPhrase']=$_GET['searchPhrase'];
 }
 
-$videos = Video::getAllVideos("viewableNotAd");
-$total = Video::getTotalVideos("viewableNotAd");
+$videos = Video::getAllVideos("viewable");
+$total = Video::getTotalVideos("viewable");
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);
-    $videos[$key]['Poster'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".jpg";
-    $videos[$key]['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename']."_thumbs.jpg";
+    $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
+    $videos[$key]['Poster'] = $images->poster;
+    $videos[$key]['Thumbnail'] = $images->thumbsJpg;
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/".$videos[$key]['clean_title'];

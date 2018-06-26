@@ -5,10 +5,10 @@ header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = "../";
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
@@ -27,6 +27,12 @@ $user = new User("", @$_POST['user'], @$_POST['password']);
 $user->login(false, true);
 if (!User::canUpload()) {
     $obj->msg = __("Permission denied to receive a file: " . print_r($_POST, true));
+    error_log($obj->msg);
+    die(json_encode($obj));
+}
+
+if(!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])){
+    $obj->msg = __("Permission denied to edit a video: " . print_r($_POST, true));
     error_log($obj->msg);
     die(json_encode($obj));
 }
@@ -96,6 +102,11 @@ if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local
         die(json_encode($obj));
     } 
 }
+
+if(!empty($_POST['categories_id'])){
+    $video->setCategories_id($_POST['categories_id']);
+}
+
 $video_id = $video->save();
 $video->updateDurationIfNeed();
 

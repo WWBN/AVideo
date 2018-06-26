@@ -1,5 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage subscribes"));
@@ -13,17 +16,17 @@ if (!User::canUpload()) {
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
         <?php
-        include 'include/navbar.php';
+        include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
         <div class="container">
             <div class="col-lg-9">
-                <textarea id="emailMessage" placeholder="Enter text ..." style="width: 100%;"></textarea>
+                <textarea id="emailMessage" placeholder="<?php echo __("Enter text"); ?> ..." style="width: 100%;"></textarea>
             </div>
             <div class="col-lg-3">
                 <button type="button" class="btn btn-success" id="sendSubscribeBtn">
@@ -43,15 +46,15 @@ if (!User::canUpload()) {
         </div><!--/.container-->
 
         <?php
-        include 'include/footer.php';
+        include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
         <script>
             function _subscribe(email,user_id, id) {
                 $('#subscribe' + id + ' span').addClass("fa-spinner");
                 $('#subscribe' + id + ' span').addClass("fa-spin");
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>subscribe.json',
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/subscribe.json.php',
                     method: 'POST',
                     data: {'email': email, 'user_id':user_id},
                     success: function (response) {
@@ -76,7 +79,7 @@ if (!User::canUpload()) {
             function notify(){
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>notifySubscribers.json',
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/notifySubscribers.json.php',
                     method: 'POST',
                     data: {'message': $('#emailMessage').val()},
                     success: function (response) {
@@ -93,8 +96,16 @@ if (!User::canUpload()) {
             $(document).ready(function () {
                 $('#emailMessage').wysihtml5();
                 var grid = $("#grid").bootgrid({
+                    labels: {
+                        noResults: "<?php echo __("No results found!"); ?>",
+                        all: "<?php echo __("All"); ?>",
+                        infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                        loading: "<?php echo __("Loading..."); ?>",
+                        refresh: "<?php echo __("Refresh"); ?>",
+                        search: "<?php echo __("Search"); ?>",
+                    },
                     ajax: true,
-                    url: "<?php echo $global['webSiteRootURL'] . "subscribes.json"; ?>",
+                    url: "<?php echo $global['webSiteRootURL'] . "objects/subscribes.json.php"; ?>",
                     formatters: {
                         "status": function (column, row) {
                             var subscribe = '<button type="button" class="btn btn-xs btn-success command-status" id="subscribe' + row.id + '" data-toggle="tooltip" data-placement="left" title="Unsubscribe"><span class="fa fa-check" aria-hidden="true"></span></button>'

@@ -16,9 +16,10 @@ function compress(t) {
     $('#mvideo').removeClass('main-video');
     left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width() + 30;
     $(".compress").css('left', left);
-
-    t.removeClass('fa-compress');
-    t.addClass('fa-expand');
+    if(t!=undefined){
+        t.removeClass('ypt-compress');
+        t.addClass('ypt-expand');
+    }
 }
 function expand(t) {
     $('#mvideo').find('.firstC').removeClass('col-sm-1');
@@ -33,22 +34,26 @@ function expand(t) {
     $('.rightBar').removeClass('compress');
     $('#mvideo').addClass('main-video');
     console.log("expand");
-    t.removeClass('fa-expand');
-    t.addClass('fa-compress');
+    if(t!=undefined){
+        t.removeClass('ypt-expand');
+        t.addClass('ypt-compress');
+    }
 }
 function toogleEC(t) {
-    if (t.hasClass('fa-expand')) {
-        expand(t);
-        Cookies.set('compress', false, {
-            path: '/',
-            expires: 365
-        });
-    } else {
-        compress(t);
-        Cookies.set('compress', true, {
-            path: '/',
-            expires: 365
-        });
+    if(t!=undefined){
+        if (t.hasClass('ypt-expand')) {
+            expand(t);
+            Cookies.set('compress', false, {
+                path: '/',
+                expires: 365
+            });
+        } else {
+            compress(t);
+            Cookies.set('compress', true, {
+                path: '/',
+                expires: 365
+            });
+        }
     }
 }
 $(document).ready(function () {

@@ -1,8 +1,8 @@
 <?php
-
 header('Content-Type: application/json');
-if (empty($global['systemRootPath'])) {
-    $global['systemRootPath'] = '../';
+global $global, $config;
+if(!isset($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
@@ -18,8 +18,11 @@ $config->setLanguage($_POST['language']);
 $config->setWebSiteTitle($_POST['webSiteTitle']);
 $config->setAuthCanComment($_POST['authCanComment']);
 $config->setAuthCanUploadVideos($_POST['authCanUploadVideos']);
+$config->setAuthCanViewChart($_POST['authCanViewChart']);
 if (empty($global['disableAdvancedConfigurations'])) {
     $config->setDisable_analytics($_POST['disable_analytics']);
+    $config->setDisable_youtubeupload($_POST['disable_youtubeupload']);
+    $config->setAllow_download($_POST['allow_download']);
     $config->setSession_timeout($_POST['session_timeout']);
     $config->setEncoderURL($_POST['encoder_url']);
     $config->setSmtp($_POST['smtp']);

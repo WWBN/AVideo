@@ -1,0 +1,2 @@
+ALTER TABLE `videos` CHANGE `type` `type` ENUM('audio','video','embed','linkVideo','linkAudio') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'video';
+UPDATE configurations SET  version = '5.5', modified = now() WHERE id = 1;
