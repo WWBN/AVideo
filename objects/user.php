@@ -392,8 +392,6 @@ if (typeof gtag !== \"function\") {
         } else {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, false, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}')";
         }
-        //echo $sql;
-        error_log($sql);
         $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {
