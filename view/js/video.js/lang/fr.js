@@ -5,7 +5,7 @@ videojs.addLanguage("fr",{
  "Pause": "Pause",
  "Replay": "Revoir",
  "Current Time": "Temps actuel",
- "Duration Time": "Durée",
+ "Duration": "Durée",
  "Remaining Time": "Temps restant",
  "Stream Type": "Type de flux",
  "LIVE": "EN DIRECT",

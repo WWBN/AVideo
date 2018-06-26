@@ -10,7 +10,7 @@ $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvance
 
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 if (!empty($objSecure->disableEmbedMode)) {
-    die('Embed Mode disabled');
+    die(__('Embed Mode disabled'));
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -57,14 +57,12 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
         <style>
@@ -76,10 +74,10 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                     echo "background-color: $customizedAdvanced->embedBackgroundColor;";
                 }
                 ?>
-                
+
             }
         </style>
-        
+
         <?php
     $jsFiles = array();
     //$jsFiles[] = "{$global['webSiteRootURL']}bootstrap/js/bootstrap.min.js";
@@ -131,7 +129,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                 <?php
                     $ext = ".ogg";
                 } else { ?>
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" /> 
+                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
                     <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
                 <?php
                     $ext = ".mp3";
@@ -146,7 +144,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                 <?php
             } else {
                 ?>
-                <video id="mainVideo" poster="<?php echo $poster; ?>" controls 
+                <video id="mainVideo" poster="<?php echo $poster; ?>" controls
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                     <?php
                     echo getSources($video['filename']);

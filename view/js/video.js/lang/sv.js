@@ -2,7 +2,7 @@ videojs.addLanguage("sv",{
  "Play": "Spela",
  "Pause": "Pausa",
  "Current Time": "Aktuell tid",
- "Duration Time": "Total tid",
+ "Duration": "Total tid",
  "Remaining Time": "Återstående tid",
  "Stream Type": "Strömningstyp",
  "LIVE": "LIVE",

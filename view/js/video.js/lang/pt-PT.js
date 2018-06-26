@@ -3,7 +3,7 @@ videojs.addLanguage("pt-PT",{
  "Pause": "Parar",
  "Replay": "Reiniciar",
  "Current Time": "Tempo Atual",
- "Duration Time": "Duração",
+ "Duration": "Duração",
  "Remaining Time": "Tempo Restante",
  "Stream Type": "Tipo de Stream",
  "LIVE": "EM DIRETO",

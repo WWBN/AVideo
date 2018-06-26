@@ -98,7 +98,7 @@ if (!empty($_GET['playlist_id'])) {
                 }
 
                 if ($value['id'] == $video['id']) {
-                    // if the video is found, make another round to have the next video properly.      
+                    // if the video is found, make another round to have the next video properly.
                     $videoFound = true;
                 }
             }
@@ -158,7 +158,6 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <link rel="image_src" href="<?php echo $img; ?>" />
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
@@ -379,11 +378,11 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                         </script>
                                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                             <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                                        </a>                                    
-                                    <?php } echo YouPHPTubePlugin::getWatchActionButton(); ?>                                    
+                                        </a>
+                                    <?php } echo YouPHPTubePlugin::getWatchActionButton(); ?>
                                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                                         <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
-                                    </a>			
+                                    </a>
                                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                                         <span class="fa fa-thumbs-up"></span>
                                         <small><?php echo $video['likes']; ?></small>
@@ -558,7 +557,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                                 <?php } ?>
                                             </div>
 
-                                            <div class="tab-pane" id="tabPermaLink">                                            
+                                            <div class="tab-pane" id="tabPermaLink">
                                                 <div class="form-group">
                                                     <label class="control-label"><?php echo __("Permanent Link") ?></label>
                                                     <div class="">
@@ -570,7 +569,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                                     <div class="">
                                                         <input value="<?php echo Video::getURLFriendly($video['id']); ?>" class="form-control" readonly="readonly"/>
                                                     </div>
-                                                </div>                                            
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -763,7 +762,6 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                 $videoJSArray[] = "view/js/videojs-vimeo/videojs-vimeo.js";
             }
         }
-        $videoJSArray[] = "view/js/videojs-contrib-ads/videojs.ads.min.js";
         $jsURL = combineFiles($videoJSArray, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>

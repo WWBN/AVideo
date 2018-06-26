@@ -2,7 +2,7 @@ videojs.addLanguage("it",{
  "Play": "Play",
  "Pause": "Pausa",
  "Current Time": "Orario attuale",
- "Duration Time": "Durata",
+ "Duration": "Durata",
  "Remaining Time": "Tempo rimanente",
  "Stream Type": "Tipo del Streaming",
  "LIVE": "LIVE",

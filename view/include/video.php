@@ -26,10 +26,18 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                 </button>
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
-                <video preload="auto" poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
-                    <?php if ($playNowVideo['type'] == "video") { ?>
+                <video 
+                    <?php if ($config->getAutoplay() && false) { // disable it for now ?>
+                        autoplay="true"
+                        muted="muted" 
+                    <?php } ?>
+                    playsinline webkit-playsinline 
+                    preload="auto" 
+                    poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
+                        <?php if ($playNowVideo['type'] == "video") { ?>
                         <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
-                        <?php echo getSources($playNowVideo['filename']);
+                        <?php
+                        echo getSources($playNowVideo['filename']);
                     } else {
                         ?>
                         <source src="<?php echo $playNowVideo['videoLink']; ?>" type="video/mp4" >
@@ -50,24 +58,26 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                     <div style="<?php echo $style; ?>">
                         <a href="<?php echo $url; ?>"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"></a>
                     </div>
-<?php } ?>
+                <?php } ?>
 
             </div>
         </div>
-<?php if ($config->getAllow_download()) { ?>
-                <?php if ($playNowVideo['type'] == "video") { ?>
+        <?php if ($config->getAllow_download()) { ?>
+            <?php if ($playNowVideo['type'] == "video") { ?>
                 <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $playNowVideo['filename']; ?>.mp4" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>" >
                     <i class="fa fa-download"></i>
-                <?php echo __("Download video"); ?>
+                    <?php echo __("Download video"); ?>
                 </a>
-                <?php } else { ?>
+            <?php } else { ?>
                 <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $video['videoLink']; ?>" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>" >
                     <i class="fa fa-download"></i>
-                <?php echo __("Download video"); ?>
+                    <?php echo __("Download video"); ?>
                 </a>      
 
-    <?php }
-} ?>
+            <?php
+            }
+        }
+        ?>
     </div>
     <div class="col-sm-2 col-md-2"></div>
 </div>
@@ -112,7 +122,7 @@ if (!$config->getAllow_download()) {
                         }, 1000);
                     }
                 }, 150);
-    <?php } else {
+<?php } else {
     ?>
                 if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                     setTimeout(function () {
@@ -132,7 +142,8 @@ if (!$config->getAllow_download()) {
 ?>
             this.on('ended', function () {
                 console.log("Finish Video");
-<?php // if autoplay play next video
+<?php
+// if autoplay play next video
 if (!empty($autoPlayVideo)) {
     ?>
                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {

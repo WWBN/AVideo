@@ -84,7 +84,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             <input type="checkbox" value="isAdmin" id="isAdmin"/>
                                             <label for="isAdmin" class="label-success"></label>
                                         </div>
-                                    </li>                                  
+                                    </li>
                                     <li class="list-group-item">
                                         <?php echo __("Can Stream Videos"); ?>
                                         <div class="material-switch pull-right">
@@ -100,19 +100,26 @@ $userGroups = UserGroups::getAllUsersGroups();
                                         </div>
                                     </li>
                                     <li class="list-group-item">
+                                        <?php echo __("Can view chart"); ?>
+                                        <div class="material-switch pull-right">
+                                            <input type="checkbox" value="canViewChart" id="canViewChart"/>
+                                            <label for="canViewChart" class="label-success"></label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
                                         <?php echo __("E-mail Verified"); ?>
                                         <div class="material-switch pull-right">
                                             <input type="checkbox" value="isEmailVerified" id="isEmailVerified"/>
                                             <label for="isEmailVerified" class="label-success"></label>
                                         </div>
-                                    </li>                                      
+                                    </li>
                                     <li class="list-group-item">
                                         <?php echo __("is Active"); ?>
                                         <div class="material-switch pull-right">
                                             <input type="checkbox" value="status" id="status"/>
                                             <label for="status" class="label-success"></label>
                                         </div>
-                                    </li>                                 
+                                    </li>
                                 </ul>
                                 <ul class="list-group">
                                     <li class="list-group-item active">
@@ -219,8 +226,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                         $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
                         $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
                         $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
+                        $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
                         $('#status').prop('checked', (row.status === "a" ? true : false));
-                        $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false)); 
+                        $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
 
                         $('#userFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
@@ -272,10 +280,11 @@ $userGroups = UserGroups::getAllUsersGroups();
                     $('#isAdmin').prop('checked', false);
                     $('#canStream').prop('checked', false);
                     $('#canUpload').prop('checked', false);
+                    $('#canViewChart').prop('checked', false);
                     $('.userGroups').prop('checked', false);
                     $('#status').prop('checked', true);
                     $('#isEmailVerified').prop('checked', false);
-                    
+
 
                     $('#userFormModal').modal();
                 });
@@ -291,7 +300,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                         $('#inputAnalyticsCode').focus();
                         return false;
                     }
-                    
+
                     modal.showPleaseWait();
                     var selectedUserGroups = [];
                     $('.userGroups:checked').each(function () {
@@ -311,6 +320,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             "isAdmin": $('#isAdmin').is(':checked'),
                             "canStream": $('#canStream').is(':checked'),
                             "canUpload": $('#canUpload').is(':checked'),
+                            "canViewChart": $('#canViewChart').is(':checked'),
                             "status": $('#status').is(':checked') ? 'a' : 'i',
                             "isEmailVerified": $('#isEmailVerified').is(':checked'),
                             "userGroups": selectedUserGroups
@@ -324,7 +334,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                             } else if(response.error){
                                 swal("<?php echo __("Sorry!"); ?>", response.error, "error");
                             } else {
-                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");                                
+                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
                             }
                             modal.hidePleaseWait();
                         }

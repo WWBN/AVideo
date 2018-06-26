@@ -26,7 +26,7 @@ if (!User::canUpload()) {
 
         <div class="container">
             <div class="col-lg-9">
-                <textarea id="emailMessage" placeholder="Enter text ..." style="width: 100%;"></textarea>
+                <textarea id="emailMessage" placeholder="<?php echo __("Enter text"); ?> ..." style="width: 100%;"></textarea>
             </div>
             <div class="col-lg-3">
                 <button type="button" class="btn btn-success" id="sendSubscribeBtn">
