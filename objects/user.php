@@ -378,14 +378,14 @@ if (typeof gtag !== \"function\") {
             $this->channelName = uniqid();
         }
 
-        if(!isset($this->canViewChart)){
-          //$this->canViewChart = 0;
-        }
-
         if (!empty($this->id)) {
             $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
                     . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
-                    . "canStream = {$this->canStream},canUpload = {$this->canUpload},canViewChart = {$this->canViewChart}, status = '{$this->status}', "
+                    . "canStream = {$this->canStream},canUpload = {$this->canUpload},";
+                    if(isset($this->canViewChart)){
+                      $sql .= "canViewChart = {$this->canViewChart}, ";
+                    }
+                    $sql .= "status = '{$this->status}', "
                     . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
                     . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
                     . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}' , modified = now() WHERE id = {$this->id}";
@@ -393,6 +393,7 @@ if (typeof gtag !== \"function\") {
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, {$this->canViewChart}, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}')";
         }
         //echo $sql;
+        //error_log($sql);
         $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {
