@@ -101,6 +101,10 @@ class sqlDAL {
                 if ($stmt->errno != 0) {
                     log_error('Error in readSql (mysqlnd): (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
                     $stmt->close();
+                    // try again with noMysqlND
+                    self::readSql($preparedStatement, $formats, $values, $refreshCache);
+                    $disableMysqlNdMethods=true;
+                    
                     return false;
                 }
                 $stmt->close();
