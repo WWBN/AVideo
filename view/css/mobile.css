@@ -1,0 +1,48 @@
+#searchForm{
+  width: 100%;
+  padding-left: 10px;
+
+
+}
+
+#searchForm > div{
+  width: 100%;
+
+
+}
+
+.mobilesecondnav {
+   position: absolute; left: 40%; right: 5px;
+}
+
+#mysearch{
+  /* width: 100%; */
+  position: absolute;
+  right: 0;
+  left: 0;
+  padding-left: 0px;
+  padding-right: 0px;
+
+}
+.globalsearchfield {
+  width: 80% !important;
+}
+
+.searchli {
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
+
+}
+
+.navbar-toggle {
+  margin-right: 5px !important;
+
+
+}
+.left-side {
+  padding: 5px;
+}
+.searchul{
+  padding-left: 0px;
+}
