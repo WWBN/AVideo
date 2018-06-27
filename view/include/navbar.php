@@ -55,9 +55,9 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <span class="fa fa-search"></span>
                     </button>
                 </div>
-                <div class="container-fluid collapse navbar-collapse navbar-default" id="mysearch">
+                <div class="container-fluid navbar-collapse navbar-default collapse" id="mysearch">
                     <ul class="searchul">
-            <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px;">
+            <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom: 0px;">
                 <form class="navbar-form navbar-default" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
                     <div class="input-group" >
                         <div class="form-inline">
