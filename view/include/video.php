@@ -55,7 +55,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                     $url = VideoLogoOverlay::getLink();
                     ?>
                     <div style="<?php echo $style; ?>">
-                        <a href="<?php echo $url; ?>"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"></a>
+                        <a href="<?php echo $url; ?>"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" class="img-responsive col-lg-12 col-md-8 col-sm-6 col-xs-4"></a>
                     </div>
                 <?php } ?>
 
