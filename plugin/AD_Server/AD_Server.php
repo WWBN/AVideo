@@ -74,7 +74,8 @@ class AD_Server extends PluginAbstract {
         $_GET['vmap_id'] = session_id();
 
         $js = '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="'.$global['webSiteRootURL'].'js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>'
+                . '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->showMarkers)) {
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
