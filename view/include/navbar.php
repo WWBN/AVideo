@@ -27,11 +27,11 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                     <li>
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu" ><span class="fa fa-bars"></span></button>
                         <script>
-                            $('#buttonMenu').click(function (event) {
+                            $('#buttonMenu').on("click", function (event) {
                                 event.stopPropagation();
                                 $('#sidebar').fadeToggle();
-
                             });
+
 
                             $(document).on("click", function () {
                                 $("#sidebar").fadeOut();
@@ -46,33 +46,46 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
                         </a>
                     </li>
+
                 </ul>
             </li>
-            <li>
+            <li style="margin-right: 0px; ">
+                <div class="navbar-header">
+                    <button type="button" id="buttonSearch" class="navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#mysearch" style="padding: 6px 12px;">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+                <div class="container-fluid collapse navbar-collapse navbar-default" id="mysearch">
+                    <ul class="searchul">
+            <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px;">
+                <form class="navbar-form navbar-default" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
+                    <div class="input-group" >
+                        <div class="form-inline">
+                            <input class="form-control globalsearchfield" type="text" value="<?php if (!empty($_GET['search'])) {
+            echo $_GET['search'];
+        } ?>" name="search" placeholder="<?php echo __("Search"); ?>">
+                            <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                    </div>
+                </form>
+            </li>
+          </ul>
+        </div>
+      </li>
+            <li style="margin-right: 0px; padding-left: 0px;">
                 <div class="navbar-header">
                     <button type="button" class=" navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#myNavbar" style="padding: 6px 12px;">
                         <span class="fa fa-bars"></span>
                     </button>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="right-menus">
+                    <ul class="right-menus navbar-default mobilesecondnav" style="padding-left: 0;">
                         <?php
                         if (!empty($advancedCustom->menuBarHTMLCode->value)) {
                             echo $advancedCustom->menuBarHTMLCode->value;
                         }
                         ?>
-                        <li class="">
-                            <form class="navbar-form navbar-left" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
-                                <div class="input-group" >
-                                    <div class="form-inline">
-                                        <input class="form-control" type="text" value="<?php if (!empty($_GET['search'])) {
-                        echo $_GET['search'];
-                    } ?>" name="search" placeholder="<?php echo __("Search"); ?>">
-                                        <button class="input-group-addon form-control hidden-xs"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </li>
+
                         <?php
                         echo YouPHPTubePlugin::getHTMLMenuRight();
                         ?>
