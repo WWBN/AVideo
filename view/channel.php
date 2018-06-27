@@ -135,13 +135,14 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                         }
                         $videos = Video::getAllVideos("a", false, false, $videosArrayId);
                         $videos = PlayList::sortVideos($videos, $videosArrayId);
+                        $playListButtons=YouPHPTubePlugin::getPlayListButtons($playlist['id']);
                         ?>
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
 
                                 <strong style="font-size: 1em;" class="playlistName"><?php echo $playlist['name']; ?> </strong>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist['id']; ?>" class="btn btn-xs btn-default playAll"><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist['id']; ?>" class="btn btn-xs btn-default playAll"><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons;?>
                                 <?php
                                 if ($isMyChannel) {
                                     ?>
