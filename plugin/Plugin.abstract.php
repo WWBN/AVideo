@@ -46,6 +46,10 @@ abstract class PluginAbstract {
         return "";
     }
 
+    public function getChartContent() {
+	return "";
+    }
+
     public function getPluginMenu() {
         return "";
     }
