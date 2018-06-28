@@ -66,6 +66,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
 } else {
     $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
 }
+$contentSearchFound = false;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -83,24 +84,29 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                 <?php echo $config->getAdsense(); ?>
             </div>
             <div class="col-sm-10 col-sm-offset-1 list-group-item">
-                <?php
-                if (!empty($currentCat)) {
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
-                }
 
-                if ($obj->searchOnChannels && !empty($_GET['search'])) {
-                    $channels = User::getAllUsers();
-                    foreach ($channels as $value) {
-                        createChannelItem($value['id'], $value['photoURL'], $value['identification']);
+                <div class="row mainArea">
+                    <?php
+                    if (!empty($currentCat)) {
+                        include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
                     }
-                }
 
-                if (!empty($video)) {
-                    $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
-                    ?>
+                    if ($obj->searchOnChannels && !empty($_GET['search'])) {
+                        $channels = User::getAllUsers();
+                        clearSearch();
+                        foreach ($channels as $value) {
+                            $contentSearchFound = true;
+                            createChannelItem($value['id'], $value['photoURL'], $value['identification']);
+                        }
+                        reloadSearch();
+                    }
 
-                    <div class="row mainArea">
+                    if (!empty($video)) {
+                        $contentSearchFound = true;
+                        $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
+                        include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
+                        ?>
+
                         <!-- For Live Videos -->
                         <div id="liveVideos" class="clear clearfix" style="display: none;">
                             <h3 class="galleryTitle text-danger"> <i class="fab fa-youtube"></i> <?php echo __("Live"); ?></h3>
@@ -140,18 +146,21 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                             }
                         }
                         ?>
-                    </div>
-                <?php } else { ?>
-                    <div class="alert alert-warning">
-                        <span class="glyphicon glyphicon-facetime-video"></span>
-                        <strong><?php echo __("Warning"); ?>!</strong>
+                    <?php }
+
+                    if (!$contentSearchFound) {
+                        ?>
+                        <div class="alert alert-warning">
+                            <span class="glyphicon glyphicon-facetime-video"></span>
+                            <strong><?php echo __("Warning"); ?>!</strong>
                         <?php echo __("We have not found any videos or audios to show"); ?>.
-                    </div>
-                <?php } ?>
+                        </div>
+<?php } ?>
+                </div>
             </div>
         </div>
     </div>
-    <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
+<?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
 </body>
 </html>
 <?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>
