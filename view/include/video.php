@@ -28,8 +28,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
                 <video 
                     <?php if ($config->getAutoplay() && false) { // disable it for now ?>
-                        autoplay="true"
-                        muted="muted" 
+                        autoplay="true" 
                     <?php } ?>
                     preload="auto" 
                     poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
