@@ -253,4 +253,19 @@ function createChannelItem($users_id, $photoURL = "", $identification = "", $row
     </div>
     <?php
 }
+
+$search = "";
+$searchPhrase = "";
+function clearSearch(){
+    global $search, $searchPhrase;
+    $search = $_GET['search'];
+    $searchPhrase = $_POST['searchPhrase'];
+    unset($_GET['search']);
+    unset($_POST['searchPhrase']);
+}
+function reloadSearch(){
+    global $search, $searchPhrase;
+    $_GET['search'] = $search;
+    $_POST['searchPhrase'] = $searchPhrase;
+}
 ?>
