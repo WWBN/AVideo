@@ -95,7 +95,6 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                 $('#mysearch').removeClass("in");
                             });
 
-
                             $(document).on("click", function () {
                                 $("#sidebar").fadeOut();
                             });
@@ -105,24 +104,28 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             $("#buttonSearch").click( function (event) {
                                 $('#myNavbar').removeClass("in");
                                 $("#sidebar").fadeOut();
-                                console.log("hide the navbar");
                             });
                             $("#buttonMyNavbar").click( function (event) {
                                 $('#mysearch').removeClass("in");
                                 $("#sidebar").fadeOut();
-                                console.log("ide the search");
                             });
-
+                            var wasMobile = true;
                             $(window).resize(function() {
                                 if ($(window).width() > 767) {
                                   // Window is bigger than 767 pixels wide - show search again, if autohide by mobile.
+                                  if(wasMobile){
+                                    wasMobile = false;
                                   $('#mysearch').addClass("in");
                                   $('#myNavbar').addClass("in");
                                 }
+                                }
                                 if ($(window).width() < 767) {
                                   // Window is smaller 767 pixels wide - show search again, if autohide by mobile.
-                                  $('#myNavbar').removeClass("in");
-                                  $('#mysearch').removeClass("in");
+                                  if(wasMobile==false){
+                                    wasMobile = true;
+                                    $('#myNavbar').removeClass("in");
+                                    $('#mysearch').removeClass("in");
+                                }
                                 }
                               });
                             });
