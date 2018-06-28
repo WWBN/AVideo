@@ -1,11 +1,14 @@
-@media (max-width : 768px) {
-#searchForm {
+#searchForm{
   width: 100%;
   padding-left: 10px;
+
+
 }
 
 #searchForm > div{
   width: 100%;
+
+
 }
 
 .mobilesecondnav {
@@ -31,9 +34,7 @@
   margin-left: 0;
 
 }
-.searchdiv {
 
-}
 .navbar-toggle {
   margin-right: 5px !important;
 
@@ -44,5 +45,4 @@
 }
 .searchul{
   padding-left: 0px;
-}
 }
