@@ -8,6 +8,55 @@
   #myNavbar.collapsing {
       display: block!important;
   }
+  @media (max-width : 768px) {
+  #searchForm {
+    width: 100%;
+    padding-left: 10px;
+  }
+
+  #searchForm > div{
+    width: 100%;
+  }
+
+  .mobilesecondnav {
+     position: absolute; left: 40%; right: 5px;
+  }
+
+  #mysearch{
+    /* width: 100%; */
+    position: absolute;
+    right: 0;
+    left: 0;
+    padding-left: 0px;
+    padding-right: 0px;
+
+  }
+  .globalsearchfield {
+    width: 80% !important;
+  }
+
+  .searchli {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+
+  }
+  .searchdiv {
+
+  }
+  .navbar-toggle {
+    margin-right: 5px !important;
+
+
+  }
+  .left-side {
+    padding: 5px;
+  }
+  .searchul{
+    padding-left: 0px;
+  }
+  }
+
 </style>
 <?php
 global $global, $config;
@@ -70,6 +119,11 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                   $('#mysearch').addClass("in");
                                   $('#myNavbar').addClass("in");
                                 }
+                                if ($(window).width() < 767) {
+                                  // Window is smaller 767 pixels wide - show search again, if autohide by mobile.
+                                  $('#myNavbar').removeClass("in");
+                                  $('#mysearch').removeClass("in");
+                                }
                               });
                             });
                         </script>
@@ -92,12 +146,12 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                     <ul class="searchul">
             <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom:0px;">
                 <form class="navbar-form navbar-default" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
-                    <div class="input-group" >
+                    <div class="input-group" style="width: 100%;" >
                         <div class="form-inline">
-                            <input class="form-control globalsearchfield" type="text" value="<?php if (!empty($_GET['search'])) {
+                            <span><input class="form-control globalsearchfield" type="text" value="<?php if (!empty($_GET['search'])) {
             echo $_GET['search'];
         } ?>" name="search" placeholder="<?php echo __("Search"); ?>">
-                            <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                            <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button></span>
                         </div>
                     </div>
                 </form>
