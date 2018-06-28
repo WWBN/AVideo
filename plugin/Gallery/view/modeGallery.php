@@ -92,7 +92,7 @@ $contentSearchFound = false;
                     }
 
                     if ($obj->searchOnChannels && !empty($_GET['search'])) {
-                        $channels = User::getAllUsers(true,array('channelName', 'about'));
+                        $channels = User::getAllUsers(true);
                         clearSearch();
                         foreach ($channels as $value) {
                             $contentSearchFound = true;
