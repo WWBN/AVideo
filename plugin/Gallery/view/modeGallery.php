@@ -104,7 +104,9 @@ $contentSearchFound = false;
                     if (!empty($video)) {
                         $contentSearchFound = true;
                         $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
-                        include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
+                        if(empty($_GET['search'])){
+                            include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
+                        }
                         ?>
 
                         <!-- For Live Videos -->
