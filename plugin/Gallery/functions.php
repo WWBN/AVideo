@@ -127,7 +127,7 @@ function createGallerySection($videos) {
                 $poster = $images->thumbsJpg;
                 ?>
                 <div class="aspectRatio16_9">
-                    <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster!=$images->thumbsJpgSmall)?"blur":""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+                    <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                     <?php if (!empty($imgGif)) { ?>
                         <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                     <?php } ?>
@@ -204,12 +204,53 @@ function createGallerySection($videos) {
                     }
                     ?>
                     <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'] . $ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
-                    <?php } ?>
+                <?php } ?>
 
             </div>
         </div>
     <?php } ?>
 
+    <?php
+}
+
+function createChannelItem($users_id, $photoURL = "", $identification = "", $rowCount=12) {
+    if(empty($photoURL)){
+        $photoURL = User::getPhoto($users_id);
+    }
+    if(empty($identification)){
+        $identification = User::getNameIdentificationById($users_id);
+    }
+    ?>
+    <div class="clear clearfix">
+        <h3 class="galleryTitle">
+            <img src="<?php
+            echo $photoURL;
+            ?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;">
+            <span style="margin: 0 5px;">
+                <?php
+                echo $identification;
+                ?>
+            </span>
+            <a class="btn btn-xs btn-default" href="<?php echo User::getChannelLink($users_id); ?>" style="margin: 0 10px;">
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <?php
+            echo Subscribe::getButton($users_id);
+            ?>
+        </h3>
+        <div class="row">
+            <?php
+            $countCols = 0;
+            unset($_POST['sort']);
+            $_POST['sort']['created'] = "DESC";
+            $_POST['current'] = 1;
+            $_POST['rowCount'] = $rowCount;
+            $total = Video::getTotalVideos("viewable", $users_id);
+            $videos = Video::getAllVideos("viewable", $users_id);
+            createGallerySection($videos);
+            ?>
+        </div>
+    </div>
     <?php
 }
 ?>

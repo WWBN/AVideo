@@ -645,7 +645,7 @@ if (typeof gtag !== \"function\") {
         global $global;
         $sql = "SELECT * FROM users WHERE 1=1 ";
 
-        $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
+        $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user', 'channelName', 'about'));
         $user = array();
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
         $res = sqlDAL::readSql($sql . ";");
