@@ -636,7 +636,7 @@ if (typeof gtag !== \"function\") {
         $this->photoURL = strip_tags($photoURL);
     }
 
-    static function getAllUsers($ignoreAdmin = false) {
+    static function getAllUsers($ignoreAdmin = false, $searchFields=array('name', 'email', 'user', 'channelName', 'about')) {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
@@ -645,7 +645,8 @@ if (typeof gtag !== \"function\") {
         global $global;
         $sql = "SELECT * FROM users WHERE 1=1 ";
 
-        $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user', 'channelName', 'about'));
+        $sql .= BootGrid::getSqlFromPost($searchFields);
+        
         $user = array();
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
         $res = sqlDAL::readSql($sql . ";");

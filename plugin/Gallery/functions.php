@@ -214,6 +214,11 @@ function createGallerySection($videos) {
 }
 
 function createChannelItem($users_id, $photoURL = "", $identification = "", $rowCount=12) {
+    $total = Video::getTotalVideos("viewable", $users_id);
+    if(empty($total)){
+        return false;
+    }
+    $videos = Video::getAllVideos("viewable", $users_id);
     if(empty($photoURL)){
         $photoURL = User::getPhoto($users_id);
     }
@@ -245,8 +250,6 @@ function createChannelItem($users_id, $photoURL = "", $identification = "", $row
             $_POST['sort']['created'] = "DESC";
             $_POST['current'] = 1;
             $_POST['rowCount'] = $rowCount;
-            $total = Video::getTotalVideos("viewable", $users_id);
-            $videos = Video::getAllVideos("viewable", $users_id);
             createGallerySection($videos);
             ?>
         </div>
