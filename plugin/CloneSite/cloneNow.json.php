@@ -25,7 +25,7 @@ if(empty($obj->cloneSiteURL)){
     die(json_encode($resp));
 }
 
-$videosDir = "{$obj->cloneSiteURL}videos/";
+$videosDir = "{$global['systemRootPath']}videos/";
 $clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
 if (!file_exists($clonesDir)) {
