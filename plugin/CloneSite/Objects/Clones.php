@@ -98,6 +98,9 @@ class Clones extends ObjectYPT {
         if(empty($this->status)){
             $this->status = 'i';
         }
+        if(empty($this->last_clone_request)){
+            $this->last_clone_request = 'null';
+        }
         return parent::save();
     }
             
