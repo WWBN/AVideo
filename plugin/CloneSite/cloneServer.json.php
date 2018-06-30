@@ -4,7 +4,12 @@ require_once '../../videos/configuration.php';
 set_time_limit(0);
 session_write_close();
 require_once $global['systemRootPath'] . 'plugin/CloneSite/Objects/Clones.php';
+require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 header('Content-Type: application/json');
+
+$videosDir = "{$global['systemRootPath']}videos/";
+$clonesDir = "{$videosDir}cache/clones/";
+$photosDir = "{$videosDir}userPhoto/";
 
 $resp = new stdClass();
 $resp->error = true;
@@ -12,6 +17,8 @@ $resp->msg = "";
 $resp->url = $_GET['url'];
 $resp->key = $_GET['key'];
 $resp->sqlFile = "";
+$resp->videoFiles = array();
+$resp->photoFiles = array();
 
 // check if the url is allowed to clone it
 $canClone = Clones::thisURLCanCloneMe($resp->url, $resp->key);
@@ -19,8 +26,6 @@ if(empty($canClone->canClone)){
     $resp->msg = $canClone->msg;
     die(json_encode($resp));
 }
-
-$clonesDir = $global['systemRootPath']."videos/cache/clones/";
 
 if (!file_exists($clonesDir)) {
     mkdir($clonesDir, 0777, true);
@@ -38,5 +43,8 @@ exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
+
+$resp->videoFiles = getCloneFilesInfo($videosDir);
+$resp->photoFiles = getCloneFilesInfo($photosDir, "userPhoto/");
 
 echo json_encode($resp);
