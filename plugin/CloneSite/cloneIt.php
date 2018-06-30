@@ -34,12 +34,18 @@ $lastRequest = str_replace('+00:00', 'Z', gmdate('c', strtotime($last_clone_requ
 
 // get mysql dump
 $cmd = "mysqldump -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} > {$resp->sqlFile}";
-exec($cmd);
-
+error_log("Clone: Dump {$cmd}");
+exec($cmd." 2>&1", $output, $return_val);
+if ($return_val !== 0) {
+    error_log("Clone Error: ". print_r($output, true));
+}
 // get videos newer then last clone
 $cmd = "find . -newermt '{$lastRequest}' -print | xargs tar -rf {$resp->videosFile}";
-exec($cmd);
-
+error_log("Clone: Find Videos {$cmd}");
+exec($cmd." 2>&1", $output, $return_val);
+if ($return_val !== 0) {
+    error_log("Clone Error: ". print_r($output, true));
+}
 // update this clone last request
 $resp->error = !$canClone->clone->updateLastCloneRequest();
 
