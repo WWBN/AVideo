@@ -27,6 +27,12 @@ if(empty($canClone->canClone)){
     die(json_encode($resp));
 }
 
+if(!empty($_GET['deleteDump'])){
+    $resp->error = !unlink("{$clonesDir}{$_GET['deleteDump']}");
+    $resp->msg = "Delete Dump {$_GET['deleteDump']}";
+    die(json_encode($resp));
+}
+
 if (!file_exists($clonesDir)) {
     mkdir($clonesDir, 0777, true);
     file_put_contents($clonesDir."index.html", '');

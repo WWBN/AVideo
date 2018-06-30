@@ -100,6 +100,19 @@ foreach ($newPhotoFiles as $value) {
     file_put_contents("{$photosDir}{$value->filename}", fopen("$value->url", 'r'));
 }
 
+// notify to delete dump
+$url = $url."&deleteDump={$json->sqlFile}";
+// check if it respond
+$log->add("Clone: Notify Server to Delete Dump {$url}");
+$content2 = url_get_contents($url);
+//var_dump($url, $content);exit;
+$json2 = json_decode($content);
+if(!empty($json2->error)){
+    $log->add("Clone: Dump NOT deleted");
+}else{
+    $log->add("Clone: Dump DELETED");
+}
+
 // restore clone plugin configuration
 $plugin = new CloneSite();
 $p = new Plugin(0);
