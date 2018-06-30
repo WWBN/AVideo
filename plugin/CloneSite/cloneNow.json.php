@@ -73,7 +73,7 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){
         if($matches[1]=='configuration.php'){
             continue;
         }
-        if(file_exists("{$destination}{$matches[1]}") || filesize("{$destination}{$matches[1]}")<10){
+        if(file_exists("{$destination}{$matches[1]}") && filesize("{$destination}{$matches[1]}")>10){
             continue;
         }
         error_log("Clone: Copying {$destination}{$matches[1]}");
@@ -89,7 +89,7 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){
         if($matches[1]=='configuration.php'){
             continue;
         }
-        if(file_exists("{$destination}{$matches[1]}") || filesize("{$destination}{$matches[1]}")<10){
+        if(file_exists("{$destination}{$matches[1]}") && filesize("{$destination}{$matches[1]}")>10){
             continue;
         }
         error_log("Clone: Copying Photo {$destination}{$matches[1]}");
