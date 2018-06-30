@@ -67,13 +67,22 @@ exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
-// overwrite files
+// overwrite video files
 $cmd = "tar -xf {$clonesDir}{$json->videosFile} -C {$global['systemRootPath']}videos/";
-error_log("Clone: overwrite files {$cmd}");
+error_log("Clone: overwrite video files {$cmd}");
 exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
+
+// overwrite photos files
+$cmd = "tar -xf {$clonesDir}{$json->userPhoto} -C {$global['systemRootPath']}videos/userPhoto";
+error_log("Clone: overwrite photos files {$cmd}");
+exec($cmd." 2>&1", $output, $return_val);
+if ($return_val !== 0) {
+    error_log("Clone Error: ". print_r($output, true));
+}
+
 // remove sql 
 
 //remove tar
