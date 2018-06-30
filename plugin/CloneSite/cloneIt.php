@@ -33,14 +33,14 @@ $last_clone_request = $canClone->clone->getLast_clone_request();
 $lastRequest = str_replace('+00:00', 'Z', gmdate('c', strtotime($last_clone_request)));
 
 // get mysql dump
-$cmd = "mysqldump -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} > {$resp->sqlFile}";
+$cmd = "mysqldump -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} > {$clonesDir}{$resp->sqlFile}";
 error_log("Clone: Dump {$cmd}");
 exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
 // get videos newer then last clone
-$cmd = "find . -newermt '{$lastRequest}' -print | xargs tar -rf {$resp->videosFile}";
+$cmd = "find . -newermt '{$lastRequest}' -print | xargs tar -rf {$clonesDir}{$resp->videosFile}";
 error_log("Clone: Find Videos {$cmd}");
 exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
