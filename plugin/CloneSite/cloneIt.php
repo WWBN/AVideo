@@ -54,7 +54,7 @@ if ($return_val !== 0) {
 }
 
 // get usersPhotos 
-$cmd = "cd {$global['systemRootPath']}videos/userPhoto && tar -zcvf {$clonesDir}{$resp->userPhoto}";
+$cmd = "cd {$global['systemRootPath']}videos/userPhoto && tar -zcvf {$clonesDir}{$resp->userPhoto} * ";
 error_log("Clone: Get Photos {$cmd}");
 exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
