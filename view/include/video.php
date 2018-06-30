@@ -27,7 +27,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
                 <video 
-                    <?php if ($config->getAutoplay() && false) { // disable it for now ?>
+                <?php if ($config->getAutoplay() && false) { // disable it for now ?>
                         autoplay="true" 
                         muted="muted" 
                     <?php } ?>
@@ -73,7 +73,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                     <?php echo __("Download video"); ?>
                 </a>      
 
-            <?php
+                <?php
             }
         }
         ?>
@@ -155,5 +155,24 @@ if (!empty($autoPlayVideo)) {
         player.persistvolume({
             namespace: "YouPHPTube"
         });
+
+        // in case the video is muted
+        setTimeout(function () {
+            if (player.muted()) {
+                swal({
+                    title: "<?php echo __("Your Media is Muted"); ?>",
+                    text: "<?php echo __("Would you like to unmute it?"); ?>",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
+                    closeOnConfirm: true
+                },
+                        function () {
+                            player.muted(false);
+                        });
+            }
+        }, 500);
+
     });
 </script>
