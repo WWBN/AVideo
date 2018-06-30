@@ -1,12 +1,39 @@
 <a href="plugin/CloneSite/" class="btn btn-primary btn-xs"><i class="fas fa-clone"></i> Clones Manager</a><br>
 <button class="btn btn-success btn-xs" id="cloneNow" onclick="
-            modal.showPleaseWait();
+        //modal.showPleaseWait();
+        $('#cloneProgressModal').modal();
+        var interval = setInterval(function () {
             $.ajax({
-                url: 'plugin/CloneSite/cloneClient.json.php'
+                url: 'videos/cache/clones/client.log'
+            }).done(function (resp) {
+                $('#cloneLog').text(resp);
+                var $target = $('#cloneLog');
+                $target.animate({scrollTop: $target.height()}, 1000);
+            });
+        }, 1000);
 
-            }).done(function (resposta) {
-                if (resposta.error) {
-                    swal('Sorry', resposta.msg, 'error');
-                }
-                modal.hidePleaseWait();
-            });"><i class="fas fa-sync"></i> Clone Now</button>
+        $.ajax({
+            url: 'plugin/CloneSite/cloneClient.json.php'
+
+        }).done(function (resposta) {
+            if (resposta.error) {
+                swal('Sorry', resposta.msg, 'error');
+            }
+            clearInterval(interval);
+            //modal.hidePleaseWait();
+        });"><i class="fas fa-sync"></i> Clone Now</button>
+
+<div id="cloneProgressModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Clone Progress </h4>
+            </div>
+            <div class="modal-body" style="max-height: 70vh; overflow: scroll;">
+                <pre id="cloneLog" style=" height: 400px;"></pre>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

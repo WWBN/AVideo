@@ -91,12 +91,12 @@ foreach ($newVideoFiles as $value) {
     file_put_contents("{$videosDir}{$value->filename}", fopen("$value->url", 'r'));
 }
 
-$total = count($newPhotoFiles);
-$count = 0;
+$total2 = count($newPhotoFiles);
+$count2 = 0;
 // copy Photos
 foreach ($newPhotoFiles as $value) {
-    $count++;
-    $log->add("Clone: Copying Photos {$count} of {$total} {$value->url}");
+    $count2++;
+    $log->add("Clone: Copying Photos {$count2} of {$total2} {$value->url}");
     file_put_contents("{$photosDir}{$value->filename}", fopen("$value->url", 'r'));
 }
 
@@ -108,3 +108,4 @@ $p->setObject_data(json_encode($obj, JSON_UNESCAPED_UNICODE ));
 $p->save();
 
 echo json_encode($json);
+$log->add("Clone: Complete, Database, {$total} Videos and {$total2} Photos");
