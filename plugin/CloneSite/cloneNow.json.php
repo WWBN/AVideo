@@ -1,5 +1,6 @@
 <?php
 require_once '../../videos/configuration.php';
+set_time_limit(0);
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'plugin/CloneSite/CloneSite.php';
 session_write_close();
@@ -34,7 +35,6 @@ if (!file_exists($photosDir)) {
     mkdir($photosDir, 0777, true);
 }
 
-
 $url = $obj->cloneSiteURL."plugin/CloneSite/cloneIt.php?url=".urlencode($global['webSiteRootURL'])."&key={$obj->myKey}";
 // check if it respond
 error_log("Clone: check URL {$url}");
@@ -63,35 +63,22 @@ exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
-// get files
-$cmd = "wget -O {$clonesDir}{$json->videosFile} {$obj->cloneSiteURL}videos/cache/clones/{$json->videosFile}";
-error_log("Clone: get files {$cmd}");
-exec($cmd." 2>&1", $output, $return_val);
-if ($return_val !== 0) {
-    error_log("Clone Error: ". print_r($output, true));
-}
-// overwrite video files
-$cmd = "tar -xf {$clonesDir}{$json->videosFile} -C {$global['systemRootPath']}videos/";
-error_log("Clone: overwrite video files {$cmd}");
-exec($cmd." 2>&1", $output, $return_val);
-if ($return_val !== 0) {
-    error_log("Clone Error: ". print_r($output, true));
-}
 
-// get files
-$cmd = "wget -O {$clonesDir}{$json->userPhoto} {$obj->cloneSiteURL}videos/cache/clones/{$json->userPhoto}";
-error_log("Clone: get photos files {$cmd}");
-exec($cmd." 2>&1", $output, $return_val);
-if ($return_val !== 0) {
-    error_log("Clone Error: ". print_r($output, true));
-}
-// overwrite photos files
-$cmd = "tar -xf {$clonesDir}{$json->userPhoto} -C $photosDir";
-error_log("Clone: overwrite photos files {$cmd}");
-exec($cmd." 2>&1", $output, $return_val);
-if ($return_val !== 0) {
-    error_log("Clone Error: ". print_r($output, true));
-}
+$videosDir = "{$obj->cloneSiteURL}videos/";
+$destination = "{$global['systemRootPath']}videos/";
+$videosList = strip_tags(file_get_contents($videosDir));
+
+foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){    
+    preg_match("/(.*)[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}.*/", $line, $matches);
+    if(!empty($matches[1])){
+        if($matches[1]=='configuration.php'){
+            continue;
+        }
+        echo "Copying {$destination}{$matches[1]}\n";
+        file_put_contents("{$destination}{$matches[1]}", fopen("{$videosDir}{$matches[1]}", 'r'));
+    }    
+} 
+
 
 // remove sql 
 
