@@ -46,6 +46,13 @@ exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
+
+// remove the first warning line
+$file = "{$clonesDir}{$json->sqlFile}";
+$contents = file($file, FILE_IGNORE_NEW_LINES);
+$first_line = array_shift($contents);
+file_put_contents($file, implode("\r\n", $contents));
+
 // restore dump
 $cmd = "mysql -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} < {$clonesDir}{$json->sqlFile}";
 error_log("Clone: restore dump {$cmd}");
