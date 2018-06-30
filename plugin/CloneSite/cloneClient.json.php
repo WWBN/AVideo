@@ -44,7 +44,7 @@ if (!file_exists($photosDir)) {
 
 $url = $obj->cloneSiteURL."plugin/CloneSite/cloneServer.json.php?url=".urlencode($global['webSiteRootURL'])."&key={$obj->myKey}";
 // check if it respond
-$log->add("Clone: check URL {$url}");
+$log->add("Clone: check URL");
 $content = url_get_contents($url);
 //var_dump($url, $content);exit;
 $json = json_decode($content);
@@ -103,7 +103,7 @@ foreach ($newPhotoFiles as $value) {
 // notify to delete dump
 $url = $url."&deleteDump={$json->sqlFile}";
 // check if it respond
-$log->add("Clone: Notify Server to Delete Dump {$url}");
+$log->add("Clone: Notify Server to Delete Dump");
 $content2 = url_get_contents($url);
 //var_dump($url, $content);exit;
 $json2 = json_decode($content);
