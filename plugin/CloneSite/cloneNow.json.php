@@ -25,9 +25,11 @@ if(empty($obj->cloneSiteURL)){
     die(json_encode($resp));
 }
 
+$videosSite = "{$obj->cloneSiteURL}videos/";
 $videosDir = "{$global['systemRootPath']}videos/";
 $clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
+$photosSite = "{$videosSite}userPhoto/";
 if (!file_exists($clonesDir)) {
     mkdir($clonesDir, 0777, true);
     file_put_contents($clonesDir."index.html", '');
@@ -66,7 +68,7 @@ if ($return_val !== 0) {
 }
 
 $destination = "{$global['systemRootPath']}videos/";
-$videosList = strip_tags(file_get_contents($videosDir));
+$videosList = strip_tags(file_get_contents($videosSite));
 foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){    
     preg_match("/(.*)[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}.*/", $line, $matches);
     if(!empty($matches[1])){
@@ -83,7 +85,7 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){
 } 
 
 $destination = "{$global['systemRootPath']}videos/userPhoto/";
-$videosList = strip_tags(file_get_contents($photosDir));
+$videosList = strip_tags(file_get_contents($photosSite));
 foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){    
     preg_match("/(.*)[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}.*/", $line, $matches);
     if(!empty($matches[1])){
