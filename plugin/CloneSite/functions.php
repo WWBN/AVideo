@@ -36,7 +36,7 @@ function detectNewFiles($serverArray, $clientArray){
             if(
                     $value->filename===$value2->filename &&
                     $value->filesize===$value2->filesize &&
-                    $value->filemtime===$value2->filemtime
+                    $value->filemtime>$value2->filemtime
                     ){
                 unset($serverArray[$key]);
                 unset($clientArray[$key2]);
