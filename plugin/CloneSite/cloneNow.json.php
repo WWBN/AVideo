@@ -25,8 +25,9 @@ if(empty($obj->cloneSiteURL)){
     die(json_encode($resp));
 }
 
-$clonesDir = $global['systemRootPath']."videos/cache/clones/";
-$photosDir = "{$global['systemRootPath']}videos/userPhoto";
+$videosDir = "{$obj->cloneSiteURL}videos/";
+$clonesDir = "{$videosDir}cache/clones/";
+$photosDir = "{$videosDir}userPhoto/";
 if (!file_exists($clonesDir)) {
     mkdir($clonesDir, 0777, true);
     file_put_contents($clonesDir."index.html", '');
@@ -64,17 +65,28 @@ if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
 
-$videosDir = "{$obj->cloneSiteURL}videos/";
 $destination = "{$global['systemRootPath']}videos/";
 $videosList = strip_tags(file_get_contents($videosDir));
-
 foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){    
     preg_match("/(.*)[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}.*/", $line, $matches);
     if(!empty($matches[1])){
         if($matches[1]=='configuration.php'){
             continue;
         }
-        echo "Copying {$destination}{$matches[1]}\n";
+        error_log("Clone: Copying {$destination}{$matches[1]}");
+        file_put_contents("{$destination}{$matches[1]}", fopen("{$videosDir}{$matches[1]}", 'r'));
+    }    
+} 
+
+$destination = "{$global['systemRootPath']}videos/userPhoto/";
+$videosList = strip_tags(file_get_contents($photosDir));
+foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){    
+    preg_match("/(.*)[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}.*/", $line, $matches);
+    if(!empty($matches[1])){
+        if($matches[1]=='configuration.php'){
+            continue;
+        }
+        error_log("Clone: Copying {$destination}{$matches[1]}");
         file_put_contents("{$destination}{$matches[1]}", fopen("{$videosDir}{$matches[1]}", 'r'));
     }    
 } 
