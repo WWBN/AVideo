@@ -2,7 +2,7 @@
 <button class="btn btn-success btn-xs" id="cloneNow" onclick="
         //modal.showPleaseWait();
         $('#cloneProgressModal').modal();
-        var interval = setInterval(function () {
+        function getClientLog(){
             $.ajax({
                 url: 'videos/cache/clones/client.log'
             }).done(function (resp) {
@@ -10,6 +10,9 @@
                 var $target = $('#cloneLog');
                 $target.animate({scrollTop: 999999999}, 1000);
             });
+        }
+        var interval = setInterval(function () {
+            getClientLog();
         }, 1000);
 
         $.ajax({
@@ -19,8 +22,8 @@
             if (resposta.error) {
                 swal('Sorry', resposta.msg, 'error');
             }
-            setTimeout(clearInterval(interval), 2000);
-            
+            clearInterval(interval);
+            getClientLog();
             //modal.hidePleaseWait();
         });"><i class="fas fa-sync"></i> Clone Now</button>
 
