@@ -21,6 +21,8 @@
         }).done(function (resposta) {
             if (resposta.error) {
                 swal('Sorry', resposta.msg, 'error');
+            }else{
+                swal('Congratulations', 'Your Clone Process is finished', 'success');
             }
             clearInterval(interval);
             getClientLog();
