@@ -75,6 +75,13 @@ if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
 
+// get files
+$cmd = "wget -O {$clonesDir}{$json->userPhoto} {$obj->cloneSiteURL}videos/cache/clones/{$json->userPhoto}";
+error_log("Clone: get photos files {$cmd}");
+exec($cmd." 2>&1", $output, $return_val);
+if ($return_val !== 0) {
+    error_log("Clone Error: ". print_r($output, true));
+}
 // overwrite photos files
 $cmd = "tar -xf {$clonesDir}{$json->userPhoto} -C {$global['systemRootPath']}videos/userPhoto";
 error_log("Clone: overwrite photos files {$cmd}");
