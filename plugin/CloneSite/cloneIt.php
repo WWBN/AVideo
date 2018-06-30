@@ -33,7 +33,7 @@ $resp->videosFile = uniqid('Clone_videos_').".tar";
 $resp->userPhoto = uniqid('Clone_userPhoto_').".tar";
 $last_clone_request = $canClone->clone->getLast_clone_request();
 $lastRequest = str_replace('+00:00', 'Z', gmdate('c', strtotime($last_clone_request)));
-
+$lastRequest = "2016-01-18";
 
 // update this clone last request
 $resp->error = !$canClone->clone->updateLastCloneRequest();
