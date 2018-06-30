@@ -145,10 +145,10 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <span class="fa fa-search"></span>
                     </button>
                 </div>
-                <div class="hidden-xs navbar-default" id="mysearch">
+                <div class="hidden-xs" id="mysearch">
                     <ul class="searchul">
-            <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom:0px; background-color: transparent;">
-                <form class="navbar-form navbar-default" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
+            <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom:0px;">
+                <form class="navbar-form" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
                     <div class="input-group" style="width: 100%;" >
                         <div class="form-inline">
                             <span><input class="form-control globalsearchfield" type="text" value="<?php if (!empty($_GET['search'])) {
@@ -169,7 +169,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                     </button>
                 </div>
                 <div class="hidden-xs col-md-3 col-sm-4" id="myNavbar">
-                    <ul class="right-menus navbar-default" style="padding-left: 0;">
+                    <ul class="right-menus" style="padding-left: 0;">
                         <?php
                         if (!empty($advancedCustom->menuBarHTMLCode->value)) {
                             echo $advancedCustom->menuBarHTMLCode->value;
