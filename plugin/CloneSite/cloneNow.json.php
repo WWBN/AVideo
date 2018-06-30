@@ -42,23 +42,35 @@ $json = json_decode($content);
 // get dump file
 $cmd = "wget -O {$clonesDir}{$json->sqlFile} {$obj->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
 error_log("Clone: Get Dump {$cmd}");
-exec($cmd);
-
+exec($cmd." 2>&1", $output, $return_val);
+if ($return_val !== 0) {
+    error_log("Clone Error: ". print_r($output, true));
+    return false;
+}
 // restore dump
 $cmd = "mysql -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} youPHPTube < {$clonesDir}{$json->sqlFile}";
 error_log("Clone: restore dump {$cmd}");
-exec($cmd);
-
+exec($cmd." 2>&1", $output, $return_val);
+if ($return_val !== 0) {
+    error_log("Clone Error: ". print_r($output, true));
+    return false;
+}
 // get files
 $cmd = "wget -O {$clonesDir}{$json->videosFile} {$obj->cloneSiteURL}videos/cache/clones/{$json->videosFile}";
 error_log("Clone: get files {$cmd}");
-exec($cmd);
-
+exec($cmd." 2>&1", $output, $return_val);
+if ($return_val !== 0) {
+    error_log("Clone Error: ". print_r($output, true));
+    return false;
+}
 // overwrite files
 $cmd = "tar -xf {$clonesDir}{$json->videosFile} -C {$global['systemRootPath']}videos/";
 error_log("Clone: overwrite files {$cmd}");
-exec($cmd);
-
+exec($cmd." 2>&1", $output, $return_val);
+if ($return_val !== 0) {
+    error_log("Clone Error: ". print_r($output, true));
+    return false;
+}
 // remove sql 
 
 //remove tar
