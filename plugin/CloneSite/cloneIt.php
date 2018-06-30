@@ -46,7 +46,7 @@ if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
 // get videos newer then last clone
-$cmd = "find . -newermt '{$lastRequest}' -print | xargs tar -rf {$clonesDir}{$resp->videosFile}";
+$cmd = "cd {$global['systemRootPath']}videos && tar -zcvf {$clonesDir}{$resp->videosFile} * ";
 error_log("Clone: Find Videos {$cmd}");
 exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
