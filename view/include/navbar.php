@@ -147,7 +147,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                 </div>
                 <div class="hidden-xs navbar-default" id="mysearch">
                     <ul class="searchul">
-            <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom:0px;">
+            <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom:0px; background-color: transparent;">
                 <form class="navbar-form navbar-default" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
                     <div class="input-group" style="width: 100%;" >
                         <div class="form-inline">
