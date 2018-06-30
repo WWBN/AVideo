@@ -1,6 +1,7 @@
 <?php
 
 require_once '../../videos/configuration.php';
+set_time_limit(0);
 session_write_close();
 require_once $global['systemRootPath'] . 'plugin/CloneSite/Objects/Clones.php';
 header('Content-Type: application/json');
@@ -45,21 +46,5 @@ exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
-// get videos newer then last clone
-$cmd = "cd {$global['systemRootPath']}videos && tar -zcvf {$clonesDir}{$resp->videosFile} * ";
-error_log("Clone: Find Videos {$cmd}");
-exec($cmd." 2>&1", $output, $return_val);
-if ($return_val !== 0) {
-    error_log("Clone Error: ". print_r($output, true));
-}
-
-// get usersPhotos 
-$cmd = "cd {$global['systemRootPath']}videos/userPhoto && tar -zcvf {$clonesDir}{$resp->userPhoto} * ";
-error_log("Clone: Get Photos {$cmd}");
-exec($cmd." 2>&1", $output, $return_val);
-if ($return_val !== 0) {
-    error_log("Clone Error: ". print_r($output, true));
-}
-
 
 echo json_encode($resp);
