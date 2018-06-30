@@ -86,6 +86,9 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $videosList) as $line){
         if($matches[1]=='configuration.php'){
             continue;
         }
+        if(file_exists("{$videosDir}{$matches[1]}")){
+            continue;
+        }
         error_log("Clone: Copying {$destination}{$matches[1]}");
         file_put_contents("{$destination}{$matches[1]}", fopen("{$videosDir}{$matches[1]}", 'r'));
     }    
