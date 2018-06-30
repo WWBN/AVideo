@@ -9,14 +9,18 @@ $resp = new stdClass();
 $resp->error = true;
 $resp->msg = "";
 
+error_log("Clone Start");
+
 if(!User::isAdmin()){
     $resp->msg = "You cant do this";
+    error_log("Clone: {$resp->msg}");
     die(json_encode($resp));
 }
 
 $obj = YouPHPTubePlugin::getObjectDataIfEnabled("CloneSite");
 if(empty($obj->cloneSiteURL)){
     $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an YouPHPTube URL";
+    error_log("Clone: {$resp->msg}");
     die(json_encode($resp));
 }
 
@@ -27,25 +31,32 @@ if (!file_exists($clonesDir)) {
     file_put_contents($clonesDir."index.html", '');
 }
 
+
+$url = $obj->cloneSiteURL."plugin/CloneSite/cloneIt.php?url=".urlencode($global['webSiteRootURL'])."&key={$obj->myKey}";
 // check if it respond
-$content = url_get_contents($obj->cloneSiteURL."plugin/CloneSite/cloneIt.php?url=".urlencode($global['webSiteRootURL'])."&key={$obj->myKey}");
+error_log("Clone: check URL {$url}");
+$content = url_get_contents($url);
 //var_dump($content);
 $json = json_decode($content);
 
 // get dump file
 $cmd = "wget -O {$clonesDir}{$json->sqlFile} {$obj->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
+error_log("Clone: Get Dump {$cmd}");
 exec($cmd);
 
 // restore dump
 $cmd = "mysql -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} youPHPTube < {$clonesDir}{$json->sqlFile}";
+error_log("Clone: restore dump {$cmd}");
 exec($cmd);
 
 // get files
 $cmd = "wget -O {$clonesDir}{$json->videosFile} {$obj->cloneSiteURL}videos/cache/clones/{$json->videosFile}";
+error_log("Clone: get files {$cmd}");
 exec($cmd);
 
-// overwrite filesfiles
+// overwrite files
 $cmd = "tar -xf {$clonesDir}{$json->videosFile} -C {$global['systemRootPath']}videos/";
+error_log("Clone: overwrite files {$cmd}");
 exec($cmd);
 
 // remove sql 
