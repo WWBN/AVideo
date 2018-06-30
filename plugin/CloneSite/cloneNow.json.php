@@ -25,10 +25,13 @@ if(empty($obj->cloneSiteURL)){
 }
 
 $clonesDir = $global['systemRootPath']."videos/cache/clones/";
-
+$photosDir = "{$global['systemRootPath']}videos/userPhoto";
 if (!file_exists($clonesDir)) {
     mkdir($clonesDir, 0777, true);
     file_put_contents($clonesDir."index.html", '');
+}
+if (!file_exists($photosDir)) {
+    mkdir($photosDir, 0777, true);
 }
 
 
@@ -83,7 +86,7 @@ if ($return_val !== 0) {
     error_log("Clone Error: ". print_r($output, true));
 }
 // overwrite photos files
-$cmd = "tar -xf {$clonesDir}{$json->userPhoto} -C {$global['systemRootPath']}videos/userPhoto";
+$cmd = "tar -xf {$clonesDir}{$json->userPhoto} -C $photosDir";
 error_log("Clone: overwrite photos files {$cmd}");
 exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
