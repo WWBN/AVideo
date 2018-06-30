@@ -19,7 +19,8 @@
             if (resposta.error) {
                 swal('Sorry', resposta.msg, 'error');
             }
-            clearInterval(interval);
+            setTimeout(clearInterval(interval), 2000);
+            
             //modal.hidePleaseWait();
         });"><i class="fas fa-sync"></i> Clone Now</button>
 
