@@ -66,7 +66,7 @@ class Clones extends ObjectYPT {
         $clone = new Clones(0);
         $clone->loadFromURL($url);
         if(empty($clone->getId())){
-            $resp->msg = "URL added, need to be approved";
+            $resp->msg = "The URL {$url} was just added in our server, ask the Server Manager to approve this URL on plugins->Clone Site->Clones Manager (The Blue Button) and Activate your client";
             self::addURL($url, $key);
             return $resp;
         }
@@ -75,7 +75,7 @@ class Clones extends ObjectYPT {
             return $resp;
         }
         if($clone->getStatus() !== 'a'){
-            $resp->msg = "The URL is Inactive";
+            $resp->msg = "The URL {$url} is inactive in our Clone Server";
             return $resp;
         }
         $resp->clone = $clone;
