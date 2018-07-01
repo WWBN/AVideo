@@ -156,5 +156,5 @@ $p->save();
 echo json_encode($json);
 $log->add("Clone: Complete, Database, {$total} Videos and {$total2} Photos");
 $ru = getrusage();
-$log->add("This process used " . rutime($ru, $rustart, "utime") ." ms for its computations\n");
-$log->add("It spent " . rutime($ru, $rustart, "stime") ." ms in system calls\n");
+$log->add("\nThis process used " . rutime($ru, $rustart, "utime") ." ms for its computations");
+$log->add("It spent " . rutime($ru, $rustart, "stime") ." ms in system calls");
