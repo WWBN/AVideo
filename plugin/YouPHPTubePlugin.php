@@ -4,6 +4,20 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 class YouPHPTubePlugin {
 
+    public static function addRoutes()
+    {
+        $plugins = Plugin::getAllEnabled(); 
+        foreach($plugins as $value)
+        {
+            $p=static::loadPlugin($value['dirName']);
+            if(is_object($p))
+            {
+                $p->addRoutes(); 
+            }
+        }
+        return false;
+    }
+
     public static function getHeadCode() {
         $plugins = Plugin::getAllEnabled();
         $str = "";
