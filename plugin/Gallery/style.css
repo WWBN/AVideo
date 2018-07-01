@@ -103,16 +103,7 @@ h3.galleryTitle{
     padding: 0 5px;
 }
 
-
-.popover {
-    left: 5px !important;
-    color: inherit !important;
-}
-.popover-content {
-    height: 160px !important;
-}
 .popover-content, .popover-content>div{
-    font-size: 1.3em !important;
     white-space: normal !important;
     width: auto;
     color: inherit !important;
@@ -150,18 +141,19 @@ a.h6{
 
 .popover-title { 
     color: black;
-    background-color: lightgray;
+    font-size: 1em;
 } 
 
 .popover-content{
     color: black !important; 
-    background-color: lightgray;
+    font-size: 0.8em;
 }
+
 .gallery .label{
     font-size: 100%;
     border-radius: 0;
 }
 
-.galleryTitle a:hover{
+.galleryTitle a.btn-default:hover{
     background-color: transparent;
 }
