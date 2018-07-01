@@ -154,6 +154,11 @@ $log->add("Clone: Complete, Database, {$total} Videos and {$total2} Photos");
 
 $time_end = microtime(true);
 //dividing with 60 will give the execution time in minutes otherwise seconds
-$execution_time = ($time_end - $time_start)/60;
+$execution_time = ($time_end - $time_start);
+$timeStr = "Seconds";
+if($execution_time>60){
+    $execution_time = $execution_time/60;
+    $timeStr = "Minutes";
+}
 //execution time of the script
-$log->add('Total Execution Time: '.$execution_time.' Mins');
+$log->add('Total Execution Time: '.$execution_time.' '.$timeStr);
