@@ -1,5 +1,9 @@
 <?php
-
+$rustart = getrusage();
+function rutime($ru, $rus, $index) {
+    return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
+     -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+}
 require_once '../../videos/configuration.php';
 set_time_limit(0);
 require_once $global['systemRootPath'] . 'objects/plugin.php';
@@ -124,7 +128,7 @@ if (!empty($total2)) {
     }
     $log->add("Clone: Copying user photo files done.");
 } else {
-    $log->add("Clone (5 of {$totalSteps}): There is no new video file to copy.");
+    $log->add("Clone (5 of {$totalSteps}): There is no new user photo file to copy.");
 }
 
 // notify to delete dump
@@ -151,3 +155,6 @@ $p->save();
 
 echo json_encode($json);
 $log->add("Clone: Complete, Database, {$total} Videos and {$total2} Photos");
+$ru = getrusage();
+$log->add("This process used " . rutime($ru, $rustart, "utime") ." ms for its computations\n");
+$log->add("It spent " . rutime($ru, $rustart, "stime") ." ms in system calls\n");
