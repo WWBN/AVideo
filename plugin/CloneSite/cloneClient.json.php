@@ -1,9 +1,5 @@
 <?php
-$rustart = getrusage();
-function rutime($ru, $rus, $index) {
-    return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
-     -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
-}
+$time_start = microtime(true); 
 require_once '../../videos/configuration.php';
 set_time_limit(0);
 require_once $global['systemRootPath'] . 'objects/plugin.php';
@@ -155,6 +151,9 @@ $p->save();
 
 echo json_encode($json);
 $log->add("Clone: Complete, Database, {$total} Videos and {$total2} Photos");
-$ru = getrusage();
-$log->add("\nThis process used " . rutime($ru, $rustart, "utime") ." ms for its computations");
-$log->add("It spent " . rutime($ru, $rustart, "stime") ." ms in system calls");
+
+$time_end = microtime(true);
+//dividing with 60 will give the execution time in minutes otherwise seconds
+$execution_time = ($time_end - $time_start)/60;
+//execution time of the script
+$log->add('Total Execution Time: '.$execution_time.' Mins');
