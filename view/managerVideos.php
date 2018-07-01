@@ -100,7 +100,7 @@ if (!empty($_GET['video_id'])) {
                 if (empty($advancedCustom->doNotShowEmbedButton)) {
                     if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
                     ) {
-                        ?>                                    
+                        ?>
                         <button class="btn btn-default" id="linkExternalVideo">
                             <span class="fa fa-link"></span>
                             <?php echo __("Embed a video link"); ?>
@@ -149,7 +149,7 @@ if (!empty($_GET['video_id'])) {
                 <?php
             }
             ?>
-            <div class="pull-left btn-group">       
+            <div class="pull-left btn-group">
                 <button class="btn btn-secondary" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
@@ -168,7 +168,7 @@ if (!empty($_GET['video_id'])) {
                         }
                         ?>
                     </ul>
-                </div>           
+                </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <?php echo __('Status'); ?> <span class="caret"></span></button>
@@ -221,13 +221,14 @@ if (!empty($_GET['video_id'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div id="videoLinkContent">                                
+                            <div id="videoLinkContent">
                                 <label for="videoLink" class="sr-only"><?php echo __("Video Link"); ?></label>
                                 <input type="text" id="videoLink" class="form-control first" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
                                 <select class="form-control last" id="videoLinkType" required>
                                     <option value="embed"><?php echo __("Embeded"); ?></option>
                                     <option value="linkVideo"><?php echo __("Direct video-link (webm or mp4)"); ?></option>
                                     <option value="linkAudio"><?php echo __("Direct audio-link (mp3 or ogg)"); ?></option>
+                                    <option value="torrent"><?php echo __("Webtorrent"); ?></option>
                                 </select>
                             </div>
                             <hr>
@@ -284,10 +285,10 @@ if (!empty($_GET['video_id'])) {
                                     <div class="col-md-4">
                                         <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
                                     </div>
-                                    <div class="col-md-8">                                        
+                                    <div class="col-md-8">
                                         <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control">
                                         <input id="inputNextVideoClean" placeholder="<?php echo __("Autoplay Next Video URL"); ?>" class="form-control" readonly="readonly">
-                                        <input type="hidden" id="inputNextVideo-id">                                        
+                                        <input type="hidden" id="inputNextVideo-id">
                                     </div>
                                 </div>
                                 <script>
@@ -504,7 +505,7 @@ if (!empty($_GET['video_id'])) {
                                     function editVideo(row) {
                                         waitToSubmit = true;
                                         $('#postersImage, #videoIsAdControl, .titles').slideDown();
-                                        if ((row.type === 'embed') || (row.type === 'linkVideo') || (row.type === 'linkAudio')) {
+                                        if ((row.type === 'embed') || (row.type === 'linkVideo') || (row.type === 'linkAudio') || (row.type === 'torrent')) {
 
                                             $('#videoLink').val(row.videoLink);
                                             $('#videoLinkType').val(row.type);
