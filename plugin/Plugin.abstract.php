@@ -3,7 +3,7 @@
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 abstract class PluginAbstract {
-
+    
     /**
      * the plugin identification, that is what differ one prlugin from other, so it needs to be unique
      * return the universally unique identifier (UUID) is a 128-bit number used to identify information in computer systems
@@ -110,9 +110,25 @@ abstract class PluginAbstract {
             }
         }
         $eo = $this->getEmptyDataObject();
+        $wholeObjects=array_merge((array) $eo, (array) $o);
+        $disabledPlugins= plugin::getAllDisabled(); 
+        foreach ($disabledPlugins as $value) {
+            $p = YouPHPTubePlugin::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $foreginObjects=$p->getCustomizeAdvancedOptions();
+                if($foreginObjects)
+                {
+                    foreach($foreginObjects as $optionName => $defaultValue)
+                    if(isset($wholeObjects[$optionName]))
+                    unset($wholeObjects[$optionName]);
+                }
+            }
+        }
+        
+        
         //var_dump($obj['object_data']);
         //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
-        return (object) array_merge((array) $eo, (array) $o);
+        return (object) $wholeObjects;
     }
 
     public function getEmptyDataObject() {
@@ -188,6 +204,16 @@ abstract class PluginAbstract {
      */
     public function getLiveApplicationArray() {
         return array();
+    }
+    
+    public function addRoutes()
+    {
+        return false;
+    }
+    
+    public function getCustomizeAdvancedOptions()
+    {
+        return false;
     }
 
 }
