@@ -113,13 +113,16 @@ function createGallerySection($videos) {
         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
         $name = User::getNameIdentificationById($value['users_id']);
         // make a row each 6 cols
+        if ($countCols % 2 === 0) {
+            echo '</div><div style="margin-right: -15px; margin-left: -15px;">';
+        }
         if ($countCols % 6 === 0) {
             echo '</div><div class="row aligned-row ">';
         }
 
         $countCols ++;
         ?>
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: 2;">
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: 2;">
             <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
