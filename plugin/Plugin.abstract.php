@@ -215,5 +215,15 @@ abstract class PluginAbstract {
     {
         return false;
     }
+    
+    public function getUserOptions()
+    {
+        return array();
+    }
+    
+    public function navBarButtons()
+    {
+        return "";
+    }
 
 }
