@@ -75,7 +75,7 @@ $userGroups = UserGroups::getAllUsersGroups();
                                 <label for="inputChannelName" class="sr-only"><?php echo __("Channel Name"); ?></label>
                                 <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" >
                                 <label for="inputAnalyticsCode" class="sr-only"><?php echo __("Analytics Code"); ?></label>
-                                <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="UA-123456789-1" >
+                                <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" >
                                 <small>Do not paste the full javascript code, paste only the gtag id</small>
                                 <ul class="list-group">
                                     <li class="list-group-item">
