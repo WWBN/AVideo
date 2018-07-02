@@ -1558,7 +1558,7 @@ if (!class_exists('Video')) {
             }
 
             if (!file_exists($source['path'])) {
-                if ($type != "_thumbs.jpg" && $type != "_thumbsSmall.jpg") {
+                if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg") {
                     return array('path' => false, 'url' => false);
                 }
             }
@@ -1587,8 +1587,8 @@ if (!class_exists('Video')) {
             $obj = new stdClass();
             $gifSource = self::getSourceFile($filename, ".gif");
             $jpegSource = self::getSourceFile($filename, ".jpg");
-            $thumbsSource = self::getSourceFile($filename, "_thumbs.jpg");
-            $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmall.jpg");
+            $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
+            $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
             $obj->poster = $jpegSource['url'];
             $obj->thumbsGif = $gifSource['url'];
             $obj->thumbsJpg = $thumbsSource['url'];
@@ -1602,12 +1602,12 @@ if (!class_exists('Video')) {
                 // create thumbs
                 if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
                     error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
-                    im_resize($jpegSource['path'], $thumbsSource['path'], 250, 140);
+                    im_resizeV2($jpegSource['path'], $thumbsSource['path'], 250, 140);
                 }
                 // create thumbs
                 if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
                     error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
-                    im_resize($jpegSource['path'], $thumbsSmallSource['path'], 250, 140, 5);
+                    im_resizeV2($jpegSource['path'], $thumbsSmallSource['path'], 250, 140, 5);
                 }
             } else {
                 if (($type !== "audio")&&($type !== "linkAudio")) {
