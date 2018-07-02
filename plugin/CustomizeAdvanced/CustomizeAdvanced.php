@@ -5,6 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class CustomizeAdvanced extends PluginAbstract {
 
+
     public function getDescription() {
         $txt = "Fine Tuning your YouPHPTube";
         $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Advanced-Customization-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -18,7 +19,7 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getUUID() {
         return "55a4fa56-8a30-48d4-a0fb-8aa6b3f69033";
     }
-
+    
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->doNotShowUploadMP4Button = true;
@@ -65,6 +66,21 @@ class CustomizeAdvanced extends PluginAbstract {
         $o->value = "";        
         $obj->underMenuBarHTMLCode = $o;
         $obj->encoderNetwork = "";// an url for encoder network
+
+        $plugins = Plugin::getAllEnabled();
+        //import external plugins configuration options
+        foreach ($plugins as $value) {
+            $p = YouPHPTubePlugin::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $foreginObjects=$p->getCustomizeAdvancedOptions();
+                if($foreginObjects)
+                {
+                    foreach($foreginObjects as $optionName => $defaultValue)
+                    $obj->{$optionName}=$defaultValue;
+                }
+            }
+        }
+        
         return $obj;
     }
     

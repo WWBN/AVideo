@@ -371,6 +371,9 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             </li>
                             <?php
                           }
+                          
+                            print YouPHPTubePlugin::navBarButtons();
+
                             if ((($config->getAuthCanViewChart()==0)&&(User::canUpload()))||(($config->getAuthCanViewChart()==1)&&(User::canViewChart()))) {
                                 ?>
                             <li>
@@ -400,7 +403,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                     </a>
                                 </div>
                             </li>
-                            <?php
+                        <?php
                         }
                         ?>
                         <?php
