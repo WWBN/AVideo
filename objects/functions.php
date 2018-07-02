@@ -680,7 +680,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
     $ws = imagesx($src);
     $hs = imagesy($src);
 
-    if ($ws >= $hs) {
+    if ($ws <= $hs) {
         $hd = ceil(($wd * $hs) / $ws);
     } else {
         $wd = ceil(($hd * $ws) / $hs);
@@ -730,6 +730,41 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
     @chmod($file_dest, 0666);
 
     return true;
+}
+
+function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 50) {
+    
+    $newImage = im_resize($file_src, $file_dest, $wd, $hd);
+    if(!$newImage){
+        return false;
+    }
+    $src = imagecreatefromjpeg($file_dest);
+    $ws = imagesx($src);
+    $hs = imagesy($src);
+    
+    if ($ws < $wd) {
+        $dst_x = ($wd-$ws)/2;
+    }else{
+        $dst_x = 0;
+    }
+    
+    if($hs < $hd){
+        $dst_y = ($hd-$hs)/2;
+    }else{
+        $dst_y = 0;
+    }
+    
+    $mapImage = imagecreatetruecolor($wd, $hd);
+    $bgColor = imagecolorallocate($mapImage, 0, 0, 0);
+    imagefill($mapImage, 0, 0, $bgColor);
+
+    
+    $tileImg = imagecreatefromjpeg($file_dest);
+    imagecopy($mapImage, $tileImg, $dst_x, $dst_y, 0, 0, $ws, $hs);
+    
+    $saved = imagejpeg($mapImage, $file_dest, $q);
+    
+    return $saved;
 }
 
 function decideMoveUploadedToVideos($tmp_name, $filename) {

@@ -25,6 +25,10 @@ function rrmdir($dir) {
     }
 }
 
+if (!empty($_POST['updateFile'])) {
+  rrmdir($global['systemRootPath']."videos/cache");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
@@ -103,8 +107,7 @@ function rrmdir($dir) {
                         $templine = '';
                     }
                 }
-                $dir = "{$global['systemRootPath']}videos/cache";
-                rrmdir($dir);
+
                 // insert configuration if is version 1.0
                 if ($config->currentVersionLowerThen('1.0')) {
                     $sql = "DELETE FROM configurations WHERE id = 1 ";
