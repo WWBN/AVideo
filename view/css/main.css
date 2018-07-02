@@ -691,3 +691,7 @@ a.h6 h2, a.h6 h1{
 img.blur{
     filter: blur(5px);
 }
+
+.navbar-default .navbar-default, .navbar-inverse .navbar-default {
+    border-width: 0;
+}
