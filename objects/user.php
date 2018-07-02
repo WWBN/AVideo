@@ -25,6 +25,7 @@ class User {
     private $channelName;
     private $emailVerified;
     private $analyticsCode;
+    private $externalOptions;
     private $userGroups = array();
 
     function __construct($id, $user = "", $password = "") {
@@ -70,7 +71,7 @@ class User {
         $this->canStream = $canStream;
     }
 
-  function getCanViewChart() {
+    function getCanViewChart() {
       return $this->canViewChart;
     }
 
@@ -121,6 +122,19 @@ if (typeof gtag !== \"function\") {
         return $code;
 
     }
+    
+    function setExternalOptions($options)
+    {
+        //we convert it to base64 to sanitize the input since we do not validate input from externalOptions
+        $this->externalOptions=base64_encode(serialize($options));
+    }
+    
+    function getExternalOption($id)
+    {
+        $eo=unserialize(base64_decode($this->externalOptions)); 
+        return $eo[$id]; 
+    }
+    
 
     private function load($id) {
         $user = self::getUserDb($id);
@@ -388,9 +402,9 @@ if (typeof gtag !== \"function\") {
                     $sql .= "status = '{$this->status}', "
                     . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
                     . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
-                    . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}' , modified = now() WHERE id = {$this->id}";
+                    . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}', externalOptions = '{$this->externalOptions}' , modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, false, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}')";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, false, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}', '{$this->externalOptions}')";
         }
         $insert_row = sqlDAL::writeSql($sql);
 
@@ -506,6 +520,24 @@ if (typeof gtag !== \"function\") {
 
     static function canStream() {
         return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']);
+    }
+    
+    static function externalOptions($id){
+        if(!empty($_SESSION['user']['externalOptions']))
+        {
+            $externalOptions=unserialize(base64_decode($_SESSION['user']['externalOptions']));
+            if(isset($externalOptions[$id]))
+            {
+                if($externalOptions[$id]=="true")
+                $externalOptions[$id]=true;
+                else
+                if($externalOptions[$id]=="false")
+                $externalOptions[$id]=false;
+                
+                return $externalOptions[$id];
+            }
+        }
+        return false;
     }
 
     function thisUserCanStream() {
@@ -660,6 +692,19 @@ if (typeof gtag !== \"function\") {
                 $row['tags'] = self::getTags($row['id']);
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
                 $row['isEmailVerified']=$row['emailVerified'];
+                if(!is_null($row['externalOptions'])){
+                    $externalOptions=unserialize(base64_decode($row['externalOptions']));
+                    if(is_array($externalOptions) && sizeof($externalOptions) > 0){
+                        foreach($externalOptions as $k => $v){
+                            if($v=="true")
+                            $v=1;
+                            else
+                            if($v=="false")
+                            $v=0;
+                            $row[$k]=$v;
+                        }
+                    }
+                }
                 unset($row['password']);
                 unset($row['recoverPass']);
                 $user[] = $row;

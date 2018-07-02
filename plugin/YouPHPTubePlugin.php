@@ -435,5 +435,83 @@ class YouPHPTubePlugin {
         }
         return $str;
     } 
+    
+    public static function getPluginUserOptions() {
+        $plugins = Plugin::getAllEnabled();
+        $userOptions = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {  
+                $userOptions=array_merge($userOptions, $p->getUserOptions()); 
+            }
+        }
+        return $userOptions;
+    }
+    
+    public static function getUserOptions() {
+        $userOptions = static::getPluginUserOptions();
+        $str="";
+        foreach($userOptions as $userOption => $id)
+        {
+            $str.="
+                <li class=\"list-group-item\">".__($userOption).
+                    "<div class=\"material-switch pull-right\">
+                        <input type=\"checkbox\" value=\"$id\" id=\"$id\"/>
+                        <label for=\"$id\" class=\"label-success\"></label>
+                    </div>
+                </li>
+            ";
+        }
+        return $str;
+    }  
+    
+    public static function addUserBtnJS()
+    {
+        $userOptions = static::getPluginUserOptions();
+        $userOptions= array();
+        $js="";
+        foreach($userOptions as $userOption => $id)
+        {
+            $js.="                    $('#$id').prop('checked', false);\n";
+        }
+        return $js;
+    
+    }
 
+    public static function updateUserFormJS()
+    {
+        $userOptions = static::getPluginUserOptions();
+        $js="";
+        foreach($userOptions as $userOption => $id)
+        {
+            $js.="                            \"$id\": $('#$id').is(':checked'),\n";
+        }
+        return $js;
+    }
+    
+    public static function loadUsersFormJS()
+    {
+        $userOptions = static::getPluginUserOptions();
+        $js="";
+        foreach($userOptions as $userOption => $id)
+        {
+            $js.="                        $('#$id').prop('checked', (row.$id == \"1\" ? true : false));
+\n";
+        }
+        return $js;
+    }
+
+    public static function navBarButtons()
+    {
+        $plugins = Plugin::getAllEnabled();
+        $userOptions = array();
+        $navBarButtons="";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {  
+                $navBarButtons.=$p->navBarButtons(); 
+            }
+        }
+        return $navBarButtons;    
+    }
 }
