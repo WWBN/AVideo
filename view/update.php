@@ -108,6 +108,7 @@ if (!empty($_POST['updateFile'])) {
                         $templine = '';
                     }
                 }
+
                 // insert configuration if is version 1.0
                 if ($config->currentVersionLowerThen('1.0')) {
                     $sql = "DELETE FROM configurations WHERE id = 1 ";
