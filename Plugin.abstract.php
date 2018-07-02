@@ -221,9 +221,5 @@ abstract class PluginAbstract {
         return array();
     }
     
-    public function navBarButtons()
-    {
-        return "";
-    }
 
 }

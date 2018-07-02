@@ -521,24 +521,6 @@ if (typeof gtag !== \"function\") {
     static function canStream() {
         return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']);
     }
-    
-    static function externalOptions($id){
-        if(!empty($_SESSION['user']['externalOptions']))
-        {
-            $externalOptions=unserialize(base64_decode($_SESSION['user']['externalOptions']));
-            if(isset($externalOptions[$id]))
-            {
-                if($externalOptions[$id]=="true")
-                $externalOptions[$id]=true;
-                else
-                if($externalOptions[$id]=="false")
-                $externalOptions[$id]=false;
-                
-                return $externalOptions[$id];
-            }
-        }
-        return false;
-    }
 
     function thisUserCanStream() {
         return !empty($this->isAdmin) || !empty($this->canStream);
@@ -668,7 +650,7 @@ if (typeof gtag !== \"function\") {
         $this->photoURL = strip_tags($photoURL);
     }
 
-    static function getAllUsers($ignoreAdmin = false, $searchFields=array('name', 'email', 'user', 'channelName', 'about')) {
+    static function getAllUsers($ignoreAdmin = false) {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
@@ -677,8 +659,7 @@ if (typeof gtag !== \"function\") {
         global $global;
         $sql = "SELECT * FROM users WHERE 1=1 ";
 
-        $sql .= BootGrid::getSqlFromPost($searchFields);
-        
+        $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
         $user = array();
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
         $res = sqlDAL::readSql($sql . ";");
