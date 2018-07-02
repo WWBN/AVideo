@@ -500,18 +500,4 @@ class YouPHPTubePlugin {
         }
         return $js;
     }
-
-    public static function navBarButtons()
-    {
-        $plugins = Plugin::getAllEnabled();
-        $userOptions = array();
-        $navBarButtons="";
-        foreach ($plugins as $value) {
-            $p = static::loadPlugin($value['dirName']);
-            if (is_object($p)) {  
-                $navBarButtons.=$p->navBarButtons(); 
-            }
-        }
-        return $navBarButtons;    
-    }
 }
