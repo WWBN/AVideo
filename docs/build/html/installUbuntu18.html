@@ -1,0 +1,203 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>If for any reason you need help to set up the YouPHPTube app or the server, fell free to ask us for help: &#8212; YouPHPTube  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>This Tutorial will teach you how to install YouPHPTube Streamer Site
+what means it is the front end of YouPHPTube. You can watch it running
+at https://demo.youphptube.com/ or https://tutorials.youphptube.com/</strong></p>
+<div class="section" id="if-for-any-reason-you-need-help-to-set-up-the-youphptube-app-or-the-server-fell-free-to-ask-us-for-help">
+<h1>If for any reason you need help to set up the YouPHPTube app or the server, fell free to ask us for help:<a class="headerlink" href="#if-for-any-reason-you-need-help-to-set-up-the-youphptube-app-or-the-server-fell-free-to-ask-us-for-help" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="https-www-youphptube-com-services">
+<h1><a class="reference external" href="https://www.youphptube.com/services">https://www.youphptube.com/services</a><a class="headerlink" href="#https-www-youphptube-com-services" title="Permalink to this headline">¶</a></h1>
+<p>Just copy and paste this:</p>
+<p>if you want to install both (encoder and streamer) use this compiled
+code:</p>
+<p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">apache2</span> <span class="pre">php</span> <span class="pre">libapache2-mod-php</span> <span class="pre">php-mysql</span> <span class="pre">php-curl</span> <span class="pre">php-gd</span> <span class="pre">php-intl</span> <span class="pre">mysql-server</span> <span class="pre">mysql-client</span> <span class="pre">ffmpeg</span> <span class="pre">git</span> <span class="pre">libimage-exiftool-perl</span> <span class="pre">&amp;&amp;</span> <span class="pre">cd</span> <span class="pre">/var/www/html</span> <span class="pre">&amp;&amp;</span> <span class="pre">sudo</span> <span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/DanielnetoDotCom/YouPHPTube.git</span> <span class="pre">&amp;&amp;</span> <span class="pre">cd</span> <span class="pre">/var/www/html</span> <span class="pre">&amp;&amp;</span> <span class="pre">sudo</span> <span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/DanielnetoDotCom/YouPHPTube-Encoder.git</span> <span class="pre">&amp;&amp;</span> <span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python</span> <span class="pre">&amp;&amp;</span> <span class="pre">sudo</span> <span class="pre">curl</span> <span class="pre">-L</span> <span class="pre">https://yt-dl.org/downloads/latest/youtube-dl</span> <span class="pre">-o</span> <span class="pre">/usr/local/bin/youtube-dl</span> <span class="pre">&amp;&amp;</span> <span class="pre">sudo</span> <span class="pre">chmod</span> <span class="pre">a+rx</span> <span class="pre">/usr/local/bin/youtube-dl</span> <span class="pre">&amp;&amp;</span> <span class="pre">sudo</span> <span class="pre">a2enmod</span> <span class="pre">rewrite</span></code></p>
+<p>or if you want just the encoder use this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">apache2</span> <span class="pre">php</span> <span class="pre">libapache2-mod-php</span> <span class="pre">php-mysql</span> <span class="pre">php-curl</span> <span class="pre">php-gd</span> <span class="pre">php-intl</span> <span class="pre">mysql-server</span> <span class="pre">mysql-client</span> <span class="pre">git</span> <span class="pre">&amp;&amp;</span> <span class="pre">cd</span> <span class="pre">/var/www/html</span> <span class="pre">&amp;&amp;</span> <span class="pre">sudo</span> <span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/DanielnetoDotCom/YouPHPTube.git</span></code></p>
+<p>Also, you need those commands for concrete Ubuntu 18 (it’s not in the
+upper command because it’s not tested):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">php</span><span class="o">-</span><span class="n">mbstring</span> <span class="n">php</span><span class="o">-</span><span class="n">gettext</span>
+<span class="n">sudo</span> <span class="n">phpenmod</span> <span class="n">mbstring</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">restart</span> <span class="n">apache2</span>
+</pre></div>
+</div>
+<p>After that, you need to set your mysql-root-password. This step has
+moved from Ubuntu 16 (password set while install) to Ubuntu 18 (password
+can be set anytime).</p>
+<p>The most simple seems to be this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mysql_secure_installation</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mysqladmin</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="n">OLDPASSWORD</span> <span class="n">NEWPASSWORD</span>
+</pre></div>
+</div>
+<p>or, if none of them work</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mysql</span>
+<span class="n">ALTER</span> <span class="n">USER</span> <span class="s1">&#39;root&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="n">WITH</span> <span class="n">mysql_native_password</span> <span class="n">BY</span> <span class="s1">&#39;NEWPASSWORD&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Replace NEWPASSWORD with your password.</p>
+<p>Source and more info is
+<a class="reference external" href="https://linuxconfig.org/how-to-reset-root-mysql-password-on-ubuntu-18-04-bionic-beaver-linux">here</a>,
+maybe also <a class="reference external" href="https://github.com/DanielnetoDotCom/YouPHPTube/issues/796">Issue
+796</a> can
+help you.</p>
+<p>Do not forget the “Rewrite-modules”-steps downer! If you have
+404-errors, check them!</p>
+<div class="section" id="single-command-list">
+<h2>Single command list<a class="headerlink" href="#single-command-list" title="Permalink to this headline">¶</a></h2>
+<p>If you have problems on installation, try it command by command, maybe
+this helps you or give us more info, what’s failing.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">apache2</span> <span class="n">php</span> <span class="n">libapache2</span><span class="o">-</span><span class="n">mod</span><span class="o">-</span><span class="n">php</span> <span class="n">php</span><span class="o">-</span><span class="n">mysql</span> <span class="n">php</span><span class="o">-</span><span class="n">curl</span> <span class="n">php</span><span class="o">-</span><span class="n">gd</span> <span class="n">php</span><span class="o">-</span><span class="n">intl</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span> <span class="n">mysql</span><span class="o">-</span><span class="n">client</span> <span class="n">ffmpeg</span> <span class="n">git</span> <span class="n">libimage</span><span class="o">-</span><span class="n">exiftool</span><span class="o">-</span><span class="n">perl</span> <span class="n">php</span><span class="o">-</span><span class="n">mbstring</span> <span class="n">php</span><span class="o">-</span><span class="n">gettext</span> <span class="n">python</span>
+<span class="n">cd</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span>
+<span class="n">sudo</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">DanielnetoDotCom</span><span class="o">/</span><span class="n">YouPHPTube</span><span class="o">.</span><span class="n">git</span>
+<span class="n">sudo</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">DanielnetoDotCom</span><span class="o">/</span><span class="n">YouPHPTube</span><span class="o">-</span><span class="n">Encoder</span><span class="o">.</span><span class="n">git</span> <span class="c1"># only for encoder</span>
+<span class="n">sudo</span> <span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">yt</span><span class="o">-</span><span class="n">dl</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">downloads</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="n">youtube</span><span class="o">-</span><span class="n">dl</span> <span class="o">-</span><span class="n">o</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">youtube</span><span class="o">-</span><span class="n">dl</span> <span class="c1"># only for encoder</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="n">a</span><span class="o">+</span><span class="n">rx</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">youtube</span><span class="o">-</span><span class="n">dl</span> <span class="c1"># only for encoder</span>
+<span class="n">sudo</span> <span class="n">a2enmod</span> <span class="n">rewrite</span>
+<span class="n">sudo</span> <span class="n">phpenmod</span> <span class="n">mbstring</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">restart</span> <span class="n">apache2</span>
+<span class="n">sudo</span> <span class="n">mysql_secure_installation</span> <span class="c1"># set mysql-root-password</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rewrite-modules">
+<h2>Rewrite-modules<a class="headerlink" href="#rewrite-modules" title="Permalink to this headline">¶</a></h2>
+<p>This is a important step.</p>
+<p>We need to allow Apache to read .htaccess files located under the
+directory. You can do this by editing the Apache configuration file:</p>
+<p>Find the section <code class="docutils literal notranslate"><span class="pre">&lt;directory</span> <span class="pre">/var/www/html&gt;</span></code> and change
+<strong>AllowOverride None</strong> to <strong>AllowOverride All</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">nano</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">apache2</span><span class="o">/</span><span class="n">apache2</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p>After editing the above file your code should be like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Directory</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/&gt;</span>
+          <span class="n">Options</span> <span class="n">Indexes</span> <span class="n">FollowSymLinks</span>
+          <span class="n">AllowOverride</span> <span class="n">All</span>
+          <span class="n">Require</span> <span class="nb">all</span> <span class="n">granted</span>
+  <span class="o">&lt;/</span><span class="n">Directory</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>In order to use mod_rewrite you can type the following command in the
+terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">a2enmod</span> <span class="n">rewrite</span>
+</pre></div>
+</div>
+<p>Restart apache2 after</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">apache2</span> <span class="n">restart</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">service</span> <span class="n">apache2</span> <span class="n">restart</span>
+</pre></div>
+</div>
+<p><strong>The Encoder</strong> We recommend that you use an YouPHPTube Encoder
+privately, it is also available for free and open source and you can
+download it
+<a class="reference external" href="https://github.com/DanielnetoDotCom/YouPHPTube-Encoder">here</a> and
+also we made some <a class="reference external" href="https://github.com/DanielnetoDotCom/YouPHPTube-Encoder/wiki/How-to-install-LAMP,--FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x---For-YouPHPTube-Encoder">installation
+instructions</a>.
+But if you are limited in hardware or software resources feel free to
+use our public encoder <a class="reference external" href="https://encoder.youphptube.com/">https://encoder.youphptube.com/</a></p>
+<p>We hope you have fun! If you need help, have any question or Issue
+please open an Issue on
+<a class="reference external" href="https://github.com/DanielnetoDotCom/YouPHPTube/issues">https://github.com/DanielnetoDotCom/YouPHPTube/issues</a></p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">If for any reason you need help to set up the YouPHPTube app or the server, fell free to ask us for help:</a></li>
+<li><a class="reference internal" href="#https-www-youphptube-com-services">https://www.youphptube.com/services</a><ul>
+<li><a class="reference internal" href="#single-command-list">Single command list</a></li>
+<li><a class="reference internal" href="#rewrite-modules">Rewrite-modules</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/installUbuntu18.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Vinzenz Hersche, Daniel Neto.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/installUbuntu18.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

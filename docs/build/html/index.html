@@ -1,0 +1,240 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Installation &#8212; YouPHPTube  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lamp">
+<h2>LAMP<a class="headerlink" href="#lamp" title="Permalink to this headline">¶</a></h2>
+<p>LAMP means Linux Apache Mysql and PHP. Those manuals are great if you
+set it up from scratch.</p>
+<ul class="simple">
+<li><a class="reference external" href="installUbuntu16Old.html">How to install LAMP, FFMPEG and Git on a fresh Ubuntu 16.x For
+YouPHPTube version 3.x or
+older</a>
+(YPT deprececated)</li>
+<li><a class="reference external" href="installUbuntu16.html">How to install LAMP, FFMPEG and Git on a fresh Ubuntu 16.x For
+YouPHPTube version 4.x or
+newer</a></li>
+<li><a class="reference external" href="installUbuntu18.html">How to install LAMP, FFMPEG and Git on a fresh Ubuntu 18.x for
+YouPHPTube version 4.x or
+newer</a></li>
+<li><a class="reference external" href="Install-YouPHPTube-in-Debian-9.3">Install YouPHPTube in Debian
+9.3</a></li>
+</ul>
+</div>
+<div class="section" id="nginx">
+<h2>Nginx<a class="headerlink" href="#nginx" title="Permalink to this headline">¶</a></h2>
+<p>Nginx is only experimental supported for the moment.</p>
+<p>Since we have php-routing enable, this should be possible:</p>
+<p><a class="reference external" href="https://github.com/skipperbent/simple-php-router#setting-up-nginx">https://github.com/skipperbent/simple-php-router#setting-up-nginx</a></p>
+<p>Thanks to patriclougheed, there are also two config-files for nginx
+(this solution surround the php-router above):</p>
+<ul class="simple">
+<li><a class="reference external" href="https://gist.github.com/patriclougheed/706677ffe2459df3b6587e54fd4a0923">Streamer</a></li>
+<li><a class="reference external" href="https://gist.github.com/patriclougheed/29a6d997a1371952e29bd8384ea9bf4e">Encoder</a>
+(this is needed anyway, until php-router also reaches the encoder)</li>
+</ul>
+<p>Both methods should work. You can find it’s issue here:
+<a class="reference external" href="https://github.com/DanielnetoDotCom/YouPHPTube/issues/691">https://github.com/DanielnetoDotCom/YouPHPTube/issues/691</a></p>
+</div>
+<div class="section" id="microsofts-iis">
+<h2>Microsofts IIS<a class="headerlink" href="#microsofts-iis" title="Permalink to this headline">¶</a></h2>
+<p>This should work, but it’s more a side-effect of implement
+simple-php-router than something else (eventualy it will never be
+tested?).</p>
+<p>The web.config-file is already added, a direct copy-paste of this:</p>
+<p><a class="reference external" href="https://github.com/skipperbent/simple-php-router#setting-up-iis">https://github.com/skipperbent/simple-php-router#setting-up-iis</a></p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="Advanced-Customization-Plugin">Advanced Customization Plugin</a></li>
+<li><a class="reference external" href="https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Plugin:-GoogleAds_IMA---Videos-Ads-on-your-page">GoogleAds_IMA-Video-Ads on your
+page</a></li>
+<li><a class="reference external" href="Configure-LDAP-Plugin">Configure LDAP-Plugin</a></li>
+<li><a class="reference external" href="Automatic-Thumbs-(JPG-GIF)-on-direct-uploaded-MP4-videos">Automatic Thumbs (JPG-GIF) on direct uploaded MP4
+videos</a></li>
+<li><a class="reference external" href="Setting-up-YouPHPTube-to-send-emails">Setting up YouPHPTube to send
+emails</a></li>
+<li><a class="reference external" href="Use-AWS-S3-on-YouPHPTube">Use AWS S3 on YouPHPTube</a></li>
+<li><a class="reference external" href="Redirect-http-to-https">Redirect http to https</a></li>
+</ul>
+</div>
+<div class="section" id="paid-plugins">
+<h2>Paid plugins<a class="headerlink" href="#paid-plugins" title="Permalink to this headline">¶</a></h2>
+<p>We have some advanced functionality in form of plugins, we sell. Please
+have a look at <a class="reference external" href="https://easytube.club">https://easytube.club</a> .</p>
+<p>Some examples: * Change resolutions * Subtitles * Secure videos
+folder * VR360-Video * Livesearch * and many more…</p>
+</div>
+</div>
+<div class="section" id="update-youphptube">
+<h1>Update youphptube<a class="headerlink" href="#update-youphptube" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference external" href="How-to-Update-your-YouPHPTube">How to update your YouPHPTube</a></li>
+</ul>
+</div>
+<div class="section" id="performance">
+<h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
+<p>When you have a lot of users, your server can reach it’s limits. To
+prevent this, there are some things possible. * Use a host with mysqlnd
+enabled! We provide support for non-mysqlnd-host’s, but we have a
+SQL-cache for mysqlnd only. Also, this is a fast, native driver (better
+performance anyway). If you are unshure if you have this, ask your
+hoster. * Enable minify of javascript! This helps only, to reduce the
+bandwidth a little. Go to advanced customization-plugin and enable
+“Minify JS”. Clear videos/cache after this! * Enable the
+<a class="reference external" href="Cache-Plugin">Cache-Plugin</a> * Disable (Gallery- and
+Youphpflix-plugin) and not set gifs (use less bandwidth)</p>
+</div>
+<div class="section" id="livestream">
+<h1>Livestream<a class="headerlink" href="#livestream" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference external" href="https://tutorials.youphptube.com/video/10-min-youphptube-stream-server-installation">Setup streamer
+(video-tutorial)</a></li>
+<li><a class="reference external" href="Record-Live-Stream">Record Live Stream</a></li>
+<li><a class="reference external" href="Configure-NGINX-Stream-Resolutions">Configure NGINX Stream
+Resolutions</a></li>
+</ul>
+</div>
+<div class="section" id="various">
+<h1>Various<a class="headerlink" href="#various" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p class="first"><a class="reference external" href="How-To-Install-a-new-Plugin">Howto Install a new Plugin</a></p>
+</li>
+<li><p class="first rubric" id="troubleshooting">Troubleshooting</p>
+</li>
+</ul>
+<p>Various things can cause problems. Here, you find steps that eventualy
+fix your problem. If it doesn’t, please read <a class="reference external" href="Check-Ajax-answer">Check Ajax
+answer</a> and <a class="reference external" href="How-to-find-errors-on-YouPHPTube">How to find errors on
+YouPHPTube</a> for a usefull issue -
+this makes it easier for us to help you.</p>
+<ul class="simple">
+<li>Recheck, if all database-upgrades are done (<strong>Menu -&gt; Update
+version</strong>)</li>
+<li>Clear the cache-folder (delete all files in <strong>videos/cache/</strong>)</li>
+<li>Ad-managment is broken? Try disable your adblocker</li>
+<li><a class="reference external" href="How-to-find-errors-on-YouPHPTube">How to find errors on
+YouPHPTube</a></li>
+<li><a class="reference external" href="Check-Ajax-answer">Check Ajax answer</a></li>
+<li><a class="reference external" href="Mysql-Troubleshooting">Mysql Troubleshooting</a></li>
+<li><a class="reference external" href="Message-when-rewrite-is-not-set">Message when rewrite is not set / 404-Errors / install
+rewrite-modules</a></li>
+<li><a class="reference external" href="Error-while-sending-QUERY-packet-cpanel">Error while sending QUERY packet
+cpanel</a></li>
+<li><a class="reference external" href="How-To-Install-a-new-Plugin">How To Install a new Plugin</a></li>
+<li><a class="reference external" href="youdtube-dl-failed-to-extract-signature">youdtube dl failed to extract
+signature</a></li>
+<li><a class="reference external" href="Encoder-Error-We-could-not-found-your-streamer-site!">Encoder-Error We could not found your
+streamer-site!</a></li>
+</ul>
+</div>
+<div class="section" id="known-problems">
+<h1>Known problems<a class="headerlink" href="#known-problems" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>If the chart is not counting videos, try disable the
+<a class="reference external" href="Cache-Plugin">Cache-Plugin</a>.</li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#lamp">LAMP</a></li>
+<li><a class="reference internal" href="#nginx">Nginx</a></li>
+<li><a class="reference internal" href="#microsofts-iis">Microsofts IIS</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#paid-plugins">Paid plugins</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#update-youphptube">Update youphptube</a></li>
+<li><a class="reference internal" href="#performance">Performance</a></li>
+<li><a class="reference internal" href="#livestream">Livestream</a></li>
+<li><a class="reference internal" href="#various">Various</a></li>
+<li><a class="reference internal" href="#known-problems">Known problems</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Vinzenz Hersche, Daniel Neto.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
