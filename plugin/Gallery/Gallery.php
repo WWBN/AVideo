@@ -30,18 +30,24 @@ class Gallery extends PluginAbstract {
         $obj->Description = false;
         $obj->CategoryDescription = false;
         $obj->DateAdded = true;
+        $obj->DateAddedCustomTitle = "";
         $obj->DateAddedRowCount = 12;
         $obj->MostWatched = true;
+        $obj->MostWatchedCustomTitle = "";
         $obj->MostWatchedRowCount = 12;
         $obj->MostPopular = true;
+        $obj->MostPopularCustomTitle = "";
         $obj->MostPopularRowCount = 12;
         $obj->SortByName = false;
+        $obj->SortByNameCustomTitle = "";
         $obj->SortByNameRowCount = 12;
         $obj->SubscribedChannels = true;
         $obj->SubscribedChannelsRowCount = 12;
         $obj->sortReverseable = false;
         $obj->SubCategorys = false;
         $obj->showTags = true;
+        $obj->searchOnChannels = true;
+        $obj->searchOnChannelsRowCount = 12;
         return $obj;
     }
   

@@ -1,11 +1,13 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
+require_once $global['systemRootPath'] . 'objects/subscribe.php';
+
 $obj = YouPHPTubePlugin::getObjectData("Gallery");
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
@@ -64,6 +66,7 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
 } else {
     $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
 }
+$contentSearchFound = false;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -75,22 +78,37 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
     </head>
 
     <body>
-        <?php include $global['systemRootPath'].'view/include/navbar.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
             <div class="row text-center" style="padding: 10px;">
                 <?php echo $config->getAdsense(); ?>
             </div>
             <div class="col-sm-10 col-sm-offset-1 list-group-item">
-                <?php
-                if (!empty($currentCat)) {
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
-                }
-                if (!empty($video)) {
-                    $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
-                    ?>
 
-                    <div class="row mainArea">
+                <div class="row mainArea">
+                    <?php
+                    if (!empty($currentCat)) {
+                        include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
+                    }
+
+                    if ($obj->searchOnChannels && !empty($_GET['search'])) {
+                        $channels = User::getAllUsers(true);
+                        clearSearch();
+                        foreach ($channels as $value) {
+                            $contentSearchFound = true;
+                            createChannelItem($value['id'], $value['photoURL'], $value['identification']);
+                        }
+                        reloadSearch();
+                    }
+
+                    if (!empty($video)) {
+                        $contentSearchFound = true;
+                        $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
+                        if(empty($_GET['search'])){
+                            include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
+                        }
+                        ?>
+
                         <!-- For Live Videos -->
                         <div id="liveVideos" class="clear clearfix" style="display: none;">
                             <h3 class="galleryTitle text-danger"> <i class="fab fa-youtube"></i> <?php echo __("Live"); ?></h3>
@@ -112,68 +130,39 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
                         <!-- For Live Videos End -->
                         <?php
                         if ($obj->SortByName) {
-                            createGallery(__("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
+                            createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
                         }
                         if ($obj->DateAdded) {
-                            createGallery(__("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC");
+                            createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC");
                         }
                         if ($obj->MostWatched) {
-                            createGallery(__("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC");
+                            createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
                         if ($obj->MostPopular) {
-                            createGallery(__("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
+                            createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
                         if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
-                            require_once $global['systemRootPath'] . 'objects/subscribe.php';
                             $channels = Subscribe::getSubscribedChannels(User::getId());
                             foreach ($channels as $value) {
-                                ?>
-                                <div class="clear clearfix">
-                                    <h3 class="galleryTitle">
-                                        <img src="<?php
-                    echo $value['photoURL'];
-                                ?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;">
-                                        <span style="margin: 0 5px;">
-                                            <?php
-                                            echo $value['identification'];
-                                            ?>
-                                        </span>
-                                        <a class="btn btn-xs btn-default" href="<?php echo User::getChannelLink($value['users_id']); ?>" style="margin: 0 10px;">
-                                            <i class="fas fa-external-link-alt"></i>
-                                        </a>
-                                        <?php
-                                        echo Subscribe::getButton($value['users_id']);
-                                        ?>
-                                    </h3>
-                                    <div class="row">
-                                        <?php
-                                        $countCols = 0;
-                                        unset($_POST['sort']);
-                                        $_POST['sort']['created'] = "DESC";
-                                        $_POST['current'] = 1;
-                                        $_POST['rowCount'] = $obj->SubscribedChannelsRowCount;
-                                        $total = Video::getTotalVideos("viewable", $value['users_id']);
-                                        $videos = Video::getAllVideos("viewable", $value['users_id']);
-                                        createGallerySection($videos);
-                                        ?>
-                                    </div>
-                                </div>
-                                <?php
+                                createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $obj->SubscribedChannelsRowCount);
                             }
                         }
                         ?>
-                    </div>
-                <?php } else { ?>
-                    <div class="alert alert-warning">
-                        <span class="glyphicon glyphicon-facetime-video"></span>
-                        <strong><?php echo __("Warning"); ?>!</strong>
+                    <?php }
+
+                    if (!$contentSearchFound) {
+                        ?>
+                        <div class="alert alert-warning">
+                            <span class="glyphicon glyphicon-facetime-video"></span>
+                            <strong><?php echo __("Warning"); ?>!</strong>
                         <?php echo __("We have not found any videos or audios to show"); ?>.
-                    </div>
-                <?php } ?>
+                        </div>
+<?php } ?>
+                </div>
             </div>
         </div>
     </div>
-    <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
+<?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
 </body>
 </html>
 <?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>

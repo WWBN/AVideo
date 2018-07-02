@@ -1,0 +1,45 @@
+<a href="plugin/CloneSite/" class="btn btn-primary btn-xs"><i class="fas fa-clone"></i> Clones Manager</a><br>
+<button class="btn btn-success btn-xs" id="cloneNow" onclick="
+        //modal.showPleaseWait();
+        $('#cloneProgressModal').modal();
+        function getClientLog(){
+            $.ajax({
+                url: 'videos/cache/clones/client.log'
+            }).done(function (resp) {
+                $('#cloneLog').text(resp);
+                var $target = $('#cloneLog');
+                $target.animate({scrollTop: 999999999}, 1000);
+            });
+        }
+        var interval = setInterval(function () {
+            getClientLog();
+        }, 1000);
+
+        $.ajax({
+            url: 'plugin/CloneSite/cloneClient.json.php'
+
+        }).done(function (resposta) {
+            if (resposta.error) {
+                swal('Sorry', resposta.msg, 'error');
+            }else{
+                swal('Congratulations', 'Your Clone Process is finished', 'success');
+            }
+            clearInterval(interval);
+            getClientLog();
+            //modal.hidePleaseWait();
+        });"><i class="fas fa-sync"></i> Clone Now</button>
+
+<div id="cloneProgressModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Clone Progress </h4>
+            </div>
+            <div class="modal-body" style="max-height: 70vh; overflow: scroll;">
+                <pre id="cloneLog" style=" height: 400px;"></pre>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
