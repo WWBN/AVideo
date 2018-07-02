@@ -135,10 +135,6 @@ class AD_Server extends PluginAbstract {
         }
         
         $selectedOptions = array();
-        // count it each 2 seconds
-        error_log('sessions_id');
-        error_log(session_id());
-        error_log($_SESSION['lastAdRandomPositions']);
         if (empty($_SESSION['lastAdRandomPositions']) || $_SESSION['lastAdRandomPositions'] + 20 <= time()) {
             $_SESSION['lastAdRandomPositions'] = time();
 
