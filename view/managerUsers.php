@@ -120,6 +120,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                                             <label for="status" class="label-success"></label>
                                         </div>
                                     </li>
+                                    <?php
+                                    print YouPHPTubePlugin::getUserOptions(); 
+                                    ?>
                                 </ul>
                                 <ul class="list-group">
                                     <li class="list-group-item active">
@@ -229,6 +232,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                         $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
                         $('#status').prop('checked', (row.status === "a" ? true : false));
                         $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
+<?php
+print YouPHPTubePlugin::loadUsersFormJS();
+?>
 
                         $('#userFormModal').modal();
                     }).end().find(".command-delete").on("click", function (e) {
@@ -284,8 +290,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                     $('.userGroups').prop('checked', false);
                     $('#status').prop('checked', true);
                     $('#isEmailVerified').prop('checked', false);
-
-
+<?php
+print YouPHPTubePlugin::addUserBtnJS();
+?>
                     $('#userFormModal').modal();
                 });
 
@@ -310,6 +317,9 @@ $userGroups = UserGroups::getAllUsersGroups();
                     $.ajax({
                         url: '<?php echo $global['webSiteRootURL']; ?>objects/userAddNew.json.php',
                         data: {
+<?php
+print YouPHPTubePlugin::updateUserFormJS();
+?>
                             "id": $('#inputUserId').val(),
                             "user": $('#inputUser').val(),
                             "pass": $('#inputPassword').val(),
