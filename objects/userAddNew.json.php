@@ -21,6 +21,22 @@ $user->setStatus($_POST['status']);
 $user->setEmailVerified($_POST['isEmailVerified']);
 $user->setAnalyticsCode($_POST['analyticsCode']);
 $unique = $user->setChannelName($_POST['channelName']);
+
+//identify what variables come from external plugins 
+$userOptions=YouPHPTubePlugin::getPluginUserOptions();
+if(is_array($userOptions))
+{
+    foreach($userOptions as $uo => $id)
+    {
+        if(isset($_POST[$id]))
+        $externalOptions[$id]=$_POST[$id];
+    }
+    $user->setExternalOptions($externalOptions);
+}
+//save it 
+
+
+
 if(!empty($_POST['channelName']) && !$unique){
     echo '{"error":"'.__("Channel name already exists").'"}';
     exit;
