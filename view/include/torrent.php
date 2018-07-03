@@ -34,7 +34,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                     <?php } ?>
                     preload="auto"
                     poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
-
+                    <source src="weirdlyneeded.mp4" type="video/mp4" ></source>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                     <p class="vjs-no-js"><?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
                         <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -93,12 +93,12 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
 
         // Display the file by adding it to the DOM. Supports video, audio, image, etc. files
 
-        file.appendTo('#main-video');
+        //file.appendTo('#main-video');
         //file.appendTo('#mainVideo');
-        //file.renderTo('#mainVideo_html5_api');
+        file.renderTo('#mainVideo_html5_api');
       });
       // workaround until integration into videojs works
-      $("#mainVideo").hide();
+      //$("#mainVideo").hide();
 <?php
 if (!$config->getAllow_download()) {
     ?>
