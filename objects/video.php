@@ -109,7 +109,7 @@ if (!class_exists('Video')) {
             }
 
             if (empty($this->type) || !in_array($this->type, self::$typeOptions)) {
-                $this->status = 'video';
+                $this->type = 'video';
             }
 
             if (empty($this->isSuggested)) {
