@@ -316,7 +316,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             </script>
                         </li>
                         <?php
-                        if (empty($advancedCustom->signInOnRight)) {
+                        if (!empty($advancedCustom->signInOnRight)) {
                             if (User::isLogged()) {
                                 ?>
                                 <li>
