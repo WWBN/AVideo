@@ -81,10 +81,11 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
     var mediaId = <?php echo $playNowVideo['id']; ?>;
     var client = new WebTorrent();
 
-    var torrentId = 'magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent';
+    var torrentId = '<?php echo $playNowVideo['videoLink']; ?>';
     var player;
 
     $(document).ready(function () {
+      $("#mainVideo").hide();
       client.add(torrentId, function (torrent) {
         // Torrents can contain many files. Let's use the .mp4 file
         var file = torrent.files.find(function (file) {
@@ -96,6 +97,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
         //file.appendTo('#main-video');
         //file.appendTo('#mainVideo');
         file.renderTo('#mainVideo_html5_api');
+        $("#mainVideo").show();
       });
       // workaround until integration into videojs works
       //$("#mainVideo").hide();
