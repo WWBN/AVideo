@@ -220,51 +220,17 @@ class Subscribe {
 
     
     static function getButton($user_id) {
+        global $global;
         $total = static::getTotalSubscribes($user_id);
         
-        $subscribe = "<div class=\"btn-group\">"
-                . "<button class='btn btn-xs subsB subs{$user_id} subscribeButton{$user_id}'><i class='fab fa-youtube'></i> <b class='text'>" . __("Subscribe") . "</b></button>"
+        $subscribe = "<div class=\"btn-group\" >"
+                . "<button class='btn btn-xs subsB subs{$user_id} subscribeButton{$user_id}' title=\"" . __("Want to subscribe to this channel?") . "\" data-content=\"" . __("Sign in to subscribe to this channel") . "<hr><center><a class='btn btn-success btn-sm' href='{$global['webSiteRootURL']}user'>" . __("Sign in") . "</a></center>\"  tabindex=\"0\" role=\"button\" data-html=\"true\"  data-toggle=\"popover\" data-placement=\"bottom\" ><i class='fab fa-youtube'></i> <b class='text'>" . __("Subscribe") . "</b></button>"
                 . "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>{$total}</b></button>"
                 . "</div>";
                 
         //show subscribe button with mail field
-        $popover = "<div id=\"popover-content\" class=\"hide\">
-        <div class=\"input-group\"  style=\"max-height:34px;\">
-          <input type=\"text\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail{$user_id}\" style=\"min-width: 150px;\">
-          <span class=\"input-group-btn\">
-          <button class=\"btn btn-danger\" id=\"subscribeButton{$user_id}2\"><i class=\"fa fa-check\"></i></button>
-          </span>
-        </div>
-    </div><script>
-$(document).ready(function () {
-$(\".subscribeButton{$user_id}\").popover({
-placement: 'bottom',
-trigger: 'manual',
-    html: true,
-	content: function() {
-          return $('#popover-content').html();
-        }
-});
-});
-</script>";
-        $script = "<script>
-            function toogleNotify{$user_id}(){
-                email = $('#subscribeEmail{$user_id}').val();
-                if (validateEmail(email)) {
-                    subscribeNotify(email, '{$user_id}');
-                }
-            }
-            $(document).ready(function () {
-                $(\".subscribeButton{$user_id}\").off(\"click\");
-                $(\".subscribeButton{$user_id}\").click(function () {
-                    email = $('#subscribeEmail{$user_id}').val();
-                    if (validateEmail(email)) {
-                        subscribe(email, '{$user_id}');
-                    }
-                });
-                $('[data-toggle=\"tooltip\"]').tooltip(); 
-            });
-        </script>";
+        $popover = "";
+        $script = "";
         if (User::isLogged()) {
             //check if the email is logged
             $email = User::getMail();
@@ -293,6 +259,24 @@ trigger: 'manual',
                                 <i class="fa fa-bell-slash"></i>
                             </button></span>';
                 }
+                $script = "<script>
+                    function toogleNotify{$user_id}(){
+                        email = $('#subscribeEmail{$user_id}').val();
+                        if (validateEmail(email)) {
+                            subscribeNotify(email, '{$user_id}');
+                        }
+                    }
+                    $(document).ready(function () {
+                        $(\".subscribeButton{$user_id}\").off(\"click\");
+                        $(\".subscribeButton{$user_id}\").click(function () {
+                            email = $('#subscribeEmail{$user_id}').val();
+                            if (validateEmail(email)) {
+                                subscribe(email, '{$user_id}');
+                            }
+                        });
+                        $('[data-toggle=\"tooltip\"]').tooltip(); 
+                    });
+                </script>";
             }
         }
         return $subscribe.$popover.$script;

@@ -1,66 +1,66 @@
 <style>
-  #mysearch.in,
-  #mysearch.collapsing {
-      display: block!important;
-  }
+    #mysearch.in,
+    #mysearch.collapsing {
+        display: block!important;
+    }
 
-  #myNavbar.in,
-  #myNavbar.collapsing {
-      display: block!important;
-  }
-  @media (max-width : 768px) {
-  #searchForm {
-    width: 100%;
-    padding-left: 10px;
-  }
+    #myNavbar.in,
+    #myNavbar.collapsing {
+        display: block!important;
+    }
+    @media (max-width : 768px) {
+        #searchForm {
+            width: 100%;
+            padding-left: 10px;
+        }
 
-  #searchForm > div{
-    width: 100%;
-  }
+        #searchForm > div{
+            width: 100%;
+        }
 
-  .mobilesecondnav {
-     position: absolute; left: 40%; right: 5px;
-  }
+        .mobilesecondnav {
+            position: absolute; left: 40%; right: 5px;
+        }
 
-  #mysearch{
-    /* width: 100%; */
-    position: absolute;
-    right: 0;
-    left: 0;
-    padding-left: 0px;
-    padding-right: 0px;
+        #mysearch{
+            /* width: 100%; */
+            position: absolute;
+            right: 0;
+            left: 0;
+            padding-left: 0px;
+            padding-right: 0px;
 
-  }
-  .globalsearchfield {
-    width: 80% !important;
-  }
+        }
+        .globalsearchfield {
+            width: 80% !important;
+        }
 
-  .searchli {
-    width: 100%;
-    margin-right: 0;
-    margin-left: 0;
+        .searchli {
+            width: 100%;
+            margin-right: 0;
+            margin-left: 0;
 
-  }
-  .searchdiv {
+        }
+        .searchdiv {
 
-  }
-  .navbar-toggle {
-    margin-right: 5px !important;
+        }
+        .navbar-toggle {
+            margin-right: 5px !important;
 
 
-  }
-  .left-side {
-    padding: 5px;
-  }
-  .searchul{
-    padding-left: 0px;
-  }
-  }
+        }
+        .left-side {
+            padding: 5px;
+        }
+        .searchul{
+            padding-left: 0px;
+        }
+    }
 
 </style>
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -87,47 +87,47 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                     <li>
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu" ><span class="fa fa-bars"></span></button>
                         <script>
-                        $( document ).ready(function() {
-                            $('#buttonMenu').on("click", function (event) {
-                                event.stopPropagation();
-                                $('#sidebar').fadeToggle();
-                                $('#myNavbar').removeClass("in");
-                                $('#mysearch').removeClass("in");
-                            });
-
-                            $(document).on("click", function () {
-                                $("#sidebar").fadeOut();
-                            });
-                            $("#sidebar").on("click", function (event) {
-                                event.stopPropagation();
-                            });
-                            $("#buttonSearch").click( function (event) {
-                                $('#myNavbar').removeClass("in");
-                                $("#sidebar").fadeOut();
-                            });
-                            $("#buttonMyNavbar").click( function (event) {
-                                $('#mysearch').removeClass("in");
-                                $("#sidebar").fadeOut();
-                            });
-                            var wasMobile = true;
-                            $(window).resize(function() {
-                                if ($(window).width() > 767) {
-                                  // Window is bigger than 767 pixels wide - show search again, if autohide by mobile.
-                                  if(wasMobile){
-                                    wasMobile = false;
-                                  $('#mysearch').addClass("in");
-                                  $('#myNavbar').addClass("in");
-                                }
-                                }
-                                if ($(window).width() < 767) {
-                                  // Window is smaller 767 pixels wide - show search again, if autohide by mobile.
-                                  if(wasMobile==false){
-                                    wasMobile = true;
+                            $(document).ready(function () {
+                                $('#buttonMenu').on("click", function (event) {
+                                    event.stopPropagation();
+                                    $('#sidebar').fadeToggle();
                                     $('#myNavbar').removeClass("in");
                                     $('#mysearch').removeClass("in");
-                                }
-                                }
-                              });
+                                });
+
+                                $(document).on("click", function () {
+                                    $("#sidebar").fadeOut();
+                                });
+                                $("#sidebar").on("click", function (event) {
+                                    event.stopPropagation();
+                                });
+                                $("#buttonSearch").click(function (event) {
+                                    $('#myNavbar').removeClass("in");
+                                    $("#sidebar").fadeOut();
+                                });
+                                $("#buttonMyNavbar").click(function (event) {
+                                    $('#mysearch').removeClass("in");
+                                    $("#sidebar").fadeOut();
+                                });
+                                var wasMobile = true;
+                                $(window).resize(function () {
+                                    if ($(window).width() > 767) {
+                                        // Window is bigger than 767 pixels wide - show search again, if autohide by mobile.
+                                        if (wasMobile) {
+                                            wasMobile = false;
+                                            $('#mysearch').addClass("in");
+                                            $('#myNavbar').addClass("in");
+                                        }
+                                    }
+                                    if ($(window).width() < 767) {
+                                        // Window is smaller 767 pixels wide - show search again, if autohide by mobile.
+                                        if (wasMobile == false) {
+                                            wasMobile = true;
+                                            $('#myNavbar').removeClass("in");
+                                            $('#mysearch').removeClass("in");
+                                        }
+                                    }
+                                });
                             });
                         </script>
                     </li>
@@ -147,21 +147,23 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                 </div>
                 <div class="hidden-xs" id="mysearch">
                     <ul class="searchul">
-            <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom:0px;">
-                <form class="navbar-form" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
-                    <div class="input-group" style="width: 100%;" >
-                        <div class="form-inline">
-                            <span><input class="form-control globalsearchfield" type="text" value="<?php if (!empty($_GET['search'])) {
-            echo $_GET['search'];
-        } ?>" name="search" placeholder="<?php echo __("Search"); ?>">
-                            <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button></span>
-                        </div>
-                    </div>
-                </form>
+                        <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom:0px;">
+                            <form class="navbar-form" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
+                                <div class="input-group" style="width: 100%;" >
+                                    <div class="form-inline">
+                                        <span><input class="form-control globalsearchfield" type="text" value="<?php
+                                            if (!empty($_GET['search'])) {
+                                                echo $_GET['search'];
+                                            }
+                                            ?>" name="search" placeholder="<?php echo __("Search"); ?>">
+                                            <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </li>
-          </ul>
-        </div>
-      </li>
             <li style="margin-right: 0px; padding-left: 0px;">
                 <div class="navbar-header">
                     <button type="button" id="buttonMyNavbar" class=" navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#myNavbar" style="padding: 6px 12px;">
@@ -188,15 +190,20 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                         <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon) ? $advancedCustom->uploadButtonDropdownIcon : "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
                                     </button>
                                     <?php
-                                    if( (isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload)  || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
-                                    ){
-                                    ?>
+                                    if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
+                                    ) {
+                                        ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <?php
                                             if (!empty($advancedCustom->encoderNetwork)) {
                                                 ?>
                                                 <li>
-                                                    <a href="<?php echo $advancedCustom->encoderNetwork, "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" target="encoder" >
+                                                    <form id="formEncoderN" method="post" action="<?php echo $advancedCustom->encoderNetwork; ?>" target="encoder">
+                                                        <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
+                                                        <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
+                                                        <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
+                                                    </form>
+                                                    <a href="#" onclick="$('#formEncoderN').submit();return false;">
                                                         <span class="fa fa-cogs"></span> <?php echo __("Encoder Network"); ?>
                                                     </a>
                                                 </li>
@@ -206,7 +213,12 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                                 if (!empty($config->getEncoderURL())) {
                                                     ?>
                                                     <li>
-                                                        <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" target="encoder" >
+                                                        <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
+                                                            <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
+                                                            <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
+                                                            <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
+                                                        </form>
+                                                        <a href="#" onclick="$('#formEncoder').submit();return false;">
                                                             <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
                                                         </a>
                                                     </li>
@@ -248,19 +260,18 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                             }
                                             ?>
                                         </ul>
-                                    <?php
-                                    }
-                                    else{
-                                    ?>
+                                        <?php
+                                    } else {
+                                        ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
-                                                <li>
-                                                    <a  href="" >
-                                                        <span class="fa fa-exclamation"></span> <?php echo __("Only verified users can upload"); ?>
-                                                    </a>
-                                                </li>
+                                            <li>
+                                                <a  href="" >
+                                                    <span class="fa fa-exclamation"></span> <?php echo __("Only verified users can upload"); ?>
+                                                </a>
+                                            </li>
                                         </ul>
 
-                                    <?php
+                                        <?php
                                     }
                                     ?>
                                 </div>
@@ -304,6 +315,27 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                 });
                             </script>
                         </li>
+                        <?php
+                        if (empty($advancedCustom->signInOnRight)) {
+                            if (User::isLogged()) {
+                                ?>
+                                <li>
+                                    <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
+                                        <i class="fas fa-sign-out-alt"></i> <?php echo __("Sign Out"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                            } else {
+                                ?>
+                                <li>
+                                    <a class="btn navbar-btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>user" >
+                                        <i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                            }
+                        }
+                        ?>
                     </ul>
                 </div>
 
@@ -320,8 +352,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <li>
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-block" >
-                                    <span class="glyphicon glyphicon-log-out"></span>
-        <?php echo __("Logoff"); ?>
+                                    <i class="fas fa-sign-out-alt"></i> <?php echo __("Logoff"); ?>
                                 </a>
                             </div>
                         </li>
@@ -340,7 +371,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-block" style="border-radius: 4px 4px 0 0;">
                                     <span class="fa fa-user-circle"></span>
-        <?php echo __("My Account"); ?>
+                                    <?php echo __("My Account"); ?>
                                 </a>
 
                             </div>
@@ -351,7 +382,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             <div>
                                 <a href="<?php echo User::getChannelLink(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
                                     <span class="fab fa-youtube"></span>
-        <?php echo __("My Channel"); ?>
+                                    <?php echo __("My Channel"); ?>
                                 </a>
 
                             </div>
@@ -365,30 +396,33 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                     <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-block" style="border-radius: 0;">
                                         <span class="glyphicon glyphicon-film"></span>
                                         <span class="glyphicon glyphicon-headphones"></span>
-            <?php echo __("My videos"); ?>
+                                        <?php echo __("My videos"); ?>
                                     </a>
                                 </div>
                             </li>
                             <?php
-                          }
-                            if ((($config->getAuthCanViewChart()==0)&&(User::canUpload()))||(($config->getAuthCanViewChart()==1)&&(User::canViewChart()))) {
-                                ?>
+                        }
+
+                        print YouPHPTubePlugin::navBarButtons();
+
+                        if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {
+                            ?>
                             <li>
                                 <div>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-block" style="border-radius: 0;">
                                         <span class="fas fa-tachometer-alt"></span>
-            <?php echo __("Dashboard"); ?>
+                                        <?php echo __("Dashboard"); ?>
                                     </a>
                                 </div>
                             </li>
                             <?php
-                          } if (User::canUpload()) {
-                                ?>
+                        } if (User::canUpload()) {
+                            ?>
                             <li>
                                 <div>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-block" style="border-radius: 0">
                                         <span class="fa fa-check"></span>
-            <?php echo __("Subscriptions"); ?>
+                                        <?php echo __("Subscriptions"); ?>
                                     </a>
                                 </div>
                             </li>
@@ -396,7 +430,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                 <div>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>comments" class="btn btn-default btn-block" style="border-radius: 0 0 4px 4px;">
                                         <span class="fa fa-comment"></span>
-            <?php echo __("Comments"); ?>
+                                        <?php echo __("Comments"); ?>
                                     </a>
                                 </div>
                             </li>
@@ -414,19 +448,19 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>users">
                                             <span class="glyphicon glyphicon-user"></span>
-            <?php echo __("Users"); ?>
+                                            <?php echo __("Users"); ?>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups">
                                             <span class="fa fa-users"></span>
-            <?php echo __("Users Groups"); ?>
+                                            <?php echo __("Users Groups"); ?>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>categories">
                                             <span class="glyphicon glyphicon-list"></span>
-            <?php echo __("Categories"); ?>
+                                            <?php echo __("Categories"); ?>
                                         </a>
                                     </li>
                                     <li>
@@ -436,26 +470,26 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                             <?php
                                             if (!empty($updateFiles)) {
                                                 ?><span class="label label-danger"><?php echo count($updateFiles); ?></span><?php
-                            }
-                            ?>
+                                            }
+                                            ?>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">
                                             <span class="glyphicon glyphicon-cog"></span>
-            <?php echo __("Site Configurations"); ?>
+                                            <?php echo __("Site Configurations"); ?>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>locale">
                                             <span class="glyphicon glyphicon-flag"></span>
-            <?php echo __("Create more translations"); ?>
+                                            <?php echo __("Create more translations"); ?>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>plugins">
                                             <span class="fa fa-plug"></span>
-            <?php echo __("Plugins"); ?>
+                                            <?php echo __("Plugins"); ?>
                                         </a>
                                     </li>
                                 </ul>
@@ -470,8 +504,8 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <li>
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-success btn-block">
-                                    <span class="glyphicon glyphicon-log-in"></span>
-        <?php echo __("Login"); ?>
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <?php echo __("Sign In"); ?>
                                 </a>
                             </div>
                         </li>
@@ -489,19 +523,19 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
                             <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
                                 <span class="glyphicon glyphicon-star"></span>
-        <?php echo __("Audios and Videos"); ?>
+                                <?php echo __("Audios and Videos"); ?>
                             </a>
                         </li>
                         <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_GET['catName'])) ? "active" : ""; ?>">
                             <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
                                 <span class="glyphicon glyphicon-facetime-video"></span>
-        <?php echo __("Videos"); ?>
+                                <?php echo __("Videos"); ?>
                             </a>
                         </li>
                         <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_GET['catName'])) ? "active" : ""; ?>">
                             <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
                                 <span class="glyphicon glyphicon-headphones"></span>
-                        <?php echo __("Audios"); ?>
+                                <?php echo __("Audios"); ?>
                             </a>
                         </li>
                         <?php
@@ -519,7 +553,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>channels">
                                 <i class="fa fa-search"></i>
-        <?php echo __("Browse Channels"); ?>
+                                <?php echo __("Browse Channels"); ?>
                             </a>
                         </li>
 
@@ -571,19 +605,19 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>help">
                             <span class="glyphicon glyphicon-question-sign"></span>
-    <?php echo __("Help"); ?>
+                            <?php echo __("Help"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>about">
                             <span class="glyphicon glyphicon-info-sign"></span>
-    <?php echo __("About"); ?>
+                            <?php echo __("About"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>contact">
                             <span class="glyphicon glyphicon-comment"></span>
-    <?php echo __("Contact"); ?>
+                            <?php echo __("Contact"); ?>
                         </a>
                     </li>
                 </ul>
