@@ -98,7 +98,7 @@ class LiveTransmition extends ObjectYPT {
         global $global;
         $user_id = intval($user_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"i",array($user_id), true); 
+        $res = sqlDAL::readSql($sql,"i",array($user_id), true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res!=false) {
@@ -136,7 +136,7 @@ class LiveTransmition extends ObjectYPT {
         global $global;
         $userName = $global['mysqli']->real_escape_string($userName);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"s",array($userName), true); 
+        $res = sqlDAL::readSql($sql,"s",array($userName), true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res!=false) {
@@ -151,7 +151,7 @@ class LiveTransmition extends ObjectYPT {
         global $global;
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id WHERE  `key` = '$key' LIMIT 1";
-        $res = sqlDAL::readSql($sql); 
+        $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -173,7 +173,7 @@ class LiveTransmition extends ObjectYPT {
             return false;
         }
         global $global;
-        $sql = "DELETE FROM live_transmitions_has_users_groups WHERE live_transmitions_id = $this->id";
+        $sql = "DELETE FROM live_transmitions_has_users_groups WHERE live_transmitions_id = ?";
         return sqlDAL::writeSql($sql,"i",array($this->id));
     }
 
@@ -190,7 +190,7 @@ class LiveTransmition extends ObjectYPT {
         }
         global $global;
         $sql = "SELECT * FROM live_transmitions_has_users_groups WHERE live_transmitions_id = ?";
-        $res = sqlDAL::readSql($sql,"i",array($this->id)); 
+        $res = sqlDAL::readSql($sql,"i",array($this->id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         if ($res!=false) {

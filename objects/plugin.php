@@ -183,19 +183,33 @@ class Plugin extends ObjectYPT {
         global $global, $getAllEnabledRows;
         if(empty($getAllEnabledRows)){
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
-            $res = $global['mysqli']->query($sql);
+            $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
             $getAllEnabledRows = array();
-            if ($res) {
-                while ($row = $res->fetch_assoc()) {
-                    $getAllEnabledRows[] = $row;
-                }           
-
-                uasort($getAllEnabledRows, 'cmpPlugin');
-            } else {
-                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            foreach ($fullData as $row) {
+                $getAllEnabledRows[] = $row;
             }
+            uasort($getAllEnabledRows, 'cmpPlugin');
         }
         return $getAllEnabledRows;
+    }
+
+    static function getAllDisabled()
+    {
+        global $global, $getAllDisabledRows;
+        if(empty($getAllDisabledRows)){
+          $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='inactive' ";
+          $res = sqlDAL::readSql($sql);
+          $fullData = sqlDAL::fetchAllAssoc($res);
+          sqlDAL::close($res);
+          $getAllDisabledRows = array();
+          foreach ($fullData as $row) {
+            $getAllDisabledRows[] = $row;
+          }
+          uasort($getAllDisabledRows, 'cmpPlugin');
+      }
+        return $getAllDisabledRows;
     }
 
     static function getEnabled($uuid) {
@@ -206,7 +220,7 @@ class Plugin extends ObjectYPT {
         if(empty($getEnabled[$uuid])){
             $getEnabled[$uuid] = array();
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' AND uuid = '".$uuid."' ;";
-            $res = sqlDAL::readSql($sql); 
+            $res = sqlDAL::readSql($sql);
             $pluginRows = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             if($pluginRows!=false){
@@ -217,7 +231,7 @@ class Plugin extends ObjectYPT {
         }
         return $getEnabled[$uuid];
     }
-    
+
     function save() {
         global $global;
         $this->object_data = $global['mysqli']->real_escape_string($this->object_data);

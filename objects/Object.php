@@ -21,7 +21,7 @@ abstract class ObjectYPT implements ObjectInterface {
         return true;
     }
 
-    function __construct($id) {
+    function __construct($id="") {
         if (!empty($id)) {
             // get data from id
             $this->load($id);

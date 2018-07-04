@@ -1,3 +1,4 @@
+<script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () {

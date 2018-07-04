@@ -27,11 +27,10 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
                 <video 
-                    <?php if ($config->getAutoplay() && false) { // disable it for now ?>
-                        autoplay="true"
+                <?php if ($config->getAutoplay() && false) { // disable it for now ?>
+                        autoplay="true" 
                         muted="muted" 
                     <?php } ?>
-                    playsinline webkit-playsinline 
                     preload="auto" 
                     poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
                         <?php if ($playNowVideo['type'] == "video") { ?>
@@ -56,7 +55,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                     $url = VideoLogoOverlay::getLink();
                     ?>
                     <div style="<?php echo $style; ?>">
-                        <a href="<?php echo $url; ?>"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"></a>
+                        <a href="<?php echo $url; ?>"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
                     </div>
                 <?php } ?>
 
@@ -74,7 +73,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                     <?php echo __("Download video"); ?>
                 </a>      
 
-            <?php
+                <?php
             }
         }
         ?>
@@ -156,5 +155,24 @@ if (!empty($autoPlayVideo)) {
         player.persistvolume({
             namespace: "YouPHPTube"
         });
+
+        // in case the video is muted
+        setTimeout(function () {
+            if (player.muted()) {
+                swal({
+                    title: "<?php echo __("Your Media is Muted"); ?>",
+                    text: "<?php echo __("Would you like to unmute it?"); ?>",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
+                    closeOnConfirm: true
+                },
+                        function () {
+                            player.muted(false);
+                        });
+            }
+        }, 500);
+
     });
 </script>

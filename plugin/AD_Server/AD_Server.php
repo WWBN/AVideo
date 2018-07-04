@@ -74,7 +74,8 @@ class AD_Server extends PluginAbstract {
         $_GET['vmap_id'] = session_id();
 
         $js = '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="'.$global['webSiteRootURL'].'js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>'
+                . '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->showMarkers)) {
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
@@ -134,10 +135,6 @@ class AD_Server extends PluginAbstract {
         }
         
         $selectedOptions = array();
-        // count it each 2 seconds
-        error_log('sessions_id');
-        error_log(session_id());
-        error_log($_SESSION['lastAdRandomPositions']);
         if (empty($_SESSION['lastAdRandomPositions']) || $_SESSION['lastAdRandomPositions'] + 20 <= time()) {
             $_SESSION['lastAdRandomPositions'] = time();
 

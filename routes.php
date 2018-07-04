@@ -2,6 +2,11 @@
 require_once 'objects/simple-php-router/vendor/autoload.php';
 $basePath = parse_url ($global['webSiteRootURL'], PHP_URL_PATH);
 use Pecee\SimpleRouter\SimpleRouter;
+
+//At the beginnign, so it no plugin can overwrite defined rules
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+YouPHPTubePlugin::addRoutes();
+
 SimpleRouter::get($basePath, function() {
     require_once "view/index.php"; exit;
 });
