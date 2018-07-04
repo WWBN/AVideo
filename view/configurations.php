@@ -68,6 +68,12 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link " href="#tabOauth" data-toggle="tab">
+                                                <span class="fa fa-cogs"></span>
+                                                <?php echo __("Oauth2"); ?>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link " href="#tabHead" data-toggle="tab">
                                                 <span class="fa fa-code"></span>
                                                 <?php echo __("Script Code"); ?>
@@ -536,6 +542,14 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                 <?php
                                             }
                                             ?>
+                                        </div>
+
+                                        <div class="tab-pane" id="tabOauth">
+                                          <div><button class="btn btn-success" id="newOauthClient">Create Oauth-client</buttton></div>
+                                            <table class="table table-fluid"><tbody>
+
+
+                                            </tbody></table>
                                         </div>
                                         <div class="tab-pane" id="tabHead">
                                             <fieldset>
