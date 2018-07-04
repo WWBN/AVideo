@@ -34,6 +34,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                     <?php } ?>
                     preload="auto"
                     poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
+                    <!-- This source-line is needed to get webtorrent loading a video. Therefore it's a workaround. -->
                     <source src="weirdlyneeded.mp4" type="video/mp4" ></source>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                     <p class="vjs-no-js"><?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
@@ -187,3 +188,8 @@ if (!empty($autoPlayVideo)) {
 
     });
 </script>
+<?php 
+// finish doing torrent-specific stuff..
+$playNowVideo['type']="video";
+$video['type']="video";
+ ?>

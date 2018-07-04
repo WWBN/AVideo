@@ -22,23 +22,37 @@ if(!empty($_POST['id'])){
 
 $obj = new Video($_POST['title'], "", @$_POST['id']);
 $obj->setClean_Title($_POST['clean_title']);
-if(!empty($_POST['videoLink'])){    
+if(!empty($_POST['videoLink'])){
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
     if(empty($_POST['id'])){
         $info = url_get_contents($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));
         $infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
         $obj->setFilename($filename);
-        $obj->setTitle($infoObj->title);
+        if(!empty($_POST['title'])){
+          $obj->setTitle($_POST['title']);
+        } else {
+          $obj->setTitle($infoObj->title);
+        }
+        if(!empty($_POST['clean_title'])){
+          $obj->setTitle($_POST['clean_title']);
+        } else {
+          $obj->setTitle($infoObj->title);
+        }
         $obj->setClean_title($infoObj->title);
-        $obj->setDuration($infoObj->duration);
+        if((!empty($_POST['videoDuration']))&&($_POST['videoDuration']!="00:00:00")){
+          $obj->setDuration($_POST['videoDuration']);
+        } else {
+          $obj->setDuration($infoObj->duration);
+        }
+
         $obj->setDescription($infoObj->description);
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
     }
     $obj->setVideoLink($_POST['videoLink']);
     $obj->setType('embed');
-    if(!empty($_POST['videoLinkType'])){ 
-        $obj->setType($_POST['videoLinkType']);
+    if(!empty($_POST['videoLinkType'])){
+             $obj->setType($_POST['videoLinkType']);
     }
     $obj->setStatus('a');
 }

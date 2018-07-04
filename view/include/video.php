@@ -26,12 +26,12 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                 </button>
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
-                <video 
+                <video
                 <?php if ($config->getAutoplay() && false) { // disable it for now ?>
-                        autoplay="true" 
-                        muted="muted" 
+                        autoplay="true"
+                        muted="muted"
                     <?php } ?>
-                    preload="auto" 
+                    preload="auto"
                     poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
                         <?php if ($playNowVideo['type'] == "video") { ?>
                         <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
@@ -71,7 +71,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                 <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $video['videoLink']; ?>" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>" >
                     <i class="fa fa-download"></i>
                     <?php echo __("Download video"); ?>
-                </a>      
+                </a>
 
                 <?php
             }
@@ -176,3 +176,8 @@ if (!empty($autoPlayVideo)) {
 
     });
 </script>
+<?php
+// finish doing torrent-specific stuff..
+$playNowVideo['type']="video";
+$video['type']="video";
+ ?>
