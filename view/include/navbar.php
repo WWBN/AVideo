@@ -316,7 +316,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             </script>
                         </li>
                         <?php
-                        if (empty($advancedCustom->signInOnRight)) {
+                        if (!empty($advancedCustom->signInOnRight)) {
                             if (User::isLogged()) {
                                 ?>
                                 <li>
@@ -352,7 +352,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <li>
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-block" >
-                                    <i class="fas fa-sign-out-alt"></i> <?php echo __("Logoff"); ?>
+                                    <i class="fas fa-sign-out-alt"></i> <?php echo __("Sign out"); ?>
                                 </a>
                             </div>
                         </li>
