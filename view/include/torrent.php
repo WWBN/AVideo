@@ -72,8 +72,20 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
             }
         }
         ?>
+
+
     </div>
     <div class="col-sm-2 col-md-2"></div>
+
+</div>
+
+<div id="torrentInfo" class="ml-2">
+  <table class="table table-fluid bg-white col-10">
+    <tbody>
+    <tr class=" "><td id="torrentDownloaded"></td> <td id="torrentSeeders"></td><td class=""><?php echo __("Percent"); ?></td> <td id="torrentPercent"></td></tr>
+    <tr class=""><td><?php echo __("Download-speed"); ?> </td><td id="torrentDownloadSpeed"></td><td class="" ><?php echo __("Upload-speed"); ?> </td><td id="torrentUploadSpeed"></td></tr>
+  </tbody>
+  </table>
 </div>
 <!--/row-->
 <script>
@@ -86,7 +98,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
     var player;
 
     $(document).ready(function () {
-      $("#mainVideo").hide();
+      //$("#mainVideo").hide();
       client.add(torrentId, function (torrent) {
         // Torrents can contain many files. Let's use the .mp4 file
         var file = torrent.files.find(function (file) {
@@ -98,7 +110,54 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
         //file.appendTo('#main-video');
         //file.appendTo('#mainVideo');
         file.renderTo('#mainVideo_html5_api');
-        $("#mainVideo").show();
+        // Trigger statistics refresh
+        torrent.on('done', onDone);
+        setInterval(onProgress, 500);
+        onProgress();
+        client.seed(file, function (torrent) {
+          console.log('Client is seeding ' + torrent.magnetURI)
+        })
+
+        function onProgress () {
+          // Peers
+          $("#torrentSeeders").html(torrent.numPeers + (torrent.numPeers === 1 ? ' peer' : ' peers'));
+          // Progress
+          var percent = Math.round(torrent.progress * 100 * 100) / 100
+          $("#torrentPercent").html(percent + '%');
+        //  $downloaded.innerHTML = prettyBytes(torrent.downloaded)
+$("#torrentDownloaded").html(prettyBytes(torrent.downloaded) + " / " + prettyBytes(torrent.length));
+
+          //$total.innerHTML = prettyBytes(torrent.length)
+
+          // Remaining time
+          var remaining
+          if (torrent.done) {
+            remaining = 'Done.'
+          } else {
+            //remaining = moment.duration(torrent.timeRemaining / 1000, 'seconds').humanize()
+            //remaining = remaining[0].toUpperCase() + remaining.substring(1) + ' remaining.'
+          }
+          //$remaining.innerHTML = remaining
+
+          // Speed rates
+          $("#torrentDownloadSpeed").html(prettyBytes(torrent.downloadSpeed) + '/s');
+          $("#torrentUploadSpeed").html(prettyBytes(torrent.uploadSpeed) + '/s');
+        }
+        function onDone () {
+          //$body.className += ' is-seed'
+          onProgress()
+        }
+        function prettyBytes(num) {
+          var exponent, unit, neg = num < 0, units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+          if (neg) num = -num;
+          if (num < 1) return (neg ? '-' : '') + num + ' B';
+          exponent = Math.min(Math.floor(Math.log(num) / Math.log(1000)), units.length - 1);
+          num = Number((num / Math.pow(1000, exponent)).toFixed(2));
+          unit = units[exponent];
+          return (neg ? '-' : '') + num + ' ' + unit;
+        }
+
+        //$("#mainVideo").show();
       });
       // workaround until integration into videojs works
       //$("#mainVideo").hide();
@@ -188,7 +247,7 @@ if (!empty($autoPlayVideo)) {
 
     });
 </script>
-<?php 
+<?php
 // finish doing torrent-specific stuff..
 $playNowVideo['type']="video";
 $video['type']="video";
