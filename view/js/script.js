@@ -155,7 +155,17 @@ function changeVideoSrc(vid_obj, source) {
     vid_obj.src(srcs);
     setTimeout(function(){
         vid_obj.load();
-        vid_obj.play();
+        vid_obj.ready(function () {
+            var err = this.error();
+            if (err && err.code) {
+                setTimeout(function(){
+                    vid_obj.load();
+                    vid_obj.play();
+                },2000);
+            }else{
+                vid_obj.play();
+            }
+        });
     },1000);
 }
 
