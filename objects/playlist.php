@@ -69,7 +69,7 @@ class PlayList extends ObjectYPT {
         $rows = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
-                
+
                 $rows[] = $row;
             }
         } else {
@@ -86,7 +86,7 @@ class PlayList extends ObjectYPT {
         }
         return $videosId;
     }
-    
+
     static function sortVideos($videosList, $listIdOrder){
         $list = array();
         foreach ($listIdOrder as $value) {
@@ -95,7 +95,7 @@ class PlayList extends ObjectYPT {
                     $list[] = $value2;
                     unset($videosList[$key]);
                 }
-            }            
+            }
         }
         return $list;
     }
