@@ -56,7 +56,7 @@ class User {
     }
 
     function setAbout($about) {
-        $this->about = $about;
+        $this->about = xss_esc($about);
     }
 
     function getPassword() {
@@ -122,19 +122,19 @@ if (typeof gtag !== \"function\") {
         return $code;
 
     }
-    
+
     function setExternalOptions($options)
     {
         //we convert it to base64 to sanitize the input since we do not validate input from externalOptions
         $this->externalOptions=base64_encode(serialize($options));
     }
-    
+
     function getExternalOption($id)
     {
-        $eo=unserialize(base64_decode($this->externalOptions)); 
-        return $eo[$id]; 
+        $eo=unserialize(base64_decode($this->externalOptions));
+        return $eo[$id];
     }
-    
+
 
     private function load($id) {
         $user = self::getUserDb($id);
@@ -521,7 +521,7 @@ if (typeof gtag !== \"function\") {
     static function canStream() {
         return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']);
     }
-    
+
     static function externalOptions($id){
         if(!empty($_SESSION['user']['externalOptions']))
         {
@@ -533,7 +533,7 @@ if (typeof gtag !== \"function\") {
                 else
                 if($externalOptions[$id]=="false")
                 $externalOptions[$id]=false;
-                
+
                 return $externalOptions[$id];
             }
         }
@@ -678,7 +678,7 @@ if (typeof gtag !== \"function\") {
         $sql = "SELECT * FROM users WHERE 1=1 ";
 
         $sql .= BootGrid::getSqlFromPost($searchFields);
-        
+
         $user = array();
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
         $res = sqlDAL::readSql($sql . ";");
@@ -947,7 +947,7 @@ if (typeof gtag !== \"function\") {
                 return false;
             }
         }
-        $this->channelName = $channelName;
+        $this->channelName = xss_esc($channelName);
         return true;
     }
 

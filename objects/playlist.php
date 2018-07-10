@@ -160,7 +160,7 @@ class PlayList extends ObjectYPT {
     }
 
     function setName($name) {
-        $this->name = $name;
+        $this->name = xss_esc($name);;
     }
 
     function setUsers_id($users_id) {
