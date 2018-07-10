@@ -147,7 +147,6 @@ if (!empty($autoPlayVideo)) {
     ?>
                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                         changeVideoSrc(player, autoPlaySources);
-                        player.play();
                         history.pushState(null, null, autoPlayURL);
                         $.ajax({
                             url: autoPlayURL,
