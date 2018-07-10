@@ -172,7 +172,6 @@ if(!empty($autoPlayVideo)){
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
@@ -781,7 +780,7 @@ if(!empty($autoPlayVideo)){
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js", "view/js/videojs-persistvolume/videojs.persistvolume.js", "view/js/webui-popover/jquery.webui-popover.min.js", "view/js/bootstrap-list-filter/bootstrap-list-filter.min.js");
+        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js", "view/js/videojs-persistvolume/videojs.persistvolume.js");
         $jsURL = combineFiles($videoJSArray, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>

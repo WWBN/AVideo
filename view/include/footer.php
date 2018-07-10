@@ -38,9 +38,9 @@
         });
     return false;
     }
-    
+
     // Just for testing
-    // throw "A Bug"; 
+    // throw "A Bug";
     $(function () {
 <?php
 if (!empty($_GET['error'])) {
@@ -72,8 +72,10 @@ if (!empty($_GET['msg'])) {
     $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+    $jsFiles[] = "view/js/webui-popover/jquery.webui-popover.min.js";
+    $jsFiles[] = "view/js/bootstrap-list-filter/bootstrap-list-filter.min.js";
     if(!empty($_SESSION['type'])){
-        
+
         $waveSurferEnabled = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
         if($waveSurferEnabled==false){
            $waveSurferEnabled = true;
@@ -83,7 +85,7 @@ if (!empty($_GET['msg'])) {
         if((($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio"))&&($waveSurferEnabled)){
             $jsFiles[] = "view/js/videojs-wavesurfer/wavesurfer.min.js";
             $jsFiles[] = "view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
-        }   
+        }
     }
     $jsFiles = array_merge($jsFiles,YouPHPTubePlugin::getJSFiles());
     $jsURL =  combineFiles($jsFiles, "js");

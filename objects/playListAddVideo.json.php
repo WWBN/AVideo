@@ -14,5 +14,5 @@ $obj = new PlayList($_POST['playlists_id']);
 if(empty($obj || User::getId()!=$obj->getUsers_id()) || empty($_POST['videos_id'])){
     return false;
 }
-
+log_error("videos id: ".$_POST['videos_id']." playlist_id: ".$_POST['playlists_id']);
 echo '{"status":"'.$obj->addVideo($_POST['videos_id'], $_POST['add']).'"}';
