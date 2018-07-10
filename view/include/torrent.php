@@ -114,9 +114,6 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
         torrent.on('done', onDone);
         setInterval(onProgress, 500);
         onProgress();
-        client.seed(file, function (torrent) {
-          console.log('Client is seeding ' + torrent.magnetURI)
-        })
 
         function onProgress () {
           // Peers
