@@ -27,7 +27,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
                 <video 
-                <?php if ($config->getAutoplay() && false) { // disable it for now ?>
+                <?php if ($config->getAutoplay() && false) { // disable it for now  ?>
                         autoplay="true" 
                         muted="muted" 
                     <?php } ?>
@@ -146,11 +146,21 @@ if (!$config->getAllow_download()) {
 if (!empty($autoPlayVideo)) {
     ?>
                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                        document.location = '<?php echo $autoPlayVideo['url']; ?>';
+                        changeVideoSrc(player, autoPlaySources);
+                        player.play();
+                        history.pushState(null, null, autoPlayURL);
+                        $.ajax({
+                            url: autoPlayURL,
+                            success: function (response) {
+                                modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
+                                $('#modeYoutubeBottom').html(modeYoutubeBottom);
+                            }
+                        });
                     }
 <?php } ?>
 
             });
+
         });
         player.persistvolume({
             namespace: "YouPHPTube"

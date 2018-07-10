@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 session_write_close();
@@ -75,6 +75,9 @@ if (!empty($_GET['playlist_id'])) {
     if (!empty($videosPlayList[$playlist_index + 1])) {
         $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id']);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/" . ($playlist_index + 1);
+    }else if (!empty($videosPlayList[0])) {
+        $autoPlayVideo = Video::getVideo($videosPlayList[0]['id']);
+        $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/0";
     }
 
     unset($_GET['playlist_id']);
@@ -133,7 +136,7 @@ if ($video['type'] == "video") {
 }
 
 if (!empty($video)) {
-    if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
         $source = Video::getSourceFile($video['filename']);
         $img = $source['url'];
         $data = getimgsize($source['path']);
@@ -144,12 +147,21 @@ if (!empty($video)) {
     }
     $images = Video::getImageFromFilename($video['filename']);
     $poster = $images->poster;
-}else{
+} else {
     $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
 }
 
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+
+if(!empty($autoPlayVideo)){
+    $autoPlaySources = getSources($autoPlayVideo['filename'], true);
+    $autoPlayURL = $autoPlayVideo['url'];
+}else{
+    $autoPlaySources = array();
+    $autoPlayURL = '';
+}
+//var_dump($playlist_index, $sources, $autoPlayVideo['url']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -202,14 +214,14 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                     <?php
                 }
                 $vType = $video['type'];
-                if($vType=="linkVideo"){
-                    $vType="video";
-                } else if($vType=="linkAudio"){
-                    $vType="audio";
+                if ($vType == "linkVideo") {
+                    $vType = "video";
+                } else if ($vType == "linkAudio") {
+                    $vType = "audio";
                 }
                 require "{$global['systemRootPath']}view/include/{$vType}.php";
                 ?>
-                <div class="row">
+                <div class="row" id="modeYoutubeBottom">
                     <div class="col-sm-1 col-md-1"></div>
                     <div class="col-sm-6 col-md-6">
                         <div class="row bgWhite list-group-item">
@@ -644,7 +656,7 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
                                         if (file_exists("{$global['systemRootPath']}videos/{$autoPlayVideo['filename']}.gif")) {
                                             $imgGif = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.gif";
                                         }
-                                        if (($autoPlayVideo['type'] !== "audio")&&($autoPlayVideo['type'] !== "linkAudio")) {
+                                        if (($autoPlayVideo['type'] !== "audio") && ($autoPlayVideo['type'] !== "linkAudio")) {
                                             $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
                                             $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
                                         } else {
@@ -707,6 +719,8 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
                         <script>
                             var fading = false;
+                            var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
+                            var autoPlayURL = '<?php echo $autoPlayURL; ?>';
                             $(document).ready(function () {
                                 $("input.saveCookie").each(function () {
                                     var mycookie = Cookies.get($(this).attr('name'));
