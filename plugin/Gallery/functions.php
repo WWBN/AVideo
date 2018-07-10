@@ -224,7 +224,16 @@ function createGallerySection($videos) {
                                             <button class="btn btn-success btn-block" id="addPlayList<?php echo $value['id']; ?>" ><?php echo __("Create a New Play List"); ?></button>
                                         </div>
                                     </div>
-                                <?php }  ?>
+                                <?php } else {  ?>
+                                  <h5>Want to watch this again later?</h5>
+
+                                  Sign in to add this video to a playlist.
+
+                                  <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
+                                      <span class="glyphicon glyphicon-log-in"></span>
+                                      <?php echo __("Login"); ?>
+                                  </a>
+                                <?php } ?>
                             </div>
                             <script>
                                 function loadPlayLists<?php echo $value['id']; ?>() {
