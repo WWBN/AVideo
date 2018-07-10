@@ -86,33 +86,7 @@
                                 player.on('play', function () {
                                     addView(<?php echo $video['id']; ?>);
                                 });
-                                <?php if (!empty($logId)) { ?>
-                                    isPlayingAd = true;
-                                    player.on('ended', function () {
-                                    console.log("Finish Video");
-                                    if (isPlayingAd) {
-                                        isPlayingAd = false;
-                                        $('#adButton').trigger("click");
-                                    }
-                                    <?php
-	                                   // if autoplay play next video
-	                                   if (!empty($autoPlayVideo)) { ?>
-                                            else if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                                                document.location = '<?php echo $autoPlayVideo['url']; ?>';
-                                            }
-                                    <?php } ?>
-                                    });
-                                    player.on('timeupdate', function () {
-                                        var durationLeft = fullDuration - this.currentTime();
-                                        $("#adUrl .time").text(secondsToStr(durationLeft + 1, 2));
-                                    <?php if (!empty($ad['skip_after_seconds'])) { ?>
-                                        if (isPlayingAd && this.currentTime() ><?php
-		                                      echo intval($ad['skip_after_seconds']); ?>) {
-                                                $('#adButton').fadeIn();
-                                                }
-                                    <?php } ?>
-                                    });
-                                <?php } else { ?>
+                                
                                     player.on('ended', function () {
                                         console.log("Finish Video");
                                 <?php if (!empty($autoPlayVideo)) { ?>
@@ -122,21 +96,6 @@
                                 <?php } ?>
 
                                     });
-                                <?php } ?>
-                                
-        
-                                <?php if (!empty($logId)){
-	                               $sources = getSources($video['filename'], true); ?>
-                                    $('#adButton').click(function () {
-                                        isPlayingAd = false;
-                                        console.log("Change Video");
-                                        fullDuration = strToSeconds('<?php echo $video['duration']; ?>');
-                                        changeVideoSrc(player, <?php echo json_encode($sources); ?>);
-                                        addView(<?php echo $video['id']; ?>);
-                                        $(".ad").removeClass("ad");
-                                        return false;
-                                    });
-                                <?php } ?>
                                 });
                         </script>
                 
