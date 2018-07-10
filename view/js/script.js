@@ -144,7 +144,6 @@ function removeTracks() {
 
 function changeVideoSrc(vid_obj, source) {
     var srcs = [];
-    var traks = [];
     removeTracks();
     for (i = 0; i < source.length; i++) {
         if (source[i].type) {
@@ -153,10 +152,11 @@ function changeVideoSrc(vid_obj, source) {
             player.addRemoteTextTrack(source[i]);
         }
     }
-    player.src(srcs);
-    vid_obj.load();
-    player.play();
-
+    vid_obj.src(srcs);
+    setTimeout(function(){
+        vid_obj.load();
+        vid_obj.play();
+    },1000);
 }
 
 /**
