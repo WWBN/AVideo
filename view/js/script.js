@@ -153,7 +153,9 @@ function changeVideoSrc(vid_obj, source) {
         }
     }
     vid_obj.src(srcs);
-    changeVideoSrcLoad(vid_obj);
+    setTimeout(function(){
+        changeVideoSrcLoad();
+    },1000);
 }
 
 function changeVideoSrcLoad() {
