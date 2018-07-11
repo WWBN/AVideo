@@ -159,14 +159,18 @@ function changeVideoSrc(vid_obj, source) {
 }
 
 function changeVideoSrcLoad() {
+    console.log("changeVideoSrcLoad: Try to load player");
     player.load();
     player.ready(function () {
+        console.log("changeVideoSrcLoad: Player ready");
         var err = this.error();
         if (err && err.code) {
+            console.log("changeVideoSrcLoad: Load player Error");
             setTimeout(function(){
                 changeVideoSrcLoad();
             },500);
         }else{
+            console.log("changeVideoSrcLoad: Load player Success, Play");
             player.play();
         }
     });;
