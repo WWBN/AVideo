@@ -289,7 +289,7 @@ if (!empty($_GET['video_id'])) {
                                                 <?php if (User::isLogged()) { ?>
                                                     <form role="form">
                                                         <div class="form-group">
-                                                            <input class="form-control" id="searchinput" type="search" placeholder="Search..." />
+                                                            <input class="form-control" id="searchinput" type="search" placeholder="<?php echo __("Search"); ?>..." />
                                                         </div>
                                                         <div id="searchlist" class="list-group">
                                                         </div>
