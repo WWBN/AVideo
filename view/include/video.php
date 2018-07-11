@@ -149,13 +149,14 @@ if (!empty($autoPlayVideo)) {
                         $('video, #mainVideo').attr('poster', autoPlayPoster);
                         changeVideoSrc(player, autoPlaySources);
                         history.pushState(null, null, autoPlayURL);
+                        $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src',autoPlayThumbsSprit);
                         $.ajax({
                             url: autoPlayURL,
                             success: function (response) {
-                                modeYoutubeBottom = $(response).filter('#modeYoutubeBottom').html();
+                                modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
                                 $('#modeYoutubeBottom').html(modeYoutubeBottom);
-                                pluginFooterCode = $(response).filter('#pluginFooterCode').html();
-                                $('#pluginFooterCode').html(pluginFooterCode);
+                                //pluginFooterCode = $(response).filter('#pluginFooterCode').html();
+                                //$('#pluginFooterCode').html(pluginFooterCode);
                             }
                         });
                     }

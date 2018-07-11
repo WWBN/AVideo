@@ -154,11 +154,13 @@ $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 if(!empty($autoPlayVideo)){
     $autoPlaySources = getSources($autoPlayVideo['filename'], true);
     $autoPlayURL = $autoPlayVideo['url'];
-    $autoPlayPoster = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";;
+    $autoPlayPoster = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
+    $autoPlayThumbsSprit = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}_thumbsSprit.jpg";
 }else{
     $autoPlaySources = array();
     $autoPlayURL = '';
     $autoPlayPoster = '';
+    $autoPlayThumbsSprit = "";
 }
 
 if (empty($_GET['videoName'])) {
@@ -723,6 +725,7 @@ if (empty($_GET['videoName'])) {
                             var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
                             var autoPlayURL = '<?php echo $autoPlayURL; ?>';
                             var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
+                            var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
                             
                             $(document).ready(function () {
                                 $("input.saveCookie").each(function () {
