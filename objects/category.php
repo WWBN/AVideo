@@ -19,12 +19,12 @@ class Category {
     private $type;
 
     function setName($name) {
-        $this->name = $name;
+        $this->name = xss_esc($name);
     }
 
     function setClean_name($clean_name) {
         preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
-        $this->clean_name = $clean_name;
+        $this->clean_name = xss_esc($clean_name);
     }
 
     function setNextVideoOrder($nextVideoOrder) {
@@ -34,7 +34,7 @@ class Category {
     function setParentId($parentId) {
         $this->parentId = $parentId;
     }
-   
+
     function setType($type,$overwriteUserId = 0){
         global $global;
         $internalId = $overwriteUserId;
@@ -51,8 +51,8 @@ class Category {
         if($catTypeCache!=false){
             $exist = true;
         }
-        
-        if($type=="3"){ 
+
+        if($type=="3"){
             // auto-cat-type
             Video::autosetCategoryType($internalId);
         } else {
@@ -65,15 +65,15 @@ class Category {
             }
         }
     }
-    
+
     function setDescription($description) {
-        $this->description = $description;
+        $this->description = xss_esc($description);
     }
-    
+
     function __construct($id, $name = '') {
         if (empty($id)) {
             // get the category data from category and pass
-            $this->name = $name;
+            $this->name = xss_esc($name);
         } else {
             $this->id = $id;
             // get data from id
@@ -105,11 +105,11 @@ class Category {
         if (!empty($this->id)) {
             $sql = "UPDATE categories SET name = ?,clean_name = ?,description = ?,nextVideoOrder = ?,parentId = ?,iconClass = ?, modified = now() WHERE id = ?";
             $format = "sssiisi";
-            $values = array($this->name,$this->clean_name,$this->description,$this->nextVideoOrder,$this->parentId,$this->getIconClass(),$this->id);
+            $values = array(xss_esc($this->name),xss_esc($this->clean_name),xss_esc($this->description),$this->nextVideoOrder,$this->parentId,$this->getIconClass(),$this->id);
         } else {
             $sql = "INSERT INTO categories ( name,clean_name,description,nextVideoOrder,parentId,iconClass, created, modified) VALUES (?, ?,?,?,?,?,now(), now())";
             $format = "sssiis";
-            $values = array($this->name,$this->clean_name,$this->description,$this->nextVideoOrder,$this->parentId,$this->getIconClass());
+            $values = array(xss_esc($this->name),xss_esc($this->clean_name),xss_esc($this->description),$this->nextVideoOrder,$this->parentId,$this->getIconClass());
         }
         $insert_row = sqlDAL::writeSql($sql,$format,$values);
         if ($insert_row) {
@@ -163,16 +163,16 @@ class Category {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM categories WHERE id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"i",array($id)); 
+        $res = sqlDAL::readSql($sql,"i",array($id));
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return ($res) ? $result : false;
     }
-    
+
     static function getCategoryByName($name) {
         global $global;
         $sql = "SELECT * FROM categories WHERE clean_name = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"s",array($name)); 
+        $res = sqlDAL::readSql($sql,"s",array($name));
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return ($res) ? $result : false;
@@ -191,7 +191,7 @@ class Category {
             unset($_POST['sort']['title']);
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
-        $res = sqlDAL::readSql($sql); 
+        $res = sqlDAL::readSql($sql);
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $category = array();
@@ -206,15 +206,15 @@ class Category {
         }
         return $category;
     }
-    
+
     static function getChildCategories($parentId) {
         global $global, $config;
         if($config->currentVersionLowerThen('5.01')){
             return false;
         }
-        $sql = "SELECT * FROM categories WHERE parentId=? AND id!=? ";         
+        $sql = "SELECT * FROM categories WHERE parentId=? AND id!=? ";
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
-        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId)); 
+        $res = sqlDAL::readSql($sql,"ii",array($parentId,$parentId));
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $category = array();
@@ -228,8 +228,8 @@ class Category {
         }
         return $category;
     }
-    
-    
+
+
 
     static function getTotalCategories() {
         global $global;
