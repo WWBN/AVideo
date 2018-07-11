@@ -338,8 +338,8 @@ if (typeof gtag !== \"function\") {
     function save($updateUserGroups = false) {
         global $global, $config;
 
-        if($config->currentVersionLowerThen('5.6')){
-            // they dont have analytics code
+        if($config->currentVersionLowerThen('5.8')){
+            // they dont have externalOptions code
             return false;
         }
 
