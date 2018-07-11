@@ -144,6 +144,7 @@ $contentSearchFound = false;
                         if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
                             $channels = Subscribe::getSubscribedChannels(User::getId());
                             foreach ($channels as $value) {
+                              $_POST['disableAddTo'] = 0;
                                 createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $obj->SubscribedChannelsRowCount);
                             }
                         }

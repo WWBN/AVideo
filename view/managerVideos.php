@@ -100,7 +100,7 @@ if (!empty($_GET['video_id'])) {
                 if (empty($advancedCustom->doNotShowEmbedButton)) {
                     if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
                     ) {
-                        ?>                                    
+                        ?>
                         <button class="btn btn-default" id="linkExternalVideo">
                             <span class="fa fa-link"></span>
                             <?php echo __("Embed a video link"); ?>
@@ -149,7 +149,7 @@ if (!empty($_GET['video_id'])) {
                 <?php
             }
             ?>
-            <div class="pull-left btn-group">       
+            <div class="pull-left btn-group">
                 <button class="btn btn-secondary" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
@@ -168,7 +168,7 @@ if (!empty($_GET['video_id'])) {
                         }
                         ?>
                     </ul>
-                </div>           
+                </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <?php echo __('Status'); ?> <span class="caret"></span></button>
@@ -221,7 +221,7 @@ if (!empty($_GET['video_id'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div id="videoLinkContent">                                
+                            <div id="videoLinkContent">
                                 <label for="videoLink" class="sr-only"><?php echo __("Video Link"); ?></label>
                                 <input type="text" id="videoLink" class="form-control first" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
                                 <select class="form-control last" id="videoLinkType" required>
@@ -278,16 +278,131 @@ if (!empty($_GET['video_id'])) {
                                     }
                                     ?>
                                 </ul>
+                                <div class="row">
+                                    <div class="col-md-12 col-12 watch8-action-buttons text-muted">
+                                        <?php if ((($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false)) { ?>
+                                          <label for="addBtn" class=""><?php echo __("Playlists"); ?></label>
+                                            <button class="btn btn-default no-outline" style="float:right;" id="addBtn" data-placement="top">
+                                                 <?php echo __("Manage playlists"); ?>
+                                            </button>
+                                            <div class="webui-popover-content" >
+                                                <?php if (User::isLogged()) { ?>
+                                                    <form role="form">
+                                                        <div class="form-group">
+                                                            <input class="form-control" id="searchinput" type="search" placeholder="<?php echo __("Search"); ?>..." />
+                                                        </div>
+                                                        <div id="searchlist" class="list-group">
+                                                        </div>
+                                                    </form>
+                                                    <div>
+                                                        <hr>
+                                                        <div class="form-group">
+                                                            <input id="playListName" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <?php echo __("Make it public"); ?>
+                                                            <div class="material-switch pull-right">
+                                                                <input id="publicPlayList" name="publicPlayList" type="checkbox" checked="checked"/>
+                                                                <label for="publicPlayList" class="label-success"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button class="btn btn-success btn-block" id="addPlayList" ><?php echo __("Create a New Play List"); ?></button>
+                                                        </div>
+                                                    </div>
+                                                <?php }  ?>
+                                            </div>
+                                            <script>
+                                                function loadPlayLists() {
+                                                    $.ajax({
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
+                                                        success: function (response) {
+                                                            $('#searchlist').html('');
+                                                            for (var i in response) {
+                                                                if (!response[i].id) {
+                                                                    continue;
+                                                                }
+                                                                var icon = "lock"
+                                                                if (response[i].status == "public") {
+                                                                    icon = "globe"
+                                                                }
 
+                                                                var checked = "";
+                                                                for (var x in response[i].videos) {
+                                                                    if (
+                                                                            typeof (response[i].videos[x]) === 'object'
+                                                                            && response[i].videos[x].videos_id ==$('#inputVideoId').val()) {
+                                                                        checked = "checked";
+                                                                    }
+                                                                }
+
+                                                                $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
+                                                                        + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
+                                                                        + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="'
+                                                                        + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
+                                                                        + response[i].id + '" class="label-success"></label></div></a>');
+                                                            }
+                                                            $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
+                                                            $('.playListsIds').change(function () {
+                                                                modal.showPleaseWait();
+                                                                $.ajax({
+                                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
+                                                                    method: 'POST',
+                                                                    data: {
+                                                                        'videos_id': $('#inputVideoId').val(),
+                                                                        'add': $(this).is(":checked"),
+                                                                        'playlists_id': $(this).val()
+                                                                    },
+                                                                    success: function (response) {
+                                                                        modal.hidePleaseWait();
+                                                                    }
+                                                                });
+                                                                return false;
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                                $(document).ready(function () {
+                                                    loadPlayLists();
+                                                    $('#addBtn').webuiPopover();
+                                                    $('#addPlayList').click(function () {
+                                                        modal.showPleaseWait();
+                                                        $.ajax({
+                                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
+                                                            method: 'POST',
+                                                            data: {
+                                                                'videos_id': $('#inputVideoId').val(),
+                                                                'status': $('#publicPlayList').is(":checked") ? "public" : "private",
+                                                                'name': $('#playListName').val()
+                                                            },
+                                                            success: function (response) {
+                                                                if (response.status * 1 > 0) {
+                                                                    // update list
+                                                                    loadPlayLists();
+                                                                    $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
+                                                                    $('#playListName').val("");
+                                                                    $('#publicPlayList').prop('checked', true);
+                                                                }
+                                                                modal.hidePleaseWait();
+                                                            }
+                                                        });
+                                                        return false;
+                                                    });
+
+                                                });
+                                            </script>
+                                          <?php } ?>
+                                          </div>
+                                </div>
                                 <div class="row">
                                     <h3><?php echo __("Autoplay Next Video"); ?> <button class="btn btn-danger btn-sm" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button></h3>
                                     <div class="col-md-4">
                                         <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
                                     </div>
-                                    <div class="col-md-8">                                        
+                                    <div class="col-md-8">
                                         <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control">
                                         <input id="inputNextVideoClean" placeholder="<?php echo __("Autoplay Next Video URL"); ?>" class="form-control" readonly="readonly">
-                                        <input type="hidden" id="inputNextVideo-id">                                        
+                                        <input type="hidden" id="inputNextVideo-id">
                                     </div>
                                 </div>
                                 <script>
@@ -325,6 +440,7 @@ if (!empty($_GET['video_id'])) {
                                         };
                                     });
                                 </script>
+
                             </form>
                         </div>
                         <div class="modal-footer">

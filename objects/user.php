@@ -56,7 +56,7 @@ class User {
     }
 
     function setAbout($about) {
-        $this->about = $about;
+        $this->about = xss_esc($about);
     }
 
     function getPassword() {
@@ -122,19 +122,19 @@ if (typeof gtag !== \"function\") {
         return $code;
 
     }
-    
+
     function setExternalOptions($options)
     {
         //we convert it to base64 to sanitize the input since we do not validate input from externalOptions
         $this->externalOptions=base64_encode(serialize($options));
     }
-    
+
     function getExternalOption($id)
     {
-        $eo=unserialize(base64_decode($this->externalOptions)); 
-        return $eo[$id]; 
+        $eo=unserialize(base64_decode($this->externalOptions));
+        return $eo[$id];
     }
-    
+
 
     private function load($id) {
         $user = self::getUserDb($id);
@@ -393,20 +393,38 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!empty($this->id)) {
-            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
-                    . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
-                    . "canStream = {$this->canStream},canUpload = {$this->canUpload},";
+          $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload);
+          $formats = "ssssiii";
+            $sql = "UPDATE users SET user = ?, password = ?, "
+                    . "email = ?, name = ?, isAdmin = ?,"
+                    . "canStream = ?,canUpload = ?,";
                     if(isset($this->canViewChart)){
-                      $sql .= "canViewChart = {$this->canViewChart}, ";
+                      $sql .= "canViewChart = ?, ";
+                      $values[] = $this->canViewChart;
+                      $formats .= "i";
                     }
-                    $sql .= "status = '{$this->status}', "
-                    . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
-                    . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
-                    . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}', externalOptions = '{$this->externalOptions}' , modified = now() WHERE id = {$this->id}";
+                    $values[] = $this->status;
+                    $values[] = $this->photoURL;
+                    $values[] = $this->backgroundURL;
+                    $values[] = $this->recoverPass;
+                    $values[] = $this->about;
+                    $values[] = $this->channelName;
+                    $values[] = $this->emailVerified;
+                    $values[] = $this->analyticsCode;
+                    $values[] = $this->externalOptions;
+                    $values[] = $this->id;
+                    $formats .= "ssssssissi";
+                    $sql .= "status = ?, "
+                    . "photoURL = ?, backgroundURL = ?, "
+                    . "recoverPass = ?, about = ?, "
+                    . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , modified = now() WHERE id = ?";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, false, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}', '{$this->externalOptions}')";
+          $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload, $this->status,$this->photoURL,$this->recoverPass,$this->channelName,$this->analyticsCode, $this->externalOptions);
+          $formats = "ssssiiissssss";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions)
+            VALUES (?,?,?,?,?,?,?, false, ?, ?, ?, now(), now(), ?, ?, ?)";
         }
-        $insert_row = sqlDAL::writeSql($sql);
+        $insert_row = sqlDAL::writeSql($sql,$formats,$values);
 
         if ($insert_row) {
             if (empty($this->id)) {
@@ -521,7 +539,7 @@ if (typeof gtag !== \"function\") {
     static function canStream() {
         return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']);
     }
-    
+
     static function externalOptions($id){
         if(!empty($_SESSION['user']['externalOptions']))
         {
@@ -533,7 +551,7 @@ if (typeof gtag !== \"function\") {
                 else
                 if($externalOptions[$id]=="false")
                 $externalOptions[$id]=false;
-                
+
                 return $externalOptions[$id];
             }
         }
@@ -678,7 +696,7 @@ if (typeof gtag !== \"function\") {
         $sql = "SELECT * FROM users WHERE 1=1 ";
 
         $sql .= BootGrid::getSqlFromPost($searchFields);
-        
+
         $user = array();
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
         $res = sqlDAL::readSql($sql . ";");
@@ -947,7 +965,7 @@ if (typeof gtag !== \"function\") {
                 return false;
             }
         }
-        $this->channelName = $channelName;
+        $this->channelName = xss_esc($channelName);
         return true;
     }
 
