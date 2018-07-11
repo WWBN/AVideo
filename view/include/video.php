@@ -146,13 +146,16 @@ if (!$config->getAllow_download()) {
 if (!empty($autoPlayVideo)) {
     ?>
                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                        $('video, #mainVideo').attr('poster', autoPlayPoster);
                         changeVideoSrc(player, autoPlaySources);
                         history.pushState(null, null, autoPlayURL);
                         $.ajax({
                             url: autoPlayURL,
                             success: function (response) {
-                                modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
+                                modeYoutubeBottom = $(response).filter('#modeYoutubeBottom').html();
                                 $('#modeYoutubeBottom').html(modeYoutubeBottom);
+                                pluginFooterCode = $(response).filter('#pluginFooterCode').html();
+                                $('#pluginFooterCode').html(pluginFooterCode);
                             }
                         });
                     }

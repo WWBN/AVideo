@@ -92,7 +92,13 @@ if (!empty($_GET['msg'])) {
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
 <?php
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+?>
+<div id="pluginFooterCode">
+<?php
 echo YouPHPTubePlugin::getFooterCode();
+?>
+</div>
+<?php
 if(isset($_SESSION['savedQuerys'])){
     echo "<!-- Saved querys: ".$_SESSION['savedQuerys']." -->";
 }
