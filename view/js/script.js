@@ -153,21 +153,23 @@ function changeVideoSrc(vid_obj, source) {
         }
     }
     vid_obj.src(srcs);
-    setTimeout(function(){
-        vid_obj.load();
-        vid_obj.ready(function () {
-            var err = this.error();
-            if (err && err.code) {
-                setTimeout(function(){
-                    vid_obj.load();
-                    vid_obj.play();
-                },2000);
-            }else{
-                vid_obj.play();
-            }
-        });
-    },1000);
+    changeVideoSrcLoad(vid_obj);
 }
+
+function changeVideoSrcLoad(vid_obj) {
+    vid_obj.load();
+    vid_obj.ready(function () {
+        var err = this.error();
+        if (err && err.code) {
+            setTimeout(function(){
+                changeVideoSrcLoad(vid_obj);
+            },500);
+        }else{
+            vid_obj.play();
+        }
+    });;
+}
+
 
 /**
  *
