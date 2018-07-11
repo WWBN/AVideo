@@ -168,10 +168,13 @@ function changeVideoSrcLoad() {
             console.log("changeVideoSrcLoad: Load player Error");
             setTimeout(function(){
                 changeVideoSrcLoad();
-            },500);
+            },1000);
         }else{
             console.log("changeVideoSrcLoad: Load player Success, Play");
-            player.play();
+            setTimeout(function(){
+                player.load();
+                player.play();
+            },1000);
         }
     });;
 }
