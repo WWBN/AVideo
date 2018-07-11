@@ -339,7 +339,7 @@ if (typeof gtag !== \"function\") {
         global $global, $config;
 
         if($config->currentVersionLowerThen('5.8')){
-            // they dont have externalOptions code
+            // they dont have externalOptions code 
             return false;
         }
 
