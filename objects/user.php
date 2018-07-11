@@ -393,20 +393,38 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!empty($this->id)) {
-            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
-                    . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
-                    . "canStream = {$this->canStream},canUpload = {$this->canUpload},";
+          $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload);
+          $formats = "ssssiii";
+            $sql = "UPDATE users SET user = ?, password = ?, "
+                    . "email = ?, name = ?, isAdmin = ?,"
+                    . "canStream = ?,canUpload = ?,";
                     if(isset($this->canViewChart)){
-                      $sql .= "canViewChart = {$this->canViewChart}, ";
+                      $sql .= "canViewChart = ?, ";
+                      $values[] = $this->canViewChart;
+                      $formats .= "i";
                     }
-                    $sql .= "status = '{$this->status}', "
-                    . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
-                    . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
-                    . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}', externalOptions = '{$this->externalOptions}' , modified = now() WHERE id = {$this->id}";
+                    $values[] = $this->status;
+                    $values[] = $this->photoURL;
+                    $values[] = $this->backgroundURL;
+                    $values[] = $this->recoverPass;
+                    $values[] = $this->about;
+                    $values[] = $this->channelName;
+                    $values[] = $this->emailVerified;
+                    $values[] = $this->analyticsCode;
+                    $values[] = $this->externalOptions;
+                    $values[] = $this->id;
+                    $formats .= "ssssssissi";
+                    $sql .= "status = ?, "
+                    . "photoURL = ?, backgroundURL = ?, "
+                    . "recoverPass = ?, about = ?, "
+                    . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , modified = now() WHERE id = ?";
         } else {
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, false, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}', '{$this->externalOptions}')";
+          $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload, $this->status,$this->photoURL,$this->recoverPass,$this->channelName,$this->analyticsCode, $this->externalOptions);
+          $formats = "ssssiiissssss";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions)
+            VALUES (?,?,?,?,?,?,?, false, ?, ?, ?, now(), now(), ?, ?, ?)";
         }
-        $insert_row = sqlDAL::writeSql($sql);
+        $insert_row = sqlDAL::writeSql($sql,$formats,$values);
 
         if ($insert_row) {
             if (empty($this->id)) {

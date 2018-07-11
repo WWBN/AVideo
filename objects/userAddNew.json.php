@@ -22,10 +22,11 @@ $user->setEmailVerified($_POST['isEmailVerified']);
 $user->setAnalyticsCode($_POST['analyticsCode']);
 $unique = $user->setChannelName($_POST['channelName']);
 
-//identify what variables come from external plugins 
+//identify what variables come from external plugins
 $userOptions=YouPHPTubePlugin::getPluginUserOptions();
 if(is_array($userOptions))
 {
+    $externalOptions=array();
     foreach($userOptions as $uo => $id)
     {
         if(isset($_POST[$id]))
@@ -33,7 +34,7 @@ if(is_array($userOptions))
     }
     $user->setExternalOptions($externalOptions);
 }
-//save it 
+//save it
 
 
 
