@@ -156,16 +156,16 @@ function changeVideoSrc(vid_obj, source) {
     changeVideoSrcLoad(vid_obj);
 }
 
-function changeVideoSrcLoad(vid_obj) {
-    vid_obj.load();
-    vid_obj.ready(function () {
+function changeVideoSrcLoad() {
+    player.load();
+    player.ready(function () {
         var err = this.error();
         if (err && err.code) {
             setTimeout(function(){
-                changeVideoSrcLoad(vid_obj);
+                changeVideoSrcLoad();
             },500);
         }else{
-            vid_obj.play();
+            player.play();
         }
     });;
 }
