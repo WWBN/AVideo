@@ -17,6 +17,7 @@ $(document).ready(function () {
         }
         var div = $('<div id="divIframeFull" style="background-color:black;"><div id="divTopBar" style="position: fixed; top: 0; left: 0; height: 50px; width: 100vw; z-index: 99999; padding:10px;"><span id="closeBtnFull" class="btn pull-right" onclick="closeIframe();"><i class="fa fa-times"></i></span></div></div>').append('<iframe src="' + webSiteRootURL + 'v/' + id + '" style="background-color:black; position: fixed; top: 0; left: 0; height: 100vh; width: 100vw; z-index: 9999; overflow: hidden;" id="iframeFull">');
         $('body').append(div);
+        Cookies.set("autoplay", auto, {path: '/',expires: 365});
     });
 
 });
