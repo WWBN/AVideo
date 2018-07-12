@@ -120,7 +120,7 @@ function createGallerySection($videos,$crc="") {
         $countCols ++;
         ?>
         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: 2; min-height: 175px;">
-            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+            <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
                 $imgGif = $images->thumbsGif;
@@ -134,7 +134,7 @@ function createGallerySection($videos,$crc="") {
                 </div>
                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
             </a>
-            <a class="h6" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+            <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                 <h2><?php echo $value['title']; ?></h2>
             </a>
 
@@ -311,7 +311,7 @@ function createGallerySection($videos,$crc="") {
                                                 if (response.status * 1 > 0) {
                                                     // update list
                                                     loadPlayLists<?php echo $value['id'].$crc; ?>();
-                                                    $('#searchlist<?php echo $value['id'].$crc; ?>').btsListFilter('#searchinput<?php echo $value['id'].$name; ?>', {itemChild: 'span'});
+                                                    //$('#searchlist<?php echo $value['id'].$crc; ?>').btsListFilter('#searchinput<?php echo $value['id'].$name; ?>', {itemChild: 'span'});
                                                     $('#playListName<?php echo $value['id'].$crc; ?>').val("");
                                                     $('#publicPlayList<?php echo $value['id'].$crc; ?>').prop('checked', true);
                                                 }
