@@ -5,7 +5,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     <div class="clear clearfix">
         <div class="row thumbsImage">
             <div class="col-sm-6">
-                <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>" style="">
+                <a class="galleryLink" videos_id="<?php echo $video['id']; ?>" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>" style="">
                     <?php
                     $images = Video::getImageFromFilename($video['filename'], $video['type']);
                     $imgGif = $images->thumbsGif;
@@ -21,7 +21,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 </a>
             </div>
             <div class="col-sm-6">
-                <a class="h6" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
+                <a class="h6 galleryLink" videos_id="<?php echo $video['id']; ?>" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
                     <h1><?php echo $video['title']; ?></h1>
                 </a>
                 <div class="mainAreaDescriptionContainer">

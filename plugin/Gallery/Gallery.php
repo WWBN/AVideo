@@ -18,9 +18,17 @@ class Gallery extends PluginAbstract {
 
     public function getHeadCode() {
         global $global;
+        $obj = $this->getDataObject();
         // preload image
         $js = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder.png\";</script>";
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>';
+        if(!empty($obj->playVideoOnFullscreen) && !empty($_GET['videoName'])){
+            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.css" rel="stylesheet" type="text/css"/>';
+        }
+        if(!empty($obj->playVideoOnFullscreen)){
+            $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
+        }
+        
         return $js.$css;
     }
     public function getEmptyDataObject() {
@@ -48,6 +56,7 @@ class Gallery extends PluginAbstract {
         $obj->showTags = true;
         $obj->searchOnChannels = true;
         $obj->searchOnChannelsRowCount = 12;
+        $obj->playVideoOnFullscreen = false;
         return $obj;
     }
   
@@ -66,6 +75,17 @@ class Gallery extends PluginAbstract {
     
     public function getTags() {
         return array('free', 'firstPage', 'gallery');
+    }
+    
+    public function getFooterCode() {
+        $obj = $this->getDataObject();
+        global $global;
+        
+        $js = '';
+        if(!empty($obj->playVideoOnFullscreen)){
+            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.js"></script>';
+        }
+        return $js;
     }
     
 }
