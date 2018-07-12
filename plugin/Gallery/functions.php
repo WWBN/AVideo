@@ -196,9 +196,9 @@ function createGallerySection($videos,$crc="") {
                 ?>
                     <div class="">
                         <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
-                            <button class="btn-xs btn btn-default no-outline" style="float:right;" id="addBtn<?php echo $value['id'].$crc; ?>" data-placement="top">
+                            <a href="#" class="text-primary" style="float:right;" id="addBtn<?php echo $value['id'].$crc; ?>" data-placement="top">
                                  <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                            </button>
+                            </a>
                             <div class="webui-popover-content" >
                                 <?php if (User::isLogged()) { ?>
                                     <form role="form">
