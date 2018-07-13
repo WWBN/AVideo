@@ -11,6 +11,9 @@ body{
     width: 100vw;
     z-index: 99999;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .firstC{
     position: absolute;

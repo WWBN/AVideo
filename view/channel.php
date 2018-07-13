@@ -142,7 +142,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                             <div class="panel-heading">
 
                                 <strong style="font-size: 1em;" class="playlistName"><?php echo $playlist['name']; ?> </strong>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist['id']; ?>" class="btn btn-xs btn-default playAll"><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons;?>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist['id']; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons;?>
                                 <?php
                                 if ($isMyChannel) {
                                     ?>
@@ -190,11 +190,11 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                         $poster = $images->thumbsJpg;
                                         ?>
                                         <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo " id="<?php echo $value['id']; ?>">
-                                            <a class="aspectRatio16_9" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" style="margin: 0;" >
+                                            <a class="aspectRatio16_9 hrefLink" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" style="margin: 0;" >
                                                 <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                             </a>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                            <a class="hrefLink" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
                                                 <h2><?php echo $value['title']; ?></h2>
                                             </a>
                                             <?php
