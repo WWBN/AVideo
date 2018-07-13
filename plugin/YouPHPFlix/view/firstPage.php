@@ -185,7 +185,7 @@ unset($_SESSION['type']);
                     $poster = $images->poster;
                     ?>
                 <div class="carousel-cell tile ">
-					<div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+                    <div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
 				        <div class="tile__media ">
 				            <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                                     <?php if (! empty($imgGif)) { ?>
@@ -277,7 +277,7 @@ unset($_SESSION['type']);
                     }
                     ?>
                     <div class="carousel-cell tile ">
-					   <div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+					   <div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
 				        <div class="tile__media ">
 							<img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                             <?php if (! empty($imgGif)) { ?>
@@ -355,7 +355,7 @@ unset($_SESSION['type']);
                     $poster = $images->poster;
                     ?>
                     <div class="carousel-cell tile ">
-                         <div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+                         <div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
                                 <div class="tile__media ">
                                     <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                                     <?php if (! empty($imgGif)) { ?>
@@ -438,7 +438,7 @@ unset($_SESSION['type']);
                     $poster = $images->poster;
                     ?>
                 <div class="carousel-cell tile ">
-					<div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+					<div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
                         <div class="tile__media ">
                             <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                             <?php if (! empty($imgGif)) { ?>
@@ -549,7 +549,7 @@ unset($_SESSION['type']);
                         $poster = $images->poster;
                         ?>
             <div class="carousel-cell tile ">
-					<div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" cat="<?php echo $cat['clean_name']; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+					<div class="slide thumbsImage" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" cat="<?php echo $cat['clean_name']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
 				<div class="tile__media ">
 							<img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                         <?php if (! empty($imgGif)) { ?>
@@ -823,7 +823,7 @@ unset($_SESSION['type']);
                     ?>
                     <div class="carousel-cell tile ">
                         <a href="<?php echo $global['webSiteRootURL'] . "cat/" . $cat['clean_name']; ?>">
-                            <div class="slide" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" cat="<?php echo $cat['clean_name']; ?>" video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+                            <div class="slide" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" cat="<?php echo $cat['clean_name']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
                                 <div class="tile__media ">
                                     <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                                     <?php if ((! empty($imgGif)) && (! $o->LiteDesignNoGifs)) { ?>
