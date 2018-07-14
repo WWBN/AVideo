@@ -247,6 +247,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                     success: function (response) {
                                         $(".playListsIds"+video_id).prop( "checked", false );
                                         $(currentObject).closest('.galleryVideo').fadeOut();
+                                        refreshPlayLists('playlistContainer');
                                         modal.hidePleaseWait();
                                     }
                                 });
@@ -274,6 +275,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                     type: 'post',
                                     success: function (response) {
                                         $(currentObject).closest('.playList').slideUp();
+                                        refreshPlayLists('playlistContainer');
                                         modal.hidePleaseWait();
                                     }
                                 });
@@ -307,6 +309,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
                                     type: 'post',
                                     success: function (response) {
                                         $(currentObject).closest('.playList').find('.playlistName').text(inputValue);
+                                        refreshPlayLists('playlistContainer');
                                         modal.hidePleaseWait();
                                     }
                                 });
