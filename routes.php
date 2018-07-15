@@ -64,6 +64,9 @@ SimpleRouter::get($basePath."charts", function() {
 SimpleRouter::get($basePath."update", function() {
     require_once "view/update.php"; exit;
 });
+SimpleRouter::post($basePath."update", function() {
+    require_once "view/update.php"; exit;
+});
 SimpleRouter::post($basePath."googleAdView", function() {
     require_once "view/googleAdView.php"; exit;
 });
