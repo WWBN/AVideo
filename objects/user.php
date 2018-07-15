@@ -335,14 +335,13 @@ if (typeof gtag !== \"function\") {
         }
     }
 
+
     function save($updateUserGroups = false) {
         global $global, $config;
-
-        if($config->currentVersionLowerThen('5.8')){
-            // they dont have externalOptions code 
+        if($config->currentVersionLowerThen('5.6')){
+            // they dont have analytics code
             return false;
         }
-
         if (empty($this->user) || empty($this->password)) {
             echo "u:" . $this->user . "|p:" . strlen($this->password);
             die('Error : ' . __("You need a user and passsword to register"));
@@ -370,7 +369,6 @@ if (typeof gtag !== \"function\") {
         }
         if(empty($this->emailVerified))
             $this->emailVerified = "false";
-
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
         } else {
@@ -381,7 +379,6 @@ if (typeof gtag !== \"function\") {
                 }
             }
         }
-
         $this->user = $global['mysqli']->real_escape_string($this->user);
         $this->password = $global['mysqli']->real_escape_string($this->password);
         $this->name = $global['mysqli']->real_escape_string($this->name);
@@ -391,41 +388,21 @@ if (typeof gtag !== \"function\") {
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
         }
-
         if (!empty($this->id)) {
-          $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload);
-          $formats = "ssssiii";
-            $sql = "UPDATE users SET user = ?, password = ?, "
-                    . "email = ?, name = ?, isAdmin = ?,"
-                    . "canStream = ?,canUpload = ?,";
+            $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
+                    . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
+                    . "canStream = {$this->canStream},canUpload = {$this->canUpload},";
                     if(isset($this->canViewChart)){
-                      $sql .= "canViewChart = ?, ";
-                      $values[] = $this->canViewChart;
-                      $formats .= "i";
+                      $sql .= "canViewChart = {$this->canViewChart}, ";
                     }
-                    $values[] = $this->status;
-                    $values[] = $this->photoURL;
-                    $values[] = $this->backgroundURL;
-                    $values[] = $this->recoverPass;
-                    $values[] = $this->about;
-                    $values[] = $this->channelName;
-                    $values[] = $this->emailVerified;
-                    $values[] = $this->analyticsCode;
-                    $values[] = $this->externalOptions;
-                    $values[] = $this->id;
-                    $formats .= "ssssssissi";
-                    $sql .= "status = ?, "
-                    . "photoURL = ?, backgroundURL = ?, "
-                    . "recoverPass = ?, about = ?, "
-                    . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , modified = now() WHERE id = ?";
+                    $sql .= "status = '{$this->status}', "
+                    . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
+                    . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
+                    . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}', externalOptions = '{$this->externalOptions}' , modified = now() WHERE id = {$this->id}";
         } else {
-          $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload, $this->status,$this->photoURL,$this->recoverPass,$this->channelName,$this->analyticsCode, $this->externalOptions);
-          $formats = "ssssiiissssss";
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions)
-            VALUES (?,?,?,?,?,?,?, false, ?, ?, ?, now(), now(), ?, ?, ?)";
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) VALUES ('{$this->user}','{$this->password}','{$this->email}','{$this->name}',{$this->isAdmin}, {$this->canStream}, {$this->canUpload}, false, '{$this->status}', '{$this->photoURL}', '{$this->recoverPass}', now(), now(), '{$this->channelName}', '{$this->analyticsCode}', '{$this->externalOptions}')";
         }
-        $insert_row = sqlDAL::writeSql($sql,$formats,$values);
-
+        $insert_row = sqlDAL::writeSql($sql);
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
@@ -447,7 +424,6 @@ if (typeof gtag !== \"function\") {
                 echo '{"error":"' . __("User name already exists") . '"}';
                 exit;
             }
-
             die(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
