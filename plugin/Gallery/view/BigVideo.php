@@ -115,8 +115,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                    <?php } ?>
                                                </div>
                                                <script>
-                                               var tmpPId;
-                                               var tmpSave;
+                                               var tmpPIdBigVideo;
+                                               var tmpSaveBigVideo;
                                                    function loadPlayLists<?php echo $video['id'].$crc; ?>() {
                                                        $.ajax({
                                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
@@ -148,13 +148,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                                    modal.showPleaseWait();
 
                                                                    //tmp-variables simply make the values avaible on success.
-                                                                   tmpPId = $(this).val();
-                                                                   tmpSave = $(this).is(":checked");
+                                                                   tmpPIdBigVideo = $(this).val();
+                                                                   tmpSaveBigVideo = $(this).is(":checked");
                                                                    $.ajax({
                                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
                                                                        method: 'POST',
                                                                        data: {
-                                                                           'videos_id': <?php echo $value['id']; ?>,
+                                                                           'videos_id': <?php echo $video['id']; ?>,
                                                                            'add': $(this).is(":checked"),
                                                                            'playlists_id': $(this).val()
                                                                        },
@@ -166,7 +166,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                                            refreshPlayLists('playlistContainer');
                                                                            <?php } ?>
 
-                                                                           $(".playListsIds"+tmpPId).prop( "checked",  tmpSave);
+                                                                           $(".playListsIds"+tmpPIdBigVideo).prop( "checked",  tmpSaveBigVideo);
                                                                            modal.hidePleaseWait();
                                                                        }
                                                                    });
@@ -198,7 +198,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                                          refreshPlayLists('playlistContainer');
                                                                          <?php } ?>
                                                                        loadPlayLists<?php echo $video['id'].$crc; ?>();
-                                                                       $('#searchlist<?php echo $video['id'].$crc; ?>').btsListFilter('#searchinput<?php echo $value['id'].$name; ?>', {itemChild: 'span'});
+                                                                       $('#searchlist<?php echo $video['id'].$crc; ?>').btsListFilter('#searchinput<?php echo $video['id'].$name; ?>', {itemChild: 'span'});
                                                                        $('#playListName<?php echo $video['id'].$crc; ?>').val("");
                                                                        $('#publicPlayList<?php echo $video['id'].$crc; ?>').prop('checked', true);
                                                                    }
