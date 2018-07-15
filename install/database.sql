@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
-  UNIQUE INDEX `clean_title_UNIQUE` (`clean_title`(255) ASC),
+  UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
   INDEX `index5` (`order` ASC),
   INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC),
   CONSTRAINT `fk_videos_users`
