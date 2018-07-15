@@ -232,7 +232,11 @@ class Category {
 
 
     static function getTotalCategories() {
-        global $global;
+        global $global, $config;
+        
+        if($config->currentVersionLowerThen('5.01')){
+            return false;
+        }
         $sql = "SELECT id, parentId FROM categories WHERE 1=1 ";
         if(!empty($_GET['parentsOnly'])){
             $sql .= "AND parentId = 0 OR parentId = -1 ";
