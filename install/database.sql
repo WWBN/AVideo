@@ -57,8 +57,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `videos` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
-  `clean_title` VARCHAR(255) NOT NULL,
+  `title` VARCHAR(190) NOT NULL,
+  `clean_title` VARCHAR(190) NOT NULL,
   `description` TEXT NULL,
   `views_count` INT NOT NULL DEFAULT 0,
   `status` ENUM('a', 'i', 'e', 'x', 'd', 'xmp4', 'xwebm', 'xmp3', 'xogg', 'ximg', 'u', 'p') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading\nu = Unlisted\np = private\nxmp4 = encoding mp4 error \nxwebm = encoding webm error \nxmp3 = encoding mp3 error \nxogg = encoding ogg error \nximg = get image error',
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
-  UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
+  UNIQUE INDEX `clean_title_UNIQUE` (`clean_title`(255) ASC),
   INDEX `index5` (`order` ASC),
   INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC),
   CONSTRAINT `fk_videos_users`
