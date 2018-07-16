@@ -29,6 +29,8 @@ if(file_exists($encoderConfigFile)){
     $sql = "update streamers set siteURL = '{$streamerURL}';";
     $global['mysqli']->query($sql);
     // change the encoder config file
+}else{
+    echo "Encoder not found in {$encoderConfigFile}\n";
 }
 
 
