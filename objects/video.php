@@ -91,6 +91,7 @@ if (!class_exists('Video')) {
         }
 
         function save($updateVideoGroups = false) {
+            global $advancedCustom;
             if (!User::isLogged()) {
                 header('Content-Type: application/json');
                 die('{"error":"' . __("Permission denied") . '"}');
@@ -151,6 +152,14 @@ if (!class_exists('Video')) {
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
                     $this->id = $id;
+                    
+                    // check if needs to add the video in a user group
+                    $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
+                    if($p){                        
+                        $updateVideoGroups = true;
+                        $this->videoGroups = $p->getUserGroupsArray();
+                    }
+                    
                 } else {
                     $id = $this->id;
                 }
@@ -1235,9 +1244,9 @@ if (!class_exists('Video')) {
                 }
                 $obj->text = $obj->text;
                 $tags[] = $obj;
+                $obj = new stdClass();
             }
             if (empty($type) || $type === "userGroups") {
-                require_once 'userGroups.php';
                 $groups = UserGroups::getVideoGroups($video_id);
                 $obj = new stdClass();
                 $obj->label = __("Group");
@@ -1251,11 +1260,15 @@ if (!class_exists('Video')) {
                         $obj->text = __("Public");
                     }
                     $tags[] = $obj;
+                    $obj = new stdClass();
                 } else {
                     foreach ($groups as $value) {
+                        $obj = new stdClass();
+                        $obj->label = __("Group");
                         $obj->type = "warning";
-                        $obj->text = $value['group_name'];
+                        $obj->text = "{$value['id']} {$value['group_name']}";
                         $tags[] = $obj;
+                        $obj = new stdClass();
                     }
                 }
             }
@@ -1271,6 +1284,7 @@ if (!class_exists('Video')) {
                     $obj->type = "default";
                     $obj->text = $category['name'];
                     $tags[] = $obj;
+                    $obj = new stdClass();
                 }
             }
             if (empty($type) || $type === "source") {
@@ -1282,13 +1296,14 @@ if (!class_exists('Video')) {
                     $obj->type = "danger";
                     $obj->text = $parse['host'];
                     $tags[] = $obj;
+                    $obj = new stdClass();
                 } else {
                     $obj->type = "info";
                     $obj->text = __("Local File");
                     $tags[] = $obj;
+                    $obj = new stdClass();
                 }
             }
-
             return $tags;
         }
 
@@ -1574,8 +1589,7 @@ if (!class_exists('Video')) {
         }
 
         static function getImageFromFilename($filename, $type = "video") {
-            global $global;
-            $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+            global $global, $advancedCustom;
             /*
               $name = "getImageFromFilename_{$filename}{$type}_";
               $cached = ObjectYPT::getCache($name, 86400);//one day
@@ -1730,7 +1744,7 @@ if (!class_exists('Video')) {
         }
 
         static function getLink($videos_id, $clean_title, $embed = false) {
-            $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+            global $advancedCustom;
             if (!empty($advancedCustom->usePermalinks)) {
                 $type = "permalink";
             } else {

@@ -872,7 +872,7 @@ if (!function_exists('mime_content_type')) {
 }
 
 function combineFiles($filesArray, $extension = "js") {
-    global $global;
+    global $global, $advancedCustom;
     $cacheDir = $global['systemRootPath'] . 'videos/cache/';
     if (!is_dir($cacheDir)) {
         mkdir($cacheDir, 0777, true);
@@ -882,9 +882,8 @@ function combineFiles($filesArray, $extension = "js") {
     foreach ($filesArray as $value) {
         $fileName .= $value;
     }
-    $minifyEnabled = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-    if($minifyEnabled!=false){
-        $minifyEnabled = $minifyEnabled->EnableMinifyJS;
+    if($advancedCustom!=false){
+        $minifyEnabled = $advancedCustom->EnableMinifyJS;
     }
     $md5FileName = md5($fileName) . ".{$extension}";
     if (!file_exists($cacheDir . $md5FileName)) {
@@ -988,10 +987,6 @@ function getUpdatesFilesArray() {
 
 function UTF8encode($data){
     global $advancedCustom, $global;
-
-    if(empty($advancedCustom)){
-        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
-    }
 
     if(!empty($advancedCustom->utf8Encode)){
         return utf8_encode($data);

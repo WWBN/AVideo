@@ -52,7 +52,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $_POST['current'] = $totalPages;
         }
         $videos = Video::getAllVideos("viewable");
-        createGallerySection($videos,crc32($getName));
+        createGallerySection($videos, crc32($getName));
         ?>
         <div class="col-sm-12" style="z-index: 1;">
             <ul id="<?php echo $paggingId; ?>">
@@ -105,8 +105,8 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGallerySection($videos,$crc="") {
-    global $global, $config, $obj;
+function createGallerySection($videos, $crc = "") {
+    global $global, $config, $obj, $advancedCustom;
     $countCols = 0;
 
     foreach ($videos as $value) {
@@ -156,7 +156,7 @@ function createGallerySection($videos,$crc="") {
                     if (!empty($obj->showTags)) {
                         $value['tags'] = Video::getTags($value['id']);
                         foreach ($value['tags'] as $value2) {
-                            if ($value2->label === __("Group")) {
+                            if (!empty($value2->label) && $value2->label === __("Group")) {
                                 ?>
                                 <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                                 <?php
@@ -191,145 +191,143 @@ function createGallerySection($videos,$crc="") {
                         </a>
                     </div>
                 <?php }
-                $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-
                 ?>
                 <div class="">
-                                       <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
-                                           <button class="label label-sm label-success no-outline" style="float:right;" id="addBtn<?php echo $value['id'].$crc; ?>" data-placement="top">
-                                                <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                                           </button>
-                                           <div class="webui-popover-content" >
-                                               <?php if (User::isLogged()) { ?>
-                                                   <form role="form">
-                                                       <div class="form-group">
-                                                           <input class="form-control" id="searchinput<?php echo $value['id'].$crc; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
-                                                       </div>
-                                                       <div id="searchlist<?php echo $value['id'].$crc; ?>" class="list-group">
-                                                       </div>
-                                                   </form>
-                                                   <div>
-                                                       <hr>
-                                                       <div class="form-group">
-                                                           <input id="playListName<?php echo $value['id'].$crc; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
-                                                       </div>
-                                                       <div class="form-group">
-                                                           <?php echo __("Make it public"); ?>
-                                                           <div class="material-switch pull-right">
-                                                               <input id="publicPlayList<?php echo $value['id'].$crc; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
-                                                               <label for="publicPlayList" class="label-success"></label>
-                                                           </div>
-                                                       </div>
-                                                       <div class="form-group">
-                                                           <button class="btn btn-success btn-block" id="addPlayList<?php echo $value['id'].$crc; ?>" ><?php echo __("Create a New Play List"); ?></button>
-                                                       </div>
-                                                   </div>
-                                               <?php } else {  ?>
-                                                 <h5><?php echo __("Want to watch this again later?"); ?></h5>
-                                                   <?php echo __("Sign in to add this video to a playlist."); ?>
-                                                 <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
-                                                     <span class="fas fa-sign-in-alt"></span>
-                                                     <?php echo __("Login"); ?>
-                                                 </a>
-                                               <?php } ?>
-                                           </div>
-                                           <script>
-                                           var tmpPId;
-                                           var tmpSave;
-                                               function loadPlayLists<?php echo $value['id'].$crc; ?>() {
-                                                   $.ajax({
-                                                       url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
-                                                       success: function (response) {
-                                                           $('#searchlist<?php echo $value['id'].$crc; ?>').html('');
-                                                           for (var i in response) {
-                                                               if (!response[i].id) {
-                                                                   continue;
-                                                               }
-                                                               var icon = "lock"
-                                                               if (response[i].status == "public") {
-                                                                   icon = "globe"
-                                                               }
-                                                               var checked = "";
-                                                               for (var x in response[i].videos) {
-                                                                   if (typeof (response[i].videos[x]) === 'object' && response[i].videos[x].videos_id ==<?php echo $value['id']; ?>) {
-                                                                       checked = "checked";
-                                                                   }
-                                                               }
-                                                               $("#searchlist<?php echo $value['id'].$crc; ?>").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
-                                                                       + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                                                                       + response[i].id + '<?php echo $value['id'].$crc; ?>" name="someSwitchOption' + response[i].id + '<?php echo $value['id'].$crc; ?>" class="playListsIds<?php echo $value['id'].$crc; ?> playListsIds' + response[i].id + ' " type="checkbox" value="'
-                                                                       + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
-                                                                       + response[i].id + '<?php echo $value['id'].$crc; ?>" class="label-success"></label></div></a>');
+                    <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
+                        <a href="#" class="text-primary" style="float:right;" id="addBtn<?php echo $value['id'].$crc; ?>" data-placement="top">
+                                 <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
+                        </a>
+                        <div class="webui-popover-content" >
+                            <?php if (User::isLogged()) { ?>
+                                <form role="form">
+                                    <div class="form-group">
+                                        <input class="form-control" id="searchinput<?php echo $value['id'] . $crc; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
+                                    </div>
+                                    <div id="searchlist<?php echo $value['id'] . $crc; ?>" class="list-group">
+                                    </div>
+                                </form>
+                                <div>
+                                    <hr>
+                                    <div class="form-group">
+                                        <input id="playListName<?php echo $value['id'] . $crc; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
+                                    </div>
+                                    <div class="form-group">
+                                        <?php echo __("Make it public"); ?>
+                                        <div class="material-switch pull-right">
+                                            <input id="publicPlayList<?php echo $value['id'] . $crc; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
+                                            <label for="publicPlayList" class="label-success"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-block" id="addPlayList<?php echo $value['id'] . $crc; ?>" ><?php echo __("Create a New Play List"); ?></button>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <h5><?php echo __("Want to watch this again later?"); ?></h5>
+                                <?php echo __("Sign in to add this video to a playlist."); ?>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
+                                    <span class="fas fa-sign-in-alt"></span>
+                                    <?php echo __("Login"); ?>
+                                </a>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            var tmpPId;
+                            var tmpSave;
+                            function loadPlayLists<?php echo $value['id'] . $crc; ?>() {
+                                $.ajax({
+                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
+                                    success: function (response) {
+                                        $('#searchlist<?php echo $value['id'] . $crc; ?>').html('');
+                                        for (var i in response) {
+                                            if (!response[i].id) {
+                                                continue;
+                                            }
+                                            var icon = "lock"
+                                            if (response[i].status == "public") {
+                                                icon = "globe"
+                                            }
+                                            var checked = "";
+                                            for (var x in response[i].videos) {
+                                                if (typeof (response[i].videos[x]) === 'object' && response[i].videos[x].videos_id ==<?php echo $value['id']; ?>) {
+                                                    checked = "checked";
+                                                }
+                                            }
+                                            $("#searchlist<?php echo $value['id'] . $crc; ?>").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
+                                                    + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
+                                                    + response[i].id + '<?php echo $value['id'] . $crc; ?>" name="someSwitchOption' + response[i].id + '<?php echo $value['id'] . $crc; ?>" class="playListsIds<?php echo $value['id'] . $crc; ?> playListsIds' + response[i].id + ' " type="checkbox" value="'
+                                                    + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
+                                                    + response[i].id + '<?php echo $value['id'] . $crc; ?>" class="label-success"></label></div></a>');
 
-                                                           }
-                                                           $('#searchlist<?php echo $value['id'].$crc; ?>').btsListFilter('#searchinput<?php echo $value['id'].$crc; ?>', {itemChild: 'span'});
-                                                           $('.playListsIds<?php echo $value['id'].$crc; ?>').change(function () {
-                                                               modal.showPleaseWait();
+                                        }
+                                        $('#searchlist<?php echo $value['id'] . $crc; ?>').btsListFilter('#searchinput<?php echo $value['id'] . $crc; ?>', {itemChild: 'span'});
+                                        $('.playListsIds<?php echo $value['id'] . $crc; ?>').change(function () {
+                                            modal.showPleaseWait();
 
-                                                               //tmp-variables simply make the values avaible on success.
-                                                               tmpPId = $(this).val();
-                                                               tmpSave = $(this).is(":checked");
-                                                               $.ajax({
-                                                                   url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
-                                                                   method: 'POST',
-                                                                   data: {
-                                                                       'videos_id': <?php echo $value['id']; ?>,
-                                                                       'add': $(this).is(":checked"),
-                                                                       'playlists_id': $(this).val()
-                                                                   },
-                                                                   success: function (response) {
-                                                                     <?php
-                                                                     global $isChannel;
-                                                                     if(!empty($isChannel)){
-                                                                       ?>
-                                                                       refreshPlayLists('playlistContainer');
-                                                                       <?php } ?>
+                                            //tmp-variables simply make the values avaible on success.
+                                            tmpPId = $(this).val();
+                                            tmpSave = $(this).is(":checked");
+                                            $.ajax({
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
+                                                method: 'POST',
+                                                data: {
+                                                    'videos_id': <?php echo $value['id']; ?>,
+                                                    'add': $(this).is(":checked"),
+                                                    'playlists_id': $(this).val()
+                                                },
+                                                success: function (response) {
+            <?php
+            global $isChannel;
+            if (!empty($isChannel)) {
+                ?>
+                                                        refreshPlayLists('playlistContainer');
+            <?php } ?>
 
-                                                                       $(".playListsIds"+tmpPId).prop( "checked",  tmpSave);
-                                                                       modal.hidePleaseWait();
-                                                                   }
-                                                               });
-                                                               return false;
-                                                           });
-                                                       }
-                                                   });
-                                               }
-                                               $(document).ready(function () {
-                                                   loadPlayLists<?php echo $value['id'].$crc; ?>();
-                                                   $('#addBtn<?php echo $value['id'].$crc; ?>').webuiPopover();
-                                                   $('#addPlayList<?php echo $value['id'].$crc; ?>').click(function () {
-                                                       modal.showPleaseWait();
-                                                       $.ajax({
-                                                           url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
-                                                           method: 'POST',
-                                                           data: {
-                                                               'videos_id': <?php echo $value['id']; ?>,
-                                                               'status': $('#publicPlayList<?php echo $value['id'].$crc; ?>').is(":checked") ? "public" : "private",
-                                                               'name': $('#playListName<?php echo $value['id'].$crc; ?>').val()
-                                                           },
-                                                           success: function (response) {
-                                                               if (response.status * 1 > 0) {
-                                                                   // update list
-                                                                   <?php
-                                                                   global $isChannel;
-                                                                   if(!empty($isChannel)){
-                                                                     ?>
-                                                                     refreshPlayLists('playlistContainer');
-                                                                     <?php } ?>
-                                                                   loadPlayLists<?php echo $value['id'].$crc; ?>();
-                                                                   $('#searchlist<?php echo $value['id'].$crc; ?>').btsListFilter('#searchinput<?php echo $value['id'].$name; ?>', {itemChild: 'span'});
-                                                                   $('#playListName<?php echo $value['id'].$crc; ?>').val("");
-                                                                   $('#publicPlayList<?php echo $value['id'].$crc; ?>').prop('checked', true);
-                                                               }
-                                                               modal.hidePleaseWait();
-                                                           }
-                                                       });
-                                                       return false;
-                                                   });
-                                               });
-                                           </script>
-                                         <?php } ?>
-               </div>
+                                                    $(".playListsIds" + tmpPId).prop("checked", tmpSave);
+                                                    modal.hidePleaseWait();
+                                                }
+                                            });
+                                            return false;
+                                        });
+                                    }
+                                });
+                            }
+                            $(document).ready(function () {
+                                loadPlayLists<?php echo $value['id'] . $crc; ?>();
+                                $('#addBtn<?php echo $value['id'] . $crc; ?>').webuiPopover();
+                                $('#addPlayList<?php echo $value['id'] . $crc; ?>').click(function () {
+                                    modal.showPleaseWait();
+                                    $.ajax({
+                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
+                                        method: 'POST',
+                                        data: {
+                                            'videos_id': <?php echo $value['id']; ?>,
+                                            'status': $('#publicPlayList<?php echo $value['id'] . $crc; ?>').is(":checked") ? "public" : "private",
+                                            'name': $('#playListName<?php echo $value['id'] . $crc; ?>').val()
+                                        },
+                                        success: function (response) {
+                                            if (response.status * 1 > 0) {
+                                                // update list
+            <?php
+            global $isChannel;
+            if (!empty($isChannel)) {
+                ?>
+                                                    refreshPlayLists('playlistContainer');
+            <?php } ?>
+                                                loadPlayLists<?php echo $value['id'] . $crc; ?>();
+                                                $('#searchlist<?php echo $value['id'] . $crc; ?>').btsListFilter('#searchinput<?php echo $value['id'] . $name; ?>', {itemChild: 'span'});
+                                                $('#playListName<?php echo $value['id'] . $crc; ?>').val("");
+                                                $('#publicPlayList<?php echo $value['id'] . $crc; ?>').prop('checked', true);
+                                            }
+                                            modal.hidePleaseWait();
+                                        }
+                                    });
+                                    return false;
+                                });
+                            });
+                        </script>
+                    <?php } ?>
+                </div>
                 <?php
                 if ($config->getAllow_download()) {
                     $ext = ".mp4";
@@ -352,15 +350,15 @@ function createGallerySection($videos,$crc="") {
     unset($_POST['disableAddTo']);
 }
 
-function createChannelItem($users_id, $photoURL = "", $identification = "", $rowCount=12) {
+function createChannelItem($users_id, $photoURL = "", $identification = "", $rowCount = 12) {
     $total = Video::getTotalVideos("viewable", $users_id);
-    if(empty($total)){
+    if (empty($total)) {
         return false;
     }
-    if(empty($photoURL)){
+    if (empty($photoURL)) {
         $photoURL = User::getPhoto($users_id);
     }
-    if(empty($identification)){
+    if (empty($identification)) {
         $identification = User::getNameIdentificationById($users_id);
     }
     ?>
@@ -398,14 +396,16 @@ function createChannelItem($users_id, $photoURL = "", $identification = "", $row
 
 $search = "";
 $searchPhrase = "";
-function clearSearch(){
+
+function clearSearch() {
     global $search, $searchPhrase;
     $search = $_GET['search'];
     $searchPhrase = $_POST['searchPhrase'];
     unset($_GET['search']);
     unset($_POST['searchPhrase']);
 }
-function reloadSearch(){
+
+function reloadSearch() {
     global $search, $searchPhrase;
     $_GET['search'] = $search;
     $_POST['searchPhrase'] = $searchPhrase;

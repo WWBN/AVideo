@@ -44,11 +44,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         <?php
                         if (!empty($obj->showTags)) {
                             $video['tags'] = Video::getTags($video['id']);
-                            foreach ($video['tags'] as $value2) {
-                                if ($value2->label === __("Group")) {
-                                    ?>
-                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                    <?php
+                            if(!empty($video['tags'])){
+                                foreach ($video['tags'] as $value2) {
+                                    if (!empty($value2->label) && $value2->label === __("Group")) {
+                                        ?>
+                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                        <?php
+                                    }
                                 }
                             }
                         }
@@ -77,9 +79,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
 
                     <div class="">
                                            <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
-                                               <button class="label label-sm label-success no-outline" style="float:right;" id="addBtn<?php echo $video['id'].$crc; ?>" data-placement="bottom">
-                                                    <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                                               </button>
+                                                <a href="#" class="text-primary" style="float:right;" id="addBtn<?php echo $video['id'].$crc; ?>" data-placement="bottom">
+                                                         <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
+                                                </a>
                                                <div class="webui-popover-content" >
                                                    <?php if (User::isLogged()) { ?>
                                                        <form role="form">

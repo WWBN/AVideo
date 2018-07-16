@@ -40,7 +40,6 @@ $video = new Video("", "", $_POST['videos_id']);
 $obj->video_id = $_POST['videos_id'];
 
 if(empty($_POST['fail'])){
-    $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
     if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
         // set active
         $video->setStatus('a');

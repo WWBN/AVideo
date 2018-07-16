@@ -224,7 +224,7 @@ if (typeof gtag !== \"function\") {
      * @return String
      */
     static function getNameIdentification() {
-        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+        global $advancedCustom;
         if (self::isLogged()) {
             if (!empty(self::getName()) && empty($advancedCustom->doNotIndentifyByName)) {
                 return self::getName();
@@ -244,7 +244,7 @@ if (typeof gtag !== \"function\") {
      * @return String
      */
     function getNameIdentificationBd() {
-        $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+        global $advancedCustom;
         if (!empty($this->name) && empty($advancedCustom->doNotIndentifyByName)) {
             return $this->name;
         }
@@ -337,7 +337,7 @@ if (typeof gtag !== \"function\") {
 
 
     function save($updateUserGroups = false) {
-        global $global, $config;
+        global $global, $config, $advancedCustom;
         if($config->currentVersionLowerThen('5.6')){
             // they dont have analytics code
             return false;
@@ -351,8 +351,7 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($this->canStream)) {
             if (empty($this->id)) { // it is a new user
-                $obj = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
-                if (empty($obj->newUsersCanStream)) {
+                if (empty($advancedCustom->newUsersCanStream)) {
                     $this->canStream = "false";
                 } else {
                     $this->canStream = "true";
@@ -406,8 +405,7 @@ if (typeof gtag !== \"function\") {
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
-                $obj = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
-                if (!empty($obj->unverifiedEmailsCanNOTLogin)) {
+                if (!empty($advancedCustom->unverifiedEmailsCanNOTLogin)) {
                     self::sendVerificationLink($id);
                 }
             } else {
@@ -466,14 +464,13 @@ if (typeof gtag !== \"function\") {
     const USER_NOT_FOUND = 2;
 
     function login($noPass = false, $encodedPass = false) {
-        $obj = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
         // if user is not verified
-        if (!empty($user) && empty($user['isAmin']) && empty($user['emailVerified']) && !empty($obj->unverifiedEmailsCanNOTLogin)) {
+        if (!empty($user) && empty($user['isAmin']) && empty($user['emailVerified']) && !empty($advancedCustom->unverifiedEmailsCanNOTLogin)) {
             unset($_SESSION['user']);
             self::sendVerificationLink($user['id']);
             return self::USER_NOT_VERIFIED;
