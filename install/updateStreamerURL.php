@@ -5,7 +5,8 @@ require_once '../videos/configuration.php';
 if(!isCommandLineInterface()){
     return die('Command Line only');
 }
-$streamerURL = trim(readline("Enter the new Streamer URL or press enter to skip: "));
+echo "Enter the new Streamer URL or press enter to skip:";
+$streamerURL = trim(readline(""));
 
 if(!empty($streamerURL)){
     if (substr($streamerURL, -1) !== '/') {
