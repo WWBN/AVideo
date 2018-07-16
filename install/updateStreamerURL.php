@@ -23,6 +23,7 @@ $encoderConfigFile = "{$global['systemRootPath']}Encoder/videos/configuration.ph
 
 echo "Checking encoder in {$encoderConfigFile}\n";
 if(file_exists($encoderConfigFile)){
+    echo "Encoder found in {$encoderConfigFile}\n";
     require_once $encoderConfigFile;
     // change the encoder database for admin user
     echo "Encoder Update configurations set allowedStreamersURL\n";
