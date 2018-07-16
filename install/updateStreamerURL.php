@@ -15,10 +15,13 @@ if(!empty($streamerURL)){
     echo "Rewrite Streamer Config File\n";
     // change the streamer config file
     Configuration::rewriteConfigFile();
+    
+    echo "Rewrite Streamer Config File - DONE\n";
 }
 
 $encoderConfigFile = "{$global['systemRootPath']}Encoder/videos/configuration.php";
 
+echo "Checking encoder in {$encoderConfigFile}\n";
 if(file_exists($encoderConfigFile)){
     require_once $encoderConfigFile;
     // change the encoder database for admin user
