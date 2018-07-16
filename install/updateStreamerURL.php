@@ -6,6 +6,8 @@ if(!isCommandLineInterface()){
     return die('Command Line only');
 }
 echo "Enter the new Streamer URL or press enter to skip:";
+echo "\n";
+ob_flush();
 $streamerURL = trim(readline(""));
 
 if(!empty($streamerURL)){
