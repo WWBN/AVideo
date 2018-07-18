@@ -68,6 +68,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->encoderNetwork = "";// an url for encoder network
         $obj->signInOnRight= true;
         $obj->signInOnLeft= true;
+        $obj->forceCategory= false;
 
         $plugins = Plugin::getAllEnabled();
         //import external plugins configuration options

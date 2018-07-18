@@ -371,13 +371,6 @@ $advancedCustom = json_decode($json_file);
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                                 <input  id="inputPassword" placeholder="<?php echo __("Password"); ?>" class="form-control"  type="password" value="" >
                                             </div>
-                                            <?php
-                                            if (empty($advancedCustom->disableNativeSignUp)) {
-                                                ?>
-                                                <small><a href="#" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
-                                                <?php
-                                            }
-                                            ?>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -386,7 +379,19 @@ $advancedCustom = json_decode($json_file);
                                             <div class="input-group">
                                                 <input  id="inputRememberMe" class="form-control"  type="checkbox">
                                             </div>
-                                        </div>
+                                        </div>      
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"></label>
+                                        <div class="col-md-8 inputGroupContainer">
+                                            <?php
+                                            if (empty($advancedCustom->disableNativeSignUp)) {
+                                                ?>
+                                                <small><a href="#" class="btn" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>     
                                     </div>
                                     <!-- Button -->
                                     <div class="form-group">

@@ -552,7 +552,7 @@ if (!class_exists('Video')) {
             }
 
             $sql .= " LIMIT 1";
-
+            
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
@@ -1707,13 +1707,18 @@ if (!class_exists('Video')) {
         static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly") {
             global $global;
             if ($type == "URLFriendly") {
+                $cat = "";
+                if(!empty($_GET['catName'])){
+                    $cat = "cat/{$_GET['catName']}/";
+                }
+                
                 if (!empty($videos_id) && empty($clean_title)) {
                     $clean_title = self::get_clean_title($videos_id);
                 }
                 if ($embed) {
                     return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}";
                 } else {
-                    return "{$global['webSiteRootURL']}video/{$clean_title}";
+                    return "{$global['webSiteRootURL']}{$cat}video/{$clean_title}";
                 }
             } else {
                 if (empty($videos_id) && !empty($clean_title)) {
