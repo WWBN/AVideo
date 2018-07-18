@@ -470,13 +470,22 @@ if (typeof gtag !== \"function\") {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
         // if user is not verified
-        if (!empty($user) && empty($user['isAmin']) && empty($user['emailVerified']) && !empty($advancedCustom->unverifiedEmailsCanNOTLogin)) {
+        if (!empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustom->unverifiedEmailsCanNOTLogin)) {
             unset($_SESSION['user']);
             self::sendVerificationLink($user['id']);
             return self::USER_NOT_VERIFIED;
         } else if ($user) {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
+            if(!empty($_POST['rememberme'])){
+              error_log("[INFO] Do login with cookie (log in for next 10 years)!");
+              global $global;
+        //      $url = parse_url($global['webSiteRootURL']);
+      //        setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
+      //        setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
+              setcookie("user", $this->user, time()+3600*24*30*12*10,"/");
+              setcookie("pass", $encodedPass, time()+3600*24*30*12*10,"/");
+            }
             return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
@@ -494,11 +503,43 @@ if (typeof gtag !== \"function\") {
     }
 
     static function logoff() {
-        unset($_SESSION['user']);
+      global $global;
+      //$url = parse_url($global['webSiteRootURL']);
+      unset($_COOKIE['user']);
+      unset($_COOKIE['pass']);
+    //  setcookie('user', null, -1,$url['path'],$url['host']);
+    //  setcookie('pass', null, -1,$url['path'],$url['host']);
+      setcookie('user', null, -1,"/");
+      setcookie('pass', null, -1,"/");
+      unset($_SESSION['user']);
     }
 
     static function isLogged() {
+    //  global $isLoggedBuffer; // to prevent being logged out after first cookie-request
+    //  if(empty($isLoggedBuffer)){
+        if(empty($_SESSION['user'])){
+          if((!empty($_COOKIE['user']))&&(!empty($_COOKIE['pass']))){
+            $user = new User(0, $_COOKIE['user'], false);
+          //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
+            $resp = $user->login(false, $_COOKIE['pass']);
+
+            error_log("[INFO] do cookie-login: ".$_COOKIE['user']."   ".$_COOKIE['pass']. "   result: ".$resp);
+            if(0==$resp){
+          //    $user->setLastLogin($dbuser['id']);
+          //    $_SESSION['user'] = $dbuser;
+              error_log("success ".$_SESSION['user']['id']);
+              //$isLoggedBuffer = true;
+            //  return true;
+            }
+          }
+        }
         return !empty($_SESSION['user']['id']);
+    /*  }
+      if(!empty($isLoggedBuffer)){
+        return true;
+      } else {
+        return false;
+      }*/
     }
 
     static function isVerified() {

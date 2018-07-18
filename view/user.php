@@ -380,6 +380,14 @@ $advancedCustom = json_decode($json_file);
                                             ?>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"><?php echo __("Remember me"); ?></label>
+                                        <div class="col-md-8 inputGroupContainer">
+                                            <div class="input-group">
+                                                <input  id="inputRememberMe" class="form-control"  type="checkbox">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- Button -->
                                     <div class="form-group">
                                         <div class="col-md-12">
@@ -437,7 +445,7 @@ $advancedCustom = json_decode($json_file);
                             modal.showPleaseWait();
                             $.ajax({
                                 url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
-                                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val()},
+                                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme" : $('#inputRememberMe').val() },
                                 type: 'post',
                                 success: function (response) {
                                     if (!response.isLogged) {
