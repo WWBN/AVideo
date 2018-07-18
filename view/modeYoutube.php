@@ -37,7 +37,7 @@ if (!empty($_GET['catName'])) {
 // add this because if you change the video category the video was not loading anymore
 $catName = @$_GET['catName'];
 
-if (empty($_GET['clean_title'])) {
+if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory===false)) {
     $_GET['catName'] = "";
 }
 
