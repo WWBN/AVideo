@@ -52,7 +52,8 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $_POST['current'] = $totalPages;
         }
         $videos = Video::getAllVideos("viewable");
-        createGallerySection($videos, crc32($getName));
+        // need to add dechex because some times it return an negative value and make it fails on javascript playlists
+        createGallerySection($videos, dechex(crc32($getName)));
         ?>
         <div class="col-sm-12" style="z-index: 1;">
             <ul id="<?php echo $paggingId; ?>">

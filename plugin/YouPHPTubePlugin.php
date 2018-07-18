@@ -220,7 +220,8 @@ class YouPHPTubePlugin {
           $pluginIsLoaded = array();
         }
         $file = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
-        $crc = crc32($name);
+        // need to add dechex because some times it return an negative value and make it fails on javascript playlists
+        $crc = dechex(crc32($name));
         if(!isset($pluginIsLoaded[$crc])){
 
           if (file_exists($file)) {
