@@ -377,7 +377,7 @@ $advancedCustom = json_decode($json_file);
                                         <label class="col-md-4 control-label"><?php echo __("Remember me"); ?></label>
                                         <div class="col-md-8 inputGroupContainer">
                                             <div class="input-group">
-                                                <input  id="inputRememberMe" class="form-control"  type="checkbox">
+                                                <input  id="inputRememberMe" class="form-control"  type="checkbox" style="min-height: 15px; min-width: 15px;">
                                             </div>
                                         </div>
                                     </div>
