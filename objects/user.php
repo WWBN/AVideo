@@ -508,10 +508,8 @@ if (typeof gtag !== \"function\") {
         setcookie('pass', null, -1, "/");
         unset($_SESSION['user']);
     }
-
-    static function isLogged() {
-        //  global $isLoggedBuffer; // to prevent being logged out after first cookie-request
-        //  if(empty($isLoggedBuffer)){
+    
+    static private function recreateLoginFromCookie(){
         if (empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass']))) {
                 $user = new User(0, $_COOKIE['user'], false);
@@ -520,32 +518,29 @@ if (typeof gtag !== \"function\") {
 
                 error_log("[INFO] do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
                 if (0 == $resp) {
-                    //    $user->setLastLogin($dbuser['id']);
-                    //    $_SESSION['user'] = $dbuser;
                     error_log("success " . $_SESSION['user']['id']);
-                    //$isLoggedBuffer = true;
-                    //  return true;
                 }
             }
         }
+    }
+
+    static function isLogged() {
+        self::recreateLoginFromCookie();
         return !empty($_SESSION['user']['id']);
-        /*  }
-          if(!empty($isLoggedBuffer)){
-          return true;
-          } else {
-          return false;
-          } */
     }
 
     static function isVerified() {
+        self::recreateLoginFromCookie();
         return !empty($_SESSION['user']['emailVerified']);
     }
 
     static function isAdmin() {
+        self::recreateLoginFromCookie();
         return !empty($_SESSION['user']['isAdmin']);
     }
 
     static function canStream() {
+        self::recreateLoginFromCookie();
         return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']);
     }
 
