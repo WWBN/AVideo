@@ -256,13 +256,13 @@ function createGallerySection($videos, $crc = "") {
                                             }
                                             $("#searchlist<?php echo $value['id'] . $crc; ?>").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
                                                     + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                                                    + response[i].id + '<?php echo $value['id'] . $crc; ?>" name="someSwitchOption' + response[i].id + '<?php echo $value['id'] . $crc; ?>" class="playListsIds<?php echo $value['id'] . $crc; ?> playListsIds' + response[i].id + ' " type="checkbox" value="'
+                                                    + response[i].id + '<?php echo $value['id'] . $crc; ?>" name="someSwitchOption' + response[i].id + '<?php echo $value['id'] . $crc; ?>" class="playListsIds<?php echo $value['id']; ?> playListsIds<?php echo $value['id']; ?>_' + response[i].id + ' " type="checkbox" value="'
                                                     + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
                                                     + response[i].id + '<?php echo $value['id'] . $crc; ?>" class="label-success"></label></div></a>');
 
                                         }
                                         $('#searchlist<?php echo $value['id'] . $crc; ?>').btsListFilter('#searchinput<?php echo $value['id'] . $crc; ?>', {itemChild: 'span'});
-                                        $('.playListsIds<?php echo $value['id'] . $crc; ?>').change(function () {
+                                        $('.playListsIds<?php echo $value['id']; ?>').change(function () {
                                             modal.showPleaseWait();
 
                                             //tmp-variables simply make the values avaible on success.
@@ -277,14 +277,8 @@ function createGallerySection($videos, $crc = "") {
                                                     'playlists_id': $(this).val()
                                                 },
                                                 success: function (response) {
-            <?php
-            global $isChannel;
-            if (!empty($isChannel)) {
-                ?>
-                                                        refreshPlayLists('playlistContainer');
-            <?php } ?>
 
-                                                    $(".playListsIds" + tmpPId).prop("checked", tmpSave);
+                                                    $(".playListsIds<?php echo $value['id']; ?>_"+tmpPId).prop("checked", tmpSave);
                                                     modal.hidePleaseWait();
                                                 }
                                             });
@@ -308,13 +302,6 @@ function createGallerySection($videos, $crc = "") {
                                         },
                                         success: function (response) {
                                             if (response.status * 1 > 0) {
-                                                // update list
-            <?php
-            global $isChannel;
-            if (!empty($isChannel)) {
-                ?>
-                                                    refreshPlayLists('playlistContainer');
-            <?php } ?>
                                                 loadPlayLists<?php echo $value['id'] . $crc; ?>();
                                                 $('#searchlist<?php echo $value['id'] . $crc; ?>').btsListFilter('#searchinput<?php echo $value['id'] . $name; ?>', {itemChild: 'span'});
                                                 $('#playListName<?php echo $value['id'] . $crc; ?>').val("");
