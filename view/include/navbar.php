@@ -321,6 +321,17 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                 ?>
                                 <li>
                                     <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
+                                        <?php
+                                        if(!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])){
+                                            ?>
+                                            <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
+                                            <?php
+                                        }else{
+                                            ?>
+                                            <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
+                                            <?php
+                                        }
+                                        ?>
                                         <i class="fas fa-sign-out-alt"></i> <?php echo __("Sign Out"); ?>
                                     </a>
                                 </li>
@@ -352,6 +363,17 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <li>
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-block" >
+                                    <?php
+                                    if(!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])){
+                                        ?>
+                                        <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
+                                        <?php
+                                    }else{
+                                        ?>
+                                        <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
+                                        <?php
+                                    }
+                                    ?>
                                     <i class="fas fa-sign-out-alt"></i> <?php echo __("Sign out"); ?>
                                 </a>
                             </div>

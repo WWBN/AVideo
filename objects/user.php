@@ -72,11 +72,11 @@ class User {
     }
 
     function getCanViewChart() {
-      return $this->canViewChart;
+        return $this->canViewChart;
     }
 
     function setCanViewChart($canViewChart) {
-      $this->canViewChart = $canViewChart;
+        $this->canViewChart = $canViewChart;
     }
 
     function getCanUpload() {
@@ -93,17 +93,17 @@ class User {
 
     function setAnalyticsCode($analyticsCode) {
         preg_match("/(ua-\d{4,9}-\d{1,4})/i", $analyticsCode, $matches);
-        if(!empty($matches[1])){
+        if (!empty($matches[1])) {
             $this->analyticsCode = $matches[1];
-        }else{
+        } else {
             $this->analyticsCode = "";
         }
     }
 
-    function getAnalytics(){
+    function getAnalytics() {
         $id = $this->getId();
         $aCode = $this->getAnalyticsCode();
-        if(!empty($id) && !empty($aCode)){
+        if (!empty($id) && !empty($aCode)) {
             $code = "<!-- Global site tag (gtag.js) - Google Analytics From user {$id} -->
 <script async src=\"https://www.googletagmanager.com/gtag/js?id={$aCode}\"></script>
 <script>
@@ -116,25 +116,21 @@ if (typeof gtag !== \"function\") {
   gtag('config', '{$aCode}');
 </script>
 ";
-        }else{
+        } else {
             $code = "<!-- No Analytics for this user {$id} -->";
         }
         return $code;
-
     }
 
-    function setExternalOptions($options)
-    {
+    function setExternalOptions($options) {
         //we convert it to base64 to sanitize the input since we do not validate input from externalOptions
-        $this->externalOptions=base64_encode(serialize($options));
+        $this->externalOptions = base64_encode(serialize($options));
     }
 
-    function getExternalOption($id)
-    {
-        $eo=unserialize(base64_decode($this->externalOptions));
+    function getExternalOption($id) {
+        $eo = unserialize(base64_decode($this->externalOptions));
         return $eo[$id];
     }
-
 
     private function load($id) {
         $user = self::getUserDb($id);
@@ -335,10 +331,9 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-
     function save($updateUserGroups = false) {
         global $global, $config, $advancedCustom;
-        if($config->currentVersionLowerThen('5.6')){
+        if ($config->currentVersionLowerThen('5.6')) {
             // they dont have analytics code
             return false;
         }
@@ -366,7 +361,7 @@ if (typeof gtag !== \"function\") {
         if (empty($this->status)) {
             $this->status = 'a';
         }
-        if(empty($this->emailVerified))
+        if (empty($this->emailVerified))
             $this->emailVerified = "false";
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
@@ -391,10 +386,10 @@ if (typeof gtag !== \"function\") {
             $sql = "UPDATE users SET user = '{$this->user}', password = '{$this->password}', "
                     . "email = '{$this->email}', name = '{$this->name}', isAdmin = {$this->isAdmin},"
                     . "canStream = {$this->canStream},canUpload = {$this->canUpload},";
-                    if(isset($this->canViewChart)){
-                      $sql .= "canViewChart = {$this->canViewChart}, ";
-                    }
-                    $sql .= "status = '{$this->status}', "
+            if (isset($this->canViewChart)) {
+                $sql .= "canViewChart = {$this->canViewChart}, ";
+            }
+            $sql .= "status = '{$this->status}', "
                     . "photoURL = '{$this->photoURL}', backgroundURL = '{$this->backgroundURL}', "
                     . "recoverPass = '{$this->recoverPass}', about = '{$this->about}', "
                     . " channelName = '{$this->channelName}', emailVerified = {$this->emailVerified} , analyticsCode = '{$this->analyticsCode}', externalOptions = '{$this->externalOptions}' , modified = now() WHERE id = {$this->id}";
@@ -477,14 +472,14 @@ if (typeof gtag !== \"function\") {
         } else if ($user) {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
-            if($_POST['rememberme']=="true"){
-              error_log("[INFO] Do login with cookie (log in for next 10 years)!");
-              global $global;
-        //      $url = parse_url($global['webSiteRootURL']);
-      //        setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
-      //        setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
-              setcookie("user", $this->user, time()+3600*24*30*12*10,"/");
-              setcookie("pass", $encodedPass, time()+3600*24*30*12*10,"/");
+            if ($_POST['rememberme'] == "true") {
+                error_log("[INFO] Do login with cookie (log in for next 10 years)!");
+                global $global;
+                //$url = parse_url($global['webSiteRootURL']);
+                //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
+                //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
+                setcookie("user", $user['user'], time() + 3600 * 24 * 30 * 12 * 10, "/");
+                setcookie("pass", $user['password'], time() + 3600 * 24 * 30 * 12 * 10, "/");
             }
             return self::USER_LOGGED;
         } else {
@@ -503,43 +498,43 @@ if (typeof gtag !== \"function\") {
     }
 
     static function logoff() {
-      global $global;
-      //$url = parse_url($global['webSiteRootURL']);
-      unset($_COOKIE['user']);
-      unset($_COOKIE['pass']);
-    //  setcookie('user', null, -1,$url['path'],$url['host']);
-    //  setcookie('pass', null, -1,$url['path'],$url['host']);
-      setcookie('user', null, -1,"/");
-      setcookie('pass', null, -1,"/");
-      unset($_SESSION['user']);
+        global $global;
+        //$url = parse_url($global['webSiteRootURL']);
+        unset($_COOKIE['user']);
+        unset($_COOKIE['pass']);
+        //  setcookie('user', null, -1,$url['path'],$url['host']);
+        //  setcookie('pass', null, -1,$url['path'],$url['host']);
+        setcookie('user', null, -1, "/");
+        setcookie('pass', null, -1, "/");
+        unset($_SESSION['user']);
     }
 
     static function isLogged() {
-    //  global $isLoggedBuffer; // to prevent being logged out after first cookie-request
-    //  if(empty($isLoggedBuffer)){
-        if(empty($_SESSION['user'])){
-          if((!empty($_COOKIE['user']))&&(!empty($_COOKIE['pass']))){
-            $user = new User(0, $_COOKIE['user'], false);
-          //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
-            $resp = $user->login(false, $_COOKIE['pass']);
+        //  global $isLoggedBuffer; // to prevent being logged out after first cookie-request
+        //  if(empty($isLoggedBuffer)){
+        if (empty($_SESSION['user'])) {
+            if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass']))) {
+                $user = new User(0, $_COOKIE['user'], false);
+                //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
+                $resp = $user->login(false, $_COOKIE['pass']);
 
-            error_log("[INFO] do cookie-login: ".$_COOKIE['user']."   ".$_COOKIE['pass']. "   result: ".$resp);
-            if(0==$resp){
-          //    $user->setLastLogin($dbuser['id']);
-          //    $_SESSION['user'] = $dbuser;
-              error_log("success ".$_SESSION['user']['id']);
-              //$isLoggedBuffer = true;
-            //  return true;
+                error_log("[INFO] do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
+                if (0 == $resp) {
+                    //    $user->setLastLogin($dbuser['id']);
+                    //    $_SESSION['user'] = $dbuser;
+                    error_log("success " . $_SESSION['user']['id']);
+                    //$isLoggedBuffer = true;
+                    //  return true;
+                }
             }
-          }
         }
         return !empty($_SESSION['user']['id']);
-    /*  }
-      if(!empty($isLoggedBuffer)){
-        return true;
-      } else {
-        return false;
-      }*/
+        /*  }
+          if(!empty($isLoggedBuffer)){
+          return true;
+          } else {
+          return false;
+          } */
     }
 
     static function isVerified() {
@@ -554,17 +549,15 @@ if (typeof gtag !== \"function\") {
         return !empty($_SESSION['user']['isAdmin']) || !empty($_SESSION['user']['canStream']);
     }
 
-    static function externalOptions($id){
-        if(!empty($_SESSION['user']['externalOptions']))
-        {
-            $externalOptions=unserialize(base64_decode($_SESSION['user']['externalOptions']));
-            if(isset($externalOptions[$id]))
-            {
-                if($externalOptions[$id]=="true")
-                $externalOptions[$id]=true;
+    static function externalOptions($id) {
+        if (!empty($_SESSION['user']['externalOptions'])) {
+            $externalOptions = unserialize(base64_decode($_SESSION['user']['externalOptions']));
+            if (isset($externalOptions[$id])) {
+                if ($externalOptions[$id] == "true")
+                    $externalOptions[$id] = true;
                 else
-                if($externalOptions[$id]=="false")
-                $externalOptions[$id]=false;
+                if ($externalOptions[$id] == "false")
+                    $externalOptions[$id] = false;
 
                 return $externalOptions[$id];
             }
@@ -640,7 +633,7 @@ if (typeof gtag !== \"function\") {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
-        $res = sqlDAL::readSql($sql,"i",array($id));
+        $res = sqlDAL::readSql($sql, "i", array($id));
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user != false) {
@@ -652,7 +645,7 @@ if (typeof gtag !== \"function\") {
     static private function getUserDbFromUser($user) {
         global $global;
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"s",array($user));
+        $res = sqlDAL::readSql($sql, "s", array($user));
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user != false) {
@@ -700,7 +693,7 @@ if (typeof gtag !== \"function\") {
         $this->photoURL = strip_tags($photoURL);
     }
 
-    static function getAllUsers($ignoreAdmin = false, $searchFields=array('name', 'email', 'user', 'channelName', 'about')) {
+    static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about')) {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
@@ -724,17 +717,17 @@ if (typeof gtag !== \"function\") {
                 $row['background'] = self::getBackground();
                 $row['tags'] = self::getTags($row['id']);
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
-                $row['isEmailVerified']=$row['emailVerified'];
-                if(!is_null($row['externalOptions'])){
-                    $externalOptions=unserialize(base64_decode($row['externalOptions']));
-                    if(is_array($externalOptions) && sizeof($externalOptions) > 0){
-                        foreach($externalOptions as $k => $v){
-                            if($v=="true")
-                            $v=1;
+                $row['isEmailVerified'] = $row['emailVerified'];
+                if (!is_null($row['externalOptions'])) {
+                    $externalOptions = unserialize(base64_decode($row['externalOptions']));
+                    if (is_array($externalOptions) && sizeof($externalOptions) > 0) {
+                        foreach ($externalOptions as $k => $v) {
+                            if ($v == "true")
+                                $v = 1;
                             else
-                            if($v=="false")
-                            $v=0;
-                            $row[$k]=$v;
+                            if ($v == "false")
+                                $v = 0;
+                            $row[$k] = $v;
                         }
                     }
                 }
@@ -844,7 +837,6 @@ if (typeof gtag !== \"function\") {
         return self::isAdmin();
     }
 
-
     static function canComment() {
         global $global, $config;
         if ($config->getAuthCanComment()) {
@@ -913,16 +905,14 @@ if (typeof gtag !== \"function\") {
             $obj->text = __("Inactive");
             $tags[] = $obj;
         }
-        if($user->getEmailVerified())
-        {
+        if ($user->getEmailVerified()) {
             $obj = new stdClass();
-            $obj->type="success";
+            $obj->type = "success";
             $obj->text = __("E-mail Verified");
             $tags[] = $obj;
-        }else
-        {
+        } else {
             $obj = new stdClass();
-            $obj->type="warning";
+            $obj->type = "warning";
             $obj->text = __("E-mail Not Verified");
             $tags[] = $obj;
         }
@@ -955,7 +945,7 @@ if (typeof gtag !== \"function\") {
     }
 
     function getChannelName() {
-        if(empty($this->channelName)){
+        if (empty($this->channelName)) {
             $this->channelName = uniqid();
             $this->save();
         }
@@ -989,7 +979,7 @@ if (typeof gtag !== \"function\") {
 
     static function getChannelLink($users_id = 0) {
         global $global, $config;
-        if($config->currentVersionLowerThen('5.3')){
+        if ($config->currentVersionLowerThen('5.3')) {
             return "{$global['webSiteRootURL']}channel/UpDateYourVersion";
         }
         if (empty($users_id)) {
@@ -1039,7 +1029,7 @@ if (typeof gtag !== \"function\") {
 
             $mail->msgHTML($msg);
             $resp = $mail->send();
-            if(!$resp){
+            if (!$resp) {
                 error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
             }
             return $resp;
