@@ -472,7 +472,7 @@ if (typeof gtag !== \"function\") {
         } else if ($user) {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
-            if ($_POST['rememberme'] == "true") {
+            if (!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") {
                 error_log("[INFO] Do login with cookie (log in for next 10 years)!");
                 global $global;
                 //$url = parse_url($global['webSiteRootURL']);
