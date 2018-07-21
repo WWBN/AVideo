@@ -43,7 +43,7 @@ class ReportVideo extends PluginAbstract {
         //Set who the message is to be sent from
         $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
         //Set who the message is to be sent to
-        $mail->addCC($email);
+        $mail->addAddress($email);
         //Set the subject line
         $mail->Subject = $subject;
         $mail->msgHTML($body);
