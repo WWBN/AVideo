@@ -31,7 +31,6 @@ class ReportVideo extends PluginAbstract {
         if (empty($email)) {
             return false;
         }
-        $email = array_unique($email);
 
         global $global, $config;
 
@@ -111,20 +110,31 @@ class ReportVideo extends PluginAbstract {
                 // notify video owner from user id
                 $user = new User($users_id);
                 $email = $user->getEmail();
-                $this->send($email, $subject, $body);
+                $videoOwnerSent = $this->send($email, $subject, $body);
 
                 // notify site owner from configuratios email
-                $this->send($config->getContactEmail(), $subject, $body);
+                $siteOwnerEmail = $config->getContactEmail();
+                $siteOwnerSent = $this->send($siteOwnerEmail, $subject, $body);
                 
-                $resp->error = false;
-                $resp->msg = __("This video was reported to our team, we will review it soon");
+                if(!$videoOwnerSent && !$siteOwnerSent){
+                    $resp->msg = __("We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated");
+                }else if(!$videoOwnerSent){
+                    $resp->msg = __("We could not notify the video owner {$email}, but we marked it as a inapropriated");
+                }else if(!$siteOwnerSent){
+                    $resp->msg = __("We could not notify the video owner {$siteOwnerEmail}, but we marked it as a inapropriated");
+                }else{
+                    $resp->error = false;
+                    $resp->msg = __("This video was reported to our team, we will review it soon");
+                }
             }else{                
                 $resp->msg  = __("Error on report this video");
             }
         } else {
             $resp->msg  = __("You already report this video");
         }
-        
+        if($resp->error === true){
+            error_log("Report Video: ". $resp->msg);
+        }
         return $resp;
     }
 
