@@ -511,7 +511,7 @@ if (!class_exists('Video')) {
                 $sql .= self::getUserGroupsCanSeeSQL();
             }
             if (!empty($_SESSION['type'])) {
-                if ($_SESSION['type'] == 'video') {
+                if ($_SESSION['type'] == 'video' || $_SESSION['type'] == 'linkVideo') {
                     $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
                 } else if ($_SESSION['type'] == 'audio') {
                     $sql .= " AND (v.type = 'audio' OR  v.type = 'linkAudio')";
@@ -638,7 +638,7 @@ if (!class_exists('Video')) {
                 $sql .= self::getUserGroupsCanSeeSQL();
             }
             if (!empty($_SESSION['type'])) {
-                if ($_SESSION['type'] == 'video') {
+                if ($_SESSION['type'] == 'video' || $_SESSION['type'] == 'linkVideo') {
                     $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
                 } else if ($_SESSION['type'] == 'audio') {
                     $sql .= " AND (v.type = 'audio' OR  v.type = 'linkAudio')";
