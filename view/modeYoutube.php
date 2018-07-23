@@ -37,7 +37,7 @@ if (!empty($_GET['catName'])) {
 // add this because if you change the video category the video was not loading anymore
 $catName = @$_GET['catName'];
 
-if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory===false)) {
+if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory === false)) {
     $_GET['catName'] = "";
 }
 
@@ -72,7 +72,7 @@ if (!empty($_GET['playlist_id'])) {
     if (!empty($videosPlayList[$playlist_index + 1])) {
         $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id']);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/" . ($playlist_index + 1);
-    }else if (!empty($videosPlayList[0])) {
+    } else if (!empty($videosPlayList[0])) {
         $autoPlayVideo = Video::getVideo($videosPlayList[0]['id']);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/0";
     }
@@ -151,12 +151,12 @@ if (!empty($video)) {
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
-if(!empty($autoPlayVideo)){
+if (!empty($autoPlayVideo)) {
     $autoPlaySources = getSources($autoPlayVideo['filename'], true);
     $autoPlayURL = $autoPlayVideo['url'];
     $autoPlayPoster = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
     $autoPlayThumbsSprit = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}_thumbsSprit.jpg";
-}else{
+} else {
     $autoPlaySources = array();
     $autoPlayURL = '';
     $autoPlayPoster = '';
@@ -637,21 +637,27 @@ if (empty($_GET['videoName'])) {
                                     <span>
                                         <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
                                     </span>
-                                    <input type="checkbox" data-toggle="toggle" data-size="mini" class="saveCookie" name="autoplay">
+                                    <div class="material-switch pull-right">
+                                        <input type="checkbox" class="saveCookie" name="autoplay" id="autoplay">
+                                        <label for="autoplay" class="label-primary"></label>
+                                    </div>
                                 </span>
                             </div>
                         <?php } else if (!empty($autoPlayVideo)) { ?>
-                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="display: none;">
+                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted">
                                 <strong><?php echo __("Up Next"); ?></strong>
                                 <span class="pull-right">
                                     <span><?php echo __("Autoplay"); ?></span>
                                     <span>
                                         <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
                                     </span>
-                                    <input type="checkbox" data-toggle="toggle" data-size="mini" class="saveCookie" name="autoplay">
+                                    <div class="material-switch pull-right">
+                                        <input type="checkbox" class="saveCookie" name="autoplay" id="autoplay">
+                                        <label for="autoplay" class="label-primary"></label>
+                                    </div>
                                 </span>
                             </div>
-                            <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" style="display: none;" >
+                            <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" >
                                 <a href="<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $autoPlayVideo['clean_title']; ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                                         <?php
@@ -726,30 +732,21 @@ if (empty($_GET['videoName'])) {
                             var autoPlayURL = '<?php echo $autoPlayURL; ?>';
                             var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
                             var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
-                            
+
                             $(document).ready(function () {
                                 $("input.saveCookie").each(function () {
                                     var mycookie = Cookies.get($(this).attr('name'));
                                     if (mycookie && mycookie == "true") {
                                         $(this).prop('checked', mycookie);
-                                        $('.autoPlayVideo').slideDown();
                                     }
                                 });
                                 $("input.saveCookie").change(function () {
                                     var auto = $(this).prop('checked');
-                                    if (auto) {
-                                        $('.autoPlayVideo').slideDown();
-                                    } else {
-                                        $('.autoPlayVideo').slideUp();
-                                    }
                                     Cookies.set($(this).attr("name"), auto, {
                                         path: '/',
                                         expires: 365
                                     });
                                 });
-                                setTimeout(function () {
-                                    $('.autoplay').slideDown();
-                                }, 1000);
                             });
                         </script>
                     </div>
