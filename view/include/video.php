@@ -62,22 +62,20 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
             </div>
         </div>
         <?php if ($config->getAllow_download()) { ?>
-            <?php
-            if ($playNowVideo['type'] == "video") {
+            <?php if ($playNowVideo['type'] == "video") {
                 $files = getVideosURL($playNowVideo['filename']);
                 foreach ($files as $key => $theLink) {
-                    ?>
-                    <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $theLink['url']; ?>" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>" >
-                        <i class="fa fa-download"></i>
-                    <?php echo __("Download video") . " (" . $key . ")"; ?>
-                    </a>
-                    <?php
-                }
-            } else {
-                ?>
+              ?>
+                <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $theLink['url']; ?>" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>" >
+                    <i class="fa fa-download"></i>
+                    <?php echo __("Download video")." (".$key.")"; ?>
+                </a>
+            <?php
+          }
+        } else { ?>
                 <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $video['videoLink']; ?>" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>" >
                     <i class="fa fa-download"></i>
-                <?php echo __("Download video"); ?>
+                    <?php echo __("Download video"); ?>
                 </a>
 
                 <?php
@@ -153,30 +151,19 @@ if (!$config->getAllow_download()) {
 if (!empty($autoPlayVideo)) {
     ?>
                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-    <?php
-    if ($autoPlayVideo['type'] !== 'video') {
-        ?>
-
-                            document.location = autoPlayURL;
-        <?php
-    } else {
-        ?>
-                            $('video, #mainVideo').attr('poster', autoPlayPoster);
-                            changeVideoSrc(player, autoPlaySources);
-                            history.pushState(null, null, autoPlayURL);
-                            $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src', autoPlayThumbsSprit);
-                            $.ajax({
-                                url: autoPlayURL,
-                                success: function (response) {
-                                    modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
-                                    $('#modeYoutubeBottom').html(modeYoutubeBottom);
-                                    //pluginFooterCode = $(response).filter('#pluginFooterCode').html();
-                                    //$('#pluginFooterCode').html(pluginFooterCode);
-                                }
-                            });
-        <?php
-    }
-    ?>
+                        $('video, #mainVideo').attr('poster', autoPlayPoster);
+                        changeVideoSrc(player, autoPlaySources);
+                        history.pushState(null, null, autoPlayURL);
+                        $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src',autoPlayThumbsSprit);
+                        $.ajax({
+                            url: autoPlayURL,
+                            success: function (response) {
+                                modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
+                                $('#modeYoutubeBottom').html(modeYoutubeBottom);
+                                //pluginFooterCode = $(response).filter('#pluginFooterCode').html();
+                                //$('#pluginFooterCode').html(pluginFooterCode);
+                            }
+                        });
                     }
 <?php } ?>
 
