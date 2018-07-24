@@ -138,6 +138,16 @@ class VastCampaignsVideos extends ObjectYPT {
         $this->ad_title = $ad_title;
     }
 
-
+    function delete() {
+        global $global;
+        if (!empty($this->id)) {
+            $sql = "DELETE FROM vast_campaigns_logs ";
+            $sql .= " WHERE vast_campaigns_has_videos_id = ?";
+            $global['lastQuery'] = $sql;
+            //error_log("Delete Query: ".$sql);
+            $campaigns_video_log = sqlDAL::writeSql($sql,"i",array($this->id));
+        }
+        return parent::delete();;
+    }
 
 }

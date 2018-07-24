@@ -16,8 +16,7 @@ if(!User::isAdmin()){
 $id = intval($_POST['id']);
 $row = new VastCampaignsVideos($id);
 if(User::isAdmin()){
-    $row->delete();
-    $obj->error = false;
+    $obj->error = !$row->delete();;
 }
 die(json_encode($obj));
 ?>

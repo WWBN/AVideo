@@ -16,8 +16,7 @@ if(!User::isAdmin()){
 $id = intval($_POST['id']);
 $row = new VastCampaigns($id);
 if($row->getUsers_id() == User::getId() || User::isAdmin()){
-    $row->delete();
-    $obj->error = false;
+    $obj->error = !$row->delete();
 }
 die(json_encode($obj));
 ?>
