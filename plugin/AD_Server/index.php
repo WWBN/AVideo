@@ -151,6 +151,7 @@ if (!User::isAdmin()) {
                             <h4 class="modal-title"><?php echo __("Video Form"); ?></h4>
                         </div>
                         <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
+                            <input id="inputVideoAd_id" type="hidden">
                             <div class="row">
                                 <h3><?php echo __("Add Videos into Campaign"); ?> - <strong id="campaignName"></strong></h3>
                                 <div class="col-md-4">
@@ -160,15 +161,15 @@ if (!User::isAdmin()) {
                                     <input id="inputVideo" placeholder="<?php echo __("Video"); ?>" class="form-control">
                                     <input id="inputVideoClean" placeholder="<?php echo __("Video URL"); ?>" class="form-control" readonly="readonly">
                                     <div id="adDetails">
-                                        <input id="inputVideoURI" type="url" placeholder="<?php echo __("Video Redirect URI"); ?>" class="form-control" >
                                         <input id="inputVideoTitle" placeholder="<?php echo __("Ad Title"); ?>" class="form-control" >
+                                        <input id="inputVideoURI" type="url" placeholder="<?php echo __("Video Redirect URI"); ?>" class="form-control" >
                                     </div>
                                     <input type="hidden" id="vast_campaigns_id">
                                     <input type="hidden" id="videos_id">
                                 </div>
                             </div>
                             <hr>
-                            <button type="button" class="btn btn-success" id="addVideoBtn"><?php echo __("Add Video"); ?></button>
+                            <button type="button" class="btn btn-success" id="addVideoBtn"><i class="fa fa-save"></i> <?php echo __("Save Video"); ?></button>
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
@@ -217,6 +218,9 @@ if (!User::isAdmin()) {
             </div><!-- /.modal -->
 
             <div id="btnModelVideos" style="display: none;">
+                <button href="" class="editor_edit_video btn btn-default btn-xs">
+                    <i class="fa fa-edit"></i>
+                </button>
                 <button href="" class="editor_delete_video btn btn-danger btn-xs">
                     <i class="fa fa-trash"></i>
                 </button>
@@ -327,11 +331,14 @@ if (!User::isAdmin()) {
                         return false;
                     },
                     select: function (event, ui) {
+                        $('#inputVideoAd_id').val(0);
                         $("#inputVideo").val(ui.item.title);
                         $("#inputVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + ui.item.clean_title);
                         $("#inputVideo-id").val(ui.item.id);
                         $("#inputVideo-poster").attr("src", "<?php echo $global['webSiteRootURL']; ?>videos/" + ui.item.filename + ".jpg");
                         $('#videos_id').val(ui.item.id);
+                        $('#inputVideoURI').val('');
+                        $('#inputVideoTitle').val('');
                         $('#adDetails').slideDown();
                         return false;
                     }
@@ -399,10 +406,29 @@ if (!User::isAdmin()) {
                                 });
                             });
                 });
+                
+                
+                $('#campaignVideosTable').on('click', 'button.editor_edit_video', function (e) {
+                    e.preventDefault();
+                    var tr = $(this).closest('tr')[0];
+                    var data = tableVideos.row(tr).data();
+                    console.log(data);
+                    
+                    $('#inputVideoAd_id').val(data.id);
+                    $("#inputVideo").val(data.title);
+                    $("#inputVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + data.clean_title);
+                    $("#inputVideo-id").val(data.videos_id);
+                    $("#inputVideo-poster").attr("src", data.poster.poster);
+                    $('#videos_id').val(data.videos_id);
+                    $('#inputVideoURI').val(data.link);
+                    $('#inputVideoTitle').val(data.ad_title);
+                    $('#adDetails').slideDown();
+                });
+                
                 $('#addVideoBtn').click(function () {
                     $.ajax({
                         url: '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/addCampaignVideo.php',
-                        data: {vast_campaigns_id: $('#vast_campaigns_id').val(), videos_id: $('#videos_id').val(), uri: $('#inputVideoURI').val(), title: $('#inputVideoTitle').val()},
+                        data: {inputVideoAd_id: $('#inputVideoAd_id').val(),vast_campaigns_id: $('#vast_campaigns_id').val(), videos_id: $('#videos_id').val(), uri: $('#inputVideoURI').val(), title: $('#inputVideoTitle').val()},
                         type: 'post',
                         success: function (response) {
                             if (response.error) {

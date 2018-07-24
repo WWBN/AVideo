@@ -14,7 +14,9 @@ if(!User::isAdmin()){
     die(json_encode($obj));
 }
 
-$o = new VastCampaignsVideos(0);
+$id = intval($_POST['inputVideoAd_id']);
+
+$o = new VastCampaignsVideos($id);
 $o->setVast_campaigns_id($_POST['vast_campaigns_id']);
 $o->setVideos_id($_POST['videos_id']);
 $o->setLink($_POST['uri']);
