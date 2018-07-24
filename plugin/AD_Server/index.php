@@ -319,7 +319,9 @@ if (!User::isAdmin()) {
                             url: '<?php echo $global['webSiteRootURL']; ?>videos.json',
                             type: "POST",
                             data: {
-                                searchPhrase: req.term
+                                searchPhrase: req.term,
+                                current:1,
+                                rowCount: 10
                             },
                             success: function (data) {
                                 res(data.rows);
