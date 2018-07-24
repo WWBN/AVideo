@@ -248,5 +248,25 @@ class VastCampaigns extends ObjectYPT {
         error_log("Id for table " . static::getTableName() . " not defined for add view");
         return false;
     }
+    
+    function delete() {
+        global $global;
+        if (!empty($this->id)) {
+            $sql = "DELETE FROM vast_campaigns_logs ";
+            $sql .= " WHERE vast_campaigns_has_videos_id IN (SELECT id FROM vast_campaigns_has_videos WHERE vast_campaigns_id = ?)";
+            $global['lastQuery'] = $sql;
+            //error_log("Delete Query: ".$sql);
+            $campaigns_video_log = sqlDAL::writeSql($sql,"i",array($this->id));
+            
+            
+            $sql = "DELETE FROM vast_campaigns_has_videos ";
+            $sql .= " WHERE vast_campaigns_id = ?";
+            $global['lastQuery'] = $sql;
+            //error_log("Delete Query: ".$sql);
+            $campaigns_video = sqlDAL::writeSql($sql,"i",array($this->id));
+        }
+        return parent::delete();;
+    }
+
 
 }
