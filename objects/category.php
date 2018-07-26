@@ -177,6 +177,15 @@ class Category {
         sqlDAL::close($res);
         return ($res) ? $result : false;
     }
+    
+    static function getCategoryDefault() {
+        global $global;
+        $sql = "SELECT * FROM categories ORDER BY id ASC LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return ($res) ? $result : false;
+    }
 
     static function getAllCategories() {
         global $global, $config;

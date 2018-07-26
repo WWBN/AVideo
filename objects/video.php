@@ -6,6 +6,7 @@ if(!isset($global['systemRootPath'])){
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 if (!class_exists('Video')) {
@@ -121,10 +122,18 @@ if (!class_exists('Video')) {
 
             if (empty($this->categories_id)) {
                 $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
+                $category = Category::getCategoryDefault();
+                $categories_id = $category['id'];
+                if(empty($categories_id)){
+                    $categories_id = 'NULL';
+                }
                 if ($p) {
                     $this->categories_id = $p->getCategoryId();
                 } else {
-                    $this->categories_id = 1;
+                    $this->categories_id = $categories_id;
+                }
+                if (empty($this->categories_id)) {
+                    $this->categories_id = $categories_id;
                 }
             }
             $this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
