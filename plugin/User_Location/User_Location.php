@@ -6,9 +6,11 @@ require_once $global['systemRootPath'] . 'plugin/User_Location/Objects/IP2Locati
 class User_Location extends PluginAbstract {
 
     public function getDescription() {
+        global $global;
         $ret = "Detects user location for various purposes";
         $ret .= "<br>This site or product includes IP2Location LITE data available from http://www.ip2location.com.";
         $ret .= "<br><strong>Before use this plugin unzip the install.zip file and install the IPs tables<strong>";
+        $ret .= "<br><pre>cd {$global['systemRootPath']}plugin/User_Location/install && unzip install.zip<pre>";
         return $ret;
     }
 
