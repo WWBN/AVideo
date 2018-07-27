@@ -184,7 +184,7 @@ class YPTWallet extends PluginAbstract {
      */
     public function addBalance($users_id, $value, $description="", $json_data="{}", $mainWallet_user_id=0) {
         global $global;
-        $wallet = $this->getWallet($users_id);
+        $wallet = $this->getOrCreateWallet($users_id);
         $balance = $wallet->getBalance();
         $balance+=$value;
         $wallet->setBalance($balance);
@@ -193,7 +193,7 @@ class YPTWallet extends PluginAbstract {
         WalletLog::addLog($wallet_id, $value, $description, $json_data, "success", "addBalance");
         
         if(!empty($mainWallet_user_id)){
-            $wallet = $this->getWallet($mainWallet_user_id);
+            $wallet = $this->getOrCreateWallet($mainWallet_user_id);
             $balance = $wallet->getBalance();
             $balance+=($value*-1);
             $wallet->setBalance($balance);

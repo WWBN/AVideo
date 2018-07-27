@@ -13,6 +13,7 @@ if (!User::isAdmin()) {
 if (empty($_POST['name'])) {
     die('{"error":"' . __("Name can't be blank") . '"}');
 }
+ini_set('max_execution_time', 300);
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
