@@ -784,7 +784,7 @@ if (empty($_GET['videoName'])) {
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js", "view/js/videojs-persistvolume/videojs.persistvolume.js", "view/js/videojs-analytics/videojs-analytics.min.js");
+        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js", "view/js/videojs-persistvolume/videojs.persistvolume.js");
         $jsURL = combineFiles($videoJSArray, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
@@ -796,61 +796,6 @@ if (empty($_GET['videoName'])) {
                         var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
 
                         $(document).ready(function () {
-                            player.analytics({
-                                events: [
-                                    {
-                                        name: 'play',
-                                        label: 'video play',
-                                        action: 'play',
-                                    },
-                                    {
-                                        name: 'pause',
-                                        label: 'video pause',
-                                        action: 'pause',
-                                    },
-                                    {
-                                        name: 'ended',
-                                        label: 'video ended',
-                                        action: 'ended',
-                                    },
-                                    {
-                                        name: 'fullscreenchange',
-                                        label: {
-                                            open: 'video fullscreen open',
-                                            exit: 'video fullscreen exit'
-                                        },
-                                        action: 'fullscreen change',
-                                    },
-                                    {
-                                        name: 'volumechange',
-                                        label: 'volume changed',
-                                        action: 'volume changed',
-                                    },
-                                    {
-                                        name: 'resize',
-                                        label: 'resize',
-                                        action: 'resize',
-                                    },
-                                    {
-                                        name: 'error',
-                                        label: 'error',
-                                        action: 'error',
-                                    },
-                                    {
-                                        name: 'resize',
-                                        label: 'resize',
-                                        action: 'resize',
-                                    },
-                                    {
-                                        name: 'resolutionchange',
-                                        action: 'resolution change',
-                                    },
-                                    {
-                                        name: 'timeupdate',
-                                        action: 'time updated',
-                                    }
-                                ]
-                            });
                         });
         </script>
     </body>
