@@ -8,16 +8,28 @@
     #myNavbar.collapsing {
         display: block!important;
     }
-    @media (max-width : 768px) {
+    #searchForm {
+        width: 290px;
+    }
+    @media (max-width : 992px) {
+        #searchForm {
+            width: 100%;
+        }
+        
+        #searchForm input{
+            width: 100px;
+        }
+    }
+@media (max-width : 768px) {
         #searchForm {
             width: 100%;
             padding-left: 10px;
         }
-
+        
         #searchForm > div{
             width: 100%;
         }
-
+        
         .mobilesecondnav {
             position: absolute; left: 40%; right: 5px;
         }
@@ -55,8 +67,7 @@
         .searchul{
             padding-left: 0px;
         }
-    }
-
+}
 </style>
 <?php
 global $global, $config;
@@ -156,7 +167,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                                 echo $_GET['search'];
                                             }
                                             ?>" name="search" placeholder="<?php echo __("Search"); ?>">
-                                            <button class="input-group-addon form-control"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button></span>
+                                            <button class="input-group-addon form-control hidden-sm"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button></span>
                                     </div>
                                 </div>
                             </form>
