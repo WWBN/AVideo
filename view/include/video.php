@@ -154,7 +154,7 @@ if (!empty($autoPlayVideo)) {
     ?>
                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
     <?php
-    if ($autoPlayVideo['type'] !== 'video') {
+    if ($autoPlayVideo['type'] !== 'video' || empty($advancedCustom->autoPlayAjax)) {
         ?>
 
                             document.location = autoPlayURL;

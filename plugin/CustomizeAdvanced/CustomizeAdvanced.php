@@ -69,6 +69,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->signInOnRight= true;
         $obj->signInOnLeft= true;
         $obj->forceCategory= false;
+        $obj->autoPlayAjax= false;
 
         $plugins = Plugin::getAllEnabled();
         //import external plugins configuration options
