@@ -332,7 +332,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                             <?php
                                         }
                                         ?>
-                                        <i class="fas fa-sign-out-alt"></i> <?php echo __("Sign Out"); ?>
+                                            <i class="fas fa-sign-out-alt"></i> <span class="hidden-md hidden-sm"><?php echo __("Sign Out"); ?></span>
                                     </a>
                                 </li>
                                 <?php
