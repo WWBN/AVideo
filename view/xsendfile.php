@@ -70,6 +70,11 @@ function send_video($file) {
 $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
 $path = "{$global['systemRootPath']}videos/{$file}";
+
+if($file=="configuration.php"){
+    die("Cant read this");
+}
+
 if (file_exists($path)) {
     if (!empty($_GET['download'])) {
         $quoted = sprintf('"%s"', addcslashes(basename($_GET['file']), '"\\'));
