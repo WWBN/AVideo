@@ -39,7 +39,9 @@ ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 session_set_cookie_params($config->getSession_timeout());
 
 session_start();
+$output = ob_get_clean();
 ob_start("ob_gzhandler");
+echo $output;
 $_SESSION['lastUpdate'] = time();
 $_SESSION['savedQuerys']=0;
 require_once $global['systemRootPath'].'objects/Object.php';
