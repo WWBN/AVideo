@@ -218,7 +218,7 @@ if (empty($isMyChannel)) {
                                             html += '<h2>' + val2.title + '</h2></a>';
                                             if (isMyChannel) {
                                                 html += '<button class="btn btn-sm btn-xs btn-default btn-block removeVideo" playlist_id="' + val.id + '" video_id="' + val2.videos_id + '">';
-                                                html += '<span class="fas fa-trash"></span> <?php echo __("Remove"); ?></button><hr>';
+                                                html += '<span class="fas fa-trash"></span> <?php echo __("Remove"); ?></button><br>';
                                             }
                                             html += '<div class="text-muted galeryDetails"><div>';
                                             jQuery.each(val2.tags, function (iii, tag) {
