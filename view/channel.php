@@ -227,9 +227,9 @@ if (empty($isMyChannel)) {
                                                 }
                                             });
                                             html += '</div><div>';
-                                            html += '<i class="fa fa-eye"></i><span itemprop="interactionCount">';
+                                            html += '<i class="fa fa-eye"></i> <span itemprop="interactionCount">';
                                             html += val2.views_count + ' <?php echo __("Views"); ?></span></div>';
-                                            html += '<div><i class="far fa-clock"></i>' + val2.humancreate + ' ago</div>';
+                                            html += '<div><i class="far fa-clock"></i> ' + val2.humancreate + ' ago</div>';
                                             html += '<div><i class="fa fa-user"></i> ' + val2.users_id + '</div>';
                                             html += '</li>';
                                         });
