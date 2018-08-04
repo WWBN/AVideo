@@ -173,7 +173,7 @@ if (empty($isMyChannel)) {
                                         html += '<div class="panel panel-default">';
                                         html += '<div class="panel-heading">';
                                         html += '<strong style="font-size: 1em;" class="playlistName">' + val.name + '</strong>';
-                                        html += '<a href="<?php echo $global['webSiteRootURL']; ?>playlist/' + val.id + '" class="btn-sm btn-light playAll"><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a>';
+                                        html += ' <a href="<?php echo $global['webSiteRootURL']; ?>playlist/' + val.id + '" class="btn btn-sm btn-xs btn-default btn-light playAll"><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a>';
                                         if (val.pluginBtns != undefined) {
                                             html += val.pluginBtns;
                                         }
@@ -199,9 +199,9 @@ if (empty($isMyChannel)) {
                                                 $("#sortable" + val.id).disableSelection();
                                             });
                                             html += '<div class="pull-right btn-group">';
-                                            html += '<button class="btn-sm btn-info" ><i class="fa fa-info-circle"></i> <?php echo __("Drag and drop to sort"); ?></button>';
-                                            html += '<button class="btn-sm btn-danger deletePlaylist" playlist_id="' + val.id + '" ><span class="fas fa-trash"></span> <?php echo __("Delete"); ?></button>';
-                                            html += '<button class="btn-sm btn-primary renamePlaylist" playlist_id="' + val.id + '" ><span class="fas fa-edit"></span> <?php echo __("Rename"); ?></button>';
+                                            html += '<button class="btn btn-sm btn-xs btn-info" ><i class="fa fa-info-circle"></i> <?php echo __("Drag and drop to sort"); ?></button>';
+                                            html += '<button class="btn btn-sm btn-xs btn-danger deletePlaylist" playlist_id="' + val.id + '" ><span class="fas fa-trash"></span> <?php echo __("Delete"); ?></button>';
+                                            html += '<button class="btn btn-sm btn-xs btn-primary renamePlaylist" playlist_id="' + val.id + '" ><span class="fas fa-edit"></span> <?php echo __("Rename"); ?></button>';
                                             html += '</div>';
                                         }
                                         html += '</div><div class="panel-body">';
@@ -217,8 +217,8 @@ if (empty($isMyChannel)) {
                                             html += '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + val2.clean_title + '" title="' + val2.title + '">';
                                             html += '<h2>' + val2.title + '</h2></a>';
                                             if (isMyChannel) {
-                                                html += '<button class="btn btn-sm btn-warning btn-block removeVideo" playlist_id="' + val.id + '" video_id="' + val2.videos_id + '">';
-                                                html += '<span class="fas fa-trash"></span> <?php echo __("Remove"); ?></button>';
+                                                html += '<button class="btn btn-sm btn-xs btn-default btn-block removeVideo" playlist_id="' + val.id + '" video_id="' + val2.videos_id + '">';
+                                                html += '<span class="fas fa-trash"></span> <?php echo __("Remove"); ?></button><hr>';
                                             }
                                             html += '<div class="text-muted galeryDetails"><div>';
                                             jQuery.each(val2.tags, function (iii, tag) {
@@ -230,7 +230,7 @@ if (empty($isMyChannel)) {
                                             html += '<i class="fa fa-eye"></i><span itemprop="interactionCount">';
                                             html += val2.views_count + ' <?php echo __("Views"); ?></span></div>';
                                             html += '<div><i class="far fa-clock"></i>' + val2.humancreate + ' ago</div>';
-                                            html += '<div><i class="fa fa-user">' + val2.users_id + '</i></div>';
+                                            html += '<div><i class="fa fa-user"></i> ' + val2.users_id + '</div>';
                                             html += '</li>';
                                         });
                                         html += '</div></div></div>';
