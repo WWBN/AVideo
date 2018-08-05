@@ -51,6 +51,8 @@ if (!empty($_GET['type'])) {
                 'enabled' => true,
                 'keys' => ['id' => $id, 'secret' => $key, 'key'=>$id],
                 "includeEmail" => true,
+                'scope'   => 'email',
+                'trustForwarded' => false
             ]
         ],
             /* optional : set debug mode
