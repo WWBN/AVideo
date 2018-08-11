@@ -6,13 +6,24 @@ if(!isset($global['systemRootPath'])){
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+
+$obj = new stdClass();
+$obj->error = true;
+$obj->status = 0;
+
 if (!User::isLogged()) {
-    die('{"error":"'.__("Permission denied").'"}');
+    $obj->error = __("Permission denied");
+    die(json_encode($obj));
 }
 
-$obj = new PlayList($_POST['playlists_id']);
+$playList = new PlayList($_POST['playlists_id']);
 if(empty($obj || User::getId()!=$obj->getUsers_id()) || empty($_POST['videos_id'])){
-    return false;
+    
+    $obj->error = __("Permission denied");
+    die(json_encode($obj));
 }
+
+$obj->status = $playList->addVideo($_POST['videos_id'], $_POST['add']);
+
 log_error("videos id: ".$_POST['videos_id']." playlist_id: ".$_POST['playlists_id']);
-echo '{"status":"'.$obj->addVideo($_POST['videos_id'], $_POST['add']).'"}';
+die(json_encode($obj));
