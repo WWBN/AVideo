@@ -114,6 +114,7 @@ class AD_Server extends PluginAbstract {
         
         $obj = $this->getDataObject();
         session_write_close();
+        $oldId = session_id();
         session_id($_GET['vmap_id']);
         session_start();
         $options = array();
@@ -150,10 +151,12 @@ class AD_Server extends PluginAbstract {
             $_SESSION['adRandomPositions'] = $selectedOptions;
         }
         session_write_close();
+        $adRandomPositions = $_SESSION['adRandomPositions'];
+        session_id($oldId);
+        session_start();
         
-        
-        error_log("VMAP select those options: ".print_r($_SESSION['adRandomPositions'], true));
-        return $_SESSION['adRandomPositions'];
+        error_log("VMAP select those options: ".print_r($adRandomPositions, true));
+        return $adRandomPositions;
     }
 
     public function getVMAPs($video_length) {
@@ -233,6 +236,10 @@ class AD_Server extends PluginAbstract {
         $filename = $global['systemRootPath'] . 'plugin/AD_Server/pluginMenu.html';
         return file_get_contents($filename);
     }
+    
+    public function getValidCampaignsFromVideo($videos_id) {
+        return VastCampaigns::getValidCampaignsFromVideo($videos_id);
+    }
 
 }
 
@@ -277,7 +284,7 @@ class VMAP {
         $mins = floor($seconds / 60 % 60);
         $secs = floor($seconds % 60);
         return sprintf('%02d:%02d:%02d.000', $hours, $mins, $secs);
-    }
+    } 
 
 }
 

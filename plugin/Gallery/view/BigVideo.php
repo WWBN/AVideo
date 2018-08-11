@@ -47,9 +47,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             if(!empty($video['tags'])){
                                 foreach ($video['tags'] as $value2) {
                                     if (!empty($value2->label) && $value2->label === __("Group")) {
-                                        ?>
-                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                        <?php
+                                        ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
                                     }
                                 }
                             }

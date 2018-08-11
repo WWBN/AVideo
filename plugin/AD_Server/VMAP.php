@@ -8,7 +8,6 @@ $ad_server = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
 if(empty($ad_server)){
     die("not enabled");
 }
-
 if(empty($_GET['video_length'])){
     $_GET['video_length'] = 300;
 }
@@ -29,6 +28,9 @@ if(!empty($_GET['vmap_id']) && !empty($_SESSION['vmap'][$_GET['vmap_id']])){
 <vmap:VMAP xmlns:vmap="http://www.iab.net/videosuite/vmap" version="1.0">
     <?php
     foreach ($vmaps as $value) { 
+        if(empty($value->VAST->campaing)){
+            continue;
+        }
         ?>
         <vmap:AdBreak timeOffset="<?php echo $value->timeOffset; ?>" breakType="linear" breakId="preroll">
             <vmap:AdSource id="<?php echo $value->idTag; ?>" allowMultipleAds="false" followRedirects="true">

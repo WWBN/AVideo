@@ -158,9 +158,7 @@ function createGallerySection($videos, $crc = "") {
                         $value['tags'] = Video::getTags($value['id']);
                         foreach ($value['tags'] as $value2) {
                             if (!empty($value2->label) && $value2->label === __("Group")) {
-                                ?>
-                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                <?php
+                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
                             }
                         }
                     }
@@ -195,8 +193,8 @@ function createGallerySection($videos, $crc = "") {
                 ?>
                 <div class="">
                     <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
-                        <a href="#" class="text-primary" style="float:right;" id="addBtn<?php echo $value['id'].$crc; ?>" data-placement="top">
-                                 <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
+                        <a href="#" class="text-primary" style="float:right;" id="addBtn<?php echo $value['id'] . $crc; ?>" data-placement="top" onclick="loadPlayLists('<?php echo $value['id'] . $crc; ?>', '<?php echo $value['id']; ?>');">
+                            <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                         </a>
                         <div class="webui-popover-content" >
                             <?php if (User::isLogged()) { ?>
@@ -247,9 +245,12 @@ function createGallerySection($videos, $crc = "") {
                                             'name': $('#playListName<?php echo $value['id'] . $crc; ?>').val()
                                         },
                                         success: function (response) {
-                                            if (response.status * 1 > 0) {
-                                                loadPlayLists<?php echo $value['id'] . $crc; ?>();
-                                                $('#searchlist<?php echo $value['id'] . $crc; ?>').btsListFilter('#searchinput<?php echo $value['id'] . $name; ?>', {itemChild: 'span'});
+                                            if (response.status==="1") {
+                                                playList = [];
+                                                console.log(1);
+                                                reloadPlayLists();
+                                                loadPlayLists('<?php echo $value['id'] . $crc; ?>', '<?php echo $value['id']; ?>');
+                                                //$('#searchlist<?php echo $value['id'] . $crc; ?>').btsListFilter('#searchinput<?php echo $value['id'] . $name; ?>', {itemChild: 'span'});
                                                 $('#playListName<?php echo $value['id'] . $crc; ?>').val("");
                                                 $('#publicPlayList<?php echo $value['id'] . $crc; ?>').prop('checked', true);
                                             }

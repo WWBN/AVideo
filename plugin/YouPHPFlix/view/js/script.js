@@ -17,50 +17,6 @@ function isFlickityEnabled(selector) {
     }
 }
 
-function loadPlayLists() {
-    $.ajax({
-        url: webSiteRootURL + 'objects/playlists.json.php',
-        success: function (response) {
-            $('#searchlist').html('');
-            for (var i in response) {
-                if (!response[i].id) {
-                    continue;
-                }
-                var icon = "lock"
-                if (response[i].status == "public") {
-                    icon = "globe"
-                }
-
-                var checked = "";
-                for (var x in response[i].videos) {
-                    if (response[i].videos[x].id == videos_id) {
-                        checked = "checked";
-                    }
-                }
-
-                $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>' + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="' + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + response[i].id + '" class="label-success"></label></div></a>');
-            }
-            $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
-            $('.playListsIds').change(function () {
-                modal.showPleaseWait();
-                $.ajax({
-                    url: webSiteRootURL + 'objects/playListAddVideo.json.php',
-                    method: 'POST',
-                    data: {
-                        'videos_id': videos_id,
-                        'add': $(this).is(":checked"),
-                        'playlists_id': $(this).val()
-                    },
-                    success: function (response) {
-                        modal.hidePleaseWait();
-                    }
-                });
-                return false;
-            });
-        }
-    });
-}
-
 $(function () {
 
     $(".thumbsImage").on("mouseenter", function () {

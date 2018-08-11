@@ -5,7 +5,9 @@ class LiveChat extends PluginAbstract{
 
     public function getDescription() {
         global $global;
-        return "A live chat for multiple propouses<br>Initiate it on terminal with the command <code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
+        $desc = "A live chat for multiple propouses<br>Initiate it on terminal with the command <code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
+        $desc .= $this->isReadyLabel(array('Live'));
+        return $desc;
     }
     
     public function getName() {

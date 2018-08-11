@@ -3,12 +3,12 @@
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
-require_once $global['systemRootPath'].'plugin/AD_Server/Objects/VastCampaignsVideos.php';
+require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaignsVideos.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaignsLogs.php';
 
 class VastCampaigns extends ObjectYPT {
 
-    protected $id, $name, $type, $status, $start_date, $end_date, $pricing_model, 
+    protected $id, $name, $type, $status, $start_date, $end_date, $pricing_model,
             $price, $max_impressions, $max_clicks, $priority, $users_id, $visibility, $cpc_budget_type, $cpc_total_budget, $cpc_max_price_per_click, $cpm_max_prints, $cpm_current_prints;
 
     static function getSearchFieldsNames() {
@@ -18,7 +18,7 @@ class VastCampaigns extends ObjectYPT {
     static function getTableName() {
         return 'vast_campaigns';
     }
-    
+
     function getName() {
         return $this->name;
     }
@@ -85,6 +85,10 @@ class VastCampaigns extends ObjectYPT {
 
     function getCpm_current_prints() {
         return $this->cpm_current_prints;
+    }
+    
+    function getPrintsLeft() {
+        return ($this->cpm_max_prints-$this->cpm_current_prints);
     }
 
     function setName($name) {
@@ -154,7 +158,7 @@ class VastCampaigns extends ObjectYPT {
     function setCpm_current_prints($cpm_current_prints) {
         $this->cpm_current_prints = $cpm_current_prints;
     }
-    
+
     function getId() {
         return $this->id;
     }
@@ -162,31 +166,31 @@ class VastCampaigns extends ObjectYPT {
     function setId($id) {
         $this->id = $id;
     }
-    
+
     function save() {
         $this->cpm_current_prints = intval($this->cpm_current_prints);
-        if(empty($this->visibility)){
+        if (empty($this->visibility)) {
             $this->visibility = 'listed';
         }
-        if(empty($this->cpc_budget_type)){
+        if (empty($this->cpc_budget_type)) {
             $this->cpc_budget_type = 'Campaign Total';
         }
-        if(empty($this->cpc_total_budget)){
+        if (empty($this->cpc_total_budget)) {
             $this->cpc_total_budget = 0;
         }
-        if(empty($this->cpc_max_price_per_click)){
+        if (empty($this->cpc_max_price_per_click)) {
             $this->cpc_max_price_per_click = 0;
         }
-        if(empty($this->visibility)){
+        if (empty($this->visibility)) {
             $this->visibility = 'listed';
         }
-        
+
         return parent::save();
     }
-    
-    function addVideo($videos_id, $status='a'){
+
+    function addVideo($videos_id, $status = 'a') {
         $vast_campaigns_id = $this->getId();
-        if(empty($vast_campaigns_id)){
+        if (empty($vast_campaigns_id)) {
             $this->setId($this->save());
             $vast_campaigns_id = $this->getId();
         }
@@ -196,38 +200,52 @@ class VastCampaigns extends ObjectYPT {
         return $campainVideos->save();
     }
 
-    
-    static public function getValidCampaigns(){
+    static public function getValidCampaigns() {
         global $global;
 
-            $sql = "SELECT * from " . static::getTableName() . "  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cpm_current_prints ORDER BY priority ";
+        $ad_server_location = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server_Location');
+        $sql = "SELECT * from " . static::getTableName() . " vc  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cpm_current_prints ";
+        if(!empty($ad_server_location) && !empty($_SESSION['User_Location']) && $_SESSION['User_Location']['country_name'] !== '-'){
+            // show only campaign for the user location
+            $sql .= " AND vc.id IN (SELECT vast_campaigns_id FROM campaign_locations WHERE (country_name = 'All') OR  "
+                    . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = 'All') OR "
+                    . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = \"{$_SESSION['User_Location']['region_name']}\" AND city_name = 'All') OR"
+                    . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = \"{$_SESSION['User_Location']['region_name']}\" AND city_name = \"{$_SESSION['User_Location']['city_name']}\") ) ";
+        }
 
-            $res = sqlDAL::readSql($sql); 
-            $rows = sqlDAL::fetchAllAssoc($res);
-            sqlDAL::close($res);
-            $r = array();
-            if ($res!=false) {
-                foreach($rows as $row) {
-                    $r[] = $row;
-                }
+        $sql .= " ORDER BY priority ";
+        //echo $sql;
+        $res = sqlDAL::readSql($sql);
+        $rows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $r = array();
+        if ($res != false) {
+            foreach ($rows as $row) {
+                $row['printsLeft'] = $row['cpm_max_prints'] - $row['cpm_current_prints'];
+                $r[] = $row;
             }
+        }
 
-            return $r;
+        return $r;
     }
-    
+
     static function getAll() {
         global $global;
+        $ad_server_location = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server_Location');
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 
         $sql .= self::getSqlFromPost();
-        $res = sqlDAL::readSql($sql); 
+        $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
-        if ($res!=false) {
+        if ($res != false) {
             foreach ($fullData as $row) {
                 $row['data'] = VastCampaignsLogs::getDataFromCampaign($row['id']);
                 $row['printsLeft'] = $row['cpm_max_prints'] - $row['cpm_current_prints'];
+                if (!empty($ad_server_location)) {
+                    $row['locations'] = $ad_server_location->getCampaignLocations($row['id']);
+                }
                 $rows[] = $row;
             }
         } else {
@@ -235,7 +253,7 @@ class VastCampaigns extends ObjectYPT {
         }
         return $rows;
     }
-    
+
     function addView() {
         global $global;
         if (!empty($this->id)) {
@@ -243,12 +261,12 @@ class VastCampaigns extends ObjectYPT {
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
             //error_log("Delete Query: ".$sql);
-            return sqlDAL::writeSql($sql,"i",array($this->id));
+            return sqlDAL::writeSql($sql, "i", array($this->id));
         }
         error_log("Id for table " . static::getTableName() . " not defined for add view");
         return false;
     }
-    
+
     function delete() {
         global $global;
         if (!empty($this->id)) {
@@ -256,17 +274,36 @@ class VastCampaigns extends ObjectYPT {
             $sql .= " WHERE vast_campaigns_has_videos_id IN (SELECT id FROM vast_campaigns_has_videos WHERE vast_campaigns_id = ?)";
             $global['lastQuery'] = $sql;
             //error_log("Delete Query: ".$sql);
-            $campaigns_video_log = sqlDAL::writeSql($sql,"i",array($this->id));
-            
-            
+            $campaigns_video_log = sqlDAL::writeSql($sql, "i", array($this->id));
+
+
             $sql = "DELETE FROM vast_campaigns_has_videos ";
             $sql .= " WHERE vast_campaigns_id = ?";
             $global['lastQuery'] = $sql;
             //error_log("Delete Query: ".$sql);
-            $campaigns_video = sqlDAL::writeSql($sql,"i",array($this->id));
+            $campaigns_video = sqlDAL::writeSql($sql, "i", array($this->id));
         }
-        return parent::delete();;
+        return parent::delete();
     }
+    
+    static public function getValidCampaignsFromVideo($videos_id) {
+        global $global;
 
+        $sql = "SELECT vchv.*, vc.* from " . static::getTableName() . " vc LEFT JOIN vast_campaigns_has_videos vchv ON vchv.vast_campaigns_id = vc.id WHERE vc.status = 'a' "
+                . " AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cpm_current_prints AND videos_id = {$videos_id}";
+        //echo $sql;
+        $res = sqlDAL::readSql($sql);
+        $rows = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $r = array();
+        if ($res != false) {
+            foreach ($rows as $row) {
+                $row['printsLeft'] = $row['cpm_max_prints'] - $row['cpm_current_prints'];
+                $r[] = $row;
+            }
+        }
+
+        return $r;
+    }
 
 }

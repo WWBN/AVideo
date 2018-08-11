@@ -8,7 +8,8 @@ $obj->error = true;
 $obj->msg = "";
 
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
-
+$ad_server_location = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server_Location');
+                                                
 if(!User::isAdmin()){
     $obj->msg = "You cant do this";
     die(json_encode($obj));
@@ -26,7 +27,15 @@ $o->setUsers_id(User::getId());
 $o->setCpm_max_prints($_POST['maxPrints']);
 $o->setVisibility('listed');
 
-if($o->save()){
+if($id = $o->save()){
     $obj->error = false;
 }
+
+if(!empty($ad_server_location) && !empty($id)){
+    CampaignLocations::deleteFromCapmpaign($id);
+    if(!empty($_POST['country_name'])){
+        $ad_server_location->addCampaignLocation($_POST['country_name'], $_POST['region_name'], $_POST['city_name'], $id);
+    }
+}
+
 echo json_encode($obj);

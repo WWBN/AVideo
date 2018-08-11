@@ -216,6 +216,30 @@ class YPTWallet extends PluginAbstract {
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "saveBalance");
     }
     
+    public function transferBalanceToSiteOwner($users_id_from,$value){
+        $obj = $this->getDataObject();
+        return $this->transferBalance($users_id_from, $obj->manualWithdrawFundsTransferToUserId, $value);
+    }
+    public function transferBalanceFromSiteOwner($users_id_from,$value){
+        $obj = $this->getDataObject();
+        return $this->transferBalance($obj->manualWithdrawFundsTransferToUserId, $users_id_from, $value);
+    }
+    
+    public function transferBalanceFromMeToSiteOwner($value){
+        if(!User::isLogged()){
+            return false;
+        }
+        return $this->transferBalanceToSiteOwner(User::getId(), $value);
+    }
+    
+    
+    public function transferBalanceFromOwnerToMe($value){
+        if(!User::isLogged()){
+            return false;
+        }
+        return $this->transferBalanceFromSiteOwner(User::getId(), $value);
+    }
+    
     public function transferBalance($users_id_from,$users_id_to, $value) {
         global $global;
         if(!User::isAdmin()){

@@ -225,5 +225,34 @@ abstract class PluginAbstract {
     {
         return "";
     }
+    
+    public function isReady($pluginsList){
+        $return = array('ready'=>array(), 'missing'=>array());
+        foreach ($pluginsList as $name) {
+            $plugin = YouPHPTubePlugin::loadPlugin($name);
+            $uuid = $plugin->getUUID();
+            if(!YouPHPTubePlugin::isEnabled($uuid)){
+                $return['missing'][] = array('name'=>$name, 'uuid'=>$uuid);
+            }else{
+                $return['ready'][] = array('name'=>$name, 'uuid'=>$uuid);
+            }
+        }
+        return $return;
+    }
+    
+    public function isReadyLabel($pluginsList){
+        $desc = "<br>";
+        
+        $ready = $this->isReady($pluginsList);
+        
+        foreach ($ready['ready'] as $value) {
+            $desc .= "<span class='btn btn-success btn-sm btn-xs' onclick='$(\"#enable{$value['uuid']}\").prop(\"checked\", false);$(\"#enable{$value['uuid']}\").trigger(\"change\");'>{$value['name']}</span> ";
+        }
+        foreach ($ready['missing'] as $value) {
+            $desc .= "<span class='btn btn-danger btn-sm btn-xs' onclick='$(\"#enable{$value['uuid']}\").prop(\"checked\", true);$(\"#enable{$value['uuid']}\").trigger(\"change\");'>{$value['name']}</span> ";
+        }
+        
+        return $desc;
+    }
 
 }

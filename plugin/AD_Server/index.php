@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 
@@ -10,6 +10,8 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
     exit;
 }
+
+$ad_server_location = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server_Location');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -93,10 +95,17 @@ if (!User::isAdmin()) {
                                                 </select>
                                             </div>
                                             -->
+
+                                            <?php
+                                            if (!empty($ad_server_location)) {
+                                                $ad_server_location->getCampaignPanel();
+                                            }
+                                            ?>
+
                                             <div class="form-group col-sm-12">
                                                 <div class="btn-group pull-right">
                                                     <span class="btn btn-success" id="newLiveLink"><i class="fas fa-plus"></i> <?php echo __("New"); ?></span>
-                                                    <button class="btn btn-primary" id="addLiveLink" type="submit"><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
+                                                    <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -320,7 +329,7 @@ if (!User::isAdmin()) {
                             type: "POST",
                             data: {
                                 searchPhrase: req.term,
-                                current:1,
+                                current: 1,
                                 rowCount: 10
                             },
                             success: function (data) {
@@ -408,14 +417,14 @@ if (!User::isAdmin()) {
                                 });
                             });
                 });
-                
-                
+
+
                 $('#campaignVideosTable').on('click', 'button.editor_edit_video', function (e) {
                     e.preventDefault();
                     var tr = $(this).closest('tr')[0];
                     var data = tableVideos.row(tr).data();
                     console.log(data);
-                    
+
                     $('#inputVideoAd_id').val(data.id);
                     $("#inputVideo").val(data.title);
                     $("#inputVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + data.clean_title);
@@ -426,11 +435,11 @@ if (!User::isAdmin()) {
                     $('#inputVideoTitle').val(data.ad_title);
                     $('#adDetails').slideDown();
                 });
-                
+
                 $('#addVideoBtn').click(function () {
                     $.ajax({
                         url: '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/addCampaignVideo.php',
-                        data: {inputVideoAd_id: $('#inputVideoAd_id').val(),vast_campaigns_id: $('#vast_campaigns_id').val(), videos_id: $('#videos_id').val(), uri: $('#inputVideoURI').val(), title: $('#inputVideoTitle').val()},
+                        data: {inputVideoAd_id: $('#inputVideoAd_id').val(), vast_campaigns_id: $('#vast_campaigns_id').val(), videos_id: $('#videos_id').val(), uri: $('#inputVideoURI').val(), title: $('#inputVideoTitle').val()},
                         type: 'post',
                         success: function (response) {
                             if (response.error) {
@@ -485,6 +494,13 @@ if (!User::isAdmin()) {
                                 swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
                             } else {
                                 swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+<?php
+if (!empty($ad_server_location)) {
+    ?>
+                                    $('#locationList').empty();
+    <?php
+}
+?>
                                 $("#panelForm").trigger("reset");
                             }
                             tableLinks.ajax.reload();
@@ -561,6 +577,16 @@ if (!User::isAdmin()) {
                     $('#endDate').val(data.end_date);
                     $('#maxPrints').val(data.cpm_max_prints);
                     $('#status').val(data.status);
+<?php
+if (!empty($ad_server_location)) {
+    ?>
+                        $('#locationList').empty();
+                        for (var i = 0; i < data.locations.length; i++) {
+                            addLocation(data.locations[i].country_name, data.locations[i].region_name, data.locations[i].city_name);
+                        }
+    <?php
+}
+?>
                     //$('#visibility').val(data.visibility);
                 });
             });
