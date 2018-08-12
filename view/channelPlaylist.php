@@ -103,7 +103,7 @@ foreach ($playlists as $playlist) {
                         $poster = $images->thumbsJpg;
                         ?>
                         <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo " id="<?php echo $value['id']; ?>">
-                            <div class="panel panel-default">
+                            <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
                                 <div class="panel-body" style="overflow: hidden;">
                                     
                             <a class="aspectRatio16_9" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" style="margin: 0;" >
