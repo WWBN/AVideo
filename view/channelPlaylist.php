@@ -105,77 +105,77 @@ foreach ($playlists as $playlist) {
                         <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo " id="<?php echo $value['id']; ?>">
                             <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
                                 <div class="panel-body" style="overflow: hidden;">
-                                    
-                            <a class="aspectRatio16_9" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" style="margin: 0;" >
-                                <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
-                                <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                            </a>
-                            <a class="hrefLink" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
-                                <h2><?php echo $value['title']; ?></h2>
-                            </a>
-                            <div class="text-muted galeryDetails">
-                                <div>
-                                    <?php
-                                    $value['tags'] = Video::getTags($value['id']);
-                                    foreach ($value['tags'] as $value2) {
-                                        if ($value2->label === __("Group")) {
+
+                                    <a class="aspectRatio16_9" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" style="margin: 0;" >
+                                        <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
+                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                    </a>
+                                    <a class="hrefLink" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>">
+                                        <h2><?php echo $value['title']; ?></h2>
+                                    </a>
+                                    <div class="text-muted galeryDetails">
+                                        <div>
+                                            <?php
+                                            $value['tags'] = Video::getTags($value['id']);
+                                            foreach ($value['tags'] as $value2) {
+                                                if ($value2->label === __("Group")) {
+                                                    ?>
+                                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                                    <?php
+                                                }
+                                            }
                                             ?>
-                                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-eye"></i>
+                                            <span itemprop="interactionCount">
+                                                <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-clock-o"></i>
+                                            <?php
+                                            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
+                                            ?>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-user"></i>
+                                            <?php
+                                            echo $name;
+                                            ?>
+                                        </div>
+                                        <?php
+                                        if (Video::canEdit($value['id'])) {
+                                            ?>
+                                            <div>
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+
+
+                                            </div>
                                             <?php
                                         }
-                                    }
-                                    ?>
-                                </div>
-                                <div>
-                                    <i class="fa fa-eye"></i>
-                                    <span itemprop="interactionCount">
-                                        <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                    </span>
-                                </div>
-                                <div>
-                                    <i class="fa fa-clock-o"></i>
-                                    <?php
-                                    echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                    ?>
-                                </div>
-                                <div>
-                                    <i class="fa fa-user"></i>
-                                    <?php
-                                    echo $name;
-                                    ?>
-                                </div>
-                                <?php
-                                if (Video::canEdit($value['id'])) {
-                                    ?>
-                                    <div>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
-
-
+                                        ?>
+                                        <?php
+                                        if ($isMyChannel) {
+                                            ?>
+                                            <div>
+                                                <span style=" cursor: pointer;" class="btn-link text-primary removeVideo" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
+                                                    <i class="fa fa-trash"></i> <?php echo __("Remove"); ?>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <span class="text-primary" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
+                                                    <i class="fas fa-sort-numeric-down"></i> <?php echo __("Sort"); ?> 
+                                                    <input type="number" step="1" class="video_order" value="<?php echo intval($playlist['videos'][$count - 1]['video_order']); ?>" style="max-width: 35px;">
+                                                    <button class="btn btn-sm btn-xs sortNow"><i class="fas fa-check-square"></i></button>
+                                                </span>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
-                                    <?php
-                                }
-                                ?>
-                                <?php
-                                if ($isMyChannel) {
-                                    ?>
-                                    <div>
-                                        <span style=" cursor: pointer;" class="btn-link text-primary removeVideo" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
-                                            <i class="fa fa-trash"></i> <?php echo __("Remove"); ?>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span class="text-primary" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
-                                            <i class="fas fa-sort-numeric-down"></i> <?php echo __("Sort"); ?> 
-                                            <input type="number" step="1" class="video_order" value="<?php echo intval($playlist['videos'][$count - 1]['video_order']); ?>" style="max-width: 35px;">
-                                            <button class="btn btn-sm btn-xs sortNow"><i class="fas fa-check-square"></i></button>
-                                        </span>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
+                                </div>
                             </div>
-                                </div>
-</div>
                         </li>
                         <?php
                     }

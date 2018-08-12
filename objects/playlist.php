@@ -130,7 +130,6 @@ class PlayList extends ObjectYPT {
             $values[] = $video_id;
             $values[] = $order;
         }
-        error_log($sql);
         return sqlDAL::writeSql($sql,$formats,$values);
     }
 

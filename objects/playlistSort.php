@@ -16,7 +16,6 @@ if(User::getId() != $obj->getUsers_id()){
 
 $count = 1;
 foreach ($_POST['list'] as $key => $value) {
-    error_log("SORT id: $value pos: $count");
     $result = $obj->addVideo($value, true, $count++);
 }
 
