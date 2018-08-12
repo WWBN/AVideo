@@ -26,11 +26,11 @@ function loadPlayLists(elementId, videos_id) {
             }
         }
         $("#searchlist" + elementId).append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
-                + playList[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + elementId + '" name="someSwitchOption' + playList[i].id + elementId + '" class="playListsIds' + videos_id + ' playListsIds' + videos_id + '_' + playList[i].id + ' " type="checkbox" value="'
-                + playList[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + elementId + '" class="label-success"></label></div></a>');
+                + playList[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault' + playList[i].id + elementId + '" name="someSwitchOption' + playList[i].id + elementId + '" class="playListsIds' + videos_id + ' playListsIds' + videos_id + '_' + playList[i].id + ' someSwitchOptionDefault' + elementId+' " type="checkbox" value="'
+                + playList[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault' + playList[i].id + elementId + '" class="label-success"></label></div></a>');
     }
     $('#searchlist' + elementId).btsListFilter('#searchinput' + elementId, {itemChild: 'span'});
-    $('#someSwitchOptionDefault' + elementId).change(function () {
+    $('.someSwitchOptionDefault' + elementId).change(function () {
         modal.showPleaseWait();
         //tmp-variables simply make the values avaible on success.
         tmpPId = $(this).val();
