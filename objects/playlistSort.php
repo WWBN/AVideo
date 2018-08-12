@@ -14,8 +14,9 @@ if(User::getId() != $obj->getUsers_id()){
     die('{"error":"'.__("Permission denied").'"}');
 }
 
+$count = 1;
 foreach ($_POST['list'] as $key => $value) {
-    $result = $obj->addVideo($value, true, $key);
+    $result = $obj->addVideo($value, true, $count++);
 }
 
 echo '{"status":"'.$result.'"}';
