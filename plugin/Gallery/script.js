@@ -44,7 +44,9 @@ function loadPlayLists(elementId, videos_id) {
                 'playlists_id': $(this).val()
             },
             success: function () {
-                $("#channelPlaylists").load(webSiteRootURL + "view/channelPlaylist.php?channelName=" + channelName);
+                if(typeof channelName !== 'undefined'){
+                    $("#channelPlaylists").load(webSiteRootURL + "view/channelPlaylist.php?channelName=" + channelName);
+                }
                 reloadPlayLists();
                 $(".playListsIds" + videos_id + "_" + tmpPId).prop("checked", tmpSave);
                 modal.hidePleaseWait();

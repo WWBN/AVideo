@@ -103,6 +103,9 @@ foreach ($playlists as $playlist) {
                         $poster = $images->thumbsJpg;
                         ?>
                         <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo " id="<?php echo $value['id']; ?>">
+                            <div class="panel panel-default">
+                                <div class="panel-body" style="overflow: hidden;">
+                                    
                             <a class="aspectRatio16_9" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value['clean_title']; ?>" title="<?php echo $value['title']; ?>" style="margin: 0;" >
                                 <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
@@ -162,14 +165,17 @@ foreach ($playlists as $playlist) {
                                     </div>
                                     <div>
                                         <span class="text-primary" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
-                                            <i class="fas fa-sort-numeric-down"></i> <?php echo __("Order"); ?> 
+                                            <i class="fas fa-sort-numeric-down"></i> <?php echo __("Sort"); ?> 
                                             <input type="number" step="1" class="video_order" value="<?php echo intval($playlist['videos'][$count - 1]['video_order']); ?>" style="max-width: 35px;">
+                                            <button class="btn btn-sm btn-xs sortNow"><i class="fas fa-check-square"></i></button>
                                         </span>
                                     </div>
                                     <?php
                                 }
                                 ?>
                             </div>
+                                </div>
+</div>
                         </li>
                         <?php
                     }
@@ -186,7 +192,7 @@ foreach ($playlists as $playlist) {
 }
 ?>
 <script>
-    function saveSortable($sortableObject, playlist_id){
+    function saveSortable($sortableObject, playlist_id) {
         var list = $($sortableObject).sortable("toArray");
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php',
@@ -201,7 +207,33 @@ foreach ($playlists as $playlist) {
             }
         });
     }
-    
+
+    function sortNow($t, position) {
+        var $this = $($t).closest('.galleryVideo');
+        var $uiDiv = $($t).closest('.ui-sortable');
+        var $playListId = $($t).closest('.panel').attr('playListId');
+        var $list = $($t).closest('.ui-sortable').find('li');
+        if (position < 0) {
+            return false;
+        }
+        if (position === 0) {
+            $this.slideUp(500, function () {
+                $this.insertBefore($this.siblings(':eq(0)'));
+                saveSortable($uiDiv, $playListId);
+            }).slideDown(500);
+        } else if ($list.length - 1 > position) {
+            $this.slideUp(500, function () {
+                $this.insertBefore($this.siblings(':eq(' + position + ')'));
+                saveSortable($uiDiv, $playListId);
+            }).slideDown(500);
+        } else {
+            $this.slideUp(500, function () {
+                $this.insertAfter($this.siblings(':eq(' + ($list.length - 2) + ')'));
+                saveSortable($uiDiv, $playListId);
+            }).slideDown(500);
+        }
+    }
+
     var currentObject;
     $(function () {
         $('.removeVideo').click(function () {
@@ -305,32 +337,14 @@ foreach ($playlists as $playlist) {
 
         });
 
+        $('.sortNow').click(function () {
+            var $val = $(this).siblings("input").val();
+            sortNow(this, $val);
+        });
+
         $('.video_order').keypress(function (e) {
             if (e.which == 13) {
-                var position = parseInt($(this).val());
-                var $this = $(this).closest('.galleryVideo');
-                var $uiDiv = $(this).closest('.ui-sortable');
-                var $playListId = $(this).closest('.panel').attr('playListId');
-                var $list = $(this).closest('.ui-sortable').find('li');
-                if(position<0){
-                    return false;
-                }
-                if(position===0){
-                    $this.slideUp(500, function () {
-                        $this.insertBefore($this.siblings(':eq(0)'));
-                        saveSortable($uiDiv, $playListId);
-                    }).slideDown(500);
-                }else if($list.length-1 > position){
-                    $this.slideUp(500, function () {
-                        $this.insertBefore($this.siblings(':eq('+position+')'));
-                        saveSortable($uiDiv, $playListId);
-                    }).slideDown(500);
-                }else{
-                    $this.slideUp(500, function () {
-                        $this.insertAfter($this.siblings(':eq('+($list.length-2)+')'));
-                        saveSortable($uiDiv, $playListId);
-                    }).slideDown(500);
-                }
+                sortNow(this, $(this).val());
             }
         });
 
