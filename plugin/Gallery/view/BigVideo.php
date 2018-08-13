@@ -21,7 +21,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 </a>
             </div>
             <div class="col-sm-6">
-                <a class="h6 galleryLink" videos_id="<?php echo $video['id']; ?>" href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $video['clean_title']; ?>" title="<?php echo $video['title']; ?>">
+                <a class="h6 galleryLink" videos_id="<?php echo $video['id']; ?>" href="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>" title="<?php echo $video['title']; ?>">
                     <h1><?php echo $video['title']; ?></h1>
                 </a>
                 <div class="mainAreaDescriptionContainer">
@@ -30,7 +30,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 <div class="text-muted galeryDetails">
                     <div>
                             <?php if (empty($_GET['catName'])) { ?>
-                            <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>/">
+                            <a class="label label-default" href="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>/">
                                 <?php
                                 if (!empty($video['iconClass'])) {
                                     ?>
