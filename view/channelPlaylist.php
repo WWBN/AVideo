@@ -166,7 +166,7 @@ foreach ($playlists as $playlist) {
                                             <div>
                                                 <span class="text-primary" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
                                                     <i class="fas fa-sort-numeric-down"></i> <?php echo __("Sort"); ?> 
-                                                    <input type="number" step="1" class="video_order" value="<?php echo intval($playlist['videos'][$count - 1]['video_order']); ?>" style="max-width: 35px;">
+                                                    <input type="number" step="1" class="video_order" value="<?php echo intval($playlist['videos'][$count - 1]['video_order']); ?>" style="max-width: 50px;">
                                                     <button class="btn btn-sm btn-xs sortNow"><i class="fas fa-check-square"></i></button>
                                                 </span>
                                             </div>
