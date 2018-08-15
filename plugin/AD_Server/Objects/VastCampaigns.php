@@ -207,7 +207,7 @@ class VastCampaigns extends ObjectYPT {
         $sql = "SELECT * from " . static::getTableName() . " vc  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cpm_current_prints ";
         if(!empty($ad_server_location) && !empty($_SESSION['User_Location']) && $_SESSION['User_Location']['country_name'] !== '-'){
             // show only campaign for the user location
-            $sql .= " AND vc.id IN (SELECT vast_campaigns_id FROM campaign_locations WHERE (country_name = 'All' OR country_name IS NULL) OR  "
+            $sql .= " AND vc.id IN (SELECT vast_campaigns_id FROM campaign_locations WHERE (country_name = 'All' OR country_name IS NULL OR country_name = '') OR  "
                     . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = 'All') OR "
                     . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = \"{$_SESSION['User_Location']['region_name']}\" AND city_name = 'All') OR"
                     . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = \"{$_SESSION['User_Location']['region_name']}\" AND city_name = \"{$_SESSION['User_Location']['city_name']}\") ) ";
