@@ -216,7 +216,7 @@ class VastCampaigns extends ObjectYPT {
 
         $sql .= " ORDER BY priority ";
         //echo $sql;
-        error_log($sql);
+        //error_log($sql);
         $res = sqlDAL::readSql($sql);
         $rows = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
