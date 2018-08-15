@@ -775,8 +775,11 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
     global $global;
     $obj = new stdClass();
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+    $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
     if (!empty($aws_s3)) {
         $aws_s3->move_uploaded_file($tmp_name, $filename);
+    } else if (!empty($bb_b2)) {
+        $bb_b2->move_uploaded_file($tmp_name, $filename);
     } else {
         if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
             if(!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")){
@@ -793,7 +796,10 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
 function decideFile_put_contentsToVideos($tmp_name, $filename) {
     global $global;
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
-    if (!empty($aws_s3)) {
+    $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
+    if (!empty($bb_b2)) {
+        $bb_b2->move_uploaded_file($tmp_name, $filename);
+    } else if (!empty($aws_s3)) {
         $aws_s3->move_uploaded_file($tmp_name, $filename);
     } else {
         if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
