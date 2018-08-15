@@ -25,19 +25,24 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     }
     //var_dump($extension, $type);exit;
     $video = new Video("", "", $_GET['video_id']);
-    /**
-     * This is when is using in a non file_dataoaded movie
-     */
-    if (!move_uploaded_file($_FILES['file_data']['tmp_name'], "{$global['systemRootPath']}videos/" . $video->getFilename().".{$_GET['type']}")) {
-        $obj->msg = "Error on move_file_dataoaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename.".{$_GET['type']})";
+    if(!empty($video)){
+        /**
+         * This is when is using in a non file_dataoaded movie
+         */
+        if (!move_uploaded_file($_FILES['file_data']['tmp_name'], "{$global['systemRootPath']}videos/" . $video->getFilename().".{$_GET['type']}")) {
+            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename.".{$_GET['type']})";
+            die(json_encode($obj));
+        }else{
+            // delete thumbs from poster
+            Video::deleteThumbs($video->getFilename());
+        }
+        $obj->error = false;
+        echo "{}";
+        exit;
+    }else{        
+        $obj->msg = "Video Not found";
         die(json_encode($obj));
-    }else{
-        // delete thumbs from poster
-        Video::deleteThumbs($video->getFilename());
     }
-    $obj->error = false;
-    echo "{}";
-    exit;
 }
 $obj->msg = "\$_FILES Error";
 $obj->FILES = $_FILES;
