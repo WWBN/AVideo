@@ -1587,7 +1587,7 @@ if (!class_exists('Video')) {
                 if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
                     if (!empty($aws_s3)) {
                         $source = $aws_s3->getAddress("{$filename}{$type}");
-                    }else{
+                    }else if (!empty($bb_b2)){
                         $source = $bb_b2->getAddress("{$filename}{$type}");
                     }
                 }
