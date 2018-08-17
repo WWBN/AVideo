@@ -78,8 +78,14 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     } else {
         $video->setType("video");
     }
-    if(!empty($_GET['categories_id'])){
-        $video->setCategories_id($_GET['categories_id']);
+    if(!empty($_REQUEST['title'])){
+        $video->setTitle($_REQUEST['title']);
+    }
+    if(!empty($_REQUEST['description'])){
+        $video->setDescription($_REQUEST['description']);
+    }
+    if(!empty($_REQUEST['categories_id'])){
+        $video->setCategories_id($_REQUEST['categories_id']);
     }
     
     $video->setStatus('e');
