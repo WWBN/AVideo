@@ -78,6 +78,10 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     } else {
         $video->setType("video");
     }
+    if(!empty($_GET['categories_id'])){
+        $video->setCategories_id($_GET['categories_id']);
+    }
+    
     $video->setStatus('e');
 
     if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
