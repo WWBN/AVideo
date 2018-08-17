@@ -44,6 +44,12 @@ if (!empty($_GET['type'])) {
     if(empty($key)){
         die(sprintf(__("%s ERROR: You must set a KEY on config"), $_GET['type']));
     }
+    
+    $scope = 'email';
+    if($_GET['type']==='LinkedIn'){
+        $scope = array('r_emailaddress');
+    }
+    
     $config = [
         'callback' => HttpClient\Util::getCurrentUrl()."?type={$_GET['type']}",
         'providers' => [
@@ -51,7 +57,7 @@ if (!empty($_GET['type'])) {
                 'enabled' => true,
                 'keys' => ['id' => $id, 'secret' => $key, 'key'=>$id],
                 "includeEmail" => true,
-                'scope'   => 'email',
+                'scope'   => $scope,
                 'trustForwarded' => false
             ]
         ],
