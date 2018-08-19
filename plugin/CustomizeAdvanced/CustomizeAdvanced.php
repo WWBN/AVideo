@@ -22,6 +22,7 @@ class CustomizeAdvanced extends PluginAbstract {
     
     public function getEmptyDataObject() {
         $obj = new stdClass();
+        $obj->encoderNetwork = "https://network.youphptube.com/";
         $obj->doNotShowUploadMP4Button = true;
         $obj->doNotShowImportMP4Button = false;
         $obj->doNotShowImportLocalVideosButton = false;
@@ -65,7 +66,6 @@ class CustomizeAdvanced extends PluginAbstract {
         $o->type = "textarea";
         $o->value = "";        
         $obj->underMenuBarHTMLCode = $o;
-        $obj->encoderNetwork = "";// an url for encoder network
         $obj->signInOnRight= true;
         $obj->signInOnLeft= true;
         $obj->forceCategory= false;
