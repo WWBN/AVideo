@@ -689,10 +689,10 @@ if (typeof gtag !== \"function\") {
     }
 
     function setIsAdmin($isAdmin) {
-        if (empty($isAdmin) || $isAdmin === "false") {
-            $isAdmin = "false";
+        if (empty($isAdmin) || $isAdmin === "false" || !User::isAdmin()) {
+            $isAdmin = "0";
         } else {
-            $isAdmin = "true";
+            $isAdmin = "1";
         }
         $this->isAdmin = $isAdmin;
     }
