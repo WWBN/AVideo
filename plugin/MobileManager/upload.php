@@ -2,7 +2,7 @@
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
-header('Content-Type: application/json');
+//header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 $object = new stdClass();
@@ -78,6 +78,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     } else {
         $video->setType("video");
     }
+    
     if(!empty($_REQUEST['title'])){
         $video->setTitle($_REQUEST['title']);
     }
@@ -95,7 +96,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         error_log("MOBILE UPLOAD: {$object->msg}");
         die($object->msg);
     }
-
+    $video->save();
     $video->queue();
 
     $object->error = false;
