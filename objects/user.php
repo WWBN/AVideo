@@ -333,7 +333,7 @@ if (typeof gtag !== \"function\") {
 
     function save($updateUserGroups = false) {
         global $global, $config, $advancedCustom;
-        if ($config->currentVersionLowerThen('5.6')) {
+        if (is_object($config) && $config->currentVersionLowerThen('5.6')) {
             // they dont have analytics code
             return false;
         }
