@@ -195,7 +195,7 @@ class Comment {
         if ($res!=false) {
             foreach ($allData as $row) {
                 $row['commentPlain'] = $row['comment'];
-                $row['commentHTML'] = nl2br($row['comment']);
+                $row['commentHTML'] = nl2br(xss_esc_back($row['comment']));
                 $comment[] = $row;
             }
             //$comment = $res->fetch_all(MYSQLI_ASSOC);

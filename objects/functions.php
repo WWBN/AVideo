@@ -4,6 +4,12 @@ function xss_esc($text){
   return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
 
+function xss_esc_back($text){
+    $text = htmlspecialchars_decode($text, ENT_QUOTES);
+    $text = str_replace(array('&amp;','#039;'), array(" ", "`"), $text);
+    return $text;
+}
+
 // make sure SecureVideosDirectory will be the first
 function cmpPlugin($a, $b) {
     if ($a['name']=='SecureVideosDirectory')
