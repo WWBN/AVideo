@@ -68,7 +68,7 @@ class User {
     }
 
     function setCanStream($canStream) {
-        $this->canStream = $canStream;
+        $this->canStream = (empty($canStream) || strtolower($canStream)==='false')?0:1;
     }
 
     function getCanViewChart() {
@@ -76,7 +76,7 @@ class User {
     }
 
     function setCanViewChart($canViewChart) {
-        $this->canViewChart = $canViewChart;
+        $this->canViewChart = (empty($canViewChart) || strtolower($canViewChart)==='false')?0:1;
     }
 
     function getCanUpload() {
@@ -84,7 +84,7 @@ class User {
     }
 
     function setCanUpload($canUpload) {
-        $this->canUpload = $canUpload;
+        $this->canUpload = (empty($canUpload) || strtolower($canUpload)==='false')?0:1;
     }
 
     function getAnalyticsCode() {
@@ -347,16 +347,16 @@ if (typeof gtag !== \"function\") {
         if (empty($this->canStream)) {
             if (empty($this->id)) { // it is a new user
                 if (empty($advancedCustom->newUsersCanStream)) {
-                    $this->canStream = "false";
+                    $this->canStream = "0";
                 } else {
-                    $this->canStream = "true";
+                    $this->canStream = "1";
                 }
             } else {
-                $this->canStream = "false";
+                $this->canStream = "0";
             }
         }
         if (empty($this->canUpload)) {
-            $this->canUpload = "false";
+            $this->canUpload = "0";
         }
         if (empty($this->status)) {
             $this->status = 'a';
@@ -990,7 +990,7 @@ if (typeof gtag !== \"function\") {
     }
 
     function setEmailVerified($emailVerified) {
-        $this->emailVerified = $emailVerified;
+        $this->emailVerified = (empty($emailVerified) || strtolower($emailVerified)==='false')?0:1;;
     }
 
     static function getChannelLink($users_id = 0) {
