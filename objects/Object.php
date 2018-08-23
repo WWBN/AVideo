@@ -78,7 +78,13 @@ abstract class ObjectYPT implements ObjectInterface {
     static function getSqlFromPost($keyPrefix = "") {
         global $global;
         $sql = self::getSqlSearchFromPost();
-
+               
+        if(empty($_POST['sort']) && !empty($_GET['order'][0]['dir'])){
+            $index = intval($_GET['order'][0]['column']);
+            $_GET['columns'][$index]['data'];
+            $_POST['sort'][$_GET['columns'][$index]['data']] = $_GET['order'][0]['dir'];
+        }
+        
         if (!empty($_POST['sort'])) {
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
@@ -87,9 +93,17 @@ abstract class ObjectYPT implements ObjectInterface {
                 $orderBy[] = " {$keyPrefix}{$key} {$value} ";
             }
             $sql .= " ORDER BY " . implode(",", $orderBy);
-        } else {
-            //$sql .= " ORDER BY CREATED DESC ";
         }
+
+        if(empty($_POST['rowCount']) && !empty($_GET['length'])){
+            $_POST['rowCount'] = intval($_GET['length']);
+        }
+        if(empty($_POST['current']) && !empty($_GET['start'])){
+            $_POST['current'] = ($_GET['start']/$_GET['length'])+1;
+        }else if (empty($_POST['current']) && isset($_GET['start'])){
+            $_POST['current'] = 1;
+        }
+        
 
         if (!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount'] > 0) {
             $_POST['rowCount'] = intval($_POST['rowCount']);
@@ -108,6 +122,8 @@ abstract class ObjectYPT implements ObjectInterface {
         $sql = "";
         if (!empty($_POST['searchPhrase'])) {
             $_GET['q'] = $_POST['searchPhrase'];
+        }else if (!empty($_GET['search']['value'])) {
+            $_GET['q'] = $_GET['search']['value'];
         }
         if (!empty($_GET['q'])) {
             global $global;

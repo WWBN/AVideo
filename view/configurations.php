@@ -445,7 +445,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="col-md-2"><?php echo __("Disable right-click-prevention on video and allow downloading"); ?></label>
+                                                        <label class="col-md-2"><?php echo __("Allow download video"); ?></label>
                                                         <div class="col-md-10">
                                                             <input data-toggle="toggle" type="checkbox" name="disable_rightclick" id="allow_download" value="1" <?php
                                                             if (!empty($config->getAllow_download())) {

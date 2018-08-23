@@ -47,6 +47,7 @@ $_SESSION['savedQuerys']=0;
 require_once $global['systemRootPath'].'objects/Object.php';
 require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'].'objects/plugin.php';
+require_once $global['systemRootPath'].'objects/user.php';
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
 if(class_exists("Plugin")){YouPHPTubePlugin::getStart();}
 else{error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");}

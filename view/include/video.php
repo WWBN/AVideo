@@ -21,7 +21,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                     <i class="fas fa-expand-arrows-alt"></i>
                 </p>
                 <button type="button" class="btn btn-outline btn-xs"
-                        onclick="closeFloatVideo();floatClosed = 1;">
+                        onclick="closeFloatVideo(); floatClosed = 1;">
                     <i class="far fa-window-close"></i>
                 </button>
             </div>
@@ -61,29 +61,6 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
 
             </div>
         </div>
-        <?php if ($config->getAllow_download()) { ?>
-            <?php
-            if ($playNowVideo['type'] == "video") {
-                $files = getVideosURL($playNowVideo['filename']);
-                foreach ($files as $key => $theLink) {
-                    ?>
-                    <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $theLink['url']; ?>" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>" >
-                        <i class="fa fa-download"></i>
-                    <?php echo __("Download video") . " (" . $key . ")"; ?>
-                    </a>
-                    <?php
-                }
-            } else {
-                ?>
-                <a class="btn btn-xs btn-default pull-right " role="button" href="<?php echo $video['videoLink']; ?>" download="<?php echo $playNowVideo['title'] . ".mp4"; ?>" >
-                    <i class="fa fa-download"></i>
-                <?php echo __("Download video"); ?>
-                </a>
-
-                <?php
-            }
-        }
-        ?>
     </div>
     <div class="col-sm-2 col-md-2"></div>
 </div>
@@ -92,7 +69,6 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
 <?php $_GET['isMediaPlaySite'] = $playNowVideo['id']; ?>
 
     var mediaId = <?php echo $playNowVideo['id']; ?>;
-
     var player;
     $(document).ready(function () {
 
@@ -100,110 +76,166 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
 if ($playNowVideo['type'] == "linkVideo") {
     echo '$("time.duration").hide();';
 }
+?>
+        
+        var menu = new BootstrapMenu('#mainVideo', {
+        actions: [{
+        name: '<?php echo __("Copy video URL"); ?>',
+                onClick: function() {
+                        copyToClipboard($('#linkFriendly').val());
+                }, iconClass: 'fas fa-link'
+        }, {
+        name: '<?php echo __("Copy video URL at current time"); ?>',
+                onClick: function() {
+                        copyToClipboard($('#linkCurrentTime').val());
+                }, iconClass: 'fas fa-link'
+        }, {
+        name: '<?php echo __("Copy embed code"); ?>',
+                onClick: function() {
+                $('#textAreaEmbed').focus();
+                        copyToClipboard($('#textAreaEmbed').val());
+                }, iconClass: 'fas fa-code'
+        }
+<?php if ($config->getAllow_download()) { ?>
+    <?php
+    if ($playNowVideo['type'] == "video") {
+        $files = getVideosURL($playNowVideo['filename']);
+        foreach ($files as $key => $theLink) {
+            ?>
+                    , {
+                        name: '<?php echo __("Download video") . " (" . $key . ")"; ?>',
+                        onClick: function () {
+                            document.location = '<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.mp4"); ?>';
+                                        }, iconClass: 'fas fa-download'
+                                    }
+            <?php
+        }
+    } else {
+        ?>
+                                , {
+                                    name: '<?php echo __("Download video"); ?>',
+                                    onClick: function () {
+                                        document.location = '<?php echo $video['videoLink']; ?>?download=1&title=<?php echo urlencode($video['title'] . ".mp4"); ?>';
+                                                    }, iconClass: 'fas fa-download'
+                                                }
 
-if (!$config->getAllow_download()) {
+        <?php
+    }
+}
+?>
+
+                                        ]
+                                    });
+                                    
+                                    
+                                    
+                                    player = videojs('mainVideo');
+                                    player.zoomrotate(<?php echo $transformation; ?>);
+                                    player.on('play', function () {
+                                        addView(<?php echo $playNowVideo['id']; ?>);
+                                    });
+                                    player.ready(function () {
+<?php
+if (!empty($_GET['t'])) {
     ?>
-            // Prevent HTML5 video from being downloaded (right-click saved)?
-            $('#mainVideo').bind('contextmenu', function () {
-                return false;
-            });
-<?php } ?>
-        player = videojs('mainVideo');
-        player.zoomrotate(<?php echo $transformation; ?>);
-        player.on('play', function () {
-            addView(<?php echo $playNowVideo['id']; ?>);
-        });
-        player.ready(function () {
+                                            player.currentTime(<?php echo intval($_GET['t']); ?>)
+    <?php
+}
+?>
+
 <?php if ($config->getAutoplay()) {
     ?>
-                setTimeout(function () {
-                    if (typeof player === 'undefined') {
-                        player = videojs('mainVideo');
-                    }
-                    try {
-                        player.play();
-                    } catch (e) {
-                        setTimeout(function () {
-                            player.play();
-                        }, 1000);
-                    }
-                }, 150);
+                                            setTimeout(function () {
+                                                if (typeof player === 'undefined') {
+                                                    player = videojs('mainVideo');
+                                                }
+                                                try {
+                                                    player.play();
+                                                } catch (e) {
+                                                    setTimeout(function () {
+                                                        player.play();
+                                                    }, 1000);
+                                                }
+                                            }, 150);
 <?php } else {
     ?>
-                if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                    setTimeout(function () {
-                        if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                        }
-                        try {
-                            player.play();
-                        } catch (e) {
-                            setTimeout(function () {
-                                player.play();
-                            }, 1000);
-                        }
-                    }, 150);
-                }
+                                            if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                                                setTimeout(function () {
+                                                    if (typeof player === 'undefined') {
+                                                        player = videojs('mainVideo');
+                                                    }
+                                                    try {
+                                                        player.play();
+                                                    } catch (e) {
+                                                        setTimeout(function () {
+                                                            player.play();
+                                                        }, 1000);
+                                                    }
+                                                }, 150);
+                                            }
 <?php }
 ?>
-            this.on('ended', function () {
-                console.log("Finish Video");
+                                        this.on('ended', function () {
+                                            console.log("Finish Video");
 <?php
 // if autoplay play next video
 if (!empty($autoPlayVideo)) {
     ?>
-                    if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                                                if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
     <?php
     if ($autoPlayVideo['type'] !== 'video' || empty($advancedCustom->autoPlayAjax)) {
         ?>
 
-                            document.location = autoPlayURL;
+                                                        document.location = autoPlayURL;
         <?php
     } else {
         ?>
-                            $('video, #mainVideo').attr('poster', autoPlayPoster);
-                            changeVideoSrc(player, autoPlaySources);
-                            history.pushState(null, null, autoPlayURL);
-                            $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src', autoPlayThumbsSprit);
-                            $.ajax({
-                                url: autoPlayURL,
-                                success: function (response) {
-                                    modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
-                                    $('#modeYoutubeBottom').html(modeYoutubeBottom);
-                                    //pluginFooterCode = $(response).filter('#pluginFooterCode').html();
-                                    //$('#pluginFooterCode').html(pluginFooterCode);
-                                }
-                            });
+                                                        $('video, #mainVideo').attr('poster', autoPlayPoster);
+                                                        changeVideoSrc(player, autoPlaySources);
+                                                        history.pushState(null, null, autoPlayURL);
+                                                        $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src', autoPlayThumbsSprit);
+                                                        $.ajax({
+                                                            url: autoPlayURL,
+                                                            success: function (response) {
+                                                                modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
+                                                                $('#modeYoutubeBottom').html(modeYoutubeBottom);
+                                                                //pluginFooterCode = $(response).filter('#pluginFooterCode').html();
+                                                                //$('#pluginFooterCode').html(pluginFooterCode);
+                                                            }
+                                                        });
         <?php
     }
     ?>
-                    }
+                                                }
 <?php } ?>
 
-            });
+                                        });
 
-        });
-        player.persistvolume({
-            namespace: "YouPHPTube"
-        });
-
-        // in case the video is muted
-        setTimeout(function () {
-            if (player.muted()) {
-                swal({
-                    title: "<?php echo __("Your Media is Muted"); ?>",
-                    text: "<?php echo __("Would you like to unmute it?"); ?>",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
-                    closeOnConfirm: true
-                },
-                        function () {
-                            player.muted(false);
-                        });
-            }
-        }, 500);
-
-    });
+                                        this.on('timeupdate', function () {
+                                            var time = Math.round(this.currentTime());
+                                            $('#linkCurrentTime').val('<?php echo Video::getURLFriendly($video['id']); ?>?t=' + time);
+                                        });
+                                    });
+                                    player.persistvolume({
+                                        namespace: "YouPHPTube"
+                                    });
+                                    // in case the video is muted
+                                    setTimeout(function () {
+                                    if (player.muted()) {
+                                    swal({
+                                    title: "<?php echo __("Your Media is Muted"); ?>",
+                                            text: "<?php echo __("Would you like to unmute it?"); ?>",
+                                            type: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#DD6B55",
+                                            confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
+                                            closeOnConfirm: true
+                                    },
+                                            function () {
+                                            player.muted(false);
+                                            });
+                                    }
+                                    }, 500);
+                                    }
+                                    );
 </script>

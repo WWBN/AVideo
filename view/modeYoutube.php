@@ -482,7 +482,7 @@ if (empty($_GET['videoName'])) {
                                             </div>
                                             <div class="tab-pane" id="tabEmbed">
                                                 <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
-                                                <textarea class="form-control" style="min-width: 100%" rows="5"><?php
+                                                <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbed"><?php
                                                     if ($video['type'] == 'video' || $video['type'] == 'embed') {
                                                         $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
                                                     } else {
@@ -576,13 +576,19 @@ if (empty($_GET['videoName'])) {
                                                 <div class="form-group">
                                                     <label class="control-label"><?php echo __("Permanent Link") ?></label>
                                                     <div class="">
-                                                        <input value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"/>
+                                                        <input value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"  id="linkPermanent"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label"><?php echo __("URL Friendly") ?> (SEO)</label>
                                                     <div class="">
-                                                        <input value="<?php echo Video::getURLFriendly($video['id']); ?>" class="form-control" readonly="readonly"/>
+                                                        <input value="<?php echo Video::getURLFriendly($video['id']); ?>" class="form-control" readonly="readonly" id="linkFriendly"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label"><?php echo __("Current Time") ?> (SEO)</label>
+                                                    <div class="">
+                                                        <input value="<?php echo Video::getURLFriendly($video['id']); ?>?t=0" class="form-control" readonly="readonly" id="linkCurrentTime"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -784,7 +790,9 @@ if (empty($_GET['videoName'])) {
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js", "view/js/videojs-persistvolume/videojs.persistvolume.js");
+        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js", 
+            "view/js/videojs-persistvolume/videojs.persistvolume.js", 
+            "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>

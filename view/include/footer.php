@@ -109,3 +109,13 @@ if(isset($_SESSION['savedQuerys'])){
     echo "<!-- Saved querys: ".$_SESSION['savedQuerys']." -->";
 }
 ?>
+<textarea id="elementToCopy" style="
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  position: absolute;
+  z-index: -9999;
+  top: 0;
+  left: 0;
+  pointer-events: none;"></textarea>

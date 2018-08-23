@@ -77,7 +77,11 @@ if($file=="configuration.php"){
 
 if (file_exists($path)) {
     if (!empty($_GET['download'])) {
-        $quoted = sprintf('"%s"', addcslashes(basename($_GET['file']), '"\\'));
+        if(!empty($_GET['title'])){
+            $quoted = sprintf('"%s"', addcslashes(basename($_GET['title']), '"\\'));
+        }else{
+            $quoted = sprintf('"%s"', addcslashes(basename($_GET['file']), '"\\'));
+        }
         $size = filesize($file);
         header('Content-Description: File Transfer');
         header('Content-Disposition: attachment; filename=' . $quoted);

@@ -14,6 +14,13 @@ var isPlayingAd = false;
 var mainVideoHeight = 0;
 var doNotFloatVideo = false;
 
+var mouseX;
+var mouseY;
+$(document).mousemove( function(e) {
+   mouseX = e.pageX; 
+   mouseY = e.pageY;
+});  
+
 String.prototype.stripAccents = function () {
     var translate_re = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
     var translate = 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY';
@@ -153,9 +160,9 @@ function changeVideoSrc(vid_obj, source) {
         }
     }
     vid_obj.src(srcs);
-    setTimeout(function(){
+    setTimeout(function () {
         changeVideoSrcLoad();
-    },1000);
+    }, 1000);
 }
 
 function changeVideoSrcLoad() {
@@ -166,17 +173,18 @@ function changeVideoSrcLoad() {
         var err = this.error();
         if (err && err.code) {
             console.log("changeVideoSrcLoad: Load player Error");
-            setTimeout(function(){
+            setTimeout(function () {
                 changeVideoSrcLoad();
-            },1000);
-        }else{
+            }, 1000);
+        } else {
             console.log("changeVideoSrcLoad: Load player Success, Play");
-            setTimeout(function(){
+            setTimeout(function () {
                 player.load();
                 player.play();
-            },1000);
+            }, 1000);
         }
-    });;
+    });
+    ;
 }
 
 
@@ -348,4 +356,14 @@ function getPlayerButtonIndex(name) {
         }
     }
     return children.length;
+}
+
+
+function copyToClipboard(text) {
+    
+    $('#elementToCopy').css({'top':mouseY,'left':mouseX}).fadeIn('slow');
+    $('#elementToCopy').val(text);
+    $('#elementToCopy').focus();
+    $('#elementToCopy').select();
+    document.execCommand('copy');
 }
