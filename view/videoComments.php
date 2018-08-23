@@ -204,7 +204,7 @@ if (User::canSeeCommentTextarea()) {
                         } else if (row.myVote === "-1") {
                             template.find(".replyDislikeBtn").addClass("myVote");
                         }
-                        return row.commentHTML + $('<a></a>').append(template).html();
+                        return row.comment + $('<a></a>').append(template).html();
                     }
 
                     function saveComment(comment, video, comments_id, id) {
