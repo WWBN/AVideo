@@ -484,9 +484,9 @@ if (empty($_GET['videoName'])) {
                                                 <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
                                                 <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbed"><?php
                                                     if ($video['type'] == 'video' || $video['type'] == 'embed') {
-                                                        $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                        $code = '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>';
                                                     } else {
-                                                        $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>';
+                                                        $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>';
                                                     }
                                                     echo htmlentities($code);
                                                     ?>

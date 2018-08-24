@@ -110,7 +110,7 @@ if(empty($channelName)){
                         </div>   
                         <div class="form-group">
                             <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
-                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode($channelName); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" class="YouPHPTubeIframe"></iframe>'  readonly="readonly">
+                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode($channelName); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>'  readonly="readonly">
                         </div>
                     </div>
                 </div>
