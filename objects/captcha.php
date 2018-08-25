@@ -50,6 +50,9 @@ class Captcha{
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+        if(empty($_SESSION["palavra"])){
+            return false;
+        }
         return (strcasecmp($word, $_SESSION["palavra"]) == 0);
     }
 
