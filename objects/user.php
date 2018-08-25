@@ -590,8 +590,11 @@ if (typeof gtag !== \"function\") {
         $formats = "";
         $values = array();
         $user = $global['mysqli']->real_escape_string($user);
-        $sql = "SELECT * FROM users WHERE user = '$user' ";
+        $sql = "SELECT * FROM users WHERE user = ? ";
 
+        $formats .= "s";
+        $values[] = $user;
+        
         if ($mustBeactive) {
             $sql .= " AND status = 'a' ";
         }
@@ -600,8 +603,8 @@ if (typeof gtag !== \"function\") {
                 $pass = md5($pass);
             }
             $sql .= " AND password = ? ";
-            $formats = "s";
-            $values = array($pass);
+            $formats .= "s";
+            $values[] = $pass;
         }
         $sql .= " LIMIT 1";
         $res = sqlDAL::readSql($sql, $formats, $values);
