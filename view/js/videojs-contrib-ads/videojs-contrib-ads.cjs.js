@@ -6,7 +6,255 @@ var videojs = _interopDefault(require('video.js'));
 var window = _interopDefault(require('global/window'));
 var document = _interopDefault(require('global/document'));
 
-var version = "6.2.1";
+var version = "6.6.0";
+
+/*
+ * Implements the public API available in `player.ads` as well as application state.
+ */
+
+function getAds(player) {
+  return {
+
+    disableNextSnapshotRestore: false,
+
+    // This is true if we have finished actual content playback but haven't
+    // dealt with postrolls and officially ended yet
+    _contentEnding: false,
+
+    // This is set to true if the content has officially ended at least once.
+    // After that, the user can seek backwards and replay content, but _contentHasEnded
+    // remains true.
+    _contentHasEnded: false,
+
+    // Tracks if loadstart has happened yet for the initial source. It is not reset
+    // on source changes because loadstart is the event that signals to the ad plugin
+    // that the source has changed. Therefore, no special signaling is needed to know
+    // that there has been one for subsequent sources.
+    _hasThereBeenALoadStartDuringPlayerLife: false,
+
+    // Tracks if loadeddata has happened yet for the current source.
+    _hasThereBeenALoadedData: false,
+
+    // Tracks if loadedmetadata has happened yet for the current source.
+    _hasThereBeenALoadedMetaData: false,
+
+    // Are we after startLinearAdMode and before endLinearAdMode?
+    _inLinearAdMode: false,
+
+    // Should we block calls to play on the content player?
+    _shouldBlockPlay: false,
+
+    // Was play blocked by the plugin's playMiddleware feature?
+    _playBlocked: false,
+
+    // Tracks whether play has been requested for this source,
+    // either by the play method or user interaction
+    _playRequested: false,
+
+    // This is an estimation of the current ad type being played
+    // This is experimental currently. Do not rely on its presence or behavior!
+    adType: null,
+
+    VERSION: version,
+
+    reset: function reset() {
+      player.ads.disableNextSnapshotRestore = false;
+      player.ads._contentEnding = false;
+      player.ads._contentHasEnded = false;
+      player.ads.snapshot = null;
+      player.ads.adType = null;
+      player.ads._hasThereBeenALoadedData = false;
+      player.ads._hasThereBeenALoadedMetaData = false;
+      player.ads._cancelledPlay = false;
+      player.ads._shouldBlockPlay = false;
+      player.ads._playBlocked = false;
+      player.ads.nopreroll_ = false;
+      player.ads.nopostroll_ = false;
+      player.ads._playRequested = false;
+    },
+
+
+    // Call this when an ad response has been received and there are
+    // linear ads ready to be played.
+    startLinearAdMode: function startLinearAdMode() {
+      player.ads._state.startLinearAdMode();
+    },
+
+
+    // Call this when a linear ad pod has finished playing.
+    endLinearAdMode: function endLinearAdMode() {
+      player.ads._state.endLinearAdMode();
+    },
+
+
+    // Call this when an ad response has been received but there are no
+    // linear ads to be played (i.e. no ads available, or overlays).
+    // This has no effect if we are already in an ad break.  Always
+    // use endLinearAdMode() to exit from linear ad-playback state.
+    skipLinearAdMode: function skipLinearAdMode() {
+      player.ads._state.skipLinearAdMode();
+    },
+
+
+    // With no arguments, returns a boolean value indicating whether or not
+    // contrib-ads is set to treat ads as stitched with content in a single
+    // stream. With arguments, treated as a setter, but this behavior is
+    // deprecated.
+    stitchedAds: function stitchedAds(arg) {
+      if (arg !== undefined) {
+        videojs.log.warn('Using player.ads.stitchedAds() as a setter is deprecated, it should be set as an option upon initialization of contrib-ads.');
+
+        // Keep the private property and the settings in sync. When this
+        // setter is removed, we can probably stop using the private property.
+        this.settings.stitchedAds = !!arg;
+      }
+
+      return this.settings.stitchedAds;
+    },
+
+
+    // Returns whether the video element has been modified since the
+    // snapshot was taken.
+    // We test both src and currentSrc because changing the src attribute to a URL that
+    // AdBlocker is intercepting doesn't update currentSrc.
+    videoElementRecycled: function videoElementRecycled() {
+      if (player.ads.shouldPlayContentBehindAd(player)) {
+        return false;
+      }
+
+      if (!this.snapshot) {
+        throw new Error('You cannot use videoElementRecycled while there is no snapshot.');
+      }
+
+      var srcChanged = player.tech_.src() !== this.snapshot.src;
+      var currentSrcChanged = player.currentSrc() !== this.snapshot.currentSrc;
+
+      return srcChanged || currentSrcChanged;
+    },
+
+
+    // Returns a boolean indicating if given player is in live mode.
+    // One reason for this: https://github.com/videojs/video.js/issues/3262
+    // Also, some live content can have a duration.
+    isLive: function isLive() {
+      var somePlayer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : player;
+
+      if (typeof somePlayer.ads.settings.contentIsLive === 'boolean') {
+        return somePlayer.ads.settings.contentIsLive;
+      } else if (somePlayer.duration() === Infinity) {
+        return true;
+      } else if (videojs.browser.IOS_VERSION === '8' && somePlayer.duration() === 0) {
+        return true;
+      }
+      return false;
+    },
+
+
+    // Return true if content playback should mute and continue during ad breaks.
+    // This is only done during live streams on platforms where it's supported.
+    // This improves speed and accuracy when returning from an ad break.
+    shouldPlayContentBehindAd: function shouldPlayContentBehindAd() {
+      var somePlayer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : player;
+
+      if (!somePlayer) {
+        throw new Error('shouldPlayContentBehindAd requires a player as a param');
+      } else if (!somePlayer.ads.settings.liveCuePoints) {
+        return false;
+      } else {
+        return !videojs.browser.IS_IOS && !videojs.browser.IS_ANDROID && somePlayer.duration() === Infinity;
+      }
+    },
+
+
+    // Return true if the ads plugin should save and restore snapshots of the
+    // player state when moving into and out of ad mode.
+    shouldTakeSnapshots: function shouldTakeSnapshots() {
+      var somePlayer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : player;
+
+      return !this.shouldPlayContentBehindAd(somePlayer) && !this.stitchedAds();
+    },
+
+
+    // Returns true if player is in ad mode.
+    //
+    // Ad mode definition:
+    // If content playback is blocked by the ad plugin.
+    //
+    // Examples of ad mode:
+    //
+    // * Waiting to find out if an ad is going to play while content would normally be
+    //   playing.
+    // * Waiting for an ad to start playing while content would normally be playing.
+    // * An ad is playing (even if content is also playing)
+    // * An ad has completed and content is about to resume, but content has not resumed
+    //   yet.
+    //
+    // Examples of not ad mode:
+    //
+    // * Content playback has not been requested
+    // * Content playback is paused
+    // * An asynchronous ad request is ongoing while content is playing
+    // * A non-linear ad is active
+    isInAdMode: function isInAdMode() {
+      return this._state.isAdState();
+    },
+
+
+    // Returns true if in ad mode but an ad break hasn't started yet.
+    isWaitingForAdBreak: function isWaitingForAdBreak() {
+      return this._state.isWaitingForAdBreak();
+    },
+
+
+    // Returns true if content is resuming after an ad. This is part of ad mode.
+    isContentResuming: function isContentResuming() {
+      return this._state.isContentResuming();
+    },
+
+
+    // Deprecated because the name was misleading. Use inAdBreak instead.
+    isAdPlaying: function isAdPlaying() {
+      return this._state.inAdBreak();
+    },
+
+
+    // Returns true if an ad break is ongoing. This is part of ad mode.
+    // An ad break is the time between startLinearAdMode and endLinearAdMode.
+    inAdBreak: function inAdBreak() {
+      return this._state.inAdBreak();
+    },
+
+
+    /*
+     * Remove the poster attribute from the video element tech, if present. When
+     * reusing a video element for multiple videos, the poster image will briefly
+     * reappear while the new source loads. Removing the attribute ahead of time
+     * prevents the poster from showing up between videos.
+     *
+     * @param {Object} player The videojs player object
+     */
+    removeNativePoster: function removeNativePoster() {
+      var tech = player.$('.vjs-tech');
+
+      if (tech) {
+        tech.removeAttribute('poster');
+      }
+    },
+    debug: function debug() {
+      if (this.settings.debug) {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        if (args.length === 1 && typeof args[0] === 'string') {
+          videojs.log('ADS: ' + args[0]);
+        } else {
+          videojs.log.apply(videojs, ['ADS:'].concat(args));
+        }
+      }
+    }
+  };
+}
 
 /*
 The goal of this feature is to make player events work as an integrator would
@@ -95,7 +343,7 @@ var handleEnded = function handleEnded(player, event) {
     }
 
     // Prefix ended due to content ending before postroll check
-  } else if (!player.ads._contentHasEnded) {
+  } else if (!player.ads._contentHasEnded && !player.ads.stitchedAds()) {
 
     // This will change to cancelEvent after the contentended deprecation
     // period (contrib-ads 7)
@@ -443,6 +691,16 @@ var customFields = function customFields(mediainfo, macros, customFieldsName) {
 // Return value is is "string" with macros replaced
 //  - For example: adMacroReplacement('{player.id}') returns a string of the player id
 function adMacroReplacement(string, uriEncode, customMacros) {
+  var _this = this;
+
+  var defaults = {};
+
+  // Get macros with defaults e.g. {x=y}, store values and replace with standard macros
+  string = string.replace(/{([^}=]+)=([^}]+)}/g, function (match, name, defaultVal) {
+    defaults['{' + name + '}'] = defaultVal;
+
+    return '{' + name + '}';
+  });
 
   if (uriEncode === undefined) {
     uriEncode = false;
@@ -458,16 +716,22 @@ function adMacroReplacement(string, uriEncode, customMacros) {
   macros['{player.id}'] = this.options_['data-player'];
   macros['{mediainfo.id}'] = this.mediainfo ? this.mediainfo.id : '';
   macros['{mediainfo.name}'] = this.mediainfo ? this.mediainfo.name : '';
-  macros['{mediainfo.description}'] = this.mediainfo ? this.mediainfo.description : '';
-  macros['{mediainfo.tags}'] = this.mediainfo ? this.mediainfo.tags : '';
-  macros['{mediainfo.reference_id}'] = this.mediainfo ? this.mediainfo.reference_id : '';
   macros['{mediainfo.duration}'] = this.mediainfo ? this.mediainfo.duration : '';
-  macros['{mediainfo.ad_keys}'] = this.mediainfo ? this.mediainfo.ad_keys : '';
   macros['{player.duration}'] = this.duration();
   macros['{timestamp}'] = new Date().getTime();
   macros['{document.referrer}'] = document.referrer;
   macros['{window.location.href}'] = window.location.href;
   macros['{random}'] = Math.floor(Math.random() * 1000000000000);
+
+  ['description', 'tags', 'reference_id', 'ad_keys'].forEach(function (prop) {
+    if (_this.mediainfo && _this.mediainfo[prop]) {
+      macros['{mediainfo.' + prop + '}'] = _this.mediainfo[prop];
+    } else if (defaults['{mediainfo.' + prop + '}']) {
+      macros['{mediainfo.' + prop + '}'] = defaults['{mediainfo.' + prop + '}'];
+    } else {
+      macros['{mediainfo.' + prop + '}'] = '';
+    }
+  });
 
   // Custom fields in mediainfo
   customFields(this.mediainfo, macros, 'custom_fields');
@@ -501,6 +765,9 @@ function adMacroReplacement(string, uriEncode, customMacros) {
     if (value === null) {
       return 'null';
     } else if (value === undefined) {
+      if (defaults['{pageVariable.' + name + '}']) {
+        return defaults['{pageVariable.' + name + '}'];
+      }
       videojs.log.warn('Page variable "' + name + '" not found');
       return '';
     } else if (type !== 'string' && type !== 'number' && type !== 'boolean') {
@@ -510,6 +777,11 @@ function adMacroReplacement(string, uriEncode, customMacros) {
 
     return uriEncodeIfNeeded(String(value), uriEncode);
   });
+
+  // Replace defaults
+  for (var defaultVal in defaults) {
+    string = string.replace(defaultVal, defaults[defaultVal]);
+  }
 
   return string;
 }
@@ -733,7 +1005,7 @@ obj.playMiddleware = function (player) {
         return videojsReference.middleware.TERMINATOR;
       }
     },
-    play: function play(terminated, value) {
+    play: function play(terminated, playPromise) {
       if (player.ads && player.ads._playBlocked && terminated) {
         player.ads.debug('Play call to Tech was terminated.');
         // Trigger play event to match the user's intent to play.
@@ -744,6 +1016,16 @@ obj.playMiddleware = function (player) {
         player.addClass('vjs-has-started');
         // Reset playBlocked
         player.ads._playBlocked = false;
+
+        // Safari issues a pause event when autoplay is blocked but Chrome does not.
+        // We fingerprint Chrome using e.message and send a pause for consistency.
+        // This keeps the play button synchronized if play is rejected.
+      } else if (playPromise && playPromise['catch']) {
+        playPromise['catch'](function (e) {
+          if (e.message === 'play() failed because the user didn\'t interact with the ' + 'document first. https://goo.gl/xX8pDD') {
+            player.trigger('pause');
+          }
+        });
       }
     }
   };
@@ -752,6 +1034,76 @@ obj.playMiddleware = function (player) {
 obj.testHook = function (testVjs) {
   videojsReference = testVjs;
 };
+
+var playMiddleware = obj.playMiddleware;
+var isMiddlewareMediatorSupported$1 = obj.isMiddlewareMediatorSupported;
+
+/**
+ * Whether or not this copy of Video.js has the ads plugin.
+ *
+ * @return {boolean}
+ *         If `true`, has the plugin. `false` otherwise.
+ */
+
+var hasAdsPlugin = function hasAdsPlugin() {
+
+  // Video.js 6 and 7 have a getPlugin method.
+  if (videojs.getPlugin) {
+    return Boolean(videojs.getPlugin('ads'));
+  }
+
+  // Video.js 5 does not have a getPlugin method, so check the player prototype.
+  var Player = videojs.getComponent('Player');
+
+  return Boolean(Player && Player.prototype.ads);
+};
+
+/**
+ * Register contrib-ads with Video.js, but provide protection for duplicate
+ * copies of the plugin. This could happen if, for example, a stitched ads
+ * plugin and a client-side ads plugin are included simultaneously with their
+ * own copies of contrib-ads.
+ *
+ * If contrib-ads detects a pre-existing duplicate, it will not register
+ * itself.
+ *
+ * Ad plugins using contrib-ads and anticipating that this could come into
+ * effect should verify that the contrib-ads they are using is of a compatible
+ * version.
+ *
+ * @param  {Function} contribAdsPlugin
+ *         The plugin function.
+ *
+ * @return {boolean}
+ *         When `true`, the plugin was registered. When `false`, the plugin
+ *         was not registered.
+ */
+function register(contribAdsPlugin) {
+
+  // If the ads plugin already exists, do not overwrite it.
+  if (hasAdsPlugin(videojs)) {
+    return false;
+  }
+
+  // Cross-compatibility with Video.js 6/7 and 5.
+  var registerPlugin = videojs.registerPlugin || videojs.plugin;
+
+  // Register this plugin with Video.js.
+  registerPlugin('ads', contribAdsPlugin);
+
+  // Register the play middleware with Video.js on script execution,
+  // to avoid a new playMiddleware factory being added for each player.
+  // The `usingContribAdsMiddleware_` flag is used to ensure that we only ever
+  // register the middleware once - despite the ability to de-register and
+  // re-register the plugin itself.
+  if (isMiddlewareMediatorSupported$1() && !videojs.usingContribAdsMiddleware_) {
+    // Register the play middleware
+    videojs.use('*', playMiddleware);
+    videojs.usingContribAdsMiddleware_ = true;
+  }
+
+  return true;
+}
 
 var State = function () {
   State._getName = function _getName() {
@@ -815,6 +1167,8 @@ var State = function () {
 
   State.prototype.onEnded = function onEnded() {};
 
+  State.prototype.onAdEnded = function onAdEnded() {};
+
   State.prototype.onAdsReady = function onAdsReady() {
     videojs.log.warn('Unexpected adsready event');
   };
@@ -828,6 +1182,8 @@ var State = function () {
   State.prototype.onAdStarted = function onAdStarted() {};
 
   State.prototype.onContentChanged = function onContentChanged() {};
+
+  State.prototype.onDispose = function onDispose() {};
 
   State.prototype.onContentResumed = function onContentResumed() {};
 
@@ -910,6 +1266,8 @@ var State = function () {
       this.onAdStarted(player);
     } else if (type === 'contentchanged') {
       this.onContentChanged(player);
+    } else if (type === 'dispose') {
+      this.onDispose(player);
     } else if (type === 'contentresumed') {
       this.onContentResumed(player);
     } else if (type === 'readyforpostroll') {
@@ -922,6 +1280,8 @@ var State = function () {
       this.onNoPreroll(player);
     } else if (type === 'nopostroll') {
       this.onNoPostroll(player);
+    } else if (type === 'adended') {
+      this.onAdEnded(player);
     }
   };
 
@@ -1052,6 +1412,8 @@ The snapshot feature is responsible for saving the player state before an ad, th
 restoring the player state after an ad.
 */
 
+var tryToResumeTimeout_ = void 0;
+
 /*
  * Returns an object that captures the portions of player state relevant to
  * video playback. The result of this function can be passed to
@@ -1079,13 +1441,13 @@ function getPlayerSnapshot(player) {
   var snapshotObject = {
     ended: player.ended(),
     currentSrc: player.currentSrc(),
+    sources: player.currentSources(),
     src: player.tech_.src(),
     currentTime: currentTime,
     type: player.currentType()
   };
 
   if (tech) {
-    snapshotObject.nativePoster = tech.poster;
     snapshotObject.style = tech.getAttribute('style');
   }
 
@@ -1109,13 +1471,16 @@ function getPlayerSnapshot(player) {
  * @param {Object} player - the videojs player object
  * @param {Object} snapshotObject - the player state to apply
  */
-function restorePlayerSnapshot(player, snapshotObject, callback) {
+function restorePlayerSnapshot(player, callback) {
+  var snapshotObject = player.ads.snapshot;
+
   if (callback === undefined) {
     callback = function callback() {};
   }
 
   if (player.ads.disableNextSnapshotRestore === true) {
     player.ads.disableNextSnapshotRestore = false;
+    delete player.ads.snapshot;
     callback();
     return;
   }
@@ -1154,6 +1519,18 @@ function restorePlayerSnapshot(player, snapshotObject, callback) {
         player.currentTime(currentTime);
       }
 
+      // iOS live play after restore if player was paused (would not be paused if
+      // ad played muted behind ad)
+      if (player.paused()) {
+        var playPromise = player.play();
+
+        if (playPromise && playPromise['catch']) {
+          playPromise['catch'](function (error) {
+            videojs.log.warn('Play promise rejected in IOS snapshot resume', error);
+          });
+        }
+      }
+
       // Restore the video position after an ad.
       // We check snapshotObject.ended because the content starts at the beginning again
       // after being restored.
@@ -1165,7 +1542,13 @@ function restorePlayerSnapshot(player, snapshotObject, callback) {
     } else {
       // Prerolls and midrolls, just seek to the player time before the ad.
       player.currentTime(snapshotObject.currentTime);
-      player.play();
+      var _playPromise = player.play();
+
+      if (_playPromise && _playPromise['catch']) {
+        _playPromise['catch'](function (error) {
+          videojs.log.warn('Play promise rejected in snapshot resume', error);
+        });
+      }
     }
 
     // if we added autoplay to force content loading on iOS, remove it now
@@ -1187,9 +1570,8 @@ function restorePlayerSnapshot(player, snapshotObject, callback) {
     // way it could've been called by removing the listener and clearing out
     // the timeout.
     player.off('contentcanplay', tryToResume);
-    if (player.ads.tryToResumeTimeout_) {
-      player.clearTimeout(player.ads.tryToResumeTimeout_);
-      player.ads.tryToResumeTimeout_ = null;
+    if (tryToResumeTimeout_) {
+      player.clearTimeout(tryToResumeTimeout_);
     }
 
     // Tech may have changed depending on the differences in sources of the
@@ -1225,10 +1607,6 @@ function restorePlayerSnapshot(player, snapshotObject, callback) {
     }
   };
 
-  if (snapshotObject.nativePoster) {
-    tech.poster = snapshotObject.nativePoster;
-  }
-
   if ('style' in snapshotObject) {
     // overwrite all css style properties to restore state precisely
     tech.setAttribute('style', snapshotObject.style || '');
@@ -1241,7 +1619,10 @@ function restorePlayerSnapshot(player, snapshotObject, callback) {
 
   if (player.ads.videoElementRecycled()) {
     // Snapshot restore is done, so now we're really finished.
-    player.one('resumeended', callback);
+    player.one('resumeended', function () {
+      delete player.ads.snapshot;
+      callback();
+    });
 
     // on ios7, fiddling with textTracks too early will cause safari to crash
     player.one('contentloadedmetadata', restoreTracks);
@@ -1257,13 +1638,13 @@ function restorePlayerSnapshot(player, snapshotObject, callback) {
     }
 
     // if the src changed for ad playback, reset it
-    player.src({ src: snapshotObject.currentSrc, type: snapshotObject.type });
+    player.src(snapshotObject.sources);
 
     // and then resume from the snapshots time once the original src has loaded
     // in some browsers (firefox) `canplay` may not fire correctly.
     // Reace the `canplay` event with a timeout.
     player.one('contentcanplay', tryToResume);
-    player.ads.tryToResumeTimeout_ = player.setTimeout(tryToResume, 2000);
+    tryToResumeTimeout_ = player.setTimeout(tryToResume, 2000);
   } else {
     // if we didn't change the src, just restore the tracks
     restoreTracks();
@@ -1273,10 +1654,17 @@ function restorePlayerSnapshot(player, snapshotObject, callback) {
     if (!player.ended()) {
       // the src didn't change and this wasn't a postroll
       // just resume playback at the current time.
-      player.play();
+      var playPromise = player.play();
+
+      if (playPromise && playPromise['catch']) {
+        playPromise['catch'](function (error) {
+          videojs.log.warn('Play promise rejected in snapshot restore', error);
+        });
+      }
     }
 
     // snapshot restore is complete
+    delete player.ads.snapshot;
     callback();
   }
 }
@@ -1296,7 +1684,7 @@ function start(player) {
   player.trigger('adstart');
 
   // Capture current player state snapshot
-  if (!player.ads.shouldPlayContentBehindAd(player)) {
+  if (player.ads.shouldTakeSnapshots()) {
     player.ads.snapshot = getPlayerSnapshot(player);
   }
 
@@ -1317,8 +1705,7 @@ function start(player) {
   }
 
   // This removes the native poster so the ads don't show the content
-  // poster if content element is reused for ad playback. The snapshot
-  // will restore it afterwards.
+  // poster if content element is reused for ad playback.
   player.ads.removeNativePoster();
 }
 
@@ -1346,8 +1733,8 @@ function end(player, callback) {
   }
 
   // Restore snapshot
-  if (!player.ads.shouldPlayContentBehindAd(player)) {
-    restorePlayerSnapshot(player, player.ads.snapshot, callback);
+  if (player.ads.shouldTakeSnapshots()) {
+    restorePlayerSnapshot(player, callback);
 
     // Reset the volume to pre-ad levels
   } else {
@@ -1899,7 +2286,7 @@ var Postroll = function (_AdState) {
 
   Postroll.prototype.onNoPostroll = function onNoPostroll(player) {
     if (!this.isContentResuming() && !this.inAdBreak()) {
-      this.transitionTo(AdsDone);
+      this.abort(player);
     } else {
       videojs.log.warn('Unexpected nopostroll event (Postroll)');
     }
@@ -2040,13 +2427,16 @@ var BeforePreroll = function (_ContentState) {
     this.shouldResumeToContent = true;
   };
 
-  /*
-   * Content source change before preroll is currently not handled. When
-   * developed, this is where to start.
-   */
+  BeforePreroll.prototype.onContentChanged = function onContentChanged() {
+    this.init(this.player);
 
+    // TODO: Handle case where player does not play on content change
+    this.onPlay(this.player);
+  };
 
-  BeforePreroll.prototype.onContentChanged = function onContentChanged() {};
+  BeforePreroll.prototype.onDispose = function onDispose() {
+    this.init(this.player);
+  };
 
   return BeforePreroll;
 }(ContentState);
@@ -2160,6 +2550,130 @@ var AdsDone = function (_ContentState) {
   return AdsDone;
 }(ContentState);
 
+var StitchedAdRoll = function (_AdState) {
+  inherits(StitchedAdRoll, _AdState);
+
+  function StitchedAdRoll() {
+    classCallCheck(this, StitchedAdRoll);
+    return possibleConstructorReturn(this, _AdState.apply(this, arguments));
+  }
+
+  /*
+   * Allows state name to be logged even after minification.
+   */
+  StitchedAdRoll._getName = function _getName() {
+    return 'StitchedAdRoll';
+  };
+
+  /*
+   * StitchedAdRoll breaks happen when the ad plugin calls startLinearAdMode,
+   * which can happen at any time during content playback.
+   */
+
+
+  StitchedAdRoll.prototype.init = function init() {
+    this.waitingForAdBreak = false;
+    this.contentResuming = false;
+    this.player.ads.adType = 'stitched';
+    obj$1.start(this.player);
+  };
+
+  /*
+   * For stitched ads, there is no "content resuming" scenario, so a "playing"
+   * event is not relevant.
+   */
+
+
+  StitchedAdRoll.prototype.onPlaying = function onPlaying() {};
+
+  /*
+   * For stitched ads, there is no "content resuming" scenario, so a
+   * "contentresumed" event is not relevant.
+   */
+
+
+  StitchedAdRoll.prototype.onContentResumed = function onContentResumed() {};
+
+  /*
+   * When we see an "adended" event, it means that we are in a postroll that
+   * has ended (because the media ended and we are still in an ad state).
+   *
+   * In these cases, we transition back to content mode and fire ended.
+   */
+
+
+  StitchedAdRoll.prototype.onAdEnded = function onAdEnded() {
+    this.endLinearAdMode();
+    this.player.trigger('ended');
+  };
+
+  /*
+   * StitchedAdRoll break is done.
+   */
+
+
+  StitchedAdRoll.prototype.endLinearAdMode = function endLinearAdMode() {
+    obj$1.end(this.player);
+    this.transitionTo(StitchedContentPlayback);
+  };
+
+  return StitchedAdRoll;
+}(AdState);
+
+/*
+ * This state represents content playback when stitched ads are in play.
+ */
+
+var StitchedContentPlayback = function (_ContentState) {
+  inherits(StitchedContentPlayback, _ContentState);
+
+  function StitchedContentPlayback() {
+    classCallCheck(this, StitchedContentPlayback);
+    return possibleConstructorReturn(this, _ContentState.apply(this, arguments));
+  }
+
+  /*
+   * Allows state name to be logged even after minification.
+   */
+  StitchedContentPlayback._getName = function _getName() {
+    return 'StitchedContentPlayback';
+  };
+
+  /*
+   * For state transitions to work correctly, initialization should
+   * happen here, not in a constructor.
+   */
+
+
+  StitchedContentPlayback.prototype.init = function init() {
+
+    // Don't block calls to play in stitched ad players, ever.
+    this.player.ads._shouldBlockPlay = false;
+  };
+
+  /*
+   * Source change does not do anything for stitched ad players.
+   * contentchanged does not fire during ad breaks, so we don't need to
+   * worry about that.
+   */
+
+
+  StitchedContentPlayback.prototype.onContentChanged = function onContentChanged() {
+    this.player.ads.debug('Received contentchanged event (' + this._getName() + ')');
+  };
+
+  /*
+   * This is how stitched ads start.
+   */
+
+
+  StitchedContentPlayback.prototype.startLinearAdMode = function startLinearAdMode() {
+    this.transitionTo(StitchedAdRoll);
+  };
+
+  return StitchedContentPlayback;
+}(ContentState);
+
 /*
  * This file is necessary to avoid this rollup issue:
  * https://github.com/rollup/rollup/issues/1089
@@ -2170,35 +2684,44 @@ This main plugin file is responsible for the public API and enabling the feature
 that live in in separate files.
 */
 
-var playMiddleware = obj.playMiddleware;
 var isMiddlewareMediatorSupported = obj.isMiddlewareMediatorSupported;
 
 var VIDEO_EVENTS = videojs.getTech('Html5').Events;
 
-// default settings
+// Default settings
 var defaults = {
-  // maximum amount of time in ms to wait to receive `adsready` from the ad
+  // Maximum amount of time in ms to wait to receive `adsready` from the ad
   // implementation after play has been requested. Ad implementations are
   // expected to load any dynamic libraries and make any requests to determine
   // ad policies for a video during this time.
   timeout: 5000,
 
-  // maximum amount of time in ms to wait for the ad implementation to start
+  // Maximum amount of time in ms to wait for the ad implementation to start
   // linear ad mode after `readyforpreroll` has fired. This is in addition to
   // the standard timeout.
   prerollTimeout: undefined,
 
-  // maximum amount of time in ms to wait for the ad implementation to start
+  // Maximum amount of time in ms to wait for the ad implementation to start
   // linear ad mode after `readyforpostroll` has fired.
   postrollTimeout: undefined,
 
-  // when truthy, instructs the plugin to output additional information about
+  // When truthy, instructs the plugin to output additional information about
   // plugin state to the video.js log. On most devices, the video.js log is
   // the same as the developer console.
   debug: false,
 
-  // set this to true when using ads that are part of the content video
-  stitchedAds: false
+  // Set this to true when using ads that are part of the content video
+  stitchedAds: false,
+
+  // Force content to be treated as live or not live
+  // if not defined, the code will try to infer if content is live,
+  // which can have limitations.
+  contentIsLive: undefined,
+
+  // If set to true, content will play muted behind ads on supported platforms. This is
+  // to support ads on video metadata cuepoints during a live stream. It also results in
+  // more precise resumes after ads during a live stream.
+  liveCuePoints: true
 };
 
 var contribAdsPlugin = function contribAdsPlugin(options) {
@@ -2207,7 +2730,7 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
 
   var settings = videojs.mergeOptions(defaults, options);
 
-  // prefix all video element events during ad playback
+  // Prefix all video element events during ad playback
   // if the video element emits ad-related events directly,
   // plugins that aren't ad-aware will break. prefixing allows
   // plugins that wish to handle ad events to do so while
@@ -2235,7 +2758,7 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
   // correctly.
   player.setTimeout(function () {
     if (!player.ads._hasThereBeenALoadStartDuringPlayerLife && player.src() !== '') {
-      videojs.log.error('videojs-contrib-ads has not seen a loadstart event 5 seconds ' + 'after being initialized, but a source is present. This indicates that ' + 'videojs-contrib-ads was initialized too late. It must be initialized ' + 'immediately after video.js in the same tick. As a result, some ads will not ' + 'play and some media events will be incorrect. For more information, see ' + 'https://github.com/videojs/videojs-contrib-ads#important-note-about-initialization');
+      videojs.log.error('videojs-contrib-ads has not seen a loadstart event 5 seconds ' + 'after being initialized, but a source is present. This indicates that ' + 'videojs-contrib-ads was initialized too late. It must be initialized ' + 'immediately after video.js in the same tick. As a result, some ads will not ' + 'play and some media events will be incorrect. For more information, see ' + 'http://videojs.github.io/videojs-contrib-ads/integrator/getting-started.html');
     }
   }, 5000);
 
@@ -2269,7 +2792,13 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
       return;
     }
 
-    player.play();
+    var playPromise = player.play();
+
+    if (playPromise && playPromise['catch']) {
+      playPromise['catch'](function (error) {
+        videojs.log.warn('Play promise rejected when playing ad', error);
+      });
+    }
   });
 
   player.on('nopreroll', function () {
@@ -2306,217 +2835,24 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
   });
 
   // Replace the plugin constructor with the ad namespace
-  player.ads = {
-    settings: settings,
-    disableNextSnapshotRestore: false,
+  player.ads = getAds(player);
 
-    // This is true if we have finished actual content playback but haven't
-    // dealt with postrolls and officially ended yet
-    _contentEnding: false,
+  player.ads.settings = settings;
 
-    // This is set to true if the content has officially ended at least once.
-    // After that, the user can seek backwards and replay content, but _contentHasEnded
-    // remains true.
-    _contentHasEnded: false,
+  // Set the stitched ads state. This needs to happen before the `_state` is
+  // initialized below - BeforePreroll needs to know whether contrib-ads is
+  // playing stitched ads or not.
+  // The setter is deprecated, so this does not use it.
+  // But first, cast to boolean.
+  settings.stitchedAds = !!settings.stitchedAds;
 
-    // Tracks if loadstart has happened yet for the initial source. It is not reset
-    // on source changes because loadstart is the event that signals to the ad plugin
-    // that the source has changed. Therefore, no special signaling is needed to know
-    // that there has been one for subsequent sources.
-    _hasThereBeenALoadStartDuringPlayerLife: false,
+  if (settings.stitchedAds) {
+    player.ads._state = new StitchedContentPlayback(player);
+  } else {
+    player.ads._state = new BeforePreroll(player);
+  }
 
-    // Tracks if loadeddata has happened yet for the current source.
-    _hasThereBeenALoadedData: false,
-
-    // Tracks if loadedmetadata has happened yet for the current source.
-    _hasThereBeenALoadedMetaData: false,
-
-    // Are we after startLinearAdMode and before endLinearAdMode?
-    _inLinearAdMode: false,
-
-    // Should we block calls to play on the content player?
-    _shouldBlockPlay: false,
-    // Was play blocked by the plugin's playMiddleware feature?
-    _playBlocked: false,
-    // Tracks whether play has been requested for this source,
-    // either by the play method or user interaction
-    _playRequested: false,
-
-    // This is an estimation of the current ad type being played
-    // This is experimental currently. Do not rely on its presence or behavior!
-    adType: null,
-
-    VERSION: version,
-
-    reset: function reset() {
-      player.ads.disableNextSnapshotRestore = false;
-      player.ads._contentEnding = false;
-      player.ads._contentHasEnded = false;
-      player.ads.snapshot = null;
-      player.ads.adType = null;
-      player.ads._hasThereBeenALoadedData = false;
-      player.ads._hasThereBeenALoadedMetaData = false;
-      player.ads._cancelledPlay = false;
-      player.ads._shouldBlockPlay = false;
-      player.ads._playBlocked = false;
-      player.ads.nopreroll_ = false;
-      player.ads.nopostroll_ = false;
-      player.ads._playRequested = false;
-    },
-
-
-    // Call this when an ad response has been received and there are
-    // linear ads ready to be played.
-    startLinearAdMode: function startLinearAdMode() {
-      player.ads._state.startLinearAdMode();
-    },
-
-
-    // Call this when a linear ad pod has finished playing.
-    endLinearAdMode: function endLinearAdMode() {
-      player.ads._state.endLinearAdMode();
-    },
-
-
-    // Call this when an ad response has been received but there are no
-    // linear ads to be played (i.e. no ads available, or overlays).
-    // This has no effect if we are already in an ad break.  Always
-    // use endLinearAdMode() to exit from linear ad-playback state.
-    skipLinearAdMode: function skipLinearAdMode() {
-      player.ads._state.skipLinearAdMode();
-    },
-    stitchedAds: function stitchedAds(arg) {
-      if (arg !== undefined) {
-        this._stitchedAds = !!arg;
-      }
-      return this._stitchedAds;
-    },
-
-
-    // Returns whether the video element has been modified since the
-    // snapshot was taken.
-    // We test both src and currentSrc because changing the src attribute to a URL that
-    // AdBlocker is intercepting doesn't update currentSrc.
-    videoElementRecycled: function videoElementRecycled() {
-      if (player.ads.shouldPlayContentBehindAd(player)) {
-        return false;
-      }
-
-      if (!this.snapshot) {
-        throw new Error('You cannot use videoElementRecycled while there is no snapshot.');
-      }
-
-      var srcChanged = player.tech_.src() !== this.snapshot.src;
-      var currentSrcChanged = player.currentSrc() !== this.snapshot.currentSrc;
-
-      return srcChanged || currentSrcChanged;
-    },
-
-
-    // Returns a boolean indicating if given player is in live mode.
-    // Can be replaced when this is fixed: https://github.com/videojs/video.js/issues/3262
-    isLive: function isLive(somePlayer) {
-      if (somePlayer.duration() === Infinity) {
-        return true;
-      } else if (videojs.browser.IOS_VERSION === '8' && somePlayer.duration() === 0) {
-        return true;
-      }
-      return false;
-    },
-
-
-    // Return true if content playback should mute and continue during ad breaks.
-    // This is only done during live streams on platforms where it's supported.
-    // This improves speed and accuracy when returning from an ad break.
-    shouldPlayContentBehindAd: function shouldPlayContentBehindAd(somePlayer) {
-      return !videojs.browser.IS_IOS && !videojs.browser.IS_ANDROID && somePlayer.duration() === Infinity;
-    },
-
-
-    // Returns true if player is in ad mode.
-    //
-    // Ad mode definition:
-    // If content playback is blocked by the ad plugin.
-    //
-    // Examples of ad mode:
-    //
-    // * Waiting to find out if an ad is going to play while content would normally be
-    //   playing.
-    // * Waiting for an ad to start playing while content would normally be playing.
-    // * An ad is playing (even if content is also playing)
-    // * An ad has completed and content is about to resume, but content has not resumed
-    //   yet.
-    //
-    // Examples of not ad mode:
-    //
-    // * Content playback has not been requested
-    // * Content playback is paused
-    // * An asynchronous ad request is ongoing while content is playing
-    // * A non-linear ad is active
-    isInAdMode: function isInAdMode() {
-      return this._state.isAdState();
-    },
-
-
-    // Returns true if in ad mode but an ad break hasn't started yet.
-    isWaitingForAdBreak: function isWaitingForAdBreak() {
-      return this._state.isWaitingForAdBreak();
-    },
-
-
-    // Returns true if content is resuming after an ad. This is part of ad mode.
-    isContentResuming: function isContentResuming() {
-      return this._state.isContentResuming();
-    },
-
-
-    // Deprecated because the name was misleading. Use inAdBreak instead.
-    isAdPlaying: function isAdPlaying() {
-      return this._state.inAdBreak();
-    },
-
-
-    // Returns true if an ad break is ongoing. This is part of ad mode.
-    // An ad break is the time between startLinearAdMode and endLinearAdMode.
-    inAdBreak: function inAdBreak() {
-      return this._state.inAdBreak();
-    },
-
-
-    /*
-     * Remove the poster attribute from the video element tech, if present. When
-     * reusing a video element for multiple videos, the poster image will briefly
-     * reappear while the new source loads. Removing the attribute ahead of time
-     * prevents the poster from showing up between videos.
-     *
-     * @param {Object} player The videojs player object
-     */
-    removeNativePoster: function removeNativePoster() {
-      var tech = player.$('.vjs-tech');
-
-      if (tech) {
-        tech.removeAttribute('poster');
-      }
-    },
-    debug: function debug() {
-      if (this.settings.debug) {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        if (args.length === 1 && typeof args[0] === 'string') {
-          videojs.log('ADS: ' + args[0]);
-        } else {
-          videojs.log.apply(videojs, ['ADS:'].concat(args));
-        }
-      }
-    }
-  };
-
-  player.ads._state = new BeforePreroll(player);
   player.ads._state.init(player);
-
-  player.ads.stitchedAds(settings.stitchedAds);
 
   player.ads.cueTextTracks = cueTextTracks;
   player.ads.adMacroReplacement = adMacroReplacement.bind(player);
@@ -2566,27 +2902,22 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
   });
 
   // Event handling for the current state.
-  player.on(['play', 'playing', 'ended', 'adsready', 'adscanceled', 'adskip', 'adserror', 'adtimeout', 'ads-ad-started', 'contentchanged', 'contentresumed', 'readyforpostroll', 'nopreroll', 'nopostroll'], function (e) {
+  player.on(['play', 'playing', 'ended', 'adsready', 'adscanceled', 'adskip', 'adserror', 'adtimeout', 'adended', 'ads-ad-started', 'contentchanged', 'dispose', 'contentresumed', 'readyforpostroll', 'nopreroll', 'nopostroll'], function (e) {
     player.ads._state.handleEvent(e.type);
   });
 
   // Clear timeouts and handlers when player is disposed
   player.on('dispose', function () {
+    player.ads.reset();
     player.textTracks().removeEventListener('change', textTrackChangeHandler);
   });
 };
 
-var registerPlugin = videojs.registerPlugin || videojs.plugin;
+// Expose the contrib-ads version before it is initialized. Will be replaced
+// after initialization in ads.js
+contribAdsPlugin.VERSION = version;
 
-// Register this plugin with videojs
-registerPlugin('ads', contribAdsPlugin);
-
-// Register the Play Middleware with video.js on script execution,
-// to avoid a new playMiddleware factory being created on
-// videojs for each player created.
-if (isMiddlewareMediatorSupported()) {
-  // Register the play middleware
-  videojs.use('*', playMiddleware);
-}
+// Attempt to register the plugin, if we can.
+register(contribAdsPlugin);
 
 module.exports = contribAdsPlugin;
