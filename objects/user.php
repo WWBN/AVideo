@@ -582,6 +582,9 @@ if (typeof gtag !== \"function\") {
     }
 
     function thisUserCanStream() {
+        if($this->status === 'i'){
+            return false;
+        }
         return !empty($this->isAdmin) || !empty($this->canStream);
     }
 
