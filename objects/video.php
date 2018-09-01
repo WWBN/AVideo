@@ -640,7 +640,7 @@ if (!class_exists('Video')) {
 
             $sql .= static::getVideoQueryFileter();
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
-                $sql .= " AND v.id IN ( " . implode(", ", $videosArrayId) . ") ";
+                $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
 
             if (!$ignoreGroup) {
