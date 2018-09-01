@@ -771,7 +771,7 @@ if (empty($_GET['videoName'])) {
                         $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
         <?php
-        $videoJSArray = array("view/js/video.js/video.js","view/js/videojs-contrib-ads/videojs.ads.min.js");
+        $videoJSArray = array("view/js/video.js/video.js","view/js/videojs-contrib-ads/videojs.ads.js");
         if ($advancedCustom != false) {
             $disableYoutubeIntegration = $advancedCustom->disableYoutubePlayerIntegration;
         } else {
