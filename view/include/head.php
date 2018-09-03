@@ -7,6 +7,12 @@ if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
     $ec = new ExtraConfig();
     $custom = $ec->getDescription();
 }
+
+if(!empty($video)){
+    $subTitle = str_replace(array('"',"\n","\r"),array("","",""),strip_tags($video['title']." - ".$video['description']));
+    $custom .= " - {$subTitle}";
+}
+
 $theme = $config->getTheme();
 ?>
 <meta charset="utf-8">
