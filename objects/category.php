@@ -206,6 +206,7 @@ class Category {
         $category = array();
         if ($res) {
             foreach ($fullResult as $row) {
+                $row['name'] = xss_esc_back($row['name']);
                 $category[] = $row;
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);
