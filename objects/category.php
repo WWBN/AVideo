@@ -166,6 +166,9 @@ class Category {
         $res = sqlDAL::readSql($sql,"i",array($id));
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
+        if($result){
+            $result['name'] = xss_esc_back($result['name']);
+        }
         return ($res) ? $result : false;
     }
 
@@ -175,6 +178,9 @@ class Category {
         $res = sqlDAL::readSql($sql,"s",array($name));
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
+        if($result){
+            $result['name'] = xss_esc_back($result['name']);
+        }
         return ($res) ? $result : false;
     }
     
@@ -184,6 +190,9 @@ class Category {
         $res = sqlDAL::readSql($sql);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
+        if($result){
+            $result['name'] = xss_esc_back($result['name']);
+        }
         return ($res) ? $result : false;
     }
 
@@ -230,6 +239,7 @@ class Category {
         $category = array();
         if ($res) {
             foreach ($fullResult as $row) {
+                $row['name'] = xss_esc_back($row['name']);
                 $category[] = $row;
             }
         } else {
