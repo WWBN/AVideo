@@ -568,6 +568,7 @@ if (!class_exists('Video')) {
             if ($res!=false) {
                 require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 if (!empty($video)) {
+                    $video['category'] = xss_esc_back($video['category']);
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
@@ -709,6 +710,7 @@ if (!class_exists('Video')) {
                         $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
                         $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
                     }
+                    $row['category'] = xss_esc_back($row['category']);
                     $row['groups'] = UserGroups::getVideoGroups($row['id']);
                     $row['tags'] = self::getTags($row['id']);
                     $row['title'] = UTF8encode($row['title']);
