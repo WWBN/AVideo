@@ -65,7 +65,7 @@ class TheaterButton extends PluginAbstract {
             }
         }
         
-        return $js;
+        echo $js;
     }
         
     public function getTags() {
