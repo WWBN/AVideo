@@ -36,7 +36,7 @@ if (empty($global['disableAdvancedConfigurations'])) {
 
 $config->setHead($_POST['head']);
 $config->setAdsense($_POST['adsense']);
-$config->setMode($_POST['mode']);
+$config->setMode('Youtube');
 
 $config->setAutoplay($_POST['autoplay']);
 $config->setTheme($_POST['theme']);

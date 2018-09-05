@@ -53,3 +53,4 @@ if(class_exists("Plugin")){YouPHPTubePlugin::getStart();}
 else{error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");}
 $global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm');
 $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+$sitemapFile = "{$global['systemRootPath']}sitemap.xml";

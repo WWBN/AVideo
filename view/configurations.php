@@ -294,18 +294,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label"><?php echo __("First Page Mode"); ?></label>
-                                                    <div class="col-md-8 inputGroupContainer">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                                                            <select class="form-control" id="mode" >
-                                                                <option value="Youtube" <?php echo ($config->getMode() == "Youtube") ? "selected" : ""; ?>><?php echo __("Youtube"); ?></option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("Web site title"); ?></label>
                                                     <div class="col-md-8 inputGroupContainer">
                                                         <div class="input-group">
@@ -398,7 +386,17 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     <div class="form-group">
                                                         <div class="col-md-12">
                                                             <button class="btn btn-danger" id="clearCache"><i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?></button>
-
+                                                            <button class="btn btn-primary" id="generateSiteMap"><i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?></button>
+                                                            <?php
+                                                            if(!is_writable($sitemapFile)){
+                                                                ?>
+                                                                <div class="alert alert-danger">
+                                                                    the sitemap file must be writable
+                                                                    <code>sudo chmod 777 <?php echo $sitemapFile; ?></code>
+                                                                </div>    
+                                                                <?php
+                                                            }
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -660,7 +658,24 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                     modal.hidePleaseWait();
                                 }
                             });
+                        });                        
+                        
+                        $('#generateSiteMap').on('click', function (ev) {
+                            ev.preventDefault();
+                            modal.showPleaseWait();
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/configurationGenerateSiteMap.json.php',
+                                success: function (response) {
+                                    if (!response.error) {
+                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("File created!"); ?>", "success");
+                                    } else {
+                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("File NOT created!"); ?>", "error");
+                                    }
+                                    modal.hidePleaseWait();
+                                }
+                            });
                         });
+                        
                         $('#logo-result-btn').on('click', function (ev) {
                             logoCrop.croppie('result', {
                                 type: 'canvas',
@@ -754,7 +769,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                             "authCanComment": $('#authCanComment').val(),
                                             "head": $('#head').val(),
                                             "adsense": $('#adsense').val(),
-                                            "mode": $('#mode').val(),
                                             "disable_analytics": $('#disable_analytics').prop("checked"),
                                             "disable_youtubeupload": $('#disable_youtubeupload').prop("checked"),
                                             "allow_download": $("#allow_download").prop("checked"),
