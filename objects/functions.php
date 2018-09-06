@@ -6,7 +6,7 @@ function xss_esc($text){
 
 function xss_esc_back($text){
     $text = htmlspecialchars_decode($text, ENT_QUOTES);
-    $text = str_replace(array('&amp;','#039;'), array(" ", "`"), $text);
+    $text = str_replace(array('&amp;','&#039;', "#039;"), array(" ", "`", "`"), $text);
     return $text;
 }
 
