@@ -607,9 +607,12 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         if (!empty($subcats)) {
                             echo "<ul style='margin-bottom: 0px; list-style-type: none;'>";
                             foreach ($subcats as $subcat) {
+                                if(empty($subcat['total'])){
+                                    continue;
+                                }
                                 echo '<li class="' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
                                 . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
-                                . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . '</a></li>';
+                                . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . ' <span class="badge">' . $subcat['total'] . '</span></a></li>';
                                 mkSub($subcat['id']);
                             }
                             echo "</ul>";
@@ -617,10 +620,12 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                     }
 
                     foreach ($categories as $value) {
-
+                        if(empty($value['total'])){
+                            continue;
+                        }
                         echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
                         . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >'
-                        . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . '</a>';
+                        . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . ' <span class="badge">' . $value['total'] . '</span></a>';
                         mkSub($value['id']);
                         echo '</li>';
                     }

@@ -485,6 +485,8 @@ if (typeof gtag !== \"function\") {
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
+        session_write_close();
+        session_start();
         // if user is not verified
         if (!empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustom->unverifiedEmailsCanNOTLogin)) {
             unset($_SESSION['user']);

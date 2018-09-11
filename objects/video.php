@@ -158,6 +158,7 @@ if (!class_exists('Video')) {
             }
             $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
+                Category::clearCacheCount();
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
                     $this->id = $id;
