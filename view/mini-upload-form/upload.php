@@ -19,7 +19,8 @@ header('Content-Type: application/json');
 $allowed = array(
     'mp4',
     'ogg',
-    'mp3'
+    'mp3',
+    'webm'
 );
 
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0)
