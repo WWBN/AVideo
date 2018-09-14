@@ -7,6 +7,7 @@ if (!isset($global['systemRootPath'])) {
 
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/video.php';
 
 class Category {
 
@@ -254,19 +255,19 @@ class Category {
 
     static function getTotalVideosFromCategory($categories_id, $showUnlisted = false) {
         global $global, $config;
-        if (!isset($_SESSION['categoryTotal'][$categories_id])) {
-            $sql = "SELECT count(id) as total FROM videos WHERE 1=1 AND categories_id = ? ";
+        if (!isset($_SESSION['categoryTotal'][$categories_id]) || true) {
+            $sql = "SELECT count(id) as total FROM videos v WHERE 1=1 AND categories_id = ? ";
             
             if(User::isLogged()){
                 $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='".User::getId()."'))";
             }else{
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
             }
-            
+            //echo $categories_id, $sql;
             $res = sqlDAL::readSql($sql, "i", array($categories_id));
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
-            $total = $fullResult[0]['total'];
+            $total = empty($fullResult[0]['total'])?0:intval($fullResult[0]['total']);
             $rows = self::getChildCategories($categories_id);
             foreach ($rows as $value) {
                 $total += self::getTotalVideosFromCategory($value['id']);

@@ -840,7 +840,7 @@ if (!class_exists('Video')) {
             return $obj;
         }
 
-        static private function getViewableStatus($showUnlisted = false) {
+        static function getViewableStatus($showUnlisted = false) {
             /**
               a = active
               i = inactive
