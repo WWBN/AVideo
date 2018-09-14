@@ -263,7 +263,10 @@ class Category {
             }else{
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
             }
-            //echo $categories_id, $sql;
+            
+            $sql .= Video::getUserGroupsCanSeeSQL();
+            
+            //echo $categories_id, $sql;exit;
             $res = sqlDAL::readSql($sql, "i", array($categories_id));
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);

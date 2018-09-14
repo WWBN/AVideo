@@ -453,7 +453,7 @@ if (!class_exists('Video')) {
             return $this->zoom;
         }
 
-        static private function getUserGroupsCanSeeSQL() {
+        static function getUserGroupsCanSeeSQL() {
             global $global;
 
             if (User::isAdmin()) {
