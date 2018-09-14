@@ -252,10 +252,17 @@ class Category {
         return $category;
     }
 
-    static function getTotalVideosFromCategory($categories_id) {
+    static function getTotalVideosFromCategory($categories_id, $showUnlisted = false) {
         global $global, $config;
         if (!isset($_SESSION['categoryTotal'][$categories_id])) {
             $sql = "SELECT count(id) as total FROM videos WHERE 1=1 AND categories_id = ? ";
+            
+            if(User::isLogged()){
+                $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='".User::getId()."'))";
+            }else{
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+            }
+            
             $res = sqlDAL::readSql($sql, "i", array($categories_id));
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
