@@ -5,6 +5,6 @@ if(!isset($global['systemRootPath'])){
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
-Category::clearCacheCount();
 User::logoff();
+Category::clearCacheCount();
 header("location: {$global['webSiteRootURL']}");
