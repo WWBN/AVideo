@@ -618,7 +618,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             echo "</ul>";
                         }
                     }
-
+                    //var_dump($categories);exit;
                     foreach ($categories as $value) {
                         if(empty($value['total'])){
                             continue;

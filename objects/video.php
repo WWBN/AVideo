@@ -453,7 +453,7 @@ if (!class_exists('Video')) {
             return $this->zoom;
         }
 
-        static private function getUserGroupsCanSeeSQL() {
+        static function getUserGroupsCanSeeSQL() {
             global $global;
 
             if (User::isAdmin()) {
@@ -840,7 +840,7 @@ if (!class_exists('Video')) {
             return $obj;
         }
 
-        static private function getViewableStatus($showUnlisted = false) {
+        static function getViewableStatus($showUnlisted = false) {
             /**
               a = active
               i = inactive

@@ -22,6 +22,8 @@ require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
+Category::clearCacheCount();
+
 error_log("Start Login Request");
 
 use Hybridauth\Hybridauth;
