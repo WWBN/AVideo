@@ -37,4 +37,14 @@ $user->setName($_POST['name']);
 
 $user->setCanUpload($config->getAuthCanUploadVideos());
 
-echo '{"status":"'.$user->save().'"}';
+$status=$user->save(); 
+
+$json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
+$advancedCustom = json_decode($json_file);
+if($advancedCustom->sendVerificationMailAutomaic && $status!=0)
+{
+    url_get_contents("{$global['webSiteRootURL']}objects/userVerifyEmail.php?users_id=$status");
+}
+
+
+echo '{"status":"'.$status.'"}';
