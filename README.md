@@ -1,15 +1,5 @@
 ### If you are not sure what is YouPHPTube, go to our <a href="https://demo.youphptube.com/" target="_blank">demo</a> page or visit our <a href="https://www.youphptube.com/" target="_blank">official site</a>
 
-# First thing...
-I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
-
-**For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
-`Apostle Paul in Romans 11:36`
-
-# This Software must be used for Good, never Evil. It is expressly forbidden to use YouPHPTube to build porn sites, violence, racism or anything else that affects human integrity or denigrates the image of anyone.
-
-# Now you can read the rest...
-
 ## Important Information
 
 > Streamer can be installed on any Server, including Windows, but the encoder and Livestream should work fine on any Linux distribution. However we recommend Ubuntu 16+ without any kind of control panel.
