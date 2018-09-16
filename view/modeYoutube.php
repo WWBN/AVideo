@@ -663,7 +663,7 @@ if (empty($_GET['videoName'])) {
                                     </div>
                                 </span>
                             </div>
-                            <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" itemscope itemtype="http://schema.org/VideoObject" >
+                            <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" id="autoPlayVideoDiv" itemscope itemtype="http://schema.org/VideoObject" >
                                 <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title']); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                                         <?php
@@ -739,6 +739,14 @@ if (empty($_GET['videoName'])) {
                             var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
                             var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
 
+                            function showAutoPlayVideoDiv(){
+                                var auto = $("#autoplay").prop('checked');
+                                if(!auto){
+                                    $('#autoPlayVideoDiv').slideUp();
+                                }else{
+                                    $('#autoPlayVideoDiv').slideDown();
+                                }
+                            }
                             $(document).ready(function () {
                                 $("input.saveCookie").each(function () {
                                     var mycookie = Cookies.get($(this).attr('name'));
@@ -753,6 +761,10 @@ if (empty($_GET['videoName'])) {
                                         expires: 365
                                     });
                                 });
+                                $("#autoplay").change(function () {
+                                    showAutoPlayVideoDiv();
+                                });
+                                showAutoPlayVideoDiv();
                             });
                         </script>
                     </div>
