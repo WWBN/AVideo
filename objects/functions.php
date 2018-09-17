@@ -1,4 +1,16 @@
 <?php
+function forbiddenWords($text){
+    global $global;
+    if(empty($global['forbiddenWords'])){
+        return false;
+    }
+    foreach ($global['forbiddenWords'] as $value) {
+        if(preg_match("/{$value}/i", $text)){
+            return true;
+        }
+    }
+    return false;
+}
 
 function xss_esc($text){
   return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');

@@ -138,6 +138,11 @@ if (!class_exists('Video')) {
             }
             $this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
             $this->setDescription($global['mysqli']->real_escape_string($this->description));
+            
+            if(forbiddenWords($this->title) || forbiddenWords($this->description)){
+                return false;
+            }
+            
             $this->next_videos_id = intval($this->next_videos_id);
             if (empty($this->next_videos_id)) {
                 $this->next_videos_id = 'NULL';
