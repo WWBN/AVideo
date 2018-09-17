@@ -288,7 +288,7 @@ class Category {
         session_write_close();
         session_start();
         unset($_SESSION['categoryTotal']);
-        session_write_close();
+        //session_write_close();
     }
 
     static function getTotalCategories() {
