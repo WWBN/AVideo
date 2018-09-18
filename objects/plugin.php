@@ -110,6 +110,9 @@ class Plugin extends ObjectYPT {
             $data = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if (!empty($data)) {
+                if(empty($data['pluginversion'])){
+                    $data['pluginversion'] = "1.0";
+                }
                 $getPluginByUUID[$uuid] = $data;
             } else {
                 $getPluginByUUID[$uuid] = false;
