@@ -22,6 +22,10 @@ class LoginYahoo extends PluginAbstract {
     public function getUUID() {
         return "03a225a1-f4b8-4844-8366-75436025e8a7";
     }
+
+    public function getPluginVersion() {
+        return "1.0";   
+    }
         
     public function getEmptyDataObject() {
         global $global;

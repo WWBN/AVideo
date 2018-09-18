@@ -25,6 +25,10 @@ class AD_Server extends PluginAbstract {
         return "3f2a707f-3c06-4b78-90f9-a22f2fda92ef";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }    
+
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->start = true;

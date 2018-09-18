@@ -15,7 +15,11 @@ class SeekButton extends PluginAbstract {
 
     public function getUUID() {
         return "f5c30980-9530-4650-8eab-9ab461ea6fdb";
-    }    
+    }
+    
+    public function getPluginVersion() {
+        return "1.0";   
+    }
 
     public function getEmptyDataObject() {
         global $global;

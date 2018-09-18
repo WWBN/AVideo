@@ -19,6 +19,10 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getUUID() {
         return "55a4fa56-8a30-48d4-a0fb-8aa6b3f69033";
     }
+
+    public function getPluginVersion() {
+        return "1.0";   
+    }    
     
     public function getEmptyDataObject() {
         $obj = new stdClass();

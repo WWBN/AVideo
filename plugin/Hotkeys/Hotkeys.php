@@ -13,6 +13,10 @@ class Hotkeys extends PluginAbstract {
         return "Hotkeys";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+
     public function getUUID() {
         return "11355314-1b30-ff15-afb-67516fcccff7";
     }

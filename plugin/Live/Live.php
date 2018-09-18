@@ -22,6 +22,10 @@ class Live extends PluginAbstract {
     public function getUUID() {
         return "e06b161c-cbd0-4c1d-a484-71018efa2f35";
     }
+    
+    public function getPluginVersion() {
+        return "1.0";   
+    }
 
     public function getEmptyDataObject() {
         global $global;

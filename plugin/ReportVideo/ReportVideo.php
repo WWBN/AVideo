@@ -18,6 +18,10 @@ class ReportVideo extends PluginAbstract {
         return "b5e223db-785b-4436-8f7b-f297860c9be0";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+    
     public function getTags() {
         return array('free', 'buttons', 'report');
     }

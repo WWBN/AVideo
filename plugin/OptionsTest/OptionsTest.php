@@ -18,6 +18,15 @@ class OptionsTest extends PluginAbstract {
     public function getUUID() {
         return "5d5b33e7-3192-4eb2-a4c1-4e62cc2e5d64";
     }
+
+    public function getPluginVersion() {
+        return "1.1";   
+    }
+    
+    public function updateScript() {
+        return true;
+    }
+    
     
     public function getHelp(){
         $html = "<h2 id='optionsTest help' >optionsTest</h2><p>Test object for routes, custom getCustomizeAdvancedOptions and custom user Options</p><table class='table'><tbody>";
@@ -31,7 +40,7 @@ class OptionsTest extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->disclaimer = ""; 
-        return $obj;        return $obj;
+        return $obj;
     }
     
     public function getHeadCode() {

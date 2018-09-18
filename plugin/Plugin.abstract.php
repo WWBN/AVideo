@@ -21,6 +21,15 @@ abstract class PluginAbstract {
      * return the description of the plugin
      */
     abstract function getDescription();
+    
+    /** 
+     * return the version of the plugin
+     */
+    abstract function getPluginVersion(); 
+    
+    public function updateScript() {
+        return false;
+    }
 
     public function getFooterCode() {
         return "";

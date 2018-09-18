@@ -22,6 +22,10 @@ class User_Location extends PluginAbstract {
         return "45432a78-d0c6-47f3-8ac4-8fd05f507386";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+    
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->autoChangeLanguage = true;

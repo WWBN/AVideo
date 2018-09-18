@@ -399,7 +399,12 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                             if(row.installedPlugin && row.installedPlugin.status == 'active'){
                                 menu = row.pluginMenu;
                             }
-                            return  editBtn + "<br>" + sqlBtn + "<br>" + menu;
+                            updateBtn = '';
+                            if(row.hasOwnProperty("installedPlugin") && row.installedPlugin.hasOwnProperty("pluginversion") && row.installedPlugin.pluginversion != row.pluginversion){
+                                updateBtn = '<button type="button" class="btn btn-xs btn-warning command-update" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Update Script"><span class="fa fa-wrench" aria-hidden="true"></span> Update @'+row.pluginversion+'</button>';
+                            }
+                            
+                            return  editBtn + "<br>" + sqlBtn + "<br>" + updateBtn + "<br>" + menu;
                         },
                         "name": function (column, row) {
                             var checked = "";
@@ -422,8 +427,23 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                                     tags += '<span class="label label-' + cl + '">' + row.tags[i] + '</span> ';
                                 }
                             }
+                            
+                            
 
-                            var txt = row.name + " (" + row.dir + ")<br><small class='text-muted'>UUID: " + row.uuid + "</small>";
+                            var txt = row.name + " (" + row.dir +")<br><small class='text-muted'>UUID: " + row.uuid + "</small>";
+                            if(row.hasOwnProperty("installedPlugin") && row.installedPlugin.hasOwnProperty("pluginversion")){
+                                console.log("Objecto: "+row.name);
+                                console.log("Installed: "+row.installedPlugin.pluginversion);
+                                console.log("Object: "+row.pluginversion);
+                                console.log(row.installedPlugin.pluginversion != row.pluginversion);
+                                if(row.installedPlugin.pluginversion != row.pluginversion){
+                                    txt += "<br><small class='text-danger'>Installed (@"+row.installedPlugin.pluginversion+")<br>Current Version (@"+row.pluginversion+"), please update</small><br>";
+                                }
+                                else{
+                                    txt += "<br><small class='text-success'>Version: @"+row.pluginversion+"</small><br>";
+                                }
+                            }
+                            console.log(txt);
                             txt += "<br>" + switchBtn;
                             txt += "<br>" + tags;
                             return txt;
@@ -466,6 +486,22 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                             type: 'post',
                             success: function (response) {
                                 modal.hidePleaseWait();
+                            }
+                        });
+                    });
+                    grid.find(".command-update").on("click", function (e) {
+                        var row_index = $(this).closest('tr').index();
+                        var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                        $('#inputPluginId').val(row.id);
+                        $('#inputData').val(JSON.stringify(row.data_object));
+                        modal.showPleaseWait();
+                        $.ajax({
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginRunUpdateScript.json.php',
+                            data: {"name": row.name},
+                            type: 'post',
+                            success: function (response) {
+                                modal.hidePleaseWait();
+                                $("#grid").bootgrid('reload');
                             }
                         });
                     });

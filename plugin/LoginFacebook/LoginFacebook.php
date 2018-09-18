@@ -22,6 +22,10 @@ class LoginFacebook extends PluginAbstract {
     public function getUUID() {
         return "010d53de-101a-4eb6-9aeb-dcffecdb6cb3";
     }
+
+    public function getPluginVersion() {
+        return "1.0";   
+    }    
         
     public function getEmptyDataObject() {
         global $global;

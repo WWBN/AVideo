@@ -21,6 +21,10 @@ class YPTWallet extends PluginAbstract {
     public function getUUID() {
         return "2faf2eeb-88ac-48e1-a098-37e76ae3e9f3";
     }
+    
+    public function getPluginVersion() {
+        return "1.0";   
+    }
 
     public function getEmptyDataObject() {
         $obj = new stdClass();

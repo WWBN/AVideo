@@ -515,4 +515,25 @@ class YouPHPTubePlugin {
         }
         return $navBarButtons;    
     }
+    
+    /**
+      * excecute update function at plugin and 
+      * update plugin version at database 
+      */
+    public static function updatePlugin($name)
+    {
+        $p=static::loadPlugin($name);
+        $currentVersion=$p->getPluginVersion();
+        $uuid=$p->getUUID();
+        if(method_exists($p,'updateScript')){
+            if($p->updateScript())
+            Plugin::setCurrentVersionByUuid($uuid, $currentVersion);
+            else
+            return false;
+        }else{
+            Plugin::setCurrentVersionByUuid($uuid, $currentVersion);
+        }
+        return true;
+    }
+    
 }

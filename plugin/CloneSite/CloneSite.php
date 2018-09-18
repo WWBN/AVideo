@@ -18,6 +18,10 @@ class CloneSite extends PluginAbstract {
         return "c0731de9-b4f7-4462-bda6-458b0736593d";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+
     public function getPluginMenu() {
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/CloneSite/pluginMenu.html';

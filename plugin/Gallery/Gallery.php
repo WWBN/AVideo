@@ -16,6 +16,10 @@ class Gallery extends PluginAbstract {
         return "a06505bf-3570-4b1f-977a-fd0e5cab205d";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+
     public function getHeadCode() {
         global $global;
         $obj = $this->getDataObject();
