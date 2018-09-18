@@ -16,6 +16,10 @@ class YouPHPFlix extends PluginAbstract {
         return "e2a568e6-ef61-4dcc-aad0-0109e9be8e36";
     }
     
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();

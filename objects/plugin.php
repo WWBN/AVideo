@@ -28,7 +28,11 @@ class Plugin extends ObjectYPT {
     function getObject_data() {
         return $this->object_data;
     }
-
+    
+    function getPluginVersion() {
+        return $this->pluginVersion;
+    }
+    
     function getName() {
         return $this->name;
     }
@@ -64,6 +68,17 @@ class Plugin extends ObjectYPT {
     function setDirName($dirName) {
         $this->dirName = $dirName;
     }
+    
+    static function setCurrentVersionByUuid($uuid, $currentVersion){
+        $p=static::getPluginByUUID($uuid);
+        if(!$p)
+        return false;
+        //pluginversion isn't an object property so we must explicity update it using this function
+        $sql="update ".static::getTableName()." set pluginversion='$currentVersion' where uuid='$uuid'";
+        print "update: $sql\n";
+        $res=sqlDal::writeSql($sql); 
+    }
+        
 
     static function getPluginByName($name) {
         global $global, $getPluginByName;
@@ -153,6 +168,7 @@ class Plugin extends ObjectYPT {
                         $obj->databaseScript = !empty(static::getDatabaseFile($value));
                         $obj->pluginMenu = $p->getPluginMenu();
                         $obj->tags = $p->getTags();
+                        $obj->pluginversion=$p->getPluginVersion();
                         $getAvailablePlugins[] = $obj;
                     }
                 }

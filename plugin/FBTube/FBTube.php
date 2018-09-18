@@ -15,6 +15,10 @@ class FBTube extends PluginAbstract {
     public function getUUID() {
         return "214d4c2f-1471-4592-81de-095e68ad14ea";
     }
+
+    public function getPluginVersion() {
+        return "1.0";   
+    }
         
     public function getFirstPage(){
         global $global;

@@ -5,11 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class YouPHPFlixHybrid extends PluginAbstract {
 
     public function getDescription() {
-        $desc = "This is a merge of YouPHPFlix-Plugin and the Gallery-Plugin, which are also dependencies. <br />Activate the other plugins and set the parameters of them as well.<br />Author: <a href='http://hersche.github.io' target='_blank' >Vinzenz Hersche</a>";
-        
-        $desc .= $this->isReadyLabel(array('YouPHPFlix','Gallery'));  
-        
-        return $desc;
+        return "This is a merge of YouPHPFlix-Plugin and the Gallery-Plugin, which are also dependencies. <br />Activate the other plugins and set the parameters of them as well.<br />Author: <a href='http://hersche.github.io' target='_blank' >Vinzenz Hersche</a>";
     }
 
     public function getName() {
@@ -18,6 +14,10 @@ class YouPHPFlixHybrid extends PluginAbstract {
 
     public function getUUID() {
         return "d3sa2k4l3-23rds421-re323-4ae-423";
+    }
+    
+    public function getPluginVersion() {
+        return "1.0";   
     }
     
     public function getEmptyDataObject() {

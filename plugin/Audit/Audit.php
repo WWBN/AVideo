@@ -16,8 +16,12 @@ class Audit extends PluginAbstract {
 
     public function getUUID() {
         return "26570956-dc62-46e3-ace9-86c6e8f9c81b";
-    }    
-    
+    }  
+
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+        
     public function getPluginMenu(){
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/Audit/pluginMenu.html';

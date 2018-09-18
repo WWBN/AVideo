@@ -30,6 +30,10 @@ class AD_Server_Location extends PluginAbstract {
         return "77771553-61a2-4189-b033-27a6bb17173d";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }    
+
     public function getEmptyDataObject() {
         $obj = new stdClass();
         return $obj;

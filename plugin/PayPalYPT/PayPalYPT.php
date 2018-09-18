@@ -27,6 +27,10 @@ class PayPalYPT extends PluginAbstract {
         return "5f613a09-c0b6-4264-85cb-47ae076d949f";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->ClientID = "ASUkHFpWX0T8sr8EiGdLZ05m-RAb8l-hdRxoq-OXWmua2i7EUfqFkMZvSoGgH2LhK7zAqt29IiS2oRTn";

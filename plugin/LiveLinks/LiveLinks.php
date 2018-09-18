@@ -29,6 +29,10 @@ class LiveLinks extends PluginAbstract {
         return "39d3b5fe-9702-4f1d-9ffd-fe1cd22a4dc7";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+
     public function canAddLinks() {
         $obj = $this->getDataObject();
         if (!User::isLogged()) {

@@ -16,6 +16,10 @@ class CookieAlert extends PluginAbstract {
         return "6daca392-7b14-44fb-aa33-51cba620d92e";
     }
 
+    public function getPluginVersion() {
+	return "1.0";
+    }
+
     public function getHeadCode() {
         $obj = $this->getDataObject();
         global $global;

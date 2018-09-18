@@ -22,6 +22,10 @@ class LoginLinkedin extends PluginAbstract {
     public function getUUID() {
         return "4c75d6a2-b261-4d37-b0fa-bf42c8fa98f5";
     }
+
+    public function getPluginVersion() {
+        return "1.0";   
+    }
         
     public function getEmptyDataObject() {
         global $global;

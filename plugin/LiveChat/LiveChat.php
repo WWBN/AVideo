@@ -17,6 +17,11 @@ class LiveChat extends PluginAbstract{
     public function getUUID() {
         return "52222da2-3f14-49db-958e-15ccb1a07f0e";
     }
+
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+    
     
     public static function getChatPanelFile(){
         global $global;

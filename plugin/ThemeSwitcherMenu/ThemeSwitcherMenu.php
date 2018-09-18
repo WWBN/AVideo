@@ -17,6 +17,9 @@ class ThemeSwitcherMenu extends PluginAbstract {
         return "24d29992-1d23-4268-ae5d-9727ad810c63";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
 
     public function getHTMLMenuRight() {
         global $global;

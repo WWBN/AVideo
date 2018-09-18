@@ -21,6 +21,10 @@ class MobileManager extends PluginAbstract {
         return "4c1f4f76-b336-4ddc-a4de-184efe715c09";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+
     public function getTags() {
         return array('free', 'mobile', 'android', 'ios');
     }  

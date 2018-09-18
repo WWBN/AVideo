@@ -18,6 +18,10 @@ class Cache extends PluginAbstract {
         return "10573225-3807-4167-ba81-0509dd280e06";
     }
 
+    public function getPluginVersion() {
+        return "1.0";   
+    }
+
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();

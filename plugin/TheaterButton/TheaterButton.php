@@ -15,7 +15,11 @@ class TheaterButton extends PluginAbstract {
 
     public function getUUID() {
         return "f7596843-51b1-47a0-8bb1-b4ad91f87d6b";
-    }    
+    }
+    
+    public function getPluginVersion() {
+        return "1.0";   
+    }
 
     public function getEmptyDataObject() {
         $obj = new stdClass();
