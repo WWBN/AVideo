@@ -1336,9 +1336,13 @@ if (!class_exists('Video')) {
             return $this->type;
         }
 
-        static function fixCleanTitle($clean_title, $count, $videoId) {
+        static function fixCleanTitle($clean_title, $count, $videoId, $original_title="") {
             global $global;
 
+            if(empty($original_title)){
+                $original_title = $clean_title;
+            }
+            
             $sql = "SELECT * FROM videos WHERE clean_title = '{$clean_title}' ";
             if (!empty($videoId)) {
                 $sql .= " AND id != {$videoId} ";
@@ -1348,7 +1352,7 @@ if (!class_exists('Video')) {
             $cleanTitleExists = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($cleanTitleExists!=false) {
-                return self::fixCleanTitle($clean_title . $count, $count + 1, $videoId);
+                return self::fixCleanTitle($original_title . $count, $count + 1, $videoId, $original_title);
             }
             return $clean_title;
         }
