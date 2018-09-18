@@ -25,7 +25,9 @@ abstract class PluginAbstract {
     /** 
      * return the version of the plugin
      */
-    abstract function getPluginVersion(); 
+    public function getPluginVersion(){
+        return "1.0";
+    }
     
     public function updateScript() {
         return false;
