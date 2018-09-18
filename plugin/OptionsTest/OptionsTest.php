@@ -20,7 +20,7 @@ class OptionsTest extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.1";   
+        return "1.3";   
     }
     
     public function updateScript() {
