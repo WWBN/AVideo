@@ -370,6 +370,7 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `object_data` TEXT NULL,
   `name` VARCHAR(255) NOT NULL,
   `dirName` VARCHAR(255) NOT NULL,
+  `pluginversion` VARCHAR(6) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC))
 ENGINE = InnoDB;
