@@ -71,7 +71,7 @@ if (!empty($_GET['msg'])) {
     $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
     $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
     $jsFiles[] = "view/js/script.js";
-    $jsFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.js";
+    //$jsFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.js";
     $jsFiles[] = "view/js/js-cookie/js.cookie.js";
     $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
