@@ -163,7 +163,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         }
                         ?>" name="search" placeholder="<?php echo __("Search"); ?>">
                         <span class="input-group-append">
-                            <button class="btn btn-default btn-outline-secondary border-left-0 border  py-2" type="button">
+                            <button class="btn btn-default btn-outline-secondary border-left-0 border  py-2" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </span>
