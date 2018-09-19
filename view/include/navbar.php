@@ -21,7 +21,6 @@
     @media (max-width : 768px) {
         #searchForm {
             padding-left: 10px;
-            background-color: #FFF;
         }
 
         #searchForm > div{
@@ -39,6 +38,7 @@
             left: 0;
             padding-left: 0px;
             padding-right: 0px;
+            background-color: #FFF;
 
         }
         .globalsearchfield {
