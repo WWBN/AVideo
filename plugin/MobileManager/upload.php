@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 $object = new stdClass();
 $object->error = true;
-
+$object->videos_id = 0;
 if (!User::canUpload() && (empty($_GET['user']) || empty($_GET['pass']))) {
     $object->msg = "You need a user";
     die(json_encode($object));
@@ -96,7 +96,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         error_log("MOBILE UPLOAD: {$object->msg}");
         die($object->msg);
     }
-    $video->save();
+    $object->videos_id = $video->save();
     $video->queue();
 
     $object->error = false;
