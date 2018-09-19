@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -388,7 +388,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                             <button class="btn btn-danger" id="clearCache"><i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?></button>
                                                             <button class="btn btn-primary" id="generateSiteMap"><i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?></button>
                                                             <?php
-                                                            if(!is_writable($sitemapFile)){
+                                                            if (!is_writable($sitemapFile)) {
                                                                 ?>
                                                                 <div class="alert alert-danger">
                                                                     the sitemap file must be writable
@@ -422,11 +422,14 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Disable YouPHPTube Google Analytics"); ?></label>
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="disable_analytics" id="disable_analytics" value="1" <?php
-                                                            if (!empty($config->getDisable_analytics())) {
-                                                                echo "checked";
-                                                            }
-                                                            ?>  aria-describedby="disable_analyticsHelp">
+                                                            <div class="material-switch">
+                                                                <input data-toggle="toggle" type="checkbox" name="disable_analytics" id="disable_analytics" value="1" <?php
+                                                                if (!empty($config->getDisable_analytics())) {
+                                                                    echo "checked";
+                                                                }
+                                                                ?>  aria-describedby="disable_analyticsHelp">
+                                                                <label for="disable_analytics" class="label-success"></label>
+                                                            </div>
                                                             <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
                                                         </div>
                                                     </div>
@@ -434,22 +437,29 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Disable Youtube-Upload"); ?></label>
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="disable_youtubeupload" id="disable_youtubeupload" value="1" <?php
-                                                            if (!empty($config->getDisable_youtubeupload())) {
-                                                                echo "checked";
-                                                            }
-                                                            ?> >
+
+                                                            <div class="material-switch">
+                                                                <input data-toggle="toggle" type="checkbox" name="disable_youtubeupload" id="disable_youtubeupload" value="1" <?php
+                                                                if (!empty($config->getDisable_youtubeupload())) {
+                                                                    echo "checked";
+                                                                }
+                                                                ?> >
+                                                                <label for="disable_youtubeupload" class="label-success"></label>
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Allow download video"); ?></label>
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="disable_rightclick" id="allow_download" value="1" <?php
-                                                            if (!empty($config->getAllow_download())) {
-                                                                echo "checked";
-                                                            }
-                                                            ?> aria-describedby="allow_downloadHelp">
+                                                            <div class="material-switch">
+                                                                <input data-toggle="toggle" type="checkbox" name="disable_rightclick" id="allow_download" value="1" <?php
+                                                                if (!empty($config->getAllow_download())) {
+                                                                    echo "checked";
+                                                                }
+                                                                ?> aria-describedby="allow_downloadHelp">
+                                                                <label for="allow_download" class="label-success"></label>
+                                                            </div>
                                                             <small id="allow_downloadHelp" class="form-text text-muted"><?php echo __("This creates a download-button under your video, suggest you title.mp4 as download-name."); ?></small>
                                                         </div>
                                                     </div>
@@ -458,21 +468,27 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Enable SMTP"); ?></label>
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="enableSmtp" id="enableSmtp" value="1" <?php
-                                                            if (!empty($config->getSmtp())) {
-                                                                echo "checked";
-                                                            }
-                                                            ?> >
+                                                            <div class="material-switch">
+                                                                <input data-toggle="toggle" type="checkbox" name="enableSmtp" id="enableSmtp" value="1" <?php
+                                                                if (!empty($config->getSmtp())) {
+                                                                    echo "checked";
+                                                                }
+                                                                ?> >
+                                                                <label for="enableSmtp" class="label-success"></label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Enable SMTP Auth"); ?></label>
                                                         <div class="col-md-10">
-                                                            <input data-toggle="toggle" type="checkbox" name="enableSmtpAuth" id="enableSmtpAuth" value="1" <?php
-                                                            if (!empty($config->getSmtpAuth())) {
-                                                                echo "checked";
-                                                            }
-                                                            ?> >
+                                                            <div class="material-switch">
+                                                                <input data-toggle="toggle" type="checkbox" name="enableSmtpAuth" id="enableSmtpAuth" value="1" <?php
+                                                                if (!empty($config->getSmtpAuth())) {
+                                                                    echo "checked";
+                                                                }
+                                                                ?> >
+                                                                <label for="enableSmtpAuth" class="label-success"></label>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -614,11 +630,11 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                             $.ajax({
                                 url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
                                 data: {
-                                    captcha:$('#captchaText').val(),
+                                    captcha: $('#captchaText').val(),
                                     first_name: "Your Site test",
-                                    email:"teste@teste.com",
+                                    email: "teste@teste.com",
                                     website: "www.youphptube.com",
-                                    comment:"Teste of comment"
+                                    comment: "Teste of comment"
                                 },
                                 type: 'post',
                                 success: function (response) {
@@ -658,8 +674,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                     modal.hidePleaseWait();
                                 }
                             });
-                        });                        
-                        
+                        });
+
                         $('#generateSiteMap').on('click', function (ev) {
                             ev.preventDefault();
                             modal.showPleaseWait();
@@ -675,7 +691,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                 }
                             });
                         });
-                        
+
                         $('#logo-result-btn').on('click', function (ev) {
                             logoCrop.croppie('result', {
                                 type: 'canvas',
