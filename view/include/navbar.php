@@ -9,27 +9,24 @@
         display: block!important;
     }
     #searchForm {
-        width: 290px;
+        width: 100%;
+        margin-left: 5px;
     }
+
     @media (max-width : 992px) {
-        #searchForm {
-            width: 100%;
-        }
-        
         #searchForm input{
             width: 100px;
         }
     }
-@media (max-width : 768px) {
+    @media (max-width : 768px) {
         #searchForm {
-            width: 100%;
             padding-left: 10px;
         }
-        
+
         #searchForm > div{
             width: 100%;
         }
-        
+
         .mobilesecondnav {
             position: absolute; left: 40%; right: 5px;
         }
@@ -67,7 +64,7 @@
         .searchul{
             padding-left: 0px;
         }
-}
+    }
 </style>
 <?php
 global $global, $config;
@@ -150,31 +147,29 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
 
                 </ul>
             </li>
-            <li style="margin-right: 0px; ">
+            <li class="nav-item" style="margin-right: 0px; ">
+
                 <div class="navbar-header">
                     <button type="button" id="buttonSearch" class="visible-xs navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#mysearch" style="padding: 6px 12px;">
                         <span class="fa fa-search"></span>
                     </button>
                 </div>
-                <div class="hidden-xs" id="mysearch">
-                    <ul class="searchul">
-                        <li class="right-menus container-fluid searchli" style="margin-right: 0px; padding-right: 0px; padding-bottom:0px;">
-                            <form class="navbar-form" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" >
-                                <div class="input-group" style="width: 100%;" >
-                                    <div class="form-inline">
-                                        <span><input class="form-control globalsearchfield" type="text" value="<?php
-                                            if (!empty($_GET['search'])) {
-                                                echo $_GET['search'];
-                                            }
-                                            ?>" name="search" placeholder="<?php echo __("Search"); ?>">
-                                            <button class="input-group-addon form-control hidden-sm"  style="width: 50px;" type="submit"><span class="glyphicon glyphicon-search"></span></button></span>
-                                    </div>
-                                </div>
-                            </form>
-                        </li>
-                    </ul>
+                <div class="input-group hidden-xs bg-primary"  id="mysearch">
+                    <form class="navbar-form form-inline input-group" role="search" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>">
+                        <input class="form-control globalsearchfield" type="text" value="<?php
+                        if (!empty($_GET['search'])) {
+                            echo $_GET['search'];
+                        }
+                        ?>" name="search" placeholder="<?php echo __("Search"); ?>">
+                        <span class="input-group-append">
+                            <button class="btn btn-default btn-outline-secondary border-left-0 border  py-2" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </span>
+                    </form>
                 </div>
             </li>
+
             <li style="margin-right: 0px; padding-left: 0px;">
                 <div class="navbar-header">
                     <button type="button" id="buttonMyNavbar" class=" navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#myNavbar" style="padding: 6px 12px;">
@@ -333,17 +328,17 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                                 <li>
                                     <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
                                         <?php
-                                        if(!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])){
+                                        if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
                                             ?>
                                             <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
                                             <?php
-                                        }else{
+                                        } else {
                                             ?>
                                             <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
                                             <?php
                                         }
                                         ?>
-                                            <i class="fas fa-sign-out-alt"></i> <span class="hidden-md hidden-sm"><?php echo __("Sign Out"); ?></span>
+                                        <i class="fas fa-sign-out-alt"></i> <span class="hidden-md hidden-sm"><?php echo __("Sign Out"); ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -375,11 +370,11 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-block" >
                                     <?php
-                                    if(!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])){
+                                    if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
                                         ?>
                                         <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
                                         <?php
-                                    }else{
+                                    } else {
                                         ?>
                                         <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
                                         <?php
@@ -607,7 +602,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         if (!empty($subcats)) {
                             echo "<ul style='margin-bottom: 0px; list-style-type: none;'>";
                             foreach ($subcats as $subcat) {
-                                if(empty($subcat['total'])){
+                                if (empty($subcat['total'])) {
                                     continue;
                                 }
                                 echo '<li class="' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
@@ -618,9 +613,10 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                             echo "</ul>";
                         }
                     }
+
                     //var_dump($categories);exit;
                     foreach ($categories as $value) {
-                        if(empty($value['total'])){
+                        if (empty($value['total'])) {
                             continue;
                         }
                         echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
@@ -643,19 +639,19 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>help">
                             <span class="glyphicon glyphicon-question-sign"></span>
-                            <?php echo __("Help"); ?>
+    <?php echo __("Help"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>about">
                             <span class="glyphicon glyphicon-info-sign"></span>
-                            <?php echo __("About"); ?>
+    <?php echo __("About"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>contact">
                             <span class="glyphicon glyphicon-comment"></span>
-                            <?php echo __("Contact"); ?>
+    <?php echo __("Contact"); ?>
                         </a>
                     </li>
                 </ul>
