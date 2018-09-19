@@ -21,6 +21,7 @@
     @media (max-width : 768px) {
         #searchForm {
             padding-left: 10px;
+            background-color: #FFF;
         }
 
         #searchForm > div{
@@ -154,7 +155,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                         <span class="fa fa-search"></span>
                     </button>
                 </div>
-                <div class="input-group hidden-xs bg-primary"  id="mysearch">
+                <div class="input-group hidden-xs"  id="mysearch">
                     <form class="navbar-form form-inline input-group" role="search" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>">
                         <input class="form-control globalsearchfield" type="text" value="<?php
                         if (!empty($_GET['search'])) {
