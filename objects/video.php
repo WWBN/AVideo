@@ -1352,7 +1352,7 @@ if (!class_exists('Video')) {
             $cleanTitleExists = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($cleanTitleExists!=false) {
-                return self::fixCleanTitle($original_title . $count, $count + 1, $videoId, $original_title);
+                return self::fixCleanTitle($original_title . "-" . $count, $count + 1, $videoId, $original_title);
             }
             return $clean_title;
         }
