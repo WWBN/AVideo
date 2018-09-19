@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -90,17 +90,17 @@ $advancedCustom = json_decode($json_file);
                                                         $.ajax({
                                                             type: "POST",
                                                             url: "<?php echo $global['webSiteRootURL'] ?>objects/userVerifyEmail.php?users_id=<?php echo $user->getBdId(); ?>"
-                                                        }).done(function (response) {
-                                                            if(response.error){
-                                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                                                            }else{
-                                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
-                                                            }
-                                                            modal.hidePleaseWait();
-                                                        });
-                                                    });
+                                                                        }).done(function (response) {
+                                                                            if (response.error) {
+                                                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                                            } else {
+                                                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
+                                                                            }
+                                                                            modal.hidePleaseWait();
+                                                                        });
+                                                                    });
 
-                                                });
+                                                                });
                                             </script>
                                             <?php
                                         }
@@ -269,7 +269,7 @@ $advancedCustom = json_decode($json_file);
                         }, 1000);
                         $('#updateUserForm').submit(function (evt) {
                             evt.preventDefault();
-                            if(!isAnalytics()){
+                            if (!isAnalytics()) {
                                 swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
                                 $('#inputAnalyticsCode').focus();
                                 return false;
@@ -376,8 +376,9 @@ $advancedCustom = json_decode($json_file);
                                     <div class="form-group">
                                         <label class="col-md-4 control-label"><?php echo __("Remember me"); ?></label>
                                         <div class="col-md-8 inputGroupContainer">
-                                            <div class="input-group">
-                                                <input  id="inputRememberMe" class="form-control"  type="checkbox" style="min-height: 15px; min-width: 15px;">
+                                            <div class="material-switch">
+                                                <input  id="inputRememberMe" class="form-control"  type="checkbox">
+                                                <label for="inputRememberMe" class="label-success"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -450,14 +451,14 @@ $advancedCustom = json_decode($json_file);
                             modal.showPleaseWait();
                             $.ajax({
                                 url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
-                                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme" : $('#inputRememberMe').is( ":checked" ) },
+                                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked")},
                                 type: 'post',
                                 success: function (response) {
                                     if (!response.isLogged) {
                                         modal.hidePleaseWait();
-                                        if(response.error){
+                                        if (response.error) {
                                             swal("<?php echo __("Sorry!"); ?>", response.error, "error");
-                                        }else{
+                                        } else {
                                             swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                                         }
                                     } else {
