@@ -383,6 +383,17 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function getEncoderURL() {
+        global $advancedCustom;
+        if(!empty($advancedCustom->useEncoderNetworkRecomendation) && !empty($advancedCustom->encoderNetwork)){
+            if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
+                $advancedCustom->encoderNetwork .= "/";
+            }
+            $bestEncoder = json_decode(url_get_contents($advancedCustom->encoderNetwork."view/getBestEncoder.php"));
+            if(!empty($bestEncoder->siteURL)){
+                $this->encoderURL = $bestEncoder->siteURL;
+            }
+        }
+        
         if (empty($this->encoderURL)) {
             return "https://encoder.youphptube.com/";
         }

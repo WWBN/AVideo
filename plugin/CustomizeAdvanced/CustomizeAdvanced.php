@@ -27,6 +27,7 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->encoderNetwork = "https://network.youphptube.com/";
+        $obj->useEncoderNetworkRecomendation = false;
         $obj->doNotShowUploadMP4Button = true;
         $obj->doNotShowImportMP4Button = false;
         $obj->doNotShowImportLocalVideosButton = false;
