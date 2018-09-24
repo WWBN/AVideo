@@ -6,45 +6,37 @@
 if (!empty($obj->showMarkers)) {
     ?>
             $.getScript("<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/videojs-markers/videojs-markers.js", function (data, textStatus, jqxhr) {
+
+                if (typeof player == 'undefined') {
+                    player = videojs('mainVideo');
+                }
+                player.markers({
+                    markerStyle: {
+                        'width': '5px',
+                        'background-color': 'yellow'
+                    },
+                    markerTip: {
+                        display: true,
+                        text: function (marker) {
+                            return marker.text;
+                        }
+                    },
+                    markers: [
     <?php
-}
-?>
-            if (typeof player == 'undefined') {
-                player = videojs('mainVideo');
-            }
-            player.markers({
-                markerStyle: {
-                    'width': '5px',
-                    'background-color': 'yellow'
-                },
-                markerTip: {
-                    display: true,
-                    text: function (marker) {
-                        return marker.text;
-                    }
-                },
-                markers: [
-<?php
-foreach ($vmaps as $value) {
-    $vastCampaingVideos = new VastCampaignsVideos($value->VAST->campaing);
-    $video = new Video("", "", $vastCampaingVideos->getVideos_id());
+    foreach ($vmaps as $value) {
+        $vastCampaingVideos = new VastCampaignsVideos($value->VAST->campaing);
+        $video = new Video("", "", $vastCampaingVideos->getVideos_id());
+        ?>
+                            {time: <?php echo $value->timeOffsetSeconds; ?>, text: "<?php echo addcslashes($video->getTitle(), '"'); ?>"},
+        <?php
+    }
     ?>
-                        {time: <?php echo $value->timeOffsetSeconds; ?>, text: "<?php echo addcslashes($video->getTitle(), '"'); ?>"},
+                    ]
+                });
+            });
     <?php
 }
 ?>
-                ]
-            });
-        });
-        function fixAdSize() {
-            ad_container = $('#mainVideo_ima-ad-container');
-            if (ad_container.length) {
-                height = ad_container.css('height');
-                width = ad_container.css('width');
-                $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
-                $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
-            }
-        }
         player = videojs('mainVideo');
         var options = {
             id: 'mainVideo',
@@ -75,4 +67,14 @@ foreach ($vmaps as $value) {
                         fixAdSize();
                     }, 100);
                 });
+
+                function fixAdSize() {
+                    ad_container = $('#mainVideo_ima-ad-container');
+                    if (ad_container.length) {
+                        height = ad_container.css('height');
+                        width = ad_container.css('width');
+                        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
+                        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
+                    }
+                }
 </script>;
