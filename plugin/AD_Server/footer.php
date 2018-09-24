@@ -77,4 +77,4 @@ if (!empty($obj->showMarkers)) {
                         $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
                     }
                 }
-</script>;
+</script>
