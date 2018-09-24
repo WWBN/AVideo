@@ -90,10 +90,14 @@ if (!class_exists('Video')) {
                 $this->$key = $value;
             }
         }
-
-        function save($updateVideoGroups = false) {
+        
+        function setUsers_id($users_id) {
+            $this->users_id = $users_id;
+        }
+        
+        function save($updateVideoGroups = false, $allowOfflineUser=false) {
             global $advancedCustom;
-            if (!User::isLogged()) {
+            if (!User::isLogged() && !$allowOfflineUser) {
                 header('Content-Type: application/json');
                 die('{"error":"' . __("Permission denied") . '"}');
             }
@@ -143,6 +147,10 @@ if (!class_exists('Video')) {
                 return false;
             }
             
+            if(empty($this->users_id)){
+                $this->users_id = User::getId();
+            }
+            
             $this->next_videos_id = intval($this->next_videos_id);
             if (empty($this->next_videos_id)) {
                 $this->next_videos_id = 'NULL';
@@ -159,7 +167,7 @@ if (!class_exists('Video')) {
             } else {
                 $sql = "INSERT INTO videos "
                         . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink) values "
-                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$_SESSION["user"]["id"]},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}')";
+                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}')";
             }
             $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
