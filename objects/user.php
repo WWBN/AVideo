@@ -52,7 +52,7 @@ class User {
     }
 
     function getAbout() {
-        return $this->about;
+        return str_replace(array('\\\\\\\n'), array("\n"), $this->about);
     }
 
     function setAbout($about) {
