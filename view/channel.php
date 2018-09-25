@@ -100,7 +100,7 @@ unset($_POST['current']);
                         </span>
                     </div></div>
                 <div class="col-md-12">
-                    <?php echo nl2br(htmlentities($user->getAbout())); ?>
+                    <?php echo nl2br($user->getAbout()); ?>
                 </div>
                 <div class="col-md-12">
                     <div class="panel panel-default">
