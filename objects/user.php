@@ -378,6 +378,7 @@ if (typeof gtag !== \"function\") {
         $this->name = $global['mysqli']->real_escape_string($this->name);
         $this->status = $global['mysqli']->real_escape_string($this->status);
         $this->about = $global['mysqli']->real_escape_string($this->about);
+        $this->about = preg_replace("/(\\\)+n/", "\n", $this->about);
         $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
