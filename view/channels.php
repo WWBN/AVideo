@@ -43,7 +43,7 @@ $channels = Channel::getChannels();
                                 <?php echo Subscribe::getButton($value['id']); ?>
                             </span>
                             <div>
-                                <?php echo nl2br(htmlentities($value['about'])); ?>
+                                <?php echo nl2br($value['about']); ?>
                             </div>
                         </div>
                         <div class="clear clearfix">
