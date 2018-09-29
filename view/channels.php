@@ -43,7 +43,7 @@ $channels = Channel::getChannels();
                                 <?php echo Subscribe::getButton($value['id']); ?>
                             </span>
                             <div>
-                                <?php echo nl2br($value['about']); ?>
+                                <?php echo stripslashes(str_replace('\\\\\\\n','<br/>', $value['about'])); ?>
                             </div>
                         </div>
                         <div class="clear clearfix">
