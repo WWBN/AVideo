@@ -156,6 +156,7 @@ Deny from all
     RewriteRule    ^reencodeVideo$ objects/videoReencode.json.php    [NC,L]
     RewriteRule    ^rotateVideo$ objects/videoRotate.json.php    [NC,L]
     RewriteRule    ^addViewCountVideo$ objects/videoAddViewCount.json.php    [NC,L]
+    RewriteRule    ^fetch/([A-Za-z_0-9]+)/([A-Za-z0-9-._]+)$ objects/download.php?filetype=$1&clean_title=$2    [QSA]
 
 
     # Subscribes

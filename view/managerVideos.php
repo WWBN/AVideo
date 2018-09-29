@@ -891,7 +891,7 @@ if (User::isAdmin()) {
                                                     var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getVideosManagerListButton(); ?>';
                                                     var download = "";
                                                     for (var k in row.videosURL) {
-                                                        download += '<a href="' + row.videosURL[k].url + '?download=1" class="btn btn-default btn-xs" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
+                                                        download += '<a href="/fetch/' + k  +'/'+row.clean_title+ '?download=<?=uniqid();?>" class="btn btn-default btn-xs" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
                                                     }
 
                                                     if (row.status == "i") {
