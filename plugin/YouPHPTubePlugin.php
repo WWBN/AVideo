@@ -449,6 +449,23 @@ class YouPHPTubePlugin {
         return $userOptions;
     }
     
+    /**
+     * 
+     * @return type return a list of IDs of the user groups
+     */
+    public static function getDynamicUserGroupsId(){
+        $plugins = Plugin::getAllEnabled();
+        $array = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $appArray = $p->getDynamicUserGroupsId();
+                $array = array_merge($array, $appArray);
+            }
+        }
+        return $array;
+    }
+    
     public static function getUserOptions() {
         $userOptions = static::getPluginUserOptions();
         $str="";

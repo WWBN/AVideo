@@ -27,6 +27,15 @@ class User {
     private $analyticsCode;
     private $externalOptions;
     private $userGroups = array();
+    private $first_name;
+    private $last_name;
+    private $address;
+    private $zip_code;
+    private $country;
+    private $region;
+    private $city;
+    
+    static $DOCUMENT_IMAGE_TYPE = "Document Image";
 
     function __construct($id, $user = "", $password = "") {
         if (empty($id)) {
@@ -68,7 +77,7 @@ class User {
     }
 
     function setCanStream($canStream) {
-        $this->canStream = (empty($canStream) || strtolower($canStream)==='false')?0:1;
+        $this->canStream = (empty($canStream) || strtolower($canStream) === 'false') ? 0 : 1;
     }
 
     function getCanViewChart() {
@@ -76,7 +85,7 @@ class User {
     }
 
     function setCanViewChart($canViewChart) {
-        $this->canViewChart = (empty($canViewChart) || strtolower($canViewChart)==='false')?0:1;
+        $this->canViewChart = (empty($canViewChart) || strtolower($canViewChart) === 'false') ? 0 : 1;
     }
 
     function getCanUpload() {
@@ -84,7 +93,7 @@ class User {
     }
 
     function setCanUpload($canUpload) {
-        $this->canUpload = (empty($canUpload) || strtolower($canUpload)==='false')?0:1;
+        $this->canUpload = (empty($canUpload) || strtolower($canUpload) === 'false') ? 0 : 1;
     }
 
     function getAnalyticsCode() {
@@ -384,36 +393,45 @@ if (typeof gtag !== \"function\") {
             $this->channelName = uniqid();
         }
         if (!empty($this->id)) {
-             $formats = "ssssiii";
-             $values = array($this->user,$this->password,$this->email,$this->name,$this->isAdmin,$this->canStream,$this->canUpload);
+            $formats = "ssssiii";
+            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload);
             $sql = "UPDATE users SET user = ?, password = ?, "
                     . "email = ?, name = ?, isAdmin = ?,"
                     . "canStream = ?,canUpload = ?,";
             if (isset($this->canViewChart)) {
-             $formats .= "i";
-             $values[] = $this->canViewChart;
+                $formats .= "i";
+                $values[] = $this->canViewChart;
                 $sql .= "canViewChart = ?, ";
             }
-             $formats .= "ssssssissi";
-             $values[] = $this->status;
-             $values[] = $this->photoURL;
-             $values[] = $this->backgroundURL;
-             $values[] = $this->recoverPass;
-             $values[] = $this->about;
-             $values[] = $this->channelName;
-             $values[] = $this->emailVerified;
-             $values[] = $this->analyticsCode;
-             $values[] = $this->externalOptions;
-             $values[] = $this->id;
-             
+            $formats .= "ssssssisssssssssi";
+            $values[] = $this->status;
+            $values[] = $this->photoURL;
+            $values[] = $this->backgroundURL;
+            $values[] = $this->recoverPass;
+            $values[] = $this->about;
+            $values[] = $this->channelName;
+            $values[] = $this->emailVerified;
+            $values[] = $this->analyticsCode;
+            $values[] = $this->externalOptions;
+            $values[] = $this->first_name;
+            $values[] = $this->last_name;
+            $values[] = $this->address;
+            $values[] = $this->zip_code;
+            $values[] = $this->country;
+            $values[] = $this->region;
+            $values[] = $this->city;
+            $values[] = $this->id;
+
             $sql .= "status = ?, "
                     . "photoURL = ?, backgroundURL = ?, "
                     . "recoverPass = ?, about = ?, "
-                    . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , modified = now() WHERE id = ?";
+                    . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , "
+                    . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , "
+                    . " modified = now() WHERE id = ?";
         } else {
-             $formats = "ssssiiissssss";
-             $values = array($this->user,$this->password,$this->email,$this->name,$this->isAdmin,$this->canStream,$this->canUpload, 
-                 $this->status, $this->photoURL, $this->recoverPass, $this->channelName, $this->analyticsCode, $this->externalOptions);
+            $formats = "ssssiiissssss";
+            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload,
+                $this->status, $this->photoURL, $this->recoverPass, $this->channelName, $this->analyticsCode, $this->externalOptions);
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) "
                     . " VALUES (?,?,?,?,?,?,?, false, "
                     . "?,?,?, now(), now(),?,?,?)";
@@ -532,8 +550,8 @@ if (typeof gtag !== \"function\") {
         setcookie('pass', null, -1, "/");
         unset($_SESSION['user']);
     }
-    
-    static private function recreateLoginFromCookie(){
+
+    static private function recreateLoginFromCookie() {
         if (empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass']))) {
                 $user = new User(0, $_COOKIE['user'], false);
@@ -585,7 +603,7 @@ if (typeof gtag !== \"function\") {
     }
 
     function thisUserCanStream() {
-        if($this->status === 'i'){
+        if ($this->status === 'i') {
             return false;
         }
         return !empty($this->isAdmin) || !empty($this->canStream);
@@ -600,7 +618,7 @@ if (typeof gtag !== \"function\") {
 
         $formats .= "s";
         $values[] = $user;
-        
+
         if ($mustBeactive) {
             $sql .= " AND status = 'a' ";
         }
@@ -758,6 +776,15 @@ if (typeof gtag !== \"function\") {
                 }
                 unset($row['password']);
                 unset($row['recoverPass']);
+                if (!User::isAdmin() && $row['id'] !== User::getId()) {
+                    unset($row['first_name']);
+                    unset($row['last_name']);
+                    unset($row['address']);
+                    unset($row['zip_code']);
+                    unset($row['country']);
+                    unset($row['region']);
+                    unset($row['city']);
+                }
                 $user[] = $row;
             }
         } else {
@@ -999,7 +1026,8 @@ if (typeof gtag !== \"function\") {
     }
 
     function setEmailVerified($emailVerified) {
-        $this->emailVerified = (empty($emailVerified) || strtolower($emailVerified)==='false')?0:1;;
+        $this->emailVerified = (empty($emailVerified) || strtolower($emailVerified) === 'false') ? 0 : 1;
+        ;
     }
 
     static function getChannelLink($users_id = 0) {
@@ -1099,6 +1127,121 @@ if (typeof gtag !== \"function\") {
     static function decodeVerificationCode($code) {
         $obj = json_decode(base64_decode($code));
         return $obj;
+    }
+
+    function getFirst_name() {
+        return $this->first_name;
+    }
+
+    function getLast_name() {
+        return $this->last_name;
+    }
+
+    function getAddress() {
+        return $this->address;
+    }
+
+    function getZip_code() {
+        return $this->zip_code;
+    }
+
+    function getCountry() {
+        return $this->country;
+    }
+
+    function getRegion() {
+        return $this->region;
+    }
+
+    function getCity() {
+        return $this->city;
+    }
+
+    function setFirst_name($first_name) {
+        $this->first_name = $first_name;
+    }
+
+    function setLast_name($last_name) {
+        $this->last_name = $last_name;
+    }
+
+    function setAddress($address) {
+        $this->address = $address;
+    }
+
+    function setZip_code($zip_code) {
+        $this->zip_code = $zip_code;
+    }
+
+    function setCountry($country) {
+        $this->country = $country;
+    }
+
+    function setRegion($region) {
+        $this->region = $region;
+    }
+
+    function setCity($city) {
+        $this->city = $city;
+    }
+    
+    static function getDocumentImage($users_id){
+        $row = static::getBlob($users_id, User::$DOCUMENT_IMAGE_TYPE);
+        if(!empty($row['blob'])){
+            return $row['blob'];
+        }
+        return false;
+    }
+    
+    static function saveDocumentImage($image, $users_id){
+        $row = static::saveBlob($image, $users_id, User::$DOCUMENT_IMAGE_TYPE);
+        if(!empty($row['blob'])){
+            return $row['blob'];
+        }
+        return false;
+    }
+
+    static function getBlob($users_id, $type) {
+        global $global;
+        $sql = "SELECT * FROM users_blob WHERE users_id = ? AND `type` = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "is", array($users_id, $type));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return $result;
+    }
+
+    static function saveBlob($blob, $users_id, $type) {
+        global $global;
+        $row = self::getBlob($users_id, $type);
+        $null = NULL;
+        if (!empty($row['id'])) {
+            $sql = "UPDATE users_blob SET `blob` = ? , modified = now() WHERE id = ?";
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('bi',$null,$row['id']);
+        } else {
+            $sql = "INSERT INTO users_blob (`blob`, users_id, `type`, modified, created) VALUES (?,?,?, now(), now())";
+            $stmt = $global['mysqli']->prepare($sql);
+            $stmt->bind_param('bis',$null,$users_id,$type);
+        }
+        
+        $stmt->send_long_data(0,$blob);
+
+
+        return $stmt->execute();
+    }
+    
+    static function deleteBlob($users_id, $type) {
+        global $global;
+        $row = self::getBlob($users_id, $type);
+        if (!empty($row['id'])) {
+            $sql = "DELETE FROM users_blob ";
+            $sql .= " WHERE id = ?";
+            $global['lastQuery'] = $sql;
+            //error_log("Delete Query: ".$sql);
+            return sqlDAL::writeSql($sql,"i",array($row['id']));
+        }
+        error_log("Id for table users_blob not defined for deletion");
+        return false;
     }
 
 }

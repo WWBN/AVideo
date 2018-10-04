@@ -481,7 +481,7 @@ if (!class_exists('Video')) {
                     $groups_id[] = $value['users_groups_id'];
                 }
                 if (!empty($groups_id)) {
-                    $sql = " (({$sql}) OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN (" . implode(",", $groups_id) . ") ) > 0)) ";
+                    $sql = " (({$sql}) OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)) ";
                 }
             }
             return " AND " . $sql;

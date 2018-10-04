@@ -169,14 +169,26 @@ class UserGroups {
         if (empty($users_id)) {
             return array();
         }
-        $sql = "SELECT * FROM users_has_users_groups"
-                . " LEFT JOIN users_groups ON users_groups_id = id WHERE users_id = ? ";
+        $sql = "SELECT * FROM users_groups ug"
+                . " LEFT JOIN users_has_users_groups uug ON users_groups_id = ug.id WHERE users_id = ? ";
+        
+        $ids = YouPHPTubePlugin::getDynamicUserGroupsId();
+        if(!empty($ids) && is_array($ids)){
+            $ids = array_unique($ids);
+            $sql .= " OR ug.id IN ('". implode("','", $ids)."') ";
+        }
+        //var_dump($ids);echo $sql;exit;
         $res = sqlDAL::readSql($sql,"i",array($users_id));
         $fullData = sqlDal::fetchAllAssoc($res);
         sqlDAL::close($res);
         $arr = array();
+        $doNotRepeat = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
+                if(in_array($row['users_groups_id'], $doNotRepeat)){
+                    continue;
+                }
+                $doNotRepeat[] = $row['users_groups_id'];
                 $arr[] = $row;
             }
         } else {

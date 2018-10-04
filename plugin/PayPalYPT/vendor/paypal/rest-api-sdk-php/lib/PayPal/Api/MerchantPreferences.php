@@ -23,8 +23,8 @@ use PayPal\Validation\UrlValidator;
  * @property string accepted_payment_type
  * @property string char_set
  */
-class MerchantPreferences extends PayPalModel
-{
+class MerchantPreferences extends PayPalModel {
+
     /**
      * Identifier of the merchant_preferences. 128 characters max.
      *
@@ -32,8 +32,7 @@ class MerchantPreferences extends PayPalModel
      * 
      * @return $this
      */
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->id = $id;
         return $this;
     }
@@ -43,8 +42,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -55,8 +53,7 @@ class MerchantPreferences extends PayPalModel
      * 
      * @return $this
      */
-    public function setSetupFee($setup_fee)
-    {
+    public function setSetupFee($setup_fee) {
         $this->setup_fee = $setup_fee;
         return $this;
     }
@@ -66,8 +63,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return \PayPal\Api\Currency
      */
-    public function getSetupFee()
-    {
+    public function getSetupFee() {
         return $this->setup_fee;
     }
 
@@ -78,9 +74,10 @@ class MerchantPreferences extends PayPalModel
      * @throws \InvalidArgumentException
      * @return $this
      */
-    public function setCancelUrl($cancel_url)
-    {
-        UrlValidator::validate($cancel_url, "CancelUrl");
+    public function setCancelUrl($cancel_url) {
+        if(!empty($cancel_url)){
+            UrlValidator::validate($cancel_url, "CancelUrl");
+        }
         $this->cancel_url = $cancel_url;
         return $this;
     }
@@ -90,8 +87,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getCancelUrl()
-    {
+    public function getCancelUrl() {
         return $this->cancel_url;
     }
 
@@ -102,9 +98,10 @@ class MerchantPreferences extends PayPalModel
      * @throws \InvalidArgumentException
      * @return $this
      */
-    public function setReturnUrl($return_url)
-    {
-        UrlValidator::validate($return_url, "ReturnUrl");
+    public function setReturnUrl($return_url) {
+        if(!empty($return_url)){
+            UrlValidator::validate($return_url, "ReturnUrl");
+        }
         $this->return_url = $return_url;
         return $this;
     }
@@ -114,8 +111,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getReturnUrl()
-    {
+    public function getReturnUrl() {
         return $this->return_url;
     }
 
@@ -126,9 +122,10 @@ class MerchantPreferences extends PayPalModel
      * @throws \InvalidArgumentException
      * @return $this
      */
-    public function setNotifyUrl($notify_url)
-    {
-        UrlValidator::validate($notify_url, "NotifyUrl");
+    public function setNotifyUrl($notify_url) {
+        if (!empty($notify_url)) {
+            UrlValidator::validate($notify_url, "NotifyUrl");
+        }
         $this->notify_url = $notify_url;
         return $this;
     }
@@ -138,8 +135,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getNotifyUrl()
-    {
+    public function getNotifyUrl() {
         return $this->notify_url;
     }
 
@@ -150,8 +146,7 @@ class MerchantPreferences extends PayPalModel
      * 
      * @return $this
      */
-    public function setMaxFailAttempts($max_fail_attempts)
-    {
+    public function setMaxFailAttempts($max_fail_attempts) {
         $this->max_fail_attempts = $max_fail_attempts;
         return $this;
     }
@@ -161,8 +156,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getMaxFailAttempts()
-    {
+    public function getMaxFailAttempts() {
         return $this->max_fail_attempts;
     }
 
@@ -173,8 +167,7 @@ class MerchantPreferences extends PayPalModel
      * 
      * @return $this
      */
-    public function setAutoBillAmount($auto_bill_amount)
-    {
+    public function setAutoBillAmount($auto_bill_amount) {
         $this->auto_bill_amount = $auto_bill_amount;
         return $this;
     }
@@ -184,8 +177,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getAutoBillAmount()
-    {
+    public function getAutoBillAmount() {
         return $this->auto_bill_amount;
     }
 
@@ -196,8 +188,7 @@ class MerchantPreferences extends PayPalModel
      * 
      * @return $this
      */
-    public function setInitialFailAmountAction($initial_fail_amount_action)
-    {
+    public function setInitialFailAmountAction($initial_fail_amount_action) {
         $this->initial_fail_amount_action = $initial_fail_amount_action;
         return $this;
     }
@@ -207,8 +198,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getInitialFailAmountAction()
-    {
+    public function getInitialFailAmountAction() {
         return $this->initial_fail_amount_action;
     }
 
@@ -219,8 +209,7 @@ class MerchantPreferences extends PayPalModel
      * 
      * @return $this
      */
-    public function setAcceptedPaymentType($accepted_payment_type)
-    {
+    public function setAcceptedPaymentType($accepted_payment_type) {
         $this->accepted_payment_type = $accepted_payment_type;
         return $this;
     }
@@ -230,8 +219,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getAcceptedPaymentType()
-    {
+    public function getAcceptedPaymentType() {
         return $this->accepted_payment_type;
     }
 
@@ -242,8 +230,7 @@ class MerchantPreferences extends PayPalModel
      * 
      * @return $this
      */
-    public function setCharSet($char_set)
-    {
+    public function setCharSet($char_set) {
         $this->char_set = $char_set;
         return $this;
     }
@@ -253,8 +240,7 @@ class MerchantPreferences extends PayPalModel
      *
      * @return string
      */
-    public function getCharSet()
-    {
+    public function getCharSet() {
         return $this->char_set;
     }
 

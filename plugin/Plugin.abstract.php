@@ -232,6 +232,14 @@ abstract class PluginAbstract {
         return array();
     }
     
+    /**
+     * 
+     * @return type return a list of IDs of the user groups
+     */
+    public function getDynamicUserGroupsId(){
+        return array();
+    }
+    
     public function navBarButtons()
     {
         return "";

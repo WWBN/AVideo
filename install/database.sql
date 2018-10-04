@@ -29,10 +29,33 @@ CREATE TABLE IF NOT EXISTS `users` (
   `emailVerified` TINYINT(1) NOT NULL DEFAULT 0,
   `analyticsCode` VARCHAR(45) NULL DEFAULT NULL,
   `externalOptions` TEXT NULL,
+  `first_name` VARCHAR(255) NULL DEFAULT NULL,
+  `last_name` VARCHAR(255) NULL DEFAULT NULL,
+  `address` VARCHAR(255) NULL DEFAULT NULL,
+  `zip_code` VARCHAR(45) NULL DEFAULT NULL,
+  `country` VARCHAR(100) NULL DEFAULT NULL,
+  `region` VARCHAR(100) NULL DEFAULT NULL,
+  `city` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
 
+
+CREATE TABLE IF NOT EXISTS `users_blob` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `blob` LONGBLOB NULL,
+  `users_id` INT NOT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `type` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_users_document_image_users1_idx` (`users_id` ASC),
+  CONSTRAINT `fk_users_document_image_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `categories`

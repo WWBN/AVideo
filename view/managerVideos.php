@@ -407,8 +407,6 @@ if (!empty($_GET['video_id'])) {
                                 </div>
                                 <script>
                                     $(function () {
-
-
                                         $("#inputNextVideo").autocomplete({
                                             minLength: 0,
                                             source: function (req, res) {
@@ -436,7 +434,6 @@ if (!empty($_GET['video_id'])) {
                                             }
                                         }).autocomplete("instance")._renderItem = function (ul, item) {
                                             return $("<li>").append("<div>" + item.title + "<br><?php echo __("Uploaded By"); ?>: " + item.user + "</div>").appendTo(ul);
-                                            ;
                                         };
                                     });
                                 </script>

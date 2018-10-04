@@ -4,6 +4,11 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
+
+if(!User::isLogged()){
+    die("Is not logged");
+}
+
 require_once $global['systemRootPath'] . 'objects/user.php';
 $user = new User(0);
 $user->loadSelfUser();
