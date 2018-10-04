@@ -283,17 +283,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                     <input type="file" id="logo" value="Choose a Logo" accept="image/*" style="display: none;" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label">
-                                                        <?php echo __("Your Small Logo"); ?>  (32x32)
-                                                    </label>
-                                                    <div class="col-md-8 ">
-                                                        <div id="croppieLogoSmall"></div>
-                                                        <a id="logoSmall-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Upload a small logo"); ?></a>
-                                                    </div>
-                                                    <input type="file" id="logoSmall" value="Choose a Small Logo" accept="image/*" style="display: none;" />
-                                                </div>
-
-                                                <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("Web site title"); ?></label>
                                                     <div class="col-md-8 inputGroupContainer">
                                                         <div class="input-group">
@@ -711,60 +700,20 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                 height: 70
                             },
                             boundary: {
-                                width: 300,
-                                height: 120
+                                width: 250,
+                                height: 70
                             }
                         });
                         setTimeout(function () {
                             logoCrop.croppie('setZoom', 1);
                         }, 1000);
-                        // END croppie logo
-                        // start croppie logoSmall
-                        $('#logoSmall').on('change', function () {
-                            readFile(this, logoSmallCrop);
-                        });
-                        $('#logoSmall-btn').on('click', function (ev) {
-                            $('#logoSmall').trigger("click");
-                        });
-                        $('#logoSmall-result-btn').on('click', function (ev) {
-                            logoSmallCrop.croppie('result', {
-                                type: 'canvas',
-                                size: 'viewport'
-                            }).then(function (resp) {
-
-                            });
-                        });
-
-                        logoSmallCrop = $('#croppieLogoSmall').croppie({
-                            url: '<?php echo $global['webSiteRootURL'], $config->getLogo_small(); ?>',
-                            enableExif: true,
-                            enforceBoundary: false,
-                            mouseWheelZoom: false,
-                            viewport: {
-                                width: 32,
-                                height: 32
-                            },
-                            boundary: {
-                                width: 60,
-                                height: 60
-                            }
-                        });
-                        setTimeout(function () {
-                            logoSmallCrop.croppie('setZoom', 1);
-                        }, 1000);
-
-
-                        // END croppie logoSmall
+                       
 
                         $('#updateConfigForm').submit(function (evt) {
                             evt.preventDefault();
                             modal.showPleaseWait();
                             $('#tabRegularLink').tab('show');
-                            logoSmallCrop.croppie('result', {
-                                type: 'canvas',
-                                size: 'viewport'
-                            }).then(function (resp) {
-                                logoSmallImgBase64 = resp;
+                            
                                 logoCrop.croppie('result', {
                                     type: 'canvas',
                                     size: 'viewport'
@@ -774,7 +723,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                     $.ajax({
                                         url: '<?php echo $global['webSiteRootURL']; ?>objects/configurationUpdate.json.php',
                                         data: {
-                                            "logoSmallImgBase64": logoSmallImgBase64,
                                             "logoImgBase64": logoImgBase64,
                                             "video_resolution": $('#inputVideoResolution').val(),
                                             "webSiteTitle": $('#inputWebSiteTitle').val(),
@@ -811,9 +759,6 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                         }
                                     });
                                 });
-                            });
-
-
 
                         });
 
