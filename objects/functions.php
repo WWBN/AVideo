@@ -1038,7 +1038,7 @@ function isBot() {
  * @param type $adaptive
  * @return boolean
  */
-function tail($filepath, $lines = 1, $adaptive = true) {
+function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
     // Open file
     $f = @fopen($filepath, "rb");
     if ($f === false)
@@ -1080,5 +1080,16 @@ function tail($filepath, $lines = 1, $adaptive = true) {
     }
     // Close file and return
     fclose($f);
-    return trim($output);
+    $output = trim($output);
+    if($returnArray){
+        $array = explode("\n", $output);
+        $newArray = array();
+        foreach ($array as $value) {
+            $newArray[] = array($value);
+        }
+        return $newArray;
+    }else{
+        $output;
+    }
+    
 }
