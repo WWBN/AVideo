@@ -1,5 +1,12 @@
 <?php
+if(!empty($advancedCustom->disablePersonalInfo)){
+    return false;
+}
+
 $text = "-- " . __('Select one Option') . " --";
+$myCountry = $user->getCountry();
+$myRegion = $user->getRegion();
+$myCity = $user->getCity();
 ?>
 <div class="form-group">
     <label class="col-md-4 control-label"><?php echo __("First Name"); ?></label>
@@ -54,7 +61,11 @@ $countries = IP2Location::getCountries();
                 <option><?php echo $text; ?></option>
                 <?php
                 foreach ($countries as $key => $value) {
-                    echo '<option>' . $value . '</option>';
+                    $selected = "";
+                    if ($myCountry === $value) {
+                        $selected = 'selected';
+                    }
+                    echo '<option ' . $selected . '>' . $value . '</option>';
                 }
                 ?>
             </select>
@@ -106,6 +117,11 @@ $countries = IP2Location::getCountries();
     var uploadCropDocument;
     function savePersonalInfo() {
         $('#aPersonalInfo').tab('show');
+         setTimeout(function(){savePersonalInfoAjax(); }, 1000);
+
+    }
+    
+    function savePersonalInfoAjax(){
         modal.showPleaseWait();
 
         uploadCropDocument.croppie('result', {
@@ -130,7 +146,6 @@ $countries = IP2Location::getCountries();
                 modal.hidePleaseWait();
             });
         });
-
     }
 
 
@@ -158,9 +173,9 @@ $countries = IP2Location::getCountries();
                             height: 450
                         }
                     });
-                    
+
                     $("#country").on("change", function (e) {
-                        modal.showPleaseWait();
+                        //modal.showPleaseWait();
                         $.ajax({
                             url: '<?php echo $global['webSiteRootURL']; ?>plugin/User_Location/regions.json.php?country=' + $('#country').val(),
                             success: function (response) {
@@ -168,27 +183,51 @@ $countries = IP2Location::getCountries();
                                 $('#region').append($("<option></option>").text('<?php echo $text; ?>'));
                                 $('#city').empty();
                                 $('#city').append($("<option></option>").text('<?php echo $text; ?>'));
+                                var found = false;
                                 $.each(response, function (key, value) {
-                                    $('#region').append($("<option></option>").attr("value", value).text(value));
+                                    var selected = '';
+                                    if (value === '<?php echo $myRegion; ?>') {
+                                        selected = 'selected';
+                                        found = true;
+                                    }
+                                    $('#region').append($("<option " + selected + "></option>").attr("value", value).text(value));
                                 });
-                                modal.hidePleaseWait();
+                                //modal.hidePleaseWait();
+                                if (found) {
+                                    $("#region").trigger('change');
+                                }
                             }
                         });
                     });
 
                     $("#region").on("change", function (e) {
-                        modal.showPleaseWait();
+                        //modal.showPleaseWait();
                         $.ajax({
                             url: '<?php echo $global['webSiteRootURL']; ?>plugin/User_Location/cities.json.php?country=' + $('#country').val() + '&region=' + $('#region').val(),
                             success: function (response) {
                                 $('#city').empty();
                                 $('#city').append($("<option></option>").text('<?php echo $text; ?>'));
                                 $.each(response, function (key, value) {
-                                    $('#city').append($("<option></option>").attr("value", value).text(value));
+                                    var selected = '';
+                                    if (value === '<?php echo $myCity; ?>') {
+                                        selected = 'selected';
+                                    }
+                                    $('#city').append($("<option " + selected + "></option>").attr("value", value).text(value));
                                 });
-                                modal.hidePleaseWait();
+                                //modal.hidePleaseWait();
                             }
                         });
                     });
+
+<?php
+if (!empty($myCountry)) {
+    ?>
+                        setTimeout(function () {
+                            $("#country").trigger('change');
+                        }, 1000);
+    <?php
+}
+?>
+
                 });
 </script>

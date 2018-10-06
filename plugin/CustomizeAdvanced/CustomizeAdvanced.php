@@ -39,6 +39,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowLeftMenuAudioAndVideoButtons = false;
         $obj->disableNativeSignUp = false;
         $obj->disableNativeSignIn = false;
+        $obj->disablePersonalInfo = true;
         $obj->doNotShowWebsiteOnContactForm = false;
         $obj->newUsersCanStream = false;
         $obj->doNotIndentifyByEmail = false;

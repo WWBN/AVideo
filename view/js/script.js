@@ -34,6 +34,7 @@ function clean_name(str) {
     str = str.stripAccents().toLowerCase();
     return str.replace(/\W+/g, "-");
 }
+var pleaseWaitIsINUse = false;
 $(document).ready(function () {
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
@@ -43,10 +44,15 @@ $(document).ready(function () {
 
         return {
             showPleaseWait: function () {
+                if(pleaseWaitIsINUse){
+                    return false;
+                }
+                pleaseWaitIsINUse = true;
                 pleaseWaitDiv.modal();
             },
             hidePleaseWait: function () {
                 pleaseWaitDiv.modal('hide');
+                pleaseWaitIsINUse = false;
             },
             setProgress: function (valeur) {
                 pleaseWaitDiv.find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);

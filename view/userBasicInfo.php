@@ -157,6 +157,67 @@
             swal("Sorry - you're browser doesn't support the FileReader API");
         }
     }
+
+    function updateUserFormSubmit() {
+
+        $.ajax({
+            url: '<?php echo $global['webSiteRootURL']; ?>objects/userUpdate.json.php',
+            data: {
+                "user": $('#inputUser').val(),
+                "pass": $('#inputPassword').val(),
+                "email": $('#inputEmail').val(),
+                "name": $('#inputName').val(),
+                "about": $('#textAbout').val(),
+                "channelName": $('#channelName').val(),
+                "analyticsCode": $('#analyticsCode').val()
+            },
+            type: 'post',
+            success: function (response) {
+                if (response.status > "0") {
+                    uploadCrop.croppie('result', {
+                        type: 'canvas',
+                        size: 'viewport'
+                    }).then(function (resp) {
+                        console.log("userSavePhoto");
+                        $.ajax({
+                            type: "POST",
+                            url: "<?php echo $global['webSiteRootURL']; ?>objects/userSavePhoto.php",
+                            data: {
+                                imgBase64: resp
+                            },
+                            success: function () {
+                                console.log("userSaveBackground");
+                                uploadCropBg.croppie('result', {
+                                    type: 'canvas',
+                                    size: 'viewport'
+                                }).then(function (resp) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?php echo $global['webSiteRootURL']; ?>objects/userSaveBackground.php",
+                                        data: {
+                                            imgBase64: resp
+                                        }, success: function (response) {
+                                            console.log("SavePersonal");
+                                            modal.hidePleaseWait();
+                                            <?php if(empty($advancedCustom->disablePersonalInfo)){ ?>
+                                            savePersonalInfo();
+                                            <?php } ?>
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    });
+                } else if (response.error) {
+                    swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                    modal.hidePleaseWait();
+                } else {
+                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
+                    modal.hidePleaseWait();
+                }
+            }
+        });
+    }
     $(document).ready(function () {
         $('#upload').on('change', function () {
             readFile(this, uploadCrop);
@@ -200,7 +261,6 @@
                 height: 250
             }
         });
-        
         $('#updateUserForm').submit(function (evt) {
             evt.preventDefault();
             if (!isAnalytics()) {
@@ -218,57 +278,9 @@
                 swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your password does not match!"); ?>", "error");
                 return false;
             } else {
-                $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/userUpdate.json.php',
-                    data: {
-                        "user": $('#inputUser').val(),
-                        "pass": $('#inputPassword').val(),
-                        "email": $('#inputEmail').val(),
-                        "name": $('#inputName').val(),
-                        "about": $('#textAbout').val(),
-                        "channelName": $('#channelName').val(),
-                        "analyticsCode": $('#analyticsCode').val()
-                    },
-                    type: 'post',
-                    success: function (response) {
-                        if (response.status > "0") {
-                            uploadCrop.croppie('result', {
-                                type: 'canvas',
-                                size: 'viewport'
-                            }).then(function (resp) {
-                                $.ajax({
-                                    type: "POST",
-                                    url: "<?php echo $global['webSiteRootURL']; ?>objects/userSavePhoto.php",
-                                    data: {
-                                        imgBase64: resp
-                                    }
-                                }).done(function (o) {
-                                    uploadCropBg.croppie('result', {
-                                        type: 'canvas',
-                                        size: 'viewport'
-                                    }).then(function (resp) {
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "<?php echo $global['webSiteRootURL']; ?>objects/userSaveBackground.php",
-                                            data: {
-                                                imgBase64: resp
-                                            }
-                                        }).done(function (o) {
-                                            modal.hidePleaseWait();
-                                            savePersonalInfo();
-                                        });
-                                    });
-                                });
-                            });
-                        } else if (response.error) {
-                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
-                            modal.hidePleaseWait();
-                        } else {
-                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
-                            modal.hidePleaseWait();
-                        }
-                    }
-                });
+                setTimeout(function () {
+                    updateUserFormSubmit();
+                }, 1000);
                 return false;
             }
         });

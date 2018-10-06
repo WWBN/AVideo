@@ -45,7 +45,10 @@ $advancedCustom = json_decode($json_file);
                                 </legend>
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#basicInfo" id="aBasicInfo"><?php echo __("Basic Info") ?></a></li>
-                                    <li><a data-toggle="tab" href="#personalInfo" id="aPersonalInfo"><?php echo __("Personal Info") ?></a></li>
+
+                                    <?php if (empty($advancedCustom->disablePersonalInfo)) { ?>
+                                        <li><a data-toggle="tab" href="#personalInfo" id="aPersonalInfo"><?php echo __("Personal Info") ?></a></li>
+                                    <?php } ?>
                                 </ul>
 
                                 <div class="tab-content">
@@ -54,11 +57,14 @@ $advancedCustom = json_decode($json_file);
                                         include './userBasicInfo.php';
                                         ?>
                                     </div>
-                                    <div id="personalInfo" class="tab-pane fade"  style="padding: 10px 0;">
-                                        <?php
-                                        include './userPersonalInfo.php';
-                                        ?>
-                                    </div>
+
+                                    <?php if (empty($advancedCustom->disablePersonalInfo)) { ?>
+                                        <div id="personalInfo" class="tab-pane fade"  style="padding: 10px 0;">
+                                            <?php
+                                            include './userPersonalInfo.php';
+                                            ?>
+                                        </div>
+                                    <?php } ?>
                                 </div>
 
                                 <!-- Button -->
