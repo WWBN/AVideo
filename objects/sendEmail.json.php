@@ -1,17 +1,17 @@
 <?php
 
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'].'objects/captcha.php';
+require_once $global['systemRootPath'] . 'objects/captcha.php';
 $config = new Configuration();
 $valid = Captcha::validation($_POST['captcha']);
 $obj = new stdClass();
 if ($valid) {
-    
+
     $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><br>{$_POST['comment']}";
-    
+
     require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
 
     //Create a new PHPMailer instance
@@ -20,19 +20,31 @@ if ($valid) {
     //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
     //var_dump($mail->SMTPAuth, $mail);
     //Set who the message is to be sent from
-    $mail->AddReplyTo($_POST['email'], $_POST['first_name']);
-    $mail->setFrom($_POST['email'], $_POST['first_name']);
-    //Set who the message is to be sent to
-    $mail->addAddress($config->getContactEmail());
-    //Set the subject line
-    $mail->Subject = 'Message From Site '.$config->getWebSiteTitle(). " ({$_POST['first_name']})";
-    $mail->msgHTML($msg);
 
-    //send the message, check for errors
-    if (!$mail->send()) {
-        $obj->error = __("Message could not be sent")." ". $mail->ErrorInfo;
+    $replyTo = User::getEmail_();
+    if (empty($replyTo)) {
+        $replyTo = $config->getContactEmail();
+    }
+
+    $sendTo = $_POST['email'];
+    
+    if (filter_var($sendTo, FILTER_VALIDATE_EMAIL)) {
+        $mail->AddReplyTo($replyTo);
+        $mail->setFrom($replyTo);
+        //Set who the message is to be sent to
+        $mail->addAddress($sendTo);
+        //Set the subject line
+        $mail->Subject = 'Message From Site ' . $config->getWebSiteTitle() . " ({$_POST['first_name']})";
+        $mail->msgHTML($msg);
+
+        //send the message, check for errors
+        if (!$mail->send()) {
+            $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
+        } else {
+            $obj->success = __("Message sent");
+        }
     } else {
-        $obj->success = __("Message sent");
+        $obj->error = __("The email is invalid");
     }
 } else {
     $obj->error = __("Your code is not valid");
