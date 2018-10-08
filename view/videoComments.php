@@ -274,7 +274,7 @@ if (User::canSeeCommentTextarea()) {
                             comments_id = $(this).closest('.replySet').attr("comments_id");
                             var row_index = $(this).closest('tr').index();
                             var row = $(this).closest('table').bootgrid("getCurrentRows")[row_index];
-                            $('#inputEditComment').val($('<textarea />').html(row.commentHTML).text());
+                            $('#inputEditComment').val($('<textarea />').html(row.commentPlain).text());
                             $('#inputEditCommentId').val(comments_id);
                             $('#commentFormModal').modal();
                         });
