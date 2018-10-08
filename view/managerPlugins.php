@@ -250,7 +250,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                 <div id="menu1" class="tab-pane fade">
                     <div class="list-group-item">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><a href="https://easytube.club/signUp" class="btn btn-default btn-xs"><i class="fa fa-plug"></i> Easy Club Plugin Store </a></div>
+                            <div class="panel-heading"><a href="https://www.youphptube.com/plugins/" class="btn btn-default btn-xs"><i class="fa fa-plug"></i> Easy Club Plugin Store </a></div>
                             <div class="panel-body">
                                 <ul class="list-group" id="pluginStoreList">
                                 </ul>
@@ -285,7 +285,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="https://easytube.club/signUp" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
+                        <a href="https://www.youphptube.com/plugins/" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
                     </div>
                 </div>
             </li>
