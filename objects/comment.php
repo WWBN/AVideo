@@ -195,7 +195,7 @@ class Comment {
         if ($res!=false) {
             foreach ($allData as $row) {
                 $row['comment'] = str_replace('\n', "\n", $row['comment']);
-                $row['commentPlain'] = $row['comment'];
+                $row['commentPlain'] = xss_esc_back($row['comment']);
                 $row['commentHTML'] = nl2br(xss_esc_back($row['comment']));
                 $comment[] = $row;
             }
