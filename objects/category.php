@@ -252,6 +252,11 @@ class Category {
         }
         return $category;
     }
+    
+    static function getChildCategoriesFromTitle($clean_title) {
+        $row = self::getCategoryByName($clean_title);
+        return self::getChildCategories($row['id']);
+    }
 
     static function getTotalVideosFromCategory($categories_id, $showUnlisted = false) {
         global $global, $config;

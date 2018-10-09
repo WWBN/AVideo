@@ -2,18 +2,18 @@
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-class YouPHPFlix extends PluginAbstract {
+class YouPHPFlix2 extends PluginAbstract {
 
     public function getDescription() {
-        return "Make the first page looks like a Netflix site<br /><b>LiteGalleryMaxTooltipChars: </b>0 disable the Tooltip";
+        return "Make the first page looks like a Netflix site";
     }
 
     public function getName() {
-        return "YouPHPFlix";
+        return "YouPHPFlix2";
     }
 
     public function getUUID() {
-        return "e2a568e6-ef61-4dcc-aad0-0109e9be8e36";
+        return "e3a568e6-ef61-4dcc-aad0-0109e9be8e36";
     }
     
     public function getPluginVersion() {
@@ -24,20 +24,13 @@ class YouPHPFlix extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->pageDots = true;
-        $obj->LiteDesign = false;
-        $obj->LiteGallery = false;
-        $obj->LiteGalleryMaxTooltipChars = 250;
-        $obj->LiteGalleryNoGifs = false;
-        $obj->LiteDesignNoGifs = false;
-        $obj->DefaultDesign = true;
         $obj->MostPopular = true;
         $obj->MostWatched = true;
         $obj->DateAdded = true;
-        $obj->LiteDesignGenericNrOfRows = 10;
+        $obj->Categories = true;
+        $obj->maxVideos = 20;
         $obj->SortByName = false;
-        $obj->separateAudio = false;
-        $obj->SubCategorys = false;
-        $obj->ForceCategoryLinks = false;
+        $obj->BigVideo = true;
         return $obj;
     }
     
@@ -51,7 +44,7 @@ class YouPHPFlix extends PluginAbstract {
     public function getFirstPage(){
         global $global; 
         if(!YouPHPTubePlugin::isEnabled("d3sa2k4l3-23rds421-re323-4ae-423")){
-            return $global['systemRootPath'].'plugin/YouPHPFlix/view/firstPage.php';
+            return $global['systemRootPath'].'plugin/YouPHPFlix2/view/firstPage.php';
         }
     }   
         
@@ -60,7 +53,7 @@ class YouPHPFlix extends PluginAbstract {
         $obj = $this->getDataObject();
         $css = "";
         //$css .= "<link href=\"{$global['webSiteRootURL']}view/css/custom/".$obj->theme.".css\" rel=\"stylesheet\" type=\"text/css\"/>";
-        $css .= "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix/view/css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+        $css .= "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
         
         return $css;
     }

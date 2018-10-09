@@ -1,0 +1,119 @@
+<?php
+$uid = uniqid();
+?>
+<div class="carousel">
+    <?php
+    foreach ($videos as $value) {
+        $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        $imgGif = $images->thumbsGif;
+        $img = $images->thumbsJpg;
+        $poster = $images->poster;
+        ?>
+        <div class="carousel-cell tile ">
+            <div class="slide thumbsImage" crc="<?php echo $value['id'] . $uid; ?>" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
+                <div class="tile__media ">
+                    <img alt="<?php echo $value['title']; ?>" class="tile__img thumbsJPG ing img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
+                    <?php if (!empty($imgGif)) { ?>
+                        <img style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="arrow-down" style="display: none;"></div>
+        </div>        
+        <?php
+    }
+    ?>
+</div>
+
+<?php
+foreach ($videos as $value) {
+    $images = Video::getImageFromFilename($value['filename'], $value['type']);
+    $imgGif = $images->thumbsGif;
+    $img = $images->thumbsJpg;
+    $poster = $images->poster;
+    ?>
+    <div class="poster list-group-item" id="poster<?php echo $value['id'] . $uid; ?>" style="display: none; background-image: url(<?php echo $poster; ?>);">
+        <div class="posterDetails ">
+            <h2 class="infoTitle"><?php echo $value['title']; ?></h2>
+            <h4 class="infoDetails">
+                <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
+                <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
+            </h4>
+            <div class="infoText col-md-4 col-sm-12"><?php echo nl2br(textToLink($value['description'])); ?></div>
+            <div class="footerBtn">
+                <a class="btn btn-danger playBtn" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
+                    <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
+                </a>
+            </div>
+        </div>
+    </div>
+<div id="webui-popover-content<?php echo $value['id'] . $uid; ?>" style="display: none;" >
+        <?php if (User::isLogged()) { ?>
+            <form role="form">
+                <div class="form-group">
+                    <input class="form-control" id="searchinput<?php echo $value['id'] . $uid; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
+                </div>
+                <div id="searchlist<?php echo $value['id'] . $uid; ?>" class="list-group">
+                </div>
+            </form>
+            <div>
+                <hr>
+                <div class="form-group">
+                    <input id="playListName<?php echo $value['id'] . $uid; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
+                </div>
+                <div class="form-group">
+                    <?php echo __("Make it public"); ?>
+                    <div class="material-switch pull-right">
+                        <input id="publicPlayList<?php echo $value['id'] . $uid; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
+                        <label for="publicPlayList" class="label-success"></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success btn-block" id="addPlayList<?php echo $value['id'] . $uid; ?>" ><?php echo __("Create a New Play List"); ?></button>
+                </div>
+            </div>
+        <?php } else { ?>
+            <h5><?php echo __("Want to watch this again later?"); ?></h5>
+            <?php echo __("Sign in to add this video to a playlist."); ?>
+            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
+                <span class="fas fa-sign-in-alt"></span>
+                <?php echo __("Login"); ?>
+            </a>
+        <?php } ?>
+    </div>
+    <script>
+        $(document).ready(function () {
+            loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');
+            $('#addBtn<?php echo $value['id'] . $uid; ?>').webuiPopover({url:'#webui-popover-content<?php echo $value['id'] . $uid; ?>'});
+            $('#addPlayList<?php echo $value['id'] . $uid; ?>').click(function () {
+                modal.showPleaseWait();
+                $.ajax({
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
+                    method: 'POST',
+                    data: {
+                        'videos_id': <?php echo $value['id']; ?>,
+                        'status': $('#publicPlayList<?php echo $value['id'] . $uid; ?>').is(":checked") ? "public" : "private",
+                        'name': $('#playListName<?php echo $value['id'] . $uid; ?>').val()
+                    },
+                    success: function (response) {
+                        if (response.status === "1") {
+                            playList = [];
+                            console.log(1);
+                            reloadPlayLists();
+                            loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');
+                            $('#playListName<?php echo $value['id'] . $uid; ?>').val("");
+                            $('#publicPlayList<?php echo $value['id'] . $uid; ?>').prop('checked', true);
+                        }
+                        modal.hidePleaseWait();
+                    }
+                });
+                return false;
+            });
+        });
+    </script>        
+    <?php
+}
+
+

@@ -1,0 +1,103 @@
+<?php
+$uid = uniqid();
+$video = Video::getVideo("", "viewable", false, false, true);
+if (empty($video)) {
+    $video = Video::getVideo("", "viewable");
+}
+if ($obj->BigVideo && empty($_GET['showOnly'])) {
+    $name = User::getNameIdentificationById($video['users_id']);
+    $images = Video::getImageFromFilename($video['filename'], $video['type']);
+    $imgGif = $images->thumbsGif;
+    $poster = $images->poster;
+    //var_dump($video);
+    ?>
+    <div class="clear clearfix" style="background: url(<?php echo $poster; ?>) no-repeat center center fixed; -webkit-background-size: cover;
+         -moz-background-size: cover;
+         -o-background-size: cover;
+         background-size: cover; min-height: 60vh; margin: -20px; margin-bottom: 0; position: relative;" >
+        <div class="posterDetails " style=" padding: 30px;">
+            <h2 class="infoTitle" style=""><?php echo $video['title']; ?></h2>
+            <h4 class="infoDetails">
+                <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $video['views_count']; ?></span>
+                <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $video['likes']; ?></span>
+                <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>
+            </h4>
+            <div class="infoText col-md-4 col-sm-12"><?php echo $video['description']; ?></div>
+            <div class="footerBtn">
+                <a class="btn btn-danger playBtn" href="<?php echo Video::getLinkToVideo($video['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
+                    <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
+                </a>
+            </div>
+            <div id="webui-popover-content<?php echo $value['id'] . $uid; ?>" style="display: none;" >
+                <?php if (User::isLogged()) { ?>
+                    <form role="form">
+                        <div class="form-group">
+                            <input class="form-control" id="searchinput<?php echo $value['id'] . $uid; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
+                        </div>
+                        <div id="searchlist<?php echo $value['id'] . $uid; ?>" class="list-group">
+                        </div>
+                    </form>
+                    <div>
+                        <hr>
+                        <div class="form-group">
+                            <input id="playListName<?php echo $value['id'] . $uid; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
+                        </div>
+                        <div class="form-group">
+                            <?php echo __("Make it public"); ?>
+                            <div class="material-switch pull-right">
+                                <input id="publicPlayList<?php echo $value['id'] . $uid; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
+                                <label for="publicPlayList" class="label-success"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success btn-block" id="addPlayList<?php echo $value['id'] . $uid; ?>" ><?php echo __("Create a New Play List"); ?></button>
+                        </div>
+                    </div>
+                <?php } else { ?>
+                    <h5><?php echo __("Want to watch this again later?"); ?></h5>
+                    <?php echo __("Sign in to add this video to a playlist."); ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
+                        <span class="fas fa-sign-in-alt"></span>
+                        <?php echo __("Login"); ?>
+                    </a>
+                <?php } ?>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');
+                    $('#addBtn<?php echo $value['id'] . $uid; ?>').webuiPopover({url: '#webui-popover-content<?php echo $value['id'] . $uid; ?>'});
+                    $('#addPlayList<?php echo $value['id'] . $uid; ?>').click(function () {
+                        modal.showPleaseWait();
+                        $.ajax({
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
+                            method: 'POST',
+                            data: {
+                                'videos_id': <?php echo $value['id']; ?>,
+                                'status': $('#publicPlayList<?php echo $value['id'] . $uid; ?>').is(":checked") ? "public" : "private",
+                                'name': $('#playListName<?php echo $value['id'] . $uid; ?>').val()
+                            },
+                            success: function (response) {
+                                if (response.status === "1") {
+                                    playList = [];
+                                    console.log(1);
+                                    reloadPlayLists();
+                                    loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');
+                                    $('#playListName<?php echo $value['id'] . $uid; ?>').val("");
+                                    $('#publicPlayList<?php echo $value['id'] . $uid; ?>').prop('checked', true);
+                                }
+                                modal.hidePleaseWait();
+                            }
+                        });
+                        return false;
+                    });
+                });
+            </script>       
+        </div>
+    </div>
+    <?php
+} else if (!empty($_GET['showOnly'])) {
+    ?>
+    <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>
+    <?php
+}
