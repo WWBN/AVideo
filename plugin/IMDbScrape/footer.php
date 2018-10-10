@@ -6,8 +6,8 @@
             success: function (response) {
                 if(response.error){
                     console.log(response.msg);
-                    modal.hidePleaseWait();
                 }
+                modal.hidePleaseWait();
             }
         });
     }
