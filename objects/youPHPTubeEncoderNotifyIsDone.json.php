@@ -40,11 +40,15 @@ $video = new Video("", "", $_POST['videos_id']);
 $obj->video_id = $_POST['videos_id'];
 
 if(empty($_POST['fail'])){
-    if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
-        // set active
-        $video->setStatus('a');
-    }else{
-        $video->setStatus('i');
+    $status = $video->getStatus();
+    // if status is not unlisted
+    if($status!=='u'){
+        if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
+            // set active
+            $video->setStatus('a');
+        }else{
+            $video->setStatus('i');
+        }
     }
 }else{
     $video->setStatus('i');
