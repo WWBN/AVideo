@@ -114,8 +114,8 @@ a:visited {
     opacity: 0.5;
 }
 .flickity-viewport:hover .tile:hover {
-    -webkit-transform: scale(1.5);
-    transform: scale(1.5);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
     opacity: 1;
 }
 .tile:hover ~ .tile {

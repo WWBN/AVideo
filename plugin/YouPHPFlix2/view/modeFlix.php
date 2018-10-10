@@ -29,13 +29,10 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
             <?php
             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
             if ($obj->DateAdded) {
-
                 $dataFlickirty = new stdClass();
+                $dataFlickirty->wrapAround = true;
                 if ($obj->DateAddedAutoPlay) {
                     $dataFlickirty->autoPlay = true;
-                    $dataFlickirty->wrapAround = true;
-                } else {
-                    $dataFlickirty->wrapAround = true;
                 }
 
                 $_POST['sort']['created'] = "DESC";
