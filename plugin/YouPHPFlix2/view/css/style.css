@@ -267,6 +267,9 @@ footer .btn-outline {
     height: 20vh;
     overflow: hidden;
 }
+.posterPortrait {
+    height: 20vh;
+}
 #bigVideo .infoText {
     height: 30vh;
 }

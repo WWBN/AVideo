@@ -1,10 +1,10 @@
 <?php
 $uid = uniqid();
-if($obj->portraitImages){
+if ($obj->portraitImages) {
     $cssClass = "rowPortrait";
 }
 ?>
-<div class="carousel <?php echo $cssClass; ?> " data-flickity='<?php echo json_encode($dataFlickirty)?>'>
+<div class="carousel <?php echo $cssClass; ?> " data-flickity='<?php echo json_encode($dataFlickirty) ?>'>
     <?php
     foreach ($videos as $value) {
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -12,7 +12,7 @@ if($obj->portraitImages){
         $img = $images->thumbsJpg;
         $poster = $images->poster;
         $cssClass = "";
-        if($obj->portraitImages && !empty($images->posterPortrait)){
+        if ($obj->portraitImages && !empty($images->posterPortrait)) {
             $imgGif = $images->gifPortrait;
             $img = $images->posterPortrait;
             $cssClass = "posterPortrait";
@@ -49,10 +49,21 @@ foreach ($videos as $value) {
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
             </h4>
-            <div class="infoText col-md-4 col-sm-12">
-                <h4 class="mainInfoText" itemprop="description">
-                    <?php echo nl2br(textToLink($value['description'])); ?>
-                </h4>
+            <div class="row">
+                <?php
+                if (!empty($images->posterPortrait)) {
+                    ?>
+                    <div class="col-md-2 col-sm-12">
+                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" />
+                    </div>
+                    <?php
+                }
+                ?>
+                <div class="infoText col-md-4 col-sm-12">
+                    <h4 class="mainInfoText" itemprop="description">
+                        <?php echo nl2br(textToLink($value['description'])); ?>
+                    </h4>
+                </div>
             </div>
             <div class="footerBtn">
                 <a class="btn btn-danger playBtn" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
@@ -62,7 +73,7 @@ foreach ($videos as $value) {
             </div>
         </div>
     </div>
-<div id="webui-popover-content<?php echo $value['id'] . $uid; ?>" style="display: none;" >
+    <div id="webui-popover-content<?php echo $value['id'] . $uid; ?>" style="display: none;" >
         <?php if (User::isLogged()) { ?>
             <form role="form">
                 <div class="form-group">
@@ -99,7 +110,7 @@ foreach ($videos as $value) {
     <script>
         $(document).ready(function () {
             loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');
-            $('#addBtn<?php echo $value['id'] . $uid; ?>').webuiPopover({url:'#webui-popover-content<?php echo $value['id'] . $uid; ?>'});
+            $('#addBtn<?php echo $value['id'] . $uid; ?>').webuiPopover({url: '#webui-popover-content<?php echo $value['id'] . $uid; ?>'});
             $('#addPlayList<?php echo $value['id'] . $uid; ?>').click(function () {
                 modal.showPleaseWait();
                 $.ajax({
