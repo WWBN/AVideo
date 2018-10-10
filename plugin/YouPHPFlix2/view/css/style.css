@@ -117,6 +117,7 @@ a:visited {
     -webkit-transform: scale(1.2);
     transform: scale(1.2);
     opacity: 1;
+    z-index: 9999;
 }
 .tile:hover ~ .tile {
     -webkit-transform: translate3d(125px, 0, 0);
