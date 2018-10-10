@@ -6,7 +6,7 @@ $obj = new stdClass();
 $obj->error = true;
 
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -31,7 +31,7 @@ if (!User::canUpload()) {
     die(json_encode($obj));
 }
 
-if(!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])){
+if (!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])) {
     $obj->msg = __("Permission denied to edit a video: " . print_r($_POST, true));
     error_log($obj->msg);
     die(json_encode($obj));
@@ -48,12 +48,15 @@ if (empty($title) && !empty($_POST['title'])) {
 }
 $video->setDuration($_POST['duration']);
 $video->setDescription($_POST['description']);
-
-if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
-    // set active
-    $video->setStatus('a');
-}else{
-    $video->setStatus('i');
+$status = $video->getStatus();
+// if status is not unlisted
+if ($status !== 'u') {
+    if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
+        // set active
+        $video->setStatus('a');
+    } else {
+        $video->setStatus('i');
+    }
 }
 $video->setVideoDownloadedLink($_POST['videoDownloadedLink']);
 error_log("Encoder receiving post");
@@ -92,17 +95,17 @@ if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.j
         $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
         error_log($obj->msg);
         die(json_encode($obj));
-    } 
+    }
 }
 if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local}.gif")) {
     if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination_local}.gif")) {
         $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
         error_log($obj->msg);
         die(json_encode($obj));
-    } 
+    }
 }
 
-if(!empty($_POST['categories_id'])){
+if (!empty($_POST['categories_id'])) {
     $video->setCategories_id($_POST['categories_id']);
 }
 
