@@ -8,7 +8,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
                                                 
-if(!User::isAdmin() && !Video::canEdit($_POST['videos_id'])){
+if(!User::isAdmin() && !Video::canEdit($_GET['videos_id'])){
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
@@ -24,7 +24,7 @@ if($id = $o->save()){
  * 
  */
 
-$video = new Video('', '', $_POST['videos_id']);
+$video = new Video('', '', $_GET['videos_id']);
 
 $oIMDB = new IMDBYPT($video->getTitle());
 if ($oIMDB->isReady) {
