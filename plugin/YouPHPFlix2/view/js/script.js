@@ -35,7 +35,11 @@ function isFlickityEnabled(selector) {
 }
 
 $(function () {
-
+    $(document).on('keyup', function (evt) {
+        if (evt.keyCode == 27) {
+            closeFlixFullScreen();
+        }
+    });
     $(".thumbsImage").on("mouseenter", function () {
         //$(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
         //$(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
