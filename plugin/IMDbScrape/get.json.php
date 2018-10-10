@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 //require_once $global['systemRootPath'] . 'plugin/Bookmark/Objects/BookmarkTable.php';
-require_once $global['systemRootPath'] . 'plugin/IMDb/imdb.class.php';
+require_once $global['systemRootPath'] . 'plugin/IMDbScrape/imdb.class.php';
 
 $obj = new stdClass();
 $obj->error = true;

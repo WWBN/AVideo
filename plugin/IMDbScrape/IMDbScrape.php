@@ -33,7 +33,7 @@ class IMDbScrape extends PluginAbstract {
     public function getFooterCode() {
         global $global;
         if (basename($_SERVER["SCRIPT_FILENAME"]) === 'managerVideos.php') {
-            include $global['systemRootPath'] . 'plugin/IMDb/footer.php';
+            include $global['systemRootPath'] . 'plugin/IMDbScrape/footer.php';
         }
     }
 
