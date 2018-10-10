@@ -4,6 +4,8 @@ require_once '../../videos/configuration.php';
 //require_once $global['systemRootPath'] . 'plugin/Bookmark/Objects/BookmarkTable.php';
 require_once $global['systemRootPath'] . 'plugin/IMDbScrape/imdb.class.php';
 
+$plugin = YouPHPTubePlugin::getObjectData("IMDbScrape");
+
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
@@ -29,7 +31,7 @@ $video = new Video('', '', $_GET['videos_id']);
 $oIMDB = new IMDB($video->getTitle());
 if ($oIMDB->isReady) {
     $videoFileName = $video->getFilename();
-    $poster = $oIMDB->getPoster('big', true);
+    $poster = $oIMDB->getPoster($plugin->smallPoster?'small':'big', true);
     $filename = "{$global['systemRootPath']}videos/{$videoFileName}_portrait.jpg";
     file_put_contents($filename, url_get_contents($poster));
     $obj->error = false;

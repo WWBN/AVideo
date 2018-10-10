@@ -30,6 +30,14 @@ class IMDbScrape extends PluginAbstract {
         return $btn;
     }
     
+    
+    public function getEmptyDataObject() {
+        global $global;
+        $obj = new stdClass();
+        $obj->smallPoster = true;
+        return $obj;
+    }
+    
     public function getFooterCode() {
         global $global;
         if (basename($_SERVER["SCRIPT_FILENAME"]) === 'managerVideos.php') {
