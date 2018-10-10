@@ -25,6 +25,8 @@ a:visited {
     margin-right: 10px;
     font-size: 20px;
     cursor: pointer;
+}
+.tile:hover {
     -webkit-transition: 450ms all;
     transition: 450ms all;
     -webkit-transform-origin: center left;
