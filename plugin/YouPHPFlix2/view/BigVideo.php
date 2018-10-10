@@ -45,9 +45,15 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             </div>
             <div class="footerBtn">
                 <a class="btn btn-danger playBtn" href="<?php echo Video::getLinkToVideo($video['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                <?php
+                if(!empty($video['trailer1'])){
+                ?>
                 <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo $video['trailer1']; ?>');return false;">
                     <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
                 </a>
+                <?php
+                }
+                ?>
                 <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
                     <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                 </a>
