@@ -16,7 +16,7 @@
  * @link    https://github.com/FabianBeiner/PHP-IMDB-Grabber/ GitHub Repository
  * @version 6.1.4
  */
-class IMDB
+class IMDBYPT
 {
     /**
      * Set this to true if you run into problems.

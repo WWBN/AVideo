@@ -26,7 +26,7 @@ if($id = $o->save()){
 
 $video = new Video('', '', $_POST['videos_id']);
 
-$oIMDB = new IMDB($video->getTitle());
+$oIMDB = new IMDBYPT($video->getTitle());
 if ($oIMDB->isReady) {
     $videoFileName = $video->getFilename();
     $poster = $oIMDB->getPoster('big', true);
