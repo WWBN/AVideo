@@ -30,6 +30,12 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
             if ($obj->DateAdded) {
 
+                $dataFlickirty = new stdClass();
+                if ($obj->DateAddedAutoPlay) {
+                    $dataFlickirty->autoPlay = true;
+                } else {
+                    $dataFlickirty->wrapAround = true;
+                }
 
                 $_POST['sort']['created'] = "DESC";
                 $_POST['current'] = 1;
@@ -53,6 +59,12 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     <?php
                 }
                 if ($obj->MostWatched) {
+                    $dataFlickirty = new stdClass();
+                    if ($obj->MostWatchedAutoPlay) {
+                        $dataFlickirty->autoPlay = true;
+                    } else {
+                        $dataFlickirty->wrapAround = true;
+                    }
                     unset($_POST['sort']);
                     $_POST['sort']['views_count'] = "DESC";
                     $videos = Video::getAllVideos("viewable");
@@ -71,6 +83,12 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 }
 
                 if ($obj->MostPopular) {
+                    $dataFlickirty = new stdClass();
+                    if ($obj->MostPopularAutoPlay) {
+                        $dataFlickirty->autoPlay = true;
+                    } else {
+                        $dataFlickirty->wrapAround = true;
+                    }
                     unset($_POST['sort']);
                     $_POST['sort']['likes'] = "DESC";
                     $videos = Video::getAllVideos("viewable");
@@ -91,6 +109,12 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 }
 
                 if ($obj->Categories && empty($_GET['catName'])) {
+                    $dataFlickirty = new stdClass();
+                    if ($obj->CategoriesAutoPlay) {
+                        $dataFlickirty->autoPlay = true;
+                    } else {
+                        $dataFlickirty->wrapAround = true;
+                    }
                     unset($_POST['sort']);
                     $categories = Category::getAllCategories();
                     foreach ($categories as $value) {
@@ -112,7 +136,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         <?php
                         unset($_GET['catName']);
                     }
-                }else if ($obj->Categories && !empty($_GET['catName'])) {
+                } else if ($obj->Categories && !empty($_GET['catName'])) {
                     unset($_POST['sort']);
                     $categories = Category::getChildCategoriesFromTitle($_GET['catName']);
                     foreach ($categories as $value) {
@@ -144,7 +168,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
         </div>
         <div id="loading" class="loader"
              style="width: 30vh; height: 30vh; position: absolute; left: 50%; top: 50%; margin-left: -15vh; margin-top: -15vh;"></div>
-        
+
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
 

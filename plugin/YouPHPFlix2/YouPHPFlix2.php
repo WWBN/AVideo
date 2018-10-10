@@ -24,13 +24,20 @@ class YouPHPFlix2 extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->pageDots = true;
-        $obj->MostPopular = true;
-        $obj->MostWatched = true;
+        $obj->PlayList = true;
+        $obj->PlayListAutoPlay = true;
         $obj->DateAdded = true;
+        $obj->DateAddedAutoPlay = true;
+        $obj->MostPopular = true;
+        $obj->MostPopularAutoPlay = true;
+        $obj->MostWatched = true;
+        $obj->MostWatchedAutoPlay = true;
         $obj->Categories = true;
+        $obj->CategoriesAutoPlay = true;
         $obj->maxVideos = 20;
         $obj->SortByName = false;
         $obj->BigVideo = true;
+        $obj->portraitImages = true;
         return $obj;
     }
     

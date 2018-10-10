@@ -36,6 +36,14 @@ a:visited {
     -o-object-fit: cover;
     object-fit: cover;
 }
+.posterPortrait.tile__img {
+    height: auto;
+    max-height: 363px;
+}
+
+.rowPortrait.carousel {
+    height: 380px;
+}
 .tile__details {
     position: absolute;
     bottom: 0;
