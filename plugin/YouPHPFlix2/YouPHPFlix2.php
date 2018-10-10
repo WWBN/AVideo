@@ -37,7 +37,6 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->maxVideos = 20;
         $obj->SortByName = false;
         $obj->BigVideo = true;
-        $obj->portraitImages = true;
         return $obj;
     }
     

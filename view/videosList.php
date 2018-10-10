@@ -93,13 +93,17 @@ foreach ($videos as $key => $value) {
 
                 $imgGif = $images->thumbsGif;
                 $img = $images->thumbsJpg;
+                if (!empty($images->posterPortrait)) {
+                    $imgGif = $images->gifPortrait;
+                    $img = $images->posterPortrait;
+                }
                 if (($value['type'] !== "audio")&&($value['type'] !== "linkAudio")) {
                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                 } else {
                     $img_portrait = "";
                 }
                 ?>
-                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img!=$images->thumbsJpgSmall)?"blur":""; ?>" height="130" />
+                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive text-center <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img!=$images->thumbsJpgSmall)?"blur":""; ?>" height="130" />
                 <?php
                 if (!empty($imgGif)) {
                     ?>

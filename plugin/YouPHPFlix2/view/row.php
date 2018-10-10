@@ -1,10 +1,7 @@
 <?php
 $uid = uniqid();
-if ($obj->portraitImages) {
-    $cssClass = "rowPortrait";
-}
 ?>
-<div class="carousel <?php echo $cssClass; ?> " data-flickity='<?php echo json_encode($dataFlickirty) ?>'>
+<div class="carousel rowPortrait " data-flickity='<?php echo json_encode($dataFlickirty) ?>'>
     <?php
     foreach ($videos as $value) {
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -12,7 +9,7 @@ if ($obj->portraitImages) {
         $img = $images->thumbsJpg;
         $poster = $images->poster;
         $cssClass = "";
-        if ($obj->portraitImages && !empty($images->posterPortrait)) {
+        if (!empty($images->posterPortrait)) {
             $imgGif = $images->gifPortrait;
             $img = $images->posterPortrait;
             $cssClass = "posterPortrait";
