@@ -14,26 +14,36 @@ if(!User::isAdmin() && !Video::canEdit($_GET['videos_id'])){
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
-/*
-$o = new BookmarkTable(@$_POST['id']);
-$o->setName($_POST['name']);
-$o->setTimeInSeconds($_POST['timeInSeconds']);
-$o->setVideos_id($_POST['videos_id']);
-
-if($id = $o->save()){
-    $obj->error = false;
-}
- * 
- */
 
 $video = new Video('', '', $_GET['videos_id']);
 
 $oIMDB = new IMDB($video->getTitle());
 if ($oIMDB->isReady) {
     $videoFileName = $video->getFilename();
-    $poster = $oIMDB->getPoster($plugin->smallPoster?'small':'big', true);
+    $poster = $oIMDB->getPoster('big', true);
     $filename = "{$global['systemRootPath']}videos/{$videoFileName}_portrait.jpg";
-    file_put_contents($filename, url_get_contents($poster));
+    im_resizeV2($poster, $filename, $plugin->posterWidth, $plugin->posterHeight);
+    
+    $description = $oIMDB->getDescription();
+    $rate = $oIMDB->getRating();
+    $trailer = $oIMDB->getTrailerAsUrl(true);
+    
+    $video->setDescription($description);
+    $video->setRate($rate);
+    
+    // trailer
+    $encoderURL = $config->getEncoderURL()."youtubeDl.json?videoURL=".urlencode($trailer)."&webSiteRootURL=".urlencode($global['webSiteRootURL'])."&user=".urlencode(User::getUserName())."&pass=".urlencode(User::getUserPass());
+    error_log("IMDB encoder URL {$encoderURL}");
+    $json = url_get_contents($encoderURL);
+    error_log("IMDB encoder answer {$json}");
+    $json = json_decode($json);
+    if(!empty($json->videos_id)){
+        $trailerVideo = new Video('', '', $json->videos_id);
+        $trailerVideo->setStatus('u');
+        $video->setTrailer1(Video::getPermaLink($json->videos_id,true));
+    }
+    $video->save();
+    
     $obj->error = false;
 } else {
     $obj->msg = "Movie not found";

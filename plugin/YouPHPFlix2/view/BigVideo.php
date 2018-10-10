@@ -22,6 +22,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         <div class="posterDetails " style=" padding: 30px;">
             <h2 class="infoTitle" style=""><?php echo $video['title']; ?></h2>
             <h4 class="infoDetails">
+                <span class="label label-success"><i class="fab fa-imdb"></i> IMDb <?php echo $video['rate']; ?></span>
                 <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $video['views_count']; ?></span>
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $video['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>
@@ -44,6 +45,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             </div>
             <div class="footerBtn">
                 <a class="btn btn-danger playBtn" href="<?php echo Video::getLinkToVideo($video['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo $video['trailer1']; ?>');return false;">
+                    <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
+                </a>
                 <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
                     <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                 </a>

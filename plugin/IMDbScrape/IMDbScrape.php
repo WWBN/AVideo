@@ -11,7 +11,7 @@ class IMDbScrape extends PluginAbstract {
     }
 
     public function getName() {
-        return "IMDb";
+        return "IMDbScrape";
     }
 
     public function getUUID() {
@@ -34,7 +34,8 @@ class IMDbScrape extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->smallPoster = true;
+        $obj->posterWidth = 186;
+        $obj->posterHeight = 279;
         return $obj;
     }
     

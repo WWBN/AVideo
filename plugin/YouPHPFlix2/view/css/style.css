@@ -38,11 +38,12 @@ a:visited {
 }
 .posterPortrait.tile__img {
     height: auto;
-    max-height: 363px;
+    width: 186px;
+    max-height: 280px;
 }
 
 .rowPortrait.carousel {
-    height: 380px;
+    height: 220px;
 }
 .tile__details {
     position: absolute;
@@ -269,6 +270,10 @@ footer .btn-outline {
 }
 .posterPortrait {
     height: 20vh;
+}
+.rowPortrait .tile {
+    width: 140px;
+    height: 210px;
 }
 #bigVideo .infoText {
     height: 30vh;

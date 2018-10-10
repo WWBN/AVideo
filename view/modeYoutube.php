@@ -144,6 +144,12 @@ if (!empty($video)) {
     }
     $images = Video::getImageFromFilename($video['filename']);
     $poster = $images->poster;
+    if(!empty($images->posterPortrait)){
+        $img = $images->posterPortrait;
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    }
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
 }
@@ -230,7 +236,7 @@ if (empty($_GET['videoName'])) {
                         <div class="row bgWhite list-group-item">
                             <div class="row divMainVideo">
                                 <div class="col-xs-4 col-sm-4 col-md-4">
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
+                                    <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
                                     <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
                                     <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                                     <meta itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>" />

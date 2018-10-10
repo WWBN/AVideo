@@ -42,6 +42,7 @@ foreach ($videos as $value) {
         <div class="posterDetails ">
             <h2 class="infoTitle"><?php echo $value['title']; ?></h2>
             <h4 class="infoDetails">
+                <span class="label label-success"><i class="fab fa-imdb"></i> IMDb <?php echo $value['rate']; ?></span>
                 <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>

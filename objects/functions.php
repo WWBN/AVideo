@@ -555,7 +555,6 @@ function getVideosURL($fileName) {
                 'type' => 'video'
             );
         }
-        $filename = "{$fileName}{$value}";
         $source = Video::getSourceFile($filename, ".webm");
         $file = $source['path'];
         if (file_exists($file)) {
@@ -566,27 +565,37 @@ function getVideosURL($fileName) {
                 'type' => 'video'
             );
         }
-        $filename = "{$fileName}{$value}";
-        $source = Video::getSourceFile($filename, ".jpg");
-        $file = $source['path'];
-        if (file_exists($file)) {
-            $files["jpg{$value}"] = array(
-                'filename' => "{$fileName}{$value}.jpg",
-                'path' => $file,
-                'url' => $source['url'],
-                'type' => 'image'
-            );
-        }
-        $filename = "{$fileName}{$value}";
-        $source = Video::getSourceFile($filename, ".gif");
-        $file = $source['path'];
-        if (file_exists($file)) {
-            $files["gif{$value}"] = array(
-                'filename' => "{$fileName}{$value}.gif",
-                'path' => $file,
-                'url' => $source['url'],
-                'type' => 'image'
-            );
+        if(empty($value)){
+            $source = Video::getSourceFile($filename, ".jpg");
+            $file = $source['path'];
+            if (file_exists($file)) {
+                $files["jpg"] = array(
+                    'filename' => "{$fileName}.jpg",
+                    'path' => $file,
+                    'url' => $source['url'],
+                    'type' => 'image'
+                );
+            }
+            $source = Video::getSourceFile($filename, ".gif");
+            $file = $source['path'];
+            if (file_exists($file)) {
+                $files["gif"] = array(
+                    'filename' => "{$fileName}.gif",
+                    'path' => $file,
+                    'url' => $source['url'],
+                    'type' => 'image'
+                );
+            }
+            $source = Video::getSourceFile($filename, "_portrait.jpg");
+            $file = $source['path'];
+            if (file_exists($file)) {
+                $files["pjpg"] = array(
+                    'filename' => "{$fileName}_portrait.jpg",
+                    'path' => $file,
+                    'url' => $source['url'],
+                    'type' => 'image'
+                );
+            }
         }
     }
     return $files;
