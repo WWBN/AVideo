@@ -18,7 +18,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
         </script>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/js/flickty/flickity.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/js/flickity/flickity.min.css" rel="stylesheet" type="text/css" />
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <title><?php echo $config->getWebSiteTitle(); ?></title>
     </head>
@@ -33,6 +33,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 $dataFlickirty = new stdClass();
                 if ($obj->DateAddedAutoPlay) {
                     $dataFlickirty->autoPlay = true;
+                    $dataFlickirty->wrapAround = true;
                 } else {
                     $dataFlickirty->wrapAround = true;
                 }
@@ -62,6 +63,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     $dataFlickirty = new stdClass();
                     if ($obj->MostWatchedAutoPlay) {
                         $dataFlickirty->autoPlay = true;
+                        $dataFlickirty->wrapAround = true;
                     } else {
                         $dataFlickirty->wrapAround = true;
                     }
@@ -86,6 +88,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     $dataFlickirty = new stdClass();
                     if ($obj->MostPopularAutoPlay) {
                         $dataFlickirty->autoPlay = true;
+                        $dataFlickirty->wrapAround = true;
                     } else {
                         $dataFlickirty->wrapAround = true;
                     }
@@ -112,6 +115,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     $dataFlickirty = new stdClass();
                     if ($obj->CategoriesAutoPlay) {
                         $dataFlickirty->autoPlay = true;
+                        $dataFlickirty->wrapAround = true;
                     } else {
                         $dataFlickirty->wrapAround = true;
                     }
@@ -177,7 +181,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
         } else {
             unset($_SESSION['type']);
         }
-        $jsFiles = array("view/js/bootstrap-list-filter/bootstrap-list-filter.min.js", "plugin/YouPHPFlix2/view/js/flickty/flickity.pkgd.min.js", "view/js/webui-popover/jquery.webui-popover.min.js", "plugin/YouPHPFlix2/view/js/script.js");
+        $jsFiles = array("view/js/bootstrap-list-filter/bootstrap-list-filter.min.js", "plugin/YouPHPFlix2/view/js/flickity/flickity.pkgd.min.js", "view/js/webui-popover/jquery.webui-popover.min.js", "plugin/YouPHPFlix2/view/js/script.js");
         $jsURL = combineFiles($jsFiles, "js");
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
