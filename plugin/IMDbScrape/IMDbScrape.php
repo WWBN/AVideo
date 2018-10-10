@@ -4,7 +4,7 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 //require_once $global['systemRootPath'] . 'plugin/Audit/Objects/AuditTable.php';
 
-class IMDb extends PluginAbstract {
+class IMDbScrape extends PluginAbstract {
 
     public function getDescription() {
         return "Enables you to scrape data from IMDB.com";
