@@ -11,10 +11,14 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $poster = $images->poster;
     //var_dump($video);
     ?>
-    <div class="clear clearfix" style="background: url(<?php echo $poster; ?>) no-repeat center center fixed; -webkit-background-size: cover;
-         -moz-background-size: cover;
-         -o-background-size: cover;
-         background-size: cover; min-height: 60vh; margin: -20px; margin-bottom: 0; position: relative;" >
+<div class="clear clearfix" id="bigVideo" style="background: url(<?php echo $poster; ?>) no-repeat center center fixed; -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover; 
+    min-height: 60vh; 
+    margin: -20px; 
+    margin-bottom: 0; 
+    position: relative;" >
         <div class="posterDetails " style=" padding: 30px;">
             <h2 class="infoTitle" style=""><?php echo $video['title']; ?></h2>
             <h4 class="infoDetails">
@@ -22,7 +26,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $video['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>
             </h4>
-            <div class="infoText col-md-4 col-sm-12"><?php echo $video['description']; ?></div>
+            <div class="infoText col-md-4 col-sm-12">
+                <h4 class="mainInfoText" itemprop="description">
+                    <?php echo nl2br(textToLink($video['description'])); ?>
+                </h4>
+            </div>
             <div class="footerBtn">
                 <a class="btn btn-danger playBtn" href="<?php echo Video::getLinkToVideo($video['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
                 <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">

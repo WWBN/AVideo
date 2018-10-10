@@ -1640,9 +1640,11 @@ if (!class_exists('Video')) {
             $obj = new stdClass();
             $gifSource = self::getSourceFile($filename, ".gif");
             $jpegSource = self::getSourceFile($filename, ".jpg");
+            $jpegPortraitSource = self::getSourceFile($filename, "_portrait.jpg");
             $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
             $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
             $obj->poster = $jpegSource['url'];
+            $obj->posterPortrait = $jpegPortraitSource['url'];
             $obj->thumbsGif = $gifSource['url'];
             $obj->thumbsJpg = $thumbsSource['url'];
             $obj->thumbsJpgSmall = $thumbsSmallSource['url'];

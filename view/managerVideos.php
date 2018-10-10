@@ -209,15 +209,23 @@ if (!empty($_GET['video_id'])) {
                             <div id="postersImage">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#jpg">Poster (JPG)</a></li>
+                                    <li><a data-toggle="tab" href="#pjpg">Portrait Poster (JPG)</a></li>
                                     <li><a data-toggle="tab" href="#gif">Mouse Over Poster (GIF)</a></li>
+                                    <li><a data-toggle="tab" href="#pgif">Mouse Over Portrait Poster (GIF)</a></li>
                                 </ul>
 
                                 <div class="tab-content">
                                     <div id="jpg" class="tab-pane fade in active">
                                         <input id="input-jpg" type="file" class="file-loading" accept="image/jpg">
                                     </div>
+                                    <div id="pjpg" class="tab-pane fade">
+                                        <input id="input-pjpg" type="file" class="file-loading" accept="image/jpg">
+                                    </div>
                                     <div id="gif" class="tab-pane fade">
                                         <input id="input-gif" type="file" class="file-loading" accept="image/gif">
+                                    </div>
+                                    <div id="pgif" class="tab-pane fade">
+                                        <input id="input-pgif" type="file" class="file-loading" accept="image/gif">
                                     </div>
                                 </div>
                             </div>
@@ -650,7 +658,7 @@ if (!empty($_GET['video_id'])) {
                                         $('#public').trigger("change");
                                         $('#videoIsAd').prop('checked', false);
                                         $('#videoIsAd').trigger("change");
-                                        $('#input-jpg, #input-gif').fileinput('destroy');
+                                        $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
                                         $("#input-jpg").fileinput({
                                             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
                                             autoReplace: true,
@@ -661,6 +669,22 @@ if (!empty($_GET['video_id'])) {
                                                 "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'>",
                                             ],
                                             initialCaption: row.clean_title + '.jpg',
+                                            initialPreviewShowDelete: false,
+                                            showRemove: false,
+                                            showClose: false,
+                                            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                                            allowedFileExtensions: ["jpg"]
+                                        });
+                                        $("#input-pjpg").fileinput({
+                                            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pjpg",
+                                            autoReplace: true,
+                                            overwriteInitial: true,
+                                            showUploadedThumbs: false,
+                                            maxFileCount: 1,
+                                            initialPreview: [
+                                                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_portrait.jpg'>",
+                                            ],
+                                            initialCaption: row.clean_title + '_portrait.jpg',
                                             initialPreviewShowDelete: false,
                                             showRemove: false,
                                             showClose: false,
@@ -683,7 +707,23 @@ if (!empty($_GET['video_id'])) {
                                             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
                                             allowedFileExtensions: ["gif"]
                                         });
-                                        $('#input-jpg, #input-gif').on('fileuploaded', function (event, data, previewId, index) {
+                                        $("#input-pgif").fileinput({
+                                            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pgif",
+                                            autoReplace: true,
+                                            overwriteInitial: true,
+                                            showUploadedThumbs: false,
+                                            maxFileCount: 1,
+                                            initialPreview: [
+                                                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_portrait.gif'>",
+                                            ],
+                                            initialCaption: row.clean_title + '_portrait.gif',
+                                            initialPreviewShowDelete: false,
+                                            showRemove: false,
+                                            showClose: false,
+                                            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                                            allowedFileExtensions: ["gif"]
+                                        });
+                                        $('#input-jpg, #input-gif,#input-pjpg, #input-pgif').on('fileuploaded', function (event, data, previewId, index) {
                                             $("#grid").bootgrid("reload");
                                         })
                                         waitToSubmit = true;
@@ -730,7 +770,7 @@ if (!empty($row)) {
                                             $('#public').trigger("change");
                                             $('#videoIsAd').prop('checked', false);
                                             $('#videoIsAd').trigger("change");
-                                            $('#input-jpg, #input-gif').fileinput('destroy');
+                                            $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
                                             $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                             $('#videoLinkContent').slideDown();
                                             $('#videoLink').val('');

@@ -40,7 +40,11 @@ foreach ($videos as $value) {
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
             </h4>
-            <div class="infoText col-md-4 col-sm-12"><?php echo nl2br(textToLink($value['description'])); ?></div>
+            <div class="infoText col-md-4 col-sm-12">
+                <h4 class="mainInfoText" itemprop="description">
+                    <?php echo nl2br(textToLink($value['description'])); ?>
+                </h4>
+            </div>
             <div class="footerBtn">
                 <a class="btn btn-danger playBtn" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
                 <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
