@@ -55,7 +55,9 @@ if ($status !== 'u') {
         // set active
         $video->setStatus('a');
     } else {
-        $video->setStatus('i');
+        if($status !== 'a'){
+            $video->setStatus('i');
+        }
     }
 }
 $video->setVideoDownloadedLink($_POST['videoDownloadedLink']);

@@ -47,7 +47,9 @@ if(empty($_POST['fail'])){
             // set active
             $video->setStatus('a');
         }else{
-            $video->setStatus('i');
+            if($status !== 'a'){
+                $video->setStatus('i');
+            }
         }
     }
 }else{
