@@ -98,6 +98,12 @@ class YPTWallet extends PluginAbstract {
         $obj = YouPHPTubePlugin::getObjectData('YPTWallet');
         return "{$obj->currency_symbol} ".number_format($value, $obj->decimalPrecision)." {$obj->currency}";
     }
+    
+    static function formatFloat($value){
+        $value = floatval($value);
+        $obj = YouPHPTubePlugin::getObjectData('YPTWallet');
+        return number_format($value, $obj->decimalPrecision);
+    }
 
     public function getWallet($users_id) {
         $wallet = new Wallet(0);

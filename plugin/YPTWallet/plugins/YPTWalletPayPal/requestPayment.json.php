@@ -11,12 +11,11 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
 $pluginS = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
 $objS = $pluginS->getDataObject();
-$options = json_decode($objS->addFundsOptions);
 
 $obj= new stdClass();
 $obj->error = true;
 
-if(empty($_POST['value']) || !in_array($_POST['value'], $options)){ 
+if(empty($_POST['value'])){ 
     $obj->msg = "Invalid Value";
     die(json_encode($obj));
 }
