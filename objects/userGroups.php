@@ -169,7 +169,7 @@ class UserGroups {
         if (empty($users_id)) {
             return array();
         }
-        $sql = "SELECT * FROM users_groups ug"
+        $sql = "SELECT uug.*, ug.* FROM users_groups ug"
                 . " LEFT JOIN users_has_users_groups uug ON users_groups_id = ug.id WHERE users_id = ? ";
         
         $ids = YouPHPTubePlugin::getDynamicUserGroupsId();
@@ -185,10 +185,10 @@ class UserGroups {
         $doNotRepeat = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
-                if(in_array($row['users_groups_id'], $doNotRepeat)){
+                if(in_array($row['id'], $doNotRepeat)){
                     continue;
                 }
-                $doNotRepeat[] = $row['users_groups_id'];
+                $doNotRepeat[] = $row['id'];
                 $arr[] = $row;
             }
         } else {
