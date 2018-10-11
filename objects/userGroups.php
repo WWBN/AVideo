@@ -212,10 +212,53 @@ class UserGroups {
         return sqlDAL::writeSql($sql,"i",array($users_id));
     }
 
-    // for users end
+    static function getVideoGroupsViewId($videos_id, $users_groups_id) {
+        if(empty($videos_id)){
+            return false;
+        }
+        if(empty($users_groups_id)){
+            return false;
+        }
+        global $global;
 
-    // for videos
+        $sql = "SELECT id FROM videos_group_view WHERE videos_id = ? AND users_groups_id = ? LIMIT 1 ";
+        $res = sqlDAL::readSql($sql,"ii",array($videos_id, $users_groups_id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($data)) {
+            return $data['id'];
+        } else {
+            return 0;
+        }
+        
+    }
 
+    static function addVideoGroups($videos_id, $users_groups_id) {
+        if (!User::canUpload()) {
+            return false;
+        }
+        global $global;
+        
+        if(self::getVideoGroupsViewId($videos_id, $users_groups_id)){
+            return false;
+        }
+
+        $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
+        $value = intval($value);
+        sqlDAL::writeSql($sql,"ii",array($videos_id,$users_groups_id));
+
+        return true;
+    }
+    
+    static function deleteVideoGroups($videos_id, $users_groups_id) {
+        if (!User::canUpload()) {
+            return false;
+        }
+        
+        $sql = "DELETE FROM videos_group_view WHERE videos_id = ? AND users_groups_id = ?";
+        return sqlDAL::writeSql($sql,"ii",array($videos_id, $users_groups_id));
+    }
+    
     static function updateVideoGroups($videos_id, $array_groups_id) {
         if (!User::canUpload()) {
             return false;

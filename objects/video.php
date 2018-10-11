@@ -160,6 +160,8 @@ if (!class_exists('Video')) {
             if (empty($this->next_videos_id)) {
                 $this->next_videos_id = 'NULL';
             }
+            
+            $this->rate = floatval($this->rate);
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo()) {
                     header('Content-Type: application/json');

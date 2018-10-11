@@ -181,6 +181,44 @@ if (!empty($_GET['video_id'])) {
                         -->
                     </ul>
                 </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <?php echo __('Add User Group'); ?> <span class="caret"></span></button>                        
+                    <ul class="dropdown-menu" role="menu">
+                        <?php
+                        foreach ($userGroups as $value) {
+                            ?>
+                            <li>
+                                <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 1);return false;">
+                                    <span class="fa fa-lock"></span>
+                                    <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
+                                    <?php echo $value['group_name']; ?>
+                                </a>  
+                            </li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <?php echo __('Remove User Group'); ?> <span class="caret"></span></button>                        
+                    <ul class="dropdown-menu" role="menu">
+                        <?php
+                        foreach ($userGroups as $value) {
+                            ?>
+                            <li>
+                                <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 0);return false;">
+                                    <span class="fa fa-lock"></span>
+                                    <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
+                                    <?php echo $value['group_name']; ?>
+                                </a>  
+                            </li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
                 <button class="btn btn-danger" id="deleteBtn">
                     <i class="fa fa-trash" aria-hidden="true"></i> <?php echo __('Delete'); ?>
                 </button>
@@ -289,9 +327,9 @@ if (!empty($_GET['video_id'])) {
                                 <div class="row">
                                     <div class="col-md-12 col-12 watch8-action-buttons text-muted">
                                         <?php if ((($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false)) { ?>
-                                          <label for="addBtn" class=""><?php echo __("Playlists"); ?></label>
+                                            <label for="addBtn" class=""><?php echo __("Playlists"); ?></label>
                                             <button class="btn btn-default no-outline" style="float:right;" id="addBtn" data-placement="top">
-                                                 <?php echo __("Manage playlists"); ?>
+                                                <?php echo __("Manage playlists"); ?>
                                             </button>
                                             <div class="webui-popover-content" >
                                                 <?php if (User::isLogged()) { ?>
@@ -318,7 +356,7 @@ if (!empty($_GET['video_id'])) {
                                                             <button class="btn btn-success btn-block" id="addPlayList" ><?php echo __("Create a New Play List"); ?></button>
                                                         </div>
                                                     </div>
-                                                <?php }  ?>
+                                                <?php } ?>
                                             </div>
                                             <script>
                                                 function loadPlayLists() {
@@ -339,7 +377,7 @@ if (!empty($_GET['video_id'])) {
                                                                 for (var x in response[i].videos) {
                                                                     if (
                                                                             typeof (response[i].videos[x]) === 'object'
-                                                                            && response[i].videos[x].videos_id ==$('#inputVideoId').val()) {
+                                                                            && response[i].videos[x].videos_id == $('#inputVideoId').val()) {
                                                                         checked = "checked";
                                                                     }
                                                                 }
@@ -399,8 +437,8 @@ if (!empty($_GET['video_id'])) {
 
                                                 });
                                             </script>
-                                          <?php } ?>
-                                          </div>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <h3><?php echo __("Autoplay Next Video"); ?> <button class="btn btn-danger btn-sm" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button></h3>
@@ -540,6 +578,36 @@ if (!empty($_GET['video_id'])) {
                                         $.ajax({
                                             url: '<?php echo $global['webSiteRootURL']; ?>objects/videoCategory.json.php',
                                             data: {"id": vals, "category_id": category_id},
+                                            type: 'post',
+                                            success: function (response) {
+                                                console.log(response);
+                                                modal.hidePleaseWait();
+                                                if (!response.status) {
+                                                    swal({
+                                                        title: "<?php echo __("Sorry!"); ?>",
+                                                        text: response.msg,
+                                                        type: "error",
+                                                        html: true
+                                                    });
+                                                } else {
+                                                    $("#grid").bootgrid('reload');
+                                                }
+                                            }
+                                        });
+                                    }
+                                    
+                                    
+                                    function userGroupSave(users_groups_id, add) {
+                                        modal.showPleaseWait();
+                                        var vals = [];
+                                        $(".checkboxVideo").each(function (index) {
+                                            if ($(this).is(":checked")) {
+                                                vals.push($(this).val());
+                                            }
+                                        });
+                                        $.ajax({
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/userGroupSave.json.php',
+                                            data: {"id": vals, "users_groups_id": users_groups_id, "add":add},
                                             type: 'post',
                                             success: function (response) {
                                                 console.log(response);
@@ -988,9 +1056,11 @@ if (User::isAdmin()) {
                                                         if (row.status == "d" || row.status == "e") {
                                                             yt = "";
                                                         }
-<?php } else {
+<?php
+} else {
     echo "yt='';";
-} ?>
+}
+?>
                                                     if (row.status !== "a") {
                                                         tags += '<div id="encodeProgress' + row.id + '"></div>';
                                                     }
@@ -1007,11 +1077,11 @@ if (User::isAdmin()) {
                                                         img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "' style='max-height:80px; margin-right: 5px;'> ";
                                                     } else {
                                                         type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
-                                                        if(typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url){
+                                                        if (typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url) {
                                                             img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.pjpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
-                                                        }else if(typeof row.videosURL.jpg !== 'undefined' &&row.videosURL.jpg.url){
+                                                        } else if (typeof row.videosURL.jpg !== 'undefined' && row.videosURL.jpg.url) {
                                                             img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.jpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
-                                                        }else{
+                                                        } else {
                                                             is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
                                                             img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                         }
