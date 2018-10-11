@@ -50,14 +50,12 @@ $video->setDuration($_POST['duration']);
 $video->setDescription($_POST['description']);
 $status = $video->getStatus();
 // if status is not unlisted
-if ($status !== 'u') {
+if ($status !== 'u' && $status !== 'a') {
     if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
         // set active
         $video->setStatus('a');
     } else {
-        if($status !== 'a'){
-            $video->setStatus('i');
-        }
+        $video->setStatus('i');
     }
 }
 $video->setVideoDownloadedLink($_POST['videoDownloadedLink']);
