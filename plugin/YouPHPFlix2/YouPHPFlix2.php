@@ -37,6 +37,7 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->maxVideos = 20;
         $obj->SortByName = false;
         $obj->BigVideo = true;
+        $obj->BigVideoBackgroundRGB = "39, 43, 48";
         return $obj;
     }
     

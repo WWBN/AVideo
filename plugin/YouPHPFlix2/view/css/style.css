@@ -75,7 +75,7 @@ a:visited {
     line-height: 50px;
     text-align: center;
     border-radius: 100%;
-    background: rgba(255,255,255,0.5);
+    background: rgba(39,43,48,0.5);
     z-index: 1;
 }
 .tile__details:before {
@@ -147,12 +147,6 @@ a:visited {
     right: 0;
     top: 0;
     padding: 5px 20px;
-
-    background: -webkit-linear-gradient(left, rgba(14,15,17,1) 40%, rgba(14,15,17,0) 100%);
-    background: -o-linear-gradient(right, rgba(14,15,17,1) 40%, rgba(14,15,17,0) 100%);
-    background: linear-gradient(right, rgba(14,15,17,1) 40%, rgba(14,15,17,0) 100%);
-    background: -moz-linear-gradient(to right, rgba(14,15,17,1) 40%, rgba(14,15,17,0) 100%);
-
     color: #FFF;
 }
 
