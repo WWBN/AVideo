@@ -20,10 +20,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
          margin-bottom: 0; 
          position: relative;" >
         <div class="posterDetails " style=" padding: 30px;
-             background: -webkit-linear-gradient(left, rgba(<?php echo $obj->BigVideoBackgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->BigVideoBackgroundRGB; ?>,0) 100%);
-             background: -o-linear-gradient(right, rgba(<?php echo $obj->BigVideoBackgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->BigVideoBackgroundRGB; ?>,0) 100%);
-             background: linear-gradient(right, rgba(<?php echo $obj->BigVideoBackgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->BigVideoBackgroundRGB; ?>,0) 100%);
-             background: -moz-linear-gradient(to right, rgba(<?php echo $obj->BigVideoBackgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->BigVideoBackgroundRGB; ?>,0) 100%);">
+             background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+             background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+             background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+             background: -moz-linear-gradient(to right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
             <h2 class="infoTitle" style=""><?php echo $video['title']; ?></h2>
             <h4 class="infoDetails">
                 <?php
