@@ -552,7 +552,9 @@ if (!class_exists('Video')) {
 
             if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-            } elseif (!empty($status)) {
+            }  elseif ($status == "viewableNotUnlisted") {
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
+            }elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
 
@@ -684,11 +686,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
             } elseif ($status == "viewableNotUnlisted") {
-                if (User::isLogged()) {
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "'))";
-                } else {
-                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-                }
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
@@ -777,11 +775,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
             }elseif ($status == "viewableNotUnlisted") {
-                if (User::isLogged()) {
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "'))";
-                } else {
-                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-                }
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }

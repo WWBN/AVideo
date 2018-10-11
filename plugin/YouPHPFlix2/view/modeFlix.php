@@ -39,7 +39,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 $_POST['current'] = 1;
                 $_POST['rowCount'] = $obj->maxVideos;
 
-                $videos = Video::getAllVideos("viewableNotUnlisted");
+                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                 if (!empty($videos)) {
                     ?>
                     <div class="row">
@@ -66,7 +66,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     }
                     unset($_POST['sort']);
                     $_POST['sort']['views_count'] = "DESC";
-                    $videos = Video::getAllVideos("viewableNotUnlisted");
+                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     ?>
                     <span class="md-col-12">&nbsp;</span>
                     <div class="row">
@@ -91,7 +91,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     }
                     unset($_POST['sort']);
                     $_POST['sort']['likes'] = "DESC";
-                    $videos = Video::getAllVideos("viewableNotUnlisted");
+                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     ?>
                     <div class="row">
                         <span class="md-col-12">&nbsp;</span>
@@ -122,7 +122,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         unset($_POST['sort']);
                         $_GET['catName'] = $value['clean_name'];
                         $_POST['sort']['likes'] = "DESC";
-                        $videos = Video::getAllVideos("viewableNotUnlisted");
+                        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                         ?>
                         <div class="row">
                             <span class="md-col-12">&nbsp;</span>
@@ -144,7 +144,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         unset($_POST['sort']);
                         $_GET['catName'] = $value['clean_name'];
                         $_POST['sort']['likes'] = "DESC";
-                        $videos = Video::getAllVideos("viewableNotUnlisted");
+                        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                         ?>
                         <div class="row">
                             <span class="md-col-12">&nbsp;</span>
