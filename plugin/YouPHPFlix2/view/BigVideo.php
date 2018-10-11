@@ -15,7 +15,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
          -moz-background-size: cover;
          -o-background-size: cover;
          background-size: cover; 
-         min-height: 60vh; 
+         min-height: 70vh; 
          margin: -20px; 
          margin-bottom: 0; 
          position: relative;" >
@@ -53,7 +53,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </h4>
                 </div>
             </div>
-            <div class="footerBtn">
+            <div class="row">
+                <div class="col-md-12">
                 <a class="btn btn-danger playBtn" href="<?php echo Video::getLinkToVideo($video['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
                 <?php
                 if (!empty($video['trailer1'])) {
@@ -67,6 +68,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
                     <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                 </a>
+                </div>
             </div>
             <div id="webui-popover-content<?php echo $value['id'] . $uid; ?>" style="display: none;" >
                 <?php if (User::isLogged()) { ?>

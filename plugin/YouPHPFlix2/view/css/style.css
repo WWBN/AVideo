@@ -150,10 +150,8 @@ a:visited {
     color: #FFF;
 }
 
-.footerBtn{
-    bottom: 0;
-    position: absolute;
-    height: 15vh;
+.posterDetails .row{
+    margin-top: 15px;
 }
 
 .infoText{
@@ -242,9 +240,6 @@ iframe{
     border-right: 20px solid transparent;  
     border-top: 10px solid #FFF;
 }
-
-
-
 footer {
     color: #555;
     background-color: transparent;
@@ -287,14 +282,4 @@ footer .btn-outline {
     overflow-x:hidden;
     overflow-y:scroll; 
     max-height: 22vh;
-}
-#bigVideo{
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover; 
-    min-height: 60vh; 
-    margin: -20px; 
-    margin-bottom: 0; 
-    position: relative;
 }
