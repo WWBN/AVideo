@@ -68,9 +68,9 @@ foreach ($videos as $value) {
             <div class="footerBtn">
                 <a class="btn btn-danger playBtn" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
                 <?php
-                if (!empty($video['trailer1'])) {
+                if (!empty($value['trailer1'])) {
                     ?>
-                    <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo $video['trailer1']; ?>');return false;">
+                    <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo $value['trailer1']; ?>');return false;">
                         <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
                     </a>
                     <?php
