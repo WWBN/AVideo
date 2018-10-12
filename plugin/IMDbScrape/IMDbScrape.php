@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class IMDbScrape extends PluginAbstract {
 
     public function getDescription() {
-        return "Enables you to scrape data from IMDB.com";
+        return "Enables you to scrape data from IMDB.com<br>Your Video title must match with IMDb title";
     }
 
     public function getName() {
