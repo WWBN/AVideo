@@ -159,7 +159,7 @@ if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
                     <form class="navbar-form form-inline input-group" role="search" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>">
                         <input class="form-control globalsearchfield" type="text" value="<?php
                         if (!empty($_GET['search'])) {
-                            echo $_GET['search'];
+                            echo htmlentities($_GET['search']);
                         }
                         ?>" name="search" placeholder="<?php echo __("Search"); ?>">
                         <span class="input-group-append">
