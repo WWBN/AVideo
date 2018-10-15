@@ -31,7 +31,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 $dataFlickirty = new stdClass();
                 $dataFlickirty->wrapAround = true;
                 $dataFlickirty->pageDots = !empty($obj->pageDots);
-                $dataFlickirty->lazyLoad = 7;
+                $dataFlickirty->lazyLoad = 15;
                 $dataFlickirty->setGallerySize = false;
                 $dataFlickirty->cellAlign = 'left';
                 if ($obj->DateAddedAutoPlay) {
@@ -63,7 +63,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
                     $dataFlickirty->pageDots = !empty($obj->pageDots);
-                    $dataFlickirty->lazyLoad = 7;
+                    $dataFlickirty->lazyLoad = 15;
                     $dataFlickirty->setGallerySize = false;
                     $dataFlickirty->cellAlign = 'left';
                     if ($obj->MostWatchedAutoPlay) {
@@ -93,7 +93,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
                     $dataFlickirty->pageDots = !empty($obj->pageDots);
-                    $dataFlickirty->lazyLoad = 7;
+                    $dataFlickirty->lazyLoad = 15;
                     $dataFlickirty->setGallerySize = false;
                     $dataFlickirty->cellAlign = 'left';
                     if ($obj->MostPopularAutoPlay) {
