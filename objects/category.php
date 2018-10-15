@@ -185,6 +185,23 @@ class Category {
         }
         return ($res) ? $result : false;
     }
+    
+    static function getOrCreateCategoryByName($name) {
+        $cat = self::getCategoryByName($name);
+        if(empty($cat)){
+            $obj = new Category(0);
+            $obj->setName($name);
+            $obj->setClean_name($name);
+            $obj->setDescription("");
+            $obj->setIconClass("");
+            $obj->setNextVideoOrder(0);
+            $obj->setParentId(0);
+
+            $id = $obj->save();
+            return self::getCategoryByName($name);
+        }
+        return $cat;
+    }
 
     static function getCategoryDefault() {
         global $global;
