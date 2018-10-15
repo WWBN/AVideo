@@ -14,7 +14,6 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
     <head>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
-            var pageDots = <?php echo empty($obj->pageDots) ? "false" : "true"; ?>;
         </script>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css" />
@@ -31,6 +30,10 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
             if ($obj->DateAdded) {
                 $dataFlickirty = new stdClass();
                 $dataFlickirty->wrapAround = true;
+                $dataFlickirty->pageDots = !empty($obj->pageDots);
+                $dataFlickirty->lazyLoad = 7;
+                $dataFlickirty->setGallerySize = false;
+                $dataFlickirty->cellAlign = 'left';
                 if ($obj->DateAddedAutoPlay) {
                     $dataFlickirty->autoPlay = true;
                 }
@@ -58,6 +61,11 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 }
                 if ($obj->MostWatched) {
                     $dataFlickirty = new stdClass();
+                    $dataFlickirty->wrapAround = true;
+                    $dataFlickirty->pageDots = !empty($obj->pageDots);
+                    $dataFlickirty->lazyLoad = 7;
+                    $dataFlickirty->setGallerySize = false;
+                    $dataFlickirty->cellAlign = 'left';
                     if ($obj->MostWatchedAutoPlay) {
                         $dataFlickirty->autoPlay = true;
                         $dataFlickirty->wrapAround = true;
@@ -83,6 +91,11 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
 
                 if ($obj->MostPopular) {
                     $dataFlickirty = new stdClass();
+                    $dataFlickirty->wrapAround = true;
+                    $dataFlickirty->pageDots = !empty($obj->pageDots);
+                    $dataFlickirty->lazyLoad = 7;
+                    $dataFlickirty->setGallerySize = false;
+                    $dataFlickirty->cellAlign = 'left';
                     if ($obj->MostPopularAutoPlay) {
                         $dataFlickirty->autoPlay = true;
                         $dataFlickirty->wrapAround = true;
@@ -110,6 +123,11 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
 
                 if ($obj->Categories && empty($_GET['catName'])) {
                     $dataFlickirty = new stdClass();
+                    $dataFlickirty->wrapAround = true;
+                    $dataFlickirty->pageDots = !empty($obj->pageDots);
+                    $dataFlickirty->lazyLoad = 7;
+                    $dataFlickirty->setGallerySize = false;
+                    $dataFlickirty->cellAlign = 'left';
                     if ($obj->CategoriesAutoPlay) {
                         $dataFlickirty->autoPlay = true;
                         $dataFlickirty->wrapAround = true;

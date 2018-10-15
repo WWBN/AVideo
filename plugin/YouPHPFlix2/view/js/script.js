@@ -72,12 +72,7 @@ $(function () {
 
     });
 
-    $carousel = $('.carousel').flickity({
-        lazyLoad: 7,
-        setGallerySize: false,
-        cellAlign: 'left',
-        pageDots: pageDots
-    });
+    $carousel = $('.carousel').flickity();
     isFlickityEnabled('.carousel');
 
 });
