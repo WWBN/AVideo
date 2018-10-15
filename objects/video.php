@@ -632,7 +632,7 @@ if (!class_exists('Video')) {
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($res) {
-                return self::getVideo($video['id'], "");
+                return self::getVideo($video['id'], "", true);
                 //$video['groups'] = UserGroups::getVideoGroups($video['id']);
             } else {
                 return false;

@@ -475,6 +475,33 @@ if (typeof gtag !== \"function\") {
         }
         return $user;
     }
+    
+    static function canWatchVideo($videos_id){ 
+        if (User::isAdmin()) {
+            return true;
+        }
+        // check if the video is not public 
+        $rows = UserGroups::getVideoGroups($videos_id);
+        
+        if(empty($rows)){
+            return true; // the video is public
+        }
+        
+        if (!User::isLogged()) {
+            return false;
+        }
+        // if is not public check if the user is on one of its groups
+        $rowsUser = UserGroups::getUserGroups(User::getId());
+        
+        foreach ($rows as $value) {
+            if(in_array($value, $rowsUser)){
+                return true;
+            }
+        }
+        
+        return false;
+        
+    }
 
     function delete() {
         if (!self::isAdmin()) {

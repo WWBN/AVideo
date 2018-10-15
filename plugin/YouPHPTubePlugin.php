@@ -409,6 +409,15 @@ class YouPHPTubePlugin {
             }
         }
     }
+    public static function getModeYouTube($videos_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->getModeYouTube($videos_id);
+            }
+        }
+    }
     
     public static function getLiveApplicationArray(){
         $plugins = Plugin::getAllEnabled();

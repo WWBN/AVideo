@@ -232,6 +232,10 @@ abstract class PluginAbstract {
         return array();
     }
     
+    public function getModeYouTube($videos_id){
+        return false;
+    }
+    
     /**
      * 
      * @return type return a list of IDs of the user groups

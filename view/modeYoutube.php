@@ -172,6 +172,11 @@ if (!empty($autoPlayVideo)) {
 if (empty($_GET['videoName'])) {
     $_GET['videoName'] = $video['clean_title'];
 }
+
+$v = Video::getVideoFromCleanTitle($_GET['videoName']);
+
+YouPHPTubePlugin::getModeYouTube($v['id']);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
