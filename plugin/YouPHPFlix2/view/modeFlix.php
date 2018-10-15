@@ -141,6 +141,9 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         $_GET['catName'] = $value['clean_name'];
                         $_POST['sort']['likes'] = "DESC";
                         $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                        if(empty($videos)){
+                            continue;
+                        }
                         ?>
                         <div class="row">
                             <span class="md-col-12">&nbsp;</span>
