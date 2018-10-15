@@ -494,11 +494,12 @@ if (typeof gtag !== \"function\") {
         $rowsUser = UserGroups::getUserGroups(User::getId());
         
         foreach ($rows as $value) {
-            if(in_array($value, $rowsUser)){
-                return true;
+            foreach ($rowsUser as $value2) {
+                if($value['id'] === $value2['id']){
+                    return true;
+                }
             }
         }
-        
         return false;
         
     }
