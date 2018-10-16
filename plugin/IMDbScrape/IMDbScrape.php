@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class IMDbScrape extends PluginAbstract {
 
     public function getDescription() {
-        return "Enables you to scrape data from IMDB.com<br>Your Video title must match with IMDb title";
+        return "Enables you to scrape data from IMDB.com<br>Your Video title must match with IMDb title<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/IMDbScrape-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
     }
 
     public function getName() {
@@ -24,9 +24,21 @@ class IMDbScrape extends PluginAbstract {
     
     public function getVideosManagerListButton() {
         global $global;
-        $btn = '<br><button type="button" class="btn btn-primary btn-light btn-sm btn-xs" '
-                . ' onclick="getIMDb(\'+ row.id+\');" '
-                . ' data-row-id="right"  data-toggle="tooltip" data-placement="left" title="IMDb"><i class="fab fa-imdb"></i> IMDb Scrape</button>';
+        $btn = '<br><button type="button" class="btn btn-success btn-light btn-sm btn-xs" '
+                . ' onclick="getIMDb(\'+ row.id+\', 0);" '
+                . ' data-row-id="right"  data-toggle="tooltip" data-placement="left" title="IMDb"><i class="fab fa-imdb"></i> IMDb Get All</button>';
+        $btn .= '<br><button type="button" class="btn btn-primary btn-light btn-sm btn-xs" '
+                . ' onclick="getIMDb(\'+ row.id+\', 1);" '
+                . ' data-row-id="right"  data-toggle="tooltip" data-placement="left" title="IMDb"><i class="fab fa-imdb"></i> IMDb Poster</button>';
+        $btn .= '<br><button type="button" class="btn btn-primary btn-light btn-sm btn-xs" '
+                . ' onclick="getIMDb(\'+ row.id+\', 2);" '
+                . ' data-row-id="right"  data-toggle="tooltip" data-placement="left" title="IMDb"><i class="fab fa-imdb"></i> IMDb Description</button>';
+        $btn .= '<br><button type="button" class="btn btn-primary btn-light btn-sm btn-xs" '
+                . ' onclick="getIMDb(\'+ row.id+\', 3);" '
+                . ' data-row-id="right"  data-toggle="tooltip" data-placement="left" title="IMDb"><i class="fab fa-imdb"></i> IMDb Rate</button>';
+        $btn .= '<br><button type="button" class="btn btn-primary btn-light btn-sm btn-xs" '
+                . ' onclick="getIMDb(\'+ row.id+\', 4);" '
+                . ' data-row-id="right"  data-toggle="tooltip" data-placement="left" title="IMDb"><i class="fab fa-imdb"></i> IMDb Trailer</button>';
         return $btn;
     }
     
