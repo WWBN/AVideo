@@ -695,3 +695,9 @@ img.blur{
 .navbar-default .navbar-default, .navbar-inverse .navbar-default {
     border-width: 0;
 }
+
+/*Show play button only when paused*/
+.vjs-paused .vjs-big-play-button,
+.vjs-paused.vjs-has-started .vjs-big-play-button {
+   display: block;
+}
