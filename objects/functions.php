@@ -968,6 +968,9 @@ function local_get_contents($path) {
 }
 
 function url_get_contents($Url, $ctx = "") {
+    global $global,$mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,$mysqlPort;
+    session_write_close();
+    $global['mysqli']->close();
     if (empty($ctx)) {
         $opts = array(
             "ssl" => array(
@@ -984,6 +987,8 @@ function url_get_contents($Url, $ctx = "") {
         try {
             $tmp = @file_get_contents($Url, false, $context);
             if ($tmp != false) {
+                session_start();
+                $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
                 return $tmp;
             }
         } catch (ErrorException $e) {
@@ -995,9 +1000,14 @@ function url_get_contents($Url, $ctx = "") {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);
         curl_close($ch);
+        session_start();
+        $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
         return $output;
     }
-    return @file_get_contents($Url, false, $context);
+    $result = @file_get_contents($Url, false, $context);
+    session_start();
+    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
+    return $result;
 }
 
 function getUpdatesFilesArray() {
