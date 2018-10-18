@@ -28,7 +28,11 @@ foreach ($menu as $key => $value) {
     foreach ($menuItems as $key2 => $value2) {
         $url = $value2['url'];
         if (empty($url)) {
-            $url = $global['webSiteRootURL'] . "menu/{$value2['menuSeoUrlItem']}";
+            if(!empty($value2['menuSeoUrlItem'])){
+                $url = $global['webSiteRootURL'] . "menu/{$value2['menuSeoUrlItem']}";
+            }else{
+                $url = $global['webSiteRootURL'] . "plugin/TopMenu/?id={$value2['id']}";
+            }
         }
         ?>
         <li>
