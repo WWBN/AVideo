@@ -529,7 +529,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
                     $("#grid").bootgrid('reload');
                 });
                 $.ajax({
-                    url: 'https://easytube.club/plugins.json?jsonp=1',
+                    url: 'https://www.youphptube.com/plugins/plugins.json?jsonp=1',
                     dataType: 'jsonp',
                     success: function (response) {
                         for (i = 0; i < response.rows.length; i++) {
