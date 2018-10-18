@@ -182,12 +182,12 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $video['title']; ?> - <?php echo $config->getWebSiteTitle(); ?></title>
-        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
-        <link rel="image_src" href="<?php echo $img; ?>" />
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
+        <link rel="image_src" href="<?php echo $img; ?>" />
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
         <meta property="og:type"               content="video.other" />
