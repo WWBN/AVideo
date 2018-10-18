@@ -1,5 +1,5 @@
 <?php
-require_once $global['systemRootPath'] . 'videos/configuration.php';
+require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/MenuItem.php';
 global $config;
 
