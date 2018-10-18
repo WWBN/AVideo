@@ -97,6 +97,9 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
 
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <?php
+        include $global['systemRootPath'] . 'view/include/head.php';
+        ?>
     </head>
 
     <body>

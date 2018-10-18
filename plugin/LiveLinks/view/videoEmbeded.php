@@ -19,6 +19,9 @@ if (!empty($objSecure->disableEmbedMode)) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <?php
+        echo YouPHPTubePlugin::getHeadCode();
+        ?>
         <style>
             body {
                 padding: 0 !important;

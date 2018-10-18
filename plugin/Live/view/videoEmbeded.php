@@ -77,6 +77,9 @@ if (!empty($objSecure->disableEmbedMode)) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
+        <?php
+        echo YouPHPTubePlugin::getHeadCode();
+        ?>
         <script>
 
             $(document).ready(function () {
