@@ -33,7 +33,6 @@ class PlayerSkins extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->skin = "youtube";
-        $obj->PlayList = true;
         return $obj;
     }
 
