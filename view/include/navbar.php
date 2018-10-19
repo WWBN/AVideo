@@ -86,7 +86,7 @@ $json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanc
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
 $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
-if (empty($advancedCustom->userMustBeLoggedIn) || User::isLogged()) {
+if ((empty($advancedCustom->userMustBeLoggedIn) || $thisScriptFile["basename"]==="signUp.php") || User::isLogged()) {
     $updateFiles = getUpdatesFilesArray();
     ?>
     <nav class="navbar navbar-default navbar-fixed-top ">
