@@ -71,6 +71,7 @@ class Menu extends ObjectYPT {
     }
     
     function save() {
+        global $global;
         if(empty($this->menuName)){
             $this->menuName = 'Unknow Menu Name';
         }
