@@ -54,14 +54,14 @@ $advancedCustom = json_decode($json_file);
                                 <div class="tab-content">
                                     <div id="basicInfo" class="tab-pane fade in active" style="padding: 10px 0;">
                                         <?php
-                                        include './userBasicInfo.php';
+                                        include $global['systemRootPath'] . './view/userBasicInfo.php';
                                         ?>
                                     </div>
 
                                     <?php if (empty($advancedCustom->disablePersonalInfo)) { ?>
                                         <div id="personalInfo" class="tab-pane fade"  style="padding: 10px 0;">
                                             <?php
-                                            include './userPersonalInfo.php';
+                                            include $global['systemRootPath'] . './view/userPersonalInfo.php';
                                             ?>
                                         </div>
                                     <?php } ?>
@@ -84,7 +84,7 @@ $advancedCustom = json_decode($json_file);
 
                 <?php
             } else {
-                include './userLogin.php';
+                include $global['systemRootPath'] .'./view/userLogin.php';
             }
             ?>
 
