@@ -101,7 +101,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $object->error = false;
     $object->msg = "We sent your video to the encoder";
-    error_log("MOBILE SUCCESS UPLOAD: {$object->msg}");
+    error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
     die(json_encode($object));
 } else {
     error_log("MOBILE UPLOAD: File Not exists - " . json_encode($_FILES));
