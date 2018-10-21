@@ -104,5 +104,5 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     error_log("MOBILE SUCCESS UPLOAD: {$object->msg}");
     die(json_encode($object));
 } else {
-    error_log("MOBILE UPLOAD: File Not exists - " . print_r($_FILES, true));
+    error_log("MOBILE UPLOAD: File Not exists - " . json_encode($_FILES));
 }
