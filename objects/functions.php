@@ -998,6 +998,8 @@ function url_get_contents($Url, $ctx = "") {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $Url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $output = curl_exec($ch);
         curl_close($ch);
         session_start();
