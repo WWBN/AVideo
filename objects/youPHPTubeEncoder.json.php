@@ -60,7 +60,7 @@ if ($status !== 'u' && $status !== 'a') {
 }
 $video->setVideoDownloadedLink($_POST['videoDownloadedLink']);
 error_log("Encoder receiving post");
-error_log(print_r($_POST, true));
+//error_log(print_r($_POST, true));
 if (preg_match("/(mp3|wav|ogg)$/i", $_POST['format'])) {
     $type = 'audio';
     $video->setType($type);
