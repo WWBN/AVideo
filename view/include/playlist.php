@@ -62,7 +62,7 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                             <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
                             <div class="details row" itemprop="description">
                                 <div>
-                                    <span class="<?php echo $value['iconClass']; ?>"></span>
+                                    <span class="<?php echo @$value['iconClass']; ?>"></span>
                                 </div>
                                 <div>
                                     <strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
