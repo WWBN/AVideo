@@ -2,7 +2,7 @@
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 $object = new stdClass();
