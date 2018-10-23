@@ -77,23 +77,23 @@ if ($playNowVideo['type'] == "linkVideo") {
     echo '$("time.duration").hide();';
 }
 ?>
-        
+
         var menu = new BootstrapMenu('#mainVideo', {
         actions: [{
         name: '<?php echo __("Copy video URL"); ?>',
-                onClick: function() {
-                        copyToClipboard($('#linkFriendly').val());
+                onClick: function () {
+                    copyToClipboard($('#linkFriendly').val());
                 }, iconClass: 'fas fa-link'
         }, {
         name: '<?php echo __("Copy video URL at current time"); ?>',
-                onClick: function() {
-                        copyToClipboard($('#linkCurrentTime').val());
+                onClick: function () {
+                    copyToClipboard($('#linkCurrentTime').val());
                 }, iconClass: 'fas fa-link'
         }, {
         name: '<?php echo __("Copy embed code"); ?>',
-                onClick: function() {
-                $('#textAreaEmbed').focus();
-                        copyToClipboard($('#textAreaEmbed').val());
+                onClick: function () {
+                    $('#textAreaEmbed').focus();
+                    copyToClipboard($('#textAreaEmbed').val());
                 }, iconClass: 'fas fa-code'
         }
 <?php if ($config->getAllow_download()) { ?>
@@ -126,13 +126,20 @@ if ($playNowVideo['type'] == "linkVideo") {
 
                                         ]
                                     });
-                                    
-                                    
-                                    
+
+
+
                                     player = videojs('mainVideo');
                                     player.zoomrotate(<?php echo $transformation; ?>);
                                     player.on('play', function () {
                                         addView(<?php echo $playNowVideo['id']; ?>);
+                                    });
+                                    player.on('click', function () {
+                                        if (player.paused()) {
+                                            player.play();
+                                        } else {
+                                            player.pause();
+                                        }
                                     });
                                     player.ready(function () {
 <?php
@@ -221,20 +228,20 @@ if (!empty($autoPlayVideo)) {
                                     });
                                     // in case the video is muted
                                     setTimeout(function () {
-                                    if (player.muted()) {
-                                    swal({
-                                    title: "<?php echo __("Your Media is Muted"); ?>",
-                                            text: "<?php echo __("Would you like to unmute it?"); ?>",
-                                            type: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#DD6B55",
-                                            confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
-                                            closeOnConfirm: true
-                                    },
-                                            function () {
-                                            player.muted(false);
-                                            });
-                                    }
+                                        if (player.muted()) {
+                                            swal({
+                                                title: "<?php echo __("Your Media is Muted"); ?>",
+                                                text: "<?php echo __("Would you like to unmute it?"); ?>",
+                                                type: "warning",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#DD6B55",
+                                                confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
+                                                closeOnConfirm: true
+                                            },
+                                                    function () {
+                                                        player.muted(false);
+                                                    });
+                                        }
                                     }, 500);
                                     }
                                     );
