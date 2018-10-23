@@ -38,6 +38,7 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->SortByName = false;
         $obj->BigVideo = true;
         $obj->backgroundRGB = "20,20,20";
+        $obj->landscapePosters = true;
         return $obj;
     }
     

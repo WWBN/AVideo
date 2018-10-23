@@ -1,7 +1,11 @@
 <?php
 $uid = uniqid();
+$landscape = "rowPortrait";
+if(!empty($obj->landscapePosters)){
+    $landscape = "landscapeTile";
+}
 ?>
-<div class="carousel rowPortrait " data-flickity='<?php echo json_encode($dataFlickirty) ?>'>
+<div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>'>
     <?php
     foreach ($videos as $value) {
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
