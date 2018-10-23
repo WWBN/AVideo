@@ -134,13 +134,6 @@ if ($playNowVideo['type'] == "linkVideo") {
                                     player.on('play', function () {
                                         addView(<?php echo $playNowVideo['id']; ?>);
                                     });
-                                    player.on('click', function () {
-                                        if (player.paused()) {
-                                            player.play();
-                                        } else {
-                                            player.pause();
-                                        }
-                                    });
                                     player.ready(function () {
 <?php
 if (!empty($_GET['t'])) {
