@@ -52,7 +52,7 @@ class PayPalYPT extends PluginAbstract {
         return $obj;
     }
 
-    public function setUpPayment($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD") {
+    public function setUpPayment($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $description="") {
         global $global;
 
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
@@ -69,6 +69,7 @@ class PayPalYPT extends PluginAbstract {
         $transaction->setAmount($amount);
         $transaction->setNotifyUrl($notify_url);
         $transaction->setInvoiceNumber($invoiceNumber);
+        $transaction->setDescription($description);
 
         $redirectUrls = new \PayPal\Api\RedirectUrls();
         $redirectUrls->setReturnUrl($redirect_url)
