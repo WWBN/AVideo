@@ -78,9 +78,8 @@ if (!empty($_GET['video_id'])) {
                     ) {
                         if (!empty($config->getEncoderURL())) {
                             ?>
-                            <a href="<?php echo $config->getEncoderURL(), "?webSiteRootURL=", urlencode($global['webSiteRootURL']), "&user=", urlencode(User::getUserName()), "&pass=", urlencode(User::getUserPass()); ?>" class="btn btn-default">
-                                <span class="fa fa-cog"></span>
-                                <?php echo __("Encode video and audio"); ?>
+                            <a href="#" onclick="$('#formEncoder').submit();return false;" class="btn btn-default">
+                                <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
                             </a>
                             <?php
                         }
