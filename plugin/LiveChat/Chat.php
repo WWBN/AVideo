@@ -23,6 +23,7 @@ class Chat implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $msg) {
         $p = \YouPHPTubePlugin::loadPlugin("LiveChat");
+        $object = json_decode($msg);
         $canSendMessage = $p->canSendMessage($object->userId);
         if(empty($canSendMessage)){
             echo "Cant Send message\n";
@@ -31,7 +32,6 @@ class Chat implements MessageComponentInterface {
         //var_dump($msg);
         echo "Saving message\n";
         $lc = new \LiveChatObj(0);
-        $object = json_decode($msg);
         $lc->setLive_stream_code($object->chatId);
         $lc->setStatus('a');
         $lc->setText($object->text);

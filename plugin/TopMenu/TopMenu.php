@@ -42,7 +42,7 @@ class TopMenu extends PluginAbstract {
     {
         global $basePath; 
         SimpleRouter::get($basePath."/menu/{menuSeoUrlItem}", function($menuSeoUrlItem) {
-            $_GET['$menuSeoUrlItem']=$menuSeoUrlItem;
+            $_GET['menuSeoUrlItem']=$menuSeoUrlItem;
             require_once "plugin/TopMenu/seo.php";
         },['defaultParameterRegex' => '.*']);
         return false;
