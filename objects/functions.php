@@ -395,7 +395,7 @@ function setSiteSendMessage(&$mail) {
 
 function parseVideos($videoString = null) {
     if (strpos($videoString, 'youtube.com/embed') !== FALSE) {
-        return $videoString;
+        return $videoString.(parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
     }
     if (strpos($videoString, 'iframe') !== FALSE) {
         // retrieve the video url
@@ -418,13 +418,13 @@ function parseVideos($videoString = null) {
         );
         //the ID of the YouTube URL: x6qe_kVaBpg
         $id = $matches[1];
-        return '//www.youtube.com/embed/' . $id;
+        return '//www.youtube.com/embed/' . $id.(parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
     } else if (strpos($link, 'youtu.be') !== FALSE) {
         preg_match(
                 '/youtu.be\/([a-zA-Z0-9_]+)\??/i', $link, $matches
         );
         $id = $matches[1];
-        return '//www.youtube.com/embed/' . $id;
+        return '//www.youtube.com/embed/' . $id.(parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
     } else if (strpos($link, 'player.vimeo.com') !== FALSE) {
         // works on:
         // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0

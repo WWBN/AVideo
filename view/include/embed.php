@@ -10,12 +10,12 @@
                     <i class="far fa-window-close"></i>
                 </button>
             </div>
-            
-                <?php 
-            /*$autoPlayVideo = Video::getVideo($video['next_videos_id']);
-            if($video==$autoPlayVideo){
-                unset($autoPlayVideo);
-            }*/
+
+            <?php
+            /* $autoPlayVideo = Video::getVideo($video['next_videos_id']);
+              if($video==$autoPlayVideo){
+              unset($autoPlayVideo);
+              } */
             if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                 $aspectRatio = "9:16";
                 $vjsClass = "vjs-9-16";
@@ -25,103 +25,122 @@
                 $vjsClass = "vjs-16-9";
                 $embedResponsiveClass = "embed-responsive-16by9";
             }
-                $playNowVideo = $video;
-                $disableYoutubeIntegration = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-                if($disableYoutubeIntegration!=false){
-                    $disableYoutubeIntegration = $disableYoutubeIntegration->disableYoutubePlayerIntegration;
-                }
-                $_GET['isEmbedded'] = "";
-                if(((strpos($video['videoLink'],"youtube.com")==false)&&(strpos($video['videoLink'],"vimeo.com")==false))||($disableYoutubeIntegration)){ 
+            $playNowVideo = $video;
+            $disableYoutubeIntegration = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+            if ($disableYoutubeIntegration != false) {
+                $disableYoutubeIntegration = $disableYoutubeIntegration->disableYoutubePlayerIntegration;
+            }
+            $_GET['isEmbedded'] = "";
+            if (((strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
                 $_GET['isEmbedded'] = "e";
                 ?>
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php
-                echo parseVideos($video['videoLink']);
-                if ($config->getAutoplay()) {
-                    echo "?autoplay=1";
-                }
-                ?>"></iframe>
+                    <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php
+                    echo parseVideos($video['videoLink']);
+                    if ($config->getAutoplay()) {
+                        echo "?autoplay=1";
+                    }
+                    ?>"></iframe>
 
-                <?php } else {     
+                <?php
+                } else {
                     // youtube!
-                    if((strpos($video['videoLink'],"youtube.com")!=false)){
+                    if ((strpos($video['videoLink'], "youtube.com") != false)) {
                         $_GET['isEmbedded'] = "y";
-                    } else if ((strpos($video['videoLink'],"vimeo.com")!=false)){
+                    } else if ((strpos($video['videoLink'], "vimeo.com") != false)) {
                         $_GET['isEmbedded'] = "v";
                     }
                     $_GET['isMediaPlaySite'] = $video['id'];
-                ?>      
+                    ?>      
                     <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                        <video id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php if ($config->getAutoplay()) { echo " autoplay "; } ?> data-setup='{"aspectRatio": "16:9", "techOrder": ["<?php if($_GET['isEmbedded']=="y"){ echo "youtube"; } else { echo "vimeo"; } ?>"], "sources": [{ "type": "video/<?php if($_GET['isEmbedded']=="y"){ echo "youtube"; } else { echo "vimeo"; } ?>", "src": "<?php echo $video['videoLink']; ?>"}] }' ></video>
+                        <video id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php if ($config->getAutoplay()) {
+                        echo " autoplay ";
+                    } ?> data-setup='{"aspectRatio": "16:9", "techOrder": ["<?php if ($_GET['isEmbedded'] == "y") {
+                        echo "youtube";
+                    } else {
+                        echo "vimeo";
+                    } ?>"], "sources": [{ "type": "video/<?php if ($_GET['isEmbedded'] == "y") {
+                        echo "youtube";
+                    } else {
+                        echo "vimeo";
+                    } ?>", "src": "<?php echo $video['videoLink']; ?>"}] }' ></video>
                         <script>
                             var player;
                             var mediaId = <?php echo $video['id']; ?>;
-                            <?php if (!$config->getAllow_download()) { ?>
+    <?php if (!$config->getAllow_download()) { ?>
                                 // Prevent HTML5 video from being downloaded (right-click saved)?
                                 $('#mainVideo').bind('contextmenu', function () {
                                     return false;
                                 });
-                            <?php } ?>
-                
+    <?php } ?>
+
                             $(document).ready(function () {
                                 player = videojs('mainVideo');
                                 player.ready(function () {
-                                    <?php if ($config->getAutoplay()) {
-	                                   echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play(); }, 150);";
-                                    } else { ?>
+    <?php
+    if ($config->getAutoplay()) {
+        echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play(); }, 150);";
+    } else {
+        ?>
                                         if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                                            setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play();}, 150);                    
+                                            setTimeout(function () {
+                                                if (typeof player === 'undefined') {
+                                                    player = videojs('mainVideo');
+                                                }
+                                                player.play();
+                                            }, 150);
                                         }
-                                <?php } ?>
-                                        num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
-                                        loadPage(num);
-				<?php if($_GET['isEmbedded']!="v") { ?>
-                                    player.persistvolume({
-                                        namespace: "YouPHPTube"
-                                    });
-				<?php } ?>
+    <?php } ?>
+                                    num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
+                                    loadPage(num);
+    <?php if ($_GET['isEmbedded'] != "v") { ?>
+                                        player.persistvolume({
+                                            namespace: "YouPHPTube"
+                                        });
+    <?php } ?>
                                 });
                                 //$(".vjs-big-play-button").hide();
                                 $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
                                 player.on('play', function () {
                                     addView(<?php echo $video['id']; ?>);
                                 });
-                                
-                                    player.on('ended', function () {
-                                        console.log("Finish Video");
-                                <?php if (!empty($autoPlayVideo)) { ?>
-                                            if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                                                document.location = '<?php echo $autoPlayVideo['url']; ?>';
-                                            }
-                                <?php } ?>
 
-                                    });
+                                player.on('ended', function () {
+                                    console.log("Finish Video");
+                        <?php if (!empty($autoPlayVideo)) { ?>
+                                        if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                                            document.location = '<?php echo $autoPlayVideo['url']; ?>';
+                                        }
+                        <?php } ?>
+
                                 });
+                            });
                         </script>
-                
-                <?php
-                } // youtube! end
-                require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-                // the live users plugin
-                if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 
-                    require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-                    $style = VideoLogoOverlay::getStyle();
-                    $url = VideoLogoOverlay::getLink();
-                    ?>
-                    <div style="<?php echo $style; ?>">
-                        <a href="<?php echo $url; ?>">
-                            <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
-                        </a>
-                    </div>
-                    <?php
-                }
-                ?>
+    <?php
+} // youtube! end
+require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+// the live users plugin
+if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+
+    require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+    $style = VideoLogoOverlay::getStyle();
+    $url = VideoLogoOverlay::getLink();
+    ?>
+                        <div style="<?php echo $style; ?>">
+                            <a href="<?php echo $url; ?>">
+                                <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
+                            </a>
+                        </div>
+    <?php
+}
+?>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-sm-2 col-md-2"></div>
+        <div class="col-sm-2 col-md-2"></div>
+    </div>
 </div>
 <!--/row-->
 <script>
