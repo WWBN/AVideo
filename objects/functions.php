@@ -545,21 +545,21 @@ function getVideosURL($fileName) {
 
     foreach ($types as $key => $value) {
         $filename = "{$fileName}{$value}";
-        $source = Video::getSourceFile($filename, ".mp4");
-        $file = $source['path'];
-        if (file_exists($file)) {
-            $files["mp4{$value}"] = array(
-                'filename' => "{$fileName}{$value}.mp4",
-                'path' => $file,
-                'url' => $source['url'],
-                'type' => 'video'
-            );
-        }
         $source = Video::getSourceFile($filename, ".webm");
         $file = $source['path'];
         if (file_exists($file)) {
             $files["webm{$value}"] = array(
                 'filename' => "{$fileName}{$value}.webm",
+                'path' => $file,
+                'url' => $source['url'],
+                'type' => 'video'
+            );
+        }
+        $source = Video::getSourceFile($filename, ".mp4");
+        $file = $source['path'];
+        if (file_exists($file)) {
+            $files["mp4{$value}"] = array(
+                'filename' => "{$fileName}{$value}.mp4",
                 'path' => $file,
                 'url' => $source['url'],
                 'type' => 'video'
