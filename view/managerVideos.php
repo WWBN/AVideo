@@ -78,6 +78,11 @@ if (!empty($_GET['video_id'])) {
                     ) {
                         if (!empty($config->getEncoderURL())) {
                             ?>
+                            <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
+                                <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
+                                <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
+                                <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
+                            </form>
                             <a href="#" onclick="$('#formEncoder').submit();return false;" class="btn btn-default">
                                 <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
                             </a>
