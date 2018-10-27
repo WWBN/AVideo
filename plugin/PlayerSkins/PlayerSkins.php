@@ -40,7 +40,7 @@ class PlayerSkins extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
         $css = "";
-        if (!empty($_GET['videoName'])) {
+        if (!empty($_GET['videoName']) || !empty($_GET['u'])) {
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
         }
         return $css;
