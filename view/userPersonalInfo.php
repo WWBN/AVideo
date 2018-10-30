@@ -2,7 +2,7 @@
 if(!empty($advancedCustom->disablePersonalInfo)){
     return false;
 }
-
+require_once $global['systemRootPath'] . 'plugin/User_Location/Objects/IP2Location.php';
 $text = "-- " . __('Select one Option') . " --";
 $myCountry = $user->getCountry();
 $myRegion = $user->getRegion();
@@ -13,7 +13,7 @@ $myCity = $user->getCity();
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input  id="first_name" placeholder="<?php echo __("Last Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getFirst_name(); ?>" required >
+            <input name="first_name" id="first_name" placeholder="<?php echo __("Last Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getFirst_name(); ?>" >
         </div>
     </div>
 </div>
@@ -23,7 +23,7 @@ $myCity = $user->getCity();
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input  id="last_name" placeholder="<?php echo __("Last Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getLast_name(); ?>" required >
+            <input name="last_name"  id="last_name" placeholder="<?php echo __("Last Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getLast_name(); ?>"  >
         </div>
     </div>
 </div>
@@ -33,7 +33,7 @@ $myCity = $user->getCity();
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input  id="address" placeholder="<?php echo __("Address"); ?>" class="form-control"  type="text" value="<?php echo $user->getAddress(); ?>" required >
+            <input name="address"  id="address" placeholder="<?php echo __("Address"); ?>" class="form-control"  type="text" value="<?php echo $user->getAddress(); ?>"  >
         </div>
     </div>
 </div>
@@ -43,7 +43,7 @@ $myCity = $user->getCity();
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input  id="zip_code" placeholder="<?php echo __("Zip Code"); ?>" class="form-control"  type="text" value="<?php echo $user->getZip_code(); ?>" required >
+            <input name="zip_code"  id="zip_code" placeholder="<?php echo __("Zip Code"); ?>" class="form-control"  type="text" value="<?php echo $user->getZip_code(); ?>"  >
         </div>
     </div>
 </div>
@@ -110,7 +110,7 @@ $countries = IP2Location::getCountries();
             <a id="upload-btnDocument" class="btn btn-success"><i class="fa fa-upload"></i> <?php echo __("Upload a Document Image"); ?></a>
         </center>
     </div>
-    <input type="file" id="uploadDocument" value="Choose a file" accept="image/*" style="display: none;" />
+    <input type="file" name="uploadDocument" id="uploadDocument" value="Choose a file" accept="image/*" style="display: none;" />
 </div>
 <script>
 
