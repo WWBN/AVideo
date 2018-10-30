@@ -28,6 +28,13 @@ if ($valid) {
 
     $sendTo = $_POST['email'];
     
+    // if it is from contact form send the message to the siteowner and the sender is the email on the form field
+    if(!empty($_POST['contactForm'])){
+        $tmpVar = $replyTo;
+        $replyTo = $sendTo;
+        $sendTo = $tmpVar;
+    }
+    
     if (filter_var($sendTo, FILTER_VALIDATE_EMAIL)) {
         $mail->AddReplyTo($replyTo);
         $mail->setFrom($replyTo);
