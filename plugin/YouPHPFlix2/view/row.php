@@ -43,6 +43,10 @@ foreach ($videos as $value) {
     $imgGif = $images->thumbsGif;
     $img = $images->thumbsJpg;
     $poster = $images->poster;
+    $canWatchPlayButton = "";
+    if(User::canWatchVideo($value['id'])){
+        $canWatchPlayButton = "canWatchPlayButton";
+    }
     ?>
     <div class="poster" id="poster<?php echo $value['id'] . $uid; ?>" style="display: none; background-image: url(<?php echo $poster; ?>);">
         <div class="posterDetails " style="
@@ -90,7 +94,7 @@ foreach ($videos as $value) {
                 </div>
             </div>
             <div class="footerBtn">
-                <a class="btn btn-danger playBtn" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
                 <?php
                 if (!empty($value['trailer1'])) {
                     ?>

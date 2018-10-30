@@ -1,6 +1,6 @@
 $(document).ready(function () {   
     
-    $('a.playBtn').click(function (event) {
+    $('a.canWatchPlayButton').click(function (event) {
         event.preventDefault();
         var link = $(this).attr('href');
         flixFullScreen(link);
