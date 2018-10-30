@@ -637,24 +637,40 @@ if ((empty($advancedCustom->userMustBeLoggedIn) || $thisScriptFile["basename"]==
                     <li>
                         <hr>
                     </li>
+                    <?php
+                    if (empty($advancedCustom->disableHelpLeftMenu)) {
+                    ?>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>help">
                             <span class="glyphicon glyphicon-question-sign"></span>
     <?php echo __("Help"); ?>
                         </a>
                     </li>
+                    <?php 
+                    }
+                    
+                    if (empty($advancedCustom->disableAboutLeftMenu)) {
+                    ?>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>about">
                             <span class="glyphicon glyphicon-info-sign"></span>
     <?php echo __("About"); ?>
                         </a>
                     </li>
+                    <?php 
+                    }
+                    
+                    if (empty($advancedCustom->disableContactLeftMenu)) {
+                    ?>
                     <li>
                         <a href="<?php echo $global['webSiteRootURL']; ?>contact">
                             <span class="glyphicon glyphicon-comment"></span>
     <?php echo __("Contact"); ?>
                         </a>
                     </li>
+                    <?php 
+                    }
+                    ?>
                 </ul>
             </div>
         </div>
