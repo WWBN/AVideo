@@ -125,7 +125,11 @@ if(empty($_POST['salt'])){
 $content = "<?php
 \$global['disableAdvancedConfigurations'] = 0;
 \$global['videoStorageLimitMinutes'] = 0;
-\$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
+//\$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
+// get the subdirectory, if exists
+\$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), __FILE__);
+\$global['webSiteRootURL'] = \"http\".(!empty(\$_SERVER['HTTPS'])?\"s\":\"\").\"://\".\$_SERVER['SERVER_NAME'].\$subDir;
+
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
 \$global['salt'] = '{$_POST['salt']}';
 

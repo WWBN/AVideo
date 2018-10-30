@@ -5,7 +5,9 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 class YouPHPFlix2 extends PluginAbstract {
 
     public function getDescription() {
-        return "Make the first page looks like a Netflix site";
+        $txt = "Make the first page looks like a Netflix site";
+        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Configure-a-Netflix-Clone-Page' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        return $txt.$help;
     }
 
     public function getName() {

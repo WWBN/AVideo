@@ -2,6 +2,7 @@
 
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
+require_once './Objects/LiveTransmitionHistory.php';
 $obj = new stdClass();
 $obj->error = true;
 
@@ -21,6 +22,12 @@ if (!empty($_GET['p'])) {
         if(!$user->thisUserCanStream()){
             error_log("User [{$obj->row['users_id']}] can not stream");
         }else if ($_GET['p'] === $user->getPassword()) {
+            $lth = new LiveTransmitionHistory();
+            $lth->setTitle($obj->row['title']);
+            $lth->setDescription($obj->row['description']);
+            $lth->setKey($_POST['name']);
+            $lth->setUsers_id($user->getBdId());
+            $lth->save();
             $obj->error = false;
         } else {
             error_log("Stream Publish error, Password does not match");

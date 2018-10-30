@@ -24,7 +24,19 @@ class Live extends PluginAbstract {
     }
     
     public function getPluginVersion() {
-        return "1.0";   
+        return "2.0";   
+    }
+    
+    public function updateScript() {
+        global $global;
+        //update version 2.0
+        $sql = "SELECT 1 FROM live_transmitions_history LIMIT 1;";
+        $res = sqlDAL::readSql($sql);
+        $fetch=sqlDAL::fetchAssoc($res);
+        if(!$fetch){
+            sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV2.0.sql')); 
+        }
+        return true;
     }
 
     public function getEmptyDataObject() {
