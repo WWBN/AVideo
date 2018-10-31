@@ -82,21 +82,31 @@ class LiveTransmitionHistory extends ObjectYPT {
         sqlDAL::close($res);
         $rows = array();
         if ($res!=false) {
-            $liveUsers = YouPHPTubePlugin::loadPluginIfEnabled("LiveUsers");
             foreach ($fullData as $row) {
-                $row['totalUsers'] = 0; 
-                if(!empty($liveUsers)){
-                    require_once $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
-                    $lou = new LiveOnlineUsers(0);
-                    $total = $lou->getUsersFromTransmitionKey($row['key']);
-                    $row['totalUsers'] = $total->views;
-                }
+                $log = LiveTransmitionHistoryLog::getAllFromHistory($row['id']);
+                $row['totalUsers'] = count($log); 
                 $rows[] = $row;
             }
         } else {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+    
+    static function getLatest($key){
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? ORDER BY created DESC LIMIT 1";
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
+        
+        $res = sqlDAL::readSql($sql,"s",array($key)); 
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
     }
 
 

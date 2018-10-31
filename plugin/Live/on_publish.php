@@ -30,10 +30,6 @@ if (!empty($_GET['p'])) {
             $lth->save();
             $obj->error = false;
             
-            $o = YouPHPTubePlugin::getObjectDataIfEnabled();
-            if($o->autoRenewKeyEachLive){
-                LiveTransmition::resetTransmitionKey($obj->row['users_id']);
-            }
         } else {
             error_log("Stream Publish error, Password does not match");
         }
