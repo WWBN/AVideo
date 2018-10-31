@@ -33,9 +33,13 @@ class YouPHPTubePlugin {
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $checkStr = $p->getChartContent();
-                if (!empty($checkStr)) {
-                    $str .= '<li><a data-toggle="tab" id="pluginMenuLink' . $p->getName() . '" href="#pluginMenu' . $p->getName() . '">' . $p->getName() . '</a></li>';
+                if(method_exists ($p,'getChartTabs')){
+                    $str .= $p->getChartTabs();
+                }else{
+                    $checkStr = $p->getChartContent();
+                    if (!empty($checkStr)) {
+                        $str .= '<li><a data-toggle="tab" id="pluginMenuLink' . $p->getName() . '" href="#pluginMenu' . $p->getName() . '">' . $p->getName() . '</a></li>';
+                    }
                 }
             }
         }

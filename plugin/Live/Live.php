@@ -60,6 +60,7 @@ class Live extends PluginAbstract {
         $obj->disableGifThumbs = false;
         $obj->useLowResolution = false;
         $obj->experimentalWebcam = false;
+        $obj->autoRenewKeyEachLive = false;
         return $obj;
     }
 
@@ -118,6 +119,15 @@ class Live extends PluginAbstract {
     
     public function getTags() {
         return array('free', 'live', 'streaming', 'live stream');
+    }
+    
+    public function getChartTabs() {
+        return '<li><a data-toggle="tab" id="liveVideos" href="#liveVideosMenu"><i class="fab fa-youtube"></i> Live videos</a></li>';
+    }
+    
+    public function getChartContent() {
+        global $global;
+        include $global['systemRootPath'].'plugin/Live/report.php';         
     }
 
 }

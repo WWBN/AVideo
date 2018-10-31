@@ -71,6 +71,33 @@ class LiveTransmitionHistory extends ObjectYPT {
     function setUsers_id($users_id) {
         $this->users_id = $users_id;
     }
+    
+    function getAllFromUser($users_id){
+        global $global;
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE users_id = ? ";
+
+        $sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql, "i", array($users_id)); 
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res!=false) {
+            $liveUsers = YouPHPTubePlugin::loadPluginIfEnabled("LiveUsers");
+            foreach ($fullData as $row) {
+                $row['totalUsers'] = 0; 
+                if(!empty($liveUsers)){
+                    require_once $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
+                    $lou = new LiveOnlineUsers(0);
+                    $total = $lou->getUsersFromTransmitionKey($row['key']);
+                    $row['totalUsers'] = $total->views;
+                }
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
 
 
     
