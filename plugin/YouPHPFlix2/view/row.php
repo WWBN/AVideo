@@ -81,13 +81,13 @@ foreach ($videos as $value) {
                 <?php
                 if (!empty($images->posterPortrait)) {
                     ?>
-                    <div class="col-md-2 col-sm-12">
+                    <div class="col-md-2 col-sm-3 col-xs-4">
                         <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" />
                     </div>
                     <?php
                 }
                 ?>
-                <div class="infoText col-md-4 col-sm-12">
+                <div class="infoText col-md-4 col-sm-6 col-xs-8">
                     <h4 class="mainInfoText" itemprop="description">
                         <?php echo nl2br(textToLink($value['description'])); ?>
                     </h4>

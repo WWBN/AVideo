@@ -45,13 +45,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 <?php
                 if (!empty($images->posterPortrait)) {
                     ?>
-                    <div class="col-md-2 col-sm-12">
+                    <div class="col-md-2 col-sm-4 col-xs-6">
                         <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" />
                     </div>
                     <?php
                 }
                 ?>
-                <div class="infoText col-md-4 col-sm-12">
+                <div class="infoText col-md-4 col-sm-6 col-xs-6">
                     <h4 class="mainInfoText" itemprop="description">
                         <?php echo nl2br(textToLink($video['description'])); ?>
                     </h4>
