@@ -29,7 +29,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'?>
  
  <image>
 		<title>RSS Feed</title>
-		<url><?php echo $global['webSiteRootURL'] ;?>/videos/userPhoto/logo.png</url>
+		<url><?php echo $global['webSiteRootURL'] ;?>videos/userPhoto/logo.png</url>
 		<link><?php echo $global['webSiteRootURL'] ;?></link>
 		 <width>144</width>
 		<height>40</height>
@@ -45,7 +45,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'?>
        <title><?php echo htmlspecialchars ($row['title']); ?></title>
        <description><?php echo htmlspecialchars ($row['description']); ?></description>
        <link> <?php
-        echo $global['webSiteRootURL'] ;?>/video/<?php echo $row['clean_title']; ?></link>
+        echo $global['webSiteRootURL'] ;?>video/<?php echo $row['clean_title']; ?></link>
        <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
        </item>
      
