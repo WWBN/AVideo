@@ -96,6 +96,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableHelpLeftMenu= false;
         $obj->disableAboutLeftMenu= false;
         $obj->disableContactLeftMenu= false;
+        $obj->disableNavbar= false;
         
         return $obj;
     }

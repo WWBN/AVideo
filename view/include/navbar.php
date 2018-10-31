@@ -86,7 +86,7 @@ $json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanc
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
 $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
-if ((empty($advancedCustom->userMustBeLoggedIn) || $thisScriptFile["basename"]==="signUp.php") || User::isLogged()) {
+if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"]==="signUp.php") || User::isLogged()) {
     $updateFiles = getUpdatesFilesArray();
     ?>
     <nav class="navbar navbar-default navbar-fixed-top ">
@@ -679,7 +679,7 @@ if ((empty($advancedCustom->userMustBeLoggedIn) || $thisScriptFile["basename"]==
     if (!empty($advancedCustom->underMenuBarHTMLCode->value)) {
         echo $advancedCustom->underMenuBarHTMLCode->value;
     }
-} else if ($thisScriptFile["basename"] !== 'user.php') {
+} else if ($thisScriptFile["basename"] !== 'user.php' && empty($advancedCustom->disableNavbar)) {
     header("Location: {$global['webSiteRootURL']}user");
 }
 ?>
