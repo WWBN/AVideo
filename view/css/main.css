@@ -652,11 +652,6 @@ nav ul.items-container li ul.right-menus li li {
         width: 450px;
     }
 }
-@media (max-width: 768px) {
-    nav ul.items-container li ul.right-menus {
-        flex-direction: column;
-    }
-}
 @media (max-width: 500px) {
     .floatVideo {
         width: 380px;

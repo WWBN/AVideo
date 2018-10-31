@@ -18,7 +18,7 @@
             width: 100px;
         }
     }
-    @media (max-width : 768px) {
+    @media (max-width : 767px) {
         #searchForm {
             padding-left: 10px;
         }
