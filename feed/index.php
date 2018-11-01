@@ -5,6 +5,10 @@ header("Content-Type: application/rss+xml; charset=UTF8");
 require_once '../videos/configuration.php';
 require_once '../objects/video.php';
 
+$_POST['sort']["created"] = "DESC";
+$_POST['current'] = 1;
+$_POST['rowCount'] = 50;
+
 // send $_GET['catName'] to be able to filter by category
 $rows = Video::getAllVideos("viewable");
 
