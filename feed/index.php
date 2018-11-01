@@ -5,8 +5,6 @@ header("Content-Type: application/rss+xml; charset=UTF8");
 require_once '../videos/configuration.php';
 require_once '../objects/video.php';
 
-$db = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase);
-$query = $db->query("SELECT * FROM `videos` WHERE `videos`.`status` = 'a' ORDER BY `videos`.`created` DESC LIMIT 50");
 // send $_GET['catName'] to be able to filter by category
 $rows = Video::getAllVideos("viewable");
 
