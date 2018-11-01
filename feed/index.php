@@ -41,8 +41,6 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
 
         <?php
         foreach ($rows as $row) {
-            
-        } {
             ?>
             <item>
                 <title><?php echo htmlspecialchars($row['title']); ?></title>
