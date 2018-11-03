@@ -665,6 +665,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                 </span>
                             </div>
                         <?php } else if (!empty($autoPlayVideo)) { ?>
+                            <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted">
                                 <strong><?php echo __("Up Next"); ?></strong>
                                 <span class="pull-right">
@@ -678,6 +679,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                     </div>
                                 </span>
                             </div>
+                                </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" id="autoPlayVideoDiv" itemscope itemtype="http://schema.org/VideoObject" >
                                 <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'],"",$get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
