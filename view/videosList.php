@@ -59,7 +59,7 @@ if (!empty($_GET['channelName'])) {
     $user = User::getChannelOwner($_GET['channelName']);
 //var_dump($user);exit;
     ?>
-    <div class="col-md-12 bg-info" style="background-image: url('<?php echo User::getBackground($user['id']); ?>'); padding: 10px; margin: 10px 0;">
+    <div class="col-md-12" >
         <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;"/>
         <div style="position: absolute; right: 5px; top: 5px;">
             <button class="btn btn-default btn-xs btn-sm" onclick="loadPage(<?php echo $_GET['page']; ?>, true);"><?php echo User::getNameIdentificationById($user['id']); ?> <i class="fa fa-times"></i></button>
