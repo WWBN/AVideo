@@ -27,6 +27,8 @@ foreach ($videos as $key => $value) {
         $videos[$key]['next_video'] = Video::getVideo($videos[$key]['next_videos_id']);
     }
     $videos[$key]['videosURL'] = getVideosURL($videos[$key]['filename']);
+    unset($videos[$key]['password']);
+    unset($videos[$key]['recoverPass']);
 }
 
 echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($videos).'}';
