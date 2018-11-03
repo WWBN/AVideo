@@ -106,7 +106,7 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGallerySection($videos, $crc = "") {
+function createGallerySection($videos, $crc = "", $get = array()) {
     global $global, $config, $obj, $advancedCustom;
     $countCols = 0;
 
@@ -121,7 +121,7 @@ function createGallerySection($videos, $crc = "") {
         $countCols ++;
         ?>
         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: 2; min-height: 175px;">
-            <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
+            <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $get); ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
                 $imgGif = $images->thumbsGif;
@@ -135,7 +135,7 @@ function createGallerySection($videos, $crc = "") {
                 </div>
                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
             </a>
-            <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
+            <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $get); ?>" title="<?php echo $value['title']; ?>">
                 <h2><?php echo $value['title']; ?></h2>
             </a>
 

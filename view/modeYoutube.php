@@ -57,6 +57,8 @@ if (empty($_SESSION['type'])) {
 }
 // $resp = $obj->addView();
 
+$get = array('channelName'=>$_GET['channelName'], 'catName'=>@$_GET['catName']);
+
 if (!empty($_GET['playlist_id'])) {
     $playlist_id = $_GET['playlist_id'];
     if (!empty($_GET['playlist_index'])) {
@@ -108,10 +110,12 @@ if (!empty($_GET['playlist_id'])) {
     }
 
     if (!empty($autoPlayVideo)) {
+        
         $name2 = User::getNameIdentificationById($autoPlayVideo['users_id']);
         $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
         $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
-        $autoPlayVideo['url'] = $global['webSiteRootURL'] . $catLink . "video/" . $autoPlayVideo['clean_title'];
+        //$autoPlayVideo['url'] = $global['webSiteRootURL'] . $catLink . "video/" . $autoPlayVideo['clean_title'];
+        $autoPlayVideo['url'] = Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], false, $get);
     }
 }
 
@@ -675,7 +679,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                 </span>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" id="autoPlayVideoDiv" itemscope itemtype="http://schema.org/VideoObject" >
-                                <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title']); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
+                                <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'],"",$get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                                         <?php
                                         $imgGif = "";

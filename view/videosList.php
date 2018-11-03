@@ -53,6 +53,8 @@ if (!empty($video['clean_title'])) {
 } else if (!empty($_GET['videoName'])) {
     $videoName = $_GET['videoName'];
 }
+
+$get = array('channelName'=>@$_GET['channelName'], 'catName'=>@$_GET['catName']);
 ?>
 <div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
@@ -82,7 +84,7 @@ foreach ($videos as $key => $value) {
     $value['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
     ?>
     <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" id="divVideo-<?php echo $value['id']; ?>" itemscope itemtype="http://schema.org/VideoObject">
-        <a href="<?php echo Video::getLink($value['id'], $value['clean_title']); 
+        <a href="<?php echo Video::getLink($value['id'], $value['clean_title'], "", $get); 
         if (!empty($_GET['page']) && $_GET['page'] > 1) {
             echo "/page/{$_GET['page']}";
         }

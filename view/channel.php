@@ -53,6 +53,7 @@ unset($_POST['sort']);
 unset($_POST['rowCount']);
 unset($_POST['current']);
 
+$get = array('channelName'=>$_GET['channelName']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -133,7 +134,7 @@ unset($_POST['current']);
                             ?>
                             <div class="row mainArea">
                                 <?php
-                                createGallerySection($uploadedVideos);
+                                createGallerySection($uploadedVideos, "", $get);
                                 ?>
                             </div>
                         </div>
