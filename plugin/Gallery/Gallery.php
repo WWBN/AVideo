@@ -61,6 +61,7 @@ class Gallery extends PluginAbstract {
         $obj->searchOnChannels = true;
         $obj->searchOnChannelsRowCount = 12;
         $obj->playVideoOnFullscreen = false;
+        $obj->filterUserChannel = false;
         return $obj;
     }
   

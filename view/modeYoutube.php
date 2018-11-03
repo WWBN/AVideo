@@ -57,7 +57,7 @@ if (empty($_SESSION['type'])) {
 }
 // $resp = $obj->addView();
 
-$get = array('channelName'=>$_GET['channelName'], 'catName'=>@$_GET['catName']);
+$get = array('channelName'=>@$_GET['channelName'], 'catName'=>@$_GET['catName']);
 
 if (!empty($_GET['playlist_id'])) {
     $playlist_id = $_GET['playlist_id'];
