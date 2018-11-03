@@ -2,6 +2,12 @@
 if (empty($config)) {
     return true;
 }
+
+// filter some security here
+if(!empty($_GET['lang'])){
+    $_GET['lang'] = str_replace(array("'",'"',"&quot;","&#039;"), array('','','',''), xss_esc($_GET['lang']));
+}
+
 if (empty($_SESSION['language'])) {
     $_SESSION['language'] = $config->getLanguage();
 }

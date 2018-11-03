@@ -105,17 +105,21 @@ abstract class ObjectYPT implements ObjectInterface {
         if(empty($_POST['rowCount']) && !empty($_GET['length'])){
             $_POST['rowCount'] = intval($_GET['length']);
         }
+        
         if(empty($_POST['current']) && !empty($_GET['start'])){
             $_POST['current'] = ($_GET['start']/$_GET['length'])+1;
         }else if (empty($_POST['current']) && isset($_GET['start'])){
             $_POST['current'] = 1;
         }
         
+        $_POST['current'] = intval($_POST['current']);
+        $_POST['rowCount'] = intval($_POST['rowCount']);
 
         if (!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount'] > 0) {
             $_POST['rowCount'] = intval($_POST['rowCount']);
             $_POST['current'] = intval($_POST['current']);
             $current = ($_POST['current'] - 1) * $_POST['rowCount'];
+            $current = $current<0?0:$current;
             $sql .= " LIMIT $current, {$_POST['rowCount']} ";
         } else {
             $_POST['current'] = 0;

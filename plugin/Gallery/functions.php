@@ -14,6 +14,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     if (!showThis($getName)) {
         return "";
     }
+    $getName = str_replace(array("'",'"',"&quot;","&#039;"), array('','','',''), xss_esc($getName));
     if (!empty($_GET['showOnly'])) {
         $rowCount = 60;
     }

@@ -17,6 +17,7 @@ if (empty($_GET['channelName'])) {
         return false;
     }
 } else {
+    $_GET['channelName'] = xss_esc($_GET['channelName']);
     $user = User::getChannelOwner($_GET['channelName']);
     if (!empty($user)) {
         $_GET['user_id'] = $user['id'];
