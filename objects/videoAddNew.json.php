@@ -46,7 +46,9 @@ $obj->setNext_videos_id($_POST['next_videos_id']);
 if(!empty($_POST['description'])){
     $obj->setDescription($_POST['description']);
 }
-$obj->setCategories_id($_POST['categories_id']);
+if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
+    $obj->setCategories_id($_POST['categories_id']);
+}
 $obj->setVideoGroups(empty($_POST['videoGroups'])?array():$_POST['videoGroups']);
 $resp = $obj->save(true);
 

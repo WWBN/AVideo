@@ -1,5 +1,17 @@
 <?php
 
+// filter some security here
+if(!empty($_GET['error'])){
+    $_GET['error'] = xss_esc($_GET['error']);
+}
+if(!empty($_GET['videos_id'])){
+    $_GET['videos_id'] = intval($_GET['videos_id']);
+}
+if(!empty($_GET['video_id'])){
+    $_GET['video_id'] = intval($_GET['video_id']);
+}
+
+
 function forbiddenWords($text) {
     global $global;
     if (empty($global['forbiddenWords'])) {

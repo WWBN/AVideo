@@ -132,7 +132,11 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
-$object->categories = Category::getAllCategories();
+if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
+    $object->categories = Category::getAllCategories();
+}else{
+    $object->categories = array();
+}
 $object->streamServerURL = "";
 $object->streamKey = "";
 if($object->isLogged){

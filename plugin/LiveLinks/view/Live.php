@@ -14,7 +14,7 @@ if(empty($plugin)){
 if(empty($_GET['link'])){
     die('Link not found');
 }
-
+$_GET['link'] = intval($_GET['link']);
 $liveLink = new LiveLinksTable($_GET['link']);
 
 if($liveLink->getType()=='logged_only' && !User::isLogged()){

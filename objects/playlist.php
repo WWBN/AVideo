@@ -10,7 +10,7 @@ class PlayList extends ObjectYPT {
     protected $id, $name, $users_id, $status;
 
     static function getSearchFieldsNames() {
-        return array('name');
+        return array('pl.name');
     }
 
     static function getTableName() {
@@ -39,7 +39,7 @@ class PlayList extends ObjectYPT {
             $formats .= "i";
             $values[] = $userId;
         }
-        $sql .= self::getSqlFromPost();
+        $sql .= self::getSqlFromPost("pl.");
         $res = sqlDAL::readSql($sql,$formats,$values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);

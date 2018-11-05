@@ -28,6 +28,7 @@ $channels = Channel::getChannels();
             <div class="bgWhite list-group-item" >
                 <?php
                 foreach ($channels as $value) {
+                    $get = array('channelName'=>$value['channelName']);
                     ?>
                     <div class="  bgWhite clear clearfix" style="margin: 10px 0;">
                         <div class="clear clearfix">
@@ -58,7 +59,7 @@ $channels = Channel::getChannels();
                                 $poster = $imgs->thumbsJpg;
                                 ?>
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 ">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>video/<?php echo $value2['clean_title']; ?>" title="<?php echo $value2['title']; ?>" >
+                                    <a href="<?php echo Video::getLink($value2['id'], $value2['clean_title'], false, $get); ?>" title="<?php echo $value2['title']; ?>" >
                                         <img src="<?php echo $poster; ?>" alt="<?php echo $value2['title']; ?>" class="img img-responsive img-thumbnail" />
                                     </a>
                                     <div class="text-muted" style="font-size: 0.8em;"><?php echo $value2['title']; ?></div>

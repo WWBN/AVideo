@@ -97,6 +97,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableAboutLeftMenu= false;
         $obj->disableContactLeftMenu= false;
         $obj->disableNavbar= false;
+        $obj->userCanNotChangeCategory = false;
+        $obj->hideRemoveChannelFromModeYoutube = false;
         
         return $obj;
     }

@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -53,6 +53,21 @@ if (!empty($video['clean_title'])) {
 } else if (!empty($_GET['videoName'])) {
     $videoName = $_GET['videoName'];
 }
+$get = array();
+
+$get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
+if (!empty($_GET['channelName']) && empty($advancedCustom->hideRemoveChannelFromModeYoutube)) {
+    $user = User::getChannelOwner($_GET['channelName']);
+//var_dump($user);exit;
+    ?>
+    <div class="col-md-12" >
+        <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;"/>
+        <div style="position: absolute; right: 5px; top: 5px;">
+            <button class="btn btn-default btn-xs btn-sm" onclick="loadPage(<?php echo $_GET['page']; ?>, true);"><?php echo User::getNameIdentificationById($user['id']); ?> <i class="fa fa-times"></i></button>
+        </div>
+    </div>
+    <?php
+}
 ?>
 <div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
@@ -82,7 +97,8 @@ foreach ($videos as $key => $value) {
     $value['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
     ?>
     <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" id="divVideo-<?php echo $value['id']; ?>" itemscope itemtype="http://schema.org/VideoObject">
-        <a href="<?php echo Video::getLink($value['id'], $value['clean_title']); 
+        <a href="<?php
+        echo Video::getLink($value['id'], $value['clean_title'], "", $get);
         if (!empty($_GET['page']) && $_GET['page'] > 1) {
             echo "/page/{$_GET['page']}";
         }
@@ -97,13 +113,13 @@ foreach ($videos as $key => $value) {
                     $imgGif = $images->gifPortrait;
                     $img = $images->posterPortrait;
                 }
-                if (($value['type'] !== "audio")&&($value['type'] !== "linkAudio")) {
+                if (($value['type'] !== "audio") && ($value['type'] !== "linkAudio")) {
                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                 } else {
                     $img_portrait = "";
                 }
                 ?>
-                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive text-center <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img!=$images->thumbsJpgSmall)?"blur":""; ?>" height="130" />
+                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive text-center <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img != $images->thumbsJpgSmall) ? "blur" : ""; ?>" height="130" />
                 <?php
                 if (!empty($imgGif)) {
                     ?>
@@ -155,11 +171,11 @@ foreach ($videos as $key => $value) {
             page: <?php echo $_GET['page']; ?>,
             maxVisible: 10
         }).on('page', function (event, num) {
-            loadPage(num);
+            loadPage(num, false);
         });
     }
 
-    function loadPage(num) {
+    function loadPage(num, disableChannel) {
         if (isLoadingPage) {
             return false;
         }
@@ -171,65 +187,78 @@ foreach ($videos as $key => $value) {
         if (typeof num != 'undefined' && num != 'undefined') {
             page = '/page/' + num;
         }
+        var query = "";
+<?php
+if (!empty($get)) {
+    echo "query = \"?" . http_build_query($get) . "\";";
+}
+?>
+        if(disableChannel){
+            query = "";
+        }
 
-        history.pushState(null, null, '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>' + page);
-                $('.pages').slideUp();
-                $('#pageLoader').fadeIn();
-                rowCount = $('#rowCount').val();
-                sortBy = $('#sortBy').val();
-                console.log(sortBy);
-                if (sortBy == 'newest') {
-                    sortBy = {'created': 'desc'};
-                } else
-                if (sortBy == 'oldest') {
-                    sortBy = {'created': 'asc'};
-                } else if (sortBy == 'views_count') {
-                    sortBy = {'views_count': 'desc'};
-                } else if (sortBy == 'title') {
-                    sortBy = {'title': 'asc'};
-                } else {
-                    sortBy = {'likes': 'desc'};
-                }
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo $catLink; ?>video/<?php echo $videoName; ?>" + page,
-                                data: {
-                                    rowCount: rowCount,
-                                    sort: sortBy,
-                                    video_id: <?php echo $video['id']; ?>
-                                }
-                            }).done(function (result) {
-                                $("#videosList").html(result);
-                                setBootPage();
-                                $("#videosList").removeClass('transparent');
-                            });
+        var url = '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>' + page + query;
+                var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo $catLink; ?>video/<?php echo $videoName; ?>" + page + query;
+
+
+                        history.pushState(null, null, url);
+                        $('.pages').slideUp();
+                        $('#pageLoader').fadeIn();
+                        rowCount = $('#rowCount').val();
+                        sortBy = $('#sortBy').val();
+                        console.log(sortBy);
+                        if (sortBy == 'newest') {
+                            sortBy = {'created': 'desc'};
+                        } else
+                        if (sortBy == 'oldest') {
+                            sortBy = {'created': 'asc'};
+                        } else if (sortBy == 'views_count') {
+                            sortBy = {'views_count': 'desc'};
+                        } else if (sortBy == 'title') {
+                            sortBy = {'title': 'asc'};
+                        } else {
+                            sortBy = {'likes': 'desc'};
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: urlList,
+                            data: {
+                                rowCount: rowCount,
+                                sort: sortBy,
+                                video_id: <?php echo $video['id']; ?>
+                            }
+                        }).done(function (result) {
+                            $("#videosList").html(result);
+                            setBootPage();
+                            $("#videosList").removeClass('transparent');
+                        });
+                    }
+
+                    $(document).ready(function () {
+                        setBootPage();
+                        mouseEffect();
+                        $('#rowCount, #sortBy').change(function () {
+                            num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
+                            loadPage(num, false);
+                        });
+                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                            $('#rowCount, #sortBy').selectpicker('mobile');
+                        } else {
+                            $('#rowCount, #sortBy').selectpicker();
                         }
 
-                        $(document).ready(function () {
-                            setBootPage();
-                            mouseEffect();
-                            $('#rowCount, #sortBy').change(function () {
-                                num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
-                                loadPage(num);
-                            });
-                            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-                                $('#rowCount, #sortBy').selectpicker('mobile');
-                            } else {
-                                $('#rowCount, #sortBy').selectpicker();
+                        $('.thumbsJPG').lazy({
+                            effect: 'fadeIn',
+                            visibleOnly: true,
+                            // called after an element was successfully handled
+                            afterLoad: function (element) {
+                                element.removeClass('blur');
+                                element.parent().find('.thumbsGIF').lazy({
+                                    effect: 'fadeIn'
+                                });
                             }
-
-                            $('.thumbsJPG').lazy({
-                                effect: 'fadeIn',
-                                visibleOnly: true,
-                                // called after an element was successfully handled
-                                afterLoad: function(element) {
-                                    element.removeClass('blur');
-                                    element.parent().find('.thumbsGIF').lazy({
-                                        effect: 'fadeIn'
-                                    });
-                                }
-                            });
                         });
+                    });
 </script>
 <?php
 include $global['systemRootPath'] . 'objects/include_end.php';

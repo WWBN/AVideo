@@ -161,21 +161,25 @@ if (!empty($_GET['video_id'])) {
                     <button class="btn btn-danger" id="uploadYouTubeBtn">
                         <i class="fab fa-youtube" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
                     </button>
-                <?php } ?>
+                <?php
+                }
+                if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
+                    ?>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <?php echo __('Categories'); ?> <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <?php
+                            foreach ($categories as $value) {
+                                echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['name']}</a></li>";
+                            }
+                            ?>
+                        </ul>
+                    </div>
+<?php } ?>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <?php echo __('Categories'); ?> <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <?php
-                        foreach ($categories as $value) {
-                            echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['name']}</a></li>";
-                        }
-                        ?>
-                    </ul>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <?php echo __('Status'); ?> <span class="caret"></span></button>
+<?php echo __('Status'); ?> <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#" onclick="changeStatus('a'); return false;"><i class="fas fa-eye"></i> <?php echo __('Active'); ?></a></li>
                         <li><a href="#" onclick="changeStatus('i'); return false;"><i class="fas fa-eye-slash"></i></span> <?php echo __('Inactive'); ?></a></li>
@@ -196,7 +200,7 @@ if (!empty($_GET['video_id'])) {
                                 <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 1);return false;">
                                     <span class="fa fa-lock"></span>
                                     <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
-                                    <?php echo $value['group_name']; ?>
+    <?php echo $value['group_name']; ?>
                                 </a>  
                             </li>
                             <?php
@@ -215,7 +219,7 @@ if (!empty($_GET['video_id'])) {
                                 <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 0);return false;">
                                     <span class="fa fa-lock"></span>
                                     <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
-                                    <?php echo $value['group_name']; ?>
+    <?php echo $value['group_name']; ?>
                                 </a>  
                             </li>
                             <?php
@@ -291,15 +295,20 @@ if (!empty($_GET['video_id'])) {
                                 </div>
                                 <label for="inputDescription" class="sr-only"><?php echo __("Description"); ?></label>
                                 <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
-                                <label for="inputCategory" class="sr-only"><?php echo __("Category"); ?></label>
-                                <select class="form-control last" id="inputCategory" required>
-                                    <?php
-                                    foreach ($categories as $value) {
-                                        echo "<option value='{$value['id']}'>{$value['name']}</option>";
-                                    }
+                                <?php
+                                if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
                                     ?>
-                                </select>
-
+                                    <label for="inputCategory" class="sr-only"><?php echo __("Category"); ?></label>
+                                    <select class="form-control last" id="inputCategory" required>
+                                        <?php
+                                        foreach ($categories as $value) {
+                                            echo "<option value='{$value['id']}'>{$value['name']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                    <?php
+                                }
+                                ?>
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         <span class="fa fa-globe"></span> <?php echo __("Public Video"); ?>
@@ -599,8 +608,8 @@ if (!empty($_GET['video_id'])) {
                                             }
                                         });
                                     }
-                                    
-                                    
+
+
                                     function userGroupSave(users_groups_id, add) {
                                         modal.showPleaseWait();
                                         var vals = [];
@@ -611,7 +620,7 @@ if (!empty($_GET['video_id'])) {
                                         });
                                         $.ajax({
                                             url: '<?php echo $global['webSiteRootURL']; ?>objects/userGroupSave.json.php',
-                                            data: {"id": vals, "users_groups_id": users_groups_id, "add":add},
+                                            data: {"id": vals, "users_groups_id": users_groups_id, "add": add},
                                             type: 'post',
                                             success: function (response) {
                                                 console.log(response);
@@ -1060,7 +1069,7 @@ if (User::isAdmin()) {
                                                         if (row.status == "d" || row.status == "e") {
                                                             yt = "";
                                                         }
-<?php
+    <?php
 } else {
     echo "yt='';";
 }

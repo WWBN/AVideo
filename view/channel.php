@@ -17,6 +17,7 @@ if (empty($_GET['channelName'])) {
         return false;
     }
 } else {
+    $_GET['channelName'] = xss_esc($_GET['channelName']);
     $user = User::getChannelOwner($_GET['channelName']);
     if (!empty($user)) {
         $_GET['user_id'] = $user['id'];
@@ -53,6 +54,7 @@ unset($_POST['sort']);
 unset($_POST['rowCount']);
 unset($_POST['current']);
 
+$get = array('channelName'=>$_GET['channelName']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -133,7 +135,7 @@ unset($_POST['current']);
                             ?>
                             <div class="row mainArea">
                                 <?php
-                                createGallerySection($uploadedVideos);
+                                createGallerySection($uploadedVideos, "", $get);
                                 ?>
                             </div>
                         </div>
