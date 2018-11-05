@@ -34,7 +34,7 @@ There, you can find some hints for troubleshooting as well.
 ### Mobile APP
 Android: https://play.google.com/store/apps/details?id=mobile.youphptube.com
 
-### Are you having a hard time to configure or install YouPHPTube or any of its resources? fell free to ask us for help:
+### Are you having a hard time to configure or install YouPHPTube or any of its resources? feel free to ask us for help:
 
 https://www.youphptube.com/services
 
