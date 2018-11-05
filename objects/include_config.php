@@ -16,6 +16,7 @@ $global['mysqli']->query("SET time_zone='$offset';");
 
 require_once $global['systemRootPath'].'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
+require_once $global['systemRootPath'].'objects/security.php';
 $config = new Configuration();
 
 // for update config from old versions
