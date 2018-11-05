@@ -277,7 +277,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                 if ($config->getAllow_download()) {
                     ?>
 
-                    <div style="position: relative; overflow: visible;">
+                    <div style="position: relative; overflow: visible; z-index: 3;">
                         <button type="button" class="btn btn-default btn-sm btn-xs"  data-toggle="dropdown">
                             <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
                         </button>
@@ -292,7 +292,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                                 $path_parts = pathinfo($theLink['filename']);
                                 ?>
                                 <li>
-                                    <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                    <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
                                         <?php echo __("Download"); ?> <?php echo $key; ?>
                                     </a>
                                 </li>
