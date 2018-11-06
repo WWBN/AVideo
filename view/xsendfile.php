@@ -7,7 +7,9 @@ session_write_close();
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 
+error_log("XSENDFILE Start ");
 if (empty($_GET['file'])) {
+    error_log("XSENDFILE GET file not found ");
     die('GET file not found');
 }
 
@@ -16,6 +18,7 @@ $file = $path_parts['basename'];
 $path = "{$global['systemRootPath']}videos/{$file}";
 
 if($file=="configuration.php"){
+    error_log("XSENDFILE Cant read this configuration ");
     die("Cant read this");
 }
 
@@ -36,7 +39,6 @@ if (file_exists($path)) {
     }
     YouPHPTubePlugin::xsendfilePreVideoPlay();
     $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-    error_log("XSENDFILE Start ");
     if (empty($advancedCustom->doNotUseXsendFile)) {
         error_log("XSENDFILE : {$path}");
         header("X-Sendfile: {$path}");
