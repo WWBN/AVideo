@@ -57,7 +57,7 @@ if (empty($_SESSION['type'])) {
 }
 // $resp = $obj->addView();
 
-$get = array('channelName'=>@$_GET['channelName'], 'catName'=>@$_GET['catName']);
+$get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
 
 if (!empty($_GET['playlist_id'])) {
     $playlist_id = $_GET['playlist_id'];
@@ -110,7 +110,7 @@ if (!empty($_GET['playlist_id'])) {
     }
 
     if (!empty($autoPlayVideo)) {
-        
+
         $name2 = User::getNameIdentificationById($autoPlayVideo['users_id']);
         $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
         $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
@@ -148,7 +148,7 @@ if (!empty($video)) {
     }
     $images = Video::getImageFromFilename($video['filename']);
     $poster = $images->poster;
-    if(!empty($images->posterPortrait)){
+    if (!empty($images->posterPortrait)) {
         $img = $images->posterPortrait;
         $data = getimgsize($source['path']);
         $imgw = $data[0];
@@ -180,7 +180,6 @@ if (empty($_GET['videoName'])) {
 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 
 YouPHPTubePlugin::getModeYouTube($v['id']);
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -196,7 +195,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
         <meta property="og:type"               content="video.other" />
         <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
-        <meta property="og:description"        content="<?php echo !empty($custom)?$custom:str_replace('"', '', $video['title']); ?>" />
+        <meta property="og:description"        content="<?php echo!empty($custom) ? $custom : str_replace('"', '', $video['title']); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
@@ -206,6 +205,15 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
 
     <body>
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
+        <?php
+        if (!empty($advancedCustom->showChannelBannerOnModeYoutube)) {
+            ?>
+            <div class="container" style="margin-bottom: 10px;">
+                <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
+            </div>
+            <?php
+        }
+        ?>
         <div class="container-fluid principalContainer" itemscope itemtype="http://schema.org/VideoObject">
             <?php
             if (!empty($video)) {
@@ -666,22 +674,22 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                             </div>
                         <?php } else if (!empty($autoPlayVideo)) { ?>
                             <div class="row">
-                            <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted">
-                                <strong><?php echo __("Up Next"); ?></strong>
-                                <span class="pull-right">
-                                    <span><?php echo __("Autoplay"); ?></span>
-                                    <span>
-                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted">
+                                    <strong><?php echo __("Up Next"); ?></strong>
+                                    <span class="pull-right">
+                                        <span><?php echo __("Autoplay"); ?></span>
+                                        <span>
+                                            <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
+                                        </span>
+                                        <div class="material-switch pull-right">
+                                            <input type="checkbox" class="saveCookie" name="autoplay" id="autoplay">
+                                            <label for="autoplay" class="label-primary"></label>
+                                        </div>
                                     </span>
-                                    <div class="material-switch pull-right">
-                                        <input type="checkbox" class="saveCookie" name="autoplay" id="autoplay">
-                                        <label for="autoplay" class="label-primary"></label>
-                                    </div>
-                                </span>
-                            </div>
                                 </div>
+                            </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" id="autoPlayVideoDiv" itemscope itemtype="http://schema.org/VideoObject" >
-                                <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'],"",$get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
+                                <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], "", $get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                                         <?php
                                         $imgGif = "";
@@ -756,11 +764,11 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                             var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
                             var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
 
-                            function showAutoPlayVideoDiv(){
+                            function showAutoPlayVideoDiv() {
                                 var auto = $("#autoplay").prop('checked');
-                                if(!auto){
+                                if (!auto) {
                                     $('#autoPlayVideoDiv').slideUp();
-                                }else{
+                                } else {
                                     $('#autoPlayVideoDiv').slideDown();
                                 }
                             }
@@ -795,9 +803,9 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         </div>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                        $.widget.bridge('uibutton', $.ui.button);
-                        $.widget.bridge('uitooltip', $.ui.tooltip);
+                            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+                            $.widget.bridge('uibutton', $.ui.button);
+                            $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
         <?php
         $videoJSArray = array("view/js/video.js/video.js");
@@ -819,21 +827,21 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js", 
-            "view/js/videojs-persistvolume/videojs.persistvolume.js", 
+        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js",
+            "view/js/videojs-persistvolume/videojs.persistvolume.js",
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <script>
-                        var fading = false;
-                        var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
-                        var autoPlayURL = '<?php echo $autoPlayURL; ?>';
-                        var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
-                        var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
+                            var fading = false;
+                            var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
+                            var autoPlayURL = '<?php echo $autoPlayURL; ?>';
+                            var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
+                            var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
 
-                        $(document).ready(function () {
-                        });
+                            $(document).ready(function () {
+                            });
         </script>
     </body>
 </html>
