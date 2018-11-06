@@ -82,7 +82,7 @@ if (file_exists($path)) {
         }else{
             $quoted = sprintf('"%s"', addcslashes(basename($_GET['file']), '"\\'));
         }
-        $size = filesize($file);
+        $size = filesize($path);
         header('Content-Description: File Transfer');
         header('Content-Disposition: attachment; filename=' . $quoted);
         header('Content-Transfer-Encoding: binary');
@@ -110,4 +110,6 @@ if (file_exists($path)) {
         }
     }
     die();
+}else{
+    error_log("XSENDFILE ERROR: Not exists {$path}");
 }
