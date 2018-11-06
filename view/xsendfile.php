@@ -42,6 +42,7 @@ if (file_exists($path)) {
     if (empty($advancedCustom->doNotUseXsendFile)) {
         error_log("XSENDFILE : {$path}");
         header("X-Sendfile: {$path}");
+        exit;
     }
     if (empty($_GET['download'])) {
         error_log("XSENDFILE Download ");
