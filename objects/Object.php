@@ -112,8 +112,8 @@ abstract class ObjectYPT implements ObjectInterface {
             $_POST['current'] = 1;
         }
         
-        $_POST['current'] = intval($_POST['current']);
-        $_POST['rowCount'] = intval($_POST['rowCount']);
+        $_POST['current'] = intval(@$_POST['current']);
+        $_POST['rowCount'] = intval(@$_POST['rowCount']);
 
         if (!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount'] > 0) {
             $_POST['rowCount'] = intval($_POST['rowCount']);

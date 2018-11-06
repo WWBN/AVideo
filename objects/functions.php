@@ -1,17 +1,4 @@
 <?php
-
-// filter some security here
-if(!empty($_GET['error'])){
-    $_GET['error'] = xss_esc($_GET['error']);
-}
-if(!empty($_GET['videos_id'])){
-    $_GET['videos_id'] = intval($_GET['videos_id']);
-}
-if(!empty($_GET['video_id'])){
-    $_GET['video_id'] = intval($_GET['video_id']);
-}
-
-
 function forbiddenWords($text) {
     global $global;
     if (empty($global['forbiddenWords'])) {
@@ -407,7 +394,7 @@ function setSiteSendMessage(&$mail) {
 
 function parseVideos($videoString = null) {
     if (strpos($videoString, 'youtube.com/embed') !== FALSE) {
-        return $videoString.(parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
+        return $videoString . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
     }
     if (strpos($videoString, 'iframe') !== FALSE) {
         // retrieve the video url
@@ -430,13 +417,13 @@ function parseVideos($videoString = null) {
         );
         //the ID of the YouTube URL: x6qe_kVaBpg
         $id = $matches[1];
-        return '//www.youtube.com/embed/' . $id.(parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
+        return '//www.youtube.com/embed/' . $id . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
     } else if (strpos($link, 'youtu.be') !== FALSE) {
         preg_match(
                 '/youtu.be\/([a-zA-Z0-9_]+)\??/i', $link, $matches
         );
         $id = $matches[1];
-        return '//www.youtube.com/embed/' . $id.(parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
+        return '//www.youtube.com/embed/' . $id . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo=0 ';
     } else if (strpos($link, 'player.vimeo.com') !== FALSE) {
         // works on:
         // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
@@ -577,7 +564,7 @@ function getVideosURL($fileName) {
                 'type' => 'video'
             );
         }
-        if(empty($value)){
+        if (empty($value)) {
             $source = Video::getSourceFile($filename, ".jpg");
             $file = $source['path'];
             if (file_exists($file)) {
@@ -980,7 +967,7 @@ function local_get_contents($path) {
 }
 
 function url_get_contents($Url, $ctx = "") {
-    global $global,$mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,$mysqlPort;
+    global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     session_write_close();
     $global['mysqli']->close();
     if (empty($ctx)) {
@@ -1000,7 +987,7 @@ function url_get_contents($Url, $ctx = "") {
             $tmp = @file_get_contents($Url, false, $context);
             if ($tmp != false) {
                 session_start();
-                $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
+                $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
                 return $tmp;
             }
         } catch (ErrorException $e) {
@@ -1015,12 +1002,12 @@ function url_get_contents($Url, $ctx = "") {
         $output = curl_exec($ch);
         curl_close($ch);
         session_start();
-        $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
+        $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
         return $output;
     }
     $result = @file_get_contents($Url, false, $context);
     session_start();
-    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser,$mysqlPass,$mysqlDatabase,@$mysqlPort);
+    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
     return $result;
 }
 
@@ -1114,15 +1101,14 @@ function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
     // Close file and return
     fclose($f);
     $output = trim($output);
-    if($returnArray){
+    if ($returnArray) {
         $array = explode("\n", $output);
         $newArray = array();
         foreach ($array as $value) {
             $newArray[] = array($value);
         }
         return $newArray;
-    }else{
+    } else {
         $output;
     }
-    
 }
