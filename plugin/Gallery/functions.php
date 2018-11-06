@@ -277,7 +277,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                 if ($config->getAllow_download()) {
                     ?>
 
-                    <div style="position: relative; overflow: visible; z-index: 3;">
+                <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
                         <button type="button" class="btn btn-default btn-sm btn-xs"  data-toggle="dropdown">
                             <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
                         </button>
