@@ -30,7 +30,7 @@ if(!empty($_GET['sort']) && is_array($_GET['sort'])){
     }
 }
 if(!empty($_POST['sort']) && is_array($_POST['sort'])){
-    foreach ($_GET['sort'] as $key => $value) {
+    foreach ($_POST['sort'] as $key => $value) {
         $_POST['sort'][xss_esc($key)] = strcasecmp($value, "ASC")===0?"ASC":"DESC";
     }
 }
