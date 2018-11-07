@@ -12,7 +12,6 @@ $_POST['rowCount'] = 50;
 // send $_GET['catName'] to be able to filter by category
 $rows = Video::getAllVideos("viewable");
 
-
 echo'<?xml version="1.0" encoding="UTF-8"?>'
 ?>
 
@@ -41,11 +40,23 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
 
         <?php
         foreach ($rows as $row) {
+            $files = getVideosURL($row['filename']);
+            $enclosure = "";
+            foreach ($files as $value) {
+                if ($value["type"] === "video" && file_exists($value['path'])) {
+                    $path_parts = pathinfo($value['path']);
+                    $value['mime'] = "video/{$path_parts['extension']}";
+                    $value['size'] = filesize($value['path']);
+                    $enclosure = '<enclosure url="'.$value['url'].'" length="'.$value['size'].'" type="'.$value['mime'].'" />';
+                    break;
+                }
+            }
             ?>
             <item>
                 <title><?php echo htmlspecialchars($row['title']); ?></title>
-                <description><?php echo htmlspecialchars(nl2br($row['description'])); ?></description>
+                <description><![CDATA[<?php echo $row['description']; ?>]]></description>
                 <link> <?php echo $global['webSiteRootURL']; ?>video/<?php echo $row['clean_title']; ?></link>
+                <?php echo $enclosure; ?>
                 <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
             </item>
             <?php
