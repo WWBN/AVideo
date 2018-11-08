@@ -50,6 +50,11 @@ if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
     $obj->setCategories_id($_POST['categories_id']);
 }
 $obj->setVideoGroups(empty($_POST['videoGroups'])?array():$_POST['videoGroups']);
+
+if(User::isAdmin()){
+    $obj->setUsers_id($_POST['users_id']);
+}
+
 $resp = $obj->save(true);
 
 echo '{"status":"'.!empty($resp).'", "msg": "'.$msg.'", "info":'. json_encode($info).', "infoObj":'. json_encode($infoObj).'}';

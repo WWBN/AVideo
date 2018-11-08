@@ -309,6 +309,19 @@ if (!empty($_GET['video_id'])) {
                                     <?php
                                 }
                                 ?>
+                                    
+                                
+                                <div class="row" <?php if(!User::isAdmin()){ ?> style="display: none;" <?php } ?>>
+                                    <h3><?php echo __("Video Owner"); ?></h3>
+                                    <div class="col-md-2">
+                                        <img id="inputUserOwner-img" src="view/img/userSilhouette.jpg" class="img img-responsive img-circle" alt="">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input id="inputUserOwner" placeholder="<?php echo __("Video Owner"); ?>" class="form-control">
+                                        <input type="hidden" id="inputUserOwner_id">
+                                    </div>
+                                </div>
+                                    
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         <span class="fa fa-globe"></span> <?php echo __("Public Video"); ?>
@@ -493,6 +506,39 @@ if (!empty($_GET['video_id'])) {
                                             }
                                         }).autocomplete("instance")._renderItem = function (ul, item) {
                                             return $("<li>").append("<div>" + item.title + "<br><?php echo __("Uploaded By"); ?>: " + item.user + "</div>").appendTo(ul);
+                                        };
+                                        
+                                        $("#inputUserOwner").autocomplete({
+                                            minLength: 0,
+                                            source: function (req, res) {
+                                                $.ajax({
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/users.json.php',
+                                                    type: "POST",
+                                                    data: {
+                                                        searchPhrase: req.term
+                                                    },
+                                                    success: function (data) {
+                                                        res(data.rows);
+                                                    }
+                                                });
+                                            },
+                                            focus: function (event, ui) {
+                                                $("#inputUserOwner").val(ui.item.user);
+                                                return false;
+                                            },
+                                            select: function (event, ui) {
+                                                console.log(ui.item);
+                                                $("#inputUserOwner").val(ui.item.user);
+                                                $("#inputUserOwner_id").val(ui.item.id);
+                                                var photoURL = '<?php echo $global['webSiteRootURL']; ?>img/userSilhouette.jpg'
+                                                if(ui.item.photoURL){
+                                                    photoURL = '<?php echo $global['webSiteRootURL']; ?>' + ui.item.photoURL+'?rand='+Math.random();
+                                                }
+                                                $("#inputUserOwner-img").attr("src", photoURL);
+                                                return false;
+                                            }
+                                        }).autocomplete("instance")._renderItem = function (ul, item) {
+                                            return $("<li>").append("<div>" + item.name + "<br>" + item.email + "<br>" + item.user + "</div>").appendTo(ul);
                                         };
                                     });
                                 </script>
@@ -726,6 +772,15 @@ if (!empty($_GET['video_id'])) {
                                         } else {
                                             $('#removeAutoplay').trigger('click');
                                         }
+                                        
+                                        
+                                        var photoURL = '<?php echo $global['webSiteRootURL']; ?>img/userSilhouette.jpg'
+                                        if(row.photoURL){
+                                            photoURL = '<?php echo $global['webSiteRootURL']; ?>' + row.photoURL+'?rand='+Math.random();
+                                        }
+                                        $("#inputUserOwner-img").attr("src", photoURL);
+                                        $('#inputUserOwner').val(row.user);
+                                        $('#inputUserOwner_id').val(row.users_id);
 
                                         $('.videoGroups').prop('checked', false);
                                         if (row.groups.length === 0) {
@@ -1340,7 +1395,8 @@ if (User::isAdmin()) {
                                                     "categories_id": $('#inputCategory').val(),
                                                     "public": isPublic,
                                                     "videoGroups": selectedVideoGroups,
-                                                    "next_videos_id": $('#inputNextVideo-id').val()
+                                                    "next_videos_id": $('#inputNextVideo-id').val(),
+                                                    "users_id": $('#inputUserOwner_id').val()
                                                 },
                                                 type: 'post',
                                                 success: function (response) {
