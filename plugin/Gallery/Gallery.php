@@ -61,6 +61,7 @@ class Gallery extends PluginAbstract {
         $obj->searchOnChannels = true;
         $obj->searchOnChannelsRowCount = 12;
         $obj->playVideoOnFullscreen = false;
+        $obj->playVideoOnBrowserFullscreen = false;
         $obj->filterUserChannel = false;
         return $obj;
     }
@@ -89,6 +90,9 @@ class Gallery extends PluginAbstract {
         $js = '';
         if(!empty($obj->playVideoOnFullscreen)){
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.js"></script>';
+        }
+        if(!empty($obj->playVideoOnBrowserFullscreen)){
+            $js = '<script>var playVideoOnBrowserFullscreen = 1;</script>';
         }
         return $js;
     }
