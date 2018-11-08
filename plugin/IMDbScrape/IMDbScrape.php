@@ -48,7 +48,7 @@ class IMDbScrape extends PluginAbstract {
         $obj = new stdClass();
         $obj->posterWidth = 186;
         $obj->posterHeight = 279;
-        $obj->encodeTrailerInWebm = 0;
+        $obj->encodeTrailerInWebm = false;
         return $obj;
     }
     

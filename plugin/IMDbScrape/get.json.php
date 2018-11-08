@@ -42,9 +42,10 @@ if ($oIMDB->isReady) {
     }
 
     if (empty($_GET['what']) || $_GET['what'] == 4) {
+        $encodeTrailerInWebm = intval($plugin->encodeTrailerInWebm);
         // trailer
         $trailer = $oIMDB->getTrailerAsUrl(true);
-        $encoderURL = $config->getEncoderURL() . "youtubeDl.json?webm={$plugin->encodeTrailerInWebm}&videoURL=" . urlencode($trailer) . "&webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&user=" . urlencode(User::getUserName()) . "&pass=" . urlencode(User::getUserPass());
+        $encoderURL = $config->getEncoderURL() . "youtubeDl.json?webm={$encodeTrailerInWebm}&videoURL=" . urlencode($trailer) . "&webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&user=" . urlencode(User::getUserName()) . "&pass=" . urlencode(User::getUserPass());
         error_log("IMDB encoder URL {$encoderURL}");
         $json = url_get_contents($encoderURL);
         error_log("IMDB encoder answer {$json}");
