@@ -1004,6 +1004,7 @@ if (!class_exists('Video')) {
 
             global $global;
             if (!empty($this->id)) {
+                $this->removeTrailerReference($this->id);
                 $video = self::getVideo($this->id);
                 $sql = "DELETE FROM videos WHERE id = ?";
             } else {
@@ -1024,6 +1025,27 @@ if (!class_exists('Video')) {
                 }
             }
             return $resp;
+        }
+        
+        private function removeTrailerReference($videos_id) {
+            if (!$this->userCanManageVideo()) {
+                return false;
+            }
+
+            global $global;
+            
+            if (!empty($videos_id)) {
+                $videoURL = self::getLink($videos_id, '', true);
+                $sql = "UPDATE videos SET trailer1 = '' WHERE trailer1 = ?";
+                sqlDAL::writeSql($sql, "s", array($videoURL));
+                $sql = "UPDATE videos SET trailer2 = '' WHERE trailer2 = ?";
+                sqlDAL::writeSql($sql, "s", array($videoURL));
+                $sql = "UPDATE videos SET trailer3 = '' WHERE trailer3 = ?";
+                sqlDAL::writeSql($sql, "s", array($videoURL));
+            } else {
+                return false;
+            }
+            return true;
         }
 
         private function removeFiles($filename) {
