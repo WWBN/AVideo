@@ -46,6 +46,8 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
                     $path_parts = pathinfo($value['path']);
                     $value['mime'] = "video/{$path_parts['extension']}";
                     $value['size'] = filesize($value['path']);
+                    // replace to validate
+                    $value['url'] = str_replace("https://", "http://", $value['url']);
                     $enclosure = '<enclosure url="' . $value['url'] . '" length="' . $value['size'] . '" type="' . $value['mime'] . '" />';
                     break;
                 }
