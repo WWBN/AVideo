@@ -12,7 +12,7 @@ $_POST['rowCount'] = 50;
 // send $_GET['catName'] to be able to filter by category
 $rows = Video::getAllVideos("viewable");
 
-echo'<?xml version="1.0" encoding="UTF-8"?>'
+echo'<?xml version="1.0" encoding="UTF8"?>'
 ?>
 
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -21,8 +21,8 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
      xmlns:atom="http://www.w3.org/2005/Atom"
      xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
      xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
-
     <channel>
+        <atom:link href="<?php echo $global['webSiteRootURL']; ?>feed/" rel="self" type="application/rss+xml" />
         <title>RSS <?php echo $config->getWebSiteTitle(); ?></title>
         <description>Rss Feed</description>
         <link><?php echo $global['webSiteRootURL']; ?></link>
@@ -47,7 +47,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
                     $path_parts = pathinfo($value['path']);
                     $value['mime'] = "video/{$path_parts['extension']}";
                     $value['size'] = filesize($value['path']);
-                    $enclosure = '<enclosure url="'.$value['url'].'" length="'.$value['size'].'" type="'.$value['mime'].'" />';
+                    $enclosure = '<enclosure url="' . $value['url'] . '" length="' . $value['size'] . '" type="' . $value['mime'] . '" />';
                     break;
                 }
             }
@@ -55,9 +55,10 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
             <item>
                 <title><?php echo htmlspecialchars($row['title']); ?></title>
                 <description><![CDATA[<?php echo $row['description']; ?>]]></description>
-                <link> <?php echo $global['webSiteRootURL']; ?>video/<?php echo $row['clean_title']; ?></link>
+                <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                 <?php echo $enclosure; ?>
                 <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
+                <guid><?php echo Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink"); ?></guid>
             </item>
             <?php
         }
