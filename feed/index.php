@@ -21,7 +21,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
      xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
      xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
     <channel>
-        <atom:link href="<?php echo $global['webSiteRootURL'].substr(1, $_SERVER["REQUEST_URI"]); ?>" rel="self" type="application/rss+xml" />
+        <atom:link href="<?php echo $global['webSiteRootURL'].ltrim($_SERVER["REQUEST_URI"],"/"); ?>" rel="self" type="application/rss+xml" />
         <title>RSS <?php echo $config->getWebSiteTitle(); ?></title>
         <description>Rss Feed</description>
         <link><?php echo $global['webSiteRootURL']; ?></link>
