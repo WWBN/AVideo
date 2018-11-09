@@ -1,4 +1,4 @@
-<?php
+<?php 
 header("Content-Type: application/rss+xml; charset=UTF8");
 
 
@@ -12,9 +12,8 @@ $_POST['rowCount'] = 50;
 // send $_GET['catName'] to be able to filter by category
 $rows = Video::getAllVideos("viewable");
 
-echo'<?xml version="1.0" encoding="UTF8"?>'
+echo'<?xml version="1.0" encoding="UTF-8"?>'
 ?>
-
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"
      xmlns:wfw="http://wellformedweb.org/CommentAPI/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -22,7 +21,7 @@ echo'<?xml version="1.0" encoding="UTF8"?>'
      xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
      xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
     <channel>
-        <atom:link href="<?php echo $global['webSiteRootURL']; ?>feed/" rel="self" type="application/rss+xml" />
+        <atom:link href="<?php echo $global['webSiteRootURL'], $_SERVER["REQUEST_URI"]; ?>" rel="self" type="application/rss+xml" />
         <title>RSS <?php echo $config->getWebSiteTitle(); ?></title>
         <description>Rss Feed</description>
         <link><?php echo $global['webSiteRootURL']; ?></link>
@@ -30,7 +29,7 @@ echo'<?xml version="1.0" encoding="UTF8"?>'
         <sy:updateFrequency>1</sy:updateFrequency>
 
         <image>
-        <title>RSS Feed</title>
+        <title>RSS <?php echo $config->getWebSiteTitle(); ?></title>
         <url><?php echo $global['webSiteRootURL']; ?>videos/userPhoto/logo.png</url>
         <link><?php echo $global['webSiteRootURL']; ?></link>
         <width>144</width>
