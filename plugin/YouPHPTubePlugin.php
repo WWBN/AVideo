@@ -323,6 +323,12 @@ class YouPHPTubePlugin {
     public static function isEnabled($uuid) {
         return !empty(Plugin::getEnabled($uuid));
     }
+    
+    public static function exists($name) {
+        global $global;
+        $filename = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
+        return file_exists($filename);
+    }
 
     static function isEnabledByName($name) {
         $p = static::loadPluginIfEnabled($name);

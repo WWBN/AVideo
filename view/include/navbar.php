@@ -247,7 +247,7 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                                                 </li>
                                                 <?php
                                             }
-                                            if (empty($advancedCustom->doNotShowImportLocalVideosButton)) {
+                                            if (empty($advancedCustom->doNotShowImportMP4Button)) {
                                                 ?>
                                                 <li>
                                                     <a  href="<?php echo $global['webSiteRootURL']; ?>view/import.php" >
@@ -475,6 +475,12 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                                 <h2 class="text-danger"><?php echo __("Admin Menu"); ?></h2>
                                 <ul  class="nav navbar" style="margin-bottom: 10px;">
                                     <li>
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>admin/">
+                                            <i class="fas fa-star"></i>
+                                            <?php echo __("Admin Panel"); ?>
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>users">
                                             <span class="glyphicon glyphicon-user"></span>
                                             <?php echo __("Users"); ?>
@@ -509,15 +515,17 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                                             <?php echo __("Site Configurations"); ?>
                                         </a>
                                     </li>
+                                    <!--
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>locale">
                                             <span class="glyphicon glyphicon-flag"></span>
                                             <?php echo __("Create more translations"); ?>
                                         </a>
                                     </li>
+                                    -->
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>plugins">
-                                            <span class="fa fa-plug"></span>
+                                            <i class="fas fa-puzzle-piece"></i>
                                             <?php echo __("Plugins"); ?>
                                         </a>
                                     </li>

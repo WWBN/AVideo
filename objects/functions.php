@@ -1,4 +1,5 @@
 <?php
+
 function forbiddenWords($text) {
     global $global;
     if (empty($global['forbiddenWords'])) {
@@ -1112,3 +1113,4 @@ function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
         $output;
     }
 }
+
