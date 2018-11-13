@@ -1,6 +1,5 @@
 <?php
-
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
