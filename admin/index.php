@@ -57,9 +57,9 @@ $menu->addItem(new MenuAdmin(__("Categories"), "glyphicon glyphicon-list", "cate
 $itens[] = $menu;
 
 $menu = new MenuAdmin(__("Design"), "fas fa-pen-fancy");
-$menu->addItem(new MenuAdmin(__("Themes"), "fas fa-palette", "design_themes"));
 $menu->addItem(new MenuAdmin(__("First Page Style"), "fas fa-columns", "design_first_page"));
-$menu->addItem(new MenuAdmin(__("Player Style"), "fas fa-play-circle", "design_player"));
+$menu->addItem(new MenuAdmin(__("Player Skin"), "fas fa-play-circle", "design_player"));
+$menu->addItem(new MenuAdmin(__("Themes"), "fas fa-palette", "design_themes"));
 //$menu->addItem(new MenuAdmin(__("Custom CSS"), "fab fa-css3-alt", "design_css"));
 $itens[] = $menu;
 
