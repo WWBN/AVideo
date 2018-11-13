@@ -14,7 +14,7 @@ function forbiddenWords($text) {
 }
 
 function xss_esc($text) {
-    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    return @htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
 
 function xss_esc_back($text) {

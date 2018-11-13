@@ -3,7 +3,7 @@ $vars = array();
 require_once '../videos/configuration.php';
 require_once './functions.php';
 
-if(!User::isAdmin()){
+if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}");
     exit;
 }
@@ -66,12 +66,13 @@ $itens[] = $menu;
 $menu = new MenuAdmin(__("Monetize"), "fas fa-dollar-sign");
 $menu->addItem(new MenuAdmin(__("Site Advertisement with VAST Video ads"), "fas fa-money-check-alt", "monetize_vast"));
 $menu->addItem(new MenuAdmin(__("Pay User per Video View"), "far fa-money-bill-alt", "monetize_user"));
+$menu->addItem(new MenuAdmin(__("Create Subscription Plans"), "fas fa-money-bill-alt", "monetize_subscription"));
 //$menu->addItem(new MenuAdmin(__("Banner Script code"), "fas fa-money-check-alt", "advertisement_script"));
 $itens[] = $menu;
 
 /*
-$menu = new MenuAdmin(__("Update Version"), "glyphicon glyphicon-refresh", "{$global['webSiteRootURL']}update/");
-$itens[] = $menu;
+  $menu = new MenuAdmin(__("Update Version"), "glyphicon glyphicon-refresh", "{$global['webSiteRootURL']}update/");
+  $itens[] = $menu;
 
 
   $menu = new MenuAdmin(__("Backup"), "fas fa-undo-alt");
@@ -113,6 +114,10 @@ switch ($_GET['page']) {
         $includeHead = $global['systemRootPath'] . 'view/configurations_head.php';
         $includeBody = $global['systemRootPath'] . 'view/configurations_body.php';
         break;
+    case "monetize_subscription":
+        $includeHead = $global['systemRootPath'] . 'plugin/Subscription/page/editor_head.php';
+        $includeBody = $global['systemRootPath'] . 'plugin/Subscription/page/editor_body.php';
+        break;
     case "monetize_vast":
         $includeHead = $global['systemRootPath'] . 'plugin/AD_Server/index_head.php';
         $includeBody = $global['systemRootPath'] . 'plugin/AD_Server/index_body.php';
@@ -152,7 +157,7 @@ switch ($_GET['page']) {
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
-        if (!empty($includeHead)) {
+        if (!empty($includeHead) && file_exists($includeHead)) {
             echo "<!-- Include $includeHead -->";
             include $includeHead;
             echo "<!-- END Include $includeHead -->";
@@ -237,7 +242,16 @@ switch ($_GET['page']) {
                 <div class="col-sm-9 col-md-9 col-sm-offset-3 col-md-offset-3 ">
                     <?php
                     if (!empty($includeBody)) {
-                        include $includeBody;
+                        if (file_exists($includeBody)) {
+                            include $includeBody;
+                        } else {
+                            ?>
+                            <div class="alert alert-danger">
+                                Sorry you do not have this plugin yet. you can buy it on the 
+                                <a class="btn btn-danger" href="https://www.youphptube.com/plugins/">Plugin Store</a>
+                            </div>    
+                            <?php
+                        }
                     }
                     ?>
                 </div>
@@ -267,7 +281,7 @@ switch ($_GET['page']) {
                     modal.showPleaseWait();
                     $.ajax({
                         url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
-                        data: {"uuid":$(this).attr('uuid'), "name":$(this).attr('name'), "dir":$(this).attr('name'), "enable": $(this).is(":checked")},
+                        data: {"uuid": $(this).attr('uuid'), "name": $(this).attr('name'), "dir": $(this).attr('name'), "enable": $(this).is(":checked")},
                         type: 'post',
                         success: function (response) {
                             modal.hidePleaseWait();
