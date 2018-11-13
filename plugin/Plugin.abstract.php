@@ -222,6 +222,11 @@ abstract class PluginAbstract {
         return false;
     }
     
+    public function addView($videos_id, $total)
+    {
+        return false;
+    }
+    
     public function getCustomizeAdvancedOptions()
     {
         return false;

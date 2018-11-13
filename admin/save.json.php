@@ -30,7 +30,11 @@ $pluginDB = Plugin::getPluginByName($pluginName);
 
 foreach ($pluginDO as $key => $value) {
     if (isset($pluginValues[$key])) {
-        $pluginDO->$key = $pluginValues[$key];
+        if(is_bool($pluginDO->$key)){
+            $pluginDO->$key = empty($pluginValues[$key])?false:true;
+        }else{
+            $pluginDO->$key = $pluginValues[$key];
+        }
     }
 }
 

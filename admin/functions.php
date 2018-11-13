@@ -1,14 +1,21 @@
 <?php
 
 function createTable($pluginName, $filter = array()){
-    echo '<form class="adminOptionsForm"><table class="table table-hover">';
+    $plugin = YouPHPTubePlugin::getObjectData($pluginName);
+    if(empty($filter)){
+        foreach ($plugin as $key => $value) {
+            $filter[$key] = "&nbsp;";
+        }
+    }
+    //var_dump($filter);exit;
+    echo '<form class="adminOptionsForm">';
     echo '<input type="hidden" value="'.$pluginName.'" name="pluginName"/>';
     echo '<input type="hidden" value="'.implode("|", array_keys($filter)).'" name="pluginsList"/>';
+    echo '<table class="table table-hover">';
     $pluginsList = array();
     if (!YouPHPTubePlugin::exists($pluginName)) {
         echo "<tr><td colspan='2'> Sorry you do not have the plugin </td></tr>";
     }else{
-        $plugin = YouPHPTubePlugin::getObjectData($pluginName);
         if(!empty($plugin)){
             $form = jsonToFormElements($plugin,$filter);
             //var_dump($form);
@@ -21,7 +28,7 @@ function createTable($pluginName, $filter = array()){
 }
 
 function jsonToFormElements($json, $filter = array()) {
-
+    //var_dump($json, $filter);exit;
     $elements = array();
     foreach ($json as $key => $value) {
         if (!empty($filter) && empty($filter[$key])) {
@@ -46,7 +53,7 @@ function jsonToFormElements($json, $filter = array()) {
                                 <input data-toggle="toggle" type="checkbox" id="' . $key . $id . '" name="' . $key . '" value="1" ' . ($value ? "checked" : "") . ' >
                                 <label for="' . $key . $id . '" class="label-primary"></label>
                             </div>';
-            $elements[] = "<tr><td>{$input}</td><td>{$label}{$help}</td></tr>";
+            $elements[] = "<tr><td>{$input}</td><td>{$label}<br>{$help}</td></tr>";
         } else {
             $input = "<input class='form-control jsonElement' name='{$key}' type='text' value='{$value}'/>";
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";

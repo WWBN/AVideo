@@ -226,13 +226,13 @@ class YPTWallet extends PluginAbstract {
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "saveBalance");
     }
     
-    public function transferBalanceToSiteOwner($users_id_from,$value){
+    public function transferBalanceToSiteOwner($users_id_from,$value, $description="", $forceTransfer=false){
         $obj = $this->getDataObject();
-        return $this->transferBalance($users_id_from, $obj->manualWithdrawFundsTransferToUserId, $value);
+        return $this->transferBalance($users_id_from, $obj->manualWithdrawFundsTransferToUserId, $value, $description, $forceTransfer);
     }
-    public function transferBalanceFromSiteOwner($users_id_from,$value){
+    public function transferBalanceFromSiteOwner($users_id_from,$value, $description="", $forceTransfer=false){
         $obj = $this->getDataObject();
-        return $this->transferBalance($obj->manualWithdrawFundsTransferToUserId, $users_id_from, $value);
+        return $this->transferBalance($obj->manualWithdrawFundsTransferToUserId, $users_id_from, $value, $description, $forceTransfer);
     }
     
     public function transferBalanceFromMeToSiteOwner($value){
@@ -250,10 +250,10 @@ class YPTWallet extends PluginAbstract {
         return $this->transferBalanceFromSiteOwner(User::getId(), $value);
     }
     
-    public function transferBalance($users_id_from,$users_id_to, $value) {
+    public function transferBalance($users_id_from,$users_id_to, $value, $forceDescription="", $forceTransfer=false) {
         global $global;
         if(!User::isAdmin()){
-            if($users_id_from != User::getId()){
+            if($users_id_from != User::getId() && !$forceTransfer){
                 error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value");
                 return false;
             }            
@@ -278,8 +278,12 @@ class YPTWallet extends PluginAbstract {
         $identificationTo = User::getNameIdentificationById($users_id_to);
         
         $wallet->setBalance($newBalance);
-        $wallet_id = $wallet->save();   
+        $wallet_id = $wallet->save();  
+        
         $description = "Transfer Balance {$value} from <strong>YOU</strong> to user <a href='{$global['webSiteRootURL']}channel/{$users_id_to}'>{$identificationTo}</a>";
+        if(!empty($forceDescription)){
+            $description = $forceDescription;
+        }
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance to");
         
         
@@ -289,6 +293,9 @@ class YPTWallet extends PluginAbstract {
         $wallet->setBalance($newBalance);
         $wallet_id = $wallet->save();   
         $description = "Transfer Balance {$value} from user <a href='{$global['webSiteRootURL']}channel/{$users_id_from}'>{$identificationFrom}</a> to <strong>YOU</strong>";
+        if(!empty($forceDescription)){
+            $description = $forceDescription;
+        }
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
         return true;
     }

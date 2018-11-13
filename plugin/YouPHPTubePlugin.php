@@ -14,6 +14,16 @@ class YouPHPTubePlugin {
         }
         return false;
     }
+    public static function addView($videos_id, $total) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->addView($videos_id, $total);
+            }
+        }
+        return false;
+    }
 
     public static function getHeadCode() {
         $plugins = Plugin::getAllEnabled();

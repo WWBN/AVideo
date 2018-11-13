@@ -63,8 +63,9 @@ $menu->addItem(new MenuAdmin(__("Themes"), "fas fa-palette", "design_themes"));
 //$menu->addItem(new MenuAdmin(__("Custom CSS"), "fab fa-css3-alt", "design_css"));
 $itens[] = $menu;
 
-$menu = new MenuAdmin(__("Advertisement"), "fas fa-dollar-sign");
-$menu->addItem(new MenuAdmin(__("VAST Video ads"), "fas fa-money-check-alt", "advertisement_vast"));
+$menu = new MenuAdmin(__("Monetize"), "fas fa-dollar-sign");
+$menu->addItem(new MenuAdmin(__("Site Advertisement with VAST Video ads"), "fas fa-money-check-alt", "monetize_vast"));
+$menu->addItem(new MenuAdmin(__("Pay User per Video View"), "far fa-money-bill-alt", "monetize_user"));
 //$menu->addItem(new MenuAdmin(__("Banner Script code"), "fas fa-money-check-alt", "advertisement_script"));
 $itens[] = $menu;
 
@@ -112,9 +113,12 @@ switch ($_GET['page']) {
         $includeHead = $global['systemRootPath'] . 'view/configurations_head.php';
         $includeBody = $global['systemRootPath'] . 'view/configurations_body.php';
         break;
-    case "advertisement_vast":
+    case "monetize_vast":
         $includeHead = $global['systemRootPath'] . 'plugin/AD_Server/index_head.php';
         $includeBody = $global['systemRootPath'] . 'plugin/AD_Server/index_body.php';
+        break;
+    case "monetize_user":
+        $includeBody = $global['systemRootPath'] . 'admin/monetize_user.php';
         break;
     case "plugins":
         $includeHead = $global['systemRootPath'] . 'view/managerPlugins_head.php';

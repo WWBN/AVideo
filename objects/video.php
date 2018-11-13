@@ -81,6 +81,7 @@ if (!class_exists('Video')) {
             if ($insert_row) {
                 VideoStatistic::save($this->id);
                 $this->views_count++;
+                YouPHPTubePlugin::addView($this->id, $this->views_count);
                 return $this->id;
             } else {
                 die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
