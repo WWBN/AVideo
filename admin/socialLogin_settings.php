@@ -1,6 +1,20 @@
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-cog"></i> Customize options <div class="pull-right"><?php echo getPluginSwitch('CustomizeAdvanced'); ?></div></div>
+            <div class="panel-body" style="overflow: hidden;">
+                <?php
+                $filter = array(
+                    'disableNativeSignUp' => 'The form to signup will not exists',
+                    'disableNativeSignIn' => 'The regular form to signin will not exist, if you check this will only have social login or LDAP option',
+                    'userMustBeLoggedIn' => 'The site will display only a login form to un authenticated users');
+                createTable("CustomizeAdvanced", $filter);
+                ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
             <div class="panel-heading"><i class="fab fa-facebook-square"></i> Facebook <div class="pull-right"><?php echo getPluginSwitch('LoginFacebook'); ?></div></div>
             <div class="panel-body" style="overflow: hidden;">
                 <?php
@@ -85,7 +99,7 @@
                 <small class="form-text text-muted">
                     <a href="https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Configure-LDAP-Plugin">Help Page</a>
                 </small>
-                
+
             </div>
         </div>
     </div>

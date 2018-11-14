@@ -116,7 +116,9 @@ switch ($_GET['page']) {
         break;
     case "monetize_subscription":
         $includeHead = $global['systemRootPath'] . 'plugin/Subscription/page/editor_head.php';
-        $includeBody = $global['systemRootPath'] . 'plugin/Subscription/page/editor_body.php';
+        $includeBody = array();
+        $includeBody[] = $global['systemRootPath'] . 'admin/monetize_subscription.php';
+        $includeBody[] = $global['systemRootPath'] . 'plugin/Subscription/page/editor_body.php';
         break;
     case "monetize_vast":
         $includeHead = $global['systemRootPath'] . 'plugin/AD_Server/index_head.php';
@@ -242,15 +244,30 @@ switch ($_GET['page']) {
                 <div class="col-sm-9 col-md-9 col-sm-offset-3 col-md-offset-3 ">
                     <?php
                     if (!empty($includeBody)) {
-                        if (file_exists($includeBody)) {
-                            include $includeBody;
+                        if (is_array($includeBody)) {
+                            foreach ($includeBody as $value) {
+                                if (file_exists($value)) {
+                                    include $value;
+                                } else {
+                                    ?>
+                                    <div class="alert alert-danger">
+                                        Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store 
+                                        <a class="btn btn-danger" href="https://www.youphptube.com/plugins/">Plugin Store</a>
+                                    </div>    
+                                    <?php
+                                }
+                            }
                         } else {
-                            ?>
-                            <div class="alert alert-danger">
-                                Sorry you do not have this plugin yet. you can buy it on the 
-                                <a class="btn btn-danger" href="https://www.youphptube.com/plugins/">Plugin Store</a>
-                            </div>    
-                            <?php
+                            if (file_exists($includeBody)) {
+                                include $includeBody;
+                            } else {
+                                ?>
+                                <div class="alert alert-danger">
+                                    Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store 
+                                    <a class="btn btn-danger" href="https://www.youphptube.com/plugins/">Plugin Store</a>
+                                </div>    
+                                <?php
+                            }
                         }
                     }
                     ?>

@@ -273,6 +273,9 @@ class Plugin extends ObjectYPT {
     function save() {
         global $global;
         $this->object_data = $global['mysqli']->real_escape_string($this->object_data);
+        if(empty($this->object_data)){
+            $this->object_data = 'null';
+        }
         return parent::save();
     }
 

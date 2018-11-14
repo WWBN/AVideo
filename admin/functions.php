@@ -3,8 +3,8 @@
 function createTable($pluginName, $filter = array()){
     $plugin = YouPHPTubePlugin::getObjectData($pluginName);
     if(empty($filter)){
-        foreach ($plugin as $key => $value) {
-            $filter[$key] = "&nbsp;";
+        foreach ($plugin as $keyJson => $valueJson) {
+            $filter[$keyJson] = "&nbsp;";
         }
     }
     //var_dump($filter);exit;
@@ -30,32 +30,32 @@ function createTable($pluginName, $filter = array()){
 function jsonToFormElements($json, $filter = array()) {
     //var_dump($json, $filter);exit;
     $elements = array();
-    foreach ($json as $key => $value) {
-        if (!empty($filter) && empty($filter[$key])) {
+    foreach ($json as $keyJson => $valueJson) {
+        if (!empty($filter) && empty($filter[$keyJson])) {
             continue;
         }
-        $label = "<label>{$key}</label>";
+        $label = "<label>{$keyJson}</label>";
         $help = "";
-        if (!empty($filter[$key])) {
-            $help = "<small class=\"form-text text-muted\">{$filter[$key]}</small>";
+        if (!empty($filter[$keyJson])) {
+            $help = "<small class=\"form-text text-muted\">{$filter[$keyJson]}</small>";
         }
         $input = "";
-        if (is_object($value)) {
-            if ($value->type === 'textarea') {
-                $input = "<textarea class='form-control jsonElement' name='{$key}' pluginType='object'>{$value->value}</textarea>";
-            } else {
-                $input = "<input class='form-control jsonElement' name='{$key}' pluginType='object' type='{$value->type}' value='{$value->value}'/>";
+        if (is_object($valueJson)) {
+            if ($valueJson->type === 'textarea') {
+                $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>{$valueJson->value}</textarea>";
+            } else {                var_dump($keyJson, $valueJson);
+                $input = "<input class='form-control jsonElement' name='{$keyJson}' pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
             }
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
-        } else if (is_bool($value)) {
+        } else if (is_bool($valueJson)) {
             $id = uniqid();
             $input = '<div class="material-switch">
-                                <input data-toggle="toggle" type="checkbox" id="' . $key . $id . '" name="' . $key . '" value="1" ' . ($value ? "checked" : "") . ' >
-                                <label for="' . $key . $id . '" class="label-primary"></label>
+                                <input data-toggle="toggle" type="checkbox" id="' . $keyJson . $id . '" name="' . $keyJson . '" value="1" ' . ($valueJson ? "checked" : "") . ' >
+                                <label for="' . $keyJson . $id . '" class="label-primary"></label>
                             </div>';
             $elements[] = "<tr><td>{$input}</td><td>{$label}<br>{$help}</td></tr>";
         } else {
-            $input = "<input class='form-control jsonElement' name='{$key}' type='text' value='{$value}'/>";
+            $input = "<input class='form-control jsonElement' name='{$keyJson}' type='text' value='{$valueJson}'/>";
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         }
     }
