@@ -17,7 +17,7 @@ if(empty($netflixSwitch) && empty($gallerySwitch)){
                 </div>
             </div>
             <div class="panel-body">
-                <img src="<?php echo $global['webSiteRootURL']; ?>admin/img/default.png" class="img-responsive">
+                <img src="<?php echo $global['webSiteRootURL']; ?>admin/img/default.jpg" class="img-responsive">
             </div>
         </div>
     </div>
