@@ -30,12 +30,12 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
         echo $_SESSION[$url]['content'];
         error_log(" Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }else{
-        echo file_get_contents($filename);
+        echo url_get_contents($filename);
         error_log(" Get default image ");
     }
     
 } else {
-    echo file_get_contents($filename);
+    echo local_get_contents($filename);
     error_log(" Invalid URL ");
 }
 $p = YouPHPTubePlugin::loadPluginIfEnabled("Cache");
