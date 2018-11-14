@@ -117,8 +117,8 @@ switch ($_GET['page']) {
     case "monetize_subscription":
         $includeHead = $global['systemRootPath'] . 'plugin/Subscription/page/editor_head.php';
         $includeBody = array();
-        $includeBody[] = $global['systemRootPath'] . 'admin/monetize_subscription.php';
         $includeBody[] = $global['systemRootPath'] . 'plugin/Subscription/page/editor_body.php';
+        $includeBody[] = $global['systemRootPath'] . 'admin/monetize_subscription.php';
         break;
     case "monetize_vast":
         $includeHead = $global['systemRootPath'] . 'plugin/AD_Server/index_head.php';
