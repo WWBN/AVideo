@@ -202,7 +202,7 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                                         ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <?php
-                                            if (!empty($advancedCustom->encoderNetwork)) {
+                                            if (!empty($advancedCustom->encoderNetwork) && empty($advancedCustom->doNotShowEncoderNetwork)) {
                                                 ?>
                                                 <li>
                                                     <form id="formEncoderN" method="post" action="<?php echo $advancedCustom->encoderNetwork; ?>" target="encoder">
