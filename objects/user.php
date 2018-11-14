@@ -784,8 +784,8 @@ if (typeof gtag !== \"function\") {
             foreach ($downloadedArray as $row) {
                 $row['groups'] = UserGroups::getUserGroups($row['id']);
                 $row['identification'] = self::getNameIdentificationById($row['id']);
-                $row['photo'] = self::getPhoto();
-                $row['background'] = self::getBackground();
+                $row['photo'] = self::getPhoto($row['id']);
+                $row['background'] = self::getBackground($row['id']);
                 $row['tags'] = self::getTags($row['id']);
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
                 $row['isEmailVerified'] = $row['emailVerified'];
