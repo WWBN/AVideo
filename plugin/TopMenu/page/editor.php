@@ -155,7 +155,7 @@ $groups = UserGroups::getAllUsersGroups();
                                             <div class="form-group">
                                                 <label>Icon:</label><br>
                                                 <div class="btn-group">
-                                                    <button data-selected="graduation-cap" type="button" class="icp iconMenu btn btn-light dropdown-toggle iconpicker-component" data-toggle="dropdown">
+                                                    <button data-selected="graduation-cap" type="button" class="icp iconMenu btn  btn-default btn-light  dropdown-toggle iconpicker-component" data-toggle="dropdown">
                                                         <?php echo __("Select an icon for the menu"); ?>  <i class="fa fa-fw"></i>
                                                         <span class="caret"></span>
                                                     </button>
@@ -269,7 +269,7 @@ $groups = UserGroups::getAllUsersGroups();
                                         <div class="form-group">
                                             <label>Icon:</label><br>
                                             <div class="btn-group">
-                                                <button data-selected="graduation-cap" type="button" class="icp iconMenuItem btn btn-light dropdown-toggle iconpicker-component" data-toggle="dropdown">
+                                                <button data-selected="graduation-cap" type="button" class="icp iconMenuItem btn  btn-default btn-light dropdown-toggle iconpicker-component" data-toggle="dropdown">
                                                     <?php echo __("Select an icon for the menu"); ?>  <i class="fa fa-fw"></i>
                                                     <span class="caret"></span>
                                                 </button>
@@ -313,10 +313,10 @@ $groups = UserGroups::getAllUsersGroups();
 
         </div>
     <li class="ui-state-default hidden liModel" itemid="0">
-        <button class="btn btn-light btn-sm" onclick="editItem(this)">
+        <button class="btn  btn-default btn-light btn-sm" onclick="editItem(this)">
             <i class="fa fa-edit"></i>
         </button>
-        <button class="btn btn-light btn-sm" onclick="removeItem(this)">
+        <button class="btn  btn-default btn-light btn-sm" onclick="removeItem(this)">
             <i class="fa fa-trash"></i>
         </button>
         <i class="icon"></i>

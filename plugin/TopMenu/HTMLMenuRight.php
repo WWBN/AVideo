@@ -12,7 +12,7 @@ $menu = Menu::getAllActive(1);
 foreach ($menu as $key => $value) {
     ?>
     <li class="dropdown">    
-        <a href="#" class=" btn btn-light navbar-btn" data-toggle="dropdown">
+        <a href="#" class=" btn  btn-default btn-light navbar-btn" data-toggle="dropdown">
             <?php
             if (!empty($value['icon'])) {
                 ?>
