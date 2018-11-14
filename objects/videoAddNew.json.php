@@ -24,7 +24,8 @@ $obj = new Video($_POST['title'], "", @$_POST['id']);
 $obj->setClean_Title($_POST['clean_title']);
 if(!empty($_POST['videoLink'])){    
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
-    if(empty($_POST['id'])){
+    $path_parts = pathinfo($_POST['videoLink']);
+    if(empty($_POST['id']) && empty($path_parts["extension"]) ){
         $info = url_get_contents($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));
         $infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
@@ -34,9 +35,27 @@ if(!empty($_POST['videoLink'])){
         $obj->setDuration($infoObj->duration);
         $obj->setDescription($infoObj->description);
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
+    }else{
+        $filename = uniqid("_YPTuniqid_", true);
+        $obj->setFilename($filename);
+        $obj->setTitle($path_parts["filename"]);
+        $obj->setClean_title($path_parts["filename"]);
+        $obj->setDuration("");
+        $obj->setDescription(@$_POST['description']);
     }
     $obj->setVideoLink($_POST['videoLink']);
-    $obj->setType('embed');
+    
+    if(!empty($path_parts["extension"])){
+        $audioLinks = array('mp3', 'ogg');
+        if(in_array(strtolower($path_parts["extension"]), $audioLinks)){
+            $obj->setType('linkAudio');
+        }else{
+            $obj->setType('linkVideo');
+        }
+    }else{
+        $obj->setType('embed');
+    }
+    
     if(!empty($_POST['videoLinkType'])){ 
         $obj->setType($_POST['videoLinkType']);
     }

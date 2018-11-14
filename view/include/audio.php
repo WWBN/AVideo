@@ -39,22 +39,13 @@
                 <a href="<?php echo $sourceLink; ?>">horse</a>     
         <?php } ?>
         </audio>
-            <?php if ($config->getAllow_download()) {
-            if($video['type']=="audio"){ 
-            ?>
-                <a class="btn btn-xs btn-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $video['filename'].$ext; ?>" download="<?php echo $video['title'] . $ext; ?>"><?php echo __("Download audio"); ?></a>
-            <?php  } else { 
-            $ext = substr($video['videoLink'],strlen($video['videoLink'])-4,strlen($video['videoLink']));
-            ?>
-                <a class="btn btn-xs btn-default " role="button" href="<?php echo $video['videoLink']; ?>" download="<?php echo $video['title'] . $ext; ?>"><?php echo __("Download audio"); ?></a>
-            <?php  }} ?>
         </div>
     </div>
     <script>
         <?php $_GET['isMediaPlaySite'] = $video['id']; ?>
         var mediaId = <?php echo $video['id']; ?>;
         $(document).ready(function () {
-
+            
             $(".vjs-big-play-button").hide();
             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
             <?php 
@@ -108,31 +99,6 @@
                     setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainAudio');} player.play();}, 150);                    
                 }
             <?php } ?>
-            <?php if (!empty($logId)) { ?>
-                isPlayingAd = true;
-                this.on('ended', function () {
-                    console.log("Finish Audio");
-                    if (isPlayingAd) {
-                        isPlayingAd = false;
-                        $('#adButton').trigger("click");
-                    }
-            <?php // if autoplay play next video
-            if (!empty($autoPlayVideo)) { ?>
-                else if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                    document.location = '<?php echo $autoPlayVideo['url']; ?>';
-                }
-            <?php } ?>
-                });
-                this.on('timeupdate', function () {
-                    var durationLeft = fullDuration - this.currentTime();
-                    $("#adUrl .time").text(secondsToStr(durationLeft + 1, 2));
-            <?php if (!empty($ad['skip_after_seconds'])) { ?>
-                        if (isPlayingAd && this.currentTime() ><?php echo intval($ad['skip_after_seconds']); ?>) {
-                            $('#adButton').fadeIn();
-                    }
-            <?php } ?>
-                });
-            <?php } else { ?>
                 this.on('ended', function () {
                     console.log("Finish Audio");
     <?php // if autoplay play next video
@@ -142,7 +108,6 @@
         }
         <?php } ?>
                 });
-    <?php } ?>
         }); });
     </script>
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
