@@ -35,7 +35,7 @@ if(!empty($_POST['videoLink'])){
         $obj->setDuration($infoObj->duration);
         $obj->setDescription($infoObj->description);
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
-    }else{
+    }else if(empty($_POST['id'])){
         $filename = uniqid("_YPTuniqid_", true);
         $obj->setFilename($filename);
         $obj->setTitle($path_parts["filename"]);
