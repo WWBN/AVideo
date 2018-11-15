@@ -14,7 +14,7 @@
             <?php echo __("Video Chart"); ?>
         </a>
         <?php
-        $categories = Category::getAllCategories();
+        $categories = Category::getAllCategories(true);
         if (empty($advancedCustom->doNotShowEncoderButton)) {
             if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
             ) {
