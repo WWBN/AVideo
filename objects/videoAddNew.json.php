@@ -22,10 +22,13 @@ if(!empty($_POST['id'])){
 
 $obj = new Video($_POST['title'], "", @$_POST['id']);
 $obj->setClean_Title($_POST['clean_title']);
+    $audioLinks = array('mp3', 'ogg');
+        $videoLinks = array('mp4', 'webm');
 if(!empty($_POST['videoLink'])){    
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
     $path_parts = pathinfo($_POST['videoLink']);
-    if(empty($_POST['id']) && empty($path_parts["extension"]) ){
+    $extension = strtolower($path_parts["extension"]);
+    if(empty($_POST['id']) && !(in_array($extension, $audioLinks) || in_array($extension, $videoLinks)) ){
         $info = url_get_contents($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));
         $infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
@@ -45,9 +48,8 @@ if(!empty($_POST['videoLink'])){
     }
     $obj->setVideoLink($_POST['videoLink']);
     
-    if(!empty($path_parts["extension"])){
-        $audioLinks = array('mp3', 'ogg');
-        if(in_array(strtolower($path_parts["extension"]), $audioLinks)){
+    if(in_array($extension, $audioLinks) || in_array($extension, $videoLinks)){
+        if(in_array($extension, $audioLinks)){
             $obj->setType('linkAudio');
         }else{
             $obj->setType('linkVideo');
