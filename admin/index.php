@@ -51,6 +51,7 @@ $itens[] = $menu;
 
 $menu = new MenuAdmin(__("Contents"), "fas fa-list-ul");
 $menu->addItem(new MenuAdmin(__("Videos"), "fab fa-youtube", "videos"));
+$menu->addItem(new MenuAdmin(__("Live Stuffs"), "fas fa-broadcast-tower", "live"));
 $menu->addItem(new MenuAdmin(__("Users"), "glyphicon glyphicon-user", "users"));
 $menu->addItem(new MenuAdmin(__("Users Groups"), "fa fa-users", "usersGroups"));
 $menu->addItem(new MenuAdmin(__("Categories"), "glyphicon glyphicon-list", "categories"));
@@ -134,6 +135,9 @@ switch ($_GET['page']) {
     case "users":
         $includeHead = $global['systemRootPath'] . 'view/managerUsers_head.php';
         $includeBody = $global['systemRootPath'] . 'view/managerUsers_body.php';
+        break;
+    case "live":
+        $includeBody = $global['systemRootPath'] . 'admin/live.php';
         break;
     case "usersGroups":
         $includeHead = $global['systemRootPath'] . 'view/managerUsersGroups_head.php';

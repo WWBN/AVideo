@@ -4,7 +4,7 @@ if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (!User::isAdmin()) {
+if (!Category::canCreateCategory()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage categories"));
     exit;
 }

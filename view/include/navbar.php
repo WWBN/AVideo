@@ -86,7 +86,7 @@ $json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanc
 // convert the string to a json object
 $advancedCustom = json_decode($json_file);
 $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
-if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"]==="signUp.php") || User::isLogged()) {
+if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php") || User::isLogged()) {
     $updateFiles = getUpdatesFilesArray();
     ?>
     <nav class="navbar navbar-default navbar-fixed-top ">
@@ -455,18 +455,31 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                                     </a>
                                 </div>
                             </li>
-                            <li>
-                                <div>
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>comments" class="btn btn-default btn-block" style="border-radius: 0 0 4px 4px;">
-                                        <span class="fa fa-comment"></span>
-                                        <?php echo __("Comments"); ?>
-                                    </a>
-                                </div>
-                            </li>
                             <?php
+                            if (Category::canCreateCategory()) {
+                                ?>
+
+                                <li>
+                                    <div>
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>categories" class="btn btn-info btn-block" style="border-radius: 0;">
+                                            <span class="glyphicon glyphicon-list"></span>
+                                            <?php echo __("Categories"); ?>
+                                        </a>
+                                    </div>
+                                </li>
+                                <?php
+                                ?>
+                                <li>
+                                    <div>
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>comments" class="btn btn-default btn-block" style="border-radius: 0 0 4px 4px;">
+                                            <span class="fa fa-comment"></span>
+                                            <?php echo __("Comments"); ?>
+                                        </a>
+                                    </div>
+                                </li>
+                                <?php
+                            }
                         }
-                        ?>
-                        <?php
                         if (User::isAdmin()) {
                             ?>
 
@@ -519,7 +532,7 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                                     <li>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>locale">
                                             <span class="glyphicon glyphicon-flag"></span>
-                                            <?php echo __("Create more translations"); ?>
+                                    <?php echo __("Create more translations"); ?>
                                         </a>
                                     </li>
                                     -->
@@ -647,36 +660,36 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                     </li>
                     <?php
                     if (empty($advancedCustom->disableHelpLeftMenu)) {
-                    ?>
-                    <li>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>help">
-                            <span class="glyphicon glyphicon-question-sign"></span>
-    <?php echo __("Help"); ?>
-                        </a>
-                    </li>
-                    <?php 
+                        ?>
+                        <li>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>help">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                                <?php echo __("Help"); ?>
+                            </a>
+                        </li>
+                        <?php
                     }
-                    
+
                     if (empty($advancedCustom->disableAboutLeftMenu)) {
-                    ?>
-                    <li>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>about">
-                            <span class="glyphicon glyphicon-info-sign"></span>
-    <?php echo __("About"); ?>
-                        </a>
-                    </li>
-                    <?php 
+                        ?>
+                        <li>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>about">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                                <?php echo __("About"); ?>
+                            </a>
+                        </li>
+                        <?php
                     }
-                    
+
                     if (empty($advancedCustom->disableContactLeftMenu)) {
-                    ?>
-                    <li>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>contact">
-                            <span class="glyphicon glyphicon-comment"></span>
-    <?php echo __("Contact"); ?>
-                        </a>
-                    </li>
-                    <?php 
+                        ?>
+                        <li>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>contact">
+                                <span class="glyphicon glyphicon-comment"></span>
+                                <?php echo __("Contact"); ?>
+                            </a>
+                        </li>
+                        <?php
                     }
                     ?>
                 </ul>

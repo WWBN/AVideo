@@ -70,8 +70,16 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder',
+  `users_id` INT(11) NOT NULL DEFAULT 1,
+  `private` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC))
+  INDEX `fk_categories_users1_idx` (`users_id` ASC),
+  UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
+  ADD CONSTRAINT `fk_categories_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

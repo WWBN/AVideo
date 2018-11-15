@@ -15,6 +15,8 @@
                 <th data-column-id="nextVideoOrder" data-formatter="nextVideoOrder"><?php echo __("Next video order"); ?></th>
                 <th data-column-id="parentId" data-formatter="parentId" ><?php echo __("Parent ID"); ?></th>
                 <th data-column-id="type" data-formatter="type"><?php echo __("Type"); ?></th>
+                <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
+                <th data-column-id="owner"><?php echo __("Owner"); ?></th>
                 <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
             </tr>
         </thead>
@@ -36,7 +38,12 @@
                         <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
                         <label class="sr-only" for="inputDescription"><?php echo __("Description"); ?></label>
                         <textarea class="form-control" rows="5" id="inputDescription" placeholder="<?php echo __("Description"); ?>"></textarea>
-                        <label><?php echo __("Autoplay next-video-order"); ?></label>
+                        <label><?php echo __("Privacy"); ?></label>                        
+                        <select class="form-control" id="inputPrivate">
+                            <option value="0"><?php echo __("Public"); ?></option>
+                            <option value="1"><?php echo __("Private"); ?></option>
+                        </select>
+                        <label><?php echo __("Autoplay next-video-order"); ?></label>                        
                         <select class="form-control" id="inputNextVideoOrder">
                             <option value="0"><?php echo __("Random"); ?></option>
                             <option value="1"><?php echo __("By name"); ?></option>
@@ -153,11 +160,24 @@
                         return "<?php echo __("Invalid"); ?>";
                     }
                 },
+                "private": function (column, row) {
+                    if (row.private == '1') {
+                        return "<?php echo __("Private"); ?>";
+                    } else {
+                        return "<?php echo __("Public"); ?>";
+                    }
+                },
                 "commands": function (column, row)
                 {
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __("Edit"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                     var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Delete"); ?>"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
                     var rssBtn = '<a class="btn btn-info btn-xs" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>feed/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
+                    
+                    if(!row.canEdit){
+                        editBtn = "";
+                        deleteBtn = "";
+                    }
+    
                     return editBtn + deleteBtn + rssBtn;
                 }
             }
@@ -172,6 +192,7 @@
                 $('#inputCleanName').val(row.clean_name);
                 $('#inputDescription').val(row.description);
                 $('#inputNextVideoOrder').val(row.nextVideoOrder);
+                $('#inputPrivate').val(row.private);
                 $('#inputParentId').val(row.parentId);
                 $('#inputType').val(row.type);
                 $(".iconCat i").attr("class", row.iconClass);
@@ -240,7 +261,7 @@
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL'] . "objects/categoryAddNew.json.php"; ?>',
-                data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
+                data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "private": $('#inputPrivate').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
                 type: 'post',
                 success: function (response) {
                     if (response.status) {

@@ -1079,6 +1079,10 @@ if (!class_exists('Video')) {
         }
 
         function setCategories_id($categories_id) {
+            if(!Category::userCanAddInCategory($categories_id)){
+                return false;
+            }
+            
             // to update old cat as well when auto..
             if (!empty($this->categories_id)) {
                 $this->old_categories_id = $this->categories_id;

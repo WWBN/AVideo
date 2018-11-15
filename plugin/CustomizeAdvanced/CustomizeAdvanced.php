@@ -100,6 +100,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->userCanNotChangeCategory = false;
         $obj->hideRemoveChannelFromModeYoutube = false;
         $obj->showChannelBannerOnModeYoutube = false;
+        $obj->usersCanCreateNewCategories = false;
         
         return $obj;
     }
