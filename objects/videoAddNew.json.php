@@ -1,4 +1,5 @@
 <?php
+
 //error_reporting(0);
 header('Content-Type: application/json');
 if (empty($global['systemRootPath'])) {
@@ -7,29 +8,29 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
-    die('{"error":"'.__("Permission denied").'"}');
+    die('{"error":"' . __("Permission denied") . '"}');
 }
 
 $msg = "";
 $info = $infoObj = "";
 require_once 'video.php';
 
-if(!empty($_POST['id'])){
-    if(!Video::canEdit($_POST['id'])){
-        die('{"error":"'.__("Permission denied").'"}');
+if (!empty($_POST['id'])) {
+    if (!Video::canEdit($_POST['id'])) {
+        die('{"error":"' . __("Permission denied") . '"}');
     }
 }
 
 $obj = new Video($_POST['title'], "", @$_POST['id']);
 $obj->setClean_Title($_POST['clean_title']);
-    $audioLinks = array('mp3', 'ogg');
-        $videoLinks = array('mp4', 'webm');
-if(!empty($_POST['videoLink'])){    
+$audioLinks = array('mp3', 'ogg');
+$videoLinks = array('mp4', 'webm');
+if (!empty($_POST['videoLink'])) {
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
     $path_parts = pathinfo($_POST['videoLink']);
     $extension = strtolower($path_parts["extension"]);
-    if(empty($_POST['id']) && !(in_array($extension, $audioLinks) || in_array($extension, $videoLinks)) ){
-        $info = url_get_contents($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));
+    if (empty($_POST['id']) && !(in_array($extension, $audioLinks) || in_array($extension, $videoLinks))) {
+        $info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']));
         $infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
         $obj->setFilename($filename);
@@ -38,7 +39,7 @@ if(!empty($_POST['videoLink'])){
         $obj->setDuration($infoObj->duration);
         $obj->setDescription($infoObj->description);
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
-    }else if(empty($_POST['id'])){
+    } else if (empty($_POST['id'])) {
         $filename = uniqid("_YPTuniqid_", true);
         $obj->setFilename($filename);
         $obj->setTitle($path_parts["filename"]);
@@ -47,35 +48,35 @@ if(!empty($_POST['videoLink'])){
         $obj->setDescription(@$_POST['description']);
     }
     $obj->setVideoLink($_POST['videoLink']);
-    
-    if(in_array($extension, $audioLinks) || in_array($extension, $videoLinks)){
-        if(in_array($extension, $audioLinks)){
+
+    if (in_array($extension, $audioLinks) || in_array($extension, $videoLinks)) {
+        if (in_array($extension, $audioLinks)) {
             $obj->setType('linkAudio');
-        }else{
+        } else {
             $obj->setType('linkVideo');
         }
-    }else{
+    } else {
         $obj->setType('embed');
     }
-    
-    if(!empty($_POST['videoLinkType'])){ 
+
+    if (!empty($_POST['videoLinkType'])) {
         $obj->setType($_POST['videoLinkType']);
     }
     $obj->setStatus('a');
 }
 $obj->setNext_videos_id($_POST['next_videos_id']);
-if(!empty($_POST['description'])){
+if (!empty($_POST['description'])) {
     $obj->setDescription($_POST['description']);
 }
 if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
     $obj->setCategories_id($_POST['categories_id']);
 }
-$obj->setVideoGroups(empty($_POST['videoGroups'])?array():$_POST['videoGroups']);
+$obj->setVideoGroups(empty($_POST['videoGroups']) ? array() : $_POST['videoGroups']);
 
-if(User::isAdmin()){
+if (User::isAdmin()) {
     $obj->setUsers_id($_POST['users_id']);
 }
 
 $resp = $obj->save(true);
 
-echo '{"status":"'.!empty($resp).'", "msg": "'.$msg.'", "info":'. json_encode($info).', "infoObj":'. json_encode($infoObj).'}';
+echo '{"status":"' . !empty($resp) . '", "msg": "' . $msg . '", "info":' . json_encode($info) . ', "infoObj":' . json_encode($infoObj) . '}';
