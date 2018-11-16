@@ -41,6 +41,7 @@ $menu = new MenuAdmin(__("Dashboard"), "fa fa-tachometer-alt", "dashboard");
 $itens[] = $menu;
 
 $menu = new MenuAdmin(__("Settings"), "fa fa-wrench");
+$menu->addItem(new MenuAdmin(__("Remove Branding"), "far fa-edit", "customize_settings"));
 $menu->addItem(new MenuAdmin(__("General Settings"), "fas fa-cog", "general_settings"));
 $menu->addItem(new MenuAdmin(__("Site Settings"), "fas fa-sitemap", "site_settings"));
 $menu->addItem(new MenuAdmin(__("Social Login Settings"), "fas fa-sign-in-alt", "socialLogin_settings"));
@@ -98,6 +99,9 @@ switch ($_GET['page']) {
         break;
     case "design_player":
         $includeBody = $global['systemRootPath'] . 'admin/design_player.php';
+        break;
+    case "customize_settings":
+        $includeBody = $global['systemRootPath'] . 'admin/customize_settings.php';
         break;
     case "storage_settings":
         $includeBody = $global['systemRootPath'] . 'admin/storage_settings.php';
