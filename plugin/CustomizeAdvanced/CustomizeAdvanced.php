@@ -30,7 +30,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->useEncoderNetworkRecomendation = false;
         $obj->doNotShowEncoderNetwork = true;
         $obj->doNotShowUploadMP4Button = true;
-        $obj->doNotShowImportMP4Button = false;
+        $obj->doNotShowImportMP4Button = true;
         $obj->doNotShowEncoderButton = false;
         $obj->doNotShowEmbedButton = false;
         $obj->doNotShowEncoderResolutionLow = false;
