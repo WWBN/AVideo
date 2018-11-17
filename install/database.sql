@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   PRIMARY KEY (`id`),
   INDEX `fk_categories_users1_idx` (`users_id` ASC),
   UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
-  ADD CONSTRAINT `fk_categories_users1`
+  CONSTRAINT `fk_categories_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
