@@ -189,7 +189,7 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                         echo YouPHPTubePlugin::getHTMLMenuRight();
                         ?>
                         <?php
-                        if (User::canUpload()) {
+                        if (User::canUpload() && empty($advancedCustom->doNotShowUploadButton)) {
                             ?>
                             <li>
                                 <div class="btn-group">
