@@ -28,10 +28,10 @@ foreach ($menu as $key => $value) {
             $menuItems = MenuItem::getAllFromMenu($value['id'], true);
             foreach ($menuItems as $key2 => $value2) {
                 $url = $value2['url'];
-                if(empty($url)){
-                    if(!empty($value2['menuSeoUrlItem'])){
+                if (empty($url) || strpos($url, 'iframe:') !== false) {
+                    if (!empty($value2['menuSeoUrlItem'])) {
                         $url = $global['webSiteRootURL'] . "menu/{$value2['menuSeoUrlItem']}";
-                    }else{
+                    } else {
                         $url = $global['webSiteRootURL'] . "plugin/TopMenu/?id={$value2['id']}";
                     }
                 }

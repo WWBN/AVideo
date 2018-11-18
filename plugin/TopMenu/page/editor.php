@@ -261,6 +261,7 @@ $groups = UserGroups::getAllUsersGroups();
                                             <label for="pageType">Type:</label>
                                             <select class="form-control" id="pageType">
                                                 <option value="url"><?php echo __('URL'); ?></option>
+                                                <option value="urlIframe"><?php echo __('URL Iframe'); ?></option>
                                                 <option value="page"><?php echo __('Page'); ?></option>
                                             </select>
                                         </div>
@@ -283,6 +284,12 @@ $groups = UserGroups::getAllUsersGroups();
                                             <div class="form-group">
                                                 <label for="url">URL:</label>
                                                 <input type="text" class="form-control" id="url">
+                                            </div>
+                                        </div>
+                                        <div id="divURLIframe" class="divType" style="display: none;">
+                                            <div class="form-group">
+                                                <label for="urlIframe">URL:</label>
+                                                <input type="text" class="form-control" id="urlIframe">
                                             </div>
                                         </div>
                                         <div id="divText" class="divType"  style="display: none;">
@@ -481,6 +488,11 @@ $groups = UserGroups::getAllUsersGroups();
                     } else {
                         $('#pageType').val('page');
                     }
+                    expr = /iframe:/;
+                    if(expr.test(item.url)){
+                        $('#url').val(item.url.replace("iframe:", ""));
+                        $('#pageType').val('urlIframe');
+                    }
                     $('#pageType').trigger('change');
                 }
             }
@@ -497,7 +509,7 @@ $groups = UserGroups::getAllUsersGroups();
 
                 $('#pageType').change(function () {
                     console.log($(this).val());
-                    if ($(this).val() == 'url') {
+                    if ($(this).val() == 'url' || $(this).val() == 'urlIframe') {
                         $('#divText').slideUp();
                         $('#divURL').slideDown();
                     } else {
@@ -584,7 +596,7 @@ $groups = UserGroups::getAllUsersGroups();
                             "menuId": $('#menuId').val(),
                             "title": $('#title').val(),
                             "image": $('#image').val(),
-                            "url": $('#pageType').val() == 'url' ? $('#url').val() : '',
+                            "url": $('#pageType').val() == 'url' ? $('#url').val() : ($('#pageType').val() == 'urlIframe' ? ("iframe:"+$('#url').val()) : ''),
                             "menuSeoUrlItem": $("#menuSeoUrlItem").val(),
                             "class": $('#class').val(),
                             "style": $('#style').val(),

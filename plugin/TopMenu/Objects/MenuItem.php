@@ -119,6 +119,12 @@ class MenuItem extends ObjectYPT {
     function getText() {
         return $this->text;
     }
+    
+    function getUrl() {
+        return $this->url;
+    }
+
+
 
 
     
