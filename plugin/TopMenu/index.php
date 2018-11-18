@@ -25,6 +25,10 @@ $url = $menuItem->getUrl();
             include $global['systemRootPath'] . 'view/include/navbar.php';
             ?>
             <iframe src="<?php echo $url; ?>" frameborder="0" style="height:100%;width:100%" height="100%" width="100%"></iframe>
+            
+            <?php
+            include $global['systemRootPath'] . 'view/include/footer.php';
+            ?>
         </body>          
         <?php
     } else {
