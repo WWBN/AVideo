@@ -560,7 +560,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['catName'])) {
-                $sql .= " AND c.clean_name = '{$_GET['catName']}'";
+                $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
             }
             
             if (!empty($_GET['channelName'])) {
