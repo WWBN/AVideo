@@ -1,7 +1,6 @@
 <?php
 
 require_once $global['systemRootPath'].'objects/functions.php';
-var_dump($_POST["link"]);
 // filter some security here
 $securityFilter = array('error', 'search', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link');
 $securityFilterInt = array('videos_id', 'video_id');
