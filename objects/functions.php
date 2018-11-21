@@ -969,6 +969,7 @@ function local_get_contents($path) {
 
 function url_get_contents($Url, $ctx = "") {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+    $session = $_SESSION;
     session_write_close();
     $global['mysqli']->close();
     if (empty($ctx)) {
@@ -988,6 +989,7 @@ function url_get_contents($Url, $ctx = "") {
             $tmp = @file_get_contents($Url, false, $context);
             if ($tmp != false) {
                 session_start();
+                $_SESSION = $session;
                 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
                 return $tmp;
             }
@@ -1003,11 +1005,13 @@ function url_get_contents($Url, $ctx = "") {
         $output = curl_exec($ch);
         curl_close($ch);
         session_start();
+        $_SESSION = $session;
         $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
         return $output;
     }
     $result = @file_get_contents($Url, false, $context);
     session_start();
+    $_SESSION = $session;
     $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
     return $result;
 }
