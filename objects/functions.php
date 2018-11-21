@@ -565,6 +565,26 @@ function getVideosURL($fileName) {
                 'type' => 'video'
             );
         }
+        $source = Video::getSourceFile($filename, ".mp3");
+        $file = $source['path'];
+        if (file_exists($file)) {
+            $files["mp3{$value}"] = array(
+                'filename' => "{$fileName}{$value}.ogg",
+                'path' => $file,
+                'url' => $source['url'],
+                'type' => 'audio'
+            );
+        }
+        $source = Video::getSourceFile($filename, ".ogg");
+        $file = $source['path'];
+        if (file_exists($file)) {
+            $files["ogg{$value}"] = array(
+                'filename' => "{$fileName}{$value}.ogg",
+                'path' => $file,
+                'url' => $source['url'],
+                'type' => 'audio'
+            );
+        }
         if (empty($value)) {
             $source = Video::getSourceFile($filename, ".jpg");
             $file = $source['path'];
