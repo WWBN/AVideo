@@ -227,7 +227,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                 $files = getVideosURL($video['filename']);
                                 //var_dump($files);exit;
                                 foreach ($files as $key => $theLink) {
-                                    if ($theLink['type'] !== 'video') {
+                                    if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') {
                                         continue;
                                     }
                                     $path_parts = pathinfo($theLink['filename']);
