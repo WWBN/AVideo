@@ -1,5 +1,6 @@
 <?php
 global $global, $config;
+$isChannel = 1; // still workaround, for gallery-functions, please let it there.
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }

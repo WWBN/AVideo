@@ -443,6 +443,16 @@ class YouPHPTubePlugin {
         }
     }
 
+    public static function getChannel($user_id, $user) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->getChannel($user_id, $user);
+            }
+        }
+    }
+
     public static function getLiveApplicationArray() {
         $plugins = Plugin::getAllEnabled();
         $array = array();

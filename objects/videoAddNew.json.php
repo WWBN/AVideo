@@ -28,7 +28,7 @@ $videoLinks = array('mp4', 'webm');
 if (!empty($_POST['videoLink'])) {
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
     $path_parts = pathinfo($_POST['videoLink']);
-    $extension = strtolower($path_parts["extension"]);
+    $extension = strtolower(@$path_parts["extension"]);
     if (empty($_POST['id']) && !(in_array($extension, $audioLinks) || in_array($extension, $videoLinks))) {
         $info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']));
         $infoObj = json_decode($info);

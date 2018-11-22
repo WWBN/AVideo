@@ -242,6 +242,15 @@ abstract class PluginAbstract {
     }
     
     /**
+     * Loads a channel before display the channel page, usefull to create customized channel pages
+     * @param type $user is an database array from channels owner
+     * @return boolean
+     */
+    public function getChannel($user_id, $user){
+        return false;
+    }
+    
+    /**
      * 
      * @return type return a list of IDs of the user groups
      */

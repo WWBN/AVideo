@@ -1,7 +1,4 @@
 <?php
-if(empty($crc)){
-    $crc = uniqid();
-}
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $name = User::getNameIdentificationById($video['users_id']);
     if(empty($get)){
@@ -11,7 +8,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     <div class="clear clearfix">
         <div class="row thumbsImage">
             <div class="col-sm-6">
-                <a class="galleryLink" videos_id="<?php echo $video['id']; ?>" href="<?php echo Video::getLink($video['id'], $video['clean_title'], false, $get); ?>" title="<?php echo $video['title']; ?>" style="">
+                <a class="LifeStreamLayoutLink" videos_id="<?php echo $video['id']; ?>" href="<?php echo Video::getLink($video['id'], $video['clean_title'], false, $get); ?>" title="<?php echo $video['title']; ?>" style="">
                     <?php
                     $images = Video::getImageFromFilename($video['filename'], $video['type']);
                     $imgGif = $images->thumbsGif;
@@ -27,7 +24,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 </a>
             </div>
             <div class="col-sm-6">
-                <a class="h6 galleryLink" videos_id="<?php echo $video['id']; ?>" href="<?php echo Video::getLink($video['id'], $video['clean_title'], false, $get); ?>" title="<?php echo $video['title']; ?>">
+                <a class="h6 LifeStreamLayoutLink" videos_id="<?php echo $video['id']; ?>" href="<?php echo Video::getLink($video['id'], $video['clean_title'], false, $get); ?>" title="<?php echo $video['title']; ?>">
                     <h1><?php echo $video['title']; ?></h1>
                 </a>
                 <div class="mainAreaDescriptionContainer">
@@ -230,7 +227,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                 $files = getVideosURL($video['filename']);
                                 //var_dump($files);exit;
                                 foreach ($files as $key => $theLink) {
-                                    if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') {
+                                    if ($theLink['type'] !== 'video') {
                                         continue;
                                     }
                                     $path_parts = pathinfo($theLink['filename']);
