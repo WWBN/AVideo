@@ -3,7 +3,6 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
@@ -27,6 +26,7 @@ if (!empty($_GET['type'])) {
 } else {
     unset($_SESSION['type']);
 }
+session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 $catLink = "";
@@ -52,9 +52,12 @@ $_GET['catName'] = $catName;
 $_GET['isMediaPlaySite'] = $video['id'];
 $obj = new Video("", "", $video['id']);
 
+/*
 if (empty($_SESSION['type'])) {
     $_SESSION['type'] = $video['type'];
 }
+ * 
+ */
 // $resp = $obj->addView();
 
 $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
