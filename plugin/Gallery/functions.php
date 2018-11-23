@@ -14,7 +14,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     if (!showThis($getName)) {
         return "";
     }
-    $getName = str_replace(array("'",'"',"&quot;","&#039;"), array('','','',''), xss_esc($getName));
+    $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
     if (!empty($_GET['showOnly'])) {
         $rowCount = 60;
     }
@@ -111,13 +111,13 @@ function createGallerySection($videos, $crc = "", $get = array()) {
     global $global, $config, $obj, $advancedCustom;
     $countCols = 0;
     $obj = YouPHPTubePlugin::getObjectData("Gallery");
-
+    $zindex = 100;
     foreach ($videos as $value) {
 
         // that meas auto generate the channelName
         if (empty($get) && !empty($obj->filterUserChannel)) {
             $getCN = array('channelName' => $value['channelName'], 'catName' => @$_GET['catName']);
-        }else{
+        } else {
             $getCN = $get;
         }
 
@@ -130,7 +130,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
 
         $countCols ++;
         ?>
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: 2; min-height: 175px;">
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--;?>; min-height: 175px;">
             <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -149,7 +149,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                 <h2><?php echo $value['title']; ?></h2>
             </a>
 
-            <div class="text-muted galeryDetails">
+            <div class="text-muted galeryDetails" style="overflow: hidden;">
                 <div>
                     <?php if (empty($_GET['catName'])) { ?>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
@@ -273,39 +273,37 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                         </script>
                     <?php } ?>
                 </div>
-                <?php
-                if ($config->getAllow_download()) {
-                    ?>
-
-                <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
-                        <button type="button" class="btn btn-default btn-sm btn-xs"  data-toggle="dropdown">
-                            <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                            <?php
-                            $files = getVideosURL($value['filename']);
-                            //var_dump($files);exit;
-                            foreach ($files as $key => $theLink) {
-                                if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') {
-                                    continue;
-                                }
-                                $path_parts = pathinfo($theLink['filename']);
-                                ?>
-                                <li>
-                                    <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
-                                        <?php echo __("Download"); ?> <?php echo $key; ?>
-                                    </a>
-                                </li>
-                            <?php }
-                            ?>
-                        </ul>
-                    </div>
-                    <?php
-                }
+            </div>
+            <?php
+            if ($config->getAllow_download()) {
                 ?>
 
-
-            </div>
+                <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
+                    <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
+                        <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                        <?php
+                        $files = getVideosURL($value['filename']);
+                        //var_dump($files);exit;
+                        foreach ($files as $key => $theLink) {
+                            if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') {
+                                continue;
+                            }
+                            $path_parts = pathinfo($theLink['filename']);
+                            ?>
+                            <li>
+                                <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                    <?php echo __("Download"); ?> <?php echo $key; ?>
+                                </a>
+                            </li>
+                        <?php }
+                        ?>
+                    </ul>
+                </div>
+                <?php
+            }
+            ?>
         </div>
     <?php } ?>
 
