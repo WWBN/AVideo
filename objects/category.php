@@ -285,8 +285,10 @@ class Category {
             } else {
                 $users_id = User::getId();
             }
-
-            $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+            
+            if ($config->currentVersionGreaterThen('6.1')) {
+                $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+            }
         }
         if (!empty($_GET['parentsOnly'])) {
             $sql .= "AND parentId = 0 ";
@@ -381,7 +383,9 @@ class Category {
                 $users_id = User::getId();
             }
 
-            $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+            if ($config->currentVersionGreaterThen('6.1')) {
+                $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+            }
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
         $res = sqlDAL::readSql($sql, "ii", array($parentId, $parentId));
@@ -458,7 +462,9 @@ class Category {
                 $users_id = User::getId();
             }
 
-            $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+            if ($config->currentVersionGreaterThen('6.1')) {
+                $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+            }
         }
         if (!empty($_GET['parentsOnly'])) {
             $sql .= "AND parentId = 0 OR parentId = -1 ";
