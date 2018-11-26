@@ -67,7 +67,7 @@ class Comment {
             header('Content-Type: application/json');
             die('{"error":"'.__("Permission denied").'"}');
         }
-        $this->comment = htmlentities($this->comment);
+        //$this->comment = htmlentities($this->comment);
         $this->comment = $global['mysqli']->real_escape_string($this->comment);
 
         if(empty($this->comment)){
