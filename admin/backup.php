@@ -32,11 +32,12 @@
             <div class="panel-heading"><i class="fa fa-clone"></i> Clone Site <div class="pull-right"><?php echo getPluginSwitch('CloneSite'); ?></div></div>
             <div class="panel-body" style="overflow: hidden;">
                 <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i> This Plugin helps you to clone your video site, it is really helpful for backup routines, load balance, etc.
+                    <i class="fas fa-info-circle"></i> This Plugin helps you to clone your video site, it is really helpful for backup routines, load balance, etc.<br>
+                    You May find some help how to use Clone Plugin <a target="_blank" href="https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Clone-Site-Plugin">here</a>
                 </div> 
                 <?php
                 $filter = array(
-                    'cloneSiteURL' => 'You May find some help how to use Clone Plugin <a target="_blank" href="https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Clone-Site-Plugin">here</a>');
+                    'cloneSiteURL' => 'Place here the URL of the site you want to clone');
                 echo createTable("CloneSite", $filter);
                 include $global['systemRootPath'] . 'plugin/CloneSite/pluginMenu.html';
                 ?>
