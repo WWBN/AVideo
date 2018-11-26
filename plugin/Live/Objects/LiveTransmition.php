@@ -149,6 +149,9 @@ class LiveTransmition extends ObjectYPT {
 
     static function keyExists($key) {
         global $global;
+        if(!is_string($key)){
+            return false;
+        }
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
