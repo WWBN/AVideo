@@ -56,6 +56,7 @@ $menu->addItem(new MenuAdmin(__("Live Stuffs"), "fas fa-broadcast-tower", "live"
 $menu->addItem(new MenuAdmin(__("Users"), "glyphicon glyphicon-user", "users"));
 $menu->addItem(new MenuAdmin(__("Users Groups"), "fa fa-users", "usersGroups"));
 $menu->addItem(new MenuAdmin(__("Categories"), "glyphicon glyphicon-list", "categories"));
+$menu->addItem(new MenuAdmin(__("Backup"), "fas fa-undo-alt", "backup"));
 $itens[] = $menu;
 
 $menu = new MenuAdmin(__("Design"), "fas fa-pen-fancy");
@@ -76,12 +77,9 @@ $itens[] = $menu;
   $menu = new MenuAdmin(__("Update Version"), "glyphicon glyphicon-refresh", "{$global['webSiteRootURL']}update/");
   $itens[] = $menu;
 
-
-  $menu = new MenuAdmin(__("Backup"), "fas fa-undo-alt");
-  $menu->addItem(new MenuAdmin(__("Dump"), "fas fa-database", "backup_dump"));
-  $menu->addItem(new MenuAdmin(__("Clone"), "fas fa-clone", "backup_clone"));
-  $itens[] = $menu;
  */
+
+
 $menu = new MenuAdmin(__("Plugins"), "fas fa-puzzle-piece", "plugins");
 $itens[] = $menu;
 
@@ -91,6 +89,9 @@ $_GET['page'] = xss_esc(@$_GET['page']);
 $includeHead = "";
 $includeBody = "";
 switch ($_GET['page']) {
+    case "backup":
+        $includeBody = $global['systemRootPath'] . 'admin/backup.php';
+        break;
     case "design_first_page":
         $includeBody = $global['systemRootPath'] . 'admin/design_first_page.php';
         break;

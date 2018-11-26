@@ -1,10 +1,10 @@
-<a href="plugin/CloneSite/" class="btn btn-primary btn-xs"><i class="fas fa-clone"></i> Clones Manager</a><br>
+<a href="#" onclick="document.location=webSiteRootURL+'plugin/CloneSite/'" class="btn btn-primary btn-xs"><i class="fas fa-clone"></i> Clones Manager</a><br>
 <button class="btn btn-success btn-xs" id="cloneNow" onclick="
         //modal.showPleaseWait();
         $('#cloneProgressModal').modal();
         function getClientLog(){
             $.ajax({
-                url: 'videos/cache/clones/client.log'
+                url: webSiteRootURL+'videos/cache/clones/client.log'
             }).done(function (resp) {
                 $('#cloneLog').text(resp);
                 var $target = $('#cloneLog');
@@ -16,7 +16,7 @@
         }, 1000);
 
         $.ajax({
-            url: 'plugin/CloneSite/cloneClient.json.php'
+            url: webSiteRootURL+'plugin/CloneSite/cloneClient.json.php'
 
         }).done(function (resposta) {
             if (resposta.error) {
