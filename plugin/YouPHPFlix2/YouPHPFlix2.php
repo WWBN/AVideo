@@ -81,6 +81,8 @@ class YouPHPFlix2 extends PluginAbstract {
         $js = '';
         if(!empty($obj->playVideoOnFullscreen)){
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+        }else{
+            $js = '<script>function flixFullScreen(link){document.location=link;}</script>';
         }
         return $js;
     }
