@@ -67,6 +67,10 @@ class YouPHPFlix2 extends PluginAbstract {
         $css .= "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
         if(!empty($obj->playVideoOnFullscreen) && !empty($_GET['videoName'])){
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+        
+            $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important;}</style>';
+            
+            
         }
         if(!empty($obj->playVideoOnFullscreen)){
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
@@ -80,10 +84,11 @@ class YouPHPFlix2 extends PluginAbstract {
         
         $js = '';
         if(!empty($obj->playVideoOnFullscreen)){
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script>var playVideoOnFullscreen = true</script>';
         }else{
-            $js = '<script>function flixFullScreen(link){document.location=link;}</script>';
+            $js = '<script>var playVideoOnFullscreen = false</script>';
         }
+        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
         return $js;
     }
     
