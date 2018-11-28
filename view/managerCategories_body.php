@@ -10,13 +10,12 @@
                 <th data-column-id="id" data-type="numeric" data-identifier="true"><?php echo __("ID"); ?></th>
                 <th data-column-id="iconHtml" data-sortable="false"><?php echo __("Icon"); ?></th>
                 <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                <th data-column-id="clean_name"><?php echo __("Clean Name"); ?></th>
-                <th data-column-id="description"><?php echo __("Description"); ?></th>
                 <th data-column-id="nextVideoOrder" data-formatter="nextVideoOrder"><?php echo __("Next video order"); ?></th>
                 <th data-column-id="parentId" data-formatter="parentId" ><?php echo __("Parent ID"); ?></th>
                 <th data-column-id="type" data-formatter="type"><?php echo __("Type"); ?></th>
                 <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
                 <th data-column-id="owner"><?php echo __("Owner"); ?></th>
+                <th data-column-id="total" data-sortable="false"><?php echo __("Total Videos"); ?></th>
                 <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
             </tr>
         </thead>
