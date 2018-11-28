@@ -130,7 +130,7 @@ foreach ($videos as $key => $value) {
                 <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
                 <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                 </div>
-                <div class="progress" style="height: 1px;">
+                <div class="progress" style="height: 3px;">
                     <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
