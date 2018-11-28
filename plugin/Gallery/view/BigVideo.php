@@ -24,6 +24,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         <?php } ?>
                     </div>
                     <span class="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
+                    <div class="progress" style="height: 1px;">
+                        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $video['progress']['percent'] ?>%;" aria-valuenow="<?php echo $video['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
                 </a>
             </div>
             <div class="col-sm-6">

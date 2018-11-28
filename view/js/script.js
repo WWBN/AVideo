@@ -341,12 +341,20 @@ function copyToClipboard(text) {
     $temp.remove();
 }
 
-function addView(videos_id) {
+var last_videos_id = 0;
+var last_currentTime = -1;
+function addView(videos_id,currentTime) {
+    if(last_videos_id == videos_id && last_currentTime == currentTime){
+        return false;
+    }
+    last_videos_id = videos_id;
+    last_currentTime = currentTime;
     $.ajax({
         url: webSiteRootURL + 'objects/videoAddViewCount.json.php',
         method: 'POST',
         data: {
-            'id': videos_id
+            'id': videos_id,
+            'currentTime': currentTime
         },
         success: function (response) {
             $('.view-count' + videos_id).text(response.count);

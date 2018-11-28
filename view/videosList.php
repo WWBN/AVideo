@@ -119,6 +119,7 @@ foreach ($videos as $key => $value) {
                     $img_portrait = "";
                 }
                 ?>
+                <div style="position: relative;">
                 <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive text-center <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img != $images->thumbsJpgSmall) ? "blur" : ""; ?>" height="130" />
                 <?php
                 if (!empty($imgGif)) {
@@ -128,6 +129,10 @@ foreach ($videos as $key => $value) {
                 <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                 <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
                 <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
+                </div>
+                <div class="progress" style="height: 1px;">
+                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </div>
             <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
                 <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
@@ -193,7 +198,7 @@ if (!empty($get)) {
     echo "query = \"?" . http_build_query($get) . "\";";
 }
 ?>
-        if(disableChannel){
+        if (disableChannel) {
             query = "";
         }
 

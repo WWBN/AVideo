@@ -25,6 +25,8 @@ class LiveChat extends PluginAbstract{
     
     public static function getChatPanelFile(){
         global $global;
+        $cmd = "nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &";
+        exec($cmd . " < /dev/null  2>&1");
         return $global['systemRootPath'].'plugin/LiveChat/view/panel.php';
     }
     

@@ -116,7 +116,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
 
                 <script>
             $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>);
+                addView(<?php echo $video['id']; ?>,this.currentTime());
             });
                 </script>
                 <?php
@@ -141,7 +141,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
 
                 <script>
                     $(document).ready(function () {
-                        addView(<?php echo $video['id']; ?>);
+                        addView(<?php echo $video['id']; ?>,this.currentTime());
                     });
                 </script>
                 <?php
@@ -179,7 +179,14 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                         });
                         player = videojs('mainVideo');
                         player.on('play', function () {
-                            addView(<?php echo $video['id']; ?>);
+                            addView(<?php echo $video['id']; ?>,this.currentTime());
+                        });
+                        
+                        player.on('timeupdate', function () {
+                            var time = Math.round(this.currentTime());
+                            if (time >= 5 && time % 5 === 0) {
+                                addView(<?php echo $video['id']; ?>, time);
+                            }
                         });
                     });
                 </script>

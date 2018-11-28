@@ -21,8 +21,16 @@ if(empty($_SESSION['addViewCount'][$_POST['id']]) || $_SESSION['addViewCount'][$
     $resp = $obj->addView();
     $seconds = parseDurationToSeconds($obj->getDuration());
     $_SESSION['addViewCount'][$_POST['id']] = strtotime("+{$seconds} seconds");
+}else if(!empty ($_POST['currentTime'])){
+    $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), intval($_POST['currentTime']));
 }else{
     $resp = 0;
 }
 $count = $obj->getViews_count();
-echo '{"status":"'.!empty($resp).'","count":"'.$count.'"}';
+
+$obj2 = new stdClass();
+$obj2->status = !empty($resp);
+$obj2->count = $count;
+$obj2->resp = $resp;
+
+echo json_encode($obj2);

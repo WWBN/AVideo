@@ -1,7 +1,7 @@
 <?php
 $uid = uniqid();
 $landscape = "rowPortrait";
-if(!empty($obj->landscapePosters)){
+if (!empty($obj->landscapePosters)) {
     $landscape = "landscapeTile";
 }
 ?>
@@ -27,6 +27,9 @@ if(!empty($obj->landscapePosters)){
                         <?php if (!empty($imgGif)) { ?>
                             <img style="position: absolute; top: 0; display: none;" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png"  alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
                         <?php } ?>
+                        <div class="progress" style="height: 1px;">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="arrow-down" style="display: none;"></div>
@@ -44,7 +47,7 @@ foreach ($videos as $value) {
     $img = $images->thumbsJpg;
     $poster = $images->poster;
     $canWatchPlayButton = "";
-    if(User::canWatchVideo($value['id'])){
+    if (User::canWatchVideo($value['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>
@@ -56,17 +59,17 @@ foreach ($videos as $value) {
              background: -moz-linear-gradient(to right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
             <h2 class="infoTitle"><?php echo $value['title']; ?></h2>
             <h4 class="infoDetails">
-                <?php 
-                if(!empty($value['rate'])){
-                ?>
-                <span class="label label-success"><i class="fab fa-imdb"></i> IMDb <?php echo $value['rate']; ?></span>
                 <?php
+                if (!empty($value['rate'])) {
+                    ?>
+                    <span class="label label-success"><i class="fab fa-imdb"></i> IMDb <?php echo $value['rate']; ?></span>
+                    <?php
                 }
                 ?>
                 <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
-                
+
                 <?php
                 foreach ($value['tags'] as $value2) {
                     if ($value2->label === __("Group")) {

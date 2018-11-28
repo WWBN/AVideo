@@ -130,7 +130,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
 
         $countCols ++;
         ?>
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--;?>; min-height: 175px;">
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -144,6 +144,9 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     <?php } ?>
                 </div>
                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                <div class="progress" style="height: 1px;">
+                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </a>
             <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <h2><?php echo $value['title']; ?></h2>

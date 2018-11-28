@@ -68,21 +68,22 @@ if (!class_exists('Video')) {
             }
         }
 
-        function addView() {
+        function addView($currentTime = 0) {
             global $global;
             if (empty($this->id)) {
                 return false;
             }
             $sql = "UPDATE videos SET views_count = views_count+1, modified = now() WHERE id = ?";
 
-
             $insert_row = sqlDAL::writeSql($sql, "i", array($this->id));
 
             if ($insert_row) {
-                VideoStatistic::save($this->id);
+                $obj = new stdClass();
+                $obj->videos_statistics_id = VideoStatistic::create($this->id, $currentTime);
+                $obj->videos_id = $this->id;
                 $this->views_count++;
                 YouPHPTubePlugin::addView($this->id, $this->views_count);
-                return $this->id;
+                return $obj;
             } else {
                 die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
@@ -161,7 +162,7 @@ if (!class_exists('Video')) {
             if (empty($this->next_videos_id)) {
                 $this->next_videos_id = 'NULL';
             }
-            
+
             $this->rate = floatval($this->rate);
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo()) {
@@ -417,7 +418,7 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 global $global;
                 $sql = "UPDATE videos SET status = ?, modified = now() WHERE id = ? ";
-                $res = sqlDAL::writeSql($sql,'si',array($status, $this->id));
+                $res = sqlDAL::writeSql($sql, 'si', array($status, $this->id));
                 if ($global['mysqli']->errno != 0) {
                     die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
@@ -553,16 +554,16 @@ if (!class_exists('Video')) {
 
             if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-            }  elseif ($status == "viewableNotUnlisted") {
+            } elseif ($status == "viewableNotUnlisted") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
-            }elseif (!empty($status)) {
+            } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
 
             if (!empty($_GET['catName'])) {
                 $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
             }
-            
+
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
@@ -600,6 +601,7 @@ if (!class_exists('Video')) {
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
+                    $video['progress'] = self::getVideoPogressPercent($video['id']);
                 }
             } else {
                 $video = false;
@@ -704,7 +706,7 @@ if (!class_exists('Video')) {
             if (!empty($_GET['catName'])) {
                 $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
             }
-            
+
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
@@ -742,6 +744,7 @@ if (!class_exists('Video')) {
                         $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
                         $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
                     }
+                    $row['progress'] = self::getVideoPogressPercent($row['id']);
                     $row['category'] = xss_esc_back($row['category']);
                     $row['groups'] = UserGroups::getVideoGroups($row['id']);
                     $row['tags'] = self::getTags($row['id']);
@@ -784,18 +787,18 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
-            }elseif ($status == "viewableNotUnlisted") {
+            } elseif ($status == "viewableNotUnlisted") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
-            
-            
+
+
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
             }
-            
+
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
@@ -853,7 +856,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
             }
-            
+
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
@@ -1027,14 +1030,14 @@ if (!class_exists('Video')) {
             }
             return $resp;
         }
-        
+
         private function removeTrailerReference($videos_id) {
             if (!$this->userCanManageVideo()) {
                 return false;
             }
 
             global $global;
-            
+
             if (!empty($videos_id)) {
                 $videoURL = self::getLink($videos_id, '', true);
                 $sql = "UPDATE videos SET trailer1 = '' WHERE trailer1 = ?";
@@ -1079,10 +1082,10 @@ if (!class_exists('Video')) {
         }
 
         function setCategories_id($categories_id) {
-            if(!Category::userCanAddInCategory($categories_id)){
+            if (!Category::userCanAddInCategory($categories_id)) {
                 return false;
             }
-            
+
             // to update old cat as well when auto..
             if (!empty($this->categories_id)) {
                 $this->old_categories_id = $this->categories_id;
@@ -1854,9 +1857,9 @@ if (!class_exists('Video')) {
         static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = array()) {
             global $global;
             $get_http = http_build_query($get);
-            if(empty($get_http)){
+            if (empty($get_http)) {
                 $get_http = "";
-            }else{
+            } else {
                 $get_http = "?{$get_http}";
             }
             if ($type == "URLFriendly") {
@@ -1897,7 +1900,7 @@ if (!class_exists('Video')) {
             return self::getLinkToVideo("", $clean_title, $embed, "permalink", $get);
         }
 
-        static function getURLFriendlyFromCleanTitle($clean_title, $embed = false, $get = array()) { 
+        static function getURLFriendlyFromCleanTitle($clean_title, $embed = false, $get = array()) {
             return self::getLinkToVideo("", $clean_title, $embed, "URLFriendly", $get);
         }
 
@@ -1930,38 +1933,38 @@ if (!class_exists('Video')) {
                     $sql = "SELECT id from likes WHERE videos_id = ? AND `like` = 1  ";
                     if (!empty($startDate)) {
                         $sql .= " AND `created` >= ? ";
-                        $format .="s";
+                        $format .= "s";
                         $values[] = $startDate;
                     }
 
                     if (!empty($endDate)) {
                         $sql .= " AND `created` <= ? ";
-                        $format .="s";
+                        $format .= "s";
                         $values[] = $endDate;
                     }
                     $res = sqlDAL::readSql($sql, $format, $values);
                     $countRow = sqlDAL::num_rows($res);
                     sqlDAL::close($res);
-                    $r['thumbsUp']+=$countRow;
+                    $r['thumbsUp'] += $countRow;
 
                     $format = "";
                     $values = array();
                     $sql = "SELECT id from likes WHERE videos_id = {$row['id']} AND `like` = -1  ";
                     if (!empty($startDate)) {
                         $sql .= " AND `created` >= ? ";
-                        $format .="s";
+                        $format .= "s";
                         $values[] = $startDate;
                     }
 
                     if (!empty($endDate)) {
                         $sql .= " AND `created` <= ? ";
-                        $format .="s";
+                        $format .= "s";
                         $values[] = $endDate;
                     }
                     $res = sqlDAL::readSql($sql, $format, $values);
                     $countRow = sqlDAL::num_rows($res);
                     sqlDAL::close($res);
-                    $r['thumbsDown']+=$countRow;
+                    $r['thumbsDown'] += $countRow;
                 }
             }
 
@@ -1981,6 +1984,47 @@ if (!class_exists('Video')) {
                     @unlink($file);
                 }
             }
+        }
+
+        static function getVideoPogress($videos_id, $users_id = 0) {
+            if (empty($users_id)) {
+                if (!User::isLogged()) {
+                    return 0;
+                }
+                $users_id = User::getId();
+            }
+
+            return VideoStatistic::getLastVideoTimeFromVideo($videos_id, $users_id);
+        }
+
+        static function getVideoPogressPercent($videos_id, $users_id = 0) {
+            $lastVideoTime = self::getVideoPogress($videos_id, $users_id);
+
+            if (empty($lastVideoTime)) {
+                return array('percent' => 0, 'lastVideoTime' => 0);
+            }
+
+            // start incremental search and save
+            $sql = "SELECT duration FROM `videos` WHERE id = ? LIMIT 1";
+            $res = sqlDAL::readSql($sql, "i", array($videos_id));
+            $row = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);     
+
+            if (empty($row) || empty($row['duration'])) {
+                return array('percent' => 0, 'lastVideoTime' => 0);
+            }
+
+            $duration = parseDurationToSeconds($row['duration']);
+
+            if (empty($duration)) {
+                return array('percent' => 0, 'lastVideoTime' => 0);
+            }
+
+            if ($lastVideoTime > $duration) {
+                return array('percent' => 100, 'lastVideoTime' => $lastVideoTime);
+            }
+
+            return array('percent' => ($lastVideoTime / $duration) * 100, 'lastVideoTime' => $lastVideoTime);
         }
 
     }

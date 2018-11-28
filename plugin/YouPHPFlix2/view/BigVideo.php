@@ -11,7 +11,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $poster = $images->poster;
     //var_dump($video);
     $canWatchPlayButton = "";
-    if(User::canWatchVideo($video['id'])){
+    if (User::canWatchVideo($video['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>
@@ -59,19 +59,19 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             </div>
             <div class="row">
                 <div class="col-md-12">
-                <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo Video::getLinkToVideo($video['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
-                <?php
-                if (!empty($video['trailer1'])) {
-                    ?>
-                    <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo $video['trailer1']; ?>');return false;">
-                        <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
-                    </a>
+                    <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo Video::getLinkToVideo($video['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
                     <?php
-                }
-                ?>
-                <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
-                    <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                </a>
+                    if (!empty($video['trailer1'])) {
+                        ?>
+                        <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo $video['trailer1']; ?>');return false;">
+                            <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
+                        </a>
+                        <?php
+                    }
+                    ?>
+                    <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
+                        <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
+                    </a>
                 </div>
             </div>
             <div id="webui-popover-content<?php echo $value['id'] . $uid; ?>" style="display: none;" >
@@ -139,6 +139,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 });
             </script>       
         </div>
+    </div>
+    <div class="progress" style="height: 1px;">
+        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $video['progress']['percent'] ?>%;" aria-valuenow="<?php echo $video['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     <?php
 } else if (!empty($_GET['showOnly'])) {

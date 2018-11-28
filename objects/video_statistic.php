@@ -7,15 +7,24 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
-class VideoStatistic {
+class VideoStatistic extends ObjectYPT  {
 
-    private $id;
-    private $when;
-    private $ip;
-    private $users_id;
-    private $videos_id;
+    protected $id;
+    protected $when;
+    protected $ip;
+    protected $users_id;
+    protected $videos_id;
+    protected $lastVideoTime;
+    
+    static function getSearchFieldsNames() {
+        return array();
+    }
 
-    static function save($videos_id) {
+    static function getTableName() {
+        return 'videos_statistics';
+    }
+
+    static function create($videos_id, $currentTime=0) {
         global $global;
         /**
          * Dont crash if is an old version
@@ -34,9 +43,19 @@ class VideoStatistic {
 
         $userId = empty($_SESSION["user"]["id"]) ? "NULL" : $_SESSION["user"]["id"];
 
+        $lastVideoTime = 0;
+        if(empty($currentTime)){
+            $lastStatistic = self::getLastStatistics($videos_id, $userId);
+            if(empty($currentTime) && !empty($lastStatistic)){
+                $lastVideoTime = intval($lastStatistic['lastVideoTime']);
+            }
+        }else{
+            $lastVideoTime = intval($currentTime);
+        }
+        
         $sql = "INSERT INTO videos_statistics "
-                . "(`when`,ip, users_id, videos_id) values "
-                . "(now(),?,".$userId.",?)";
+                . "(`when`,ip, users_id, videos_id, lastVideoTime, created, modified) values "
+                . "(now(),?,".$userId.",?,{$lastVideoTime},now(),now())";
         $insert_row = sqlDAL::writeSql($sql,"si",array(getRealIpAddr(),$videos_id));
 
         if (!empty($global['mysqli']->insert_id)) {
@@ -44,6 +63,39 @@ class VideoStatistic {
         } else {
             die($sql . ' Save Video Statistics Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+    }
+    
+    static function updateStatistic($videos_id, $users_id, $lastVideoTime){
+        $lastStatistic = self::getLastStatistics($videos_id, $users_id);
+        if(!empty($lastStatistic)){
+            $vs = new VideoStatistic($lastStatistic['id']);
+            $vs->setLastVideoTime($lastVideoTime);
+            return $vs->save();
+        }
+        return false;
+    }
+    
+    static function getLastStatistics($videos_id, $users_id){
+        if(empty($users_id)){
+            return false;
+        }
+        $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY modified DESC LIMIT 1 ";
+        $res = sqlDAL::readSql($sql,'ii',array($videos_id, $users_id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($result)) {
+            return $result;
+        }
+        return false;
+        
+    }
+    
+    static function getLastVideoTimeFromVideo($videos_id, $users_id){
+        $row = self::getLastStatistics($videos_id, $users_id);
+        if(empty($row)){
+            return 0;
+        }
+        return intval($row['lastVideoTime']);
     }
 
     static function getStatisticTotalViews($videos_id, $uniqueUsers = false, $startDate = "", $endDate = "") {
@@ -102,5 +154,47 @@ class VideoStatistic {
         $hour++;
         return static::getTotalToday($video_id, $hour, $returnArray);
     }
+    
+    function getWhen() {
+        return $this->when;
+    }
+
+    function getIp() {
+        return $this->ip;
+    }
+
+    function getUsers_id() {
+        return $this->users_id;
+    }
+
+    function getVideos_id() {
+        return $this->videos_id;
+    }
+
+    function getLastVideoTime() {
+        return $this->lastVideoTime;
+    }
+
+    function setWhen($when) {
+        $this->when = $when;
+    }
+
+    function setIp($ip) {
+        $this->ip = $ip;
+    }
+
+    function setUsers_id($users_id) {
+        $this->users_id = intval($users_id);
+    }
+
+    function setVideos_id($videos_id) {
+        $this->videos_id = intval($videos_id);
+    }
+
+    function setLastVideoTime($lastVideoTime) {
+        $this->lastVideoTime = intval($lastVideoTime);
+    }
+
+
 
 }
