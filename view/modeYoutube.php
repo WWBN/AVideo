@@ -650,6 +650,12 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                     </div>
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
                         <?php
+                        if (!empty($advancedCustom->showAdsenseBannerOnLeft)) {
+                            ?>
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <?php echo $config->getAdsense(); ?>
+                            </div>
+                        <?php }
                         if (!empty($playlist_id)) {
                             include $global['systemRootPath'] . 'view/include/playlist.php';
                             ?>
@@ -748,12 +754,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                     </div>
                                 </a>
                             </div>
-                        <?php } if (!empty($advancedCustom->showAdsenseBannerOnLeft)) {
-                            ?>
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <?php echo $config->getAdsense(); ?>
-                            </div>
-                        <?php } ?>
+                        <?php }  ?>
                         <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                         <!-- videos List -->
                         <div id="videosList">
