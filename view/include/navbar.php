@@ -312,6 +312,9 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                                         inputName: 'country',
                                         buttonType: "btn-default navbar-btn",
                                         onSelect: function (value, element) {
+                                            if(!value && element[1]){
+                                                value = $(element[1]).val();
+                                            }
                                             window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + value;
                                         },
                                         placeholder: {
