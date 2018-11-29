@@ -287,7 +287,7 @@ class Category {
             }
             
             if ($config->currentVersionGreaterThen('6.1')) {
-                $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+                $sql .= " AND (private=0 OR users_id = '{$users_id}') ";
             }
         }
         if (!empty($_GET['parentsOnly'])) {
@@ -384,7 +384,7 @@ class Category {
             }
 
             if ($config->currentVersionGreaterThen('6.1')) {
-                $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+                $sql .= " AND (private=0 OR users_id = '{$users_id}') ";
             }
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY name ASC ");
@@ -463,7 +463,7 @@ class Category {
             }
 
             if ($config->currentVersionGreaterThen('6.1')) {
-                $sql .= " AND (private=0 OR users_id = {$users_id}) ";
+                $sql .= " AND (private=0 OR users_id = '{$users_id}') ";
             }
         }
         if (!empty($_GET['parentsOnly'])) {
