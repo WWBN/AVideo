@@ -26,14 +26,15 @@
                 $embedResponsiveClass = "embed-responsive-16by9";
             }
             $playNowVideo = $video;
-            $disableYoutubeIntegration = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-            if ($disableYoutubeIntegration != false) {
-                $disableYoutubeIntegration = $disableYoutubeIntegration->disableYoutubePlayerIntegration;
+            $disableYoutubeIntegration = false;
+            if (!empty($advancedCustom->disableYoutubePlayerIntegration)) {
+                $disableYoutubeIntegration = true;
             }
             $_GET['isEmbedded'] = "";
             if (((strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
                 $_GET['isEmbedded'] = "e";
                 ?>
+                <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php
                     echo parseVideos($video['videoLink']);
@@ -41,7 +42,11 @@
                         echo "?autoplay=1";
                     }
                     ?>"></iframe>
-
+                    <script>
+                        $(document).ready(function () {
+                            addView(<?php echo $video['id']; ?>, 0);
+                        });
+                    </script>
                     <?php
                 } else {
                     // youtube!
@@ -64,12 +69,12 @@
                                    echo "vimeo";
                                }
                                ?>"], "sources": [{ "type": "video/<?php
-                           if ($_GET['isEmbedded'] == "y") {
-                               echo "youtube";
-                           } else {
-                               echo "vimeo";
-                           }
-                           ?>", "src": "<?php echo $video['videoLink']; ?>"}] }' ></video>
+                               if ($_GET['isEmbedded'] == "y") {
+                                   echo "youtube";
+                               } else {
+                                   echo "vimeo";
+                               }
+                               ?>", "src": "<?php echo $video['videoLink']; ?>"}] }' ></video>
                         <script>
                             var player;
                             var mediaId = <?php echo $video['id']; ?>;
@@ -81,6 +86,10 @@
     <?php } ?>
 
                             $(document).ready(function () {
+
+                                //$(".vjs-big-play-button").hide();
+                                $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
+
                                 player = videojs('mainVideo');
                                 player.ready(function () {
     <?php
@@ -99,18 +108,14 @@
     <?php } ?>
                                     num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
                                     loadPage(num);
-    <?php if ($_GET['isEmbedded'] != "v") { ?>
-                                        player.persistvolume({
-                                            namespace: "YouPHPTube"
-                                        });
-    <?php } ?>
+
                                 });
-                                //$(".vjs-big-play-button").hide();
-                                $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
+                                player.persistvolume({
+                                    namespace: "YouPHPTube"
+                                });
                                 player.on('play', function () {
                                     addView(<?php echo $video['id']; ?>, this.currentTime());
                                 });
-
                                 player.on('ended', function () {
                                     console.log("Finish Video");
     <?php if (!empty($autoPlayVideo)) { ?>
@@ -127,6 +132,9 @@
                                         addView(<?php echo $video['id']; ?>, time);
                                     }
                                 });
+
+
+
                             });
                         </script>
 
@@ -145,9 +153,9 @@
                                 <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
                             </a>
                         </div>
-    <?php
-}
-?>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -156,8 +164,3 @@
     </div>
 </div>
 <!--/row-->
-<script>
-    $(document).ready(function () {
-        addView(<?php echo $video['id']; ?>, this.currentTime());
-    });
-</script>
