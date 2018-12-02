@@ -70,7 +70,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                 margin: 0 !important;
                 <?php
                 if(!empty($customizedAdvanced->embedBackgroundColor)){
-                    echo "background-color: $customizedAdvanced->embedBackgroundColor;";
+                    echo "background-color: $customizedAdvanced->embedBackgroundColor !important;";
                 }
                 ?>
 
