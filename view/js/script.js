@@ -16,10 +16,10 @@ var doNotFloatVideo = false;
 
 var mouseX;
 var mouseY;
-$(document).mousemove( function(e) {
-   mouseX = e.pageX; 
-   mouseY = e.pageY;
-});  
+$(document).mousemove(function (e) {
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+});
 
 String.prototype.stripAccents = function () {
     var translate_re = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
@@ -44,7 +44,7 @@ $(document).ready(function () {
 
         return {
             showPleaseWait: function () {
-                if(pleaseWaitIsINUse){
+                if (pleaseWaitIsINUse) {
                     return false;
                 }
                 pleaseWaitIsINUse = true;
@@ -85,16 +85,16 @@ $(document).ready(function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
     });
 
-
-    $('.thumbsJPG').lazy({
-        effect: 'fadeIn',
-        visibleOnly: true,
-        // called after an element was successfully handled
-        afterLoad: function (element) {
-            element.removeClass('blur');
-        }
-    });
-
+    if ($(".thumbsJPG").length) {
+        $('.thumbsJPG').lazy({
+            effect: 'fadeIn',
+            visibleOnly: true,
+            // called after an element was successfully handled
+            afterLoad: function (element) {
+                element.removeClass('blur');
+            }
+        });
+    }
     mainVideoHeight = $('#videoContainer').innerHeight();
     $(window).resize(function () {
         mainVideoHeight = $('#videoContainer').innerHeight();
@@ -343,8 +343,8 @@ function copyToClipboard(text) {
 
 var last_videos_id = 0;
 var last_currentTime = -1;
-function addView(videos_id,currentTime) {
-    if(last_videos_id == videos_id && last_currentTime == currentTime){
+function addView(videos_id, currentTime) {
+    if (last_videos_id == videos_id && last_currentTime == currentTime) {
         return false;
     }
     last_videos_id = videos_id;
@@ -374,15 +374,15 @@ function getPlayerButtonIndex(name) {
 
 
 function copyToClipboard(text) {
-    
-    $('#elementToCopy').css({'top':mouseY,'left':mouseX}).fadeIn('slow');
+
+    $('#elementToCopy').css({'top': mouseY, 'left': mouseX}).fadeIn('slow');
     $('#elementToCopy').val(text);
     $('#elementToCopy').focus();
     $('#elementToCopy').select();
     document.execCommand('copy');
 }
 
-function nl2br (str, is_xhtml) {
+function nl2br(str, is_xhtml) {
     if (typeof str === 'undefined' || str === null) {
         return '';
     }
