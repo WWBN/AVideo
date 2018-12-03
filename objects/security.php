@@ -5,6 +5,10 @@ require_once $global['systemRootPath'].'objects/functions.php';
 $securityFilter = array('error', 'search', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link');
 $securityFilterInt = array('videos_id', 'video_id');
 
+if(isset($_GET['search'])){
+    $_GET['search'] = trim($_GET['search']);
+}
+
 foreach ($securityFilterInt as $value) {
     if (!empty($_POST[$value])) {
         $_POST[$value] = intval($_POST[$value]);
