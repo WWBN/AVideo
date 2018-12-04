@@ -1144,3 +1144,22 @@ function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
     }
 }
 
+function encryptPassword($password, $noSalt = false) {
+    global $advancedCustom, $global;
+    if(!empty($advancedCustom->encryptPasswordsWithSalt) && !empty($global['salt']) && empty($noSalt)){
+        $password .= $global['salt'];
+    }
+    
+    return hash("whirlpool", md5(sha1($password)));
+}
+
+function encryptPasswordVerify($password, $hash, $encodedPass = false) {
+    global $advancedCustom, $global;
+    if (!$encodedPass || $encodedPass === 'false') {
+        $passwordSalted = encryptPassword($password);
+        // in case you enable the salt later
+        $passwordUnSalted = encryptPassword($password, true);
+    }
+    
+    return $passwordSalted === $hash || $passwordUnSalted === $hash ;
+}

@@ -34,7 +34,6 @@ class User {
     private $country;
     private $region;
     private $city;
-    
     static $DOCUMENT_IMAGE_TYPE = "Document Image";
 
     function __construct($id, $user = "", $password = "") {
@@ -475,33 +474,32 @@ if (typeof gtag !== \"function\") {
         }
         return $user;
     }
-    
-    static function canWatchVideo($videos_id){ 
+
+    static function canWatchVideo($videos_id) {
         if (User::isAdmin()) {
             return true;
         }
         // check if the video is not public 
         $rows = UserGroups::getVideoGroups($videos_id);
-        
-        if(empty($rows)){
+
+        if (empty($rows)) {
             return true; // the video is public
         }
-        
+
         if (!User::isLogged()) {
             return false;
         }
         // if is not public check if the user is on one of its groups
         $rowsUser = UserGroups::getUserGroups(User::getId());
-        
+
         foreach ($rows as $value) {
             foreach ($rowsUser as $value2) {
-                if($value['id'] === $value2['id']){
+                if ($value['id'] === $value2['id']) {
                     return true;
                 }
             }
         }
         return false;
-        
     }
 
     function delete() {
@@ -650,19 +648,70 @@ if (typeof gtag !== \"function\") {
         if ($mustBeactive) {
             $sql .= " AND status = 'a' ";
         }
+
+        $sql .= " LIMIT 1";
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($result)) {
+            if ($pass !== false) {
+                if(!encryptPasswordVerify($pass, $result['password'], $encodedPass)){
+                    return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
+                }
+            }
+            $user = $result;
+        } else {
+            //check if is the old password style
+            $user = false;
+            //$user = false;
+        }
+        return $user;
+    }
+
+    /**
+     * this is the deprecated function, with week password
+     * @global type $global
+     * @param type $user
+     * @param type $pass
+     * @param type $mustBeactive
+     * @param type $encodedPass
+     * @return boolean
+     */
+    private function find_Old($user, $pass, $mustBeactive = false, $encodedPass = false) {
+        global $global;
+        $formats = "";
+        $values = array();
+        $user = $global['mysqli']->real_escape_string($user);
+        $sql = "SELECT * FROM users WHERE user = ? ";
+
+        $formats .= "s";
+        $values[] = $user;
+
+        if ($mustBeactive) {
+            $sql .= " AND status = 'a' ";
+        }
         if ($pass !== false) {
             if (!$encodedPass || $encodedPass === 'false') {
-                $pass = md5($pass);
+                $passEncoded = md5($pass);
+            } else {
+                $passEncoded = $pass;
             }
             $sql .= " AND password = ? ";
             $formats .= "s";
-            $values[] = $pass;
+            $values[] = $passEncoded;
         }
         $sql .= " LIMIT 1";
         $res = sqlDAL::readSql($sql, $formats, $values);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res) {
+        if (!empty($result)) {
+            if (!$encodedPass || $encodedPass === 'false') {
+                //update the password
+                $u = new User($result['id']);
+                $u->setPassword($pass);
+                $u->save();
+                $result['password'] = $u->getPassword();
+            }
             $user = $result;
         } else {
             $user = false;
@@ -739,7 +788,7 @@ if (typeof gtag !== \"function\") {
 
     function setPassword($password) {
         if (!empty($password)) {
-            $this->password = md5($password);
+            $this->password = encryptPassword($password);
         }
     }
 
@@ -878,7 +927,7 @@ if (typeof gtag !== \"function\") {
             if (empty($pass)) {
                 $pass = rand();
             }
-            $pass = md5($pass);
+            $pass = encryptPassword($pass);
             $userObject = new User(0, $user, $pass);
             $userObject->setEmail($email);
             $userObject->setName($name);
@@ -1212,18 +1261,18 @@ if (typeof gtag !== \"function\") {
     function setCity($city) {
         $this->city = $city;
     }
-    
-    static function getDocumentImage($users_id){
+
+    static function getDocumentImage($users_id) {
         $row = static::getBlob($users_id, User::$DOCUMENT_IMAGE_TYPE);
-        if(!empty($row['blob'])){
+        if (!empty($row['blob'])) {
             return $row['blob'];
         }
         return false;
     }
-    
-    static function saveDocumentImage($image, $users_id){
+
+    static function saveDocumentImage($image, $users_id) {
         $row = static::saveBlob($image, $users_id, User::$DOCUMENT_IMAGE_TYPE);
-        if(!empty($row['blob'])){
+        if (!empty($row['blob'])) {
             return $row['blob'];
         }
         return false;
@@ -1245,19 +1294,19 @@ if (typeof gtag !== \"function\") {
         if (!empty($row['id'])) {
             $sql = "UPDATE users_blob SET `blob` = ? , modified = now() WHERE id = ?";
             $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('bi',$null,$row['id']);
+            $stmt->bind_param('bi', $null, $row['id']);
         } else {
             $sql = "INSERT INTO users_blob (`blob`, users_id, `type`, modified, created) VALUES (?,?,?, now(), now())";
             $stmt = $global['mysqli']->prepare($sql);
-            $stmt->bind_param('bis',$null,$users_id,$type);
+            $stmt->bind_param('bis', $null, $users_id, $type);
         }
-        
-        $stmt->send_long_data(0,$blob);
+
+        $stmt->send_long_data(0, $blob);
 
 
         return $stmt->execute();
     }
-    
+
     static function deleteBlob($users_id, $type) {
         global $global;
         $row = self::getBlob($users_id, $type);
@@ -1266,7 +1315,7 @@ if (typeof gtag !== \"function\") {
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
             //error_log("Delete Query: ".$sql);
-            return sqlDAL::writeSql($sql,"i",array($row['id']));
+            return sqlDAL::writeSql($sql, "i", array($row['id']));
         }
         error_log("Id for table users_blob not defined for deletion");
         return false;
