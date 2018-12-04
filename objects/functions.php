@@ -827,10 +827,13 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
     $obj = new stdClass();
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
+    $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
     if (!empty($aws_s3)) {
         $aws_s3->move_uploaded_file($tmp_name, $filename);
     } else if (!empty($bb_b2)) {
         $bb_b2->move_uploaded_file($tmp_name, $filename);
+    } else if (!empty($ftp)) {
+        $ftp->move_uploaded_file($tmp_name, $filename);
     } else {
         if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
             if (!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
@@ -847,10 +850,13 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
     global $global;
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
+    $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
     if (!empty($bb_b2)) {
         $bb_b2->move_uploaded_file($tmp_name, $filename);
     } else if (!empty($aws_s3)) {
         $aws_s3->move_uploaded_file($tmp_name, $filename);
+    } else if (!empty($ftp)) {
+        $ftp->move_uploaded_file($tmp_name, $filename);
     } else {
         if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
             $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";

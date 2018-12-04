@@ -1021,11 +1021,15 @@ if (!class_exists('Video')) {
                 $this->removeFiles($video['filename']);
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
                 $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
+                $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
                 if (!empty($aws_s3)) {
                     $aws_s3->removeFiles($video['filename']);
                 }
                 if (!empty($bb_b2)) {
                     $bb_b2->removeFiles($video['filename']);
+                }
+                if (!empty($ftp)) {
+                    $ftp->removeFiles($video['filename']);
                 }
             }
             return $resp;
@@ -1688,6 +1692,7 @@ if (!class_exists('Video')) {
              */
             $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
             $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
+            $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
             if (!empty($aws_s3)) {
                 $aws_s3_obj = $aws_s3->getDataObject();
                 if (!empty($aws_s3_obj->useS3DirectLink)) {
@@ -1698,6 +1703,8 @@ if (!class_exists('Video')) {
                 if (!empty($bb_b2_obj->useDirectLink)) {
                     $includeS3 = true;
                 }
+            }else if (!empty($ftp)) {
+                $includeS3 = true;
             }
             $token = "";
             $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
@@ -1714,6 +1721,8 @@ if (!class_exists('Video')) {
                         $source = $aws_s3->getAddress("{$filename}{$type}");
                     } else if (!empty($bb_b2)) {
                         $source = $bb_b2->getAddress("{$filename}{$type}");
+                    } else if (!empty($ftp)) {
+                        $source = $ftp->getAddress("{$filename}{$type}");
                     }
                 }
             }

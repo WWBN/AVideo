@@ -21,11 +21,11 @@
     </div>
     <div class="col-md-12">
         <div class="panel panel-default">
-            <div class="panel-heading"><i class="fas fa-hdd"></i> FTP <div class="pull-right"><?php echo getPluginSwitch('FTP'); ?></div></div>
+            <div class="panel-heading"><i class="fas fa-hdd"></i> FTP <div class="pull-right"><?php echo getPluginSwitch('FTP_Storage'); ?></div></div>
             <div class="panel-body" style="overflow: hidden;">
-                <div class="alert alert-danger">
-                    This plugin still under development, it will come soon
-                </div>
+                <?php
+                createTable("FTP_Storage");
+                ?>
             </div>
         </div>
     </div>

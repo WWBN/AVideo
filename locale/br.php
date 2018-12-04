@@ -11,6 +11,7 @@ $t['Active'] = "Ativo";
 $t['Admin'] = "Admin";
 $t['Advanced Configuration'] = "Configuração Avançada";
 $t['Advanced configuration'] = "Configuração avançada";
+$t['ago'] = "atrás";
 $t['Are you sure?'] = "Você tem certeza?";
 $t['Audio only'] = "Somente Audio";
 $t['Audios and Videos'] = "Audios e Vídeos";
