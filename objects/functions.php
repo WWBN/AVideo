@@ -1150,7 +1150,7 @@ function encryptPassword($password, $noSalt = false) {
         $password .= $global['salt'];
     }
     
-    return hash("whirlpool", md5(sha1($password)));
+    return md5(hash("whirlpool", sha1($password)));
 }
 
 function encryptPasswordVerify($password, $hash, $encodedPass = false) {
