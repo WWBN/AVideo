@@ -1159,6 +1159,10 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
         $passwordSalted = encryptPassword($password);
         // in case you enable the salt later
         $passwordUnSalted = encryptPassword($password, true);
+    }else{
+        $passwordSalted = $password;
+        // in case you enable the salt later
+        $passwordUnSalted = $password;
     }
     
     return $passwordSalted === $hash || $passwordUnSalted === $hash ;
