@@ -22,7 +22,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                 </p>
                 <button type="button" class="btn btn-outline btn-xs"
                         onclick="closeFloatVideo(); floatClosed = 1;">
-                    <i class="far fa-window-close"></i>
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
