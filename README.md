@@ -1,7 +1,7 @@
 ### If you are not sure what is YouPHPTube, go to our <a href="https://demo.youphptube.com/" target="_blank">demo</a> page or visit our <a href="https://www.youphptube.com/" target="_blank">official site</a>
 
 * <a href="https://netflix.youphptube.com/" target="_blank">Netflix demo page</a>
-  - We provide you a NexFlix site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
+  - We provide you a Netflix site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
 * <a href="https://tutorials.youphptube.com/" target="_blank">Gallery demo page</a>
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos. 
 * <a href="http://demo.youphptube.com/" target="_blank">Full access demo site</a>
