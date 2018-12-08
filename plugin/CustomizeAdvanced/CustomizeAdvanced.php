@@ -103,6 +103,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showChannelBannerOnModeYoutube = false;
         $obj->usersCanCreateNewCategories = false;
         $obj->encryptPasswordsWithSalt = false;
+        $obj->requestCaptchaAfterLoginsAttempts = 0;
         
         return $obj;
     }

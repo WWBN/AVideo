@@ -21,7 +21,10 @@ if(empty($_POST['sort']) && !empty($_GET['sort'])){
 if(empty($_POST['searchPhrase']) && !empty($_GET['searchPhrase'])){
     $_POST['searchPhrase']=$_GET['searchPhrase'];
 }
-
+if(!empty($_GET['user']) && !empty($_GET['pass'])){
+    $user = new User(0, $_GET['user'], $_GET['pass']);
+    $user->login(false, true);
+}
 $videos = Video::getAllVideos("viewable");
 $total = Video::getTotalVideos("viewable");
 foreach ($videos as $key => $value) {

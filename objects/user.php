@@ -523,15 +523,35 @@ if (typeof gtag !== \"function\") {
     const USER_LOGGED = 0;
     const USER_NOT_VERIFIED = 1;
     const USER_NOT_FOUND = 2;
+    const CAPTCHA_ERROR = 3;
 
     function login($noPass = false, $encodedPass = false) {
+        global $global,$advancedCustom;
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
+        
         session_write_close();
         session_start();
+        // check for multiple logins attempts to prevent hacking
+        if(empty($_SESSION['loginAttempts'])){
+            $_SESSION['loginAttempts'] = 0;
+        }
+        if(!empty($advancedCustom->requestCaptchaAfterLoginsAttempts)){
+            $_SESSION['loginAttempts']++;
+            if($_SESSION['loginAttempts']>$advancedCustom->requestCaptchaAfterLoginsAttempts){
+                if(empty($_POST['captcha'])){
+                    return self::CAPTCHA_ERROR;
+                }
+                require_once $global['systemRootPath'] . 'objects/captcha.php';
+                if(!Captcha::validation($_POST['captcha'])){
+                    return self::CAPTCHA_ERROR;
+                }
+            }
+        }
+        // check for multiple logins attempts to prevent hacking end
         // if user is not verified
         if (!empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustom->unverifiedEmailsCanNOTLogin)) {
             unset($_SESSION['user']);
@@ -549,11 +569,48 @@ if (typeof gtag !== \"function\") {
                 setcookie("user", $user['user'], time() + 3600 * 24 * 30 * 12 * 10, "/");
                 setcookie("pass", $user['password'], time() + 3600 * 24 * 30 * 12 * 10, "/");
             }
+            $_SESSION['loginAttempts'] = 0;
             return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
             return self::USER_NOT_FOUND;
         }
+    }
+    
+    static function isCaptchaNeed(){
+        global $advancedCustom;
+        // check for multiple logins attempts to prevent hacking
+        if(!empty($_SESSION['loginAttempts']) && !empty($advancedCustom->requestCaptchaAfterLoginsAttempts)){
+            if($_SESSION['loginAttempts']>$advancedCustom->requestCaptchaAfterLoginsAttempts){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    static function getCaptchaFormIfNeed() {
+        // check for multiple logins attempts to prevent hacking
+        if(self::isCaptchaNeed()){
+            return self::getCaptchaForm();
+        }
+        return "";
+    }
+    
+    static function getCaptchaForm() {
+        global $global;
+        return '<div class="input-group">'
+                . '<span class="input-group-addon"><img src="'.$global['webSiteRootURL'].'captcha" id="captcha"></span>
+                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                    <input name="captcha" placeholder="'.__("Type the code").'" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                </div>
+                <script>
+                $(document).ready(function () {
+                    $("#btnReloadCapcha").click(function () {
+                        $("#captcha").attr("src", "'.$global['webSiteRootURL'].'captcha?" + Math.random());
+                        $("#captchaText").val("");
+                    });
+                });
+                </script>';
     }
 
     private function setLastLogin($user_id) {

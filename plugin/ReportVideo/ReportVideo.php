@@ -17,6 +17,13 @@ class ReportVideo extends PluginAbstract {
     public function getUUID() {
         return "b5e223db-785b-4436-8f7b-f297860c9be0";
     }
+    
+    public function getEmptyDataObject() {
+        $obj = new stdClass();
+        $obj->emailLogo = "";
+
+        return $obj;
+    }
 
     public function getPluginVersion() {
         return "1.0";   
