@@ -1681,7 +1681,7 @@ if (!class_exists('Video')) {
          * @return type .jpg .gif _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
          */
         static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
-            global $global;
+            global $global, $advancedCustom;
             /*
               $name = "getSourceFile_{$filename}{$type}_";
               $cached = ObjectYPT::getCache($name, 86400);//one day
@@ -1713,7 +1713,12 @@ if (!class_exists('Video')) {
             }
             $source = array();
             $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
-            $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
+            if (!empty($advancedCustom->videosCDN)) {
+                $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
+                $source['url'] = "{$advancedCustom->videosCDN}{$filename}{$type}{$token}";
+            }else{
+                $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
+            }
             /* need it because getDurationFromFile */
             if ($includeS3 && ($type == ".mp4" || $type == ".webm")) {
                 if (!file_exists($source['path']) || filesize($source['path']) < 1024) {

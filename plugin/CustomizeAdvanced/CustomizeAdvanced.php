@@ -104,6 +104,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->usersCanCreateNewCategories = false;
         $obj->encryptPasswordsWithSalt = false;
         $obj->requestCaptchaAfterLoginsAttempts = 0;
+        $obj->videosCDN = "";
         
         return $obj;
     }
