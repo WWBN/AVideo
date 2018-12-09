@@ -1715,7 +1715,7 @@ if (!class_exists('Video')) {
             $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
             if (!empty($advancedCustom->videosCDN)) {
                 $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
-                $source['url'] = "{$advancedCustom->videosCDN}{$filename}{$type}{$token}";
+                $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}{$type}{$token}";
             }else{
                 $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
             }
