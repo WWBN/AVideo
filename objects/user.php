@@ -713,7 +713,8 @@ if (typeof gtag !== \"function\") {
         if (!empty($result)) {
             if ($pass !== false) {
                 if(!encryptPasswordVerify($pass, $result['password'], $encodedPass)){
-                    return $this->find_Old($user, $pass, $mustBeactive, false);
+                    error_log("Password check new hash not found");
+                    return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
                 }
             }
             $user = $result;
@@ -749,8 +750,10 @@ if (typeof gtag !== \"function\") {
         }
         if ($pass !== false) {
             if (!$encodedPass || $encodedPass === 'false') {
+                error_log("Password check Old not encoded pass");
                 $passEncoded = md5($pass);
             } else {
+                error_log("Password check Old encoded pass");
                 $passEncoded = $pass;
             }
             $sql .= " AND password = ? ";
@@ -772,6 +775,11 @@ if (typeof gtag !== \"function\") {
             $user = $result;
         } else {
             $user = false;
+        }
+        if(empty($user)){
+            error_log("Password check Old not found");
+        }else{
+            error_log("Password check Old found");
         }
         return $user;
     }
