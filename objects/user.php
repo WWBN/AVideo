@@ -713,7 +713,7 @@ if (typeof gtag !== \"function\") {
         if (!empty($result)) {
             if ($pass !== false) {
                 if(!encryptPasswordVerify($pass, $result['password'], $encodedPass)){
-                    return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
+                    return $this->find_Old($user, $pass, $mustBeactive, true);
                 }
             }
             $user = $result;
@@ -748,14 +748,9 @@ if (typeof gtag !== \"function\") {
             $sql .= " AND status = 'a' ";
         }
         if ($pass !== false) {
-            if (!$encodedPass || $encodedPass === 'false') {
-                $passEncoded = md5($pass);
-            } else {
-                $passEncoded = $pass;
-            }
             $sql .= " AND password = ? ";
             $formats .= "s";
-            $values[] = $passEncoded;
+            $values[] = $pass;
         }
         $sql .= " LIMIT 1";
         $res = sqlDAL::readSql($sql, $formats, $values);
