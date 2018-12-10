@@ -79,4 +79,4 @@ if (User::isAdmin()) {
 
 $resp = $obj->save(true);
 
-echo '{"status":"' . !empty($resp) . '", "msg": "' . $msg . '", "info":' . json_encode($info) . ', "infoObj":' . json_encode($infoObj) . '}';
+echo '{"status":"' . !empty($resp) . '", "msg": "' . $msg . '", "info":' . json_encode($info) . ', "infoObj":' . json_encode($infoObj) . ', "videos_id":' . intval($resp) . '}';
