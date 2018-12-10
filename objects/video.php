@@ -1780,12 +1780,12 @@ if (!class_exists('Video')) {
                 // create thumbs
                 if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
                     error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
-                    im_resizeV2($jpegSource['path'], $thumbsSource['path'], 250, 140);
+                    im_resizeV3($jpegSource['path'], $thumbsSource['path'], 320, 180); //250, 140 (trying to see why the gif looks better than the jpg)
                 }
                 // create thumbs
                 if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
                     error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
-                    im_resizeV2($jpegSource['path'], $thumbsSmallSource['path'], 250, 140, 5);
+                    im_resizeV3($jpegSource['path'], $thumbsSmallSource['path'], 320, 180); //250,140
                 }
             } else {
                 if (($type !== "audio") && ($type !== "linkAudio")) {
