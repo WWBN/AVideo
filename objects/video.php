@@ -576,7 +576,7 @@ if (!class_exists('Video')) {
             $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
 
             if (!empty($id)) {
-                $sql .= " AND v.id = $id ";
+                $sql .= " AND v.id = '$id' ";
             } elseif (empty($random) && !empty($_GET['videoName'])) {
                 $sql .= " AND v.clean_title = '{$_GET['videoName']}' ";
             } elseif (!empty($random)) {
