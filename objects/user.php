@@ -713,12 +713,13 @@ if (typeof gtag !== \"function\") {
         if (!empty($result)) {
             if ($pass !== false) {
                 if(!encryptPasswordVerify($pass, $result['password'], $encodedPass)){
-                    error_log("Password check new hash not found");
+                    error_log("Password check new hash pass does not match, trying MD5");
                     return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
                 }
             }
             $user = $result;
         } else {
+            error_log("Password check new hash user not found");
             //check if is the old password style
             $user = false;
             //$user = false;
