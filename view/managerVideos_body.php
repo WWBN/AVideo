@@ -1010,7 +1010,7 @@ if (User::isAdmin()) {
                                             } else if (row.status == "x") {
                                                 return editBtn + deleteBtn;
                                             } else if (row.status == "d") {
-                                                return deleteBtn;
+                                                return editBtn + deleteBtn;
                                             } else {
                                                 return editBtn + deleteBtn;
                                             }

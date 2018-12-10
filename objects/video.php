@@ -1720,7 +1720,7 @@ if (!class_exists('Video')) {
                 $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
             }
             /* need it because getDurationFromFile */
-            if ($includeS3 && ($type == ".mp4" || $type == ".webm")) {
+            if ($includeS3 && ($type == ".mp4" || $type == ".webm" || $type == ".mp3" || $type == ".ogg")) {
                 if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
                     if (!empty($aws_s3)) {
                         $source = $aws_s3->getAddress("{$filename}{$type}");

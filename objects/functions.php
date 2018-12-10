@@ -635,7 +635,10 @@ function getSources($fileName, $returnArray = false) {
     } else {
         $videoSources = $audioTracks = $subtitleTracks = "";
     }
-    if (function_exists('getVRSSources')) {
+    
+    $video = Video::getVideoFromFileName($fileName);
+    
+    if ($video['type']!=='audio' && function_exists('getVRSSources')) {
         $videoSources = getVRSSources($fileName, $returnArray);
     } else {
         $files = getVideosURL($fileName);
@@ -643,8 +646,12 @@ function getSources($fileName, $returnArray = false) {
         $sourcesArray = array();
         foreach ($files as $key => $value) {
             $path_parts = pathinfo($value['path']);
-            if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4") {
-                $sources .= "<source src=\"{$value['url']}\" type=\"video/{$path_parts['extension']}\">";
+            if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
+                if($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" ){
+                    $sources .= "<source src=\"{$value['url']}\" type=\"video/{$path_parts['extension']}\">";
+                }else{
+                    $sources .= "<source src=\"{$value['url']}\" type=\"audio/{$path_parts['extension']}\">";
+                }
                 $obj = new stdClass();
                 $obj->type = "video/{$path_parts['extension']}";
                 $obj->src = $value['url'];

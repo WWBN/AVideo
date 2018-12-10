@@ -15,7 +15,9 @@ if ($video['type'] == "audio") {
         $ext = ".mp3";
     }
 }
-$sourceLink = "{$global['webSiteRootURL']}videos/{$video['filename']}{$ext}";
+
+$sources = getVideosURL($video['filename']);
+$sourceLink = $sources['mp3']['url'];
 if ($video['type'] !== "audio") {
     $sourceLink = $video['videoLink'];
 }
@@ -39,10 +41,8 @@ if ($video['type'] != "audio") {
             <audio controls class="center-block video-js vjs-default-skin " <?php if ($waveSurferEnabled == false) { ?> autoplay data-setup='{"controls": true}' <?php } ?> id="mainAudio" poster="<?php echo $poster; ?>">
                 <?php
                 if ($waveSurferEnabled == false) {
-                    ?>
-                    <source src="<?php echo $sourceLink; ?>" /> 
-                    <a href="<?php echo $sourceLink; ?>">horse</a>     
-                <?php } ?>
+                    echo getSources($video['filename']);
+                } ?>
             </audio>
         </div>
     </div>
