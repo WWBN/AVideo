@@ -4,6 +4,7 @@ header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 //require_once $global['systemRootPath'] . 'plugin/Bookmark/Objects/BookmarkTable.php';
 require_once $global['systemRootPath'] . 'plugin/IMDbScrape/imdb.class.php';
+require_once $global['systemRootPath'] . 'objects/video.php';
 
 $plugin = YouPHPTubePlugin::getObjectData("IMDbScrape");
 
