@@ -241,7 +241,7 @@ if (((empty($advancedCustom->userMustBeLoggedIn) && empty($advancedCustom->disab
                                             if (empty($advancedCustom->doNotShowUploadMP4Button)) {
                                                 ?>
                                                 <li>
-                                                    <a  href="<?php echo $global['webSiteRootURL']; ?>upload" >
+                                                    <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?upload=1" >
                                                         <span class="fa fa-upload"></span> <?php echo __("Direct upload"); ?>
                                                     </a>
                                                 </li>

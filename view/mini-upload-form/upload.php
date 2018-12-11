@@ -36,7 +36,13 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $path_parts = pathinfo($_FILES['upl']['name']);
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
     $filename = uniqid($mainName . "_", true);
-    $video = new Video(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4), $filename, @$_FILES['upl']['videoId']);
+    $videos_id = 0;
+    if(!empty($_FILES['upl']['videoId'])){
+        $videos_id = $_FILES['upl']['videoId'];
+    }else if(!empty($_POST['videos_id'])){
+        $videos_id = $_POST['videos_id'];
+    }
+    $video = new Video(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4), $filename, $videos_id);
     $video->setDuration($duration);
 
     if (!empty($_POST['title'])) {
@@ -94,6 +100,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $obj->error = false;
         $obj->filename = $filename;
         $obj->duration = $duration;
+        $obj->videos_id = $id;
         YouPHPTubePlugin::afterNewVideo($video->getId());
         die(json_encode($obj));
     }
