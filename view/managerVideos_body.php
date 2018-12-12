@@ -877,6 +877,7 @@
                                             if (waitToSubmit) {
                                                 return false;
                                             }
+                                            waitToSubmit = true;
                                             var isPublic = $('#public').is(':checked');
                                             var selectedVideoGroups = [];
                                             $('.videoGroups:checked').each(function () {
@@ -888,6 +889,7 @@
                                             if (isPublic) {
                                                 selectedVideoGroups = [];
                                             }
+                                            $('#inputTitle').val("Video automatically booked");
                                             modal.showPleaseWait();
                                             $.ajax({
                                                 url: '<?php echo $global['webSiteRootURL']; ?>objects/videoAddNew.json.php',
@@ -907,7 +909,7 @@
                                                 type: 'post',
                                                 success: function (response) {
                                                     if (response.status === "1") {
-                                                        if (closeModal) {
+                                                        if (closeModal && videoUploaded) {
                                                             $('#videoFormModal').modal('hide');
                                                         }
                                                         $("#grid").bootgrid("reload");
@@ -917,16 +919,16 @@
                                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                                                     }
                                                     modal.hidePleaseWait();
-                                                    waitToSubmit = true;
+                                                    setTimeout(function () {
+                                                        waitToSubmit = false;
+                                                    }, 3000);
                                                 }
                                             });
                                             return false;
                                         }
 
-                                        function newVideo() {
-                                            $('.uploadFile').show();
+                                        function resetVideoForm() {
                                             $('.nav-tabs a[href="#pmidia"]').tab('show');
-                                            waitToSubmit = true;
                                             $('#postersImage, #videoIsAdControl, .titles').slideDown();
                                             $('#videoLinkContent').slideUp();
                                             $('#inputVideoId').val(0);
@@ -1014,6 +1016,11 @@
                                             $('#input-jpg, #input-gif,#input-pjpg, #input-pgif').on('fileuploaded', function (event, data, previewId, index) {
                                                 $("#grid").bootgrid("reload");
                                             });
+                                        }
+
+                                        function newVideo() {
+                                            $('.uploadFile').show();
+                                            resetVideoForm();
                                             waitToSubmit = false;
                                             saveVideo(false);
                                             waitToSubmit = true;
@@ -1637,7 +1644,9 @@ if (!empty($_GET['link'])) {
     <?php
 } else if (!empty($_GET['upload'])) {
     ?>
-                                                setTimeout(function(){$('#uploadMp4').trigger('click');},500);
+                                                setTimeout(function () {
+                                                    $('#uploadMp4').trigger('click');
+                                                }, 500);
     <?php
 }
 ?>
