@@ -1008,6 +1008,7 @@ if (!class_exists('Video')) {
 
             global $global;
             if (!empty($this->id)) {
+                $this->removeNextVideos($this->id);
                 $this->removeTrailerReference($this->id);
                 $video = self::getVideo($this->id);
                 $sql = "DELETE FROM videos WHERE id = ?";
@@ -1033,6 +1034,22 @@ if (!class_exists('Video')) {
                 }
             }
             return $resp;
+        }
+        
+        private function removeNextVideos($videos_id) {
+            if (!$this->userCanManageVideo()) {
+                return false;
+            }
+
+            global $global;
+
+            if (!empty($videos_id)) {
+                $sql = "UPDATE videos SET next_videos_id = NULL WHERE next_videos_id = ?";
+                sqlDAL::writeSql($sql, "s", array($videos_id));
+            } else {
+                return false;
+            }
+            return true;
         }
 
         private function removeTrailerReference($videos_id) {
