@@ -889,7 +889,6 @@
                                             if (isPublic) {
                                                 selectedVideoGroups = [];
                                             }
-                                            $('#inputTitle').val("Video automatically booked");
                                             modal.showPleaseWait();
                                             $.ajax({
                                                 url: '<?php echo $global['webSiteRootURL']; ?>objects/videoAddNew.json.php',
@@ -1022,6 +1021,7 @@
                                             $('.uploadFile').show();
                                             resetVideoForm();
                                             waitToSubmit = false;
+                                            $('#inputTitle').val("Video automatically booked");
                                             saveVideo(false);
                                             waitToSubmit = true;
                                             setTimeout(function () {

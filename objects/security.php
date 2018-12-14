@@ -6,7 +6,15 @@ $securityFilter = array('error', 'search', 'catName', 'type', 'channelName', 'ca
 $securityFilterInt = array('videos_id', 'video_id');
 
 if(isset($_GET['search'])){
-    $_GET['search'] = trim($_GET['search']);
+    if(is_string($_GET['search'])){
+        $_GET['search'] = trim($_GET['search']);
+    }else if(is_array($_GET['search'])){
+        foreach ($_GET['search'] as $key => $value) {
+            if(is_string($_GET['search'][$key])){
+                $_GET['search'][$key] = trim($_GET['search'][$key]);
+            }
+        }
+    }
 }
 
 foreach ($securityFilterInt as $value) {

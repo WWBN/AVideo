@@ -130,6 +130,18 @@ if (typeof gtag !== \"function\") {
         return $code;
     }
 
+    function addExternalOptions($id, $value) {
+        $eo = unserialize(base64_decode($this->externalOptions));
+        $eo[$id] = $value;
+        $this->setExternalOptions($eo);
+    }
+    
+    function removeExternalOptions($id) {
+        $eo = unserialize(base64_decode($this->externalOptions));
+        unset($eo[$id]);
+        $this->setExternalOptions($eo);
+    }
+    
     function setExternalOptions($options) {
         //we convert it to base64 to sanitize the input since we do not validate input from externalOptions
         $this->externalOptions = base64_encode(serialize($options));
