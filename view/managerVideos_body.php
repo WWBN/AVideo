@@ -16,7 +16,7 @@
         <?php
         $categories = Category::getAllCategories(true);
         if (empty($advancedCustom->doNotShowEncoderButton)) {
-            if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
+            if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)
             ) {
                 if (!empty($config->getEncoderURL())) {
                     ?>
@@ -33,7 +33,7 @@
             }
         }
         if (empty($advancedCustom->doNotShowUploadMP4Button)) {
-            if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
+            if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)
             ) {
                 ?>
                 <button class="btn btn-default" onclick="newVideo();" id="uploadMp4">
@@ -44,7 +44,7 @@
             }
         }
         if (empty($advancedCustom->doNotShowEmbedButton)) {
-            if ((isset($advancedCustom->onlyVerifiedEmailCanUpload) && $advancedCustom->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustom->onlyVerifiedEmailCanUpload) && !$advancedCustom->onlyVerifiedEmailCanUpload) || !isset($advancedCustom->onlyVerifiedEmailCanUpload)
+            if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)
             ) {
                 ?>
                 <button class="btn btn-default" id="linkExternalVideo">
@@ -105,7 +105,7 @@
             </button>
             <?php
         }
-        if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
+        if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
             ?>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -253,7 +253,7 @@
                                     <label for="inputDescription" ><?php echo __("Description"); ?></label>
                                     <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
                                     <?php
-                                    if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
+                                    if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
                                         ?>
                                         <label for="inputCategory" ><?php echo __("Category"); ?></label>
                                         <select class="form-control last" id="inputCategory" required>
@@ -907,7 +907,10 @@
                                                 },
                                                 type: 'post',
                                                 success: function (response) {
-                                                    if (response.status === "1") {
+                                                    if (response.status === "1" || response.status === true) {
+                                                        if(response.video.type==='embed'){
+                                                            videoUploaded=true;
+                                                        }
                                                         if (closeModal && videoUploaded) {
                                                             $('#videoFormModal').modal('hide');
                                                         }
