@@ -3,16 +3,16 @@ var cat;
 var videos_id;
 var $carousel;
 
-function isFlickityEnabled(selector) {
+function isFlickityEnabled(selector, tryAttempt) {
     var isEnabled = $(selector).hasClass('flickity-enabled');
-    if (isEnabled) {
+    if (isEnabled || tryAttempt>4) {
         $('#loading').fadeOut();
         $('.container-fluid').fadeIn('slow', function () {
             $carousel.flickity('resize');
         });
     } else {
         setTimeout(function () {
-            isFlickityEnabled(selector)
+            isFlickityEnabled(selector,++tryAttempt);
         }, 500);
     }
 }
@@ -51,7 +51,7 @@ $(function () {
     });
 
     $carousel = $('.carousel').flickity();
-    isFlickityEnabled('.carousel');
+    isFlickityEnabled('.carousel', 0);
 
 });
 
