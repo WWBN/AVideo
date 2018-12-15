@@ -60,36 +60,8 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
 
                     <?php
                 }
-                if ($obj->MostWatched) {
-                    $dataFlickirty = new stdClass();
-                    $dataFlickirty->wrapAround = true;
-                    $dataFlickirty->pageDots = !empty($obj->pageDots);
-                    $dataFlickirty->lazyLoad = 15;
-                    $dataFlickirty->setGallerySize = false;
-                    $dataFlickirty->cellAlign = 'left';
-                    if ($obj->MostWatchedAutoPlay) {
-                        $dataFlickirty->autoPlay = true;
-                        $dataFlickirty->wrapAround = true;
-                    } else {
-                        $dataFlickirty->wrapAround = true;
-                    }
-                    unset($_POST['sort']);
-                    $_POST['sort']['views_count'] = "DESC";
-                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
-                    ?>
-                    <span class="md-col-12">&nbsp;</span>
-                    <div class="row">
-                        <h2>
-                            <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
-                        </h2>
-                        <!-- Most watched -->
-                        <?php
-                        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
-                        ?>
-                    </div>
-                    <?php
-                }
             }
+
             if ($obj->MostPopular) {
                 $dataFlickirty = new stdClass();
                 $dataFlickirty->wrapAround = true;
@@ -119,6 +91,37 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 </div>
 
 
+                <?php
+            }
+
+
+            if ($obj->MostWatched) {
+                $dataFlickirty = new stdClass();
+                $dataFlickirty->wrapAround = true;
+                $dataFlickirty->pageDots = !empty($obj->pageDots);
+                $dataFlickirty->lazyLoad = 15;
+                $dataFlickirty->setGallerySize = false;
+                $dataFlickirty->cellAlign = 'left';
+                if ($obj->MostWatchedAutoPlay) {
+                    $dataFlickirty->autoPlay = true;
+                    $dataFlickirty->wrapAround = true;
+                } else {
+                    $dataFlickirty->wrapAround = true;
+                }
+                unset($_POST['sort']);
+                $_POST['sort']['views_count'] = "DESC";
+                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                ?>
+                <span class="md-col-12">&nbsp;</span>
+                <div class="row">
+                    <h2>
+                        <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
+                    </h2>
+                    <!-- Most watched -->
+                    <?php
+                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                    ?>
+                </div>
                 <?php
             }
 
@@ -191,17 +194,17 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
         <div id="loading" class="loader"
              style="width: 30vh; height: 30vh; position: absolute; left: 50%; top: 50%; margin-left: -15vh; margin-top: -15vh;"></div>
 
-<?php
-include $global['systemRootPath'] . 'view/include/footer.php';
+        <?php
+        include $global['systemRootPath'] . 'view/include/footer.php';
 
-if (!empty($tmpSessionType)) {
-    $_SESSION['type'] = $tmpSessionType;
-} else {
-    unset($_SESSION['type']);
-}
-$jsFiles = array("view/js/bootstrap-list-filter/bootstrap-list-filter.min.js", "plugin/YouPHPFlix2/view/js/flickity/flickity.pkgd.min.js", "view/js/webui-popover/jquery.webui-popover.min.js", "plugin/YouPHPFlix2/view/js/script.js");
-$jsURL = combineFiles($jsFiles, "js");
-?>
+        if (!empty($tmpSessionType)) {
+            $_SESSION['type'] = $tmpSessionType;
+        } else {
+            unset($_SESSION['type']);
+        }
+        $jsFiles = array("view/js/bootstrap-list-filter/bootstrap-list-filter.min.js", "plugin/YouPHPFlix2/view/js/flickity/flickity.pkgd.min.js", "view/js/webui-popover/jquery.webui-popover.min.js", "plugin/YouPHPFlix2/view/js/script.js");
+        $jsURL = combineFiles($jsFiles, "js");
+        ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     </body>
