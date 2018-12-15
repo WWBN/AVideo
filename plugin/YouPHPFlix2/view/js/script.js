@@ -3,17 +3,16 @@ var cat;
 var videos_id;
 var $carousel;
 
-function isFlickityEnabled(selector, tryAttempt) {
+function isFlickityEnabled(selector) {
     var isEnabled = $(selector).hasClass('flickity-enabled');
-    console.log('isFlickityEnabled: '+tryAttempt);
-    if (isEnabled || tryAttempt>4) {
+    if (isEnabled) {
         $('#loading').fadeOut();
         $('.container-fluid').fadeIn('slow', function () {
             $carousel.flickity('resize');
         });
     } else {
         setTimeout(function () {
-            isFlickityEnabled(selector,tryAttempt+1);
+            isFlickityEnabled(selector)
         }, 500);
     }
 }
@@ -52,7 +51,14 @@ $(function () {
     });
 
     $carousel = $('.carousel').flickity();
-    isFlickityEnabled('.carousel', 0);
+    isFlickityEnabled('.carousel');
+    
+    setTimeout(function () {
+        $('#loading').fadeOut();
+        $('.container-fluid').fadeIn('slow', function () {
+            $carousel.flickity('resize');
+        });
+    }, 2000);
 
 });
 
