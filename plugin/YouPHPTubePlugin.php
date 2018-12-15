@@ -479,6 +479,20 @@ class YouPHPTubePlugin {
         }
         return $str;
     }
+    
+    public static function getMyAccount($users_id = "") {
+        if (empty($users_id))
+            return "";
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $str .= $p->getMyAccount($users_id);
+            }
+        }
+        return $str;
+    }
 
     public static function getPluginUserOptions() {
         $plugins = Plugin::getAllEnabled();

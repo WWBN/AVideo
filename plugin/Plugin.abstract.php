@@ -209,6 +209,10 @@ abstract class PluginAbstract {
     public function getPlayListButtons($playlist_id) {
 	return "";
     }
+    
+    public function getMyAccount($users_id) {
+	return "";
+    }
     /**
      * 
      * @return type array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));

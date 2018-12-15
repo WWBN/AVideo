@@ -1235,8 +1235,8 @@ function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false)
 
 function encryptPassword($password, $noSalt = false)
 {
-    global $advancedCustom, $global;
-    if (!empty($advancedCustom->encryptPasswordsWithSalt) && !empty($global['salt']) && empty($noSalt)) {
+    global $advancedCustom, $global, $advancedCustomUser;
+    if (!empty($advancedCustomUser->encryptPasswordsWithSalt) && !empty($global['salt']) && empty($noSalt)) {
         $password .= $global['salt'];
     }
 

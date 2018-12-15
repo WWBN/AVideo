@@ -56,7 +56,7 @@ if (!empty($video['clean_title'])) {
 $get = array();
 
 $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
-if (!empty($_GET['channelName']) && empty($advancedCustom->hideRemoveChannelFromModeYoutube)) {
+if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannelFromModeYoutube)) {
     $user = User::getChannelOwner($_GET['channelName']);
 //var_dump($user);exit;
     ?>

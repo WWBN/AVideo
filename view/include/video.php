@@ -96,7 +96,7 @@ if ($playNowVideo['type'] == "linkVideo") {
                         copyToClipboard($('#textAreaEmbed').val());
                 }, iconClass: 'fas fa-code'
         }
-<?php if ($config->getAllow_download()) { ?>
+<?php if (CustomizeUser::canDownloadVideosFromUser($playNowVideo['users_id'])) { ?>
     <?php
     if ($playNowVideo['type'] == "video") {
         $files = getVideosURL($playNowVideo['filename']);

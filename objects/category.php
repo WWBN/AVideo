@@ -360,11 +360,11 @@ class Category {
     }
 
     static function canCreateCategory() {
-        global $advancedCustom;
+        global $advancedCustomUser;
         if (User::isAdmin()) {
             return true;
         }
-        if ($advancedCustom->usersCanCreateNewCategories && User::canUpload()) {
+        if ($advancedCustomUser->usersCanCreateNewCategories && User::canUpload()) {
             return true;
         }
         return false;

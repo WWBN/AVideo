@@ -11,4 +11,4 @@
         'onlyVerifiedEmailCanUpload'=>'Users must verify their emails before upload/submit videos',
         'sendVerificationMailAutomaic'=>'After sign up we will automatic send a verification email',
         'userMustBeLoggedIn'=>'Hide the website to non logged users');
-createTable("CustomizeAdvanced", $filter);
+createTable("CustomizeUser", $filter);

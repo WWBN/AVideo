@@ -8,7 +8,7 @@
                     'disableNativeSignUp' => 'The form to signup will not exists',
                     'disableNativeSignIn' => 'The regular form to signin will not exist, if you check this will only have social login or LDAP option',
                     'userMustBeLoggedIn' => 'The site will display only a login form to un authenticated users');
-                createTable("CustomizeAdvanced", $filter);
+                createTable("CustomizeUser", $filter);
                 ?>
             </div>
         </div>

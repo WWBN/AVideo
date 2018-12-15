@@ -78,7 +78,7 @@
                         <script>
                             var player;
                             var mediaId = <?php echo $video['id']; ?>;
-    <?php if (!$config->getAllow_download()) { ?>
+    <?php if (!CustomizeUser::canDownloadVideosFromUser($video['users_id'])) { ?>
                                 // Prevent HTML5 video from being downloaded (right-click saved)?
                                 $('#mainVideo').bind('contextmenu', function () {
                                     return false;

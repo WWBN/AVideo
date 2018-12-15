@@ -222,7 +222,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </div>
 
                     <?php
-                    if ($config->getAllow_download()) {
+                    if (CustomizeUser::canDownloadVideosFromUser($video['users_id'])) {
                         ?>
                         <div style="position: relative; overflow: visible;">
                             <button type="button" class="btn btn-default btn-sm btn-xs"  data-toggle="dropdown">

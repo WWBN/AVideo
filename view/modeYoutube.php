@@ -210,7 +210,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
     <body>
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <?php
-        if (!empty($advancedCustom->showChannelBannerOnModeYoutube)) {
+        if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
             ?>
             <div class="container" style="margin-bottom: 10px;">
                 <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
@@ -299,7 +299,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
 
                             <div class="row">
                                 <div class="col-md-12 watch8-action-buttons text-muted">
-                                    <?php if ((($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false)) { ?>
+                                    <?php if (empty($advancedCustom->disableShareAndPlaylist)) { ?>
                                         <button class="btn btn-default no-outline" id="addBtn" data-placement="bottom">
                                             <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                                         </button>
@@ -418,9 +418,11 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
 
                                             });
                                         </script>
+                                        <?php if (CustomizeUser::canShareVideosFromUser($video['users_id'])) { ?>
                                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                             <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                         </a>
+                                    <?php } ?>
                                     <?php } echo YouPHPTubePlugin::getWatchActionButton(); ?>
                                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                                         <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
@@ -461,7 +463,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                 </div>
                             </div>
                         </div>
-                        <?php if ((($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false)) { ?>
+                        <?php if (CustomizeUser::canShareVideosFromUser($video['users_id'])) { ?>
                             <div class="row bgWhite list-group-item" id="shareDiv">
                                 <div class="tabbable-panel">
                                     <div class="tabbable-line text-muted">

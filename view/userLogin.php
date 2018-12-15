@@ -6,7 +6,7 @@
 
 
             <?php
-            if (empty($advancedCustom->disableNativeSignIn)) {
+            if (empty($advancedCustomUser->disableNativeSignIn)) {
                 ?>
                 <form class="form-compact well form-horizontal"  id="loginForm">
 
@@ -50,7 +50,7 @@
                         <label class="col-md-4 control-label"></label>
                         <div class="col-md-8 inputGroupContainer">
                             <?php
-                            if (empty($advancedCustom->disableNativeSignUp)) {
+                            if (empty($advancedCustomUser->disableNativeSignUp)) {
                                 ?>
                                 <small><a href="#" class="btn" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
                                 <?php
@@ -67,7 +67,7 @@
 
                 </form>
                 <?php
-                if (empty($advancedCustom->disableNativeSignUp)) {
+                if (empty($advancedCustomUser->disableNativeSignUp)) {
                     ?>
                     <div class="row">
                         <div class="col-md-12">

@@ -138,7 +138,7 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
-if (empty($advancedCustom->userCanNotChangeCategory) || User::isAdmin()) {
+if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $object->categories = Category::getAllCategories(true);
 }else{
     $object->categories = array();

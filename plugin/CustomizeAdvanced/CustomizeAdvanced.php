@@ -38,21 +38,13 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderResolutionSD = false;
         $obj->doNotShowEncoderResolutionHD = false;
         $obj->doNotShowLeftMenuAudioAndVideoButtons = false;
-        $obj->disableNativeSignUp = false;
-        $obj->disableNativeSignIn = false;
-        $obj->disablePersonalInfo = true;
         $obj->doNotShowWebsiteOnContactForm = false;
-        $obj->newUsersCanStream = false;
-        $obj->doNotIndentifyByEmail = false;
-        $obj->doNotIndentifyByName = false;
-        $obj->doNotIndentifyByUserName = false;
         $obj->doNotUseXsendFile = false;
         $obj->makeVideosInactiveAfterEncode = false;
         $obj->usePermalinks = false;
         $obj->showAdsenseBannerOnTop = false;
         $obj->showAdsenseBannerOnLeft = true;
         $obj->disableAnimatedGif = false;
-        $obj->unverifiedEmailsCanNOTLogin = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->uploadButtonDropdownIcon = "fas fa-video";
         $obj->uploadButtonDropdownText = "";
@@ -64,9 +56,6 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->utf8Encode = false;
         $obj->utf8Decode = false;
         $obj->embedBackgroundColor = "white";
-        $obj->userMustBeLoggedIn = false;
-        $obj->onlyVerifiedEmailCanUpload= false;
-        $obj->sendVerificationMailAutomaic=false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
@@ -92,18 +81,11 @@ class CustomizeAdvanced extends PluginAbstract {
                 }
             }
         }
-        
-        
+                
         $obj->disableHelpLeftMenu= false;
         $obj->disableAboutLeftMenu= false;
         $obj->disableContactLeftMenu= false;
         $obj->disableNavbar= false;
-        $obj->userCanNotChangeCategory = false;
-        $obj->hideRemoveChannelFromModeYoutube = false;
-        $obj->showChannelBannerOnModeYoutube = false;
-        $obj->usersCanCreateNewCategories = false;
-        $obj->encryptPasswordsWithSalt = false;
-        $obj->requestCaptchaAfterLoginsAttempts = 0;
         $obj->videosCDN = "";
         $obj->useFFMPEGToGenerateThumbs = false;
         

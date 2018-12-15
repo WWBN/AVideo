@@ -134,12 +134,14 @@ if (typeof gtag !== \"function\") {
         $eo = unserialize(base64_decode($this->externalOptions));
         $eo[$id] = $value;
         $this->setExternalOptions($eo);
+        return $this->save();
     }
     
     function removeExternalOptions($id) {
         $eo = unserialize(base64_decode($this->externalOptions));
         unset($eo[$id]);
         $this->setExternalOptions($eo);
+        return $this->save();
     }
     
     function setExternalOptions($options) {
@@ -149,6 +151,9 @@ if (typeof gtag !== \"function\") {
 
     function getExternalOption($id) {
         $eo = unserialize(base64_decode($this->externalOptions));
+        if(empty($eo[$id])){
+            return NULL;
+        }
         return $eo[$id];
     }
 
@@ -242,13 +247,13 @@ if (typeof gtag !== \"function\") {
     static function getNameIdentification() {
         global $advancedCustom;
         if (self::isLogged()) {
-            if (!empty(self::getName()) && empty($advancedCustom->doNotIndentifyByName)) {
+            if (!empty(self::getName()) && empty($advancedCustomUser->doNotIndentifyByName)) {
                 return self::getName();
             }
-            if (!empty(self::getMail()) && empty($advancedCustom->doNotIndentifyByEmail)) {
+            if (!empty(self::getMail()) && empty($advancedCustomUser->doNotIndentifyByEmail)) {
                 return self::getMail();
             }
-            if (!empty(self::getUserName()) && empty($advancedCustom->doNotIndentifyByUserName)) {
+            if (!empty(self::getUserName()) && empty($advancedCustomUser->doNotIndentifyByUserName)) {
                 return self::getUserName();
             }
         }
@@ -366,7 +371,7 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($this->canStream)) {
             if (empty($this->id)) { // it is a new user
-                if (empty($advancedCustom->newUsersCanStream)) {
+                if (empty($advancedCustomUser->newUsersCanStream)) {
                     $this->canStream = "0";
                 } else {
                     $this->canStream = "1";
@@ -451,7 +456,7 @@ if (typeof gtag !== \"function\") {
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
-                if (!empty($advancedCustom->unverifiedEmailsCanNOTLogin)) {
+                if (!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
                     self::sendVerificationLink($id);
                 }
             } else {
@@ -538,7 +543,7 @@ if (typeof gtag !== \"function\") {
     const CAPTCHA_ERROR = 3;
 
     function login($noPass = false, $encodedPass = false) {
-        global $global,$advancedCustom;
+        global $global,$advancedCustom, $advancedCustomUser;
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
@@ -551,9 +556,9 @@ if (typeof gtag !== \"function\") {
         if(empty($_SESSION['loginAttempts'])){
             $_SESSION['loginAttempts'] = 0;
         }
-        if(!empty($advancedCustom->requestCaptchaAfterLoginsAttempts)){
+        if(!empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)){
             $_SESSION['loginAttempts']++;
-            if($_SESSION['loginAttempts']>$advancedCustom->requestCaptchaAfterLoginsAttempts){
+            if($_SESSION['loginAttempts']>$advancedCustomUser->requestCaptchaAfterLoginsAttempts){
                 if(empty($_POST['captcha'])){
                     return self::CAPTCHA_ERROR;
                 }
@@ -565,7 +570,7 @@ if (typeof gtag !== \"function\") {
         }
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
-        if (!empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustom->unverifiedEmailsCanNOTLogin)) {
+        if (!empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
             unset($_SESSION['user']);
             self::sendVerificationLink($user['id']);
             return self::USER_NOT_VERIFIED;
@@ -590,10 +595,10 @@ if (typeof gtag !== \"function\") {
     }
     
     static function isCaptchaNeed(){
-        global $advancedCustom;
+        global $advancedCustomUser;
         // check for multiple logins attempts to prevent hacking
-        if(!empty($_SESSION['loginAttempts']) && !empty($advancedCustom->requestCaptchaAfterLoginsAttempts)){
-            if($_SESSION['loginAttempts']>$advancedCustom->requestCaptchaAfterLoginsAttempts){
+        if(!empty($_SESSION['loginAttempts']) && !empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)){
+            if($_SESSION['loginAttempts']>$advancedCustomUser->requestCaptchaAfterLoginsAttempts){
                 return true;
             }
         }

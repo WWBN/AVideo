@@ -110,6 +110,11 @@
         <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
     </div>
 </div>
+
+<?php
+        YouPHPTubePlugin::getMyAccount(User::getId());
+?>
+
 <div class="form-group">
     <div class="col-md-12 ">
         <div id="croppie"></div>
@@ -199,7 +204,7 @@
                                         }, success: function (response) {
                                             console.log("SavePersonal");
                                             modal.hidePleaseWait();
-                                            <?php if(empty($advancedCustom->disablePersonalInfo)){ ?>
+                                            <?php if(empty($advancedCustomUser->disablePersonalInfo)){ ?>
                                             savePersonalInfo();
                                             <?php } ?>
                                         }

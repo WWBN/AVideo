@@ -1,5 +1,5 @@
 <?php
-if(!empty($advancedCustom->disablePersonalInfo)){
+if(!empty($advancedCustomUser->disablePersonalInfo)){
     return false;
 }
 require_once $global['systemRootPath'] . 'plugin/User_Location/Objects/IP2Location.php';
