@@ -5,7 +5,7 @@ var $carousel;
 
 function isFlickityEnabled(selector, tryAttempt) {
     var isEnabled = $(selector).hasClass('flickity-enabled');
-    ++tryAttempt;
+    console.log('isFlickityEnabled: '+tryAttempt);
     if (isEnabled || tryAttempt>4) {
         $('#loading').fadeOut();
         $('.container-fluid').fadeIn('slow', function () {
@@ -13,7 +13,7 @@ function isFlickityEnabled(selector, tryAttempt) {
         });
     } else {
         setTimeout(function () {
-            isFlickityEnabled(selector,tryAttempt);
+            isFlickityEnabled(selector,tryAttempt+1);
         }, 500);
     }
 }
