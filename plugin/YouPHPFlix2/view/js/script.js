@@ -49,9 +49,6 @@ $(function () {
         });
 
     });
-
-    $carousel = $('.carousel').flickity();
-    isFlickityEnabled('.carousel');
     
     setTimeout(function () {
         $('#loading').fadeOut();
@@ -59,6 +56,9 @@ $(function () {
             $carousel.flickity('resize');
         });
     }, 2000);
+    
+    $carousel = $('.carousel').flickity();
+    isFlickityEnabled('.carousel');
 
 });
 
