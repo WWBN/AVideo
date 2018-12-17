@@ -1678,7 +1678,7 @@ if (!class_exists('Video')) {
             } else {
                 $obj->error = false;
             }
-            error_log("QUEUE CURL: " . print_r($obj, true));
+            error_log("QUEUE CURL: ($target) " . json_encode($obj));
             curl_close($curl);
             return $obj;
         }
