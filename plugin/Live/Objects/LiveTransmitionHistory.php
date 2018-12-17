@@ -56,7 +56,7 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     function setDescription($description) {
         global $global;
-        $title = $global['mysqli']->real_escape_string($description);
+        $description = $global['mysqli']->real_escape_string($description);
         $this->description = $description;
     }
 
