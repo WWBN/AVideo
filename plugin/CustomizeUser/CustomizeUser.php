@@ -71,11 +71,11 @@ class CustomizeUser extends PluginAbstract {
 
     static function canShareVideosFromUser($users_id) {
         global $advancedCustom;
-        
-        if(!empty($advancedCustom->disableShareAndPlaylist)){
+
+        if (!empty($advancedCustom->disableShareAndPlaylist)) {
             return false;
         }
-        
+
         $obj = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
         if (empty($obj) || empty($obj->userCanAllowFilesShare)) {
             return true;
@@ -125,6 +125,30 @@ class CustomizeUser extends PluginAbstract {
 
     public function getTags() {
         return array('free', 'customization', 'users');
+    }
+
+    public function getChannelButton() {
+        global $global, $isMyChannel;
+        if (!$isMyChannel) {
+            return "";
+        }
+        $objcu = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
+        echo "<div style=\"float:right\">";
+        if (!empty($objcu) && !empty($objcu->userCanAllowFilesDownload)) {
+            echo '<div style=" margin:0 20px 10px 0;  height: 15px;">';
+            echo '<div class="" style="max-width: 100px; float:right;"> ';
+            self::getSwitchUserCanAllowFilesDownload(User::getId());
+            echo '</div>
+    <label class="control-label" style="float:right; margin:0 10px;">' . __("Allow Download My Videos") . '</label></div>';
+        }
+        if (!empty($objcu) && !empty($objcu->userCanAllowFilesShare)) {
+            echo '<div style=" margin:0 20px 10px 0; height: 15px;">';
+            echo '<div class="" style="max-width: 100px; float:right;"> ';
+            self::getSwitchUserCanAllowFilesShare(User::getId());
+            echo '</div>
+    <label class="control-label" style="float:right; margin:0 10px;">' . __("Allow Share My Videos") . '</label></div>';
+        }
+        echo "</div>";
     }
 
 }
