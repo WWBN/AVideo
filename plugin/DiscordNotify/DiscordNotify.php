@@ -40,9 +40,9 @@ class DiscordNotify extends PluginAbstract
         
         $obj = new stdClass();
         $obj->webhook_url = "";
-		$obj->favicon_url = "";
-		$obj->botuser = "";
-		$obj->botlogo = "";
+		$obj->avatar_url = "";
+		$obj->bot_username = "";
+		$obj->bot_logo = "";
         return $obj;
     }
     public function afterNewVideo($videos_id)
@@ -61,14 +61,14 @@ class DiscordNotify extends PluginAbstract
 		$videoDuration = $video->getDuration();
 		$videoDescription = $video->getDescription();
 		$url = $o->webhook_url;
-		$favicon_url = $o->favicon_url;
-		$botuser = $o->botuser;
-		$botlogo = $o->botlogo;
+		$avatar_url = $o->avatar_url;
+		$bot_username = $o->bot_username;
+		$bot_logo = $o->bot_logo;
 
 $hookObject = json_encode([
     "content" => "",
-    "username" => $botuser,
-    "avatar_url" => $favicon_url,
+    "username" => $bot_username,
+    "avatar_url" => $avatar_url,
     "tts" => false,
     "embeds" => [
         [
@@ -79,8 +79,8 @@ $hookObject = json_encode([
             "timestamp" => "",
             "color" => hexdec( "FF0000" ),
             "footer" => [
-                "text" => $botuser,
-                "icon_url" => $botlogo
+                "text" => $bot_username,
+                "icon_url" => $bot_logo
             ],
 
             "image" => [
