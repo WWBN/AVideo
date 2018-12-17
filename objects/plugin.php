@@ -271,6 +271,9 @@ class Plugin extends ObjectYPT {
     }
     
     function save() {
+        if(empty($this->uuid)){
+            return false;
+        }
         global $global;
         $this->object_data = $global['mysqli']->real_escape_string($this->object_data);
         if(empty($this->object_data)){
