@@ -101,6 +101,11 @@ if ($playNowVideo['type'] == "linkVideo") {
     if ($playNowVideo['type'] == "video") {
         $files = getVideosURL($playNowVideo['filename']);
         foreach ($files as $key => $theLink) {
+            if(empty($advancedCustom->showImageDownloadOption)){
+                if($key=="jpg" || $key=="gif"){
+                    continue;
+                }
+            }
             ?>
                     , {
                         name: '<?php echo __("Download video") . " (" . $key . ")"; ?>',
