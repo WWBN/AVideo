@@ -26,7 +26,7 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                 </button>
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
-                <video
+                <video playsinline
                 <?php if ($config->getAutoplay() && false) { // disable it for now  ?>
                         autoplay="true"
                         muted="muted"
