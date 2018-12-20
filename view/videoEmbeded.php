@@ -103,7 +103,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
             <?php
             if ($video['type'] == "embed") {
                 ?>
-                <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+                <video playsinline id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
                 <iframe class="embed-responsive-item" src="<?php
                 echo parseVideos($video['videoLink']);
                 if ($config->getAutoplay()) {
@@ -144,7 +144,7 @@ if (($video['type'] !== "audio")&&($video['type'] !== "linkAudio")) {
                 <?php
             } else {
                 ?>
-                <video id="mainVideo" poster="<?php echo $poster; ?>" controls
+                <video playsinline id="mainVideo" poster="<?php echo $poster; ?>" controls
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                     <?php
                     echo getSources($video['filename']);

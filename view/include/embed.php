@@ -34,7 +34,7 @@
             if (((strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
                 $_GET['isEmbedded'] = "e";
                 ?>
-                <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+                <video playsinline id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php
                     echo parseVideos($video['videoLink']);
@@ -58,7 +58,7 @@
                     $_GET['isMediaPlaySite'] = $video['id'];
                     ?>      
                     <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                        <video id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php
+                        <video playsinline id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php
                         if ($config->getAutoplay()) {
                             echo " autoplay ";
                         }
