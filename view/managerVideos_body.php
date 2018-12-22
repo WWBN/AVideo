@@ -881,7 +881,7 @@
                                             var isPublic = $('#public').is(':checked');
                                             var selectedVideoGroups = [];
                                             $('.videoGroups:checked').each(function () {
-                                                selectedVideoGroups.push($('#updateCategoryForm').val());
+                                                selectedVideoGroups.push($(this).val());
                                             });
                                             if (!isPublic && selectedVideoGroups.length === 0) {
                                                 isPublic = true;
