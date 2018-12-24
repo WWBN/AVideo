@@ -364,7 +364,7 @@ class Category {
         if (User::isAdmin()) {
             return true;
         }
-        if ($advancedCustomUser->usersCanCreateNewCategories && User::canUpload()) {
+        if ($advancedCustomUser && $advancedCustomUser->usersCanCreateNewCategories && User::canUpload()) {
             return true;
         }
         return false;
