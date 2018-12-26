@@ -5,6 +5,7 @@ if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/category.php';
 if(!Category::canCreateCategory()){
     die('{"error":"'.__("Permission denied").'"}');
 }
