@@ -138,8 +138,14 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 } else {
                     $dataFlickirty->wrapAround = true;
                 }
-                unset($_POST['sort']);
+                $searchPhrase = "";
+                if(!empty($_POST['searchPhrase'])){
+                    $searchPhrase = $_POST['searchPhrase'];
+                    unset($_POST['searchPhrase']);
+                }
+                unset($_POST['sort']);                
                 $categories = Category::getAllCategories();
+                $_POST['searchPhrase'] = $searchPhrase;
                 foreach ($categories as $value) {
                     if(!empty($_GET['catName']) && $value['clean_name']!==$_GET['catName']){
                         continue;
