@@ -147,8 +147,11 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 $categories = Category::getAllCategories();
                 $_POST['searchPhrase'] = $searchPhrase;
                 foreach ($categories as $value) {
+                    $oldCatName = @$_GET['catName'];
                     if(!empty($_GET['catName']) && $value['clean_name']!==$_GET['catName']){
                         continue;
+                    }else{
+                        $_GET['catName'] = $value['clean_name'];
                     }
                     unset($_POST['sort']);
                     $_POST['sort']['likes'] = "DESC";
@@ -168,6 +171,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         ?>
                     </div>
                     <?php
+                    $_GET['catName'] = $oldCatName;
                 }
                 if (!empty($_GET['catName'])) {
                     unset($_POST['sort']);
