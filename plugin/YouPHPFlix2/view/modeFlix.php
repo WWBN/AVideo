@@ -157,6 +157,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     $_POST['sort']['likes'] = "DESC";
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     if (empty($videos)) {
+                        $_GET['catName'] = $oldCatName;
                         continue;
                     }
                     ?>
