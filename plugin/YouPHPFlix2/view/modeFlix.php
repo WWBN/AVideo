@@ -125,7 +125,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 <?php
             }
 
-            if ($obj->Categories && empty($_GET['catName'])) {
+            if ($obj->Categories) {
                 $dataFlickirty = new stdClass();
                 $dataFlickirty->wrapAround = true;
                 $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -141,8 +141,10 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 unset($_POST['sort']);
                 $categories = Category::getAllCategories();
                 foreach ($categories as $value) {
+                    if(!empty($_GET['catName']) && $value['clean_name']!==$_GET['catName']){
+                        continue;
+                    }
                     unset($_POST['sort']);
-                    $_GET['catName'] = $value['clean_name'];
                     $_POST['sort']['likes'] = "DESC";
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     if (empty($videos)) {
@@ -160,29 +162,32 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         ?>
                     </div>
                     <?php
-                    unset($_GET['catName']);
                 }
-            } else if ($obj->Categories && !empty($_GET['catName'])) {
-                unset($_POST['sort']);
-                $categories = Category::getChildCategoriesFromTitle($_GET['catName']);
-                foreach ($categories as $value) {
+                if (!empty($_GET['catName'])) {
                     unset($_POST['sort']);
-                    $_GET['catName'] = $value['clean_name'];
-                    $_POST['sort']['likes'] = "DESC";
-                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
-                    ?>
-                    <div class="row">
-                        <span class="md-col-12">&nbsp;</span>
-                        <h2>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="fas fa-folder"></i> <?php echo $value['name']; ?></a>
-                        </h2>
-                        <!-- Sub category -->
-                        <?php
-                        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                    $categories = Category::getChildCategoriesFromTitle($_GET['catName']);
+                    foreach ($categories as $value) {
+                        unset($_POST['sort']);
+                        $_GET['catName'] = $value['clean_name'];
+                        $_POST['sort']['likes'] = "DESC";
+                        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                        if(empty($videos)){
+                            continue;
+                        }
                         ?>
-                    </div>
-                    <?php
-                    unset($_GET['catName']);
+                        <div class="row">
+                            <span class="md-col-12">&nbsp;</span>
+                            <h2>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="fas fa-folder"></i> <?php echo $value['name']; ?></a>
+                            </h2>
+                            <!-- Sub category -->
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            ?>
+                        </div>
+                        <?php
+                        unset($_GET['catName']);
+                    }
                 }
             }
 
