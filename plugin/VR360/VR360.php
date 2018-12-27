@@ -50,13 +50,19 @@ class VR360 extends PluginAbstract {
     }
 
     private function getFooterPanorama() {
-        global $global;
+        global $global, $advancedCustom;
         require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
         if (empty($_GET['videoName']) || !VideosVR360::isVR360EnabledByVideoCleanTitle($_GET['videoName'])) {
             return "";
         }
-        $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/VR360/videojs-panorama/videojs-panorama.v5.js" type="text/javascript"></script>';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/VR360/videojs-panorama/three.min.js" type="text/javascript"></script>';
+        
+        $webSiteRoorURL = $global['webSiteRootURL'];
+        
+        if(!empty($advancedCustom->videosCDN)){
+            $webSiteRoorURL = $advancedCustom->videosCDN;
+        }
+        $js = '<script src="' . $webSiteRoorURL . 'plugin/VR360/videojs-panorama/videojs-panorama.v5.js" type="text/javascript"></script>';
+        $js .= '<script src="' . $webSiteRoorURL . 'plugin/VR360/videojs-panorama/three.min.js" type="text/javascript"></script>';
         $js .= '<script>
     (function(window, videojs) {
         var player = window.player = videojs(\'mainVideo\', {}, function () {
