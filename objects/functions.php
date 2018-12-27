@@ -585,6 +585,14 @@ function parseVideos($videoString = null)
     // return data
 }
 
+function canUseCDN($videos_id){
+    $pvr360 = YouPHPTubePlugin::isEnabledByName('VR360');
+    if($pvr360 && VideosVR360::isVR360Enabled($videos_id)){
+        return false;
+    }
+    return true;
+}
+
 function getVideosURL($fileName)
 {
     global $global;
