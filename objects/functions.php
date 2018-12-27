@@ -589,6 +589,7 @@ function canUseCDN($videos_id){
     global $global;
     require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
     $pvr360 = YouPHPTubePlugin::isEnabledByName('VR360');
+    // if the VR360 is enabled you can not use the CDN, it fail to load the GL
     if($pvr360 && VideosVR360::isVR360Enabled($videos_id)){
         return false;
     }
