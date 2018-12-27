@@ -1730,7 +1730,8 @@ if (!class_exists('Video')) {
             }
             $source = array();
             $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
-            if (!empty($advancedCustom->videosCDN)) {
+            $video = Video::getVideoFromFileName($fileName);
+            if (!empty($advancedCustom->videosCDN) && canUseCDN($video['id'])) {
                 $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
                 $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}{$type}{$token}";
             }else{
