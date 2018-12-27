@@ -156,6 +156,9 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     function save() {
+        if(!$this->tableExists()){
+            return false;
+        }
         global $global;
         $fieldsName = $this->getAllFields();
         if (!empty($this->id)) {
@@ -258,8 +261,15 @@ abstract class ObjectYPT implements ObjectInterface {
             unlink($cachefile);
         }
     }
+    
+    function tableExists(){
+        global $global;
+        $sql = "SHOW TABLES LIKE '" . static::getTableName() . "';";
+        $res = sqlDAL::readSql($sql); 
+        $countRow = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+        return !empty($countRow);
+    }
 
 }
-
-;
 //abstract class Object extends ObjectYPT{};

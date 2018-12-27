@@ -550,24 +550,12 @@ if (typeof gtag !== \"function\") {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
         
+        if(!self::checkLoginAttempts()){
+            return self::CAPTCHA_ERROR;
+        }
         session_write_close();
         session_start();
-        // check for multiple logins attempts to prevent hacking
-        if(empty($_SESSION['loginAttempts'])){
-            $_SESSION['loginAttempts'] = 0;
-        }
-        if(!empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)){
-            $_SESSION['loginAttempts']++;
-            if($_SESSION['loginAttempts']>$advancedCustomUser->requestCaptchaAfterLoginsAttempts){
-                if(empty($_POST['captcha'])){
-                    return self::CAPTCHA_ERROR;
-                }
-                require_once $global['systemRootPath'] . 'objects/captcha.php';
-                if(!Captcha::validation($_POST['captcha'])){
-                    return self::CAPTCHA_ERROR;
-                }
-            }
-        }
+        
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
         if (!empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
@@ -605,6 +593,31 @@ if (typeof gtag !== \"function\") {
         return false;
     }
     
+    static function checkLoginAttempts(){
+        global $advancedCustomUser, $global;
+        session_write_close();
+        session_start();
+        // check for multiple logins attempts to prevent hacking
+        if(empty($_SESSION['loginAttempts'])){
+            $_SESSION['loginAttempts'] = 0;
+        }
+        if(!empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)){
+            $_SESSION['loginAttempts']++;
+            session_write_close();
+            if($_SESSION['loginAttempts']>$advancedCustomUser->requestCaptchaAfterLoginsAttempts){
+                if(empty($_POST['captcha'])){
+                    return false;
+                }
+                require_once $global['systemRootPath'] . 'objects/captcha.php';
+                if(!Captcha::validation($_POST['captcha'])){
+                    return false;
+                }
+            }
+        }
+        session_write_close();
+        return true;
+    }
+    
     static function getCaptchaFormIfNeed() {
         // check for multiple logins attempts to prevent hacking
         if(self::isCaptchaNeed()){
@@ -613,18 +626,18 @@ if (typeof gtag !== \"function\") {
         return "";
     }
     
-    static function getCaptchaForm() {
+    static function getCaptchaForm($uid="") {
         global $global;
         return '<div class="input-group">'
-                . '<span class="input-group-addon"><img src="'.$global['webSiteRootURL'].'captcha" id="captcha"></span>
-                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                    <input name="captcha" placeholder="'.__("Type the code").'" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                . '<span class="input-group-addon"><img src="'.$global['webSiteRootURL'].'captcha" id="captcha'.$uid.'"></span>
+                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha'.$uid.'"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                    <input name="captcha" placeholder="'.__("Type the code").'" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText'.$uid.'">
                 </div>
                 <script>
                 $(document).ready(function () {
-                    $("#btnReloadCapcha").click(function () {
-                        $("#captcha").attr("src", "'.$global['webSiteRootURL'].'captcha?" + Math.random());
-                        $("#captchaText").val("");
+                    $("#btnReloadCapcha'.$uid.'").click(function () {
+                        $("#captcha'.$uid.'").attr("src", "'.$global['webSiteRootURL'].'captcha?" + Math.random());
+                        $("#captchaText'.$uid.'").val("");
                     });
                 });
                 </script>';

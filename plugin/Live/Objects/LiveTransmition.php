@@ -109,7 +109,10 @@ class LiveTransmition extends ObjectYPT {
         return $user;
     }
 
-    static function createTransmitionIfNeed($user_id) {
+    static function createTransmitionIfNeed($user_id) { 
+        if(empty($user_id)){
+            return false;
+        }
         $row = static::getFromDbByUser($user_id);
         if ($row) {
             return $row;
@@ -119,7 +122,7 @@ class LiveTransmition extends ObjectYPT {
         $l->setDescription("");
         $l->setKey(uniqid());
         $l->setCategories_id(1);
-        $l->setUsers_id(User::getId());
+        $l->setUsers_id($user_id);
         $l->save();
         return static::getFromDbByUser($user_id);
     }
