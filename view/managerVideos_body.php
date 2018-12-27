@@ -282,6 +282,32 @@
                                     <div class="row" >
                                         <div class="col-md-12" >
                                             <ul class="list-group">
+                                                <?php
+                                                if (CustomizeUser::canDownloadVideosFromUser(User::getId())) {
+                                                    ?>
+                                                    <li class="list-group-item">
+                                                        <span class="fa fa-download"></span> <?php echo __("Allow Download This Video"); ?>
+                                                        <div class="material-switch pull-right">
+                                                            <input id="can_download" type="checkbox" value="0" class="userGroups"/>
+                                                            <label for="can_download" class="label-success"></label>
+                                                        </div>
+                                                    </li>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php
+                                                if (CustomizeUser::canShareVideosFromUser(User::getId())) {
+                                                    ?>
+                                                    <li class="list-group-item">
+                                                        <span class="fa fa-share"></span> <?php echo __("Allow Share This Video"); ?>
+                                                        <div class="material-switch pull-right">
+                                                            <input id="can_share" type="checkbox" value="0" class="userGroups"/>
+                                                            <label for="can_share" class="label-success"></label>
+                                                        </div>
+                                                    </li>
+                                                    <?php
+                                                }
+                                                ?>
                                                 <li class="list-group-item">
                                                     <span class="fa fa-globe"></span> <?php echo __("Public Video"); ?>
                                                     <div class="material-switch pull-right">
@@ -793,6 +819,19 @@
                                                     $('#videoGroup' + row.groups[index].id).prop('checked', true);
                                                 }
                                             }
+                                            
+                                            if (row.can_download) {
+                                                $('#can_download').prop('checked', true);
+                                            }else{
+                                                $('#can_download').prop('checked', false);
+                                            }
+                                            
+                                            if (row.can_share) {
+                                                $('#can_share').prop('checked', true);
+                                            }else{
+                                                $('#can_share').prop('checked', false);
+                                            }
+                                            
                                             $('#public').trigger("change");
                                             $('#videoIsAd').prop('checked', false);
                                             $('#videoIsAd').trigger("change");
@@ -903,13 +942,15 @@
                                                     "public": isPublic,
                                                     "videoGroups": selectedVideoGroups,
                                                     "next_videos_id": $('#inputNextVideo-id').val(),
-                                                    "users_id": $('#inputUserOwner_id').val()
+                                                    "users_id": $('#inputUserOwner_id').val(),
+                                                    "can_download": $('#can_download').is(':checked'),
+                                                    "can_share": $('#can_share').is(':checked')
                                                 },
                                                 type: 'post',
                                                 success: function (response) {
                                                     if (response.status === "1" || response.status === true) {
-                                                        if(response.video.type==='embed'){
-                                                            videoUploaded=true;
+                                                        if (response.video.type === 'embed') {
+                                                            videoUploaded = true;
                                                         }
                                                         if (closeModal && videoUploaded) {
                                                             $('#videoFormModal').modal('hide');
@@ -946,6 +987,8 @@
                                             $('#inputUserOwner_id').val(<?php echo User::getId(); ?>);
 
                                             $('.videoGroups').prop('checked', false);
+                                            $('#can_download').prop('checked', false);
+                                            $('#can_share').prop('checked', false);
                                             $('#public').prop('checked', true);
                                             $('#public').trigger("change");
                                             $('#videoIsAd').prop('checked', false);
@@ -1187,6 +1230,8 @@ if (!empty($row)) {
                                                 $('#inputDescription').val("");
                                                 $('#inputCategory').val($('#inputCategory option:first').val());
                                                 $('.videoGroups').prop('checked', false);
+                                                $('#can_download').prop('checked', false);
+                                                $('#can_share').prop('checked', false);
                                                 $('#public').prop('checked', true);
                                                 $('#public').trigger("change");
                                                 $('#videoIsAd').prop('checked', false);

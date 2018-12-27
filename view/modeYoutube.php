@@ -418,14 +418,14 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
 
                                             });
                                         </script>
-                                        <?php if (CustomizeUser::canShareVideosFromUser($video['users_id'])) { ?>
+                                        <?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
                                             <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                                 <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                             </a>
                                         <?php
                                         }
 
-                                        if (CustomizeUser::canDownloadVideosFromUser($video['users_id'])) {
+                                        if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                                             ?>
                                             <a href="#" class="btn btn-default no-outline" id="downloadBtn">
                                                 <span class="fa fa-download"></span> <?php echo __("Download"); ?>
@@ -474,7 +474,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                             </div>
                         </div>
 
-    <?php if (CustomizeUser::canDownloadVideosFromUser($video['users_id'])) { ?>
+    <?php if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) { ?>
                             <div class="row bgWhite list-group-item menusDiv" id="downloadDiv">
                                 <div class="tabbable-panel">
                                     <div class="list-group">
@@ -509,7 +509,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                 });
                             </script>
                         <?php } ?>
-    <?php if (CustomizeUser::canShareVideosFromUser($video['users_id'])) { ?>
+    <?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
                             <div class="row bgWhite list-group-item menusDiv" id="shareDiv">
                                 <div class="tabbable-panel">
                                     <div class="tabbable-line text-muted">

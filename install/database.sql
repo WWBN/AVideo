@@ -112,6 +112,8 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `trailer2` VARCHAR(255) NULL DEFAULT NULL,
   `trailer3` VARCHAR(255) NULL DEFAULT NULL,
   `rate` FLOAT(4,2) NULL DEFAULT NULL,
+  `can_download` TINYINT(1) NULL DEFAULT NULL,
+  `can_share` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),

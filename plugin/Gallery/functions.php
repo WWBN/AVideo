@@ -278,7 +278,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                 </div>
             </div>
             <?php
-            if (CustomizeUser::canDownloadVideosFromUser($value['users_id'])) {
+            if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {
                 ?>
 
                 <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">

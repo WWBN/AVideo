@@ -27,6 +27,8 @@ class CustomizeUser extends PluginAbstract {
         $obj = new stdClass();
         $obj->userCanAllowFilesDownload = false;
         $obj->userCanAllowFilesShare = false;
+        $obj->userCanAllowFilesDownloadSelectPerVideo = false;
+        $obj->userCanAllowFilesShareSelectPerVideo = false;
 
 
         $obj->usersCanCreateNewCategories = !isset($advancedCustom->usersCanCreateNewCategories) ? false : $advancedCustom->usersCanCreateNewCategories;
@@ -149,6 +151,43 @@ class CustomizeUser extends PluginAbstract {
     <label class="control-label" style="float:right; margin:0 10px;">' . __("Allow Share My Videos") . '</label></div>';
         }
         echo "</div>";
+    }
+    
+    
+    static function canDownloadVideosFromVideo($videos_id) {
+        $video = new Video("", "", $videos_id);
+        if(empty($video)){
+            return false;
+        }
+        $users_id = $video->getUsers_id();
+        if(!self::canDownloadVideosFromUser($users_id)){
+            return false;
+        }
+        $obj = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (!empty($obj->userCanAllowFilesDownloadSelectPerVideo)) {
+            if(empty($video->getCan_download())){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    static function canShareVideosFromVideo($videos_id) {
+        $video = new Video("", "", $videos_id);
+        if(empty($video)){
+            return false;
+        }
+        $users_id = $video['users_id'];
+        if(!self::canShareVideosFromUser($users_id)){
+            return false;
+        }
+        $obj = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (!empty($obj->userCanAllowFilesShareSelectPerVideo)) {
+            if(empty($video->getCan_share())){
+                return false;
+            }
+        }
+        return true;
     }
 
 }

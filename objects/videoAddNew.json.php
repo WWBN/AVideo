@@ -77,6 +77,9 @@ if (User::isAdmin()) {
     $obj->setUsers_id($_POST['users_id']);
 }
 
+$obj->setCan_download(@$_POST['can_download']);
+$obj->setCan_share(@$_POST['can_share']);
+
 $resp = $obj->save(true);
 
 $obj = new stdClass();
