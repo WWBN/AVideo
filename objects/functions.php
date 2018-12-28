@@ -585,12 +585,13 @@ function parseVideos($videoString = null)
     // return data
 }
 
+$canUseCDN = array();
 function canUseCDN($videos_id){
     if(empty($videos_id)){
         return false;
     }
-    if(!isset($_SESSION['canUseCDN'][$videos_id])){
-        global $global;
+    global $global, $canUseCDN;
+    if(!isset($canUseCDN[$videos_id])){
         require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
         $pvr360 = YouPHPTubePlugin::isEnabledByName('VR360');
         // if the VR360 is enabled you can not use the CDN, it fail to load the GL
@@ -602,12 +603,9 @@ function canUseCDN($videos_id){
             $ret = true;
         }
         
-        session_write_close();
-        session_start();
-        
-        $_SESSION['canUseCDN'][$videos_id] = $ret;
+        $canUseCDN[$videos_id] = $ret;
     }
-    return $_SESSION['canUseCDN'][$videos_id];
+    return $canUseCDN[$videos_id];
 }
 
 function getVideosURL($fileName){
