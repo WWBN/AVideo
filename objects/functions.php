@@ -596,13 +596,13 @@ function canUseCDN($videos_id){
         $pvr360 = YouPHPTubePlugin::isEnabledByName('VR360');
         // if the VR360 is enabled you can not use the CDN, it fail to load the GL
         $isVR360Enabled = VideosVR360::isVR360Enabled($videos_id);
-        //error_log(json_encode(array('$pvr360'=>$pvr360, '$isVR360Enabled'=>$isVR360Enabled, '$videos_id'=>$videos_id)));
         if($pvr360 && $isVR360Enabled){
             $ret = false;
         }else{
             $ret = true;
         }
         
+        //error_log(json_encode(array('canUseCDN'=>$ret, '$pvr360'=>$pvr360, '$isVR360Enabled'=>$isVR360Enabled, '$videos_id'=>$videos_id)));
         $canUseCDN[$videos_id] = $ret;
     }
     return $canUseCDN[$videos_id];
