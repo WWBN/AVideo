@@ -67,12 +67,16 @@ class VideoStatistic extends ObjectYPT  {
     
     static function updateStatistic($videos_id, $users_id, $lastVideoTime){
         $lastStatistic = self::getLastStatistics($videos_id, $users_id);
-        if(!empty($lastStatistic)){
+        if(empty($lastStatistic)){
+            $vs = new VideoStatistic(0);
+            $vs->setUsers_id($users_id);
+            $vs->setVideos_id($videos_id);
+            $vs->setWhen(date("Y-m-d h:i:s"));
+        }else{
             $vs = new VideoStatistic($lastStatistic['id']);
-            $vs->setLastVideoTime($lastVideoTime);
-            return $vs->save();
         }
-        return false;
+        $vs->setLastVideoTime($lastVideoTime);
+        return $vs->save();
     }
     
     static function getLastStatistics($videos_id, $users_id){

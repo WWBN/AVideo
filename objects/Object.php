@@ -157,6 +157,7 @@ abstract class ObjectYPT implements ObjectInterface {
 
     function save() {
         if(!$this->tableExists()){
+            error_log("Save error, table ".static::getTableName()." does not exists");
             return false;
         }
         global $global;

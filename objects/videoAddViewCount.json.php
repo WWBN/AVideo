@@ -17,7 +17,7 @@ if(empty($_SESSION['addViewCount'])){
     $_SESSION['addViewCount'] = array();
 }
 // the video count one new view after the amount of time of the video lenght
-if((empty($_SESSION['addViewCount'][$_POST['id']]) || $_SESSION['addViewCount'][$_POST['id']] <= time()) && empty ($_POST['currentTime'])){
+if((empty($_SESSION['addViewCount'][$_POST['id']]) || $_SESSION['addViewCount'][$_POST['id']] <= time())){
     $resp = $obj->addView();
     $seconds = parseDurationToSeconds($obj->getDuration());
     $_SESSION['addViewCount'][$_POST['id']] = strtotime("+{$seconds} seconds");
