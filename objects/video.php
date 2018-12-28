@@ -1754,7 +1754,7 @@ if (!class_exists('Video')) {
             $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
             $video = Video::getVideoFromFileName($filename);
             $canUseCDN = canUseCDN($video['id']);
-            //error_log(json_encode(array('$advancedCustom->videosCDN'=>$advancedCustom->videosCDN,'canUseCDN($video[id])'=>canUseCDN($video['id']),'$video[id]'=>$video['id'])));
+            //error_log(json_encode(array('$filename'=>$filename, '$advancedCustom->videosCDN'=>$advancedCustom->videosCDN,'canUseCDN($video[id])'=>canUseCDN($video['id']),'$video[id]'=>$video['id'])));
             if (!empty($advancedCustom->videosCDN) && canUseCDN($video['id'])) {
                 $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
                 $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}{$type}{$token}";
