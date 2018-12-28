@@ -586,16 +586,28 @@ function parseVideos($videoString = null)
 }
 
 function canUseCDN($videos_id){
-    global $global;
-    require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
-    $pvr360 = YouPHPTubePlugin::isEnabledByName('VR360');
-    // if the VR360 is enabled you can not use the CDN, it fail to load the GL
-    $isVR360Enabled = VideosVR360::isVR360Enabled($videos_id);
-    //error_log(json_encode(array('$pvr360'=>$pvr360, '$isVR360Enabled'=>$isVR360Enabled, '$videos_id'=>$videos_id)));
-    if($pvr360 && $isVR360Enabled){
+    if(empty($videos_id)){
         return false;
     }
-    return true;
+    if(!isset($_SESSION['canUseCDN'][$videos_id])){
+        global $global;
+        require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
+        $pvr360 = YouPHPTubePlugin::isEnabledByName('VR360');
+        // if the VR360 is enabled you can not use the CDN, it fail to load the GL
+        $isVR360Enabled = VideosVR360::isVR360Enabled($videos_id);
+        //error_log(json_encode(array('$pvr360'=>$pvr360, '$isVR360Enabled'=>$isVR360Enabled, '$videos_id'=>$videos_id)));
+        if($pvr360 && $isVR360Enabled){
+            $ret = false;
+        }else{
+            $ret = true;
+        }
+        
+        session_write_close();
+        session_start();
+        
+        $_SESSION['canUseCDN'][$videos_id] = $ret;
+    }
+    return $_SESSION['canUseCDN'][$videos_id];
 }
 
 function getVideosURL($fileName){
