@@ -177,7 +177,7 @@ class CustomizeUser extends PluginAbstract {
         if(empty($video)){
             return false;
         }
-        $users_id = $video['users_id'];
+        $users_id = $video->getUsers_id();
         if(!self::canShareVideosFromUser($users_id)){
             return false;
         }
