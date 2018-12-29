@@ -153,7 +153,13 @@ class CustomizeUser extends PluginAbstract {
         echo "</div>";
     }
     
-    
+    public function getVideoManagerButton() {
+        global $isMyChannel;
+        $isMyChannel = true;
+        return self::getChannelButton();
+    }
+
+
     static function canDownloadVideosFromVideo($videos_id) {
         $video = new Video("", "", $videos_id);
         if(empty($video)){

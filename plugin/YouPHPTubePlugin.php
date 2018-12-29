@@ -422,6 +422,16 @@ class YouPHPTubePlugin {
             }
         }
     }
+    
+    public static function getVideoManagerButton() {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->getVideoManagerButton();
+            }
+        }
+    }
 
     public static function getLivePanel() {
         $plugins = Plugin::getAllEnabled();

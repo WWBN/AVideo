@@ -201,6 +201,10 @@ abstract class PluginAbstract {
     public function getChannelButton() {
         return "";
     }
+    
+    public function getVideoManagerButton() {
+        return "";
+    }
 
     public function getLivePanel() {
         return "";
