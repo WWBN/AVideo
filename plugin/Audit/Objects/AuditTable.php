@@ -20,7 +20,7 @@ class AuditTable extends ObjectYPT {
     function audit($method, $class, $statement, $formats, $values, $users_id) {
         $this->method = $method;
         $this->class = $class;
-        $this->statement = str_replace("'", "", $statement);
+        $this->statement = substr(str_replace("'", "", $statement),0,1000);
         $this->formats = $formats;
         $this->values = $values;
         $this->ip = getRealIpAddr();
