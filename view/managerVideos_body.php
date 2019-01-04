@@ -617,6 +617,7 @@
                                         var waitToSubmit = true;
                                         // make sure the video was uploaded, delete in case it was not uploaded
                                         var videoUploaded = false;
+                                        var videos_id = 0;
 
                                         function changeStatus(status) {
                                             modal.showPleaseWait();
@@ -787,6 +788,10 @@
                                         }
 
                                         function editVideo(row) {
+                                            console.log(row.id);
+                                            if(!row.id){
+                                                row.id = videos_id;
+                                            }
                                             $('.uploadFile').hide();
                                             $('.nav-tabs a[href="#pmetadata"]').tab('show');
                                             waitToSubmit = true;
@@ -969,6 +974,7 @@
                                                         $("#grid").bootgrid("reload");
                                                         $('#fileUploadVideos_id').val(response.videos_id);
                                                         $('#inputVideoId').val(response.videos_id);
+                                                        videos_id = response.videos_id;
                                                     } else {
                                                         swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                                                     }
@@ -1019,7 +1025,15 @@
                                                 showRemove: false,
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                                allowedFileExtensions: ["jpg"]
+                                                allowedFileExtensions: ["jpg"],
+                                                uploadExtraData: function() {
+                                                    return {
+                                                        videos_id: $('#fileUploadVideos_id').val()
+                                                    };
+                                                },
+                                                fileuploaded:function(event, data, previewId, index) {
+                                                    $("#grid").bootgrid('reload');
+                                                }
                                             });
                                             $("#input-pjpg").fileinput({
                                                 uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=0&type=pjpg",
@@ -1035,7 +1049,12 @@
                                                 showRemove: false,
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                                allowedFileExtensions: ["jpg"]
+                                                allowedFileExtensions: ["jpg"],
+                                                uploadExtraData: function() {
+                                                    return {
+                                                        videos_id: $('#fileUploadVideos_id').val()
+                                                    };
+                                                }
                                             });
                                             $("#input-gif").fileinput({
                                                 uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=0&type=gif",
@@ -1051,7 +1070,12 @@
                                                 showRemove: false,
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                                allowedFileExtensions: ["gif"]
+                                                allowedFileExtensions: ["gif"],
+                                                uploadExtraData: function() {
+                                                    return {
+                                                        videos_id: $('#fileUploadVideos_id').val()
+                                                    };
+                                                }
                                             });
                                             $("#input-pgif").fileinput({
                                                 uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=0&type=pgif",
@@ -1067,11 +1091,17 @@
                                                 showRemove: false,
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                                allowedFileExtensions: ["gif"]
+                                                allowedFileExtensions: ["gif"],
+                                                uploadExtraData: function() {
+                                                    return {
+                                                        videos_id: $('#fileUploadVideos_id').val()
+                                                    };
+                                                }
                                             });
                                             $('#input-jpg, #input-gif,#input-pjpg, #input-pgif').on('fileuploaded', function (event, data, previewId, index) {
                                                 $("#grid").bootgrid("reload");
                                             });
+                                            videos_id = 0;
                                         }
 
                                         function newVideo() {
@@ -1085,6 +1115,7 @@
                                                 waitToSubmit = false;
                                             }, 3000);
                                             $('#videoFormModal').modal();
+                                            videos_id = 0;
                                         }
 
 

@@ -266,8 +266,11 @@ abstract class PluginAbstract {
         return array();
     }
     
-    public function navBarButtons()
-    {
+    public function navBarButtons(){
+        return "";
+    }
+    
+    public function navBar(){
         return "";
     }
     

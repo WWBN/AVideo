@@ -1,3 +1,11 @@
+<?php
+global $includeDefaultNavBar;
+$includeDefaultNavBar = true;
+YouPHPTubePlugin::navBar();
+if(!$includeDefaultNavBar){
+    return false;
+}
+?>
 <style>
     #mysearch.in,
     #mysearch.collapsing {
@@ -99,7 +107,15 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             $(document).ready(function () {
                                 $('#buttonMenu').on("click", function (event) {
                                     event.stopPropagation();
-                                    $('#sidebar').fadeToggle();
+                                    //$('#sidebar').fadeToggle();
+                                    if($('body').hasClass('youtube')){
+                                        $('body').removeClass('youtube')
+                                        $("#sidebar").fadeOut();
+                                    }else{
+                                        $('body').addClass('youtube')
+                                        $("#sidebar").fadeIn();
+                                    }
+                                    
                                     $('#myNavbar').removeClass("in");
                                     $('#mysearch').removeClass("in");
                                 });

@@ -590,6 +590,19 @@ class YouPHPTubePlugin {
         }
         return $navBarButtons;
     }
+    
+    public static function navBar() {
+        $plugins = Plugin::getAllEnabled();
+        $userOptions = array();
+        $navBarButtons = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $navBarButtons .= $p->navBar();
+            }
+        }
+        return $navBarButtons;
+    }
 
     /**
      * excecute update function at plugin and 

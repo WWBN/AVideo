@@ -5,6 +5,11 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
+
+if(empty($_GET['video_id']) && !empty($_POST['videos_id'])){
+    $_GET['video_id'] = $_POST['videos_id'];
+}
+
 $obj = new stdClass();
 $obj->error = true;
 if (!Video::canEdit($_GET['video_id'])) {
@@ -15,8 +20,9 @@ header('Content-Type: application/json');
 // A list of permitted file extensions
 $allowed = array('jpg', 'gif', 'pjpg', 'pgif');
 if (!in_array(strtolower($_GET['type']), $allowed)) {
-    error_log("UploadPoster FIle extension not allowed");
-    die();
+    $obj->msg = "UploadPoster FIle extension not allowed";
+    error_log($obj->msg );
+    die(json_encode($obj));
 }
 if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     $extension = pathinfo($_FILES['file_data']['name'], PATHINFO_EXTENSION);
