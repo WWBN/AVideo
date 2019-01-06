@@ -63,7 +63,7 @@ if (!empty($objSecure->disableEmbedMode)) {
                 padding: 0 !important;
                 margin: 0 !important;
                 <?php
-                if(!empty($customizedAdvanced->embedBackgroundColor)){
+                if (!empty($customizedAdvanced->embedBackgroundColor)) {
                     echo "background-color: $customizedAdvanced->embedBackgroundColor;";
                 }
                 ?>
@@ -84,6 +84,17 @@ if (!empty($objSecure->disableEmbedMode)) {
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
                         <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
                     </video>
+                    <?php
+                    if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+                        require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+                        $style = VideoLogoOverlay::getStyle();
+                        $url = VideoLogoOverlay::getLink();
+                        ?>
+                        <div style="<?php echo $style; ?>">
+                            <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
+                        </div>
+                    <?php } ?>
+
                     <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
                         <?php
                         $streamName = $uuid;
