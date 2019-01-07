@@ -36,12 +36,9 @@ if (file_exists($path)) {
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
     }
-    $images = array('jpg', 'jpeg', 'gif', 'png');
-    if(!in_array(strtolower($path_parts['extension']), $images)){
-        YouPHPTubePlugin::xsendfilePreVideoPlay();
-    }
-    $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+    YouPHPTubePlugin::xsendfilePreVideoPlay();
     if (empty($advancedCustom->doNotUseXsendFile)) {
+        error_log("X-Sendfile: {$path}");
         header("X-Sendfile: {$path}");
     }
     if (empty($_GET['download'])) {
