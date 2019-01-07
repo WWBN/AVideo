@@ -36,7 +36,10 @@ if (file_exists($path)) {
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
     }
-    YouPHPTubePlugin::xsendfilePreVideoPlay();
+    $images = array('jpg', 'jpeg', 'gif', 'png');
+    if(!in_array(strtolower($path_parts['extension'], $images))){
+        YouPHPTubePlugin::xsendfilePreVideoPlay();
+    }
     $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
     if (empty($advancedCustom->doNotUseXsendFile)) {
         header("X-Sendfile: {$path}");
