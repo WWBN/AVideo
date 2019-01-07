@@ -38,7 +38,7 @@ if (file_exists($path)) {
     }
     YouPHPTubePlugin::xsendfilePreVideoPlay();
     if (empty($advancedCustom->doNotUseXsendFile)) {
-        error_log("X-Sendfile: {$path}");
+        //error_log("X-Sendfile: {$path}");
         header("X-Sendfile: {$path}");
     }
     if (empty($_GET['download'])) {
