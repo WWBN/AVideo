@@ -37,7 +37,7 @@ if (file_exists($path)) {
         header('Pragma: public');
     }
     $images = array('jpg', 'jpeg', 'gif', 'png');
-    if(!in_array(strtolower($path_parts['extension'], $images))){
+    if(!in_array(strtolower($path_parts['extension']), $images)){
         YouPHPTubePlugin::xsendfilePreVideoPlay();
     }
     $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
