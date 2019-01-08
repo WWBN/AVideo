@@ -697,3 +697,7 @@ img.blur{
 .vjs-paused.vjs-has-started .vjs-big-play-button {
    display: block;
 }
+
+.rightProfile li a{
+    text-align: left;
+}

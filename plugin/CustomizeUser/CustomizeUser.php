@@ -49,6 +49,11 @@ class CustomizeUser extends PluginAbstract {
         $obj->disableNativeSignIn = !isset($advancedCustom->disableNativeSignIn) ? false : $advancedCustom->disableNativeSignIn;
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
 
+        
+        $obj->signInOnRight = false;
+        $obj->doNotShowRightProfile = false;
+        $obj->doNotShowLeftProfile = true;
+        
         return $obj;
     }
 
