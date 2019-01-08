@@ -487,4 +487,18 @@ class Category {
         $this->iconClass = $iconClass;
     }
 
+    function getName() {
+        return $this->name;
+    }
+
+    function getClean_name() {
+        return $this->clean_name;
+    }
+
+    function getDescription() {
+        return $this->description;
+    }
+
+
+    
 }

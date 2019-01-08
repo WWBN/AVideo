@@ -149,6 +149,12 @@ if (!class_exists('Video')) {
                     $this->categories_id = $categories_id;
                 }
             }
+            // check if category exists
+            $cat = new Category($this->categories_id);
+            if(empty($cat->getName())){
+                $catDefault = Category::getCategoryDefault();
+                $this->categories_id = $catDefault['id'];
+            }
             $this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
             $this->setDescription($global['mysqli']->real_escape_string($this->description));
 
