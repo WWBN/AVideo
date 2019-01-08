@@ -6,7 +6,8 @@ class AD_Overlay extends PluginAbstract {
 
     public function getDescription() {
         $txt = "Display simple overlays - similar to YouTube's \"Annotations\" feature in appearance - during video playback.";
-        $help = "";
+        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        
         return $txt . $help;
     }
 
