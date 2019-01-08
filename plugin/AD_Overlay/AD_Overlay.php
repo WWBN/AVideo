@@ -58,6 +58,8 @@ class AD_Overlay extends PluginAbstract {
          * 
          */
         $obj->debug = false;
+        //$obj->adWidth = 0;
+        //$obj->adHeight = 0;
 
         return $obj;
     }
@@ -69,12 +71,16 @@ class AD_Overlay extends PluginAbstract {
     public function getHeadCode() {
         $obj = $this->getDataObject();
         global $global;
+        $style = "width: 100%;";
+        if(!empty($obj->adWidth) && !empty($obj->adHeight)){
+            $style = "width: $obj->adWidth; height: width: $obj->adHeight;";
+        }
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.css" rel="stylesheet" type="text/css"/>';
 
         $css .= '<style>.video-js .vjs-overlay-background, .video-js .vjs-overlay-no-background {
 
     max-width: 100%;
-    width: 100%;
+    '.$style.'
     margin-left:-5px;
 
 }</style>';
@@ -94,6 +100,11 @@ class AD_Overlay extends PluginAbstract {
         $js .= '<script>'
                 . "$(document).ready(function () {     if (typeof player == 'undefined') {
                     player = videojs('mainVideo');
+                    setTimeout(function(){
+                        \$('#cbb').click(function() {
+                            \$('.vjs-overlay').fadeOut();
+                        });
+                    },1000);
                 };
                 player.overlay({
         content: $('#adOverlay').html(),

@@ -1,8 +1,11 @@
 <?php
 global $includeDefaultNavBar;
+if(empty($sidebarStyle)){
+    $sidebarStyle = "display: none;";
+}
 $includeDefaultNavBar = true;
 YouPHPTubePlugin::navBar();
-if(!$includeDefaultNavBar){
+if (!$includeDefaultNavBar) {
     return false;
 }
 ?>
@@ -105,22 +108,22 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu" ><span class="fa fa-bars"></span></button>
                         <script>
                             $(document).ready(function () {
-                                $('#buttonMenu').on("click", function (event) {
+                                $('#buttonMenu').on("click.sidebar", function (event) {
                                     event.stopPropagation();
                                     //$('#sidebar').fadeToggle();
-                                    if($('body').hasClass('youtube')){
+                                    if ($('body').hasClass('youtube')) {
                                         $('body').removeClass('youtube')
                                         $("#sidebar").fadeOut();
-                                    }else{
+                                    } else {
                                         $('body').addClass('youtube')
                                         $("#sidebar").fadeIn();
                                     }
-                                    
+
                                     $('#myNavbar').removeClass("in");
                                     $('#mysearch').removeClass("in");
                                 });
 
-                                $(document).on("click", function () {
+                                $(document).on("click.sidebar", function () {
                                     $("#sidebar").fadeOut();
                                 });
                                 $("#sidebar").on("click", function (event) {
@@ -226,7 +229,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                         <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
                                                         <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
                                                     </form>
-                                                    <a href="#" onclick="$('#formEncoderN').submit();return false;">
+                                                    <a href="#" onclick="$('#formEncoderN').submit();
+                                                                            return false;">
                                                         <span class="fa fa-cogs"></span> <?php echo __("Encoder Network"); ?>
                                                     </a>
                                                 </li>
@@ -328,7 +332,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                         inputName: 'country',
                                         buttonType: "btn-default navbar-btn",
                                         onSelect: function (value, element) {
-                                            if(!value && element[1]){
+                                            if (!value && element[1]) {
                                                 value = $(element[1]).val();
                                             }
                                             window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + value;
@@ -380,7 +384,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
         </ul>
 
 
-        <div id="sidebar" class="list-group-item" style="display: none;">
+        <div id="sidebar" class="list-group-item" style="<?php echo $sidebarStyle; ?>">
             <div id="sideBarContainer">
                 <ul class="nav navbar">
                     <?php
@@ -635,26 +639,28 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <h3 class="text-danger"><?php echo __("Categories"); ?></h3>
                     </li>
                     <?php
+                    if (!function_exists('mkSub')) {
 
-                    function mkSub($catId) {
-                        global $global;
-                        unset($_GET['parentsOnly']);
-                        $subcats = Category::getChildCategories($catId);
-                        if (!empty($subcats)) {
-                            echo "<ul style='margin-bottom: 0px; list-style-type: none;'>";
-                            foreach ($subcats as $subcat) {
-                                if (empty($subcat['total'])) {
-                                    continue;
+                        function mkSub($catId) {
+                            global $global;
+                            unset($_GET['parentsOnly']);
+                            $subcats = Category::getChildCategories($catId);
+                            if (!empty($subcats)) {
+                                echo "<ul style='margin-bottom: 0px; list-style-type: none;'>";
+                                foreach ($subcats as $subcat) {
+                                    if (empty($subcat['total'])) {
+                                        continue;
+                                    }
+                                    echo '<li class="' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
+                                    . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
+                                    . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . ' <span class="badge">' . $subcat['total'] . '</span></a></li>';
+                                    mkSub($subcat['id']);
                                 }
-                                echo '<li class="' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                                . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
-                                . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . ' <span class="badge">' . $subcat['total'] . '</span></a></li>';
-                                mkSub($subcat['id']);
+                                echo "</ul>";
                             }
-                            echo "</ul>";
                         }
-                    }
 
+                    }
                     //var_dump($categories);exit;
                     foreach ($categories as $value) {
                         if (empty($value['total'])) {
@@ -683,7 +689,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>help">
                                 <span class="glyphicon glyphicon-question-sign"></span>
-                                <?php echo __("Help"); ?>
+                        <?php echo __("Help"); ?>
                             </a>
                         </li>
                         <?php
@@ -694,7 +700,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>about">
                                 <span class="glyphicon glyphicon-info-sign"></span>
-                                <?php echo __("About"); ?>
+                        <?php echo __("About"); ?>
                             </a>
                         </li>
                         <?php
@@ -705,7 +711,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>contact">
                                 <span class="glyphicon glyphicon-comment"></span>
-                                <?php echo __("Contact"); ?>
+                        <?php echo __("Contact"); ?>
                             </a>
                         </li>
                         <?php

@@ -145,6 +145,13 @@ $(document).ready(function () {
             }
         }
     });
+
+    $("a").each(function () {
+        if ($(this).attr("href") == window.location.pathname
+                || $(this).attr("href") == window.location) {
+            $(this).addClass("selected");
+        }
+    });
 });
 
 function removeTracks() {
