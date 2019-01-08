@@ -97,7 +97,7 @@ class Configuration {
                 . "disable_youtubeupload = '{$this->getDisable_youtubeupload()}',"
                 . "allow_download = '{$this->getAllow_download()}',"
                 . "session_timeout = '{$this->getSession_timeout()}',"
-                . "autoplay = '{$global['mysqli']->real_escape_string($this->getAutoplay())}',"
+                . "autoplay = '{$this->getAutoplay()}',"
                 . "theme = '{$global['mysqli']->real_escape_string($this->getTheme())}',"
                 . "smtp = '{$this->getSmtp()}',"
                 . "smtpAuth = '{$this->getSmtpAuth()}',"
@@ -277,7 +277,7 @@ class Configuration {
     }
 
     function getAutoplay() {
-        return $this->autoplay;
+        return intval($this->autoplay);
     }
 
     function setAutoplay($autoplay) {
