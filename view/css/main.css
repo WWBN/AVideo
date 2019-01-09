@@ -701,3 +701,6 @@ img.blur{
 .rightProfile li a{
     text-align: left;
 }
+#mainNavBar ul.items-container li:last-child {
+    margin-right: 0 !important;
+}

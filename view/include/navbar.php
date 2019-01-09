@@ -52,6 +52,16 @@ if (!$includeDefaultNavBar) {
             background-color: #FFF;
 
         }
+
+        #myNavbar{
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background-color: #FFF;
+        }
+        #myNavbar ul.right-menus{
+            display: block;
+        }
         .globalsearchfield {
             width: 80% !important;
         }
@@ -100,7 +110,7 @@ $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
 if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php") || User::isLogged()) {
     $updateFiles = getUpdatesFilesArray();
     ?>
-    <nav class="navbar navbar-default navbar-fixed-top ">
+    <nav class="navbar navbar-default navbar-fixed-top " id="mainNavBar">
         <ul class="items-container">
             <li>
                 <ul class="left-side">
@@ -191,11 +201,6 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
             </li>
 
             <li style="margin-right: 0px; padding-left: 0px;">
-                <div class="navbar-header">
-                    <button type="button" id="buttonMyNavbar" class=" navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#myNavbar" style="padding: 6px 12px;">
-                        <span class="fa fa-bars"></span>
-                    </button>
-                </div>
                 <div class="hidden-xs col-md-3 col-sm-4" id="myNavbar">
                     <ul class="right-menus" style="padding-left: 0;">
                         <?php
@@ -379,10 +384,16 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         }
                         ?>
 
+
+                    </ul>
+                </div>
+
+                <div class="navbar-header pull-right">
+                    <ul style="margin: 0; padding: 0;">
                         <?php
                         if (empty($advancedCustomUser->doNotShowRightProfile)) {
                             ?>
-                                <li class="rightProfile">
+                            <li class="rightProfile" style="margin: 0;">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" style="margin: 0; padding: 3px; background-color: transparent; border-width: 0;">
                                         <img src="<?php echo User::getPhoto(); ?>" style="width: 40px; height: 40px; max-width: 40px;"  class="img img-thumbnail img-responsive img-circle"/>
@@ -393,6 +404,18 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                         <?php
                                         if (User::isLogged()) {
                                             ?>
+                                            <li>
+                                                <div style="text-align: center !important; width: 100%;">
+                                                    <?php echo User::getName(); ?>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div style="text-align: center !important; width: 100%;">
+                                                    <small class="text-muted">
+                                                        <?php echo User::getMail(); ?>
+                                                    </small>
+                                                </div>
+                                            </li>
                                             <li>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>logoff" >
                                                     <?php
@@ -499,7 +522,11 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         ?>
                     </ul>
                 </div>
-
+                <div class="pull-right">
+                    <button type="button" id="buttonMyNavbar" class=" navbar-toggle btn btn-default navbar-btn" data-toggle="collapse" data-target="#myNavbar" style="padding: 6px 12px;">
+                        <span class="fa fa-bars"></span>
+                    </button>
+                </div>
             </li>
         </ul>
 
