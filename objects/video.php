@@ -622,7 +622,10 @@ if (!class_exists('Video')) {
 
         static function getVideoFromFileName($fileName) {
             global $global;
-
+            if(empty($fileName)){
+                error_log("getVideoFromFileName ERROR File name is empry ");
+                return false;
+            }
             $sql = "SELECT id FROM videos WHERE filename = ? LIMIT 1";
 
             $res = sqlDAL::readSql($sql, "s", array($fileName));
