@@ -52,7 +52,7 @@ class CustomizeUser extends PluginAbstract {
         
         $obj->signInOnRight = false;
         $obj->doNotShowRightProfile = false;
-        $obj->doNotShowLeftProfile = true;
+        $obj->doNotShowLeftProfile = false;
         
         return $obj;
     }
