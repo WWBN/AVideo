@@ -395,8 +395,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             ?>
                             <li class="rightProfile" style="margin: 0;">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" style="margin: 0; padding: 3px; background-color: transparent; border-width: 0;">
-                                        <img src="<?php echo User::getPhoto(); ?>" style="width: 40px; height: 40px; max-width: 40px;"  class="img img-thumbnail img-responsive img-circle"/>
+                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton">
+                                        <img src="<?php echo User::getPhoto(); ?>" style="width: 32px; height: 32px; max-width: 32px;"  class="img img-responsive img-circle"/>
                                     </button>
 
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
