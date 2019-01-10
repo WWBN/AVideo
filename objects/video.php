@@ -620,8 +620,8 @@ if (!class_exists('Video')) {
             return $video;
         }
 
-        static function getVideoFromFileName($fileName) {
-            //error_log('Enter getVideoFromFileName ('.$sfilename.')');
+        static function getVideoFromFileName($fileName,  $ignoreGroup = false) {
+            //error_log('Enter getVideoFromFileName ('.$fileName.')');
             global $global;
             if(empty($fileName)){
                 error_log("getVideoFromFileName ERROR File name is empry ");
@@ -634,7 +634,7 @@ if (!class_exists('Video')) {
                 $video = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
                 if (!empty($video['id'])) {
-                    return self::getVideo($video['id'], "");
+                    return self::getVideo($video['id'], "", $ignoreGroup);
                 }
                 //$video['groups'] = UserGroups::getVideoGroups($video['id']);
             }
