@@ -621,6 +621,7 @@ if (!class_exists('Video')) {
         }
 
         static function getVideoFromFileName($fileName) {
+            //error_log('Enter getVideoFromFileName ('.$sfilename.')');
             global $global;
             if(empty($fileName)){
                 error_log("getVideoFromFileName ERROR File name is empry ");
