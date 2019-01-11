@@ -16,5 +16,18 @@ $(document).ready(function () {
         $('#mysearch').removeClass("in");
     });
     //$("#buttonSearch, #buttonMyNavbar").off('click');
-
+    if ($(window).width() < 960) {
+        $('#buttonMenu').trigger("click");
+    }
+    $(window).resize(function () {
+        if ($(window).width() < 960) {
+            if ($('body').hasClass('youtube')) {
+                $('#buttonMenu').trigger("click");
+            }
+        } else {
+            if (!$('body').hasClass('youtube')) {
+                $('#buttonMenu').trigger("click");
+            }
+        }
+    });
 });
