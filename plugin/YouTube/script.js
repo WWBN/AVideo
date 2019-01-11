@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('body').addClass('youtube')
+    $('body').addClass('youtube');
     $(document).off('click.sidebar');
     $('#buttonMenu').off('click.sidebar');
 
