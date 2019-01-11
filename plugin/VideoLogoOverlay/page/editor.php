@@ -18,7 +18,7 @@ $o = YouPHPTubePlugin::getObjectData("VideoLogoOverlay");
         <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
 
     </head>
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

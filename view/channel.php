@@ -37,7 +37,7 @@ YouPHPTubePlugin::getChannel($user_id, $user);
         include $global['systemRootPath'] . 'view/channelHead.php';
         ?>
     </head>
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

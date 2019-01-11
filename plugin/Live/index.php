@@ -66,7 +66,7 @@ if(empty($channelName)){
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
     </head>
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

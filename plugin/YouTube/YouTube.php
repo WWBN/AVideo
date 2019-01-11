@@ -33,7 +33,7 @@ class YouTube extends PluginAbstract {
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
         }
         
-        $sidebarStyle = "/**/";
+        $sidebarStyle = ($this->menuIsOpen())?"/**/":"display: none;";
         
         return $js.$css;
     }
@@ -101,5 +101,14 @@ class YouTube extends PluginAbstract {
         global $global,$includeDefaultNavBar;
         //include $global['systemRootPath'] . 'plugin/YouTube/view/navbar.php';
         //$includeDefaultNavBar = false;
+    }
+    
+    public function getStart() {
+        global $global;
+        $global['bodyClass'] = ($this->menuIsOpen())?"youtube":"";
+    }
+    
+    private function menuIsOpen(){
+        return (empty($_COOKIE['youTubeMenuIsOpened']) || $_COOKIE['youTubeMenuIsOpened']==="false")?false:true;
     }
 }

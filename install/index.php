@@ -17,7 +17,7 @@ require_once '../objects/functions.php';
         <script src="../view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         if (file_exists('../videos/configuration.php')) {
             require_once '../videos/configuration.php';

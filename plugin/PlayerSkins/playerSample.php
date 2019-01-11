@@ -45,7 +45,7 @@ foreach (glob($dir . '*.css') as $file) {
         </style>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <video id="mainVideo" poster="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/bg.jpg" controls
                class="video-js vjs-default-skin vjs-big-play-centered" loop style="height: 100%; width: 100%;">
             <source src="bg.mp4" type="video/mp4">

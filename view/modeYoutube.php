@@ -207,7 +207,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <?php
         if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {

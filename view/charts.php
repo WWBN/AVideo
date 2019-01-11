@@ -14,7 +14,7 @@ if(!isset($global['systemRootPath'])){
         include $global['systemRootPath'] . 'view/charts_head.php';
         ?>
     </head>
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         include $global['systemRootPath'] . 'view/charts_body.php';

@@ -8,7 +8,7 @@
             }
         </style>
     </head>
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         global $global, $config;
         if(!isset($global['systemRootPath'])){

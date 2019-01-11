@@ -19,7 +19,7 @@ if (!User::canUpload()) {
         ?>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php 
         include $global['systemRootPath'] . 'view/include/navbar.php';
         include $global['systemRootPath'] . 'view/managerVideos_body.php';

@@ -51,7 +51,7 @@ unset($_POST['sort']);
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container">     

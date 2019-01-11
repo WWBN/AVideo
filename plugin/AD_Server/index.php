@@ -18,7 +18,7 @@ if (!User::isAdmin()) {
         include $global['systemRootPath'] . 'plugin/AD_Server/index_head.php';
         ?>
     </head>
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         include $global['systemRootPath'] . 'plugin/AD_Server/index_body.php';

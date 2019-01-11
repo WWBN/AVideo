@@ -20,7 +20,7 @@ $url = $menuItem->getUrl();
     if (!empty($url) && strpos($url, 'iframe:') !== false) {
         $url = str_replace("iframe:", "", $url);
         ?>
-        <body style="margin:0px;overflow:hidden">
+        <body class="<?php echo $global['bodyClass']; ?>" style="margin:0px;overflow:hidden">
             <?php
             include $global['systemRootPath'] . 'view/include/navbar.php';
             ?>
@@ -33,7 +33,7 @@ $url = $menuItem->getUrl();
         <?php
     } else {
         ?>
-        <body>
+        <body class="<?php echo $global['bodyClass']; ?>">
             <?php
             include $global['systemRootPath'] . 'view/include/navbar.php';
             ?>

@@ -49,7 +49,7 @@ $imgh = 360;
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         $lt = new LiveTransmition($t['id']);

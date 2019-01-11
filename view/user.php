@@ -25,7 +25,7 @@ foreach ($tags as $value) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid">

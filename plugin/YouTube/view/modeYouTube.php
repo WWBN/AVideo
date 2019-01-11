@@ -77,7 +77,7 @@ $contentSearchFound = false;
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
     </head>
 
-    <body class="youtube">
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container YouTube" itemscope itemtype="http://schema.org/VideoObject">
             <div class="row text-center" style="padding: 10px;">

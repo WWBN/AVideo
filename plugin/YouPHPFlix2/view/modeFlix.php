@@ -21,7 +21,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <title><?php echo $config->getWebSiteTitle(); ?></title>
     </head>
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid" id="mainContainer" style="display: none;"> 

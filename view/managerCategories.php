@@ -21,7 +21,7 @@ if (!Category::canCreateCategory()) {
         include $global['systemRootPath'] . 'view/managerCategories_head.php';
         ?>
     </head>
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php 
         include $global['systemRootPath'] . 'view/include/navbar.php'; 
         include $global['systemRootPath'] . 'view/managerCategories_body.php';

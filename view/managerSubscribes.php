@@ -19,7 +19,7 @@ if (!User::canUpload()) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
