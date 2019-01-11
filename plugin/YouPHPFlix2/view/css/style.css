@@ -290,8 +290,10 @@ footer .btn-outline {
     pointer-events: none;
 }
 #bg_container iframe{
-    width: 100%;
+    float: right;
+    width: 90%;
     height: 70vh;
     opacity: 0.5;
     filter: alpha(opacity=50); /* For IE8 and earlier */
+    overflow: hidden;
 }
