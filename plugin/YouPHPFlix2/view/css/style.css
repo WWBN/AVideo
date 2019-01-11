@@ -291,7 +291,7 @@ footer .btn-outline {
 }
 #bg_container iframe{
     float: right;
-    width: 90%;
+    width: 100%;
     height: 70vh;
     opacity: 0.5;
     filter: alpha(opacity=50); /* For IE8 and earlier */
