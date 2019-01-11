@@ -558,15 +558,16 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                         </div>
                     </li>
-                    <li>
-                        <hr>
-                    </li>
 
                     <?php
                     if (empty($advancedCustomUser->doNotShowLeftProfile)) {
                         if (User::isLogged()) {
                             ?>
                             <li>
+                                <hr>
+                            </li>
+                            <li>
+                                <h2 class="text-danger"><?php echo __("My Menu"); ?></h2>
                                 <div>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-block" >
                                         <?php
@@ -679,73 +680,6 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                     <?php
                                 }
                             }
-                            if (User::isAdmin()) {
-                                ?>
-
-                                <li>
-                                    <hr>
-                                    <h2 class="text-danger"><?php echo __("Admin Menu"); ?></h2>
-                                    <ul  class="nav navbar" style="margin-bottom: 10px;">
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>admin/">
-                                                <i class="fas fa-star"></i>
-                                                <?php echo __("Admin Panel"); ?>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>users">
-                                                <span class="glyphicon glyphicon-user"></span>
-                                                <?php echo __("Users"); ?>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups">
-                                                <span class="fa fa-users"></span>
-                                                <?php echo __("Users Groups"); ?>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>categories">
-                                                <span class="glyphicon glyphicon-list"></span>
-                                                <?php echo __("Categories"); ?>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>update">
-                                                <span class="glyphicon glyphicon-refresh"></span>
-                                                <?php echo __("Update version"); ?>
-                                                <?php
-                                                if (!empty($updateFiles)) {
-                                                    ?><span class="label label-danger"><?php echo count($updateFiles); ?></span><?php
-                                                }
-                                                ?>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">
-                                                <span class="glyphicon glyphicon-cog"></span>
-                                                <?php echo __("Site Configurations"); ?>
-                                            </a>
-                                        </li>
-                                        <!--
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>locale">
-                                                <span class="glyphicon glyphicon-flag"></span>
-                                        <?php echo __("Create more translations"); ?>
-                                            </a>
-                                        </li>
-                                        -->
-                                        <li>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>plugins">
-                                                <i class="fas fa-puzzle-piece"></i>
-                                                <?php echo __("Plugins"); ?>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <?php
-                            }
                             ?>
                             <?php
                         } else {
@@ -766,7 +700,9 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     }
                     if (User::isAdmin()) {
                         ?>
-
+                        <li>
+                            <hr>
+                        </li>
                         <li>
                             <h2 class="text-danger"><?php echo __("Admin Menu"); ?></h2>
                             <ul  class="nav navbar" style="margin-bottom: 10px;">
@@ -839,6 +775,9 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     <?php
                     if (empty($advancedCustom->doNotShowLeftMenuAudioAndVideoButtons)) {
                         ?>
+                        <li>
+                            <hr>
+                        </li>
                         <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
                             <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
                                 <span class="glyphicon glyphicon-star"></span>
@@ -867,6 +806,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <!-- Channels -->
                         <li>
                             <hr>
+                        </li>
+                        <li>
                             <h3 class="text-danger"><?php echo __("Channels"); ?></h3>
                         </li>
                         <li>
@@ -879,9 +820,11 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <?php
                     }
                     ?>
-                    <!-- categories -->
                     <li>
                         <hr>
+                    </li>
+                    <!-- categories -->
+                    <li>
                         <h3 class="text-danger"><?php echo __("Categories"); ?></h3>
                     </li>
                     <?php
