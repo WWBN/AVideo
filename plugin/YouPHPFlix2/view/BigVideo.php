@@ -23,11 +23,22 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
          margin: -20px; 
          margin-bottom: 0; 
          position: relative;" >
+         <?php
+         if (!empty($video['trailer1'])) {
+             ?>
+            <div id="bg_container" >
+                <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
+            </div>
+            <div id="bg_container_overlay" ></div>
+            <?php
+        }
+        ?>
         <div class="posterDetails " style=" padding: 30px;
              background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
              background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
              background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
              background: -moz-linear-gradient(to right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
+
             <h2 class="infoTitle" style=""><?php echo $video['title']; ?></h2>
             <h4 class="infoDetails">
                 <?php
@@ -41,18 +52,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $video['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>
             </h4>
-            <div class="row">
-                
-                <?php
-                if (!empty($video['trailer1'])) {
-                    ?>
-                    <div id="bg_container" >
-                    <iframe src="<?php echo parseVideos($video['trailer1'], 1,1, 1,0,0); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
-                    </div>
-                    <div id="bg_container_overlay" ></div>
-                    <?php
-                }
-                ?>
+            <div class="row">                
                 <?php
                 if (!empty($images->posterPortrait)) {
                     ?>
@@ -76,7 +76,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     <?php
                     if (!empty($video['trailer1'])) {
                         ?>
-                        <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo parseVideos($video['trailer1'], 1, 0,0, 0,1); ?>');return false;">
+                        <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo parseVideos($video['trailer1'], 1, 0, 0, 0, 1); ?>');return false;">
                             <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
                         </a>
                         <?php
