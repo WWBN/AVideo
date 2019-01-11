@@ -101,7 +101,7 @@ foreach ($videos as $value) {
                 <?php
                 if (!empty($value['trailer1'])) {
                     ?>
-                    <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo $value['trailer1']; ?>');return false;">
+                    <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo parseVideos($value['trailer1'], 1, 0, 0, 0, 1); ?>');return false;">
                         <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
                     </a>
                     <?php
