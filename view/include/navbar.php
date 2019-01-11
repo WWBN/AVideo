@@ -763,10 +763,6 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                 </li>
                             </ul>
                         </li>
-
-                        <li>
-                            <hr>
-                        </li>
                         <?php
                     }
                     ?>
