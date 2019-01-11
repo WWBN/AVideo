@@ -401,20 +401,22 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
 
+
                                         <?php
                                         if (User::isLogged()) {
                                             ?>
                                             <li>
-                                                <div style="text-align: center !important; width: 100%;">
-                                                    <?php echo User::getName(); ?>
+                                                <div class="pull-left" style="margin-left: 10px;">
+                                                    <img src="<?php echo User::getPhoto(); ?>" style="max-width: 50px;"  class="img img-responsive img-circle"/>
+                                                </div>
+                                                <div  class="pull-left" >
+                                                    <h2><?php echo User::getName(); ?></h2>
+                                                    <div><small><?php echo User::getMail(); ?></small></div>
+
                                                 </div>
                                             </li>
                                             <li>
-                                                <div style="text-align: center !important; width: 100%;">
-                                                    <small class="text-muted">
-                                                        <?php echo User::getMail(); ?>
-                                                    </small>
-                                                </div>
+                                                <hr>
                                             </li>
                                             <li>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>logoff" >
@@ -535,6 +537,27 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
             <div id="sideBarContainer">
                 <ul class="nav navbar">
 
+                    <li>
+
+                        <div>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-block">
+                                <span class="fa fa-home"></span>
+                                <?php echo __("Home"); ?>
+                            </a>
+
+                        </div>
+                    </li>
+
+                    <li>
+
+                        <div>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>trending" class="btn btn-block">
+                                <i class="fas fa-fire"></i>
+                                <?php echo __("Trending"); ?>
+                            </a>
+
+                        </div>
+                    </li>
 
                     <?php
                     if (empty($advancedCustomUser->doNotShowLeftProfile)) {

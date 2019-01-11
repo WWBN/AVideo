@@ -92,6 +92,9 @@ function get_max_file_size()
 
 function humanTiming($time)
 {
+    if(!is_int($time)){
+        $time = strtotime($time);
+    }
     $time = time() - $time; // to get the time since that moment
     $time = ($time < 1) ? 1 : $time;
     $tokens = array(
