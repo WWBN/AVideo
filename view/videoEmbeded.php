@@ -98,31 +98,31 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
 
     <body>
         <div class="embed-responsive <?php echo $embedResponsiveClass; ?> ">
-<?php
-if ($video['type'] == "embed") {
-    ?>
+            <?php
+            if ($video['type'] == "embed") {
+                ?>
                 <video playsinline id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
                 <iframe class="embed-responsive-item" src="<?php
-            echo parseVideos($video['videoLink']);
-            if ($config->getAutoplay()) {
-                echo "?autoplay=1";
-            }
-    ?>"></iframe>
+                echo parseVideos($video['videoLink']);
+                if ($config->getAutoplay()) {
+                    echo "?autoplay=1";
+                }
+                ?>"></iframe>
 
                 <script>
             $(document).ready(function () {
                 addView(<?php echo $video['id']; ?>, 0);
             });
                 </script>
-    <?php
-} else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
-    ?>
+                <?php
+            } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+                ?>
                 <audio id="mainAudio" controls class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
                        poster="<?php echo $global['webSiteRootURL']; ?>view/img/recorder.gif">
-    <?php
-    $ext = "";
-    if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
-        ?>
+                           <?php
+                           $ext = "";
+                           if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
+                               ?>
                         <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
                         <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
                         <?php
@@ -145,7 +145,7 @@ if ($video['type'] == "embed") {
                 <?php
             } else {
                 ?>
-                <video playsinline id="mainVideo" poster="<?php echo $poster; ?>" controls
+                <video playsinline id="mainVideo" poster="<?php echo $poster; ?>" controls <?php echo!empty($_GET['mute']) ? 'muted="muted"' : ''; ?>
                        class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                            <?php
                            echo getSources($video['filename']);
@@ -188,16 +188,16 @@ if ($video['type'] == "embed") {
                         });
 
     <?php
-    if ($config->getAutoplay()) {
+    if ($config->getAutoplay() || !empty($_GET['autoplay'])) {
         ?>
                             setTimeout(function () {
                                 if (typeof player === 'undefined') {
                                     player = videojs('mainVideo');
                                 }
                                 try {
-                                    player.play();
+
         <?php
-        if (!empty($_GET['t'])) {
+        if (isset($_GET['t'])) {
             ?>
                                         player.currentTime(<?php echo intval($_GET['t']); ?>);
             <?php
@@ -207,10 +207,11 @@ if ($video['type'] == "embed") {
             <?php
         }
         ?>
+                                    player.play();
                                 } catch (e) {
                                     setTimeout(function () {
-                                        player.play();<?php
-        if (!empty($_GET['t'])) {
+        <?php
+        if (isset($_GET['t'])) {
             ?>
                                             player.currentTime(<?php echo intval($_GET['t']); ?>);
             <?php
@@ -220,10 +221,23 @@ if ($video['type'] == "embed") {
             <?php
         }
         ?>
+                                        player.play();
                                     }, 1000);
                                 }
                             }, 150);
-    <?php }
+        <?php
+    }
+
+    if (!empty($_GET['mute'])) {
+        ?>
+                            player.muted(true);
+        <?php
+    }
+    if (!empty($_GET['loop'])) {
+        ?>
+                            player.loop(true);
+        <?php
+    }
     ?>
                     });
                 </script>

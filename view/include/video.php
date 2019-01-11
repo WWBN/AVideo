@@ -28,12 +28,12 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
                 <video playsinline
                 <?php if ($config->getAutoplay() && false) { // disable it for now  ?>
-                        autoplay="true"
-                        muted="muted"
-                    <?php } ?>
-                    preload="auto"
-                    poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
-                        <?php if ($playNowVideo['type'] == "video") { ?>
+                           autoplay="true"
+                           muted="muted"
+                       <?php } ?>
+                       preload="auto"
+                       poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" data-setup='{ "aspectRatio": "<?php echo $aspectRatio; ?>" }'>
+                           <?php if ($playNowVideo['type'] == "video") { ?>
                         <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
                         <?php
                         echo getSources($playNowVideo['filename']);
@@ -101,8 +101,8 @@ if ($playNowVideo['type'] == "linkVideo") {
     if ($playNowVideo['type'] == "video") {
         $files = getVideosURL($playNowVideo['filename']);
         foreach ($files as $key => $theLink) {
-            if(empty($advancedCustom->showImageDownloadOption)){
-                if($key=="jpg" || $key=="gif"){
+            if (empty($advancedCustom->showImageDownloadOption)) {
+                if ($key == "jpg" || $key == "gif") {
                     continue;
                 }
             }
@@ -150,7 +150,7 @@ if ($playNowVideo['type'] == "linkVideo") {
                                                 try {
                                                     player.play();
     <?php
-    if (!empty($_GET['t'])) {
+    if (isset($_GET['t'])) {
         ?>
                                                         player.currentTime(<?php echo intval($_GET['t']); ?>);
         <?php
@@ -163,7 +163,7 @@ if ($playNowVideo['type'] == "linkVideo") {
                                                 } catch (e) {
                                                     setTimeout(function () {
                                                         player.play();<?php
-    if (!empty($_GET['t'])) {
+    if (isset($_GET['t'])) {
         ?>
                                                             player.currentTime(<?php echo intval($_GET['t']); ?>);
         <?php
@@ -184,8 +184,8 @@ if ($playNowVideo['type'] == "linkVideo") {
                                                         player = videojs('mainVideo');
                                                     }
                                                     try {
-                                                        player.play();<?php
-    if (!empty($_GET['t'])) {
+    <?php
+    if (isset($_GET['t'])) {
         ?>
                                                             player.currentTime(<?php echo intval($_GET['t']); ?>);
         <?php
@@ -195,10 +195,11 @@ if ($playNowVideo['type'] == "linkVideo") {
         <?php
     }
     ?>
+                                                        player.play();
                                                     } catch (e) {
                                                         setTimeout(function () {
-                                                            player.play();<?php
-    if (!empty($_GET['t'])) {
+    <?php
+    if (isset($_GET['t'])) {
         ?>
                                                                 player.currentTime(<?php echo intval($_GET['t']); ?>);
         <?php
@@ -208,6 +209,7 @@ if ($playNowVideo['type'] == "linkVideo") {
         <?php
     }
     ?>
+                                                            player.play();
                                                         }, 1000);
                                                     }
                                                 }, 150);
