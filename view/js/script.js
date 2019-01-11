@@ -147,8 +147,11 @@ $(document).ready(function () {
     });
 
     $("a").each(function () {
+        var res = window.location.split("?");
+        pathWitoutGet = res[0];
         if ($(this).attr("href") == window.location.pathname
-                || $(this).attr("href") == window.location) {
+                || $(this).attr("href") == window.location
+                || $(this).attr("href") == pathWitoutGet) {
             $(this).addClass("selected");
         }
     });
