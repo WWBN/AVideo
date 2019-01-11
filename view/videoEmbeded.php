@@ -68,6 +68,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             body {
                 padding: 0 !important;
                 margin: 0 !important;
+                overflow: hidden;
                 <?php
                 if (!empty($customizedAdvanced->embedBackgroundColor)) {
                     echo "background-color: $customizedAdvanced->embedBackgroundColor !important;";
