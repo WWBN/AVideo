@@ -25,7 +25,9 @@ class CustomizeAdvanced extends PluginAbstract {
     }    
     
     public function getEmptyDataObject() {
+        global $global;
         $obj = new stdClass();
+        $obj->logoMenuBarURL = $global['webSiteRootURL'];
         $obj->encoderNetwork = "https://network.youphptube.com/";
         $obj->useEncoderNetworkRecomendation = false;
         $obj->doNotShowUploadButton = false;
