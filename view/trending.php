@@ -63,7 +63,7 @@ unset($_POST['sort']);
                     <div class="col-lg-12 searchResult mb-2" style="overflow: hidden;">
 
 
-                        <a class="galleryLink col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
+                        <a class="galleryLink col-sm-4 col-md-4 col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                             <?php
                             $images = Video::getImageFromFilename($value['filename'], $value['type']);
                             $imgGif = $images->thumbsGif;
@@ -80,14 +80,11 @@ unset($_POST['sort']);
                                 <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </a>
-                        <div class="col-lg-8">
+                        <div class=" col-sm-8 col-md-8 col-lg-8">
                             <a class="h6 galleryLink  col-lg-12" style="font-size: 1.5em;" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
                                 <h2><?php echo $value['title']; ?></h2>
                             </a>
 
-                            <div class="mainAreaDescriptionContainer  col-lg-12">
-                                <h4 class="mainAreaDescription" itemprop="description" style="max-height: 7vw; padding: 0; margin: 0;"><?php echo nl2br(textToLink($value['description'])); ?></h4>
-                            </div>
                             <div class="text-muted galeryDetails col-lg-12" style="overflow: hidden;">
                                 <div>
                                     <?php if (empty($_GET['catName'])) { ?>
@@ -212,6 +209,9 @@ unset($_POST['sort']);
                                     <?php } ?>
                                 </div>
                             </div>
+                            <div class="mainAreaDescriptionContainer  col-lg-12">
+                                <h4 class="mainAreaDescription" itemprop="description" style="max-height: 7vw; padding: 0; margin: 0;"><?php echo nl2br(textToLink($value['description'])); ?></h4>
+                            </div>
                         </div>
                     </div>    
                     <?php
@@ -290,14 +290,14 @@ unset($_POST['sort']);
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
         <script>
-                                        $(document).ready(function () {
-                                            $container = $('.results').infiniteScroll({
-                                                path: '.pagination__next',
-                                                append: '.searchResult',
-                                                status: '.scroller-status',
-                                                hideNav: '.pagination',
+                                            $(document).ready(function () {
+                                                $container = $('.results').infiniteScroll({
+                                                    path: '.pagination__next',
+                                                    append: '.searchResult',
+                                                    status: '.scroller-status',
+                                                    hideNav: '.pagination',
+                                                });
                                             });
-                                        });
         </script>
     </body>
 </html>
