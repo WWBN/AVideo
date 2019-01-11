@@ -408,10 +408,10 @@ function setSiteSendMessage(&$mail) {
     }
 }
 
-function parseVideos($videoString = null, $autoplay=0, $loop=0, $mute=0, $showinfo=0, $controls=1, $time=0) {
+function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0) {
     if (strpos($videoString, 'youtube.com/embed') !== false) {
         return $videoString . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
-                .$showinfo."&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+                . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
     }
     if (strpos($videoString, 'iframe') !== false) {
         // retrieve the video url
@@ -435,14 +435,14 @@ function parseVideos($videoString = null, $autoplay=0, $loop=0, $mute=0, $showin
         //the ID of the YouTube URL: x6qe_kVaBpg
         $id = $matches[1];
         return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
-                .$showinfo."&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time";
+                . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time";
     } else if (strpos($link, 'youtu.be') !== false) {
         preg_match(
                 '/youtu.be\/([a-zA-Z0-9_]+)\??/i', $link, $matches
         );
         $id = $matches[1];
         return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
-                .$showinfo."&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+                . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
     } else if (strpos($link, 'player.vimeo.com') !== false) {
         // works on:
         // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
@@ -548,9 +548,31 @@ function parseVideos($videoString = null, $autoplay=0, $loop=0, $mute=0, $showin
         //the YouPHPTube site
         $site = $matches[1];
         $id = $matches[2];
-        return $site . '/videoEmbeded/' . $id."?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+        return $site . '/videoEmbeded/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
     }
-    return $videoString;
+
+    $url = $videoString;
+    $url_parsed = parse_url($url);
+    $new_qs_parsed = array();
+// Grab our first query string
+    parse_str($url_parsed['query'], $new_qs_parsed);
+// Here's the other query string
+    $other_query_string = 'modestbranding=1&showinfo='
+            . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+    $other_qs_parsed = array();
+    parse_str($other_query_string, $other_qs_parsed);
+// Stitch the two query strings together
+    $final_query_string_array = array_merge($new_qs_parsed, $other_qs_parsed);
+    $final_query_string = http_build_query($final_query_string_array);
+// Now, our final URL:
+    $new_url = $url_parsed['scheme']
+            . '://'
+            . $url_parsed['host']
+            . $url_parsed['path']
+            . '?'
+            . $final_query_string;
+
+    return $new_url;
     // return data
 }
 
@@ -968,22 +990,22 @@ function mime_content_type_per_filename($filename) {
         'mp3' => 'audio/mpeg',
         'qt' => 'video/quicktime',
         'mov' => 'video/quicktime',
-        'mp4' => 'video/mp4', 
-        'avi' => 'video/avi', 
-        'mkv' => 'video/mkv', 
-        'wav' => 'audio/wav', 
-        'm4v' => 'video/mpeg', 
-        'webm' => 'video/webm', 
-        'wmv' => 'video/wmv', 
-        'mpg' => 'video/mpeg', 
-        'mpeg' => 'video/mpeg', 
-        'f4v' => 'video/x-flv', 
-        'm4v' => 'video/m4v', 
-        'm4a' => 'video/quicktime', 
-        'm2p' => 'video/quicktime', 
-        'rm' => 'video/quicktime', 
-        'vob' => 'video/quicktime', 
-        'mkv' => 'video/quicktime', 
+        'mp4' => 'video/mp4',
+        'avi' => 'video/avi',
+        'mkv' => 'video/mkv',
+        'wav' => 'audio/wav',
+        'm4v' => 'video/mpeg',
+        'webm' => 'video/webm',
+        'wmv' => 'video/wmv',
+        'mpg' => 'video/mpeg',
+        'mpeg' => 'video/mpeg',
+        'f4v' => 'video/x-flv',
+        'm4v' => 'video/m4v',
+        'm4a' => 'video/quicktime',
+        'm2p' => 'video/quicktime',
+        'rm' => 'video/quicktime',
+        'vob' => 'video/quicktime',
+        'mkv' => 'video/quicktime',
         '3gp' => 'video/quicktime',
         // adobe
         'pdf' => 'application/pdf',
