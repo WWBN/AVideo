@@ -105,7 +105,8 @@ class YouTube extends PluginAbstract {
     
     public function getStart() {
         global $global;
-        $global['bodyClass'] = ($this->menuIsOpen())?"youtube":"";
+        $global['bodyClass'] = ($this->menuIsOpen())?"youtube":""; 
+        
     }
     
     private function menuIsOpen(){
