@@ -42,6 +42,17 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>
             </h4>
             <div class="row">
+                
+                <?php
+                if (!empty($video['trailer1'])) {
+                    ?>
+                    <div id="bg_container" >
+                    <iframe src="<?php echo parseVideos($video['trailer1'], 1,1, 1,0,0); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
+                    </div>
+                    <div id="bg_container_overlay" ></div>
+                    <?php
+                }
+                ?>
                 <?php
                 if (!empty($images->posterPortrait)) {
                     ?>
@@ -57,16 +68,6 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </h4>
                 </div>
             </div>
-            <?php
-            if (!empty($video['trailer1'])) {
-                ?>
-                <div id="bg_container" >
-                <iframe src="<?php echo parseVideos($video['trailer1'], 1,1, 1,0,0); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
-                </div>
-                <div id="bg_container_overlay" ></div>
-                <?php
-            }
-            ?>
 
 
             <div class="row">
