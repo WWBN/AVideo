@@ -71,9 +71,6 @@ unset($_POST['sort']);
                             ?>
                             <div class="aspectRatio16_9">
                                 <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
-                                <?php if (!empty($imgGif)) { ?>
-                                    <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
-                                <?php } ?>
                             </div>
                             <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                             <div class="progress" style="height: 3px;">
@@ -309,9 +306,6 @@ unset($_POST['sort']);
                                                     // called after an element was successfully handled
                                                     afterLoad: function (element) {
                                                         element.removeClass('blur');
-                                                        element.parent().find('.thumbsGIF').lazy({
-                                                            effect: 'fadeIn'
-                                                        });
                                                     }
                                                 });
                                                 mouseEffect();
