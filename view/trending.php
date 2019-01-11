@@ -71,8 +71,8 @@ unset($_POST['sort']);
                             ?>
                             <div class="aspectRatio16_9">
                                 <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+                                <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                             </div>
-                            <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                             <div class="progress" style="height: 3px;">
                                 <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
