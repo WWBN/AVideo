@@ -558,6 +558,9 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                         </div>
                     </li>
+                    <li>
+                        <hr>
+                    </li>
 
                     <?php
                     if (empty($advancedCustomUser->doNotShowLeftProfile)) {
