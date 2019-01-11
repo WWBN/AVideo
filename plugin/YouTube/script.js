@@ -16,11 +16,11 @@ $(document).ready(function () {
         $('#mysearch').removeClass("in");
     });
     //$("#buttonSearch, #buttonMyNavbar").off('click');
-    if ($(window).width() < 960) {
+    if ($(window).width() < 1200) {
         $('#buttonMenu').trigger("click");
     }
     $(window).resize(function () {
-        if ($(window).width() < 960) {
+        if ($(window).width() < 1200) {
             if ($('body').hasClass('youtube')) {
                 $('#buttonMenu').trigger("click");
             }
