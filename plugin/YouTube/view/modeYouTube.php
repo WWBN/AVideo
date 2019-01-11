@@ -79,7 +79,7 @@ $contentSearchFound = false;
 
     <body class="youtube">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
-        <div class="container-fluid YouTube" itemscope itemtype="http://schema.org/VideoObject">
+        <div class="container YouTube" itemscope itemtype="http://schema.org/VideoObject">
             <div class="row text-center" style="padding: 10px;">
                 <?php echo $config->getAdsense(); ?>
             </div>
