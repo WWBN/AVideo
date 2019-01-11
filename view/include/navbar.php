@@ -170,7 +170,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         </script>
                     </li>
                     <li>
-                        <a class="navbar-brand" href="<?php echo $global['webSiteRootURL']; ?>" >
+                        <a class="navbar-brand" href="<?php echo empty($advancedCustom->logoMenuBarURL)?$global['webSiteRootURL']:$advancedCustom->logoMenuBarURL; ?>" >
                             <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
                         </a>
                     </li>
