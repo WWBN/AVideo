@@ -685,15 +685,15 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         } else {
                             ?>
                             <li>
+                                <hr>
+                            </li>
+                            <li>
                                 <div>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-success btn-block">
                                         <i class="fas fa-sign-in-alt"></i>
                                         <?php echo __("Sign In"); ?>
                                     </a>
                                 </div>
-                            </li>
-                            <li>
-                                <hr>
                             </li>
                             <?php
                         }
