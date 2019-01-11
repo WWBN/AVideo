@@ -210,7 +210,7 @@ unset($_POST['sort']);
                                 </div>
                             </div>
                             <div class="mainAreaDescriptionContainer  col-lg-12">
-                                <h4 class="mainAreaDescription" itemprop="description" style="max-height: 7vw; padding: 0; margin: 0;"><?php echo nl2br(textToLink($value['description'])); ?></h4>
+                                <h4 class="mainAreaDescription" itemprop="description" style="max-height: 7vw; padding: 0; margin: 5px 0;"><?php echo nl2br(textToLink($value['description'])); ?></h4>
                             </div>
                         </div>
                     </div>    
