@@ -348,122 +348,6 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12 col-12 watch8-action-buttons text-muted">
-                                            <?php if ((($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false)) { ?>
-                                                <label for="addBtn" class=""><?php echo __("Playlists"); ?></label>
-                                                <button class="btn btn-default no-outline" style="float:right;" id="addBtn" data-placement="top">
-                                                    <?php echo __("Manage playlists"); ?>
-                                                </button>
-                                                <div class="webui-popover-content" >
-                                                    <?php if (User::isLogged()) { ?>
-                                                        <form role="form">
-                                                            <div class="form-group">
-                                                                <input class="form-control" id="searchinput" type="search" placeholder="<?php echo __("Search"); ?>..." />
-                                                            </div>
-                                                            <div id="searchlist" class="list-group">
-                                                            </div>
-                                                        </form>
-                                                        <div>
-                                                            <hr>
-                                                            <div class="form-group">
-                                                                <input id="playListName" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <?php echo __("Make it public"); ?>
-                                                                <div class="material-switch pull-right">
-                                                                    <input id="publicPlayList" name="publicPlayList" type="checkbox" checked="checked"/>
-                                                                    <label for="publicPlayList" class="label-success"></label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <button class="btn btn-success btn-block" id="addPlayList" ><?php echo __("Create a New Play List"); ?></button>
-                                                            </div>
-                                                        </div>
-                                                    <?php } ?>
-                                                </div>
-                                                <script>
-                                                    function loadPlayLists() {
-                                                        $.ajax({
-                                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
-                                                            success: function (response) {
-                                                                $('#searchlist').html('');
-                                                                for (var i in response) {
-                                                                    if (!response[i].id) {
-                                                                        continue;
-                                                                    }
-                                                                    var icon = "lock"
-                                                                    if (response[i].status == "public") {
-                                                                        icon = "globe"
-                                                                    }
-
-                                                                    var checked = "";
-                                                                    for (var x in response[i].videos) {
-                                                                        if (
-                                                                                typeof (response[i].videos[x]) === 'object'
-                                                                                && response[i].videos[x].videos_id == $('#inputVideoId').val()) {
-                                                                            checked = "checked";
-                                                                        }
-                                                                    }
-
-                                                                    $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
-                                                                            + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                                                                            + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="'
-                                                                            + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
-                                                                            + response[i].id + '" class="label-success"></label></div></a>');
-                                                                }
-                                                                $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
-                                                                $('.playListsIds').change(function () {
-                                                                    modal.showPleaseWait();
-                                                                    $.ajax({
-                                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
-                                                                        method: 'POST',
-                                                                        data: {
-                                                                            'videos_id': $('#inputVideoId').val(),
-                                                                            'add': $(this).is(":checked"),
-                                                                            'playlists_id': $(this).val()
-                                                                        },
-                                                                        success: function (response) {
-                                                                            modal.hidePleaseWait();
-                                                                        }
-                                                                    });
-                                                                    return false;
-                                                                });
-                                                            }
-                                                        });
-                                                    }
-                                                    $(document).ready(function () {
-                                                        loadPlayLists();
-                                                        $('#addBtn').webuiPopover();
-                                                        $('#addPlayList').click(function () {
-                                                            modal.showPleaseWait();
-                                                            $.ajax({
-                                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
-                                                                method: 'POST',
-                                                                data: {
-                                                                    'videos_id': $('#inputVideoId').val(),
-                                                                    'status': $('#publicPlayList').is(":checked") ? "public" : "private",
-                                                                    'name': $('#playListName').val()
-                                                                },
-                                                                success: function (response) {
-                                                                    if (response.status * 1 > 0) {
-                                                                        // update list
-                                                                        loadPlayLists();
-                                                                        $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
-                                                                        $('#playListName').val("");
-                                                                        $('#publicPlayList').prop('checked', true);
-                                                                    }
-                                                                    modal.hidePleaseWait();
-                                                                }
-                                                            });
-                                                            return false;
-                                                        });
-
-                                                    });
-                                                </script>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <?php echo __("Autoplay Next Video"); ?>
@@ -482,6 +366,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <label for="inputTrailer"><?php echo __("Embed code for trailer"); ?></label>
+                                    <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required autofocus>
+                                        
 
                                     <script>
                                         $(function () {
@@ -805,6 +692,7 @@
                                             }
                                             $('#inputVideoId').val(row.id);
                                             $('#inputTitle').val(row.title);
+                                            $('#inputTrailer').val(row.trailer1);
                                             $('#inputCleanTitle').val(row.clean_title);
                                             $('#inputDescription').val(row.description);
                                             $('#inputCategory').val(row.categories_id);
@@ -950,6 +838,7 @@
                                                 data: {
                                                     "id": $('#inputVideoId').val(),
                                                     "title": $('#inputTitle').val(),
+                                                    "trailer1": $('#inputTrailer').val(),
                                                     "videoLink": $('#videoLink').val(),
                                                     "videoLinkType": $('#videoLinkType').val(),
                                                     "clean_title": $('#inputCleanTitle').val(),
@@ -993,6 +882,7 @@
                                             $('#videoLinkContent').slideUp();
                                             $('#inputVideoId').val(0);
                                             $('#inputTitle').val("");
+                                            $('#inputTrailer').val("");
                                             $('#inputCleanTitle').val("");
                                             $('#inputDescription').val("");
                                             $('#inputCategory').val("");
@@ -1265,6 +1155,7 @@ if (!empty($row)) {
                                             $('#linkExternalVideo').click(function () {
                                                 $('#inputVideoId').val("");
                                                 $('#inputTitle').val("");
+                                                $('#inputTrailer').val("");
                                                 $('#inputCleanTitle').val("");
                                                 $('#inputDescription').val("");
                                                 $('#inputCategory').val($('#inputCategory option:first').val());

@@ -281,3 +281,17 @@ footer .btn-outline {
     max-height: 22vh;
 }
 
+#bg_container, #bg_container_overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #141414;
+    pointer-events: none;
+}
+#bg_container iframe{
+    width: 100%;
+    height: 70vh;
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}

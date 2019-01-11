@@ -57,13 +57,25 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </h4>
                 </div>
             </div>
+            <?php
+            if (!empty($video['trailer1'])) {
+                ?>
+                <div id="bg_container" >
+                <iframe src="<?php echo parseVideos($video['trailer1'], 1,1, 1,0,0); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
+                </div>
+                <div id="bg_container_overlay" ></div>
+                <?php
+            }
+            ?>
+
+
             <div class="row">
                 <div class="col-md-12">
                     <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo Video::getLinkToVideo($video['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
                     <?php
                     if (!empty($video['trailer1'])) {
                         ?>
-                        <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo $video['trailer1']; ?>');return false;">
+                        <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo parseVideos($video['trailer1'], 1, 0,0, 0,1); ?>');return false;">
                             <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
                         </a>
                         <?php
