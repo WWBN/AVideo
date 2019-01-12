@@ -22,7 +22,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
          min-height: 70vh; 
          margin: -20px; 
          margin-bottom: 0; 
-         position: relative;" >
+         position: relative;
+         z-index: -10;
+         margin-bottom: -100px;" >
          <?php
          if (!isMobile() && !empty($video['trailer1'])) {
              ?>
@@ -38,7 +40,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             <?php
         }else{
         ?>
-        <div class="posterDetails " style=" padding: 30px;
+        <div class="posterDetails " style=" padding: 30px; 
              background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
              background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
              background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
