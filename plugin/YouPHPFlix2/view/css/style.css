@@ -297,3 +297,6 @@ footer .btn-outline {
     filter: alpha(opacity=50); /* For IE8 and earlier */
     overflow: hidden;
 }
+#carouselRows h2{
+    position: relative;
+}
