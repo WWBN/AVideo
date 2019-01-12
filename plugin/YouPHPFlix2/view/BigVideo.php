@@ -24,7 +24,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
          margin-bottom: 0; 
          position: relative;" >
          <?php
-         if (!empty($video['trailer1'])) {
+         if (!isMobile() && !empty($video['trailer1'])) {
              ?>
             <div id="bg_container" >
                 <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
