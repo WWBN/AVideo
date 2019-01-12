@@ -2,7 +2,7 @@
 $uid = uniqid();
 $video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
 if (empty($video)) {
-    $video = Video::getVideo("", "viewableNotUnlisted", true);
+    $video = Video::getVideo("", "viewableNotUnlisted", true, true);
 }
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $name = User::getNameIdentificationById($video['users_id']);
