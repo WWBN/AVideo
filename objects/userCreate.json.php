@@ -29,6 +29,11 @@ if (empty($_POST['user']) || empty($_POST['pass']) || empty($_POST['email']) || 
     $obj->error = __("You must fill all fields");
     die(json_encode($obj));
 }
+
+if(!empty($advancedCustomUser->forceLoginToBeTheEmail)){
+    $_POST['email'] = $_POST['user'];
+}
+
 $user = new User(0);
 $user->setUser($_POST['user']);
 $user->setPassword($_POST['pass']);

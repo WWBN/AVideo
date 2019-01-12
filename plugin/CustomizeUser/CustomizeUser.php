@@ -54,6 +54,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->doNotShowRightProfile = false;
         $obj->doNotShowLeftProfile = false;
         
+        $obj->forceLoginToBeTheEmail = false;
         return $obj;
     }
 

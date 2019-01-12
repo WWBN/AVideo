@@ -13,7 +13,7 @@
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="text" value="<?php echo $user->getUser(); ?>" required >
+            <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail)?"text":"email"?>" value="<?php echo $user->getUser(); ?>" required >
         </div>
     </div>
 </div>
@@ -23,7 +23,10 @@
     <div class="col-md-6 inputGroupContainer">
         <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-            <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="<?php echo $user->getEmail(); ?>" required >
+            <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="<?php echo $user->getEmail(); ?>" required
+                    <?php if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
+                        echo "readonly";
+                    } ?>    >
         </div>
     </div>
     <div class="col-md-2">
@@ -112,7 +115,7 @@
 </div>
 
 <?php
-        YouPHPTubePlugin::getMyAccount(User::getId());
+YouPHPTubePlugin::getMyAccount(User::getId());
 ?>
 
 <div class="form-group">
@@ -204,9 +207,9 @@
                                         }, success: function (response) {
                                             console.log("SavePersonal");
                                             modal.hidePleaseWait();
-                                            <?php if(empty($advancedCustomUser->disablePersonalInfo)){ ?>
-                                            savePersonalInfo();
-                                            <?php } ?>
+<?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>
+                                                savePersonalInfo();
+<?php } ?>
                                         }
                                     });
                                 });
@@ -236,6 +239,16 @@
         $('#upload-btnBg').on('click', function (ev) {
             $('#uploadBg').trigger("click");
         });
+<?php
+if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
+    ?>
+            $('#inputUser').on('keyup', function () {
+                $('#inputEmail').val($(this).val());
+            });
+    <?php
+}
+?>
+
 
         uploadCrop = $('#croppie').croppie({
             url: '<?php echo $user->getPhoto(); ?>',

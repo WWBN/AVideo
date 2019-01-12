@@ -236,7 +236,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                     </form>
                                                     <a href="#" onclick="$('#formEncoderN').submit();
                                                                             return false;">
-                                                        <span class="fa fa-cogs"></span> <?php echo __("Encoder Network"); ?>
+                                                        <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel)?__("Encoder Network"):$advancedCustom->encoderNetworkLabel; ?>
                                                     </a>
                                                 </li>
                                                 <?php
@@ -252,7 +252,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                         </form>
                                                         <a href="#" onclick="$('#formEncoder').submit();
                                                                                     return false;">
-                                                            <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
+                                                            <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel)?__("Encode video and audio"):$advancedCustom->encoderButtonLabel; ?>
                                                         </a>
                                                     </li>
                                                     <?php
@@ -268,7 +268,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 ?>
                                                 <li>
                                                     <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?upload=1" >
-                                                        <span class="fa fa-upload"></span> <?php echo __("Direct upload"); ?>
+                                                        <span class="fa fa-upload"></span> <?php echo empty($advancedCustom->uploadMP4ButtonLabel)?__("Direct upload"):$advancedCustom->uploadMP4ButtonLabel; ?>
                                                     </a>
                                                 </li>
                                                 <?php
@@ -277,7 +277,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 ?>
                                                 <li>
                                                     <a  href="<?php echo $global['webSiteRootURL']; ?>view/import.php" >
-                                                        <span class="fas fa-hdd"></span> <?php echo __("Direct Import Local Videos"); ?>
+                                                        <span class="fas fa-hdd"></span> <?php echo empty($advancedCustom->importMP4ButtonLabel)?__("Direct Import Local Videos"):$advancedCustom->importMP4ButtonLabel; ?>
                                                     </a>
                                                 </li>
                                                 <?php
@@ -286,7 +286,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 ?>
                                                 <li>
                                                     <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?link=1" >
-                                                        <span class="fa fa-link"></span> <?php echo __("Embed a video link"); ?>
+                                                        <span class="fa fa-link"></span> <?php echo empty($advancedCustom->embedButtonLabel)?__("Embed a video link"):$advancedCustom->embedButtonLabel; ?>
                                                     </a>
                                                 </li>
                                                 <?php
