@@ -31,10 +31,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             </div>
             <div id="bg_container_overlay" ></div>
             <div class="posterDetails " style=" padding: 30px;
-             background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,0.7) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-             background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,0.7) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-             background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,0.7) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-             background: -moz-linear-gradient(to right, rgba(<?php echo $obj->backgroundRGB; ?>,0.7) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
+             background: -webkit-linear-gradient(bottom, rgba(<?php echo $obj->backgroundRGB; ?>,1) 2%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+             background: -o-linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) 2%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+             background: linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) 2%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+             background: -moz-linear-gradient(to top, rgba(<?php echo $obj->backgroundRGB; ?>,1) 2%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
             <?php
         }else{
         ?>
@@ -157,9 +157,6 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 });
             </script>       
         </div>
-    </div>
-    <div class="progress" style="height: 3px;">
-        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $video['progress']['percent'] ?>%;" aria-valuenow="<?php echo $video['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     <?php
 } else if (!empty($_GET['showOnly'])) {
