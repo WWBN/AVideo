@@ -96,7 +96,7 @@ foreach ($videos as $value) {
                     </h4>
                     <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    echo VideoTags::getLabels($video['id']);
+    echo VideoTags::getLabels($value['id']);
 }
 ?>
                 </div>
