@@ -263,14 +263,7 @@
                                     </div>
                                     <?php
                                     if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-                                        ?>
-                                        <label for="inputTags"><?php echo __("Tags"); ?></label>
-                                        <div class="clear clearfix">  
-                                            <?php
-                                            echo VideoTags::getTagsInput();
-                                            ?>
-                                        </div>  
-                                        <?php
+                                        echo VideoTags::getTagsInputs();
                                     }
                                     ?>
                                     <label for="inputDescription" ><?php echo __("Description"); ?></label>
@@ -718,12 +711,13 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#inputCategory').val(row.categories_id);
 <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+    echo VideoTags::getTagsInputsJqueryRemoveAll();
+    
     ?>                                          
-                                            $("#inputTags").tagsinput('removeAll');
                                             if (typeof row.videoTags !== 'undefined' && row.videoTags.length) {
                                                 console.log(row.videoTags);
                                                 for (i = 0; i < row.videoTags.length; i++) {
-                                                    $('#inputTags').tagsinput('add', row.videoTags[i]);
+                                                    $('#inputTags'+row.videoTags[i].tag_types_id).tagsinput('add', row.videoTags[i].name);
                                                 }
                                             }
     <?php
@@ -874,9 +868,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                     "title": $('#inputTitle').val(),
                                                     <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    ?>
-                                                    "videoTags": $("#inputTags").tagsinput('items'),
-    <?php
+    echo '"videoTags": '.VideoTags::getTagsInputsJquery().',';
 }
 ?>
                                                     "trailer1": $('#inputTrailer').val(),
@@ -928,11 +920,12 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#inputDescription').val("");
                                             $('#inputCategory').val("");
                                             $('#removeAutoplay').trigger('click');
-
-                                            if (typeof $("#inputTags").tagsinput === "function") {
-                                                $("#inputTags").tagsinput('removeAll');
-                                            }
-
+                                            
+<?php
+if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+    echo VideoTags::getTagsInputsJqueryRemoveAll();
+}
+?>
                                             var photoURL = '<?php echo User::getPhoto(); ?>';
                                             $("#inputUserOwner-img").attr("src", photoURL);
                                             $('#inputUserOwner').val('<?php echo User::getUserName(); ?>');
@@ -1215,9 +1208,11 @@ if (!empty($row)) {
                                                 $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                                 $('#videoLinkContent').slideDown();
                                                 $('#videoLink').val('');
-                                                if (typeof $("#inputTags").tagsinput === "function") {
-                                                    $("#inputTags").tagsinput('removeAll');
-                                                }
+<?php
+if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+    echo VideoTags::getTagsInputsJqueryRemoveAll();
+}
+?>
 
                                                 setTimeout(function () {
                                                     waitToSubmit = false;
