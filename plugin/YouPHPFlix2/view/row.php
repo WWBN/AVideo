@@ -96,10 +96,7 @@ foreach ($videos as $value) {
                     </h4>
                     <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    $post = $_POST;
-    unset($_POST);
     echo VideoTags::getLabels($video['id']);
-    $_POST = $post;
 }
 ?>
                 </div>
