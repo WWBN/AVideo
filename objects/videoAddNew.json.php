@@ -83,6 +83,13 @@ $obj->setTrailer1(@$_POST['trailer1']);
 
 $resp = $obj->save(true);
 
+// add tags
+$videoTags = YouPHPTubePlugin::loadPluginIfEnabled('VideoTags');
+if(!empty($videoTags)){
+    $tagsSaved = VideoTags::saveTags($_POST['videoTags'], $resp);
+    //var_dump($tagsSaved);exit;
+}
+
 $obj = new stdClass();
 $obj->status = !empty($resp);
 $obj->msg = $msg;

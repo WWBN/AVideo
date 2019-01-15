@@ -86,6 +86,8 @@ Options All -Indexes
     RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L,QSA]
     RewriteRule    ^cat/([A-Za-z0-9-]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L,QSA]
 
+    RewriteRule    ^tag/([0-9-]+)(.*)?$ view/?tags_id=$1    [NC,L,QSA]
+
 
     #for the video name
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/?$ view/?videoName=$1    [QSA]

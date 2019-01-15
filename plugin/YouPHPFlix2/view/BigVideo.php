@@ -73,6 +73,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     <h4 class="mainInfoText" itemprop="description">
                         <?php echo nl2br(textToLink($video['description'])); ?>
                     </h4>
+                    <?php
+if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+    echo VideoTags::getLabels($video['id']);
+}
+?>
                 </div>
             </div>
 

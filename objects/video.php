@@ -151,7 +151,7 @@ if (!class_exists('Video')) {
             }
             // check if category exists
             $cat = new Category($this->categories_id);
-            if(empty($cat->getName())){
+            if (empty($cat->getName())) {
                 $catDefault = Category::getCategoryDefault();
                 $this->categories_id = $catDefault['id'];
             }
@@ -170,7 +170,7 @@ if (!class_exists('Video')) {
             if (empty($this->next_videos_id)) {
                 $this->next_videos_id = 'NULL';
             }
-            
+
             $this->can_download = intval($this->can_download);
             $this->can_share = intval($this->can_share);
 
@@ -620,10 +620,10 @@ if (!class_exists('Video')) {
             return $video;
         }
 
-        static function getVideoFromFileName($fileName,  $ignoreGroup = false) {
+        static function getVideoFromFileName($fileName, $ignoreGroup = false) {
             //error_log('Enter getVideoFromFileName ('.$fileName.')');
             global $global;
-            if(empty($fileName)){
+            if (empty($fileName)) {
                 error_log("getVideoFromFileName ERROR File name is empry ");
                 return false;
             }
@@ -675,6 +675,13 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
+            
+            if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                if(!empty($_GET['tags_id']) && empty($videosArrayId)){
+                    $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
+                }
+            }
+            
             $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
@@ -682,7 +689,7 @@ if (!class_exists('Video')) {
                     . " LEFT JOIN categories c ON categories_id = c.id "
                     . " LEFT JOIN users u ON v.users_id = u.id "
                     . " WHERE 1=1 ";
-
+            
             $sql .= static::getVideoQueryFileter();
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
@@ -763,6 +770,9 @@ if (!class_exists('Video')) {
                     $row['category'] = xss_esc_back($row['category']);
                     $row['groups'] = UserGroups::getVideoGroups($row['id']);
                     $row['tags'] = self::getTags($row['id']);
+                    if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                        $row['videoTags'] = Tags::getAllFromVideosId($row['id']);
+                    }
                     $row['title'] = UTF8encode($row['title']);
                     $row['description'] = UTF8encode($row['description']);
                     $videos[] = $row;
@@ -1050,7 +1060,7 @@ if (!class_exists('Video')) {
             }
             return $resp;
         }
-        
+
         private function removeNextVideos($videos_id) {
             if (!$this->userCanManageVideo()) {
                 return false;
@@ -1705,7 +1715,7 @@ if (!class_exists('Video')) {
         function setVideoLink($videoLink) {
             $this->videoLink = $videoLink;
         }
-        
+
         function getCan_download() {
             return $this->can_download;
         }
@@ -1715,14 +1725,13 @@ if (!class_exists('Video')) {
         }
 
         function setCan_download($can_download) {
-            $this->can_download = (empty($can_download)||$can_download==="false")?0:1;
+            $this->can_download = (empty($can_download) || $can_download === "false") ? 0 : 1;
         }
 
         function setCan_share($can_share) {
-            $this->can_share = (empty($can_share)||$can_share==="false")?0:1;
+            $this->can_share = (empty($can_share) || $can_share === "false") ? 0 : 1;
         }
 
-        
         /**
          *
          * @param type $filename
@@ -1752,7 +1761,7 @@ if (!class_exists('Video')) {
                 if (!empty($bb_b2_obj->useDirectLink)) {
                     $includeS3 = true;
                 }
-            }else if (!empty($ftp)) {
+            } else if (!empty($ftp)) {
                 $includeS3 = true;
             }
             $token = "";
@@ -1762,13 +1771,13 @@ if (!class_exists('Video')) {
             }
             $source = array();
             $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
-            $video = Video::getVideoFromFileName(str_replace(array('_Low', '_SD', '_HD'), array('', '', ''),$filename));
+            $video = Video::getVideoFromFileName(str_replace(array('_Low', '_SD', '_HD'), array('', '', ''), $filename));
             $canUseCDN = canUseCDN($video['id']);
             //error_log(json_encode(array('$filename'=>$filename, '$advancedCustom->videosCDN'=>$advancedCustom->videosCDN,'canUseCDN($video[id])'=>canUseCDN($video['id']),'$video[id]'=>$video['id'])));
             if (!empty($advancedCustom->videosCDN) && canUseCDN($video['id'])) {
                 $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
                 $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}{$type}{$token}";
-            }else{
+            } else {
                 $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
             }
             /* need it because getDurationFromFile */
@@ -1834,7 +1843,7 @@ if (!class_exists('Video')) {
                     error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
                     if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
                         im_resizeV3($jpegSource['path'], $thumbsSource['path'], 250, 140);
-                    }else{
+                    } else {
                         im_resizeV2($jpegSource['path'], $thumbsSource['path'], 250, 140);
                     }
                 }
@@ -1843,7 +1852,7 @@ if (!class_exists('Video')) {
                     error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
                     if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
                         im_resizeV3($jpegSource['path'], $thumbsSmallSource['path'], 250, 140);
-                    }else{
+                    } else {
                         im_resizeV2($jpegSource['path'], $thumbsSmallSource['path'], 250, 140, 5);
                     }
                 }
@@ -2082,7 +2091,7 @@ if (!class_exists('Video')) {
             $sql = "SELECT duration FROM `videos` WHERE id = ? LIMIT 1";
             $res = sqlDAL::readSql($sql, "i", array($videos_id));
             $row = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);     
+            sqlDAL::close($res);
 
             if (empty($row) || empty($row['duration'])) {
                 return array('percent' => 0, 'lastVideoTime' => 0);

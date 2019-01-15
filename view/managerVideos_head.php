@@ -17,6 +17,27 @@ if (!empty($_GET['video_id'])) {
 <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <link href="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/css/style.css" rel="stylesheet" />
+<?php
+if(YouPHPTubePlugin::isEnabledByName("VideoTags")){
+?>
+<link href="<?php echo $global['webSiteRootURL']; ?>plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css"/>
+<style>
+    .tt-open{
+        background-color: #FFF;
+        padding: 5px;
+        min-width: 100px;
+        border-radius: 4px;
+    }
+    .tt-cursor, .tt-selectable:hover{
+        font-weight: bold;
+    }
+    .tt-selectable:hover{
+        cursor: pointer;
+    }
+</style>
+<?php
+}
+?>
 <script>
     /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
     $.widget.bridge('uibutton', $.ui.button);

@@ -70,7 +70,6 @@ class YouPHPFlix2 extends PluginAbstract {
         
             $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important;}</style>';
             
-            
         }
         if(!empty($obj->playVideoOnFullscreen)){
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';

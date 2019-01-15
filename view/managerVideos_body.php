@@ -261,6 +261,18 @@
                                         <label for="inputCleanTitle" ><?php echo __("Clean Title"); ?></label>
                                         <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
                                     </div>
+                                    <?php
+                                    if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                                        ?>
+                                        <label for="inputTags"><?php echo __("Tags"); ?></label>
+                                        <div class="clear clearfix">  
+                                            <?php
+                                            echo VideoTags::getTagsInput();
+                                            ?>
+                                        </div>  
+                                        <?php
+                                    }
+                                    ?>
                                     <label for="inputDescription" ><?php echo __("Description"); ?></label>
                                     <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
                                     <?php
@@ -368,7 +380,7 @@
                                     </div>
                                     <label for="inputTrailer"><?php echo __("Embed code for trailer"); ?></label>
                                     <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required autofocus>
-                                        
+
 
                                     <script>
                                         $(function () {
@@ -497,6 +509,14 @@
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.ui.widget.js"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.iframe-transport.js"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
+<?php
+if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+    ?>
+    <script src="<?php echo $global['webSiteRootURL']; ?>plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js" type="text/javascript"></script>
+    <script src="<?php echo $global['webSiteRootURL']; ?>plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js" type="text/javascript"></script>
+    <?php
+}
+?>
 
 <script>
                                         var timeOut;
@@ -676,7 +696,7 @@
 
                                         function editVideo(row) {
                                             console.log(row.id);
-                                            if(!row.id){
+                                            if (!row.id) {
                                                 row.id = videos_id;
                                             }
                                             $('.uploadFile').hide();
@@ -696,6 +716,20 @@
                                             $('#inputCleanTitle').val(row.clean_title);
                                             $('#inputDescription').val(row.description);
                                             $('#inputCategory').val(row.categories_id);
+<?php
+if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+    ?>                                          
+                                            $("#inputTags").tagsinput('removeAll');
+                                            if (typeof row.videoTags !== 'undefined' && row.videoTags.length) {
+                                                console.log(row.videoTags);
+                                                for (i = 0; i < row.videoTags.length; i++) {
+                                                    $('#inputTags').tagsinput('add', row.videoTags[i]);
+                                                }
+                                            }
+    <?php
+}
+?>
+
                                             if (row.next_video && row.next_video.id) {
                                                 $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_video.filename + ".jpg");
                                                 $('#inputNextVideo').val(row.next_video.title);
@@ -838,6 +872,13 @@
                                                 data: {
                                                     "id": $('#inputVideoId').val(),
                                                     "title": $('#inputTitle').val(),
+                                                    <?php
+if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+    ?>
+                                                    "videoTags": $("#inputTags").tagsinput('items'),
+    <?php
+}
+?>
                                                     "trailer1": $('#inputTrailer').val(),
                                                     "videoLink": $('#videoLink').val(),
                                                     "videoLinkType": $('#videoLinkType').val(),
@@ -888,6 +929,10 @@
                                             $('#inputCategory').val("");
                                             $('#removeAutoplay').trigger('click');
 
+                                            if (typeof $("#inputTags").tagsinput === "function") {
+                                                $("#inputTags").tagsinput('removeAll');
+                                            }
+
                                             var photoURL = '<?php echo User::getPhoto(); ?>';
                                             $("#inputUserOwner-img").attr("src", photoURL);
                                             $('#inputUserOwner').val('<?php echo User::getUserName(); ?>');
@@ -916,12 +961,12 @@
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
                                                 allowedFileExtensions: ["jpg"],
-                                                uploadExtraData: function() {
+                                                uploadExtraData: function () {
                                                     return {
                                                         videos_id: $('#fileUploadVideos_id').val()
                                                     };
                                                 },
-                                                fileuploaded:function(event, data, previewId, index) {
+                                                fileuploaded: function (event, data, previewId, index) {
                                                     $("#grid").bootgrid('reload');
                                                 }
                                             });
@@ -940,7 +985,7 @@
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
                                                 allowedFileExtensions: ["jpg"],
-                                                uploadExtraData: function() {
+                                                uploadExtraData: function () {
                                                     return {
                                                         videos_id: $('#fileUploadVideos_id').val()
                                                     };
@@ -961,7 +1006,7 @@
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
                                                 allowedFileExtensions: ["gif"],
-                                                uploadExtraData: function() {
+                                                uploadExtraData: function () {
                                                     return {
                                                         videos_id: $('#fileUploadVideos_id').val()
                                                     };
@@ -982,7 +1027,7 @@
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
                                                 allowedFileExtensions: ["gif"],
-                                                uploadExtraData: function() {
+                                                uploadExtraData: function () {
                                                     return {
                                                         videos_id: $('#fileUploadVideos_id').val()
                                                     };
@@ -1170,6 +1215,10 @@ if (!empty($row)) {
                                                 $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                                 $('#videoLinkContent').slideDown();
                                                 $('#videoLink').val('');
+                                                if (typeof $("#inputTags").tagsinput === "function") {
+                                                    $("#inputTags").tagsinput('removeAll');
+                                                }
+
                                                 setTimeout(function () {
                                                     waitToSubmit = false;
                                                 }, 2000);

@@ -94,6 +94,11 @@ foreach ($videos as $value) {
                     <h4 class="mainInfoText" itemprop="description">
                         <?php echo nl2br(textToLink($value['description'])); ?>
                     </h4>
+                    <?php
+if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+    echo VideoTags::getLabels($video['id']);
+}
+?>
                 </div>
             </div>
             <div class="footerBtn">
