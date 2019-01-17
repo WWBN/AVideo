@@ -480,7 +480,7 @@ nav ul.items-container li:first-child {
 nav ul.items-container li:first-child ul.left-side {
     display: flex;
     align-items: center
-}
+} z
 ul.left-side {
     height: 50px;
 }

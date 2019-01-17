@@ -1046,6 +1046,13 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             videos_id = 0;
                                         }
 
+                                        function getEmbedCode(id){
+                                            copyToClipboard($('#embedInput' + id).val());
+                                            $('#copied'+id).fadeIn();
+                                            setTimeout(function(){
+                                                $('#copied'+id).fadeOut();
+                                            },2000);
+                                        }
 
                                         function createQueueItem(queueItem, position) {
                                             var id = queueItem.return_vars.videos_id;
@@ -1340,6 +1347,9 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 formatters: {
                                                     "commands": function (column, row)
                                                     {
+                                                        var embedBtn = '<button type="button" class="btn btn-xs btn-default command-embed" id="embedBtn' + row.id + '"  onclick="getEmbedCode(' + row.id + ')" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Copy embed code")); ?>"><span class="fa fa-copy" aria-hidden="true"></span> <span id="copied' + row.id + '" style="display:none;"><?php echo str_replace("'", "\\'", __("Copied")); ?></span></button>'
+                                                        embedBtn += '<input type="hidden" id="embedInput' + row.id + '" value=\'<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>vEmbed/' + row.id + '" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay"></iframe>\'/>';
+    
                                                         var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                                                         var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
                                                         var activeBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
@@ -1397,7 +1407,7 @@ if (User::isAdmin()) {
                                                             }
                                                             nextIsSet = "<span class='label label-success' data-toggle='tooltip' title='" + row.next_video.title + "'>Next video: " + nextVideoTitle + "</span>";
                                                         }
-                                                        return editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + "<br>" + download + nextIsSet;
+                                                        return embedBtn + editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + "<br>" + download + nextIsSet;
 
                                                     },
                                                     "tags": function (column, row) {
