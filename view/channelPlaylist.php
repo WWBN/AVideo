@@ -38,7 +38,9 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
 foreach ($playlists as $playlist) {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
     $videosP = Video::getAllVideos("a", false, false, $videosArrayId);
+    error_log("channelPlaylist videosP: ".json_encode($videosP));
     $videosP = PlayList::sortVideos($videos, $videosArrayId);
+    error_log("channelPlaylist videosP2: ".json_encode($videosP));
     //error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
     $playListButtons = YouPHPTubePlugin::getPlayListButtons($playlist['id']);
     ?>
