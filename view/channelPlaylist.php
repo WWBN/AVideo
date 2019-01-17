@@ -35,6 +35,8 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
 ?>
 
 <?php
+$channelName = $_GET['channelName'];
+unset($_GET['channelName']);
 foreach ($playlists as $playlist) {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
     $videosP = Video::getAllVideos("a", false, false, $videosArrayId);
@@ -199,6 +201,9 @@ foreach ($playlists as $playlist) {
     </div>
     <?php
 }
+
+$_GET['channelName'] = $channelName;
+
 ?>
 <script>
     
