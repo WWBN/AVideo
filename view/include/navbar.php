@@ -10,6 +10,7 @@ if (!$includeDefaultNavBar) {
 }
 ?>
 <style>
+    /* if it is IE */
     @media all and (-ms-high-contrast:none){
         nav ul.items-container li:first-child {
             display: block;
@@ -401,9 +402,9 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <?php
                         if (empty($advancedCustomUser->doNotShowRightProfile)) {
                             ?>
-                            <li class="rightProfile" style="margin: 0;">
+                            <li class="rightProfile">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton">
+                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="padding: 0; border: 0;">
                                         <img src="<?php echo User::getPhoto(); ?>" style="width: 32px; height: 32px; max-width: 32px;"  class="img img-responsive img-circle"/>
                                     </button>
 
