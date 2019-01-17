@@ -37,9 +37,9 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
 <?php
 foreach ($playlists as $playlist) {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
-    $videos = Video::getAllVideos("a", false, false, $videosArrayId);
-    $videos = PlayList::sortVideos($videos, $videosArrayId);
-    error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
+    $videosP = Video::getAllVideos("a", false, false, $videosArrayId);
+    $videosP = PlayList::sortVideos($videos, $videosArrayId);
+    //error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
     $playListButtons = YouPHPTubePlugin::getPlayListButtons($playlist['id']);
     ?>
 
@@ -100,7 +100,7 @@ foreach ($playlists as $playlist) {
                 <div id="sortable<?php echo $playlist['id']; ?>" style="list-style: none;">
                     <?php
                     $count = 0;
-                    foreach ($videos as $value) {
+                    foreach ($videosP as $value) {
                         $count++;
                         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                         $name = User::getNameIdentificationById($value['users_id']);
