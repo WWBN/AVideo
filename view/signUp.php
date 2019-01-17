@@ -59,7 +59,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                             </div>
 
                             <?php
-                            if(!empty($advancedCustomUser->forceLoginToBeTheEmail)){
+                            if(empty($advancedCustomUser->forceLoginToBeTheEmail)){
                             ?>
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
