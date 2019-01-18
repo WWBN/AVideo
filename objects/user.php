@@ -132,6 +132,9 @@ if (typeof gtag !== \"function\") {
 
     function addExternalOptions($id, $value) {
         $eo = unserialize(base64_decode($this->externalOptions));
+        if(!is_array($eo)){
+            $eo = array();
+        }
         $eo[$id] = $value;
         $this->setExternalOptions($eo);
         return $this->save();
