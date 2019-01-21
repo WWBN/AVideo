@@ -63,6 +63,10 @@ class Gallery extends PluginAbstract {
         $obj->playVideoOnFullscreen = false;
         $obj->playVideoOnBrowserFullscreen = false;
         $obj->filterUserChannel = false;
+        $obj->screenColsLarge = 6;
+        $obj->screenColsMedium = 3;
+        $obj->screenColsSmall = 2;
+        $obj->screenColsXSmall = 1;
         return $obj;
     }
   
