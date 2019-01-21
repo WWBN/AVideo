@@ -1,5 +1,4 @@
 <?php
-
 function showThis($who) {
     if (empty($_GET['showOnly'])) {
         return true;
@@ -124,13 +123,13 @@ function createGallerySection($videos, $crc = "", $get = array()) {
         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
         $name = User::getNameIdentificationById($value['users_id']);
         // make a row each 6 cols
-        if ($countCols % 6 === 0) {
+        if ($countCols % $obj->screenColsLarge === 0 ) {
             echo '</div><div class="row aligned-row ">';
         }
 
         $countCols ++;
         ?>
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
+        <div class="col-lg-<?php echo 12/$obj->screenColsLarge; ?> col-md-<?php echo 12/$obj->screenColsMedium; ?> col-sm-<?php echo 12/$obj->screenColsSmall; ?> col-xs-<?php echo 12/$obj->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
