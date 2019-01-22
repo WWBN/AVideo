@@ -30,10 +30,10 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->logoMenuBarURL = $global['webSiteRootURL'];
         $obj->encoderNetwork = "https://network.youphptube.com/";
         $obj->useEncoderNetworkRecomendation = false;
+        $obj->doNotShowEncoderNetwork = true;
         $obj->doNotShowUploadButton = false;
         $obj->uploadButtonDropdownIcon = "fas fa-video";
         $obj->uploadButtonDropdownText = "";
-        $obj->doNotShowEncoderNetwork = true;
         $obj->encoderNetworkLabel = "";
         $obj->doNotShowUploadMP4Button = true;
         $obj->uploadMP4ButtonLabel = "";
@@ -55,7 +55,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showAdsenseBannerOnLeft = true;
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
-        $obj->EnableWavesurfer = true;
+        $obj->EnableWavesurfer = false;
         $obj->EnableMinifyJS = false;
         $obj->disableShareAndPlaylist = false;
         $obj->commentsMaxLength = 200;
