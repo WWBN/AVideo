@@ -1877,7 +1877,7 @@ if (!class_exists('Video')) {
                 $obj->thumbsJpgSmall = $obj->poster;
             }
             //ObjectYPT::setCache($name, $obj);
-            if (!empty($advancedCustom->disableAnimatedGif)) {
+            if ($type!== "video" || !empty($advancedCustom->disableAnimatedGif)) {
                 $obj->thumbsGif = false;
             }
             return $obj;
