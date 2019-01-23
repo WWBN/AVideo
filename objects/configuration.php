@@ -87,7 +87,7 @@ class Configuration {
                 . "authCanUploadVideos = '{$this->authCanUploadVideos}',"
                 . "authCanViewChart = '{$this->authCanViewChart}',"
                 . "authCanComment = '{$this->authCanComment}',"
-                . "encoderURL = '{$global['mysqli']->real_escape_string($this->getEncoderURL())}',"
+                . "encoderURL = '{$global['mysqli']->real_escape_string($this->_getEncoderURL())}',"
                 . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
                 . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
                 . "mode = '{$this->getMode()}',"
@@ -382,6 +382,9 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         $this->smtpPort = intval($smtpPort);
     }
 
+    private function _getEncoderURL() {
+        return $this->encoderURL;
+    }
     function getEncoderURL() {
         global $advancedCustom;
         if(!empty($advancedCustom->useEncoderNetworkRecomendation) && !empty($advancedCustom->encoderNetwork)){
