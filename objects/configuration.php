@@ -382,7 +382,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         $this->smtpPort = intval($smtpPort);
     }
 
-    private function _getEncoderURL() {
+    function _getEncoderURL() {
         return $this->encoderURL;
     }
     function getEncoderURL() {
