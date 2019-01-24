@@ -49,7 +49,7 @@ if (!empty($_GET['type'])) {
     
     $scope = 'email';
     if($_GET['type']==="Yahoo"){
-        $scope = array('sdct-r', 'fspt-r', 'mail-r', 'sdps-r');
+        $scope = 'sdct-r';
     }
     if($_GET['type']==='LinkedIn'){
         $scope = array('r_emailaddress');
