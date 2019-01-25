@@ -24,6 +24,12 @@ $reflector = new ReflectionClass('API');
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <style>
+            pre a{
+                color: #333;
+                font-weight: bolder;
+            }
+        </style>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
