@@ -93,12 +93,12 @@ class API extends PluginAbstract {
     
     /**
      * @param type $parameters 
-     * ['sort' database sort column (sample:&sort[created]=DESC)]
+     * ['sort' database sort column]
      * ['rowCount' max numbers of rows]
      * ['current' current page]
      * ['searchPhrase' to search on the categories]
      * ['parentsOnly' will bring only the parents, not children categories]
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?name={name}&rowCount=3&current=1
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?name={name}&rowCount=3&current=1&sort[created]=DESC
      * @return \ApiObject
      */
     public function get_api_category($parameters){
