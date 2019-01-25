@@ -60,7 +60,7 @@ class IP2Location extends ObjectYPT {
                 $content = json_encode($rows);
                 file_put_contents($cachefile, $content);
             } else {
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                return array();
             }
         }else{
             $content = file_get_contents($cachefile);
