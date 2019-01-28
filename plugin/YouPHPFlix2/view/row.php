@@ -66,7 +66,12 @@ foreach ($videos as $value) {
                     <?php
                 }
                 ?>
+                   
+                <?php
+                if (empty($advancedCustom->doNotDisplayViews)) {
+                    ?> 
                 <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
+                <?php } ?>
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
 
@@ -102,7 +107,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                 </div>
             </div>
             <div class="footerBtn">
-                <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo YouPHPFlix2::getLinkToVideo($value['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
                 <?php
                 if (!empty($value['trailer1'])) {
                     ?>
@@ -115,6 +120,9 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                 <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
                     <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                 </a>
+                <?php
+                echo YouPHPTubePlugin::getNetflixActionButton();
+                ?>
             </div>
         </div>
     </div>

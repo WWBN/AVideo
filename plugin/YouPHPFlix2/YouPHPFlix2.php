@@ -77,6 +77,15 @@ class YouPHPFlix2 extends PluginAbstract {
         return $css;
     }
     
+    static function getLinkToVideo($videos_id){
+        $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
+        $link = Video::getLinkToVideo($videos_id);
+        if(!empty($obj->playVideoOnFullscreen)){
+            $link = parseVideos($link, 1, 0, 0, 0, 1);
+        }
+        return $link;
+    }
+    
     public function getFooterCode() {
         $obj = $this->getDataObject();
         global $global;
