@@ -180,6 +180,14 @@ abstract class PluginAbstract {
     public function getWatchActionButton() {
         return "";
     }
+    
+    public function getNetflixActionButton() {
+        return "";
+    }    
+    
+    public function getGalleryActionButton() {
+        return "";
+    }
 
     public function getStart() {
         return false;

@@ -330,6 +330,32 @@ class YouPHPTubePlugin {
         return $str;
     }
 
+    static function getNetflixActionButton() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+
+            if (is_object($p)) {
+                $str .= $p->getNetflixActionButton();
+            }
+        }
+        return $str;
+    }
+    
+    static function getGalleryActionButton() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+
+            if (is_object($p)) {
+                $str .= $p->getGalleryActionButton();
+            }
+        }
+        return $str;
+    }
+    
     public static function isEnabled($uuid) {
         return !empty(Plugin::getEnabled($uuid));
     }
