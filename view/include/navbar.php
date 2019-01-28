@@ -32,6 +32,11 @@ if (!$includeDefaultNavBar) {
         margin-left: 5px;
     }
 
+    #rightProfileButton{
+        padding: 0; 
+        margin-right: 40px; 
+        border: 0;
+    }
     @media (max-width : 992px) {
         #searchForm input{
             width: 100px;
@@ -40,6 +45,9 @@ if (!$includeDefaultNavBar) {
     @media (max-width : 767px) {
         #searchForm {
             padding-left: 10px;
+        }
+        #rightProfileButton{
+            margin-right: 5px; 
         }
 
         #searchForm > div{
@@ -401,7 +409,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             ?>
                             <li class="rightProfile">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="padding: 0; margin-right: 40px; border: 0;">
+                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="">
                                         <img src="<?php echo User::getPhoto(); ?>" style="width: 32px; height: 32px; max-width: 32px;"  class="img img-responsive img-circle"/>
                                     </button>
 
