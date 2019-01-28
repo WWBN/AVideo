@@ -37,6 +37,8 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
 }
+
+YouPHPTubePlugin::getModeYouTube($video['id']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
