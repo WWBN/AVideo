@@ -294,12 +294,19 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <?php echo $video['creator']; ?>
                                     </div>
-                                    <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
-<?php
-if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    echo VideoTags::getLabels($video['id']);
-}
-?>
+
+                                    <?php
+                                    if (empty($advancedCustom->doNotDisplayViews)) {
+                                        ?> 
+                                        <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
+                                        <?php
+                                    }
+                                    ?>
+                                    <?php
+                                    if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                                        echo VideoTags::getLabels($video['id']);
+                                    }
+                                    ?>
                                 </div>
                             </div>
 
@@ -786,10 +793,17 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span>
                                                 <?php echo $autoPlayVideo['category']; ?>
                                             </div>
-                                            <div>
-                                                <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong>
-                                                <?php echo __("Views"); ?>
-                                            </div>
+
+                                            <?php
+                                            if (empty($advancedCustom->doNotDisplayViews)) {
+                                                ?> 
+                                                <div>
+                                                    <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong>
+                                                    <?php echo __("Views"); ?>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
                                             <div><?php echo $autoPlayVideo['creator']; ?></div>
                                         </div>
                                         <div class="row">

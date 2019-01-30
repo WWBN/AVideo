@@ -96,6 +96,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->videosCDN = "";
         $obj->useFFMPEGToGenerateThumbs = false;
         $obj->showImageDownloadOption = false;
+        $obj->doNotDisplayViews = false;
         
         return $obj;
     }

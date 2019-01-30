@@ -499,11 +499,21 @@ if (typeof gtag !== \"function\") {
         if (User::isAdmin()) {
             return true;
         }
+        
+        if(YouPHPTubePlugin::userCanWatchVideo(User::getId(), $videos_id)){
+            return true;
+        }
+        
         // check if the video is not public 
         $rows = UserGroups::getVideoGroups($videos_id);
 
         if (empty($rows)) {
-            return true; // the video is public
+            // check if any plugin restrict access to this video
+            if(!YouPHPTubePlugin::userCanWatchVideo(User::getId(), $videos_id)){
+                return false;
+            }else{
+                return true; // the video is public
+            }
         }
 
         if (!User::isLogged()) {

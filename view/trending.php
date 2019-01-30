@@ -107,12 +107,17 @@ unset($_POST['sort']);
                                     }
                                     ?>
                                 </div>
-                                <div>
-                                    <i class="fa fa-eye"></i>
-                                    <span itemprop="interactionCount">
-                                        <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                    </span>
-                                </div>
+
+                                <?php
+                                if (empty($advancedCustom->doNotDisplayViews)) {
+                                    ?> 
+                                    <div>
+                                        <i class="fa fa-eye"></i>
+                                        <span itemprop="interactionCount">
+                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                        </span>
+                                    </div>
+                                <?php } ?>
                                 <div>
                                     <i class="fa fa-clock-o"></i>
                                     <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -287,29 +292,29 @@ unset($_POST['sort']);
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
         <script>
-                                            $(document).ready(function () {
-                                                $container = $('.results').infiniteScroll({
-                                                    path: '.pagination__next',
-                                                    append: '.searchResult',
-                                                    status: '.scroller-status',
-                                                    hideNav: '.pagination',
-                                                });
-                                                $container.on('append.infiniteScroll', function (event, response, path, items) {
-                                                    lazyImage();
-                                                });
-                                                lazyImage();
-                                            });
-                                            function lazyImage() {
-                                                $('.thumbsJPG').lazy({
-                                                    effect: 'fadeIn',
-                                                    visibleOnly: true,
-                                                    // called after an element was successfully handled
-                                                    afterLoad: function (element) {
-                                                        element.removeClass('blur');
-                                                    }
-                                                });
-                                                mouseEffect();
+                                    $(document).ready(function () {
+                                        $container = $('.results').infiniteScroll({
+                                            path: '.pagination__next',
+                                            append: '.searchResult',
+                                            status: '.scroller-status',
+                                            hideNav: '.pagination',
+                                        });
+                                        $container.on('append.infiniteScroll', function (event, response, path, items) {
+                                            lazyImage();
+                                        });
+                                        lazyImage();
+                                    });
+                                    function lazyImage() {
+                                        $('.thumbsJPG').lazy({
+                                            effect: 'fadeIn',
+                                            visibleOnly: true,
+                                            // called after an element was successfully handled
+                                            afterLoad: function (element) {
+                                                element.removeClass('blur');
                                             }
+                                        });
+                                        mouseEffect();
+                                    }
         </script>
     </body>
 </html>

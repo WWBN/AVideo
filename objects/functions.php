@@ -82,11 +82,16 @@ function get_max_file_size() {
     return humanFileSize(file_upload_max_size());
 }
 
-function humanTiming($time) {
+function humanTiming($time, $precision = 0) {
     if (!is_int($time)) {
         $time = strtotime($time);
     }
     $time = time() - $time; // to get the time since that moment
+    return secondsToHumanTiming($time, $precision);
+}
+
+function secondsToHumanTiming($time, $precision = 0){
+    $time = ($time < 0) ? $time*-1 : $time;
     $time = ($time < 1) ? 1 : $time;
     $tokens = array(
         31536000 => 'year',
@@ -127,7 +132,14 @@ function humanTiming($time) {
         } else {
             $text = __($text);
         }
-
+        
+        if($precision){
+            $rest = $time % $unit;
+            if($rest){
+                $text .= ' '.secondsToHumanTiming($rest, $precision-1);
+            }
+        }
+        
         return $numberOfUnits . ' ' . $text;
     }
 }

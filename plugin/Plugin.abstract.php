@@ -181,11 +181,11 @@ abstract class PluginAbstract {
         return "";
     }
     
-    public function getNetflixActionButton() {
+    public function getNetflixActionButton($videos_id) {
         return "";
     }    
     
-    public function getGalleryActionButton() {
+    public function getGalleryActionButton($videos_id) {
         return "";
     }
 
@@ -309,6 +309,14 @@ abstract class PluginAbstract {
         }
         
         return $desc;
+    }
+    
+    public function getAllVideosExcludeVideosIDArray(){
+        return array();
+    }
+    
+    public function userCanWatchVideo($users_id, $videos_id){
+        return true;
     }
 
 }

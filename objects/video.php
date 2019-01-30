@@ -585,7 +585,10 @@ if (!class_exists('Video')) {
             }
 
             $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
-
+            $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
+            if(!empty($arrayNotIN) && is_array($arrayNotIN)){
+                $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
+            }
             if (!empty($id)) {
                 $sql .= " AND v.id = '$id' ";
             } elseif (empty($random) && !empty($_GET['videoName'])) {
@@ -694,7 +697,12 @@ if (!class_exists('Video')) {
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
-
+            
+            $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
+            if(!empty($arrayNotIN) && is_array($arrayNotIN)){
+                $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
+            }
+            
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
             }
@@ -749,7 +757,7 @@ if (!class_exists('Video')) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
             }
-            
+            //echo $sql;
             //error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
@@ -884,6 +892,10 @@ if (!class_exists('Video')) {
                 }
             }
 
+            $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
+            if(!empty($arrayNotIN) && is_array($arrayNotIN)){
+                $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
+            }
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
@@ -1393,18 +1405,18 @@ if (!class_exists('Video')) {
                     if ($status == 'u') {
                         $obj->type = "info";
                         $obj->text = __("Unlisted");
+                        $tags[] = $obj;
+                        $obj = new stdClass();
                     } else {
-                        $obj->type = "success";
-                        $obj->text = __("Public");
+                        //$obj->type = "success";
+                        //$obj->text = __("Public");
                     }
-                    $tags[] = $obj;
-                    $obj = new stdClass();
                 } else {
                     foreach ($groups as $value) {
                         $obj = new stdClass();
                         $obj->label = __("Group");
                         $obj->type = "warning";
-                        $obj->text = "{$value['id']} {$value['group_name']}";
+                        $obj->text = "{$value['group_name']}";
                         $tags[] = $obj;
                         $obj = new stdClass();
                     }

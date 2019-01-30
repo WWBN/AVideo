@@ -75,7 +75,11 @@ if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannel
         <option value="newest" data-icon="glyphicon-sort-by-attributes" value="desc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'desc') ? "selected='selected'" : "" ?>> <?php echo __("Date added (newest)"); ?></option>
         <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" value="asc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Date added (oldest)"); ?></option>
         <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo (!empty($_POST['sort']['likes'])) ? "selected='selected'" : "" ?>> <?php echo __("Most popular"); ?></option>
-        <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
+        <?php
+        if (empty($advancedCustom->doNotDisplayViews)) {
+            ?> 
+            <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
+        <?php } ?>
     </select>
 </div>
 <div class="col-md-4 col-sm-12" style="position: relative; z-index: 2;">
@@ -120,15 +124,15 @@ foreach ($videos as $key => $value) {
                 }
                 ?>
                 <div style="position: relative;">
-                <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive text-center <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img != $images->thumbsJpgSmall) ? "blur" : ""; ?>" height="130" />
-                <?php
-                if (!empty($imgGif)) {
-                    ?>
-                    <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
-                <?php } ?>
-                <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
-                <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
+                    <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive text-center <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img != $images->thumbsJpgSmall) ? "blur" : ""; ?>" height="130" />
+                    <?php
+                    if (!empty($imgGif)) {
+                        ?>
+                        <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                    <?php } ?>
+                    <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                    <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
+                    <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                 </div>
                 <div class="progress" style="height: 3px;">
                     <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
@@ -142,9 +146,13 @@ foreach ($videos as $key => $value) {
                         <span class="<?php echo $value['iconClass']; ?>"></span>
                         <?php echo $value['category']; ?>
                     </div>
-                    <div>
-                        <strong class="view-count<?php echo $value['id']; ?>"><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
-                    </div>
+                    <?php
+                    if (empty($advancedCustom->doNotDisplayViews)) {
+                        ?>
+                        <div>
+                            <strong class="view-count<?php echo $value['id']; ?>"><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                        </div>
+                    <?php } ?>
                     <div><?php echo $value['creator']; ?></div>
 
                 </div>

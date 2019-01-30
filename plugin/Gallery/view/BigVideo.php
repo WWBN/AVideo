@@ -1,10 +1,10 @@
 <?php
-if(empty($crc)){
+if (empty($crc)) {
     $crc = uniqid();
 }
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $name = User::getNameIdentificationById($video['users_id']);
-    if(empty($get)){
+    if (empty($get)) {
         $get = array();
     }
     ?>
@@ -38,7 +38,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 </div>
                 <div class="text-muted galeryDetails">
                     <div>
-                            <?php if (empty($_GET['catName'])) { ?>
+                        <?php if (empty($_GET['catName'])) { ?>
                             <a class="label label-default" href="<?php echo Video::getLink($video['id'], $video['clean_title'], false, $get); ?>/">
                                 <?php
                                 if (!empty($video['iconClass'])) {
@@ -63,10 +63,15 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         }
                         ?>
                     </div>
-                    <div>
-                        <i class="fa fa-eye"></i>
-                        <span itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
-                    </div>
+
+                    <?php
+                    if (empty($advancedCustom->doNotDisplayViews)) {
+                        ?>
+                        <div>
+                            <i class="fa fa-eye"></i>
+                            <span itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
+                        </div>
+                    <?php } ?>
                     <div>
                         <i class="fa fa-clock-o"></i>
                         <?php echo humanTiming(strtotime($video['videoCreation'])), " ", __('ago'); ?>
@@ -219,6 +224,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                 });
                             </script>
                         <?php } ?>
+                             
+                        <?php
+                        echo YouPHPTubePlugin::getGalleryActionButton($video['id']);
+                        ?>
                     </div>
 
                     <?php

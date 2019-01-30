@@ -294,7 +294,7 @@ class UserGroups {
             return array();
         }
 
-        $sql = "SELECT * FROM videos_group_view as v "
+        $sql = "SELECT v.*, ug.*FROM videos_group_view as v "
                 . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = ? ";
         $res = sqlDAL::readSql($sql,"i",array($videos_id));
         $fullData = sqlDAL::fetchAllAssoc($res);

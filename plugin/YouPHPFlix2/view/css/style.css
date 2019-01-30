@@ -300,3 +300,9 @@ footer .btn-outline {
 #carouselRows h2{
     position: relative;
 }
+
+body.fullscreen{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}

@@ -15,7 +15,7 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                     </h3>
                     <small>
                         <?php
-                        echo ($playlist_index+1), "/", count($playlistVideos), " ", __("Videos");
+                        echo ($playlist_index + 1), "/", count($playlistVideos), " ", __("Videos");
                         ?>
                     </small>
                 </a>
@@ -28,20 +28,20 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
             $count = 0;
             foreach ($playlistVideos as $value) {
                 $class = "";
-                $indicator = $count+1;
-                if ($count==$playlist_index) {
+                $indicator = $count + 1;
+                if ($count == $playlist_index) {
                     $class .= " active";
                     $indicator = '<span class="fa fa-play text-danger"></span>';
                 }
-            ?>
-            <li class="<?php echo $class; ?>">
+                ?>
+                <li class="<?php echo $class; ?>">
                     <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist_id; ?>/<?php echo $count; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
                         <div class="col-md-1 col-sm-1 col-xs-1">
                             <?php echo $indicator; ?>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3 nopadding">
                             <?php
-                            if (($value['type'] !== "audio")&&($value['type'] !== "linkAudio")) {
+                            if (($value['type'] !== "audio") && ($value['type'] !== "linkAudio")) {
                                 $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
                                 $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                             } else {
@@ -64,9 +64,16 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                                 <div>
                                     <span class="<?php echo @$value['iconClass']; ?>"></span>
                                 </div>
-                                <div>
-                                    <strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
-                                </div>
+
+                                <?php
+                                if (empty($advancedCustom->doNotDisplayViews)) {
+                                    ?> 
+                                    <div>
+                                        <strong class=""><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
 
                             </div>
                         </div>

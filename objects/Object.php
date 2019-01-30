@@ -11,6 +11,14 @@ abstract class ObjectYPT implements ObjectInterface {
 
     protected $fieldsName = array();
 
+
+    function __construct($id="") {
+        if (!empty($id)) {
+            // get data from id
+            $this->load($id);
+        }
+    }
+    
     protected function load($id) {
         $row = self::getFromDb($id);
         if (empty($row))
@@ -19,13 +27,6 @@ abstract class ObjectYPT implements ObjectInterface {
             $this->$key = $value;
         }
         return true;
-    }
-
-    function __construct($id="") {
-        if (!empty($id)) {
-            // get data from id
-            $this->load($id);
-        }
     }
 
     static protected function getFromDb($id) {

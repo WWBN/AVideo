@@ -121,7 +121,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                     <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
                 </a>
                 <?php
-                echo YouPHPTubePlugin::getNetflixActionButton();
+                echo YouPHPTubePlugin::getNetflixActionButton($value['id']);
                 ?>
             </div>
         </div>
