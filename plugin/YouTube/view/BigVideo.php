@@ -228,7 +228,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         <?php } ?>
                              
                         <?php
-                        echo YouPHPTubePlugin::getGalleryActionButton();
+                        echo YouPHPTubePlugin::getGalleryActionButton($video['id']);
                         ?>
                     </div>
 
