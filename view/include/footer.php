@@ -1,4 +1,6 @@
-<footer>
+<footer style="position: absolute;
+bottom: 0;
+width: 100%;">
     <?php
     $custom = "";
     if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
