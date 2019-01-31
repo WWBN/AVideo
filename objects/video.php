@@ -673,7 +673,7 @@ if (!class_exists('Video')) {
          * @param type $videosArrayId an array with videos to return (for filter only)
          * @return boolean
          */
-        static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false) {
+        static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
@@ -692,6 +692,10 @@ if (!class_exists('Video')) {
                     . " LEFT JOIN categories c ON categories_id = c.id "
                     . " LEFT JOIN users u ON v.users_id = u.id "
                     . " WHERE 1=1 ";
+            
+            if($activeUsersOnly){
+                $sql .= " AND u.status = 'a' ";
+            }
             
             $sql .= static::getVideoQueryFileter();
             if (!empty($videosArrayId) && is_array($videosArrayId)) {

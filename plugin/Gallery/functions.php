@@ -280,11 +280,10 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                             });
                         </script>
                     <?php } ?>
-                        
-                    <?php
-                    echo YouPHPTubePlugin::getGalleryActionButton($value['id']);
-                    ?>
                 </div>
+                <?php
+                echo YouPHPTubePlugin::getGalleryActionButton($value['id']);
+                ?>
             </div>
             <?php
             if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {

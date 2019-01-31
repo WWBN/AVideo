@@ -225,11 +225,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             </script>
                         <?php } ?>
                              
-                        <?php
-                        echo YouPHPTubePlugin::getGalleryActionButton($video['id']);
-                        ?>
                     </div>
 
+                    <?php
+                    echo YouPHPTubePlugin::getGalleryActionButton($video['id']);
+                    ?>
                     <?php
                     if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                         ?>

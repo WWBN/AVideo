@@ -19,9 +19,10 @@ $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvance
 $t = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $t['key'];
 $p = YouPHPTubePlugin::loadPlugin("Live");
-$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-if (!empty($objSecure->disableEmbedMode)) {
-    die('Embed Mode disabled');
+
+$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+if(!empty($objSecure)){
+    $objSecure->verifyEmbedSecurity();
 }
 ?>
 <!DOCTYPE html>

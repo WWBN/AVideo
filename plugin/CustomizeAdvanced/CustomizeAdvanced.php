@@ -42,6 +42,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderButton = false;
         $obj->encoderButtonLabel = "";
         $obj->doNotShowEmbedButton = false;
+        $obj->embedBackgroundColor = "white";
         $obj->embedButtonLabel = "";
         $obj->doNotShowEncoderResolutionLow = false;
         $obj->doNotShowEncoderResolutionSD = false;
@@ -62,7 +63,6 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableYoutubePlayerIntegration = false;
         $obj->utf8Encode = false;
         $obj->utf8Decode = false;
-        $obj->embedBackgroundColor = "white";
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
@@ -97,6 +97,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->useFFMPEGToGenerateThumbs = false;
         $obj->showImageDownloadOption = false;
         $obj->doNotDisplayViews = false;
+        $obj->doNotDisplayCategoryLeftMenu = false;
         
         return $obj;
     }

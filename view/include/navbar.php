@@ -113,7 +113,6 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 $_GET['parentsOnly'] = "1";
-$categories = Category::getAllCategories();
 if (empty($_SESSION['language'])) {
     $lang = 'us';
 } else {
@@ -860,16 +859,18 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         }
 
                     }
-                    //var_dump($categories);exit;
-                    foreach ($categories as $value) {
-                        if (empty($value['total'])) {
-                            continue;
+                    if(empty($advancedCustom->doNotDisplayCategoryLeftMenu)){
+                        $categories = Category::getAllCategories();
+                        foreach ($categories as $value) {
+                            if (empty($value['total'])) {
+                                continue;
+                            }
+                            echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
+                            . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >'
+                            . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . ' <span class="badge">' . $value['total'] . '</span></a>';
+                            mkSub($value['id']);
+                            echo '</li>';
                         }
-                        echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                        . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >'
-                        . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . ' <span class="badge">' . $value['total'] . '</span></a>';
-                        mkSub($value['id']);
-                        echo '</li>';
                     }
                     ?>
 

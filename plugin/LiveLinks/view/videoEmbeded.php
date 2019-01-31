@@ -1,8 +1,9 @@
 <?php
 $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
-$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-if (!empty($objSecure->disableEmbedMode)) {
-    die('Embed Mode disabled');
+
+$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+if(!empty($objSecure)){
+    $objSecure->verifyEmbedSecurity();
 }
 ?>
 <!DOCTYPE html>

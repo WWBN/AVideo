@@ -10,9 +10,9 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
 
 $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
-$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-if (!empty($objSecure->disableEmbedMode)) {
-    die(__('Embed Mode disabled'));
+$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+if(!empty($objSecure)){
+    $objSecure->verifyEmbedSecurity();
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
