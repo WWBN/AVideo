@@ -5,6 +5,10 @@ $isEmbed = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
+$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+if (!empty($objSecure)) {
+    $objSecure->verifyEmbedSecurity();
+}
 
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
@@ -12,24 +16,23 @@ $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 
 $playListData = array();
 foreach ($playList as $value) {
-    
+
     $sources = getVideosURL($value['filename']);
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
-    
-    
+
+
     $src = new stdClass();
     $src->src = $images->thumbsJpg;
     $thumbnail = array($src);
-    
+
     $playListSources = array();
     foreach ($sources as $value2) {
-        if($value2['type']!=='video'){
+        if ($value2['type'] !== 'video') {
             continue;
         }
         $playListSources[] = new playListSource($value2['url']);
     }
-    $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], 
-            $playListSources, $thumbnail, $images->poster);
+    $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster);
 }
 //var_dump($playListData);exit;
 ?>
@@ -98,14 +101,14 @@ foreach ($playList as $value) {
 
     <body>
         <video style="width: 100%; height: 100%;" playsinline
-                <?php if ($config->getAutoplay() && false) { // disable it for now  ?>
-                        autoplay="true"
-                        muted="muted"
-                    <?php } ?>
-                    preload="auto"
-                    controls class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" id="mainVideo">
-            </video>
-        <div style="position: absolute; right: 0; top: 0; width: 20%; height: 100%; overflow-y: scroll; " id="playListHolder">
+        <?php if ($config->getAutoplay() && false) { // disable it for now   ?>
+                   autoplay="true"
+                   muted="muted"
+               <?php } ?>
+               preload="auto"
+               controls class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" id="mainVideo">
+        </video>
+        <div style="position: absolute; right: 0; top: 0; width: 35%; height: 100%; overflow-y: scroll; margin-right: -16px; " id="playListHolder">
             <div class="vjs-playlist" style="" id="playList">
                 <!--
                   The contents of this element will be filled based on the
@@ -131,14 +134,18 @@ foreach ($playList as $value) {
             player.playlistUi();
             var timeout;
             $(document).ready(function () {
-                timeout = setTimeout(function(){$('#playList').fadeOut();},2000);
-                $('#playListHolder').mouseenter(function(){
+                timeout = setTimeout(function () {
+                    $('#playList').fadeOut();
+                }, 2000);
+                $('#playListHolder').mouseenter(function () {
                     $('#playList').fadeIn();
                     clearTimeout(timeout);
                 });
-                $('#playListHolder').mouseleave(function(){
-                    timeout = setTimeout(function(){$('#playList').fadeOut();},1000);
-                    
+                $('#playListHolder').mouseleave(function () {
+                    timeout = setTimeout(function () {
+                        $('#playList').fadeOut();
+                    }, 1000);
+
                 });
             });
         </script>

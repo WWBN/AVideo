@@ -51,13 +51,6 @@
                             'playlists_id': $(this).val()
                         },
                         success: function (response) {
-<?php
-global $isChannel;
-if (!empty($isChannel)) {
-    ?>
-                                refreshPlayLists('playlistContainer');
-<?php } ?>
-
                             $(".playListsIds" + tmpPIdBigVideo).prop("checked", tmpSaveBigVideo);
                             modal.hidePleaseWait();
                         }

@@ -58,12 +58,6 @@ $crc = uniqid();
                             if (response.status>0) {
                                 playList = [];
                                 reloadPlayLists();
-    <?php
-    global $isChannel;
-    if (!empty($isChannel)) {
-        ?>
-                                    refreshPlayLists('playlistContainer');
-    <?php } ?>
                                 loadPlayLists('<?php echo $videos_id; ?>', '<?php echo $crc; ?>');
                                 $('#playListName<?php echo $videos_id . $crc; ?>').val("");
                                 $('#publicPlayList<?php echo $videos_id . $crc; ?>').prop('checked', true);
