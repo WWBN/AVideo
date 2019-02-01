@@ -16,6 +16,18 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
+
+$plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
+if(empty($plugin)){
+    $obj->error = "Plugin not enabled";
+    die(json_encode($obj));
+}
+
+if(!PlayLists::canAddVideoOnPlaylist($_POST['videos_id'])){
+    $obj->error = "You can not add this video on playlist";
+    die(json_encode($obj));
+}
+
 $playList = new PlayList($_POST['playlists_id']);
 if(empty($obj || User::getId()!=$obj->getUsers_id()) || empty($_POST['videos_id'])){
     

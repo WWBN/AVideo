@@ -317,14 +317,14 @@ class YouPHPTubePlugin {
         return $str;
     }
 
-    static function getWatchActionButton() {
+    static function getWatchActionButton($videos_id) {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
-                $str .= $p->getWatchActionButton();
+                $str .= $p->getWatchActionButton($videos_id);
             }
         }
         return $str;

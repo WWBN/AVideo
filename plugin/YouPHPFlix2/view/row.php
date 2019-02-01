@@ -117,79 +117,12 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                     <?php
                 }
                 ?>
-                <a href="#" class="btn btn-primary" id="addBtn<?php echo $value['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');">
-                    <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                </a>
                 <?php
                 echo YouPHPTubePlugin::getNetflixActionButton($value['id']);
                 ?>
             </div>
         </div>
-    </div>
-    <div id="webui-popover-content<?php echo $value['id'] . $uid; ?>" style="display: none;" >
-        <?php if (User::isLogged()) { ?>
-            <form role="form">
-                <div class="form-group">
-                    <input class="form-control" id="searchinput<?php echo $value['id'] . $uid; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
-                </div>
-                <div id="searchlist<?php echo $value['id'] . $uid; ?>" class="list-group">
-                </div>
-            </form>
-            <div>
-                <hr>
-                <div class="form-group">
-                    <input id="playListName<?php echo $value['id'] . $uid; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
-                </div>
-                <div class="form-group">
-                    <?php echo __("Make it public"); ?>
-                    <div class="material-switch pull-right">
-                        <input id="publicPlayList<?php echo $value['id'] . $uid; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
-                        <label for="publicPlayList" class="label-success"></label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-success btn-block" id="addPlayList<?php echo $value['id'] . $uid; ?>" ><?php echo __("Create a New Play List"); ?></button>
-                </div>
-            </div>
-        <?php } else { ?>
-            <h5><?php echo __("Want to watch this again later?"); ?></h5>
-            <?php echo __("Sign in to add this video to a playlist."); ?>
-            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
-                <span class="fas fa-sign-in-alt"></span>
-                <?php echo __("Login"); ?>
-            </a>
-        <?php } ?>
-    </div>
-    <script>
-        $(document).ready(function () {
-            loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');
-            $('#addBtn<?php echo $value['id'] . $uid; ?>').webuiPopover({url: '#webui-popover-content<?php echo $value['id'] . $uid; ?>'});
-            $('#addPlayList<?php echo $value['id'] . $uid; ?>').click(function () {
-                modal.showPleaseWait();
-                $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
-                    method: 'POST',
-                    data: {
-                        'videos_id': <?php echo $value['id']; ?>,
-                        'status': $('#publicPlayList<?php echo $value['id'] . $uid; ?>').is(":checked") ? "public" : "private",
-                        'name': $('#playListName<?php echo $value['id'] . $uid; ?>').val()
-                    },
-                    success: function (response) {
-                        if (response.status === "1") {
-                            playList = [];
-                            console.log(1);
-                            reloadPlayLists();
-                            loadPlayLists('<?php echo $value['id'] . $uid; ?>', '<?php echo $value['id']; ?>');
-                            $('#playListName<?php echo $value['id'] . $uid; ?>').val("");
-                            $('#publicPlayList<?php echo $value['id'] . $uid; ?>').prop('checked', true);
-                        }
-                        modal.hidePleaseWait();
-                    }
-                });
-                return false;
-            });
-        });
-    </script>        
+    </div>     
     <?php
 }
 

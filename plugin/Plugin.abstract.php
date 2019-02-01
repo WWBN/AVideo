@@ -177,7 +177,7 @@ abstract class PluginAbstract {
         return $obj;
     }
 
-    public function getWatchActionButton() {
+    public function getWatchActionButton($videos_id) {
         return "";
     }
     

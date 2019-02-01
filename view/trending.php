@@ -138,78 +138,8 @@ unset($_POST['sort']);
                                         </a>
                                     </div>
                                 <?php }
+                                YouPHPTubePlugin::getgalleryActionButton($value['id']);
                                 ?>
-                                <div class="">
-                                    <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
-                                        <a href="#" class="text-primary" style="float:right;" id="addBtn<?php echo $value['id']; ?>" data-placement="top" onclick="loadPlayLists('<?php echo $value['id']; ?>', '<?php echo $value['id']; ?>');">
-                                            <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                                        </a>
-                                        <div class="webui-popover-content" >
-                                            <?php if (User::isLogged()) { ?>
-                                                <form role="form">
-                                                    <div class="form-group">
-                                                        <input class="form-control" id="searchinput<?php echo $value['id']; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
-                                                    </div>
-                                                    <div id="searchlist<?php echo $value['id']; ?>" class="list-group">
-                                                    </div>
-                                                </form>
-                                                <div>
-                                                    <hr>
-                                                    <div class="form-group">
-                                                        <input id="playListName<?php echo $value['id']; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <?php echo __("Make it public"); ?>
-                                                        <div class="material-switch pull-right">
-                                                            <input id="publicPlayList<?php echo $value['id']; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
-                                                            <label for="publicPlayList" class="label-success"></label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button class="btn btn-success btn-block" id="addPlayList<?php echo $value['id']; ?>" ><?php echo __("Create a New Play List"); ?></button>
-                                                    </div>
-                                                </div>
-                                            <?php } else { ?>
-                                                <h5><?php echo __("Want to watch this again later?"); ?></h5>
-                                                <?php echo __("Sign in to add this video to a playlist."); ?>
-                                                <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
-                                                    <span class="fas fa-sign-in-alt"></span>
-                                                    <?php echo __("Login"); ?>
-                                                </a>
-                                            <?php } ?>
-                                        </div>
-                                        <script>
-                                            $(document).ready(function () {
-                                                loadPlayLists('<?php echo $value['id']; ?>', '<?php echo $value['id']; ?>');
-                                                $('#addBtn<?php echo $value['id']; ?>').webuiPopover();
-                                                $('#addPlayList<?php echo $value['id']; ?>').click(function () {
-                                                    modal.showPleaseWait();
-                                                    $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
-                                                        method: 'POST',
-                                                        data: {
-                                                            'videos_id': <?php echo $value['id']; ?>,
-                                                            'status': $('#publicPlayList<?php echo $value['id']; ?>').is(":checked") ? "public" : "private",
-                                                            'name': $('#playListName<?php echo $value['id']; ?>').val()
-                                                        },
-                                                        success: function (response) {
-                                                            if (response.status === "1") {
-                                                                playList = [];
-                                                                console.log(1);
-                                                                reloadPlayLists();
-                                                                loadPlayLists('<?php echo $value['id']; ?>', '<?php echo $value['id']; ?>');
-                                                                $('#playListName<?php echo $value['id']; ?>').val("");
-                                                                $('#publicPlayList<?php echo $value['id']; ?>').prop('checked', true);
-                                                            }
-                                                            modal.hidePleaseWait();
-                                                        }
-                                                    });
-                                                    return false;
-                                                });
-                                            });
-                                        </script>
-                                    <?php } ?>
-                                </div>
                             </div>
                             <div class="mainAreaDescriptionContainer  col-lg-12">
                                 <h4 class="mainAreaDescription" itemprop="description" style="max-height: 7vw; padding: 0; margin: 5px 0;"><?php echo nl2br(textToLink($value['description'])); ?></h4>

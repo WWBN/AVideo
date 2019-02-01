@@ -99,78 +99,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             <?php
                         }
                         ?>
-                        <a href="#" class="btn btn-primary" id="addBtn<?php echo $video['id'] . $uid; ?>" data-placement="right" onclick="loadPlayLists('<?php echo $video['id'] . $uid; ?>', '<?php echo $video['id']; ?>');">
-                            <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                        </a>
                         <?php
                         echo YouPHPTubePlugin::getNetflixActionButton($video['id']);
                         ?>
                     </div>
-                </div>
-                <div id="webui-popover-content<?php echo $video['id'] . $uid; ?>" style="display: none;" >
-                    <?php if (User::isLogged()) { ?>
-                        <form role="form">
-                            <div class="form-group">
-                                <input class="form-control" id="searchinput<?php echo $video['id'] . $uid; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
-                            </div>
-                            <div id="searchlist<?php echo $video['id'] . $uid; ?>" class="list-group">
-                            </div>
-                        </form>
-                        <div>
-                            <hr>
-                            <div class="form-group">
-                                <input id="playListName<?php echo $video['id'] . $uid; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
-                            </div>
-                            <div class="form-group">
-                                <?php echo __("Make it public"); ?>
-                                <div class="material-switch pull-right">
-                                    <input id="publicPlayList<?php echo $video['id'] . $uid; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
-                                    <label for="publicPlayList" class="label-success"></label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-success btn-block" id="addPlayList<?php echo $video['id'] . $uid; ?>" ><?php echo __("Create a New Play List"); ?></button>
-                            </div>
-                        </div>
-                    <?php } else { ?>
-                        <h5><?php echo __("Want to watch this again later?"); ?></h5>
-                        <?php echo __("Sign in to add this video to a playlist."); ?>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
-                            <span class="fas fa-sign-in-alt"></span>
-                            <?php echo __("Login"); ?>
-                        </a>
-                    <?php } ?>
-                </div>
-                <script>
-                    $(document).ready(function () {
-                        loadPlayLists('<?php echo $video['id'] . $uid; ?>', '<?php echo $video['id']; ?>');
-                        $('#addBtn<?php echo $video['id'] . $uid; ?>').webuiPopover({url: '#webui-popover-content<?php echo $video['id'] . $uid; ?>'});
-                        $('#addPlayList<?php echo $video['id'] . $uid; ?>').click(function () {
-                            modal.showPleaseWait();
-                            $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
-                                method: 'POST',
-                                data: {
-                                    'videos_id': <?php echo $video['id']; ?>,
-                                    'status': $('#publicPlayList<?php echo $video['id'] . $uid; ?>').is(":checked") ? "public" : "private",
-                                    'name': $('#playListName<?php echo $video['id'] . $uid; ?>').val()
-                                },
-                                success: function (response) {
-                                    if (response.status === "1") {
-                                        playList = [];
-                                        console.log(1);
-                                        reloadPlayLists();
-                                        loadPlayLists('<?php echo $video['id'] . $uid; ?>', '<?php echo $video['id']; ?>');
-                                        $('#playListName<?php echo $video['id'] . $uid; ?>').val("");
-                                        $('#publicPlayList<?php echo $video['id'] . $uid; ?>').prop('checked', true);
-                                    }
-                                    modal.hidePleaseWait();
-                                }
-                            });
-                            return false;
-                        });
-                    });
-                </script>       
+                </div>      
             </div>
         </div>
         <?php

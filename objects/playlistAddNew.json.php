@@ -7,6 +7,12 @@ if(!isset($global['systemRootPath'])){
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+
+$plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
+
+if(empty($plugin)){
+    die('{"error":"Plugin not enabled"}');
+}
 if (!User::isLogged()) {
     die('{"error":"'.__("Permission denied").'"}');
 }

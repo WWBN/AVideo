@@ -313,124 +313,6 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                             <div class="row">
                                 <div class="col-md-12 watch8-action-buttons text-muted">
                                     <?php if (empty($advancedCustom->disableShareAndPlaylist)) { ?>
-                                        <button class="btn btn-default no-outline" id="addBtn" data-placement="bottom">
-                                            <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                                        </button>
-                                        <div class="webui-popover-content">
-                                            <?php if (User::isLogged()) { ?>
-                                                <form role="form">
-                                                    <div class="form-group">
-                                                        <input class="form-control" id="searchinput" type="search" placeholder="Search..." />
-                                                    </div>
-                                                    <div id="searchlist" class="list-group">
-                                                    </div>
-                                                </form>
-                                                <div>
-                                                    <hr>
-                                                    <div class="form-group">
-                                                        <input id="playListName" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <?php echo __("Make it public"); ?>
-                                                        <div class="material-switch pull-right">
-                                                            <input id="publicPlayList" name="publicPlayList" type="checkbox" checked="checked"/>
-                                                            <label for="publicPlayList" class="label-success"></label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button class="btn btn-success btn-block" id="addPlayList" ><?php echo __("Create a New Play List"); ?></button>
-                                                    </div>
-                                                </div>
-                                            <?php } else { ?>
-                                                <h5>Want to watch this again later?</h5>
-
-                                                Sign in to add this video to a playlist.
-
-                                                <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
-                                                    <span class="glyphicon glyphicon-log-in"></span>
-                                                    <?php echo __("Login"); ?>
-                                                </a>
-                                            <?php } ?>
-                                        </div>
-                                        <script>
-                                            function loadPlayLists() {
-                                                $.ajax({
-                                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
-                                                    success: function (response) {
-                                                        $('#searchlist').html('');
-                                                        for (var i in response) {
-                                                            if (!response[i].id) {
-                                                                continue;
-                                                            }
-                                                            var icon = "lock"
-                                                            if (response[i].status == "public") {
-                                                                icon = "globe"
-                                                            }
-
-                                                            var checked = "";
-                                                            for (var x in response[i].videos) {
-                                                                if (
-                                                                        typeof (response[i].videos[x]) === 'object'
-                                                                        && response[i].videos[x].videos_id ==<?php echo $video['id']; ?>) {
-                                                                    checked = "checked";
-                                                                }
-                                                            }
-
-                                                            $("#searchlist").append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
-                                                                    + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                                                                    + response[i].id + '" name="someSwitchOption' + response[i].id + '" class="playListsIds" type="checkbox" value="'
-                                                                    + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
-                                                                    + response[i].id + '" class="label-success"></label></div></a>');
-                                                        }
-                                                        $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
-                                                        $('.playListsIds').change(function () {
-                                                            modal.showPleaseWait();
-                                                            $.ajax({
-                                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
-                                                                method: 'POST',
-                                                                data: {
-                                                                    'videos_id': <?php echo $video['id']; ?>,
-                                                                    'add': $(this).is(":checked"),
-                                                                    'playlists_id': $(this).val()
-                                                                },
-                                                                success: function (response) {
-                                                                    modal.hidePleaseWait();
-                                                                }
-                                                            });
-                                                            return false;
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                            $(document).ready(function () {
-                                                loadPlayLists();
-                                                $('#addBtn').webuiPopover();
-                                                $('#addPlayList').click(function () {
-                                                    modal.showPleaseWait();
-                                                    $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
-                                                        method: 'POST',
-                                                        data: {
-                                                            'videos_id': <?php echo $video['id']; ?>,
-                                                            'status': $('#publicPlayList').is(":checked") ? "public" : "private",
-                                                            'name': $('#playListName').val()
-                                                        },
-                                                        success: function (response) {
-                                                            if (response.status * 1 > 0) {
-                                                                // update list
-                                                                loadPlayLists();
-                                                                $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
-                                                                $('#playListName').val("");
-                                                                $('#publicPlayList').prop('checked', true);
-                                                            }
-                                                            modal.hidePleaseWait();
-                                                        }
-                                                    });
-                                                    return false;
-                                                });
-
-                                            });
-                                        </script>
                                         <?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
                                             <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                                 <span class="fa fa-share"></span> <?php echo __("Share"); ?>
@@ -446,7 +328,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                             <?php
                                         }
                                         ?>
-                                    <?php } echo YouPHPTubePlugin::getWatchActionButton(); ?>
+                                    <?php } echo YouPHPTubePlugin::getWatchActionButton($video['id']); ?>
                                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                                         <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
                                     </a>

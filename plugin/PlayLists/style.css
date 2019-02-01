@@ -1,0 +1,5 @@
+.PlayListList{
+    max-height: 125px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}

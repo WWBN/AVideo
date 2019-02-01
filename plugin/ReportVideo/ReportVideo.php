@@ -33,7 +33,7 @@ class ReportVideo extends PluginAbstract {
         return array('free', 'buttons', 'report');
     }
 
-    public function getWatchActionButton() {
+    public function getWatchActionButton($videos_id) {
         global $global, $video;
         include $global['systemRootPath'] . 'plugin/ReportVideo/actionButton.php';
     }
