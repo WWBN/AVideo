@@ -676,7 +676,7 @@ class YouPHPTubePlugin {
         return $btn;
     }
     
-    public function getAllVideosExcludeVideosIDArray(){
+    public static function getAllVideosExcludeVideosIDArray(){
         $plugins = Plugin::getAllEnabled();
         $array = array();
         foreach ($plugins as $value) {
@@ -688,7 +688,7 @@ class YouPHPTubePlugin {
         return $array;
     }
     
-    public function userCanWatchVideo($users_id, $videos_id){
+    public static function userCanWatchVideo($users_id, $videos_id){
         $plugins = Plugin::getAllEnabled();
         $resp = true;
         foreach ($plugins as $value) {
