@@ -83,7 +83,7 @@ foreach ($playlists as $playlist) {
                     if (YouPHPTubePlugin::isEnabledByName("PlayLists")) {
                         ?>
                         <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val());setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
-                        <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayListEmbed/embed.php?playlists_id=<?php echo $playlist['id']; ?>" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay"></iframe>'/>
+                        <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php echo $playlist['id']; ?>" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay"></iframe>'/>
                         <?php
                     }
                     ?>

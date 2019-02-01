@@ -1034,8 +1034,11 @@ function mime_content_type_per_filename($filename) {
         'odt' => 'application/vnd.oasis.opendocument.text',
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
     );
-
-    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if (filter_var($filename, FILTER_VALIDATE_URL) === FALSE) {
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    }else{
+        $ext = pathinfo(parse_url($filename, PHP_URL_PATH), PATHINFO_EXTENSION);
+    }    
     if (array_key_exists($ext, $mime_types)) {
         return $mime_types[$ext];
     } elseif (function_exists('finfo_open')) {
