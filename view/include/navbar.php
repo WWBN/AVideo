@@ -258,10 +258,10 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 if (!empty($config->getEncoderURL())) {
                                                     ?>
                                                     <li>
-                                                        <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
-                                                            <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
-                                                            <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
-                                                            <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
+                                                        <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder"  autocomplete="off" >
+                                                            <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>"  autocomplete="off"  />
+                                                            <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>"  autocomplete="off"  />
+                                                            <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off"  />
                                                         </form>
                                                         <a href="#" onclick="$('#formEncoder').submit();
                                                                                     return false;">
