@@ -50,7 +50,7 @@ $reflector = new ReflectionClass('API');
                             <br>
                             <pre><?php
                                 $comment = $reflector->getMethod($method_name)->getDocComment();
-                                $comment = str_replace(array('{webSiteRootURL}','{getOrSet}','{name}'), array($global['webSiteRootURL'],$matches[1],$matches[2]), $comment);
+                                $comment = str_replace(array('{webSiteRootURL}','{getOrSet}','{APIName}'), array($global['webSiteRootURL'],$matches[1],$matches[2]), $comment);
                                 preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $comment, $match2);
                                                                 //var_dump($match2[0]);
                                 $link = "<a target='_blank' href='{$match2[0][0]}'>".htmlentities($match2[0][0])."</a>";
