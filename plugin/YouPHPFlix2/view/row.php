@@ -107,12 +107,16 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                 </div>
             </div>
             <div class="footerBtn">
-                <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo YouPHPFlix2::getLinkToVideo($value['id']); ?>"><i class="fa fa-play"></i> <?php echo __("Play"); ?></a>
+                <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo YouPHPFlix2::getLinkToVideo($value['id']); ?>">
+                    <i class="fa fa-play"></i> 
+                    <span class="hidden-xs"><?php echo __("Play"); ?></span>
+                </a>
                 <?php
                 if (!empty($value['trailer1'])) {
                     ?>
                     <a href="#" class="btn btn-warning" onclick="flixFullScreen('<?php echo parseVideos($value['trailer1'], 1, 0, 0, 0, 1); ?>');return false;">
-                        <span class="fa fa-film"></span> <?php echo __("Trailer"); ?>
+                        <span class="fa fa-film"></span> 
+                        <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
                     </a>
                     <?php
                 }
