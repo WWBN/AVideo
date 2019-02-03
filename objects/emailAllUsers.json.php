@@ -25,6 +25,7 @@ $mail = new PHPMailer;
 setSiteSendMessage($mail);
 //Set who the message is to be sent from
 $mail->setFrom($config->getContactEmail());
+$mail->Subject = 'Message From Site ' . $config->getWebSiteTitle();
 $mail->msgHTML($_POST['message']);
 $count = 0;
 $currentCount = 0;
