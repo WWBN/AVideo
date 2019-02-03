@@ -318,5 +318,9 @@ abstract class PluginAbstract {
     public function userCanWatchVideo($users_id, $videos_id){
         return true;
     }
+    
+    function verifyEmbedSecurity(){
+        return true;
+    }
 
 }
