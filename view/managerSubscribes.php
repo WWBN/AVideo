@@ -30,7 +30,7 @@ if (!User::canUpload()) {
             </div>
             <div class="col-lg-3">
                 <button type="button" class="btn btn-success" id="sendSubscribeBtn">
-                    <span class="fa fa-envelope-o" aria-hidden="true"></span> <?php echo __("Notify Subscribers"); ?>
+                    <i class="fas fa-envelope-square"></i> <?php echo __("Notify Subscribers"); ?>
                 </button>
             </div>
             <table id="grid" class="table table-condensed table-hover table-striped">

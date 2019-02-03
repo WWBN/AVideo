@@ -616,6 +616,10 @@ if (!class_exists('Video')) {
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
                     $video['progress'] = self::getVideoPogressPercent($video['id']);
+                    if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                        $video['videoTags'] = Tags::getAllFromVideosId($video['id']);
+                        $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['id']);
+                    }
                 }
             } else {
                 $video = false;
@@ -786,6 +790,7 @@ if (!class_exists('Video')) {
                     $row['tags'] = self::getTags($row['id']);
                     if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                         $row['videoTags'] = Tags::getAllFromVideosId($row['id']);
+                        $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['id']);
                     }
                     $row['title'] = UTF8encode($row['title']);
                     $row['description'] = UTF8encode($row['description']);

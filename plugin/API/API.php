@@ -122,6 +122,8 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters 
      * ['sort' database sort column]
+     * ['videos_id' the video id (will return only 1 or 0 video)]
+     * ['clean_title' the video clean title (will return only 1 or 0 video)]
      * ['rowCount' max numbers of rows]
      * ['current' current page]
      * ['searchPhrase' to search on the categories]
@@ -135,8 +137,16 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'].'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        $rows = Video::getAllVideos();
-        $totalRows = Video::getTotalVideos();
+        if(!empty($parameters['videos_id'])){
+            $rows = Video::getVideo($parameters['videos_id']);
+            $totalRows = empty($rows)?0:1;
+        }else if(!empty($parameters['clean_title'])){
+            $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
+            $totalRows = empty($rows)?0:1;
+        }else{        
+            $rows = Video::getAllVideos();
+            $totalRows = Video::getTotalVideos();
+        }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
         return new ApiObject("", false, $obj);

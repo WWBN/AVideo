@@ -319,6 +319,11 @@ abstract class PluginAbstract {
         return true;
     }
     
+    /**
+     * temporary, to avoid error on old secureVideosDirectory plugins
+     * @return boolean
+     */
+    
     function verifyEmbedSecurity(){
         return true;
     }

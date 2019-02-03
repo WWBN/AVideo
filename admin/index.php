@@ -79,8 +79,9 @@ $itens[] = $menu;
 
  */
 
-
-$menu = new MenuAdmin(__("Plugins"), "fas fa-puzzle-piece", "plugins");
+$menu = new MenuAdmin(__("Miscellaneous"), "fas fa-th");
+$menu->addItem(new MenuAdmin(__("Plugins"), "fas fa-puzzle-piece", "plugins"));
+$menu->addItem(new MenuAdmin(__("Email All Users"), "fas fa-mail-bulk", "mail_all_users"));
 $itens[] = $menu;
 
 
@@ -136,6 +137,9 @@ switch ($_GET['page']) {
     case "plugins":
         $includeHead = $global['systemRootPath'] . 'view/managerPlugins_head.php';
         $includeBody = $global['systemRootPath'] . 'view/managerPlugins_body.php';
+        break;
+    case "mail_all_users":
+        $includeBody = $global['systemRootPath'] . 'admin/mail_all_users.php';
         break;
     case "users":
         $includeHead = $global['systemRootPath'] . 'view/managerUsers_head.php';
