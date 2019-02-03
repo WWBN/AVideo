@@ -306,3 +306,16 @@ body.fullscreen{
     padding: 0;
     overflow: hidden;
 }
+
+@media (max-width: 767px) {
+    #bigVideo{
+        height: 90vh !important;
+        overflow: hidden;
+    }
+    #bg_container iframe {
+        height: 90vh !important;
+    }
+    .poster {
+        height: 450px !important;
+    }
+}
