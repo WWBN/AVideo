@@ -553,7 +553,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     <li>
 
                         <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-block">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-primary btn-block  ">
                                 <span class="fa fa-home"></span>
                                 <?php echo __("Home"); ?>
                             </a>
@@ -564,7 +564,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     <li>
 
                         <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>trending" class="btn btn-block">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>trending" class="btn btn-primary btn-block ">
                                 <i class="fas fa-fire"></i>
                                 <?php echo __("Trending"); ?>
                             </a>
