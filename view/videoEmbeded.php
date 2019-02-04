@@ -5,6 +5,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+require_once $global['systemRootPath'] . 'objects/video.php';
 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 YouPHPTubePlugin::getModeYouTube($v['id']);
 
