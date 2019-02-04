@@ -283,6 +283,19 @@
                                     }
                                     ?>
 
+                                    <label for="inputRrating" ><?php echo __("R Rating"); ?></label>
+                                    <select class="form-control last" id="inputRrating">
+                                        <?php
+                                        foreach (Video::$rratingOptions as $value) {
+                                            if(empty($value)){
+                                                $label = "No Rating";
+                                            }else{
+                                                $label = strtoupper($value);
+                                            }
+                                            echo "<option value='{$value}'>{$label}</option>";
+                                        }
+                                        ?>
+                                    </select>
 
                                     <div class="row" <?php if (!User::isAdmin()) { ?> style="display: none;" <?php } ?>>
                                         <h3><?php echo __("Video Owner"); ?></h3>
@@ -709,6 +722,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#inputCleanTitle').val(row.clean_title);
                                             $('#inputDescription').val(row.description);
                                             $('#inputCategory').val(row.categories_id);
+                                            $('#inputRrating').val(row.rrating);
 <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
     echo VideoTags::getTagsInputsJqueryRemoveAll();
@@ -877,6 +891,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                     "clean_title": $('#inputCleanTitle').val(),
                                                     "description": $('#inputDescription').val(),
                                                     "categories_id": $('#inputCategory').val(),
+                                                    "rrating": $('#inputRrating').val(),
                                                     "public": isPublic,
                                                     "videoGroups": selectedVideoGroups,
                                                     "next_videos_id": $('#inputNextVideo-id').val(),
@@ -919,6 +934,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#inputCleanTitle').val("");
                                             $('#inputDescription').val("");
                                             $('#inputCategory').val("");
+                                            $('#inputRrating').val("");
                                             $('#removeAutoplay').trigger('click');
                                             
 <?php
@@ -1204,6 +1220,7 @@ if (!empty($row)) {
                                                 $('#inputCleanTitle').val("");
                                                 $('#inputDescription').val("");
                                                 $('#inputCategory').val($('#inputCategory option:first').val());
+                                                $('#inputRrating').val("");
                                                 $('.videoGroups').prop('checked', false);
                                                 $('#can_download').prop('checked', false);
                                                 $('#can_share').prop('checked', false);

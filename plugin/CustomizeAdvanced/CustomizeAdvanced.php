@@ -98,6 +98,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showImageDownloadOption = false;
         $obj->doNotDisplayViews = false;
         $obj->doNotDisplayCategoryLeftMenu = false;
+        $obj->askRRatingConfirmationBeforePlay = false;
         
         return $obj;
     }
@@ -111,5 +112,17 @@ class CustomizeAdvanced extends PluginAbstract {
     
     public function getTags() {
         return array('free', 'customization', 'buttons', 'resolutions');
+    }
+    
+    public function getModeYouTube($videos_id) {
+        global $global, $config;
+        $obj = $this->getDataObject();
+        if($obj->askRRatingConfirmationBeforePlay){
+            $video = Video::getVideo($videos_id, "viewable", true);
+            if(!empty($video['rrating']) && User::canWatchVideo($videos_id) && empty($_GET['rrating'])){
+                include "{$global['systemRootPath']}plugin/CustomizeAdvanced/confirmRating.php";
+                exit;
+            }
+        }
     }
 }

@@ -570,6 +570,18 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                 <div class="col-xs-12 col-sm-12 col-lg-12">
                                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
                                     <div class="col-xs-8 col-sm-10 col-lg-10"><a class="btn btn-xs btn-default"  href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>"><span class="<?php echo $video['iconClass']; ?>"></span> <?php echo $video['category']; ?></a></div>
+                                    <?php
+                                    if(!empty($video['rrating'])){
+                                    ?>
+                                        <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
+                                        <div class="col-xs-8 col-sm-10 col-lg-10">
+                                            <?php
+                                                include $global['systemRootPath'].'view/img/rrating/rating-'.$video['rrating'].'.php';
+                                            ?>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                                     <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo nl2br(textToLink(htmlentities($video['description']))); ?></div>
                                 </div>

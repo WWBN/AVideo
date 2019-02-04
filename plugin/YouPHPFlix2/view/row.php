@@ -66,11 +66,11 @@ foreach ($videos as $value) {
                     <?php
                 }
                 ?>
-                   
+
                 <?php
                 if (empty($advancedCustom->doNotDisplayViews)) {
                     ?> 
-                <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
+                    <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                 <?php } ?>
                 <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
                 <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
@@ -82,6 +82,11 @@ foreach ($videos as $value) {
                         <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                         <?php
                     }
+                }
+                ?>   
+                <?php
+                if (!empty($value['rrating'])) {
+                    include $global['systemRootPath'] . 'view/img/rrating/rating-' . $value['rrating'] . '.php';
                 }
                 ?>
             </h4>
@@ -100,10 +105,10 @@ foreach ($videos as $value) {
                         <?php echo nl2br(textToLink($value['description'])); ?>
                     </h4>
                     <?php
-if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    echo VideoTags::getLabels($value['id']);
-}
-?>
+                    if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                        echo VideoTags::getLabels($value['id']);
+                    }
+                    ?>
                 </div>
             </div>
             <div class="footerBtn">

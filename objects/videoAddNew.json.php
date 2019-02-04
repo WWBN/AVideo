@@ -80,6 +80,7 @@ if (User::isAdmin()) {
 $obj->setCan_download(@$_POST['can_download']);
 $obj->setCan_share(@$_POST['can_share']);
 $obj->setTrailer1(@$_POST['trailer1']);
+$obj->setRrating(@$_POST['rrating']);
 
 $resp = $obj->save(true);
 
