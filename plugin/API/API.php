@@ -147,6 +147,9 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
         }
+        foreach ($rows as $key => $value) {
+            $rows[$key]['images'] = Video::getImageFromFilename($value['filename']);
+        }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
         return new ApiObject("", false, $obj);
