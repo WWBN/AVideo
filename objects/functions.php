@@ -407,7 +407,7 @@ function setSiteSendMessage(&$mail) {
     if ($config->getSmtp()) {
         error_log("Sending SMTP Email");
         $mail->IsSMTP(); // enable SMTP
-        $mail->SMTPAuth = true; // authentication enabled
+        $mail->SMTPAuth =  $config->getSmtpAuth(); // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
         $mail->Host = $config->getSmtpHost();
         $mail->Port = $config->getSmtpPort();
