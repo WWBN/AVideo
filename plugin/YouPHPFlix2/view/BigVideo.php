@@ -65,7 +65,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>
                     <?php
                     if (!empty($video['rrating'])) {
-                        include $global['systemRootPath'] . 'view/img/rrating/rating-' . $video['rrating'] . '.php';
+                        include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';
                     }
                     ?>
                 </h4>

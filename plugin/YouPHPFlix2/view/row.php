@@ -86,7 +86,7 @@ foreach ($videos as $value) {
                 ?>   
                 <?php
                 if (!empty($value['rrating'])) {
-                    include $global['systemRootPath'] . 'view/img/rrating/rating-' . $value['rrating'] . '.php';
+                    include $global['systemRootPath'] . 'view/rrating/rating-' . $value['rrating'] . '.php';
                 }
                 ?>
             </h4>

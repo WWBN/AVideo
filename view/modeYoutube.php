@@ -576,7 +576,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                         <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                                         <div class="col-xs-8 col-sm-10 col-lg-10">
                                             <?php
-                                                include $global['systemRootPath'].'view/img/rrating/rating-'.$video['rrating'].'.php';
+                                                include $global['systemRootPath'].'view/rrating/rating-'.$video['rrating'].'.php';
                                             ?>
                                         </div>
                                     <?php

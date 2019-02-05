@@ -288,7 +288,7 @@
                                         <?php
                                         foreach (Video::$rratingOptions as $value) {
                                             if(empty($value)){
-                                                $label = "No Rating";
+                                                $label = "Not Rated";
                                             }else{
                                                 $label = strtoupper($value);
                                             }

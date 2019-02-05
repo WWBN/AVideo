@@ -42,15 +42,17 @@ if (!empty($images->posterPortrait)) {
                     <div class="modal-header">
                         <h4 class="modal-title">Title: <?php echo $video['title']; ?></h4>
                     </div>
-                    <div class="modal-body"  style="background-color: #FFF;">
+                    <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
                                 <img src="<?php echo $img; ?>" class="img img-responsive"/>
                             </div>
                             <div class="col-sm-6">
-                                <div class="panel-group">
-                                    <img src="<?php echo $global['webSiteRootURL']; ?>view/img/rrating/rating-<?php echo $video['rrating']; ?>.png" alt="" class="img img-responsive"/>
-                                </div>
+                                <center>
+                                <?php
+                                    include $global['systemRootPath'] . 'view/rrating/rating-'.$video['rrating'].'_text.php';
+                                ?>
+                                </center>
                             </div>
                         </div>
                     </div>
