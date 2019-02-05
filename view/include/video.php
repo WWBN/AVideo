@@ -265,6 +265,9 @@ if (!empty($autoPlayVideo)) {
                                     });
                                     // in case the video is muted
                                     setTimeout(function () {
+										if (typeof player === 'undefined') {
+											player = videojs('mainVideo');
+										}
                                         if (player.muted()) {
                                             swal({
                                                 title: "<?php echo __("Your Media is Muted"); ?>",
