@@ -98,6 +98,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showImageDownloadOption = false;
         $obj->doNotDisplayViews = false;
         $obj->doNotDisplayCategoryLeftMenu = false;
+        $obj->showNotRatedLabel = false;
         $obj->askRRatingConfirmationBeforePlay_G = false;
         $obj->askRRatingConfirmationBeforePlay_PG = false;
         $obj->askRRatingConfirmationBeforePlay_PG13 = false;

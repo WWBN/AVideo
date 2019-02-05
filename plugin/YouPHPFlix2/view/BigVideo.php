@@ -66,6 +66,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     <?php
                     if (!empty($video['rrating'])) {
                         include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';
+                    }else if($advancedCustom->showNotRatedLabel){
+                        include $global['systemRootPath'] . 'view/rrating/notRated.php';
                     }
                     ?>
                 </h4>
