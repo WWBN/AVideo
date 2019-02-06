@@ -147,8 +147,13 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
         }
+        $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
         foreach ($rows as $key => $value) {
             $rows[$key]['images'] = Video::getImageFromFilename($value['filename']);
+            $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], ".mp4");
+            if($SubtitleSwitcher){
+                $rows[$key]['subtitles'] = getVTTTracks($value['filename'], true);
+            }
         }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
