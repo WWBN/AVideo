@@ -1799,7 +1799,7 @@ if (!class_exists('Video')) {
             $video = Video::getVideoFromFileName(str_replace(array('_Low', '_SD', '_HD'), array('', '', ''), $filename));
             $canUseCDN = canUseCDN($video['id']);
             //error_log(json_encode(array('$filename'=>$filename, '$advancedCustom->videosCDN'=>$advancedCustom->videosCDN,'canUseCDN($video[id])'=>canUseCDN($video['id']),'$video[id]'=>$video['id'])));
-            if (!empty($advancedCustom->videosCDN) && canUseCDN($video['id'])) {
+            if (!empty($advancedCustom->videosCDN) && $canUseCDN) {
                 $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
                 $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}{$type}{$token}";
             } else {
@@ -1826,6 +1826,25 @@ if (!class_exists('Video')) {
 
             //ObjectYPT::setCache($name, $source);
             return $source;
+        }
+        
+        static function getVideosPaths($filename, $includeS3 = false) {
+            $types = array('', '_Low', '_SD', '_HD');
+            $videos = array();
+            foreach ($types as $value) {
+                $source = self::getSourceFile($filename, $value.".mp4", $includeS3);
+                if(!empty($source['url'])){
+                    $videos['mp4'][str_replace("_", "", $value)] = $source['url'];
+                }
+            }
+            
+            foreach ($types as $value) {
+                $source = self::getSourceFile($filename, $value.".webm", $includeS3);
+                if(!empty($source['url'])){
+                    $videos['webm'][str_replace("_", "", $value)] = $source['url'];
+                }
+            }
+            return $videos;
         }
 
         static function getStoragePath() {
