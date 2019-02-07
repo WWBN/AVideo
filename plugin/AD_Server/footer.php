@@ -4,8 +4,8 @@
 
     player = videojs('mainVideo');
     var options = {id: 'mainVideo', adTagUrl: '<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/VMAP.php?video_length=<?php echo $video_length ?>&vmap_id=<?php echo $vmap_id ?>'};
-        player.ima(options);
-        $(document).ready(function () {
+    player.ima(options);
+    $(document).ready(function () {
 <?php
 if (!empty($obj->showMarkers)) {
     ?>
