@@ -1,7 +1,5 @@
 <?php
 $playNowVideo = $video;
-$transformation = "{rotate:" . $video['rotation'] . ", zoom: " . $video['zoom'] . "}";
-
 if ($video['rotation'] === "90" || $video['rotation'] === "270") {
     $aspectRatio = "9:16";
     $vjsClass = "vjs-9-16";
@@ -135,7 +133,6 @@ if ($playNowVideo['type'] == "linkVideo") {
 
 
                                     player = videojs('mainVideo');
-                                    player.zoomrotate(<?php echo $transformation; ?>);
                                     player.on('play', function () {
                                         addView(<?php echo $playNowVideo['id']; ?>, this.currentTime());
                                     });
