@@ -1857,7 +1857,9 @@ if (!class_exists('Video')) {
 
                 if (!file_exists($source['path'])) {
                     if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg") {
-                        error_log("getSourceFile: not found - ". json_encode($source));
+                        if($type == ".mp4" || $type == ".webm" || $type == ".m3u8"){
+                            error_log("getSourceFile: not found - ". json_encode($source));
+                        }
                         return array('path' => false, 'url' => false);
                     }
                 }
