@@ -8,7 +8,7 @@ if(empty($_GET['videoDirectory'])){
     die("No directory set");
 }
 
-$video = Video::getVideoFromFileName($_GET['videoDirectory']);
+$video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
 $filename =  "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}/index.m3u8";
 $_GET['file'] = "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}.m3u8";
 
