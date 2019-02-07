@@ -21,7 +21,7 @@ if(User::canWatchVideo($video['id'])){
     $content = file_get_contents($filename);
     $newContent = str_replace('{$pathToVideo}',  "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
 }else{
-    $newContent = "Can not see video {$video['id']}";
+    $newContent = "Can not see video [{$video['id']}] ({$_GET['videoDirectory']})";
 }
 header("Content-Type: text/plain");
 echo $newContent;
