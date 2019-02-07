@@ -17,10 +17,11 @@ if(empty($_SESSION['hls'][$cachedPath[0]])){
     YouPHPTubePlugin::xsendfilePreVideoPlay();
     $_SESSION['hls'][$cachedPath[0]] = 1;
 }
-$newContent = "Can not see video";
 if(User::canWatchVideo($video['id'])){
     $content = file_get_contents($filename);
     $newContent = str_replace('{$pathToVideo}',  "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
+}else{
+    $newContent = "Can not see video {$video['id']}";
 }
 header("Content-Type: text/plain");
 echo $newContent;
