@@ -10,8 +10,8 @@ if(empty($_GET['videoDirectory'])){
 
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
 $filename =  "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}/index.m3u8";
-$_GET['file'] = "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}.m3u8";
-
+$_GET['file'] = "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}/index.m3u8";
+//var_dump($_GET['file']);exit;
 $cachedPath = explode("/", $_GET['videoDirectory']);
 if(empty($_SESSION['hls'][$cachedPath[0]])){
     YouPHPTubePlugin::xsendfilePreVideoPlay();

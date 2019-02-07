@@ -621,6 +621,9 @@ function canUseCDN($videos_id) {
 }
 
 function getVideosURL($fileName) {
+    if(empty($fileName)){
+       return array(); 
+    }
     global $global;
     $types = array('', '_Low', '_SD', '_HD');
     $files = array();
