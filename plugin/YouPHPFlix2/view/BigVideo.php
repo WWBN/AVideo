@@ -1,4 +1,5 @@
 <?php
+global $advancedCustom;
 $uid = uniqid();
 $video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
 if (empty($video)) {

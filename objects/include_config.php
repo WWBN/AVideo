@@ -49,13 +49,14 @@ require_once $global['systemRootPath'].'objects/Object.php';
 require_once $global['systemRootPath'].'locale/function.php';
 require_once $global['systemRootPath'].'objects/plugin.php';
 require_once $global['systemRootPath'].'objects/user.php';
+require_once $global['systemRootPath'].'objects/video.php';
 require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
 if(class_exists("Plugin")){YouPHPTubePlugin::getStart();}
 if(empty($global['bodyClass'])){
     $global['bodyClass'] = "";
 }
 else{error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");}
-$global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'ogg');
+$global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'ogg','zip');
 $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 $advancedCustomUser = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
 $sitemapFile = "{$global['systemRootPath']}sitemap.xml";

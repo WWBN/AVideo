@@ -44,6 +44,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEmbedButton = false;
         $obj->embedBackgroundColor = "white";
         $obj->embedButtonLabel = "";
+        $obj->doNotShowEncoderHLS = false;
         $obj->doNotShowEncoderResolutionLow = false;
         $obj->doNotShowEncoderResolutionSD = false;
         $obj->doNotShowEncoderResolutionHD = false;

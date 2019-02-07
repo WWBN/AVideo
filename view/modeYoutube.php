@@ -794,7 +794,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js",
+        $videoJSArray = array(
             "view/js/videojs-persistvolume/videojs.persistvolume.js",
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
