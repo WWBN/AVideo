@@ -17,7 +17,8 @@ if(empty($_SESSION['hls'][$cachedPath[0]])){
     YouPHPTubePlugin::xsendfilePreVideoPlay();
     $_SESSION['hls'][$cachedPath[0]] = 1;
 }
-if(User::canWatchVideo($video['id'])){
+// if is using a CDN I can not check if the user is logged
+if(!empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id'])){
     $content = file_get_contents($filename);
     $newContent = str_replace('{$pathToVideo}',  "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
 }else{
