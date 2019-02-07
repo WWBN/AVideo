@@ -21,6 +21,9 @@ if(empty($_SESSION['hls'][$cachedPath[0]])){
 if(!empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id'])){
     $content = file_get_contents($filename);
     $newContent = str_replace('{$pathToVideo}',  "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
+    if(!empty($_GET['token'])){
+        $newContent = str_replace('/index.m3u8',  "/index.m3u8?token={$_GET['token']}", $newContent);
+    }
 }else{
     $newContent = "Can not see video [{$video['id']}] ({$_GET['videoDirectory']})";
 }
