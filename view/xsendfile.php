@@ -12,8 +12,7 @@ if (empty($_GET['file'])) {
     die('GET file not found');
 }
 
-$path_parts = pathinfo($_GET['file']);
-$file = $path_parts['basename'];
+$file = $_GET['file'];
 $path = "{$global['systemRootPath']}videos/{$file}";
 
 if($file=="configuration.php"){
