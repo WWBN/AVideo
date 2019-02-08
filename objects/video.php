@@ -1068,7 +1068,6 @@ if (!class_exists('Video')) {
             if ($resp == false) {
                 die('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             } else {
-                $this->removeFiles($video['filename']);
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
                 $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
                 $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
@@ -1081,6 +1080,7 @@ if (!class_exists('Video')) {
                 if (!empty($ftp)) {
                     $ftp->removeFiles($video['filename']);
                 }
+                $this->removeFiles($video['filename']);
             }
             return $resp;
         }
@@ -1344,11 +1344,14 @@ if (!class_exists('Video')) {
         }
 
         function userCanManageVideo() {
+            if(User::isAdmin()){
+                return true;
+            }
             if (empty($this->users_id) || !User::canUpload()) {
                 return false;
             }
             // if you not admin you can only manager yours video
-            if (!User::isAdmin() && $this->users_id != User::getId()) {
+            if ($this->users_id != User::getId()) {
                 return false;
             }
             return true;
@@ -1825,7 +1828,7 @@ if (!class_exists('Video')) {
                 $source = array();
                 $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
                 if ($type == ".m3u8") {
-                    $source['path'] = "{$global['systemRootPath']}videos/{$filename}/index.m3u8";
+                    $source['path'] = "{$global['systemRootPath']}videos/{$filename}/index{$type}";
                 }
                 $video = Video::getVideoFromFileName(str_replace(array('_Low', '_SD', '_HD'), array('', '', ''), $filename));
                 $canUseCDN = canUseCDN($video['id']);
@@ -1834,12 +1837,12 @@ if (!class_exists('Video')) {
                     $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
                     $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
-                        $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index.m3u8{$token}";
+                        $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}{$token}";
                     }
                 } else {
                     $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
-                        $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}/index.m3u8{$token}";
+                        $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
                     }
                 }
                 /* need it because getDurationFromFile */
@@ -1854,7 +1857,6 @@ if (!class_exists('Video')) {
                         }
                     }
                 }
-
                 if (!file_exists($source['path'])) {
                     if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg") {
                         return array('path' => false, 'url' => false);

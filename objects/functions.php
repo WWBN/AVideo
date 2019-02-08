@@ -621,8 +621,8 @@ function canUseCDN($videos_id) {
 }
 
 function getVideosURL($fileName) {
-    if(empty($fileName)){
-       return array(); 
+    if (empty($fileName)) {
+        return array();
     }
     global $global;
     $types = array('', '_Low', '_SD', '_HD');
@@ -945,6 +945,13 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
         $dir = "{$global['systemRootPath']}videos/{$path_info['filename']}";
         unzipDirectory($tmp_name, $dir); // unzip it
         cleanDirectory($dir);
+        if (!empty($aws_s3)) {
+            //$aws_s3->move_uploaded_file($tmp_name, $filename);
+        } else if (!empty($bb_b2)) {
+            $bb_b2->move_uploaded_directory($dir);
+        } else if (!empty($ftp)) {
+            //$ftp->move_uploaded_file($tmp_name, $filename);
+        }
     } else {
         if (!empty($aws_s3)) {
             $aws_s3->move_uploaded_file($tmp_name, $filename);
@@ -966,8 +973,55 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
 }
 
 function unzipDirectory($filename, $destination) {
+    global $global;    
+    ini_set('memory_limit', '-1');
+    ini_set('max_execution_time', 7200); // 2 hours
     error_log("unzipDirectory: {$filename}");
-    exec("unzip {$filename} -d {$destination}");
+    exec("unzip {$filename} -d {$destination}" . "  2>&1", $output, $return_val);
+    if ($return_val !== 0) {
+        // try to unzip using PHP
+        error_log("unzipDirectory: TRY to use PHP {$filename}");
+        $zip = zip_open($filename);
+        if ($zip) {
+            while ($zip_entry = zip_read($zip)) {
+                $path = "{$destination}/" . zip_entry_name($zip_entry);
+                error_log("unzipDirectory: fopen $path");
+                if (substr(zip_entry_name($zip_entry), -1) == '/') {
+                    make_path($path);
+                }else{
+                    make_path($path);
+                    $fp = fopen($path, "w");
+                    if (zip_entry_open($zip, $zip_entry, "r")) {
+                        $buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+                        fwrite($fp, "$buf");
+                        zip_entry_close($zip_entry);
+                        fclose($fp);
+                    }
+                }
+            }
+            zip_close($zip);
+        }else{
+            error_log("unzipDirectory: ERROR php zip does not work");
+        }
+    }else{
+        error_log("unzipDirectory: Success {$destination}");
+    }
+    @unlink($filename);
+}
+
+function make_path($path){
+	$dir = pathinfo($path , PATHINFO_DIRNAME);	
+	if( is_dir($dir) ){
+		return true;
+	}else{
+		if( make_path($dir) ){
+			if( mkdir($dir) ){
+				chmod($dir , 0777);
+				return true;
+			}
+		}
+	}	
+	return false;
 }
 
 /**

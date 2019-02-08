@@ -1058,6 +1058,9 @@ if (typeof gtag !== \"function\") {
 
     static function canUpload() {
         global $global, $config;
+        if(User::isAdmin()){
+            return true;
+        }
         if ($config->getAuthCanUploadVideos()) {
             return self::isLogged();
         }
