@@ -179,7 +179,7 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' userAPIName of the user that will like the video
+     * 'user' usename of the user that will like the video
      * 'pass' password  of the user that will like the video
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
@@ -191,7 +191,7 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' userAPIName of the user that will like the video
+     * 'user' usename of the user that will like the video
      * 'pass' password  of the user that will like the video
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
@@ -203,7 +203,7 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' userAPIName of the user that will like the video
+     * 'user' usename of the user that will like the video
      * 'pass' password  of the user that will like the video
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
@@ -215,7 +215,7 @@ class API extends PluginAbstract {
     /**
      * 
      * @param type $parameters
-     * 'user' userAPIName of the user
+     * 'user' usename of the user
      * 'pass' password  of the user
      * ['encodedPass' tell the script id the password submited is raw or encrypted]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
@@ -231,7 +231,7 @@ class API extends PluginAbstract {
     /**
      * 
      * @param type $parameters
-     * 'user' userAPIName of the user 
+     * 'user' usename of the user 
      * 'pass' password  of the user
      * 'email' email of the user
      * 'name' real name of the user
@@ -255,6 +255,23 @@ class API extends PluginAbstract {
         }
         new Like($like, $parameters['videos_id']);
         return new ApiObject("", false, Like::getLikes($parameters['videos_id']));
+    }
+    
+    /**
+     * 
+     * @param type $parameters
+     * 'videos_id' the video id to calculate the ads length
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * ['encodedPass' tell the script id the password submited is raw or encrypted]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function get_api_vmap($parameters){
+        global $global;
+        $this->getToPost();
+        require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
+        exit;
     }
 
 }
