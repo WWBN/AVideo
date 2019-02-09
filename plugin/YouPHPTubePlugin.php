@@ -712,7 +712,7 @@ class YouPHPTubePlugin {
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $can = $p->userCanWatchVideo($users_id, $videos_id);
+                $can = $p->userCanWatchVideoWithAds($users_id, $videos_id);
                 if(!empty($can)){
                     $resp = $can>0?true:false;
                     if($resp){
