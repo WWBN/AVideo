@@ -47,7 +47,7 @@ foreach ($videos as $value) {
     $img = $images->thumbsJpg;
     $poster = $images->poster;
     $canWatchPlayButton = "";
-    if (User::canWatchVideoWithAds($value['id'])) {
+    if (YouPHPTubePlugin::userCanWatchVideoWithAds(User::getId(), $value['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>
