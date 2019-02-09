@@ -225,6 +225,7 @@ class API extends PluginAbstract {
         global $global;
         $this->getToPost();
         require_once $global['systemRootPath'] . 'objects/login.json.php';
+        exit;
     }
     
     
@@ -242,6 +243,7 @@ class API extends PluginAbstract {
         global $global;
         $this->getToPost();
         require_once $global['systemRootPath'] . 'objects/userCreate.json.php';
+        exit;
     }
     
     private function like($parameters, $like){
