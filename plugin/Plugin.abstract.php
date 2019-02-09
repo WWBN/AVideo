@@ -327,5 +327,9 @@ abstract class PluginAbstract {
     function verifyEmbedSecurity(){
         return true;
     }
+    
+    function showAds($videos_id){
+        return true;
+    }
 
 }

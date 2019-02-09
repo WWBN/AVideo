@@ -699,5 +699,17 @@ class YouPHPTubePlugin {
         }
         return $resp;
     }
+    
+    public static function showAds($videos_id){
+        $plugins = Plugin::getAllEnabled();
+        $resp = true;
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $resp = $resp && $p->showAds($videos_id);
+            }
+        }
+        return $resp;
+    }
 
 }

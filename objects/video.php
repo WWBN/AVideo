@@ -1,4 +1,5 @@
 <?php
+
 global $global, $config, $videosPaths;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -1344,7 +1345,7 @@ if (!class_exists('Video')) {
         }
 
         function userCanManageVideo() {
-            if(User::isAdmin()){
+            if (User::isAdmin()) {
                 return true;
             }
             if (empty($this->users_id) || !User::canUpload()) {
@@ -1802,7 +1803,7 @@ if (!class_exists('Video')) {
          */
         static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
             global $global, $advancedCustom, $videosPaths;
-            
+
             if (empty($videosPaths[$filename][$type][intval($includeS3)])) {
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
                 $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
@@ -2225,20 +2226,30 @@ if (!class_exists('Video')) {
 
             return $obj;
         }
-        
+
         static function getVideoTypeLabels($filename) {
             $obj = self::getVideoType($filename);
             $labels = "";
-            if($obj->mp4){
+            if ($obj->mp4) {
                 $labels .= '<span class="label label-success">MP4</span>';
             }
-            if($obj->webm){
+            if ($obj->webm) {
                 $labels .= '<span class="label label-warning">Webm</span>';
             }
-            if($obj->m3u8){
+            if ($obj->m3u8) {
                 $labels .= '<span class="label label-primary">HLS</span>';
             }
             return $labels;
+        }
+
+        static function isPublic($videos_id) {
+            // check if the video is not public 
+            $rows = UserGroups::getVideoGroups($videos_id);
+
+            if (empty($rows)) {
+                return true;
+            }
+            return false;
         }
 
     }
