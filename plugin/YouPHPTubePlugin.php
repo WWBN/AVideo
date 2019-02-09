@@ -718,7 +718,7 @@ class YouPHPTubePlugin {
                     if($resp){
                         return true;
                     }else{
-                        error_log("userCanWatchVideoWithAds: users_id = $users_id, videos_id = $videos_id {$value['dirName']} said no");
+                        //error_log("userCanWatchVideoWithAds: users_id = $users_id, videos_id = $videos_id {$value['dirName']} said no");
                     }
                 }
             }
