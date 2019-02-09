@@ -1918,10 +1918,14 @@ if (!class_exists('Video')) {
             $gifPortraitSource = self::getSourceFile($filename, "_portrait.gif");
             $jpegSource = self::getSourceFile($filename, ".jpg");
             $jpegPortraitSource = self::getSourceFile($filename, "_portrait.jpg");
+            $jpegPortraitThumbs = self::getSourceFile($filename, "_portrait_thumbsV2.jpg");
+            $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg");
             $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
             $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
             $obj->poster = $jpegSource['url'];
             $obj->posterPortrait = $jpegPortraitSource['url'];
+            $obj->posterPortraitThumbs = $jpegPortraitSourceThumbs['url'];
+            $obj->posterPortraitThumbsSmall = $jpegPortraitSourceThumbsSmall['url'];
             $obj->thumbsGif = $gifSource['url'];
             $obj->gifPortrait = $gifPortraitSource['url'];
             $obj->thumbsJpg = $thumbsSource['url'];
@@ -1929,6 +1933,28 @@ if (!class_exists('Video')) {
             if (file_exists($gifSource['path'])) {
                 $obj->thumbsGif = $gifSource['url'];
             }
+            
+            if (file_exists($jpegPortraitSource['path'])) {
+                // create thumbs
+                if (!file_exists($jpegPortraitThumbs['path']) && filesize($jpegPortraitSource['path']) > 1024) {
+                    error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbs['path']}");
+                    if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
+                        im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], 140, 250);
+                    } else {
+                        im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], 140, 250);
+                    }
+                }
+                // create thumbs
+                if (!file_exists($jpegPortraitThumbsSmall['path']) && filesize($jpegPortraitSource['path']) > 1024) {
+                    error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbsSmall['path']}");
+                    if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
+                        im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], 140, 250);
+                    } else {
+                        im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], 140, 250,5);
+                    }
+                }
+            }
+            
             if (file_exists($jpegSource['path'])) {
                 $obj->poster = $jpegSource['url'];
                 $obj->thumbsJpg = $thumbsSource['url'];
