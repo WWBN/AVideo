@@ -42,7 +42,7 @@ $(function () {
         $(".thumbsImage").removeClass('active');
 
         $('.poster').slideUp();
-        $('#poster'+crc).css('background-image', 'url(' + $('#poster'+crc).arrt('poster') + ')');
+        $('#poster'+crc).css('background-image', 'url(' + $('#poster'+crc).attr('poster') + ')');
         $('#poster'+crc).slideDown('slow', function () {
             var top = row.offset().top;
             $('html, body').animate({
