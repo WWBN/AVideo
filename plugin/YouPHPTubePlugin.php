@@ -717,6 +717,8 @@ class YouPHPTubePlugin {
                     $resp = $can>0?true:false;
                     if($resp){
                         return true;
+                    }else{
+                        error_log("userCanWatchVideoWithAds: {$value['dirName']} said no");
                     }
                 }
             }
