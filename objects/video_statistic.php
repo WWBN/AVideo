@@ -66,6 +66,9 @@ class VideoStatistic extends ObjectYPT  {
     }
     
     static function updateStatistic($videos_id, $users_id, $lastVideoTime){
+        if(empty($users_id)){
+            return false;
+        }
         $lastStatistic = self::getLastStatistics($videos_id, $users_id);
         if(empty($lastStatistic)){
             $vs = new VideoStatistic(0);
