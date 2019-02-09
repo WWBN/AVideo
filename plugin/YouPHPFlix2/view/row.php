@@ -51,7 +51,7 @@ foreach ($videos as $value) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>
-    <div class="poster" id="poster<?php echo $value['id'] . $uid; ?>" style="display: none; background-image: url(<?php echo $poster; ?>);">
+    <div class="poster" id="poster<?php echo $value['id'] . $uid; ?>" poster="<?php echo $poster; ?>" style="display: none;">
         <div class="posterDetails " style="
              background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
              background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
