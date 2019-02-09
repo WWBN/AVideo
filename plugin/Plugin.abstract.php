@@ -315,11 +315,17 @@ abstract class PluginAbstract {
         return array();
     }
     
+    /**
+     * 
+     * @param type $users_id
+     * @param type $videos_id
+     * @return 0 = I dont know, -1 = can not watch, 1 = can watch
+     */
     public function userCanWatchVideo($users_id, $videos_id){
-        return true;
+        return 0;
     }
     public function userCanWatchVideoWithAds($users_id, $videos_id){
-        return true;
+        return 0;
     }
     
     /**

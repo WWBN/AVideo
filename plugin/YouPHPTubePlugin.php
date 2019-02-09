@@ -694,7 +694,13 @@ class YouPHPTubePlugin {
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $resp = $resp && $p->userCanWatchVideo($users_id, $videos_id);
+                $can = $p->userCanWatchVideo($users_id, $videos_id);
+                if(!empty($can)){
+                    $resp = $can>0?true:false;
+                    if($resp){
+                        return true;
+                    }
+                }
             }
         }
         return $resp;
@@ -706,7 +712,13 @@ class YouPHPTubePlugin {
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $resp = $resp && $p->userCanWatchVideo($users_id, $videos_id);
+                $can = $p->userCanWatchVideo($users_id, $videos_id);
+                if(!empty($can)){
+                    $resp = $can>0?true:false;
+                    if($resp){
+                        return true;
+                    }
+                }
             }
         }
         return $resp;
@@ -724,6 +736,11 @@ class YouPHPTubePlugin {
         return $resp;
     }
     
+    /**
+     * In case some plugin needs to play a video that is not allowed for some reason.
+     * A plugin can replace the getVideo method from the youtubeMode page
+     * @return type
+     */
     public static function getVideo(){
         $plugins = Plugin::getAllEnabled();
         $resp = null;
