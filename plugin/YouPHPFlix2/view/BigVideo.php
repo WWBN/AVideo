@@ -12,7 +12,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $poster = $images->poster;
     //var_dump($video);
     $canWatchPlayButton = "";
-    if (User::canWatchVideo($video['id'])) {
+    if (User::canWatchVideoWithAds($video['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>

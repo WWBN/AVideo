@@ -532,6 +532,14 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
+    static function canWatchVideoWithAds($videos_id) {
+        
+        if(self::canWatchVideo($videos_id) || YouPHPTubePlugin::userCanWatchVideoWithAds(User::getId(), $videos_id)){
+            return true;
+        }
+        return false;
+    }
+
     function delete() {
         if (!self::isAdmin()) {
             return false;

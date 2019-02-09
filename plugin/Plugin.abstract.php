@@ -318,6 +318,9 @@ abstract class PluginAbstract {
     public function userCanWatchVideo($users_id, $videos_id){
         return true;
     }
+    public function userCanWatchVideoWithAds($users_id, $videos_id){
+        return true;
+    }
     
     /**
      * temporary, to avoid error on old secureVideosDirectory plugins
