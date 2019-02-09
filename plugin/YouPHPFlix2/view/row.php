@@ -97,7 +97,9 @@ foreach ($videos as $value) {
                 if (!empty($images->posterPortraitThumbs)) {
                     ?>
                     <div class="col-md-2 col-sm-3 col-xs-4">
-                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" />
+                        <center>
+                            <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
+                        </center>
                     </div>
                     <?php
                 }

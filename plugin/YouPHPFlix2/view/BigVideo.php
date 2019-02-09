@@ -77,7 +77,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     if (!empty($images->posterPortrait)) {
                         ?>
                         <div class="col-md-2 col-sm-4 col-xs-6">
-                            <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" />
+                            <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
                         </div>
                         <?php
                     }
