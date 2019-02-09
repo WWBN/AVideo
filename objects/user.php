@@ -534,7 +534,7 @@ if (typeof gtag !== \"function\") {
 
     static function canWatchVideoWithAds($videos_id) {
         
-        if(self::canWatchVideo($videos_id) || YouPHPTubePlugin::userCanWatchVideoWithAds(User::getId(), $videos_id)){
+        if(YouPHPTubePlugin::userCanWatchVideoWithAds(User::getId(), $videos_id) || self::canWatchVideo($videos_id)){
             return true;
         }
         return false;
