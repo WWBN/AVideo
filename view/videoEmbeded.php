@@ -183,7 +183,9 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                     $('#mainVideo').bind('contextmenu', function () {
                         return false;
                     });
-                    player = videojs('mainVideo');
+                    if (typeof player === 'undefined') {
+                        player = videojs('mainVideo');
+                    }
                     player.on('play', function () {
                         addView(<?php echo $video['id']; ?>, this.currentTime());
                     });

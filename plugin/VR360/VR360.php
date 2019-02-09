@@ -59,12 +59,16 @@ class VR360 extends PluginAbstract {
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/VR360/videojs-panorama/three.min.js" type="text/javascript"></script>';
         $js .= '<script>
     (function(window, videojs) {
-        var player = window.player = videojs(\'mainVideo\', {}, function () {
+        var player;
+        if (typeof player === \'undefined\') {
+
+        player = window.player = videojs(\'mainVideo\', {}, function () {
             window.addEventListener("resize", function () {
                 var canvas = player.getChild(\'Canvas\');
                 if(canvas) canvas.handleResize();
             });
         });
+        }
         var videoElement = document.getElementById("mainVideo");
         var width = videoElement.offsetWidth;
         var height = videoElement.offsetHeight;

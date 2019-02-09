@@ -131,8 +131,9 @@ if ($playNowVideo['type'] == "linkVideo") {
                                     });
 
 
-
-                                    player = videojs('mainVideo');
+                                    if (typeof player === 'undefined') {
+                                        player = videojs('mainVideo');
+                                    }
                                     player.on('play', function () {
                                         addView(<?php echo $playNowVideo['id']; ?>, this.currentTime());
                                     });

@@ -1,11 +1,12 @@
 <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>
 <script>
-
-    player = videojs('mainVideo');
+    if (typeof player === 'undefined') {
+        player = videojs('mainVideo');
+    }
     var options = {id: 'mainVideo', adTagUrl: '<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/VMAP.php?video_length=<?php echo $video_length ?>&vmap_id=<?php echo $vmap_id ?>'};
-    player.ima(options);
-    $(document).ready(function () {
+        player.ima(options);
+        $(document).ready(function () {
 <?php
 if (!empty($obj->showMarkers)) {
     ?>
