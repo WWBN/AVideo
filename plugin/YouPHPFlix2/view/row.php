@@ -13,9 +13,9 @@ if (!empty($obj->landscapePosters)) {
         $img = $images->thumbsJpg;
         $poster = $images->poster;
         $cssClass = "";
-        if (!empty($images->posterPortrait)) {
+        if (!empty($images->posterPortraitThumbs)) {
             $imgGif = $images->gifPortrait;
-            $img = $images->posterPortrait;
+            $img = $images->posterPortraitThumbs;
             $cssClass = "posterPortrait";
         }
         ?>
@@ -94,10 +94,10 @@ foreach ($videos as $value) {
             </h4>
             <div class="row">
                 <?php
-                if (!empty($images->posterPortrait)) {
+                if (!empty($images->posterPortraitThumbs)) {
                     ?>
                     <div class="col-md-2 col-sm-3 col-xs-4">
-                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" />
+                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" />
                     </div>
                     <?php
                 }
