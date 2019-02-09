@@ -711,5 +711,20 @@ class YouPHPTubePlugin {
         }
         return $resp;
     }
+    
+    public static function getVideo(){
+        $plugins = Plugin::getAllEnabled();
+        $resp = null;
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $video = $p->getVideo();
+                if(!empty($video)){
+                    return $video;
+                }
+            }
+        }
+        return $resp;
+    }
 
 }

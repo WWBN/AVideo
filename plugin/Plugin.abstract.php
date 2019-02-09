@@ -331,5 +331,9 @@ abstract class PluginAbstract {
     function showAds($videos_id){
         return true;
     }
+    
+    function getVideo(){
+        return null;
+    }
 
 }

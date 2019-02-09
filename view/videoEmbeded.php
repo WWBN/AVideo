@@ -18,6 +18,9 @@ if(!empty($objSecure)){
 
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo("", "viewable", false, false, false, true);
+if(empty($video)){
+    $video = YouPHPTubePlugin::getVideo();
+}
 if (empty($video)) {
     die(__("Video not found"));
 }
