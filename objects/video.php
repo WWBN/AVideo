@@ -2252,6 +2252,27 @@ if (!class_exists('Video')) {
             return false;
         }
 
+        static function userGroupAndVideoGroupMatch($users_id, $videos_id) {
+            // check if the video is not public 
+            $rows = UserGroups::getVideoGroups($videos_id);
+            if (empty($rows)) {
+                return true;
+            }
+            $rowsUser = UserGroups::getUserGroups(User::getId());
+            if (empty($rowsUser)) {
+                return false;
+            }
+            
+            foreach ($rows as $value) {
+                foreach ($rowsUser as $value2) {
+                    if ($value['id'] === $value2['id']) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
     }
 
 }
