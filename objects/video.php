@@ -1859,7 +1859,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 if (!file_exists($source['path'])) {
-                    if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg") {
+                    if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg" && $type != "_portrait_thumbsV2.jpg" && $type != "_portrait_thumbsSmallV2.jpg") {
                         return array('path' => false, 'url' => false);
                     }
                 }
@@ -1924,8 +1924,8 @@ if (!class_exists('Video')) {
             $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
             $obj->poster = $jpegSource['url'];
             $obj->posterPortrait = $jpegPortraitSource['url'];
-            $obj->posterPortraitThumbs = $jpegPortraitSourceThumbs['url'];
-            $obj->posterPortraitThumbsSmall = $jpegPortraitSourceThumbsSmall['url'];
+            $obj->posterPortraitThumbs = $jpegPortraitThumbs['url'];
+            $obj->posterPortraitThumbsSmall = $jpegPortraitThumbsSmall['url'];
             $obj->thumbsGif = $gifSource['url'];
             $obj->gifPortrait = $gifPortraitSource['url'];
             $obj->thumbsJpg = $thumbsSource['url'];
@@ -1939,18 +1939,18 @@ if (!class_exists('Video')) {
                 if (!file_exists($jpegPortraitThumbs['path']) && filesize($jpegPortraitSource['path']) > 1024) {
                     error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbs['path']}");
                     if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
-                        im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], 140, 250);
+                        im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], 170, 250);
                     } else {
-                        im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], 140, 250);
+                        im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], 170, 250);
                     }
                 }
                 // create thumbs
                 if (!file_exists($jpegPortraitThumbsSmall['path']) && filesize($jpegPortraitSource['path']) > 1024) {
                     error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbsSmall['path']}");
                     if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
-                        im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], 140, 250);
+                        im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], 170, 250);
                     } else {
-                        im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], 140, 250,5);
+                        im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], 170, 250,5);
                     }
                 }
             }
