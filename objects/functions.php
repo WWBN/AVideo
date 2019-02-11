@@ -27,6 +27,8 @@ function xss_esc_back($text) {
 function cmpPlugin($a, $b) {
     if ($a['name'] == 'SecureVideosDirectory') {
         return -1;
+    }else if ($a['name'] == 'GoogleAds_IMA') {
+        return -1;
     }
 
     return 1;
