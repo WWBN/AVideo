@@ -27,7 +27,7 @@ function xss_esc_back($text) {
 function cmpPlugin($a, $b) {
     if ($a['name'] == 'SecureVideosDirectory') {
         return -1;
-    }else if ($a['name'] == 'GoogleAds_IMA') {
+    } else if ($a['name'] == 'GoogleAds_IMA') {
         return -1;
     }
 
@@ -427,6 +427,42 @@ function setSiteSendMessage(&$mail) {
     } else {
         error_log("Sending SendMail Email");
         $mail->isSendmail();
+    }
+}
+
+function sendSiteEmail($to, $subject, $message) {
+    if(empty($to)){
+        return false;
+    }
+    $contactEmail = $config->getContactEmail();
+    $webSiteTitle = $config->getWebSiteTitle();
+    try {
+        $mail = new PHPMailer;
+        setSiteSendMessage($mail);
+        //$mail->SMTPDebug = 4;
+        //Set who the message is to be sent from
+        $mail->setFrom($contactEmail, $webSiteTitle);
+        //Set who the message is to be sent to
+        if(!is_array($to)){
+            $mail->addAddress($to);
+        }else{
+            foreach ($to as $value) {
+                $mail->addBCC($value);
+            }
+        }
+        //Set the subject line
+        $mail->Subject = $subject . " - " . $webSiteTitle;
+
+        $mail->msgHTML($message);
+        $resp = $mail->send();
+        if (!$resp) {
+            error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
+        }
+        return $resp;
+    } catch (phpmailerException $e) {
+        error_log($e->errorMessage()); //Pretty error messages from PHPMailer
+    } catch (Exception $e) {
+        error_log($e->getMessage()); //Boring error messages from anything else!
     }
 }
 
@@ -975,7 +1011,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
 }
 
 function unzipDirectory($filename, $destination) {
-    global $global;    
+    global $global;
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 7200); // 2 hours
     error_log("unzipDirectory: {$filename}");
@@ -990,7 +1026,7 @@ function unzipDirectory($filename, $destination) {
                 error_log("unzipDirectory: fopen $path");
                 if (substr(zip_entry_name($zip_entry), -1) == '/') {
                     make_path($path);
-                }else{
+                } else {
                     make_path($path);
                     $fp = fopen($path, "w");
                     if (zip_entry_open($zip, $zip_entry, "r")) {
@@ -1002,28 +1038,28 @@ function unzipDirectory($filename, $destination) {
                 }
             }
             zip_close($zip);
-        }else{
+        } else {
             error_log("unzipDirectory: ERROR php zip does not work");
         }
-    }else{
+    } else {
         error_log("unzipDirectory: Success {$destination}");
     }
     @unlink($filename);
 }
 
-function make_path($path){
-	$dir = pathinfo($path , PATHINFO_DIRNAME);	
-	if( is_dir($dir) ){
-		return true;
-	}else{
-		if( make_path($dir) ){
-			if( mkdir($dir) ){
-				chmod($dir , 0777);
-				return true;
-			}
-		}
-	}	
-	return false;
+function make_path($path) {
+    $dir = pathinfo($path, PATHINFO_DIRNAME);
+    if (is_dir($dir)) {
+        return true;
+    } else {
+        if (make_path($dir)) {
+            if (mkdir($dir)) {
+                chmod($dir, 0777);
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 /**

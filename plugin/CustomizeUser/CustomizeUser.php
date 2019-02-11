@@ -30,7 +30,6 @@ class CustomizeUser extends PluginAbstract {
         $obj->userCanAllowFilesDownloadSelectPerVideo = false;
         $obj->userCanAllowFilesShareSelectPerVideo = false;
 
-
         $obj->usersCanCreateNewCategories = !isset($advancedCustom->usersCanCreateNewCategories) ? false : $advancedCustom->usersCanCreateNewCategories;
         $obj->userCanNotChangeCategory = !isset($advancedCustom->userCanNotChangeCategory) ? false : $advancedCustom->userCanNotChangeCategory;
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
@@ -48,13 +47,21 @@ class CustomizeUser extends PluginAbstract {
         $obj->disableNativeSignUp = !isset($advancedCustom->disableNativeSignUp) ? false : $advancedCustom->disableNativeSignUp;
         $obj->disableNativeSignIn = !isset($advancedCustom->disableNativeSignIn) ? false : $advancedCustom->disableNativeSignIn;
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
-
         
         $obj->signInOnRight = false;
         $obj->doNotShowRightProfile = false;
         $obj->doNotShowLeftProfile = false;
         
         $obj->forceLoginToBeTheEmail = false;
+        
+        // added on 2019-02-11
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = "";        
+        $obj->messageToAppearBelowLoginBox = $o;     
+                
+        
+        
         return $obj;
     }
 
@@ -200,6 +207,14 @@ class CustomizeUser extends PluginAbstract {
             }
         }
         return true;
+    }
+    
+    public function onUserSignup($users_id) {
+        $obj = $this->getDataObject();
+        
+        if ($obj->sendVerificationMailAutomaic) {
+            url_get_contents("{$global['webSiteRootURL']}objects/userVerifyEmail.php?users_id=$users_id");
+        }
     }
 
 }

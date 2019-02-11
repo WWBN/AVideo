@@ -346,5 +346,13 @@ abstract class PluginAbstract {
     function getVideo() {
         return null;
     }
+    
+    public function onUserSignup($users_id){
+        return null;
+    }
+    
+    public function onLiveStream($users_id){
+        return null;
+    }
 
 }

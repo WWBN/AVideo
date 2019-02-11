@@ -757,5 +757,25 @@ class YouPHPTubePlugin {
         }
         return $resp;
     }
-
+    
+    
+    public static function onUserSignup($users_id){
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onUserSignup($users_id);
+            }
+        }
+    }
+    
+    public static function onLiveStream($users_id){
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onLiveStream($users_id);
+            }
+        }
+    }
 }
