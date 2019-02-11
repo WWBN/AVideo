@@ -66,9 +66,6 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
         <style>
             body {
                 padding: 0 !important;
@@ -86,6 +83,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             }
         </style>
 
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <?php
         $jsFiles = array();
         $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
@@ -100,6 +98,8 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
         $jsURL = combineFiles($jsFiles, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
