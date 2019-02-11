@@ -125,7 +125,6 @@ foreach ($playList as $value) {
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
         <script>
-            var player;
             if (typeof player === 'undefined') {
                 player = videojs('mainVideo');
             }
