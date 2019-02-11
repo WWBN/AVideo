@@ -121,7 +121,6 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -135,9 +134,6 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                 echo "?autoplay=1";
             }
             ?>"></iframe>
-
-            <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
             <?php
             echo YouPHPTubePlugin::getFooterCode();
             ?>
@@ -168,9 +164,6 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                 }
                 ?>
             </audio>
-
-            <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
             <?php
             echo YouPHPTubePlugin::getFooterCode();
             ?>
@@ -206,8 +199,6 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                 <?php
             }
             ?>
-            <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
             <?php
             echo YouPHPTubePlugin::getFooterCode();
             ?>
@@ -301,6 +292,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
         $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
         $jsURL = combineFiles($jsFiles, "js");
         ?>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     </body>
 </html>
