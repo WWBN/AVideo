@@ -77,6 +77,9 @@ foreach ($playList as $value) {
                 ?>
 
             }
+            .vjs-control-bar{
+                z-index: 1;
+            }
         </style>
 
         <?php
@@ -147,6 +150,11 @@ foreach ($playList as $value) {
                         $('#playList').fadeOut();
                     }, 1000);
 
+                });
+                
+                //Prevent HTML5 video from being downloaded (right-click saved)?
+                $('#mainVideo').bind('contextmenu', function () {
+                    return false;
                 });
             });
         </script>
