@@ -41,6 +41,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         <?php
         $countCols = 0;
         unset($_POST['sort']);
+        if(empty($_GET['page'])){
+            $_GET['page'] = 1;
+        }
         $_POST['sort'][$sort] = $_GET[$getName];
         $_POST['current'] = $_GET['page'];
         $_POST['rowCount'] = $rowCount;

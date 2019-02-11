@@ -79,27 +79,25 @@
             }
             ?>
             <hr>
-            <div class="row">
-                <?php
-                $login = YouPHPTubePlugin::getLogin();
-                foreach ($login as $value) {
-                    if (is_string($value) && file_exists($value)) { // it is a include path for a form
-                        include $value;
-                    } else if (is_array($value)) {
-                        ?>
-                        <div class="col-md-6">
-                            <a href="login?type=<?php echo $value['parameters']->type; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
-                        </div>
-                        <?php
-                    }
+            <?php
+            $login = YouPHPTubePlugin::getLogin();
+            foreach ($login as $value) {
+                if (is_string($value) && file_exists($value)) { // it is a include path for a form
+                    include $value;
+                } else if (is_array($value)) {
+                    ?>
+                    <div class="col-md-6">
+                        <a href="login?type=<?php echo $value['parameters']->type; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
+                    </div>
+                    <?php
                 }
-                ?>
-            </div>
+            }
+            ?>
             <hr>
         </fieldset>
         <?php
 
-        if (empty($advancedCustomUser->disableNativeSignUp) && empty($advancedCustomUser->messageToAppearBelowLoginBox->value)) {
+        if (!empty($advancedCustomUser->messageToAppearBelowLoginBox->value)) {
             echo "<div class='alert alert-info'>";
             echo $advancedCustomUser->messageToAppearBelowLoginBox->value;
             echo "</div>";
