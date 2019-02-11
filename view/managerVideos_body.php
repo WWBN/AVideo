@@ -150,7 +150,7 @@
                             <li>
                                 <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 1);return false;">
                                     <span class="fa fa-lock"></span>
-                                    <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
+                                    <span class="label label-info"><?php echo $value['total_users'] . " "; ?><?php echo __("Users linked"); ?></span>
                                     <?php echo $value['group_name']; ?>
                                 </a>  
                             </li>
@@ -169,7 +169,7 @@
                             <li>
                                 <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 0);return false;">
                                     <span class="fa fa-lock"></span>
-                                    <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
+                                    <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                     <?php echo $value['group_name']; ?>
                                 </a>  
                             </li>
@@ -288,7 +288,7 @@
                                         <?php
                                         foreach (Video::$rratingOptions as $value) {
                                             if(empty($value)){
-                                                $label = "No Rating";
+                                                $label = "Not Rated";
                                             }else{
                                                 $label = strtoupper($value);
                                             }
@@ -354,7 +354,7 @@
                                                     <li class="list-group-item non-public">
                                                         <span class="fa fa-lock"></span>
                                                         <?php echo $value['group_name']; ?>
-                                                        <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
+                                                        <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                                         <div class="material-switch pull-right">
                                                             <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
                                                             <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
@@ -1414,7 +1414,7 @@ if (User::isAdmin()) {
 
                                                         var nextIsSet;
                                                         if (row.next_video == null || row.next_video.length == 0) {
-                                                            nextIsSet = "<span class='label label-danger'>Next video NOT set</span>";
+                                                            nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
                                                         } else {
                                                             var nextVideoTitle;
                                                             if (row.next_video.title.length > 20) {
@@ -1436,7 +1436,7 @@ if (User::isAdmin()) {
                                                             tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                                                         }
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
-                                                        return tags;
+                                                        return tags+row.typeLabels;
                                                     },
                                                     "checkbox": function (column, row) {
                                                         var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";
