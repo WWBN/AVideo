@@ -1858,7 +1858,7 @@ if (!class_exists('Video')) {
                         }
                     }
                 }
-                if (!file_exists($source['path'])) {
+                if (!file_exists($source['path']) || filesize($source['path'])<1000) {
                     if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg" && $type != "_portrait_thumbsV2.jpg" && $type != "_portrait_thumbsSmallV2.jpg") {
                         return array('path' => false, 'url' => false);
                     }
