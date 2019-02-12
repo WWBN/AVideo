@@ -41,6 +41,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         <?php
         $countCols = 0;
         unset($_POST['sort']);
+        if(empty($_GET['page'])){
+            $_GET['page'] = 1;
+        }
         $_POST['sort'][$sort] = $_GET[$getName];
         $_POST['current'] = $_GET['page'];
         $_POST['rowCount'] = $rowCount;
@@ -144,7 +147,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     <?php } ?>
                 </div>
                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                <div class="progress" style="height: 3px;">
+                <div class="progress" style="height: 3px; margin-bottom: 2px;">
                     <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </a>

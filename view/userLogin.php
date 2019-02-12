@@ -15,7 +15,7 @@
                         <div class="col-md-8 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail)?"text":"email";  ?>" value="" required >
+                                <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail) ? "text" : "email"; ?>" value="" required >
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                     <?php
                     $captcha = User::getCaptchaForm();
                     ?>
-                    <div class="form-group" style="<?php echo User::isCaptchaNeed()?"":"display: none;" ?>" id="captchaForm">
+                    <div class="form-group" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
                         <?php echo $captcha; ?>
                     </div>
                     <div class="form-group">
@@ -79,25 +79,30 @@
             }
             ?>
             <hr>
-            <div class="row">
-                <?php
-                $login = YouPHPTubePlugin::getLogin();
-                foreach ($login as $value) {
-                    if (is_string($value) && file_exists($value)) { // it is a include path for a form
-                        include $value;
-                    } else if (is_array($value)) {
-                        ?>
-                        <div class="col-md-6">
-                            <a href="login?type=<?php echo $value['parameters']->type; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
-                        </div>
-                        <?php
-                    }
+            <?php
+            $login = YouPHPTubePlugin::getLogin();
+            foreach ($login as $value) {
+                if (is_string($value) && file_exists($value)) { // it is a include path for a form
+                    include $value;
+                } else if (is_array($value)) {
+                    ?>
+                    <div class="col-md-6">
+                        <a href="login?type=<?php echo $value['parameters']->type; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
+                    </div>
+                    <?php
                 }
-                ?>
-            </div>
+            }
+            ?>
             <hr>
         </fieldset>
+        <?php
 
+        if (!empty($advancedCustomUser->messageToAppearBelowLoginBox->value)) {
+            echo "<div class='alert alert-info'>";
+            echo $advancedCustomUser->messageToAppearBelowLoginBox->value;
+            echo "</div>";
+        }
+        ?>
     </div>
     <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
 </div>
@@ -125,7 +130,7 @@ if (!empty($_GET['error'])) {
                         } else {
                             swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                         }
-                        if(response.isCaptchaNeed){
+                        if (response.isCaptchaNeed) {
                             $("#btnReloadCapcha").trigger('click');
                             $('#captchaForm').slideDown();
                         }
@@ -175,7 +180,6 @@ if (!empty($_GET['error'])) {
                 $('#captchaText').val('');
             });
         });
-    }
-    );
+    });
 
 </script>

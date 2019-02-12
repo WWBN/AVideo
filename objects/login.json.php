@@ -162,6 +162,11 @@ if($object->isLogged){
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }
+    
+    $p = YouPHPTubePlugin::loadPluginIfEnabled("VideoHLS");
+    if(!empty($p)){
+        $object->videoHLS = true;
+    }
 }
 
 $json = json_encode($object);

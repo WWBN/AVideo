@@ -27,6 +27,8 @@ function xss_esc_back($text) {
 function cmpPlugin($a, $b) {
     if ($a['name'] == 'SecureVideosDirectory') {
         return -1;
+    } else if ($a['name'] == 'GoogleAds_IMA') {
+        return -1;
     }
 
     return 1;
@@ -90,8 +92,8 @@ function humanTiming($time, $precision = 0) {
     return secondsToHumanTiming($time, $precision);
 }
 
-function secondsToHumanTiming($time, $precision = 0){
-    $time = ($time < 0) ? $time*-1 : $time;
+function secondsToHumanTiming($time, $precision = 0) {
+    $time = ($time < 0) ? $time * -1 : $time;
     $time = ($time < 1) ? 1 : $time;
     $tokens = array(
         31536000 => 'year',
@@ -132,14 +134,14 @@ function secondsToHumanTiming($time, $precision = 0){
         } else {
             $text = __($text);
         }
-        
-        if($precision){
+
+        if ($precision) {
             $rest = $time % $unit;
-            if($rest){
-                $text .= ' '.secondsToHumanTiming($rest, $precision-1);
+            if ($rest) {
+                $text .= ' ' . secondsToHumanTiming($rest, $precision - 1);
             }
         }
-        
+
         return $numberOfUnits . ' ' . $text;
     }
 }
@@ -380,6 +382,14 @@ function getMinutesTotalVideosLength() {
     return floor($seconds / 60);
 }
 
+function secondsToVideoTime($seconds) {
+    $seconds = round($seconds);
+    $hours = floor($seconds / 3600);
+    $mins = floor($seconds / 60 % 60);
+    $secs = floor($seconds % 60);
+    return sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
+}
+
 function parseDurationToSeconds($str) {
     $durationParts = explode(":", $str);
     if (empty($durationParts[1]) || $durationParts[0] == "EE") {
@@ -407,7 +417,7 @@ function setSiteSendMessage(&$mail) {
     if ($config->getSmtp()) {
         error_log("Sending SMTP Email");
         $mail->IsSMTP(); // enable SMTP
-        $mail->SMTPAuth = true; // authentication enabled
+        $mail->SMTPAuth = $config->getSmtpAuth(); // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
         $mail->Host = $config->getSmtpHost();
         $mail->Port = $config->getSmtpPort();
@@ -417,6 +427,42 @@ function setSiteSendMessage(&$mail) {
     } else {
         error_log("Sending SendMail Email");
         $mail->isSendmail();
+    }
+}
+
+function sendSiteEmail($to, $subject, $message) {
+    if(empty($to)){
+        return false;
+    }
+    $contactEmail = $config->getContactEmail();
+    $webSiteTitle = $config->getWebSiteTitle();
+    try {
+        $mail = new PHPMailer;
+        setSiteSendMessage($mail);
+        //$mail->SMTPDebug = 4;
+        //Set who the message is to be sent from
+        $mail->setFrom($contactEmail, $webSiteTitle);
+        //Set who the message is to be sent to
+        if(!is_array($to)){
+            $mail->addAddress($to);
+        }else{
+            foreach ($to as $value) {
+                $mail->addBCC($value);
+            }
+        }
+        //Set the subject line
+        $mail->Subject = $subject . " - " . $webSiteTitle;
+
+        $mail->msgHTML($message);
+        $resp = $mail->send();
+        if (!$resp) {
+            error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
+        }
+        return $resp;
+    } catch (phpmailerException $e) {
+        error_log($e->errorMessage()); //Pretty error messages from PHPMailer
+    } catch (Exception $e) {
+        error_log($e->getMessage()); //Boring error messages from anything else!
     }
 }
 
@@ -613,11 +659,19 @@ function canUseCDN($videos_id) {
 }
 
 function getVideosURL($fileName) {
+    if (empty($fileName)) {
+        return array();
+    }
     global $global;
     $types = array('', '_Low', '_SD', '_HD');
     $files = array();
     // old
     require_once $global['systemRootPath'] . 'objects/video.php';
+
+    $plugin = YouPHPTubePlugin::loadPluginIfEnabled("VideoHLS");
+    if (!empty($plugin)) {
+        $files = VideoHLS::getSourceFile($fileName);
+    }
 
     foreach ($types as $key => $value) {
         $filename = "{$fileName}{$value}";
@@ -722,14 +776,14 @@ function getSources($fileName, $returnArray = false) {
         $sourcesArray = array();
         foreach ($files as $key => $value) {
             $path_parts = pathinfo($value['path']);
-            if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
-                if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4") {
-                    $sources .= "<source src=\"{$value['url']}\" type=\"video/{$path_parts['extension']}\">";
-                } else {
-                    $sources .= "<source src=\"{$value['url']}\" type=\"audio/{$path_parts['extension']}\">";
-                }
+            if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
                 $obj = new stdClass();
-                $obj->type = "video/{$path_parts['extension']}";
+                $obj->type = mime_content_type_per_filename($value['path']);
+                if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8") {
+                    $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
+                } else {
+                    $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
+                }
                 $obj->src = $value['url'];
                 $sourcesArray[] = $obj;
             }
@@ -923,20 +977,115 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
     $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
-    if (!empty($aws_s3)) {
-        $aws_s3->move_uploaded_file($tmp_name, $filename);
-    } else if (!empty($bb_b2)) {
-        $bb_b2->move_uploaded_file($tmp_name, $filename);
-    } else if (!empty($ftp)) {
-        $ftp->move_uploaded_file($tmp_name, $filename);
+
+    $path_info = pathinfo($filename);
+    if ($path_info['extension'] === 'zip') {
+        $dir = "{$global['systemRootPath']}videos/{$path_info['filename']}";
+        unzipDirectory($tmp_name, $dir); // unzip it
+        cleanDirectory($dir);
+        if (!empty($aws_s3)) {
+            //$aws_s3->move_uploaded_file($tmp_name, $filename);
+        } else if (!empty($bb_b2)) {
+            $bb_b2->move_uploaded_directory($dir);
+        } else if (!empty($ftp)) {
+            //$ftp->move_uploaded_file($tmp_name, $filename);
+        }
     } else {
-        if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-            if (!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-                if (!copy($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-                    $obj->msg = "Error on decideMoveUploadedToVideos({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
-                    die(json_encode($obj));
+        if (!empty($aws_s3)) {
+            $aws_s3->move_uploaded_file($tmp_name, $filename);
+        } else if (!empty($bb_b2)) {
+            $bb_b2->move_uploaded_file($tmp_name, $filename);
+        } else if (!empty($ftp)) {
+            $ftp->move_uploaded_file($tmp_name, $filename);
+        } else {
+            if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
+                if (!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
+                    if (!copy($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
+                        $obj->msg = "Error on decideMoveUploadedToVideos({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+                        die(json_encode($obj));
+                    }
                 }
             }
+        }
+    }
+}
+
+function unzipDirectory($filename, $destination) {
+    global $global;
+    ini_set('memory_limit', '-1');
+    ini_set('max_execution_time', 7200); // 2 hours
+    error_log("unzipDirectory: {$filename}");
+    exec("unzip {$filename} -d {$destination}" . "  2>&1", $output, $return_val);
+    if ($return_val !== 0) {
+        // try to unzip using PHP
+        error_log("unzipDirectory: TRY to use PHP {$filename}");
+        $zip = zip_open($filename);
+        if ($zip) {
+            while ($zip_entry = zip_read($zip)) {
+                $path = "{$destination}/" . zip_entry_name($zip_entry);
+                error_log("unzipDirectory: fopen $path");
+                if (substr(zip_entry_name($zip_entry), -1) == '/') {
+                    make_path($path);
+                } else {
+                    make_path($path);
+                    $fp = fopen($path, "w");
+                    if (zip_entry_open($zip, $zip_entry, "r")) {
+                        $buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+                        fwrite($fp, "$buf");
+                        zip_entry_close($zip_entry);
+                        fclose($fp);
+                    }
+                }
+            }
+            zip_close($zip);
+        } else {
+            error_log("unzipDirectory: ERROR php zip does not work");
+        }
+    } else {
+        error_log("unzipDirectory: Success {$destination}");
+    }
+    @unlink($filename);
+}
+
+function make_path($path) {
+    $dir = pathinfo($path, PATHINFO_DIRNAME);
+    if (is_dir($dir)) {
+        return true;
+    } else {
+        if (make_path($dir)) {
+            if (mkdir($dir)) {
+                chmod($dir, 0777);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * for security clean all non secure files from directory
+ * @param type $dir
+ * @param type $allowedExtensions
+ * @return type
+ */
+function cleanDirectory($dir, $allowedExtensions = array('key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'webm')) {
+    $ffs = scandir($dir);
+
+    unset($ffs[array_search('.', $ffs, true)]);
+    unset($ffs[array_search('..', $ffs, true)]);
+
+    // prevent empty ordered elements
+    if (count($ffs) < 1)
+        return;
+
+    foreach ($ffs as $ff) {
+        $current = $dir . '/' . $ff;
+        if (is_dir($current)) {
+            cleanDirectory($current, $allowedExtensions);
+        }
+        $path_parts = pathinfo($current);
+        if (!empty($path_parts['extension']) && !in_array($path_parts['extension'], $allowedExtensions)) {
+            unlink($current);
         }
     }
 }
@@ -1019,6 +1168,7 @@ function mime_content_type_per_filename($filename) {
         'vob' => 'video/quicktime',
         'mkv' => 'video/quicktime',
         '3gp' => 'video/quicktime',
+        'm3u8' => 'application/x-mpegURL',
         // adobe
         'pdf' => 'application/pdf',
         'psd' => 'image/vnd.adobe.photoshop',
@@ -1032,13 +1182,13 @@ function mime_content_type_per_filename($filename) {
         'ppt' => 'application/vnd.ms-powerpoint',
         // open office
         'odt' => 'application/vnd.oasis.opendocument.text',
-        'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+        'ods' => 'application/vnd.oasis.opendocument.spreadsheet'
     );
     if (filter_var($filename, FILTER_VALIDATE_URL) === FALSE) {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
-    }else{
+    } else {
         $ext = pathinfo(parse_url($filename, PHP_URL_PATH), PATHINFO_EXTENSION);
-    }    
+    }
     if (array_key_exists($ext, $mime_types)) {
         return $mime_types[$ext];
     } elseif (function_exists('finfo_open')) {

@@ -29,6 +29,9 @@ class Captcha{
         //$letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789';
         $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789';
         $palavra = substr(str_shuffle($letters), 0, ($this->quantidade_letras));
+        if(User::isAdmin()){
+            $palavra = "     ";
+        }
         $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
         for ($i = 1; $i <= $this->quantidade_letras; $i++) {
             imagettftext(
@@ -47,6 +50,9 @@ class Captcha{
     }
 
     static public function validation($word) {
+        if(User::isAdmin()){
+            return true;
+        }
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }

@@ -189,6 +189,9 @@ class VideoStatistic extends ObjectYPT  {
 
     function setUsers_id($users_id) {
         $this->users_id = intval($users_id);
+        if(empty($this->users_id)){
+            $this->users_id = 'null';
+        }
     }
 
     function setVideos_id($videos_id) {

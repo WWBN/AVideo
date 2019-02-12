@@ -1,4 +1,5 @@
 <?php
+global $advancedCustom;
 $uid = uniqid();
 $video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
 if (empty($video)) {
@@ -11,7 +12,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $poster = $images->poster;
     //var_dump($video);
     $canWatchPlayButton = "";
-    if (User::canWatchVideo($video['id'])) {
+    if (User::canWatchVideoWithAds($video['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>
@@ -65,7 +66,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>
                     <?php
                     if (!empty($video['rrating'])) {
-                        include $global['systemRootPath'] . 'view/img/rrating/rating-' . $video['rrating'] . '.php';
+                        include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';
+                    }else if($advancedCustom->showNotRatedLabel){
+                        include $global['systemRootPath'] . 'view/rrating/notRated.php';
                     }
                     ?>
                 </h4>
@@ -74,7 +77,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     if (!empty($images->posterPortrait)) {
                         ?>
                         <div class="col-md-2 col-sm-4 col-xs-6">
-                            <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" />
+                            <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
                         </div>
                         <?php
                     }

@@ -47,6 +47,9 @@ $video = Video::getVideo("", "viewable", false, false, true, true);
 if (empty($video)) {
     $video = Video::getVideo("", "viewable", false, false, false, true);
 }
+if(empty($video)){
+    $video = YouPHPTubePlugin::getVideo();
+}
 // add this because if you change the video category the video was not loading anymore
 $_GET['catName'] = $catName;
 
@@ -576,7 +579,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                         <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                                         <div class="col-xs-8 col-sm-10 col-lg-10">
                                             <?php
-                                                include $global['systemRootPath'].'view/img/rrating/rating-'.$video['rrating'].'.php';
+                                                include $global['systemRootPath'].'view/rrating/rating-'.$video['rrating'].'.php';
                                             ?>
                                         </div>
                                     <?php
@@ -794,7 +797,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array("view/js/videojs-rotatezoom/videojs.zoomrotate.js",
+        $videoJSArray = array(
             "view/js/videojs-persistvolume/videojs.persistvolume.js",
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");

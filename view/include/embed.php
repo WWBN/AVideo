@@ -91,8 +91,9 @@
 
                             //$(".vjs-big-play-button").hide();
                             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
-
-                            player = videojs('mainVideo');
+                            if (typeof player === 'undefined') {
+                                player = videojs('mainVideo');
+                            }
                             player.ready(function () {
     <?php
     if ($config->getAutoplay()) {

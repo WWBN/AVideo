@@ -65,7 +65,6 @@ foreach ($playList as $value) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
         <style>
             body {
                 padding: 0 !important;
@@ -77,6 +76,9 @@ foreach ($playList as $value) {
                 }
                 ?>
 
+            }
+            .vjs-control-bar{
+                z-index: 1;
             }
         </style>
 
@@ -126,7 +128,9 @@ foreach ($playList as $value) {
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
         <script>
-            var player = videojs('mainVideo');
+            if (typeof player === 'undefined') {
+                player = videojs('mainVideo');
+            }
 
             player.playlist(<?php echo json_encode($playListData); ?>);
             player.playlist.autoadvance(0);
@@ -146,6 +150,11 @@ foreach ($playList as $value) {
                         $('#playList').fadeOut();
                     }, 1000);
 
+                });
+                
+                //Prevent HTML5 video from being downloaded (right-click saved)?
+                $('#mainVideo').bind('contextmenu', function () {
+                    return false;
                 });
             });
         </script>

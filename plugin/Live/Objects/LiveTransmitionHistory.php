@@ -113,6 +113,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $row;
     }
 
-
+    public function save() {
+        YouPHPTubePlugin::onLiveStream($this->users_id);
+        return parent::save();
+    }
     
 }

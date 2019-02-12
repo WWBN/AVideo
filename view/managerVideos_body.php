@@ -288,7 +288,7 @@
                                         <?php
                                         foreach (Video::$rratingOptions as $value) {
                                             if(empty($value)){
-                                                $label = "No Rating";
+                                                $label = "Not Rated";
                                             }else{
                                                 $label = strtoupper($value);
                                             }
@@ -1436,7 +1436,7 @@ if (User::isAdmin()) {
                                                             tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                                                         }
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
-                                                        return tags;
+                                                        return tags+row.typeLabels;
                                                     },
                                                     "checkbox": function (column, row) {
                                                         var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";

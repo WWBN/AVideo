@@ -587,7 +587,7 @@ if (User::isAdmin()) {
                     data: {
                         captcha: $('#captchaText').val(),
                         first_name: "Your Site test",
-                        email: "teste@teste.com",
+                        email: "<?php echo $config->getContactEmail(); ?>",
                         website: "www.youphptube.com",
                         comment: "Teste of comment"
                     },

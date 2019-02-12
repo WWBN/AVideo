@@ -13,9 +13,9 @@ if (!empty($obj->landscapePosters)) {
         $img = $images->thumbsJpg;
         $poster = $images->poster;
         $cssClass = "";
-        if (!empty($images->posterPortrait)) {
+        if (!empty($images->posterPortraitThumbs)) {
             $imgGif = $images->gifPortrait;
-            $img = $images->posterPortrait;
+            $img = $images->posterPortraitThumbs;
             $cssClass = "posterPortrait";
         }
         ?>
@@ -27,7 +27,7 @@ if (!empty($obj->landscapePosters)) {
                         <?php if (!empty($imgGif)) { ?>
                             <img style="position: absolute; top: 0; display: none;" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png"  alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
                         <?php } ?>
-                        <div class="progress" style="height: 3px;">
+                        <div class="progress" style="height: 3px; margin-bottom: 2px;">
                             <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
@@ -47,11 +47,11 @@ foreach ($videos as $value) {
     $img = $images->thumbsJpg;
     $poster = $images->poster;
     $canWatchPlayButton = "";
-    if (User::canWatchVideo($value['id'])) {
+    if (User::canWatchVideoWithAds($value['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>
-    <div class="poster" id="poster<?php echo $value['id'] . $uid; ?>" style="display: none; background-image: url(<?php echo $poster; ?>);">
+    <div class="poster" id="poster<?php echo $value['id'] . $uid; ?>" poster="<?php echo $poster; ?>" style="display: none; background-image: url(<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/img/loading.gif);">
         <div class="posterDetails " style="
              background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
              background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
@@ -86,16 +86,20 @@ foreach ($videos as $value) {
                 ?>   
                 <?php
                 if (!empty($value['rrating'])) {
-                    include $global['systemRootPath'] . 'view/img/rrating/rating-' . $value['rrating'] . '.php';
+                    include $global['systemRootPath'] . 'view/rrating/rating-' . $value['rrating'] . '.php';
+                }else if($advancedCustom->showNotRatedLabel){
+                    include $global['systemRootPath'] . 'view/rrating/notRated.php';
                 }
                 ?>
             </h4>
             <div class="row">
                 <?php
-                if (!empty($images->posterPortrait)) {
+                if (!empty($images->posterPortraitThumbs)) {
                     ?>
                     <div class="col-md-2 col-sm-3 col-xs-4">
-                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" />
+                        <center>
+                            <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
+                        </center>
                     </div>
                     <?php
                 }

@@ -12,14 +12,40 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
 $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
 $objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
-if(!empty($objSecure)){
+if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
 $video = Video::getVideo("", "viewable", false, false, false, true);
 if (empty($video)) {
+    $video = YouPHPTubePlugin::getVideo();
+}
+if (empty($video)) {
     die(__("Video not found"));
+}
+
+$imgw = 1280;
+$imgh = 720;
+
+if (!empty($video)) {
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
+        $source = Video::getSourceFile($video['filename']);
+        $img = $source['url'];
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    } else {
+        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    }
+    $images = Video::getImageFromFilename($video['filename']);
+    $poster = $images->poster;
+    if (!empty($images->posterPortrait)) {
+        $img = $images->posterPortrait;
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    }
 }
 
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
@@ -44,14 +70,14 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 
+        <?php
+        echo YouPHPTubePlugin::getHeadCode();
+        ?>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
         </script>
-        <?php
-        require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-        echo YouPHPTubePlugin::getHeadCode();
-        ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,10 +89,18 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
+
+        <link rel="image_src" href="<?php echo $img; ?>" />
+        <meta property="fb:app_id"             content="774958212660408" />
+        <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
+        <meta property="og:type"               content="video.other" />
+        <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo!empty($custom) ? $custom : str_replace('"', '', $video['title']); ?>" />
+        <meta property="og:image"              content="<?php echo $img; ?>" />
+        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
+        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
+        <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+        <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
         <style>
             body {
                 padding: 0 !important;
@@ -83,21 +117,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                 position: static;
             }
         </style>
-
-        <?php
-        $jsFiles = array();
-        $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
-        $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
-        $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
-        $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
-        $jsFiles[] = "view/js/script.js";
-        $jsFiles[] = "view/js/js-cookie/js.cookie.js";
-        $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
-        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
-        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-        $jsURL = combineFiles($jsFiles, "js");
-        ?>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -114,11 +134,13 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                 echo "?autoplay=1";
             }
             ?>"></iframe>
-
+            <?php
+            echo YouPHPTubePlugin::getFooterCode();
+            ?>
             <script>
-        $(document).ready(function () {
-            addView(<?php echo $video['id']; ?>, 0);
-        });
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
             </script>
             <?php
         } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
@@ -142,11 +164,13 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                 }
                 ?>
             </audio>
-
+            <?php
+            echo YouPHPTubePlugin::getFooterCode();
+            ?>
             <script>
-                $(document).ready(function () {
-                    addView(<?php echo $video['id']; ?>, this.currentTime());
-                });
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, this.currentTime());
+            });
             </script>
             <?php
         } else {
@@ -175,33 +199,52 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                 <?php
             }
             ?>
+            <?php
+            echo YouPHPTubePlugin::getFooterCode();
+            ?>
             <script>
-                $(document).ready(function () {
-                    //Prevent HTML5 video from being downloaded (right-click saved)?
-                    $('#mainVideo').bind('contextmenu', function () {
-                        return false;
-                    });
+            $(document).ready(function () {
+                //Prevent HTML5 video from being downloaded (right-click saved)?
+                $('#mainVideo').bind('contextmenu', function () {
+                    return false;
+                });
+                if (typeof player === 'undefined') {
                     player = videojs('mainVideo');
-                    player.on('play', function () {
-                        addView(<?php echo $video['id']; ?>, this.currentTime());
-                    });
+                }
+                player.on('play', function () {
+                    addView(<?php echo $video['id']; ?>, this.currentTime());
+                });
 
-                    player.on('timeupdate', function () {
-                        var time = Math.round(this.currentTime());
-                        if (time >= 5 && time % 5 === 0) {
-                            addView(<?php echo $video['id']; ?>, time);
-                        }
-                    });
+                player.on('timeupdate', function () {
+                    var time = Math.round(this.currentTime());
+                    if (time >= 5 && time % 5 === 0) {
+                        addView(<?php echo $video['id']; ?>, time);
+                    }
+                });
 
     <?php
     if ($config->getAutoplay() || !empty($_GET['autoplay'])) {
         ?>
-                        setTimeout(function () {
-                            if (typeof player === 'undefined') {
-                                player = videojs('mainVideo');
-                            }
-                            try {
+                    setTimeout(function () {
+                        if (typeof player === 'undefined') {
+                            player = videojs('mainVideo');
+                        }
+                        try {
 
+        <?php
+        if (isset($_GET['t'])) {
+            ?>
+                                player.currentTime(<?php echo intval($_GET['t']); ?>);
+            <?php
+        } else if (!empty($video['progress']['lastVideoTime'])) {
+            ?>
+                                player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
+            <?php
+        }
+        ?>
+                            player.play();
+                        } catch (e) {
+                            setTimeout(function () {
         <?php
         if (isset($_GET['t'])) {
             ?>
@@ -214,47 +257,43 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
         }
         ?>
                                 player.play();
-                            } catch (e) {
-                                setTimeout(function () {
-        <?php
-        if (isset($_GET['t'])) {
-            ?>
-                                        player.currentTime(<?php echo intval($_GET['t']); ?>);
-            <?php
-        } else if (!empty($video['progress']['lastVideoTime'])) {
-            ?>
-                                        player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
-            <?php
-        }
-        ?>
-                                    player.play();
-                                }, 1000);
-                            }
-                        }, 150);
+                            }, 1000);
+                        }
+                    }, 150);
         <?php
     }
 
     if (!empty($_GET['mute'])) {
         ?>
-                        player.muted(true);
+                    player.muted(true);
         <?php
     }
     if (!empty($_GET['loop'])) {
         ?>
-                        player.loop(true);
+                    player.loop(true);
         <?php
     }
     ?>
-                });
+            });
             </script>
             <?php
         }
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
         <?php
-        echo YouPHPTubePlugin::getFooterCode();
+        $jsFiles = array();
+        $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+        $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
+        $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
+        $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
+        $jsFiles[] = "view/js/script.js";
+        $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+        $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
+        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
+        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+        $jsURL = combineFiles($jsFiles, "js");
         ?>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     </body>
 </html>
 

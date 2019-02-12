@@ -532,6 +532,14 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
+    static function canWatchVideoWithAds($videos_id) {
+        
+        if(YouPHPTubePlugin::userCanWatchVideoWithAds(User::getId(), $videos_id) || self::canWatchVideo($videos_id)){
+            return true;
+        }
+        return false;
+    }
+
     function delete() {
         if (!self::isAdmin()) {
             return false;
@@ -1058,6 +1066,9 @@ if (typeof gtag !== \"function\") {
 
     static function canUpload() {
         global $global, $config;
+        if(User::isAdmin()){
+            return true;
+        }
         if ($config->getAuthCanUploadVideos()) {
             return self::isLogged();
         }

@@ -98,7 +98,7 @@ if (!$includeDefaultNavBar) {
 
         }
         .left-side {
-            padding: 5px;
+            padding: 0 5px;
         }
         .searchul{
             padding-left: 0px;

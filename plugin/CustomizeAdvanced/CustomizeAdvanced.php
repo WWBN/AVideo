@@ -44,6 +44,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEmbedButton = false;
         $obj->embedBackgroundColor = "white";
         $obj->embedButtonLabel = "";
+        $obj->doNotShowEncoderHLS = false;
         $obj->doNotShowEncoderResolutionLow = false;
         $obj->doNotShowEncoderResolutionSD = false;
         $obj->doNotShowEncoderResolutionHD = false;
@@ -98,7 +99,13 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showImageDownloadOption = false;
         $obj->doNotDisplayViews = false;
         $obj->doNotDisplayCategoryLeftMenu = false;
-        $obj->askRRatingConfirmationBeforePlay = false;
+        $obj->showNotRatedLabel = false;
+        $obj->askRRatingConfirmationBeforePlay_G = false;
+        $obj->askRRatingConfirmationBeforePlay_PG = false;
+        $obj->askRRatingConfirmationBeforePlay_PG13 = false;
+        $obj->askRRatingConfirmationBeforePlay_R = false;
+        $obj->askRRatingConfirmationBeforePlay_NC17 = true;
+        $obj->askRRatingConfirmationBeforePlay_MA = true;
         
         return $obj;
     }
@@ -117,9 +124,11 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getModeYouTube($videos_id) {
         global $global, $config;
         $obj = $this->getDataObject();
-        if($obj->askRRatingConfirmationBeforePlay){
-            $video = Video::getVideo($videos_id, "viewable", true);
-            if(!empty($video['rrating']) && User::canWatchVideo($videos_id) && empty($_GET['rrating'])){
+        $video = Video::getVideo($videos_id, "viewable", true);
+        if(!empty($video['rrating']) && User::canWatchVideo($videos_id) && empty($_GET['rrating'])){
+            $suffix = strtoupper(str_replace("-", "", $video['rrating']));
+            eval("\$show = \$obj->askRRatingConfirmationBeforePlay_$suffix;");
+            if(!empty($show)){
                 include "{$global['systemRootPath']}plugin/CustomizeAdvanced/confirmRating.php";
                 exit;
             }

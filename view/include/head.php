@@ -40,6 +40,7 @@ $cssURL = combineFiles($cssFiles, "css");
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js"></script>
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+    var player;
 </script>
 <?php
 if (!$config->getDisable_analytics()) {

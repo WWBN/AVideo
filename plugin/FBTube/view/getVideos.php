@@ -569,13 +569,9 @@ if (!empty($videos)) {
                             fullDuration<?php echo $video['id']; ?> = strToSeconds('<?php echo @$ad['duration']; ?>');
                             player<?php echo $video['id']; ?> = videojs('mainVideo<?php echo $video['id']; ?>');
 
-                            player<?php echo $video['id']; ?>.zoomrotate(<?php echo $transformation; ?>);
                             player<?php echo $video['id']; ?>.ready(function () {
 
 
-                                this.on('ended', function () {
-                                    console.log("Finish Video");
-                                });
 
                             });
                             player<?php echo $video['id']; ?>.persistvolume({

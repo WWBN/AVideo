@@ -141,7 +141,9 @@ if(!empty($objSecure)){
         <script>
 
             $(document).ready(function () {
-                player = videojs('mainVideo');
+                if (typeof player === 'undefined') {
+                    player = videojs('mainVideo');
+                }
                 player.ready(function () {
                     var err = this.error();
                     if (err && err.code) {
