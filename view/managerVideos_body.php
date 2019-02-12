@@ -150,7 +150,7 @@
                             <li>
                                 <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 1);return false;">
                                     <span class="fa fa-lock"></span>
-                                    <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
+                                    <span class="label label-info"><?php echo $value['total_users'] . " "; ?><?php echo __("Users linked"); ?></span>
                                     <?php echo $value['group_name']; ?>
                                 </a>  
                             </li>
@@ -169,7 +169,7 @@
                             <li>
                                 <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 0);return false;">
                                     <span class="fa fa-lock"></span>
-                                    <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
+                                    <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                     <?php echo $value['group_name']; ?>
                                 </a>  
                             </li>
@@ -354,7 +354,7 @@
                                                     <li class="list-group-item non-public">
                                                         <span class="fa fa-lock"></span>
                                                         <?php echo $value['group_name']; ?>
-                                                        <span class="label label-info"><?php echo $value['total_users']; ?> Users linked</span>
+                                                        <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                                         <div class="material-switch pull-right">
                                                             <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
                                                             <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
@@ -1414,7 +1414,7 @@ if (User::isAdmin()) {
 
                                                         var nextIsSet;
                                                         if (row.next_video == null || row.next_video.length == 0) {
-                                                            nextIsSet = "<span class='label label-danger'>Next video NOT set</span>";
+                                                            nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
                                                         } else {
                                                             var nextVideoTitle;
                                                             if (row.next_video.title.length > 20) {
