@@ -434,6 +434,7 @@ function sendSiteEmail($to, $subject, $message) {
     if(empty($to)){
         return false;
     }
+    global $config;
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
