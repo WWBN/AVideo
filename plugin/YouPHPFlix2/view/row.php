@@ -1,4 +1,5 @@
 <?php
+global $advancedCustom/
 $uid = uniqid();
 $landscape = "rowPortrait";
 if (!empty($obj->landscapePosters)) {
