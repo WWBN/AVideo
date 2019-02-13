@@ -69,7 +69,7 @@ foreach ($videos as $value) {
                 ?>
 
                 <?php
-                if (empty($advancedCustom->doNotDisplayViews)) {
+                if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayViews)) {
                     ?> 
                     <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                 <?php } ?>
