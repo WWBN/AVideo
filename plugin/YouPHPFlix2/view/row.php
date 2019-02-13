@@ -5,6 +5,8 @@ $landscape = "rowPortrait";
 if (!empty($obj->landscapePosters)) {
     $landscape = "landscapeTile";
 }
+$get = $_GET;
+$post = $_POST;
 ?>
 <div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>'>
     <?php
@@ -140,4 +142,5 @@ foreach ($videos as $value) {
     <?php
 }
 
-
+$_GET = $get;
+$_POST = $post;
