@@ -58,7 +58,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     ?>
 
                     <?php
-                    if (empty($advancedCustom->doNotDisplayViews)) {
+                    if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayViews)) {
                         ?>
                         <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $video['views_count']; ?></span>
                     <?php } ?>
@@ -67,7 +67,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     <?php
                     if (!empty($video['rrating'])) {
                         include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';
-                    }else if($advancedCustom->showNotRatedLabel){
+                    }else if(!empty($advancedCustom) && $advancedCustom->showNotRatedLabel){
                         include $global['systemRootPath'] . 'view/rrating/notRated.php';
                     }
                     ?>
