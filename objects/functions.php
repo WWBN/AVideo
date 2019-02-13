@@ -434,7 +434,8 @@ function sendSiteEmail($to, $subject, $message) {
     if(empty($to)){
         return false;
     }
-    global $config;
+    global $config, $global;
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
