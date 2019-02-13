@@ -633,7 +633,7 @@ if (!class_exists('Video')) {
             //error_log('Enter getVideoFromFileName ('.$fileName.')');
             global $global;
             if (empty($fileName)) {
-                error_log("getVideoFromFileName ERROR File name is empry ");
+                //error_log("getVideoFromFileName ERROR File name is empty ");
                 return false;
             }
             $sql = "SELECT id FROM videos WHERE filename = ? LIMIT 1";
