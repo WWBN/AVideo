@@ -12,9 +12,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $poster = $images->poster;
     //var_dump($video);
     $canWatchPlayButton = "";
+    $get = $_GET;
     if (User::canWatchVideoWithAds($video['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
+    $_GET = $get;
     ?>
     <div class="clear clearfix" id="bigVideo" style="background: url(<?php echo $poster; ?>) no-repeat center center fixed; -webkit-background-size: cover;
          -moz-background-size: cover;

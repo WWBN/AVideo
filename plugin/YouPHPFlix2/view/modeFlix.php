@@ -65,6 +65,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 }
 
                 if ($obj->MostPopular) {
+                    $_POST['rowCount'] = $obj->maxVideos;
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
                     $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -99,6 +100,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
 
 
                 if ($obj->MostWatched) {
+                    $_POST['rowCount'] = $obj->maxVideos;
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
                     $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -130,6 +132,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 }
 
                 if ($obj->Categories) {
+                    $_POST['rowCount'] = $obj->maxVideos;
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
                     $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -150,6 +153,10 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     unset($_POST['sort']);
                     $categories = Category::getAllCategories();
                     $_POST['searchPhrase'] = $searchPhrase;
+                    $showAllVideos = false;
+                    if(!empty($_GET['catName'])){
+                        $showAllVideos = true;
+                    }
                     foreach ($categories as $value) {
                         $oldCatName = @$_GET['catName'];
                         if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
@@ -174,6 +181,15 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                             <!-- Categories -->
                             <?php
                             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            
+                            if($showAllVideos){
+                                $_POST['current']++;
+                                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                                if (empty($videos)) {
+                                    break;
+                                }
+                                include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            }
                             ?>
                         </div>
                         <?php
