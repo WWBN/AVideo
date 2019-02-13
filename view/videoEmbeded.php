@@ -175,7 +175,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             <?php
         } else {
             ?>
-            <video style="width: 100%; height: 100%;" playsinline poster="<?php echo $poster; ?>" controls <?php echo!empty($_GET['mute']) ? 'muted="muted"' : ''; ?>
+            <video style="width: 100%; height: 100%;" poster="<?php echo $poster; ?>" controls <?php echo!empty($_GET['mute']) ? 'muted="muted"' : ''; ?>
                    class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                        <?php
                        echo getSources($video['filename']);
