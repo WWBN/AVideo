@@ -88,7 +88,7 @@ foreach ($videos as $value) {
                 <?php
                 if (!empty($value['rrating'])) {
                     include $global['systemRootPath'] . 'view/rrating/rating-' . $value['rrating'] . '.php';
-                }else if($advancedCustom->showNotRatedLabel){
+                }else if(!empty($advancedCustom) && $advancedCustom->showNotRatedLabel){
                     include $global['systemRootPath'] . 'view/rrating/notRated.php';
                 }
                 ?>
