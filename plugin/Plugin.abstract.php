@@ -354,5 +354,9 @@ abstract class PluginAbstract {
     public function onLiveStream($users_id){
         return null;
     }
+    
+    public function thumbsOverlay($videos_id){
+        return "";
+    }
 
 }

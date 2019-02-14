@@ -1,6 +1,7 @@
 <?php
+
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -26,7 +27,7 @@ class PlayList extends ObjectYPT {
      * @return boolean
      */
     static function getAllFromUser($userId, $publicOnly = true) {
-        global $global;
+        global $global, $config;
         $formats = "";
         $values = array();
         $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
@@ -40,15 +41,52 @@ class PlayList extends ObjectYPT {
             $values[] = $userId;
         }
         $sql .= self::getSqlFromPost("pl.");
-        $res = sqlDAL::readSql($sql,$formats,$values);
+        //echo $sql, $userId;exit;
+        $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
-        if ($res!=false) {
+        $favorite = false;
+        $watch_later = false;
+        if ($res != false) {
             foreach ($fullData as $row) {
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
-                $rows[] = $row;
+                if ($row['status'] === "favorite") {
+                    $favorite = $row;
+                } else if ($row['status'] === "watch_later") {
+                    $watch_later = $row;
+                } else {
+                    $rows[] = $row;
+                }
             }
+            if($config->currentVersionGreaterThen("6.4")){
+                if (empty($favorite)) {
+                    $pl = new PlayList(0);
+                    $pl->setName("Favorite");
+                    $pl->setStatus("favorite");
+                    $pl->setUsers_id($userId);
+                    $id = $pl->save();
+                    $row['id'] = $id;
+                    $row['name'] = $pl->getName();
+                    $row['status'] = $pl->getStatus();
+                    $row['users_id'] = $pl->getUsers_id();
+                    $favorite = $row;
+                }
+                if (empty($watch_later)) {
+                    $pl = new PlayList(0);
+                    $pl->setName("Watch Later");
+                    $pl->setStatus("watch_later");
+                    $pl->setUsers_id($userId);
+                    $id = $pl->save();
+                    $row['id'] = $id;
+                    $row['name'] = $pl->getName();
+                    $row['status'] = $pl->getStatus();
+                    $row['users_id'] = $pl->getUsers_id();
+                    $watch_later = $row;
+                }
+            }
+            array_unshift($rows, $favorite);
+            array_unshift($rows, $watch_later);
         } else {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
@@ -62,17 +100,17 @@ class PlayList extends ObjectYPT {
                 . " LEFT JOIN users u ON u.id = v.users_id "
                 . " WHERE playlists_id = ? ORDER BY p.`order` ASC ";
         $sql .= self::getSqlFromPost();
-        $res = sqlDAL::readSql($sql,"i",array($playlists_id));
+        $res = sqlDAL::readSql($sql, "i", array($playlists_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
-        if ($res!=false) {
+        if ($res != false) {
             foreach ($fullData as $row) {
-              if(!empty($_GET['isChannel'])){
-                $row['tags'] = Video::getTags($row['id']);
-                $row['pluginBtns'] = YouPHPTubePlugin::getPlayListButtons($playlists_id);
-                $row['humancreate'] = humanTiming(strtotime($row['cre']));
-              }
+                if (!empty($_GET['isChannel'])) {
+                    $row['tags'] = Video::getTags($row['id']);
+                    $row['pluginBtns'] = YouPHPTubePlugin::getPlayListButtons($playlists_id);
+                    $row['humancreate'] = humanTiming(strtotime($row['cre']));
+                }
                 $rows[] = $row;
             }
         } else {
@@ -80,7 +118,34 @@ class PlayList extends ObjectYPT {
         }
         return $rows;
     }
-
+    
+    static function isVideoOnFavorite($videos_id, $users_id){
+        return self::isVideoOn($videos_id, $users_id, 'favorite');
+    }
+    
+    static function isVideoOnWatchLater($videos_id, $users_id){
+        return self::isVideoOn($videos_id, $users_id, 'watch_later');
+    }
+    
+    private static function isVideoOn($videos_id, $users_id, $status){
+        global $global;
+        
+        $sql = "SELECT pl.id FROM  " . static::getTableName() . " pl "
+                . " LEFT JOIN users u ON u.id = users_id "
+                . " LEFT JOIN  playlists_has_videos p ON pl.id = playlists_id"
+                . " LEFT JOIN videos as v ON videos_id = v.id "
+                . " WHERE  videos_id = ? AND pl.users_id = ? AND pl.status = '{$status}' LIMIT 1 ";
+        //echo $videos_id," - " ,$users_id, $sql;
+        $res = sqlDAL::readSql($sql,"ii",array($videos_id, $users_id)); 
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
 
     static function getVideosIdFromPlaylist($playlists_id) {
         $videosId = array();
@@ -91,11 +156,11 @@ class PlayList extends ObjectYPT {
         return $videosId;
     }
 
-    static function sortVideos($videosList, $listIdOrder){
+    static function sortVideos($videosList, $listIdOrder) {
         $list = array();
         foreach ($listIdOrder as $value) {
             foreach ($videosList as $key => $value2) {
-                if($value2['id']==$value){
+                if ($value2['id'] == $value) {
                     $list[] = $value2;
                     unset($videosList[$key]);
                 }
@@ -108,21 +173,32 @@ class PlayList extends ObjectYPT {
         if (!User::isLogged()) {
             return false;
         }
+        $this->clearEmptyLists();
         $users_id = User::getId();
         $this->setUsers_id($users_id);
         return parent::save();
     }
 
-    public function addVideo($video_id, $add, $order=0) {
+    /**
+     * This is just to fix errors from the update 6.4 to 6.5, where empty playlists were created before the update
+     * @return type
+     */
+    private function clearEmptyLists() {
+        $sql = "DELETE FROM " . static::getTableName() . " WHERE status = ''";
+
+        return sqlDAL::writeSql($sql);
+    }
+
+    public function addVideo($video_id, $add, $order = 0) {
         global $global;
         $formats = "";
         $values = array();
-        if(empty($add) || $add === "false"){
+        if (empty($add) || $add === "false") {
             $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = ? AND videos_id = ? ";
             $formats = "ii";
             $values[] = $this->id;
             $values[] = $video_id;
-        }else{
+        } else {
             $this->addVideo($video_id, false);
             $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
             $formats = "iii";
@@ -130,17 +206,17 @@ class PlayList extends ObjectYPT {
             $values[] = $video_id;
             $values[] = $order;
         }
-        return sqlDAL::writeSql($sql,$formats,$values);
+        return sqlDAL::writeSql($sql, $formats, $values);
     }
 
     public function delete() {
-        if(empty($this->id)){
+        if (empty($this->id)) {
             return false;
         }
         global $global;
         $sql = "DELETE FROM playlists WHERE id = ? ";
         //echo $sql;
-        return sqlDAL::writeSql($sql,"i",array($this->id));
+        return sqlDAL::writeSql($sql, "i", array($this->id));
     }
 
     function getId() {
@@ -164,7 +240,8 @@ class PlayList extends ObjectYPT {
     }
 
     function setName($name) {
-        $this->name = xss_esc($name);;
+        $this->name = xss_esc($name);
+        ;
     }
 
     function setUsers_id($users_id) {

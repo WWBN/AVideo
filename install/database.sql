@@ -365,7 +365,7 @@ CREATE TABLE IF NOT EXISTS `playlists` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `users_id` INT NOT NULL,
-  `status` ENUM('public', 'private') NOT NULL DEFAULT 'public',
+  `status` ENUM('public', 'private', 'favorite', 'watch_later') NOT NULL DEFAULT 'public',
   PRIMARY KEY (`id`),
   INDEX `fk_playlists_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_playlists_users1`

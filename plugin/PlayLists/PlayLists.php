@@ -2,6 +2,7 @@
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'objects/playlist.php';
 class PlayLists extends PluginAbstract {
 
     public function getDescription() {
@@ -92,6 +93,18 @@ class PlayLists extends PluginAbstract {
             return false;
         }
         return true;
+    }
+    
+    static function isVideoOnFavorite($videos_id, $users_id){
+        return PlayList::isVideoOnFavorite($videos_id, $users_id);
+    }
+    static function isVideoOnWatchLater($videos_id, $users_id){
+        return PlayList::isVideoOnWatchLater($videos_id, $users_id);
+    }
+    
+    public function thumbsOverlay($videos_id){
+        global $global;
+        include $global['systemRootPath'] . 'plugin/PlayLists/buttons.php';
     }
   
 }

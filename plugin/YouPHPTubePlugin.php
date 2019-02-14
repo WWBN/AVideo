@@ -778,4 +778,16 @@ class YouPHPTubePlugin {
             }
         }
     }
+    
+    public static function thumbsOverlay($videos_id){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->thumbsOverlay($videos_id);
+            }
+        }
+        return $r;
+    }
 }
