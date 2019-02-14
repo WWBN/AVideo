@@ -57,7 +57,7 @@
                         success: function (response) {
                             $(".playListsIds" + tmpPIdBigVideo).prop("checked", tmpSaveBigVideo);
                             modal.hidePleaseWait();
-                            setTimeout(function(){playListsAdding=false},1000);
+                            setTimeout(function(){playListsAdding=false},500);
                         }
                     });
                     return false;

@@ -146,6 +146,30 @@ class PlayList extends ObjectYPT {
         }
         return $row;
     }
+    
+    static function getFavoriteIdFromUser($users_id){
+        return self::getIdFromUser($users_id, "favorite");
+    }
+    
+    static function getWatchLaterIdFromUser($users_id){
+        return self::getIdFromUser($users_id, "watch_later");
+    }
+    
+    private static function getIdFromUser($users_id, $status){
+        global $global;
+        
+        $sql = "SELECT * FROM  " . static::getTableName() . " pl  WHERE"
+                . " users_id = ? AND pl.status = '{$status}' LIMIT 1 ";
+        $res = sqlDAL::readSql($sql,"i",array($users_id)); 
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data['id'];
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
 
     static function getVideosIdFromPlaylist($playlists_id) {
         $videosId = array();

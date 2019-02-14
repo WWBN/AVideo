@@ -102,6 +102,14 @@ class PlayLists extends PluginAbstract {
         return PlayList::isVideoOnWatchLater($videos_id, $users_id);
     }
     
+    static function getFavoriteIdFromUser($users_id){
+        return PlayList::getFavoriteIdFromUser($users_id);
+    }
+    
+    static function getWatchLaterIdFromUser($users_id){
+        return PlayList::getWatchLaterIdFromUser($users_id);
+    }
+    
     public function thumbsOverlay($videos_id){
         global $global;
         include $global['systemRootPath'] . 'plugin/PlayLists/buttons.php';
