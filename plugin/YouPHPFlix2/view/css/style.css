@@ -186,6 +186,14 @@ iframe{
     border-width: 0;
 }
 
+#divIframeFull iframe {
+    width: 0;
+    height: 0;
+
+    min-width: 100%;
+    min-height: 100%;    
+}
+
 /* carousel height */
 .carousel {
     height: 160px;
