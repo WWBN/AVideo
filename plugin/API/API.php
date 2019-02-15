@@ -282,6 +282,28 @@ class API extends PluginAbstract {
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
+    public function get_api_favorite($parameters) {
+        $plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
+        if (empty($plugin)) {
+            return new ApiObject("Plugin disabled");
+        }
+        if (!empty($parameters['user']) && !empty($parameters['pass'])) {
+            $user = new User(0, $parameters['user'], $parameters['pass']);
+            $user->login(false, !empty($parameters['encodedPass']));
+        }
+        $row = PlayList::getAllFromUser(User::getId(), false);
+        echo json_encode($row);
+        exit;
+    }
+    
+    /**
+     * @param type $parameters
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
     public function set_api_favorite($parameters) {
         $this->favorite($parameters, true);
     }
