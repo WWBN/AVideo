@@ -157,7 +157,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         return User::isAdmin();
     }
 
-    static function getLabels($videos_id) {
+    static function getLabels($videos_id, $showType=true) {
         global $global;
 
         $post = $_POST;
@@ -177,10 +177,14 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                 if ($value['total'] > 1) {
                     $tooltip = "{$value['total']} " . __("Videos");
                 }
-                $strT .= '<a data-toggle="tooltip" title="' . $tooltip . '" href="' . $global['webSiteRootURL'] . 'tag/' . $value['tags_id'] . '/' . urlencode($value['name']) . '" class="label">' . $value['name'] . '</a> ';
+                $strT .= '<a data-toggle="tooltip" title="' . $tooltip . '" href="' . $global['webSiteRootURL'] . 'tag/' . $value['tags_id'] . '/' . urlencode($value['name']) . '" class="label label-primary">' . $value['name'] . '</a> ';
             }
             if (!empty($strT)) {
-                $tagsStrList[] = "<strong class='label'>{$type['name']}: </strong> {$strT}";
+                $label = "";
+                if($showType){
+                    $label = "<strong class='label label-primary'>{$type['name']}: </strong> ";
+                }
+                $tagsStrList[] = "{$strT}";
             }
         }
         return "<div class='text-muted'>".implode("</div><div class='text-muted'>", $tagsStrList)."</div>";
