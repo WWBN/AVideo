@@ -533,6 +533,11 @@ if (!class_exists('Video')) {
                 return false;
             }
 
+            if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
+                    $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
+                }
+            }
             $sql = "SELECT u.*, v.*, "
                     . " nv.title as next_title,"
                     . " nv.clean_title as next_clean_title,"
@@ -565,6 +570,9 @@ if (!class_exists('Video')) {
                 }
             }
 
+            if (!empty($videosArrayId) && is_array($videosArrayId)) {
+                $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
+            }
             if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
             } elseif ($status == "viewableNotUnlisted") {
