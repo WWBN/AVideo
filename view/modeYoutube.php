@@ -307,7 +307,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                     ?>
                                     <?php
                                     if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-                                        echo VideoTags::getLabels($video['id']);
+                                        echo VideoTags::getLabels($video['id'], false);
                                     }
                                     ?>
                                 </div>
