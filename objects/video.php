@@ -586,7 +586,17 @@ if (!class_exists('Video')) {
                 $_POST['searchPhrase'] = $_GET['search'];
             }
 
-            $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
+            if (!empty($_POST['searchPhrase'])) {
+                $sql .= " AND (";
+                if(YouPHPTubePlugin::isEnabledByName("VideoTags")){
+                    $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
+                }
+                $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), "OR");
+                $sql .= ")";
+            }
+            
+            $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
+
             $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
             if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
                 $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
@@ -606,7 +616,7 @@ if (!class_exists('Video')) {
             }
 
             $sql .= " LIMIT 1";
-
+            //echo $sql;exit;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
@@ -761,13 +771,22 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.modified >= '{$_GET['modified']}'";
             }
 
-            $sql .= BootGrid::getSqlFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), empty($_POST['sort']['likes']) ? "v." : "");
+            if (!empty($_POST['searchPhrase'])) {
+                $sql .= " AND (";
+                if(YouPHPTubePlugin::isEnabledByName("VideoTags")){
+                    $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
+                }
+                $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), "OR");
+                $sql .= ")";
+            }
+            
+            $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
 
             if (!empty($_GET['limitOnceToOne'])) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
             }
-            //echo $sql;
+            //echo $sql;exit;
             //error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
