@@ -1446,3 +1446,91 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
 function isMobile() {
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }
+
+
+
+function siteMap() {
+    global $global;
+    $date = date('Y-m-d\TH:i:s') . "+00:00";
+    
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>
+    <urlset
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        <!-- Main Page -->
+        <url>
+            <loc>'.$global['webSiteRootURL'].'</loc>
+            <lastmod>'.$date.'</lastmod>
+            <changefreq>always</changefreq>
+            <priority>1.00</priority>
+        </url>
+
+        <url>
+            <loc>'.$global['webSiteRootURL'].'help</loc>
+            <lastmod>'.$date.'</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.50</priority>
+        </url>
+        <url>
+            <loc>'.$global['webSiteRootURL'].'about</loc>
+            <lastmod>'.$date.'</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.50</priority>
+        </url>
+        <url>
+            <loc>'.$global['webSiteRootURL'].'contact</loc>
+            <lastmod>'.$date.'</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.50</priority>
+        </url>
+
+        <!-- Channels -->
+        <url>
+            <loc>'.$global['webSiteRootURL'].'channels</loc>
+            <lastmod>'.$date.'</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>0.80</priority>
+        </url>
+        ';
+        $users = User::getAllUsers(true);
+        foreach ($users as $value) {
+            $xml .= '        
+            <url>
+                <loc>'.User::getChannelLink($value['id']).'</loc>
+                <lastmod>'.$date.'</lastmod>
+                <changefreq>daily</changefreq>
+                <priority>0.70</priority>
+            </url>
+            ';
+        }
+        $xml .= ' 
+        <!-- Categories -->
+        ';
+        $rows = Category::getAllCategories();
+        foreach ($rows as $value) {
+            $xml .= '  
+            <url>
+                <loc>'.$global['webSiteRootURL'].'cat/'.$value['clean_name'].'</loc>
+                <lastmod>'.$date.'</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.80</priority>
+            </url>
+            ';
+        }
+        $xml .= '<!-- Videos -->';
+        $rows = Video::getAllVideos("viewable");
+        foreach ($rows as $value) {
+            $xml .= '   
+            <url>
+                <loc>'.Video::getLink($value['id'], $value['clean_title']).'</loc>
+                <lastmod>'.$date.'</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>0.80</priority>
+            </url>
+            ';
+        }
+        $xml .= '</urlset> ';
+        return $xml;
+}
