@@ -604,7 +604,7 @@ if (!class_exists('Video')) {
                     $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
                 }
             }
-            
+
             $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
             if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
                 $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
@@ -778,7 +778,7 @@ if (!class_exists('Video')) {
                 $_GET['modified'] = str_replace("'", "", $_GET['modified']);
                 $sql .= " AND v.modified >= '{$_GET['modified']}'";
             }
-            
+
             if (!empty($_POST['searchPhrase'])) {
                 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
@@ -965,6 +965,27 @@ if (!class_exists('Video')) {
             }
 
             return $obj;
+        }
+
+        static function getTotalVideosInfoAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
+            global $global;
+            $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalVideosInfo{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
+
+            if (!file_exists($cacheFileName)) {
+                $total = static::getTotalVideosInfo($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
+                file_put_contents($cacheFileName, json_encode($total));
+                return $total;
+            }
+            $return = json_decode(file_get_contents($cacheFileName));
+            if (time() - filemtime($cacheFileName) > 60) {
+                // file older than 1 min
+                $command = ("php '{$global['systemRootPath']}objects/getTotalVideosInfoAsync.php' "
+                . " '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup', '".  json_encode($videosArrayId)."', "
+                        . " '$getStatistcs', '$cacheFileName'");
+                error_log("getTotalVideosInfoAsync: {$command}");
+                exec($command . " > /dev/null 2>/dev/null &");
+            }
+            return $return;
         }
 
         static function getViewableStatus($showUnlisted = false) {

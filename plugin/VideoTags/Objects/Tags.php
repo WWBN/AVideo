@@ -104,7 +104,7 @@ class Tags extends ObjectYPT {
             }
             $tagsArray[$value->type_name][] = $value->name;
         }
-        return $tagsArray;
+        return empty($tagsArray)?(new stdClass()):$tagsArray;
     }
     
     static function getAllTagsList($tags_types_id) {
