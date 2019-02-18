@@ -135,7 +135,7 @@ foreach ($videos as $value) {
 $times[__LINE__] = microtime(true) - $start;
 $start = microtime(true);
 
-rsort($times);
+arsort($times);
 ?>
 <!--
 <?php
