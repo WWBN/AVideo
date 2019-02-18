@@ -12,5 +12,5 @@ if(file_exists($lockFile)){
 }
 file_put_contents($lockFile, 1);
 $total = VideoStatistic::getTotalLastDays($video_id, $numberOfDays);
-file_put_contents($cacheFileName, $total);
+file_put_contents($cacheFileName, json_encode($total));
 unlink($lockFile);
