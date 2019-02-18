@@ -141,7 +141,8 @@ class VideoStatistic extends ObjectYPT {
     static function getTotalLastDaysAsync($video_id, $numberOfDays) {
         $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalLastDaysAsync_{$video_id}_{$numberOfDays}";
         if (!file_exists($cacheFileName)) {
-            return static::getTotalLastDays($video_id, $numberOfDays);
+            $total = static::getTotalLastDays($video_id, $numberOfDays);
+            file_put_contents($cacheFileName, $total);
         }
         $return = file_get_contents($cacheFileName);
         if (time() - filemtime($cacheFileName) > 600) {
