@@ -107,13 +107,13 @@ for ($i = 90; $i >= 0; $i--) {
 $statistc_lastToday = VideoStatistic::getTotalToday("");
 $times[__LINE__] = microtime(true) - $start;
 $start = microtime(true);
-$statistc_last7Days = VideoStatistic::getTotalLastDays("", 7);
+$statistc_last7Days = VideoStatistic::getTotalLastDaysAsync("", 7);
 $times[__LINE__] = microtime(true) - $start;
 $start = microtime(true);
-$statistc_last30Days = VideoStatistic::getTotalLastDays("", 30);
+$statistc_last30Days = VideoStatistic::getTotalLastDaysAsync("", 30);
 $times[__LINE__] = microtime(true) - $start;
 $start = microtime(true);
-$statistc_last90Days = VideoStatistic::getTotalLastDays("", 90);
+$statistc_last90Days = VideoStatistic::getTotalLastDaysAsync("", 90);
 $times[__LINE__] = microtime(true) - $start;
 $start = microtime(true);
 
