@@ -18,34 +18,72 @@ if (!User::isLogged()) {
 if (empty($_POST['rowCount'])) {
     $_POST['rowCount'] = $limitVideos;
 }
+$times = array();
+$start = microtime(true);
 if ($config->getAuthCanViewChart() == 0) {
     if (User::isAdmin()) {
         $videos = Video::getAllVideos("viewable", true, true, array(), true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalVideos = Video::getTotalVideos("viewable");
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalUsers = User::getTotalUsers();
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalSubscriptions = Subscribe::getTotalSubscribes();
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalComents = Comment::getTotalComments();
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         unset($_POST['rowCount']);
         $totalInfos = Video::getTotalVideosInfo("viewable", false, false, array(), true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
     } else {
         $videos = Video::getAllVideos("viewable", true, true, array(), true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalVideos = Video::getTotalVideos("", true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalUsers = User::getTotalUsers();
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalSubscriptions = Subscribe::getTotalSubscribes(User::getId());
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalComents = Comment::getTotalComments(0, 'NULL', User::getId());
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         unset($_POST['rowCount']);
         $totalInfos = Video::getTotalVideosInfo("", true, false, array(), true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
     }
 } else if ($config->getAuthCanViewChart() == 1) {
     // mode 1 means selected users see admin-charts.
     if ((!empty($_SESSION['user']['canViewChart'])) || (User::isAdmin())) {
         $videos = Video::getAllVideos("viewable", true, true, array(), true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalVideos = Video::getTotalVideos("viewable");
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalUsers = User::getTotalUsers(true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalSubscriptions = Subscribe::getTotalSubscribes(true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         $totalComents = Comment::getTotalComments(true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
         unset($_POST['rowCount']);
         $totalInfos = Video::getTotalVideosInfo("viewable", false, false, array(), true);
+        $times[__LINE__] = microtime(true) - $start;
+        $start = microtime(true);
     } else {
         die("403 - You have no access here!");
     }
@@ -67,9 +105,17 @@ for ($i = 90; $i >= 0; $i--) {
     $label90Days[] = date("Y-m-d", strtotime("-{$i} days"));
 }
 $statistc_lastToday = VideoStatistic::getTotalToday("");
+$times[__LINE__] = microtime(true) - $start;
+$start = microtime(true);
 $statistc_last7Days = VideoStatistic::getTotalLastDays("", 7);
+$times[__LINE__] = microtime(true) - $start;
+$start = microtime(true);
 $statistc_last30Days = VideoStatistic::getTotalLastDays("", 30);
+$times[__LINE__] = microtime(true) - $start;
+$start = microtime(true);
 $statistc_last90Days = VideoStatistic::getTotalLastDays("", 90);
+$times[__LINE__] = microtime(true) - $start;
+$start = microtime(true);
 
 $bg = $bc = $labels = $labelsFull = $datas = $datas7 = $datas30 = $datasToday = $datasUnique = array();
 foreach ($videos as $value) {
@@ -86,7 +132,18 @@ foreach ($videos as $value) {
     $bg[] = "rgba({$r}, {$g}, {$b}, 0.5)";
     $bc[] = "rgba({$r}, {$g}, {$b}, 1)";
 }
+$times[__LINE__] = microtime(true) - $start;
+$start = microtime(true);
+
+rsort($times);
 ?>
+<!--
+<?php
+foreach ($times as $key => $value) {
+    echo "Line: {$key} -> {$value}\n";
+}
+?>
+-->
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Chart.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
