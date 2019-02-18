@@ -138,6 +138,12 @@ class Category {
             $this->users_id = User::getId();
         }
         
+        // check if clean name exists
+        $exists = $this->getCategoryByName(xss_esc($this->clean_name));
+        if(!empty($exists)){
+            $this->clean_name .= uniqid();
+        }
+        
         $this->nextVideoOrder = intval($this->nextVideoOrder);
         $this->parentId = intval($this->parentId);
         if (!empty($this->id)) {
