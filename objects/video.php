@@ -835,6 +835,26 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
+        static function getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
+            global $global;
+            $numargs = func_num_args();
+            $str = implode("_",$numargs);
+            $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$str}";
+            if (!file_exists($cacheFileName)) {
+                $total = static::getTotalToday($video_id);
+                file_put_contents($cacheFileName, json_encode($total));
+                return $total;
+            }
+            $return = json_decode(file_get_contents($cacheFileName));
+            if (time() - filemtime($cacheFileName) > 60) {
+                // file older than 1 min
+                $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '".  json_encode($numargs)."'");
+                error_log("getAllVideosAsync: {$command}");
+                exec($command . " > /dev/null 2>/dev/null &");
+            }
+            return $return;
+        }
+
         /**
          * Same as getAllVideos() method but a lighter query
          * @global type $global
@@ -980,7 +1000,7 @@ if (!class_exists('Video')) {
             if (time() - filemtime($cacheFileName) > 60) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getTotalVideosInfoAsync.php' "
-                . " '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup', '".  json_encode($videosArrayId)."', "
+                        . " '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup', '" . json_encode($videosArrayId) . "', "
                         . " '$getStatistcs', '$cacheFileName'");
                 error_log("getTotalVideosInfoAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
