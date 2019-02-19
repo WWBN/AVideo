@@ -260,10 +260,11 @@ class API extends PluginAbstract {
      * If you do not pass the user and password, it will always show ads, if you pass it the script will check if will display ads or not
      * @param type $parameters
      * 'videos_id' the video id to calculate the ads length
+     * ['optionalAdTagUrl' a tag number 1 or 2 or 3 or 4 to use another tag, if do not pass it will use the default tag]
      * ['user' usename of the user]
      * ['pass' password  of the user]
      * ['encodedPass' tell the script id the password submited is raw or encrypted]
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2
      * @return type
      */
     public function get_api_vmap($parameters) {
