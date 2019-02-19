@@ -38,7 +38,7 @@ if ($config->getAuthCanViewChart() == 0) {
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
         unset($_POST['rowCount']);
-        $totalInfos = Video::getTotalVideosInfo("viewable", false, false, array(), true);
+        $totalInfos = Video::getTotalVideosInfoAsync("viewable", false, false, array(), true);
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
     } else {
@@ -58,7 +58,7 @@ if ($config->getAuthCanViewChart() == 0) {
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
         unset($_POST['rowCount']);
-        $totalInfos = Video::getTotalVideosInfo("", true, false, array(), true);
+        $totalInfos = Video::getTotalVideosInfoAsync("", true, false, array(), true);
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
     }
@@ -81,7 +81,7 @@ if ($config->getAuthCanViewChart() == 0) {
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
         unset($_POST['rowCount']);
-        $totalInfos = Video::getTotalVideosInfo("viewable", false, false, array(), true);
+        $totalInfos = Video::getTotalVideosInfoAsync("viewable", false, false, array(), true);
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
     } else {
@@ -104,7 +104,7 @@ $label90Days = array();
 for ($i = 90; $i >= 0; $i--) {
     $label90Days[] = date("Y-m-d", strtotime("-{$i} days"));
 }
-$statistc_lastToday = VideoStatistic::getTotalToday("");
+$statistc_lastToday = VideoStatistic::getTotalTodayAsync("");
 $times[__LINE__] = microtime(true) - $start;
 $start = microtime(true);
 $statistc_last7Days = VideoStatistic::getTotalLastDaysAsync("", 7);
