@@ -839,7 +839,7 @@ if (!class_exists('Video')) {
             global $global;
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_".implode("_",$videosArrayId)."_{$getStatistcs}_{$showUnlisted}_{$activeUsersOnly}";
             if (!file_exists($cacheFileName)) {
-                $total = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnlye);
+                $total = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly);
                 file_put_contents($cacheFileName, json_encode($total));
                 return $total;
             }
