@@ -837,7 +837,7 @@ if (!class_exists('Video')) {
 
         static function getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
             global $global;
-            $numargs = func_num_args();
+            $numargs = func_get_args();
             $str = implode("_",$numargs);
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$str}";
             if (!file_exists($cacheFileName)) {
