@@ -177,6 +177,24 @@ class VideoStatistic extends ObjectYPT {
         return static::getTotalToday($video_id, $hour, $returnArray);
     }
 
+    static function getTotalTodayAsync($video_id) {
+        global $global;
+        $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalTodayAsync_{$video_id}";
+        if (!file_exists($cacheFileName)) {
+            $total = static::getTotalToday($video_id);
+            file_put_contents($cacheFileName, json_encode($total));
+            return $total;
+        }
+        $return = json_decode(file_get_contents($cacheFileName));
+        if (time() - filemtime($cacheFileName) > 60) {
+            // file older than 1 min
+            $command = ("php '{$global['systemRootPath']}objects/getTotalTodayAsync.php' '$video_id'");
+            error_log("getTotalTodayAsync: {$command}");
+            exec($command . " > /dev/null 2>/dev/null &");
+        }
+        return $return;
+    }
+
     function getWhen() {
         return $this->when;
     }
