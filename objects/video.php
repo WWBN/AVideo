@@ -841,7 +841,7 @@ if (!class_exists('Video')) {
             $str = implode("_",$numargs);
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$str}";
             if (!file_exists($cacheFileName)) {
-                $total = static::getTotalToday($video_id);
+                $total = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnlye);
                 file_put_contents($cacheFileName, json_encode($total));
                 return $total;
             }
