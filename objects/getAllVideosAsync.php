@@ -3,14 +3,14 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 //getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
-$status = $argv[0];
-$showOnlyLoggedUserVideos = $argv[1];
-$ignoreGroup = $argv[2];
-$videosArrayId = $argv[3];
-$getStatistcs = $argv[4];
-$showUnlisted = $argv[5];
-$activeUsersOnly = $argv[6];
-$cacheFileName = $argv[7];
+$status = $argv[1];
+$showOnlyLoggedUserVideos = $argv[2];
+$ignoreGroup = $argv[3];
+$videosArrayId = $argv[4];
+$getStatistcs = $argv[5];
+$showUnlisted = $argv[6];
+$activeUsersOnly = $argv[7];
+$cacheFileName = $argv[8];
 $lockFile = $cacheFileName.".lock";
 if(file_exists($lockFile)){
     return false;
