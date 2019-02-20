@@ -47,6 +47,9 @@ abstract class ObjectYPT implements ObjectInterface {
 
     static function getAll() {
         global $global;
+        if(!static::isTableInstalled()){
+            return false;
+        }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 
         $sql .= self::getSqlFromPost();
