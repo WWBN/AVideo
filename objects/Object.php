@@ -68,6 +68,9 @@ abstract class ObjectYPT implements ObjectInterface {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
+        if(!static::isTableInstalled()){
+            return false;
+        }
         $sql = "SELECT id FROM  " . static::getTableName() . " WHERE 1=1  ";
         $sql .= self::getSqlSearchFromPost();
         $res = sqlDAL::readSql($sql); 
@@ -271,6 +274,14 @@ abstract class ObjectYPT implements ObjectInterface {
         $countRow = sqlDAL::num_rows($res);
         sqlDAL::close($res);
         return !empty($countRow);
+    }    
+    
+    static function isTableInstalled(){
+        $id = intval($id);
+        $res = sqlDAL::readSql("SHOW TABLES LIKE '" . static::getTableName() . "'");
+        $result = sqlDal::num_rows($res);
+        sqlDAL::close($res);
+        return !empty($result);
     }
 
 }
