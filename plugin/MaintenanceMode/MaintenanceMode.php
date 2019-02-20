@@ -43,9 +43,8 @@ class MaintenanceMode extends PluginAbstract {
     }
 
     public function getFooterCode() {
+        global $global, $config;
         $obj = $this->getDataObject();
-        global $global;
-
         include $global['systemRootPath'] . 'plugin/MaintenanceMode/footer.php';
     }
 

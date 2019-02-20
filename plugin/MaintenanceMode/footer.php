@@ -1,11 +1,6 @@
-<!-- COOKIES -->
-<div class="alert alert-dismissible text-center cookiealert" role="alert">
-    <div class="cookiealert-container">
-        <?php echo $obj->text; ?>
-        <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
-            <?php echo $obj->btnText; ?>
-        </button>
-    </div>
+<div class="alert alert-warning text-center" style="position: fixed; bottom: 0; left: 0; z-index: 9999; width: 100%; margin: 0; padding: 2px;" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> 
+    <?php
+    echo str_replace("{email}", $config->getContactEmail(), $obj->text);
+    ?>
 </div>
-<!-- /COOKIES -->
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/CookieAlert/cookiealert-standalone.js"></script>
