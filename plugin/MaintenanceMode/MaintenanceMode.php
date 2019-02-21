@@ -5,7 +5,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class MaintenanceMode extends PluginAbstract {
 
     public function getDescription() {
-        return "Put your site in Maintenance Mode";
+        $desc = "Put your site in Maintenance Mode";
+        if (!empty($global['disableAdvancedConfigurations'])) {
+            $desc .= "Maintenance Mode is disabled on this site";
+        }
+        return $desc;
     }
 
     public function getName() {
@@ -22,7 +26,7 @@ class MaintenanceMode extends PluginAbstract {
 
     public function getStart() {
         global $global, $config;
-        if(!User::isAdmin() && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'view/user.php'){
+        if(empty($global['disableAdvancedConfigurations']) && !User::isAdmin() && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'view/user.php'){
             $obj = $this->getDataObject();
             include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
             exit;
