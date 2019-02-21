@@ -88,8 +88,12 @@ class PlayList extends ObjectYPT {
                     $watch_later = $row;
                 }
             }
-            array_unshift($rows, $favorite);
-            array_unshift($rows, $watch_later);
+            if(!empty($favorite)){
+                array_unshift($rows, $favorite);
+            }
+            if(!empty($watch_later)){
+                array_unshift($rows, $watch_later);
+            }
         } else {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
