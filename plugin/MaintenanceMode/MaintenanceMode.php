@@ -5,6 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class MaintenanceMode extends PluginAbstract {
 
     public function getDescription() {
+        global $global;
         $desc = "Put your site in Maintenance Mode";
         if (!empty($global['disableAdvancedConfigurations'])) {
             $desc .= "Maintenance Mode is disabled on this site";
