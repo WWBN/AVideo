@@ -280,7 +280,7 @@ class API extends PluginAbstract {
      * 'user' usename of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submited is raw or encrypted
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
     public function get_api_favorite($parameters) {
@@ -304,7 +304,7 @@ class API extends PluginAbstract {
      * 'user' usename of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submited is raw or encrypted
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
     public function set_api_favorite($parameters) {
