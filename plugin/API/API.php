@@ -275,8 +275,8 @@ class API extends PluginAbstract {
     }
 
     /**
+     * Return all favorites from a user
      * @param type $parameters
-     * 'videos_id' the video id to calculate the ads length
      * 'user' usename of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submited is raw or encrypted
@@ -292,13 +292,15 @@ class API extends PluginAbstract {
             $user = new User(0, $parameters['user'], $parameters['pass']);
             $user->login(false, !empty($parameters['encodedPass']));
         }
-        $row = PlayList::getAllFromUser(User::getId(), false);
+        $row = PlayList::getAllFromUser(User::getId(), false, 'favorite');
         echo json_encode($row);
         exit;
     }
     
     /**
+     * add a video into a user favorite play list
      * @param type $parameters
+     * 'videos_id' the video id that you want to add
      * 'user' usename of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submited is raw or encrypted
@@ -311,7 +313,7 @@ class API extends PluginAbstract {
     
     /**
      * @param type $parameters
-     * 'videos_id' the video id to calculate the ads length
+     * 'videos_id' the video id that you want to remove
      * 'user' usename of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submited is raw or encrypted
