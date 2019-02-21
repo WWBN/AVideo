@@ -26,12 +26,15 @@ class PlayList extends ObjectYPT {
      * @param type $isVideoIdPresent pass the ID of the video checking
      * @return boolean
      */
-    static function getAllFromUser($userId, $publicOnly = true) {
+    static function getAllFromUser($userId, $publicOnly = true, $status=false) {
         global $global, $config;
         $formats = "";
         $values = array();
         $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
                 . " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
+        if(!empty($status)){
+            $sql .= " AND pl.status = '{$status}' ";
+        }else
         if ($publicOnly) {
             $sql .= " AND pl.status = 'public' ";
         }
@@ -46,8 +49,8 @@ class PlayList extends ObjectYPT {
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
-        $favorite = false;
-        $watch_later = false;
+        $favorite = array();
+        $watch_later = array();
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
@@ -59,7 +62,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
-            if($config->currentVersionGreaterThen("6.4")){
+            if(empty($status) && $config->currentVersionGreaterThen("6.4")){
                 if (empty($favorite)) {
                     $pl = new PlayList(0);
                     $pl->setName("Favorite");
