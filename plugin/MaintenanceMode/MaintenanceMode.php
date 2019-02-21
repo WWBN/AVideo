@@ -8,7 +8,7 @@ class MaintenanceMode extends PluginAbstract {
         global $global;
         $desc = "Put your site in Maintenance Mode";
         if (!empty($global['disableAdvancedConfigurations'])) {
-            $desc .= "Maintenance Mode is disabled on this site";
+            $desc .= "<div class='alert alert-warning'>Maintenance Mode is disabled on this site</div>";
         }
         return $desc;
     }
