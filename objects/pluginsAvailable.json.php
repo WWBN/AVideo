@@ -19,7 +19,7 @@ if(!User::isAdmin()){
 $json = json_encode($row);
 
 if(empty($json)){
-    error_log(print_r($row, $return));
+    error_log(print_r($row, true));
     $json = "[]";
 }
 
