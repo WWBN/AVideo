@@ -18,7 +18,11 @@ $total = User::getTotalUsers();
 $json = json_encode($users);
 
 if(empty($json)){
-    error_log("users.json error: ".print_r($users, false));
+    error_log("users.json error: ".print_r($users, true));
+    foreach ($users as $key => $value) {
+        $users[$key]['about'] = "";
+    }
+    $json = json_encode($users);
 }
 
 echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. $json .'}';
