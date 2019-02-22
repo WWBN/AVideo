@@ -146,6 +146,13 @@ abstract class PluginAbstract {
         //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         return (object) $wholeObjects;
     }
+    
+    public function setDataObject($object) {
+        $pluginRow = Plugin::getPluginByUUID($this->getUUID());
+        $obj = new Plugin($pluginRow['id']);
+        $obj->setObject_data(addcslashes(json_encode($object),'\\'));
+        return $obj->save();
+    }
 
     public function getEmptyDataObject() {
         $obj = new stdClass();
