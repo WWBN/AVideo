@@ -1,10 +1,10 @@
 <?php
 
 require_once '../videos/configuration.php';
-session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 //getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, 
-//$ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) 
+//$ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false)
+session_write_close();
 $status = $argv[1];
 $showOnlyLoggedUserVideos = boolval($argv[2]);
 $ignoreGroup = boolval($argv[3]);
