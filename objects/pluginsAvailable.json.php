@@ -20,6 +20,7 @@ $json = json_encode($row);
 
 if(empty($json)){
     error_log(print_r($row, $return));
+    $json = "[]";
 }
 
 echo '{  "current": 1,"rowCount": '.$total.', "total": '.$total.', "rows":'. $json.'}';
