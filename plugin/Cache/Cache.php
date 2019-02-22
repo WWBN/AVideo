@@ -78,11 +78,18 @@ class Cache extends PluginAbstract {
     }
 
     public function getEnd() {
+        global $global;
         $obj = $this->getDataObject();
         $cachefile = $obj->cacheDir . $this->getFileName();
         $c = ob_get_contents();
         if (!file_exists($obj->cacheDir)) {
             mkdir($obj->cacheDir, 0777, true);
+        }
+        if (!file_exists($obj->cacheDir)) {
+            $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
+            if (!file_exists($obj->cacheDir)) {
+                mkdir($obj->cacheDir, 0777, true);
+            }
         }
         if(!class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){
             file_put_contents($cachefile, $c);
