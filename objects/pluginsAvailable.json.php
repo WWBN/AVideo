@@ -16,5 +16,10 @@ if(!User::isAdmin()){
         }
     }
 }
+$json = json_encode($row);
 
-echo '{  "current": 1,"rowCount": '.$total.', "total": '.$total.', "rows":'. json_encode($row).'}';
+if(empty($json)){
+    error_log(print_r($row, $return));
+}
+
+echo '{  "current": 1,"rowCount": '.$total.', "total": '.$total.', "rows":'. $json.'}';
