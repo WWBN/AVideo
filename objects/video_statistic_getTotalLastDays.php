@@ -1,8 +1,8 @@
 <?php
 
 require_once '../videos/configuration.php';
-session_write_close();
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
+session_write_close();
 //getTotalLastDays($video_id, $numberOfDays)
 $videos_id = $argv[1];
 $numberOfDays = boolval($argv[2]);
