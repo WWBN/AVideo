@@ -183,7 +183,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                 $label = "";
                 if($showType){
                     $name = str_replace("_", " ", $type['name']);
-                    $label = "<strong class='label'>{$name}: </strong> ";
+                    $label = "<strong class='label text-muted'>{$name}: </strong> ";
                 }
                 $tagsStrList[] = "{$label}{$strT}";
             }
