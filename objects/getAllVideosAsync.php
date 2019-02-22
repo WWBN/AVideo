@@ -1,6 +1,7 @@
 <?php
 
 require_once '../videos/configuration.php';
+session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 //getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
 $status = $argv[1];

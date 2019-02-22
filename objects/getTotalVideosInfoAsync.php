@@ -1,6 +1,7 @@
 <?php
 
 require_once '../videos/configuration.php';
+session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 //getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, 
 //$ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) 
