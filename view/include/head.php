@@ -2,8 +2,9 @@
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 $head = YouPHPTubePlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - YouPHPTube";
-if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
-    require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+$extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+if (file_exists($extraPluginFile) && YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+    require_once $extraPluginFile;
     $ec = new ExtraConfig();
     $custom = $ec->getDescription();
 }
