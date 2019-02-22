@@ -182,9 +182,10 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
             if (!empty($strT)) {
                 $label = "";
                 if($showType){
-                    $label = "<strong class='label label-primary'>{$type['name']}: </strong> ";
+                    $name = str_replace("_", " ", $type['name']);
+                    $label = "<strong class='label label-primary'>{$name}: </strong> ";
                 }
-                $tagsStrList[] = "{$strT}";
+                $tagsStrList[] = "{$label}{$strT}";
             }
         }
         return "<div class='text-muted'>".implode("</div><div class='text-muted'>", $tagsStrList)."</div>";
