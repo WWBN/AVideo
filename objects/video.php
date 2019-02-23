@@ -94,7 +94,7 @@ if (!class_exists('Video')) {
         }
 
         function load($id) {
-            $video = self::getVideo($id, "", true);
+            $video = self::getVideoLight($id);
             if (empty($video))
                 return false;
             foreach ($video as $key => $value) {
@@ -647,6 +647,18 @@ if (!class_exists('Video')) {
             return $video;
         }
 
+        
+        static function getVideoLight($id) {
+            global $global, $config;
+            $id= intval($id);
+            $sql = "SELECT * FROM videos WHERE v.id = '$id' LIMIT 1";
+            $res = sqlDAL::readSql($sql);
+            $video = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            return $video;
+        }
+
+        
         static function getVideoFromFileName($fileName, $ignoreGroup = false) {
 //error_log('Enter getVideoFromFileName ('.$fileName.')');
             global $global;
