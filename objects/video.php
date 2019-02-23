@@ -1614,7 +1614,7 @@ if (!class_exists('Video')) {
                 error_log("getTags: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
-            return $return;
+            return (array) $return;
         }
 
         function getCategories_id() {
