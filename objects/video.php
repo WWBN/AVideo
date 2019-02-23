@@ -717,6 +717,15 @@ if (!class_exists('Video')) {
                     . " LEFT JOIN users u ON v.users_id = u.id "
                     . " WHERE 1=1 ";
 
+            if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
+                $sql .= " AND v.users_id = '" . User::getId() . "'";
+            } elseif (!empty($showOnlyLoggedUserVideos)) {
+                $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
+            }else if (!empty($_GET['channelName'])) {
+                $user = User::getChannelOwner($_GET['channelName']);
+                $sql .= " AND v.users_id = {$user['id']} ";
+            }
+            
             if ($activeUsersOnly) {
                 $sql .= " AND u.status = 'a' ";
             }
@@ -755,19 +764,9 @@ if (!class_exists('Video')) {
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
-            if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
-                $sql .= " AND v.users_id = '" . User::getId() . "'";
-            } elseif (!empty($showOnlyLoggedUserVideos)) {
-                $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
-            }
 
             if (!empty($_GET['catName'])) {
                 $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
-            }
-
-            if (!empty($_GET['channelName'])) {
-                $user = User::getChannelOwner($_GET['channelName']);
-                $sql .= " AND v.users_id = {$user['id']} ";
             }
 
             if (!empty($_GET['search'])) {
