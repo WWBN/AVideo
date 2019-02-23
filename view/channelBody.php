@@ -107,7 +107,11 @@ $get = array('channelName' => $_GET['channelName']);
         </div>
     </div>
     <?php
+    $times[__LINE__] = microtime(true) - $start;
+    $start = microtime(true);
     include $global['systemRootPath'] . 'view/channelPlaylist.php';
+    $times[__LINE__] = microtime(true) - $start;
+    $start = microtime(true);
     ?>
 </div>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
