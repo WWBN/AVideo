@@ -72,7 +72,7 @@ $get = array('channelName' => $_GET['channelName']);
         <div class="panel-body">
             <?php
             if (!empty($uploadedVideos[0])) {
-                $video = (array) $uploadedVideos[0];
+                $video = object_to_array($uploadedVideos[0]);
                 $obj = new stdClass();
                 $obj->BigVideo = true;
                 $obj->Description = false;
