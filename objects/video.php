@@ -1006,8 +1006,8 @@ if (!class_exists('Video')) {
         static function getTotalVideosInfoAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
             global $global;
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalVideosInfo{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
-
-            if (!file_exists($cacheFileName)) {
+            $return = array();
+            if (!file_exists($cacheFileName) && !file_exists($cacheFileName.".lock")) {
                 $total = static::getTotalVideosInfo($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
                 file_put_contents($cacheFileName, json_encode($total));
                 return $total;
@@ -1602,7 +1602,8 @@ if (!class_exists('Video')) {
         static function getTagsAsync($video_id, $type = "video") {
             global $global;
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getTags_{$video_id}_{$type}";
-            if (!file_exists($cacheFileName)) {
+            $return = array();
+            if (!file_exists($cacheFileName) && !file_exists($cacheFileName.".lock")) {
                 $total = static::getTags_($filename, $type = "video");
                 file_put_contents($cacheFileName, json_encode($total));
                 return $total;
@@ -2121,8 +2122,9 @@ if (!class_exists('Video')) {
 
         static function getImageFromFilenameAsync($filename, $type = "video") {
             global $global;
+            $return = array();
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getImageFromFilenameAsync_{$filename}_{$type}";
-            if (!file_exists($cacheFileName)) {
+            if (!file_exists($cacheFileName) && !file_exists($cacheFileName.".lock")) {
                 $total = static::getImageFromFilename_($filename, $type = "video");
                 file_put_contents($cacheFileName, json_encode($total));
                 return $total;
