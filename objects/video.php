@@ -721,14 +721,14 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
                 $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
-            } else if (!empty($_GET['channelName'])) {
+            }else if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
             }
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
-
+            
             if ($activeUsersOnly) {
                 $sql .= " AND u.status = 'a' ";
             }
@@ -836,7 +836,7 @@ if (!class_exists('Video')) {
 
         static function getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
             global $global;
-            $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode("_", $videosArrayId) . "_{$getStatistcs}_{$showUnlisted}_{$activeUsersOnly}";
+            $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_".implode("_",$videosArrayId)."_{$getStatistcs}_{$showUnlisted}_{$activeUsersOnly}";
             if (!file_exists($cacheFileName)) {
                 $total = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly);
                 file_put_contents($cacheFileName, json_encode($total));
@@ -845,7 +845,7 @@ if (!class_exists('Video')) {
             $return = json_decode(file_get_contents($cacheFileName));
             if (time() - filemtime($cacheFileName) > 300) {
                 // file older than 1 min
-                $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '" . json_encode($videosArrayId) . "' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$cacheFileName}'");
+                $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '".json_encode($videosArrayId)."' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$cacheFileName}'");
                 error_log("getAllVideosAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
@@ -1444,7 +1444,7 @@ if (!class_exists('Video')) {
         static function getTags($video_id, $type = "") {
             $video = new Video("", "", $video_id);
             $tags = array();
-            $startT = microtime(true);
+
             /**
               a = active
               i = inactive
@@ -1512,9 +1512,7 @@ if (!class_exists('Video')) {
                 $tags[] = $obj;
                 $obj = new stdClass();
             }
-            @$timesT[__LINE__] += microtime(true) - $startT;
-            $startT = microtime(true);
-
+            
             if (empty($type) || $type === "userGroups") {
                 $groups = UserGroups::getVideoGroups($video_id);
                 $obj = new stdClass();
@@ -1541,9 +1539,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            @$timesT[__LINE__] += microtime(true) - $startT;
-            $startT = microtime(true);
-
+            
             if (empty($type) || $type === "category") {
                 require_once 'category.php';
                 if (!empty($_POST['sort']['title'])) {
@@ -1559,9 +1555,7 @@ if (!class_exists('Video')) {
                     $obj = new stdClass();
                 }
             }
-            @$timesT[__LINE__] += microtime(true) - $startT;
-            $startT = microtime(true);
-
+            
             if (empty($type) || $type === "source") {
                 $url = $video->getVideoDownloadedLink();
                 $parse = parse_url($url);
@@ -1579,20 +1573,6 @@ if (!class_exists('Video')) {
                     $obj = new stdClass();
                 }
             }
-            @$timesT[__LINE__] += microtime(true) - $startT;
-            $startT = microtime(true);
-            ?>
-                <!--
-    getTags
-    <?php
-    $timesT[__LINE__] = microtime(true) - $startT;
-    $startT = microtime(true);
-    foreach ($timesT as $key => $value) {
-        echo "Line: {$key} -> {$value}\n";
-    }
-    ?>
-    -->
-            <?php
             return $tags;
         }
 
@@ -2116,6 +2096,7 @@ if (!class_exists('Video')) {
             return $return;
         }
 
+        
         static function getImageFromID($videos_id, $type = "video") {
             $video = new Video("", "", $videos_id);
             return self::getImageFromFilename($video->getFilename());
