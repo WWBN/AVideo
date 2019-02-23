@@ -654,7 +654,7 @@ if (!class_exists('Video')) {
         static function getVideoLight($id) {
             global $global, $config;
             $id = intval($id);
-            $sql = "SELECT * FROM videos WHERE v.id = '$id' LIMIT 1";
+            $sql = "SELECT * FROM videos WHERE id = '$id' LIMIT 1";
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
