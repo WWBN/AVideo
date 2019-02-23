@@ -82,7 +82,11 @@ $get = array('channelName' => $_GET['channelName']);
             ?>
             <div class="row mainArea">
                 <?php
+                $times[__LINE__] = microtime(true) - $start;
+                $start = microtime(true);
                 createGallerySection($uploadedVideos, "", $get);
+                $times[__LINE__] = microtime(true) - $start;
+                $start = microtime(true);
                 ?>
             </div>
         </div>
