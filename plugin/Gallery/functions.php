@@ -242,7 +242,11 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left" role="menu">
                         <?php
+                        @$timesG[__LINE__] += microtime(true) - $startG;
+                        $startG = microtime(true);
                         $files = getVideosURL($value['filename']);
+                        @$timesG[__LINE__] += microtime(true) - $startG;
+                        $startG = microtime(true);
                         //var_dump($files);exit;
                         foreach ($files as $key => $theLink) {
                             if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') {
