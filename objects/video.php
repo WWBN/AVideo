@@ -725,15 +725,15 @@ if (!class_exists('Video')) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
             }
+            if (!empty($videosArrayId) && is_array($videosArrayId)) {
+                $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
+            }
             
             if ($activeUsersOnly) {
                 $sql .= " AND u.status = 'a' ";
             }
 
             $sql .= static::getVideoQueryFileter();
-            if (!empty($videosArrayId) && is_array($videosArrayId)) {
-                $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
-            }
 
             $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
             if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
