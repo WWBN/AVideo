@@ -556,6 +556,11 @@ if (!class_exists('Video')) {
                     . "LEFT JOIN users u ON v.users_id = u.id "
                     . "LEFT JOIN videos nv ON v.next_videos_id = nv.id "
                     . " WHERE 1=1 ";
+            
+            if (!empty($id)) {
+                $sql .= " AND v.id = '$id' ";
+            }
+            
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
@@ -609,20 +614,19 @@ if (!class_exists('Video')) {
             if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
                 $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
             }
-            if (!empty($id)) {
-                $sql .= " AND v.id = '$id' ";
-            } elseif (empty($random) && !empty($_GET['videoName'])) {
-                $sql .= " AND v.clean_title = '{$_GET['videoName']}' ";
-            } elseif (!empty($random)) {
-                $sql .= " AND v.id != {$random} ";
-                $sql .= " ORDER BY RAND() ";
-            } else if ($suggetedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
-                $sql .= " AND v.isSuggested = 1 ";
-                $sql .= " ORDER BY RAND() ";
-            } else {
-                $sql .= " ORDER BY v.Created DESC ";
+            if (empty($id)) {
+                if (empty($random) && !empty($_GET['videoName'])) {
+                    $sql .= " AND v.clean_title = '{$_GET['videoName']}' ";
+                } elseif (!empty($random)) {
+                    $sql .= " AND v.id != {$random} ";
+                    $sql .= " ORDER BY RAND() ";
+                } else if ($suggetedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
+                    $sql .= " AND v.isSuggested = 1 ";
+                    $sql .= " ORDER BY RAND() ";
+                } else {
+                    $sql .= " ORDER BY v.Created DESC ";
+                }
             }
-
             $sql .= " LIMIT 1";
 //echo $sql;exit;
             $res = sqlDAL::readSql($sql);
@@ -647,10 +651,9 @@ if (!class_exists('Video')) {
             return $video;
         }
 
-        
         static function getVideoLight($id) {
             global $global, $config;
-            $id= intval($id);
+            $id = intval($id);
             $sql = "SELECT * FROM videos WHERE v.id = '$id' LIMIT 1";
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
@@ -658,7 +661,6 @@ if (!class_exists('Video')) {
             return $video;
         }
 
-        
         static function getVideoFromFileName($fileName, $ignoreGroup = false) {
 //error_log('Enter getVideoFromFileName ('.$fileName.')');
             global $global;
@@ -733,14 +735,14 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
                 $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
-            }else if (!empty($_GET['channelName'])) {
+            } else if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
             }
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
-            
+
             if ($activeUsersOnly) {
                 $sql .= " AND u.status = 'a' ";
             }
@@ -848,7 +850,11 @@ if (!class_exists('Video')) {
 
         static function getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
             global $global;
-            $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_".implode("_",$videosArrayId)."_{$getStatistcs}_{$showUnlisted}_{$activeUsersOnly}";
+            $users_id = User::getId();
+            $get = json_encode($get);
+            $post = json_encode($post);
+            $md5 = md5("{$users_id}{$get}{$post}{$status}{$showOnlyLoggedUserVideos}{$ignoreGroup}" . implode("_", $videosArrayId) . "{$getStatistcs}{$showUnlisted}{$activeUsersOnly}");
+            $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$md5}";
             if (!file_exists($cacheFileName)) {
                 $total = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly);
                 file_put_contents($cacheFileName, json_encode($total));
@@ -857,7 +863,7 @@ if (!class_exists('Video')) {
             $return = json_decode(file_get_contents($cacheFileName));
             if (time() - filemtime($cacheFileName) > 300) {
                 // file older than 1 min
-                $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '".json_encode($videosArrayId)."' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$cacheFileName}'");
+                $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '" . json_encode($videosArrayId) . "' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$get}' '{$post}' '{$cacheFileName}'");
                 error_log("getAllVideosAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
@@ -1528,7 +1534,7 @@ if (!class_exists('Video')) {
                 $tags[] = $obj;
                 $obj = new stdClass();
             }
-            
+
             if (empty($type) || $type === "userGroups") {
                 $groups = UserGroups::getVideoGroups($video_id);
                 $obj = new stdClass();
@@ -1555,7 +1561,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            
+
             if (empty($type) || $type === "category") {
                 require_once 'category.php';
                 if (!empty($_POST['sort']['title'])) {
@@ -1571,7 +1577,7 @@ if (!class_exists('Video')) {
                     $obj = new stdClass();
                 }
             }
-            
+
             if (empty($type) || $type === "source") {
                 $url = $video->getVideoDownloadedLink();
                 $parse = parse_url($url);
@@ -1591,7 +1597,7 @@ if (!class_exists('Video')) {
             }
             return $tags;
         }
-        
+
         static function getTagsAsync($video_id, $type = "video") {
             global $global;
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getTags_{$video_id}_{$type}";
@@ -1609,7 +1615,7 @@ if (!class_exists('Video')) {
             }
             return $return;
         }
-        
+
         function getCategories_id() {
             return $this->categories_id;
         }
@@ -2130,7 +2136,6 @@ if (!class_exists('Video')) {
             return $return;
         }
 
-        
         static function getImageFromID($videos_id, $type = "video") {
             $video = new Video("", "", $videos_id);
             return self::getImageFromFilename($video->getFilename());
