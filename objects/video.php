@@ -1971,6 +1971,10 @@ if (!class_exists('Video')) {
         }
 
         static function getImageFromFilename($filename, $type = "video") {
+            return self::getImageFromFilenameAsync($filename, $type);
+        }
+
+        static function getImageFromFilename_($filename, $type = "video") {
             global $global, $advancedCustom;
             /*
               $name = "getImageFromFilename_{$filename}{$type}_";
@@ -2071,6 +2075,25 @@ if (!class_exists('Video')) {
             return $obj;
         }
 
+        static function getImageFromFilenameAsync($filename, $type = "video") {
+            global $global;
+            $cacheFileName = $global['systemRootPath'] . "videos/cache/getImageFromFilenameAsync_{$filename}_{$type}";
+            if (!file_exists($cacheFileName)) {
+                $total = static::getImageFromFilename_($filename, $type = "video");
+                file_put_contents($cacheFileName, json_encode($total));
+                return $total;
+            }
+            $return = json_decode(file_get_contents($cacheFileName));
+            if (time() - filemtime($cacheFileName) > 600) {
+                // file older than 1 min
+                $command = ("php '{$global['systemRootPath']}objects/getImageFromFilenameAsync.php' '$filename' '$type' '{$cacheFileName}'");
+                error_log("getImageFromFilenameAsync: {$command}");
+                exec($command . " > /dev/null 2>/dev/null &");
+            }
+            return $return;
+        }
+
+        
         static function getImageFromID($videos_id, $type = "video") {
             $video = new Video("", "", $videos_id);
             return self::getImageFromFilename($video->getFilename());
