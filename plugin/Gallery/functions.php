@@ -114,7 +114,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
     global $global, $config, $obj, $advancedCustom;
     $countCols = 0;
     $obj = YouPHPTubePlugin::getObjectData("Gallery");
-    $zindex = 100;
+    $zindex = 1000;
     $startG = microtime(true);
     foreach ($videos as $value) {
 
