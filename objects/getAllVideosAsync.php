@@ -11,7 +11,9 @@ $videosArrayId = $argv[4];
 $getStatistcs = $argv[5];
 $showUnlisted = $argv[6];
 $activeUsersOnly = $argv[7];
-$cacheFileName = $argv[8];
+$_GET = json_decode($argv[8]);
+$_POST = json_decode($argv[9]);
+$cacheFileName = $argv[10];
 $lockFile = $cacheFileName.".lock";
 if(file_exists($lockFile)){
     return false;
