@@ -19,7 +19,7 @@ $rowCount = 25;
 $_POST['rowCount'] = $rowCount;
 
 $start = microtime(true);
-$uploadedVideos = Video::getAllVideos("a", $user_id);
+$uploadedVideos = Video::getAllVideosAsync("a", $user_id);
 $times[__LINE__] = microtime(true) - $start;
 $start = microtime(true);
 $uploadedTotalVideos = Video::getTotalVideos("a", $user_id);
