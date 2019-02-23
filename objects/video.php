@@ -851,8 +851,8 @@ if (!class_exists('Video')) {
         static function getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
             global $global;
             $users_id = User::getId();
-            $get = json_encode($get);
-            $post = json_encode($post);
+            $get = json_encode(@$_GET);
+            $post = json_encode(@$_POST);
             $md5 = md5("{$users_id}{$get}{$post}{$status}{$showOnlyLoggedUserVideos}{$ignoreGroup}" . implode("_", $videosArrayId) . "{$getStatistcs}{$showUnlisted}{$activeUsersOnly}");
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$md5}";
             if (!file_exists($cacheFileName)) {
