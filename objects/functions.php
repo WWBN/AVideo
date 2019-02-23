@@ -431,7 +431,7 @@ function setSiteSendMessage(&$mail) {
 }
 
 function sendSiteEmail($to, $subject, $message) {
-    if(empty($to)){
+    if (empty($to)) {
         return false;
     }
     global $config, $global;
@@ -445,9 +445,9 @@ function sendSiteEmail($to, $subject, $message) {
         //Set who the message is to be sent from
         $mail->setFrom($contactEmail, $webSiteTitle);
         //Set who the message is to be sent to
-        if(!is_array($to)){
+        if (!is_array($to)) {
             $mail->addAddress($to);
-        }else{
+        } else {
             foreach ($to as $value) {
                 $mail->addBCC($value);
             }
@@ -1447,12 +1447,10 @@ function isMobile() {
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }
 
-
-
 function siteMap() {
     global $global;
     $date = date('Y-m-d\TH:i:s') . "+00:00";
-    
+
     $xml = '<?xml version="1.0" encoding="UTF-8"?>
     <urlset
         xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -1461,76 +1459,92 @@ function siteMap() {
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
         <!-- Main Page -->
         <url>
-            <loc>'.$global['webSiteRootURL'].'</loc>
-            <lastmod>'.$date.'</lastmod>
+            <loc>' . $global['webSiteRootURL'] . '</loc>
+            <lastmod>' . $date . '</lastmod>
             <changefreq>always</changefreq>
             <priority>1.00</priority>
         </url>
 
         <url>
-            <loc>'.$global['webSiteRootURL'].'help</loc>
-            <lastmod>'.$date.'</lastmod>
+            <loc>' . $global['webSiteRootURL'] . 'help</loc>
+            <lastmod>' . $date . '</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.50</priority>
         </url>
         <url>
-            <loc>'.$global['webSiteRootURL'].'about</loc>
-            <lastmod>'.$date.'</lastmod>
+            <loc>' . $global['webSiteRootURL'] . 'about</loc>
+            <lastmod>' . $date . '</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.50</priority>
         </url>
         <url>
-            <loc>'.$global['webSiteRootURL'].'contact</loc>
-            <lastmod>'.$date.'</lastmod>
+            <loc>' . $global['webSiteRootURL'] . 'contact</loc>
+            <lastmod>' . $date . '</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.50</priority>
         </url>
 
         <!-- Channels -->
         <url>
-            <loc>'.$global['webSiteRootURL'].'channels</loc>
-            <lastmod>'.$date.'</lastmod>
+            <loc>' . $global['webSiteRootURL'] . 'channels</loc>
+            <lastmod>' . $date . '</lastmod>
             <changefreq>daily</changefreq>
             <priority>0.80</priority>
         </url>
         ';
-        $users = User::getAllUsers(true);
-        foreach ($users as $value) {
-            $xml .= '        
+    $users = User::getAllUsers(true);
+    foreach ($users as $value) {
+        $xml .= '        
             <url>
-                <loc>'.User::getChannelLink($value['id']).'</loc>
-                <lastmod>'.$date.'</lastmod>
+                <loc>' . User::getChannelLink($value['id']) . '</loc>
+                <lastmod>' . $date . '</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>0.70</priority>
             </url>
             ';
-        }
-        $xml .= ' 
+    }
+    $xml .= ' 
         <!-- Categories -->
         ';
-        $rows = Category::getAllCategories();
-        foreach ($rows as $value) {
-            $xml .= '  
+    $rows = Category::getAllCategories();
+    foreach ($rows as $value) {
+        $xml .= '  
             <url>
-                <loc>'.$global['webSiteRootURL'].'cat/'.$value['clean_name'].'</loc>
-                <lastmod>'.$date.'</lastmod>
+                <loc>' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '</loc>
+                <lastmod>' . $date . '</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.80</priority>
             </url>
             ';
-        }
-        $xml .= '<!-- Videos -->';
-        $rows = Video::getAllVideos("viewable");
-        foreach ($rows as $value) {
-            $xml .= '   
+    }
+    $xml .= '<!-- Videos -->';
+    $rows = Video::getAllVideos("viewable");
+    foreach ($rows as $value) {
+        $xml .= '   
             <url>
-                <loc>'.Video::getLink($value['id'], $value['clean_title']).'</loc>
-                <lastmod>'.$date.'</lastmod>
+                <loc>' . Video::getLink($value['id'], $value['clean_title']) . '</loc>
+                <lastmod>' . $date . '</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>0.80</priority>
             </url>
             ';
+    }
+    $xml .= '</urlset> ';
+    return $xml;
+}
+
+function object_to_array($obj) {
+    //only process if it's an object or array being passed to the function
+    if (is_object($obj) || is_array($obj)) {
+        $ret = (array) $obj;
+        foreach ($ret as &$item) {
+            //recursively process EACH element regardless of type
+            $item = object_to_array($item);
         }
-        $xml .= '</urlset> ';
-        return $xml;
+        return $ret;
+    }
+    //otherwise (i.e. for scalar values) return without modification
+    else {
+        return $obj;
+    }
 }
