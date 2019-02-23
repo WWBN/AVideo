@@ -13,7 +13,7 @@ if(file_exists($lockFile)){
     return false;
 }
 file_put_contents($lockFile, 1);
-$total = Video::getImageFromFilename($filename,$type);
+$total = Video::getImageFromFilename_($filename,$type);
 file_put_contents($cacheFileName, json_encode($total));
 error_log(__FILE__." ".$cacheFileName.": done");
 unlink($lockFile);
