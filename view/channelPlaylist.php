@@ -37,25 +37,25 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
 <?php
 $channelName = $_GET['channelName'];
 unset($_GET['channelName']);
-$start = microtime(true);
+$startC = microtime(true);
 foreach ($playlists as $playlist) {
-    @$times[__LINE__." ".__FILE__] += microtime(true) - $start;
-    $start = microtime(true);
+    @$times[__LINE__." ".__FILE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
-    @$times[__LINE__." ".__FILE__] += microtime(true) - $start;
-    $start = microtime(true);
+    @$times[__LINE__." ".__FILE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     $videosP = Video::getAllVideos("a", false, false, $videosArrayId);
-    @$times[__LINE__." ".__FILE__] += microtime(true) - $start;
-    $start = microtime(true);
+    @$times[__LINE__." ".__FILE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     //error_log("channelPlaylist videosP: ".json_encode($videosP));
     $videosP = PlayList::sortVideos($videosP, $videosArrayId);
-    @$times[__LINE__." ".__FILE__] += microtime(true) - $start;
-    $start = microtime(true);
+    @$times[__LINE__." ".__FILE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     //error_log("channelPlaylist videosP2: ".json_encode($videosP));
     //error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
     $playListButtons = YouPHPTubePlugin::getPlayListButtons($playlist['id']);
-    @$times[__LINE__." ".__FILE__] += microtime(true) - $start;
-    $start = microtime(true);
+    @$times[__LINE__." ".__FILE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     ?>
 
     <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
@@ -398,8 +398,8 @@ $_GET['channelName'] = $channelName;
 <!--
 channel playlist
 <?php
-$times[__LINE__] = microtime(true) - $start;
-$start = microtime(true);
+$times[__LINE__] = microtime(true) - $startC;
+$startC = microtime(true);
 foreach ($times as $key => $value) {
     echo "Line: {$key} -> {$value}\n";
 }
