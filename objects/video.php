@@ -1442,6 +1442,10 @@ if (!class_exists('Video')) {
          * label Default Primary Success Info Warning Danger
          */
         static function getTags($video_id, $type = "") {
+            return self::getTagsAsync($video_id, $type);
+        }
+
+        static function getTags_($video_id, $type = "") {
             $video = new Video("", "", $video_id);
             $tags = array();
 
@@ -1575,7 +1579,25 @@ if (!class_exists('Video')) {
             }
             return $tags;
         }
-
+        
+        static function getTagsAsync($video_id, $type = "video") {
+            global $global;
+            $cacheFileName = $global['systemRootPath'] . "videos/cache/getTags_{$video_id}_{$type}";
+            if (!file_exists($cacheFileName)) {
+                $total = static::getTags_($filename, $type = "video");
+                file_put_contents($cacheFileName, json_encode($total));
+                return $total;
+            }
+            $return = json_decode(file_get_contents($cacheFileName));
+            if (time() - filemtime($cacheFileName) > 600) {
+                // file older than 1 min
+                $command = ("php '{$global['systemRootPath']}objects/getTags.php' '$video_id' '$type' '{$cacheFileName}'");
+                error_log("getTags: {$command}");
+                exec($command . " > /dev/null 2>/dev/null &");
+            }
+            return $return;
+        }
+        
         function getCategories_id() {
             return $this->categories_id;
         }
