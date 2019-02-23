@@ -271,7 +271,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
     <!--
     createGallerySection
     <?php
-    $timesG[__LINE__] = microtime(true) - $startC;
+    $timesG[__LINE__] = microtime(true) - $startG;
     $startG = microtime(true);
     foreach ($timesG as $key => $value) {
         echo "Line: {$key} -> {$value}\n";
