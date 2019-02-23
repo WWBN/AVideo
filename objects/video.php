@@ -849,7 +849,7 @@ if (!class_exists('Video')) {
                 error_log("getAllVideosAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
-            return $return;
+            return object_to_array($return);
         }
 
         /**
