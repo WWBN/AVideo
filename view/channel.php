@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
-
+session_write_close();
 if (empty($_GET['channelName'])) {
     if (User::isLogged()) {
         $_GET['user_id'] = User::getId();
