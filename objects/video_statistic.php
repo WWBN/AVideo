@@ -142,6 +142,9 @@ class VideoStatistic extends ObjectYPT {
         global $global;
         $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalLastDaysAsync_{$video_id}_{$numberOfDays}";
         if (!file_exists($cacheFileName)) {
+            if (file_exists($cacheFileName . ".lock")) {
+                return array();
+            }
             $total = static::getTotalLastDays($video_id, $numberOfDays);
             file_put_contents($cacheFileName, json_encode($total));
             return $total;
@@ -186,7 +189,10 @@ class VideoStatistic extends ObjectYPT {
             return $total;
         }
         $return = json_decode(file_get_contents($cacheFileName));
-        if (time() - filemtime($cacheFileName) > 60) {
+        if (!file_exists($cacheFileName)) {
+            if (file_exists($cacheFileName . ".lock")) {
+                return array();
+            }
             // file older than 1 min
             $command = ("php '{$global['systemRootPath']}objects/getTotalTodayAsync.php' '$video_id' '$cacheFileName'");
             error_log("getTotalTodayAsync: {$command}");
