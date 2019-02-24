@@ -57,7 +57,7 @@ class VideoStatistic extends ObjectYPT {
 
         $sql = "INSERT INTO videos_statistics "
                 . "(`when`,ip, users_id, videos_id, lastVideoTime, created, modified, session_id) values "
-                . "(now(),?," . $userId . ",?,{$lastVideoTime},now(),now(),'".  session_id()."')";
+                . "(now(),?," . $userId . ",?,{$lastVideoTime},now(),now(),'" . session_id() . "')";
         $insert_row = sqlDAL::writeSql($sql, "si", array(getRealIpAddr(), $videos_id));
 
         if (!empty($global['mysqli']->insert_id)) {
@@ -80,23 +80,23 @@ class VideoStatistic extends ObjectYPT {
         $vs->setLastVideoTime($lastVideoTime);
         return $vs->save();
     }
-    
+
     function save() {
         $this->setSession_id(session_id());
-        if(empty($this->session_id) && empty($this->users_id)){
+        if (empty($this->session_id) && empty($this->users_id)) {
             return false;
         }
-        if(empty($this->users_id)){
+        if (empty($this->users_id)) {
             $this->setUsers_id('null');
         }
         return parent::save();
     }
 
-    static function getLastStatistics($videos_id, $users_id=0) {
+    static function getLastStatistics($videos_id, $users_id = 0) {
         if (!empty($users_id)) {
             $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY modified DESC LIMIT 1 ";
             $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id));
-        }else{
+        } else {
             $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY modified DESC LIMIT 1 ";
             $res = sqlDAL::readSql($sql, 'is', array($videos_id, session_id()));
         }
@@ -154,7 +154,10 @@ class VideoStatistic extends ObjectYPT {
 
     static function getTotalLastDaysAsync($video_id, $numberOfDays) {
         global $global;
-        $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalLastDaysAsync_{$video_id}_{$numberOfDays}";
+        $md5 = ("{$video_id}_{$numberOfDays}");
+        $path = $global['systemRootPath'] . "videos/cache/getTotalLastDaysAsync/";
+        make_path($path);
+        $cacheFileName = "{$path}{$md5}";
         if (!file_exists($cacheFileName)) {
             if (file_exists($cacheFileName . ".lock")) {
                 return array();
@@ -166,7 +169,7 @@ class VideoStatistic extends ObjectYPT {
         $return = json_decode(file_get_contents($cacheFileName));
         if (time() - filemtime($cacheFileName) > 60) {
             // file older than 1 min
-            $command = ("php '{$global['systemRootPath']}objects/video_statisticgetTotalLastDays.php' '$video_id' '$numberOfDays' '$cacheFileName'");
+            $command = ("php '{$global['systemRootPath']}objects/getTotalLastDaysAsync.php' '$video_id' '$numberOfDays' '$cacheFileName'");
             error_log("getTotalLastDaysAsync: {$command}");
             exec($command . " > /dev/null 2>/dev/null &");
         }
@@ -198,8 +201,8 @@ class VideoStatistic extends ObjectYPT {
         global $global;
         $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalTodayAsync_{$video_id}";
         if (!file_exists($cacheFileName)) {
-            if(file_exists($cacheFileName.".lock")){
-               return array(); 
+            if (file_exists($cacheFileName . ".lock")) {
+                return array();
             }
             $total = static::getTotalToday($video_id);
             file_put_contents($cacheFileName, json_encode($total));
@@ -257,7 +260,7 @@ class VideoStatistic extends ObjectYPT {
     function setLastVideoTime($lastVideoTime) {
         $this->lastVideoTime = intval($lastVideoTime);
     }
-    
+
     function getSession_id() {
         return $this->session_id;
     }
@@ -265,7 +268,5 @@ class VideoStatistic extends ObjectYPT {
     function setSession_id($session_id) {
         $this->session_id = $session_id;
     }
-
-
 
 }
