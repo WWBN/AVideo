@@ -1,7 +1,7 @@
 <?php
 
 require_once '../videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/video_statistics.php';
+require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 //getTotalTodayAsync($video_id) 
 $video_id = $argv[1];
 $numberOfDays = $argv[2];
