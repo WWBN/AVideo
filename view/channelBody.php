@@ -102,11 +102,3 @@ $get = array('channelName' => $_GET['channelName']);
     ?>
 </div>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
-
-<!--
-<?php
-foreach ($times as $key => $value) {
-    echo "Line: {$key} -> {$value}\n";
-}
-?>
--->
