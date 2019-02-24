@@ -989,14 +989,14 @@ if (!class_exists('Video')) {
             return $numRows;
         }
 
-        static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
+        static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array()) {
             $obj = new stdClass();
             $obj->likes = 0;
             $obj->disLikes = 0;
             $obj->views_count = 0;
             $obj->total_minutes = 0;
 
-            $videos = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
+            $videos = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId);
 
             foreach ($videos as $value) {
                 $obj->likes += intval($value['likes']);
