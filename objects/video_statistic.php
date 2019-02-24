@@ -207,9 +207,6 @@ class VideoStatistic extends ObjectYPT {
         }
         $return = json_decode(file_get_contents($cacheFileName));
         if (time() - filemtime($cacheFileName) > 60) {
-            if (file_exists($cacheFileName . ".lock")) {
-                return array();
-            }
             // file older than 1 min
             $command = ("php '{$global['systemRootPath']}objects/getTotalTodayAsync.php' '$video_id' '$cacheFileName'");
             error_log("getTotalTodayAsync: {$command}");
