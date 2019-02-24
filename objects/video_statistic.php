@@ -201,6 +201,9 @@ class VideoStatistic extends ObjectYPT {
         global $global;
         $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalTodayAsync_{$video_id}";
         if (!file_exists($cacheFileName)) {
+            if(file_exists($cacheFileName.".lock")){
+               return array(); 
+            }
             $total = static::getTotalToday($video_id);
             file_put_contents($cacheFileName, json_encode($total));
             return $total;
