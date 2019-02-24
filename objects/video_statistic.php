@@ -165,6 +165,9 @@ class VideoStatistic extends ObjectYPT {
         }
         $return = json_decode(file_get_contents($cacheFileName));
         if (time() - filemtime($cacheFileName) > 60) {
+            if (file_exists($cacheFileName . ".lock")) {
+                return array();
+            }
             // file older than 1 min
             $command = ("php '{$global['systemRootPath']}objects/video_statisticgetTotalLastDays.php' '$video_id' '$numberOfDays' '$cacheFileName'");
             error_log("getTotalLastDaysAsync: {$command}");
@@ -203,7 +206,7 @@ class VideoStatistic extends ObjectYPT {
             return $total;
         }
         $return = json_decode(file_get_contents($cacheFileName));
-        if (!file_exists($cacheFileName)) {
+        if (time() - filemtime($cacheFileName) > 60) {
             if (file_exists($cacheFileName . ".lock")) {
                 return array();
             }
