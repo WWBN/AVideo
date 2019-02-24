@@ -27,7 +27,10 @@ class MaintenanceMode extends PluginAbstract {
 
     public function getStart() {
         global $global, $config;
-        if(empty($global['disableAdvancedConfigurations']) && !User::isAdmin() && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'view/user.php'){
+        if(empty($global['disableAdvancedConfigurations']) && !User::isAdmin() 
+                && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'view/user.php'
+                && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'objects/login.json.php'
+                && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'install/recoverPassword.php'){
             $obj = $this->getDataObject();
             include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
             exit;
