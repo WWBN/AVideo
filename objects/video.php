@@ -858,7 +858,7 @@ if (!class_exists('Video')) {
             $path = $global['systemRootPath'] . "videos/cache/getAllVideosAsync/";
             make_path($path);
             $cacheFileName = "{$path}{$md5}";
-            if (!file_exists($cacheFileName)) {
+            if (!file_exists($cacheFileName) || filesize($cacheFileName)===0) {
                 if(file_exists($cacheFileName.".lock")){
                    return array(); 
                 }
