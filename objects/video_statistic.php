@@ -56,8 +56,8 @@ class VideoStatistic extends ObjectYPT {
         }
 
         $sql = "INSERT INTO videos_statistics "
-                . "(`when`,ip, users_id, videos_id, lastVideoTime, created, modified) values "
-                . "(now(),?," . $userId . ",?,{$lastVideoTime},now(),now())";
+                . "(`when`,ip, users_id, videos_id, lastVideoTime, created, modified, session_id) values "
+                . "(now(),?," . $userId . ",?,{$lastVideoTime},now(),now(),'".  session_id()."')";
         $insert_row = sqlDAL::writeSql($sql, "si", array(getRealIpAddr(), $videos_id));
 
         if (!empty($global['mysqli']->insert_id)) {
