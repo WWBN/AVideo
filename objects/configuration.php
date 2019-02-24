@@ -203,9 +203,9 @@ class Configuration {
         if (empty($this->logo)) {
             return "view/img/logo.png";
         }
-        $get = "?";
+        $get = "";
         if($timestamp){
-            $get .= filemtime($global['systemRootPath'].$this->logo);
+            $get .= "?".filemtime($global['systemRootPath'].$this->logo);
         }
         return $this->logo.$get;
     }
