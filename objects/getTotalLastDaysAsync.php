@@ -7,7 +7,7 @@ $video_id = $argv[1];
 $numberOfDays = $argv[2];
 $cacheFileName = $argv[3];
 $lockFile = $cacheFileName.".lock";
-if(file_exists($lockFile)){
+if(file_exists($lockFile) && (time() - filemtime($lockFile) < 300)){ // 5 min limit
     return false;
 }
 file_put_contents($lockFile, 1);
