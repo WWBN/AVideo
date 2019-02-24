@@ -205,7 +205,7 @@ class Configuration {
         }
         $get = "?";
         if($timestamp){
-            $get .= filectime($global['systemRootPath'].$this->logo);
+            $get .= filemtime($global['systemRootPath'].$this->logo);
         }
         return $this->logo.$get;
     }
