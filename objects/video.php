@@ -1604,7 +1604,7 @@ if (!class_exists('Video')) {
             $cacheFileName = $global['systemRootPath'] . "videos/cache/getTags_{$video_id}_{$type}";
             $return = array();
             if (!file_exists($cacheFileName) && !file_exists($cacheFileName.".lock")) {
-                $total = static::getTags_($filename, $type = "video");
+                $total = static::getTags_($video_id, $type = "video");
                 file_put_contents($cacheFileName, json_encode($total));
                 return $total;
             }
