@@ -16,6 +16,7 @@ class VideoStatistic extends ObjectYPT {
     protected $users_id;
     protected $videos_id;
     protected $lastVideoTime;
+    protected $session_id;
 
     static function getSearchFieldsNames() {
         return array();
@@ -79,13 +80,26 @@ class VideoStatistic extends ObjectYPT {
         $vs->setLastVideoTime($lastVideoTime);
         return $vs->save();
     }
-
-    static function getLastStatistics($videos_id, $users_id) {
-        if (empty($users_id)) {
+    
+    function save() {
+        $this->setSession_id(session_id());
+        if(empty($this->session_id) && empty($this->users_id)){
             return false;
         }
-        $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY modified DESC LIMIT 1 ";
-        $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id));
+        if(empty($this->users_id)){
+            $this->setUsers_id('null');
+        }
+        return parent::save();
+    }
+
+    static function getLastStatistics($videos_id, $users_id=0) {
+        if (!empty($users_id)) {
+            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY modified DESC LIMIT 1 ";
+            $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id));
+        }else{
+            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY modified DESC LIMIT 1 ";
+            $res = sqlDAL::readSql($sql, 'is', array($videos_id, session_id()));
+        }
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($result)) {
@@ -243,5 +257,15 @@ class VideoStatistic extends ObjectYPT {
     function setLastVideoTime($lastVideoTime) {
         $this->lastVideoTime = intval($lastVideoTime);
     }
+    
+    function getSession_id() {
+        return $this->session_id;
+    }
+
+    function setSession_id($session_id) {
+        $this->session_id = $session_id;
+    }
+
+
 
 }
