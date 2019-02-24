@@ -12,6 +12,6 @@ if(file_exists($lockFile) && (time() - filemtime($lockFile) < 300)){ // 5 min li
     return false;
 }
 file_put_contents($lockFile, 1);
-$total = VideoStatistic::getTotalLastDaysAsync($video_id, $numberOfDays);
+$total = VideoStatistic::getTotalLastDays($video_id, $numberOfDays);
 file_put_contents($cacheFileName, json_encode($total));
 unlink($lockFile);
