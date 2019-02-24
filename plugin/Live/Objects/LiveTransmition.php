@@ -45,7 +45,7 @@ class LiveTransmition extends ObjectYPT {
     }
 
     function getDescription() {
-        return $this->description;
+        return xss_esc($this->description);
     }
 
     function setId($id) {
