@@ -1050,18 +1050,9 @@ function unzipDirectory($filename, $destination) {
 }
 
 function make_path($path) {
-    $dir = pathinfo($path, PATHINFO_DIRNAME);
-    if (is_dir($dir)) {
-        return true;
-    } else {
-        if (make_path($dir)) {
-            if (mkdir($dir)) {
-                chmod($dir, 0777);
-                return true;
-            }
-        }
+    if (!is_dir($path)) {
+        mkdir($path, 0755, true);
     }
-    return false;
 }
 
 /**
