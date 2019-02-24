@@ -870,7 +870,7 @@ if (!class_exists('Video')) {
             if (time() - filemtime($cacheFileName) > 60) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '" . json_encode($videosArrayId) . "' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$get}' '{$post}' '{$cacheFileName}'");
-                error_log("getAllVideosAsync: {$command}");
+                //error_log("getAllVideosAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
             return object_to_array($return);
@@ -1028,7 +1028,7 @@ if (!class_exists('Video')) {
                 $command = ("php '{$global['systemRootPath']}objects/getTotalVideosInfoAsync.php' "
                         . " '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup', '" . json_encode($videosArrayId) . "', "
                         . " '$getStatistcs', '$cacheFileName'");
-                error_log("getTotalVideosInfoAsync: {$command}");
+                //error_log("getTotalVideosInfoAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
             return $return;
@@ -1625,10 +1625,10 @@ if (!class_exists('Video')) {
                 return $total;
             }
             $return = json_decode(file_get_contents($cacheFileName));
-            if (time() - filemtime($cacheFileName) > 60) {
+            if (time() - filemtime($cacheFileName) > 300) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getTags.php' '$video_id' '$type' '{$cacheFileName}'");
-                error_log("getTags: {$command}");
+                //error_log("getTags: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
             return (array) $return;
@@ -2154,7 +2154,7 @@ if (!class_exists('Video')) {
             if (time() - filemtime($cacheFileName) > 60) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getImageFromFilenameAsync.php' '$filename' '$type' '{$cacheFileName}'");
-                error_log("getImageFromFilenameAsync: {$command}");
+                //error_log("getImageFromFilenameAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
             return $return;
