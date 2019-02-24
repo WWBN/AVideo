@@ -855,7 +855,9 @@ if (!class_exists('Video')) {
             $get = json_encode(@$_GET);
             $post = json_encode(@$_POST);
             $md5 = md5("{$users_id}{$get}{$post}{$status}{$showOnlyLoggedUserVideos}{$ignoreGroup}" . implode("_", $videosArrayId) . "{$getStatistcs}{$showUnlisted}{$activeUsersOnly}");
-            $cacheFileName = $global['systemRootPath'] . "videos/cache/getAllVideosAsync_{$md5}";
+            $path = $global['systemRootPath'] . "videos/cache/getAllVideosAsync/";
+            make_path($path);
+            $cacheFileName = "{$path}{$md5}";
             if (!file_exists($cacheFileName)) {
                 if(file_exists($cacheFileName.".lock")){
                    return array(); 
@@ -1008,7 +1010,9 @@ if (!class_exists('Video')) {
 
         static function getTotalVideosInfoAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
             global $global;
-            $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalVideosInfo{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
+            $path = $global['systemRootPath'] . "videos/cache/getTotalVideosInfo/";
+            make_path($path);
+            $cacheFileName = "{$path}_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
             $return = array();
             if (!file_exists($cacheFileName)) {
                 if(file_exists($cacheFileName.".lock")){
@@ -1607,7 +1611,10 @@ if (!class_exists('Video')) {
 
         static function getTagsAsync($video_id, $type = "video") {
             global $global;
-            $cacheFileName = $global['systemRootPath'] . "videos/cache/getTags_{$video_id}_{$type}";
+            $path = $global['systemRootPath'] . "videos/cache/getTagsAsync/";
+            make_path($path);
+            $cacheFileName = "{$path}_{$video_id}_{$type}";
+            
             $return = array();
             if (!file_exists($cacheFileName)) {
                 if(file_exists($cacheFileName.".lock")){
@@ -2132,7 +2139,9 @@ if (!class_exists('Video')) {
         static function getImageFromFilenameAsync($filename, $type = "video") {
             global $global;
             $return = array();
-            $cacheFileName = $global['systemRootPath'] . "videos/cache/getImageFromFilenameAsync_{$filename}_{$type}";
+            $path = $global['systemRootPath'] . "videos/cache/getImageFromFilenameAsync/";
+            make_path($path);
+            $cacheFileName = "{$path}_{$filename}_{$type}";
             if (!file_exists($cacheFileName)) {
                 if(file_exists($cacheFileName.".lock")){
                    return array(); 
