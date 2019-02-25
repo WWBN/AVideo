@@ -1620,7 +1620,7 @@ if (!class_exists('Video')) {
                 if(file_exists($cacheFileName.".lock")){
                    return array(); 
                 }
-                $total = static::getTags_($video_id, $type = "video");
+                $total = static::getTags_($video_id, $type);
                 file_put_contents($cacheFileName, json_encode($total));
                 return $total;
             }
