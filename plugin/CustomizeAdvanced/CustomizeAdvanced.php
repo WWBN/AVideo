@@ -106,6 +106,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->askRRatingConfirmationBeforePlay_R = false;
         $obj->askRRatingConfirmationBeforePlay_NC17 = true;
         $obj->askRRatingConfirmationBeforePlay_MA = true;
+        $obj->AsyncJobs = false;
         
         return $obj;
     }
