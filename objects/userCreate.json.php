@@ -37,6 +37,12 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
     $_POST['email'] = $_POST['user'];
 }
 
+
+if (!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    $obj->error = __("Invalid Email");
+    die(json_encode($obj));
+}
+
 $user = new User(0);
 $user->setUser($_POST['user']);
 $user->setPassword($_POST['pass']);
