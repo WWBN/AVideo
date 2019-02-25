@@ -5,7 +5,7 @@
     if (file_exists($extraPluginFile) && YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
         require_once $extraPluginFile;
         $ec = new ExtraConfig();
-        $custom = $ec->getDescription();
+        $custom = $ec->getFooter();
     }
     if (empty($custom)) {
         ?>
