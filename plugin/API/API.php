@@ -20,7 +20,7 @@ class API extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-
+        $obj->APISecret=md5($global['systemRootPath']);
         return $obj;
     }
 
@@ -233,12 +233,18 @@ class API extends PluginAbstract {
      * 'pass' password  of the user
      * 'email' email of the user
      * 'name' real name of the user
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=123&email=me@mysite.com&name=Yeshua
+     * 'APISecret' mandatory for security reasons
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&user=admin&pass=123&email=me@mysite.com&name=Yeshua
      * @return type
      */
     public function set_api_signUp($parameters) {
         global $global;
         $this->getToPost();
+        $obj = $this->getDataObject();
+        if($obj->APISecret!==@$_GET['APISecret']){
+            return new ApiObject("APISecret Not valid");
+        }
+        $ignoreCaptcha = 1;
         require_once $global['systemRootPath'] . 'objects/userCreate.json.php';
         exit;
     }
