@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
   INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),
   INDEX `when_statisci` (`when` ASC),
-  INDEX `session_id_statistics` (`session_id` ASC)
+  INDEX `session_id_statistics` (`session_id` ASC),
   CONSTRAINT `fk_videos_statistics_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
