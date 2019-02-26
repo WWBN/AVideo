@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   `created` DATETIME NULL DEFAULT NULL,
   `modified` DATETIME NULL DEFAULT NULL,
   `lastVideoTime` INT(11) NULL DEFAULT NULL,
-  `session_id` VARCHAR(45) NOT NULL
+  `session_id` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
   INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),
@@ -375,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `playlists` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `users_id` INT NOT NULL,
-  `status` ENUM('public', 'private', 'favorite', 'watch_later') NOT NULL DEFAULT 'public',
+  `status` ENUM('public', 'private', 'unlisted', 'favorite', 'watch_later') NOT NULL DEFAULT 'public',
   PRIMARY KEY (`id`),
   INDEX `fk_playlists_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_playlists_users1`
