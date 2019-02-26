@@ -37,6 +37,9 @@ class API extends PluginAbstract {
             if (!empty($parameters['pass'])) {
                 $parameters['password'] = $parameters['pass'];
             }
+            if(!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass'])==='false'){
+                $parameters['encodedPass'] = false;
+            }
             if (!empty($parameters['user']) && !empty($parameters['password'])) {
                 $user = new User("", $parameters['user'], $parameters['password']);
                 $user->login(false, !empty($parameters['encodedPass']));
@@ -60,6 +63,9 @@ class API extends PluginAbstract {
                 $parameters['password'] = $parameters['pass'];
             }
             if (!empty($parameters['user']) && !empty($parameters['password'])) {
+                if(!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass'])==='false'){
+                    $parameters['encodedPass'] = false;
+                }
                 $user = new User("", $parameters['user'], $parameters['password']);
                 $user->login(false, !empty($parameters['encodedPass']));
             }
@@ -294,10 +300,6 @@ class API extends PluginAbstract {
         if (empty($plugin)) {
             return new ApiObject("Plugin disabled");
         }
-        if (!empty($parameters['user']) && !empty($parameters['pass'])) {
-            $user = new User(0, $parameters['user'], $parameters['pass']);
-            $user->login(false, !empty($parameters['encodedPass']));
-        }
         if (!User::isLogged()) {
             return new ApiObject("User must be logged");
         }
@@ -338,10 +340,6 @@ class API extends PluginAbstract {
         $plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
         if (empty($plugin)) {
             return new ApiObject("Plugin disabled");
-        }
-        if (!empty($parameters['user']) && !empty($parameters['pass'])) {
-            $user = new User(0, $parameters['user'], $parameters['pass']);
-            $user->login(false, !empty($parameters['encodedPass']));
         }
         if(!User::isLogged()){
             return new ApiObject("Wrong user or password");
