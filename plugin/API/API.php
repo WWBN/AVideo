@@ -298,6 +298,9 @@ class API extends PluginAbstract {
             $user = new User(0, $parameters['user'], $parameters['pass']);
             $user->login(false, !empty($parameters['encodedPass']));
         }
+        if (!User::isLogged()) {
+            return new ApiObject("User must be logged");
+        }
         $row = PlayList::getAllFromUser(User::getId(), false, 'favorite');
         echo json_encode($row);
         exit;
