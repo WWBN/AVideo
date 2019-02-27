@@ -418,7 +418,7 @@ class Category {
 
     static function getTotalVideosFromCategory($categories_id, $showUnlisted = false) {
         global $global, $config;
-        if (!isset($_SESSION['categoryTotal'][$categories_id])) {
+        if (empty($_SESSION['categoryTotal'][$categories_id])) {
             $sql = "SELECT count(id) as total FROM videos v WHERE 1=1 AND categories_id = ? ";
 
             if (User::isLogged()) {
