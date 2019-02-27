@@ -3,7 +3,6 @@ $isMyChannel = false;
 if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
 }
-
 $user = new User($user_id);
 $_GET['channelName'] = $user->getChannelName();
 
