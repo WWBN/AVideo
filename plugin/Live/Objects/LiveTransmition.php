@@ -1,5 +1,4 @@
 <?php
-
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
