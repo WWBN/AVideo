@@ -311,6 +311,7 @@ class Category {
             foreach ($fullResult as $row) {
                 $row['name'] = xss_esc_back($row['name']);
                 $row['total'] = self::getTotalVideosFromCategory($row['id']);
+                $row['fullTotal'] = self::getTotalVideosFromCategory($row['id'], false, true);
                 $row['owner'] = User::getNameIdentificationById(@$row['users_id']);
                 $row['canEdit'] = self::userCanEditCategory($row['id']);
                 $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
@@ -416,15 +417,17 @@ class Category {
         return self::getChildCategories($row['id']);
     }
 
-    static function getTotalVideosFromCategory($categories_id, $showUnlisted = false) {
+    static function getTotalVideosFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false) {
         global $global, $config;
-        if (empty($_SESSION['categoryTotal'][$categories_id])) {
+        if (empty($_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)])) {
             $sql = "SELECT count(id) as total FROM videos v WHERE 1=1 AND categories_id = ? ";
 
-            if (User::isLogged()) {
-                $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
-            } else {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+            if(!$getAllVideos){
+                if (User::isLogged()) {
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
+                } else {
+                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+                }
             }
 
             $sql .= Video::getUserGroupsCanSeeSQL();
@@ -440,10 +443,10 @@ class Category {
             }
             session_write_close();
             session_start();
-            $_SESSION['categoryTotal'][$categories_id] = $total;
+            $_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)] = $total;
             session_write_close();
         }
-        return $_SESSION['categoryTotal'][$categories_id];
+        return $_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)];
     }
 
     static function clearCacheCount() {
