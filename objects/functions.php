@@ -17,6 +17,7 @@ function xss_esc($text) {
     return @htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
 
+
 function xss_esc_back($text) {
     $text = htmlspecialchars_decode($text, ENT_QUOTES);
     $text = str_replace(array('&amp;', '&#039;', "#039;"), array(" ", "`", "`"), $text);
