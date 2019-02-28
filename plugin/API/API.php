@@ -126,6 +126,7 @@ class API extends PluginAbstract {
 
     /**
      * @param type $parameters 
+     * ['APISecret' to list all videos]
      * ['sort' database sort column]
      * ['videos_id' the video id (will return only 1 or 0 video)]
      * ['clean_title' the video clean title (will return only 1 or 0 video)]
