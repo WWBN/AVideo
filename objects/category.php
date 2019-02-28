@@ -311,7 +311,7 @@ class Category {
             foreach ($fullResult as $row) {
                 $row['name'] = xss_esc_back($row['name']);
                 $row['total'] = self::getTotalVideosFromCategory($row['id']);
-                $row['fullTotal'] = self::getTotalVideosFromCategory($row['id'], false, true);
+                $row['fullTotal'] = self::getTotalVideosFromCategory($row['id'], false, true, true);
                 $row['owner'] = User::getNameIdentificationById(@$row['users_id']);
                 $row['canEdit'] = self::userCanEditCategory($row['id']);
                 $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
@@ -415,9 +415,9 @@ class Category {
         return self::getChildCategories($row['id']);
     }
 
-    static function getTotalVideosFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false) {
+    static function getTotalVideosFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew=false) {
         global $global, $config;
-        if (empty($_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)])) {
+        if ($renew || empty($_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)])) {
             $sql = "SELECT count(id) as total FROM videos v WHERE 1=1 AND categories_id = ? ";
 
             if (User::isLogged()) {
