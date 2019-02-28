@@ -100,6 +100,15 @@ class PlayList extends ObjectYPT {
         }
         return $rows;
     }
+    
+    static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
+        $rows = self::getAllFromUser($userId, $publicOnly, $status);
+        foreach ($rows as $key => $value) {
+            $videos = self::getVideosIdFromPlaylist($value['id']);
+            $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
+        }
+        return $rows;
+    }
 
     static function getVideosFromPlaylist($playlists_id) {
         global $global;

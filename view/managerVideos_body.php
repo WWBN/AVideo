@@ -1500,7 +1500,17 @@ if (User::isAdmin()) {
                                                                 img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                             }
                                                         }
-                                                        var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' style='height:100px; overflow-y: scroll; padding:10px 5px;'></div>";
+                                                        <?php
+                                                        if(YouPHPTubePlugin::isEnabledByName('PlayLists')){
+                                                        ?>
+                                                            var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' style='height:100px; overflow-y: scroll; padding:10px 5px;'></div>";
+                                                        <?php
+                                                        }else{
+                                                        ?>
+                                                            var playList = '';
+                                                        <?php
+                                                        }
+                                                        ?>
                                                         return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt + playList;
                                                     }
 
