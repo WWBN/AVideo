@@ -420,12 +420,12 @@ class Category {
         if (empty($_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)])) {
             $sql = "SELECT count(id) as total FROM videos v WHERE 1=1 AND categories_id = ? ";
 
+            if (User::isLogged()) {
+                $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
+            } else {
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+            }
             if (!$getAllVideos) {
-                if (User::isLogged()) {
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
-                } else {
-                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-                }
                 $sql .= Video::getUserGroupsCanSeeSQL();
             }
             //echo $categories_id, $sql;exit;
