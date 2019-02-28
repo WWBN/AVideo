@@ -132,7 +132,6 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 }
 
                 if ($obj->Categories) {
-                    $_POST['rowCount'] = $obj->maxVideos;
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
                     $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -151,7 +150,9 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         unset($_POST['searchPhrase']);
                     }
                     unset($_POST['sort']);
+                    unset($_POST['rowCount']);
                     $categories = Category::getAllCategories();
+                    $_POST['rowCount'] = $obj->maxVideos;
                     $_POST['searchPhrase'] = $searchPhrase;
                     $showAllVideos = false;
                     if(!empty($_GET['catName'])){
