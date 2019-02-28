@@ -316,8 +316,6 @@ class API extends PluginAbstract {
                 //$row[$key]['videos'][$key2] = Video::getVideo($value2['id']);
                 unset($row[$key]['videos'][$key2]['password']);
                 unset($row[$key]['videos'][$key2]['recoverPass']);
-
-                $row[$key]['videos'][$key2]['typeLabels'] = Video::getVideoTypeLabels($row[$key]['videos'][$key2]['filename']);
                 if (!empty($row[$key]['videos'][$key2]['next_videos_id'])) {
                     unset($_POST['searchPhrase']);
                     $row[$key]['videos'][$key2]['next_video'] = Video::getVideo($row[$key]['videos'][$key2]['next_videos_id']);
