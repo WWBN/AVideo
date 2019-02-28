@@ -145,8 +145,8 @@ class API extends PluginAbstract {
         $obj = $this->startResponseObject($parameters);
         $dataObj = $this->getDataObject();
         if($dataObj->APISecret===@$_GET['APISecret']){
-            $rows = Video::getAllVideos("viewable", true, true);
-            $totalRows = Video::getTotalVideos("viewable", true, true);
+            $rows = Video::getAllVideos("viewable", false, true);
+            $totalRows = Video::getTotalVideos("viewable", false, true);
         }else if (!empty($parameters['videos_id'])) {
             $rows = Video::getVideo($parameters['videos_id']);
             $totalRows = empty($rows) ? 0 : 1;
