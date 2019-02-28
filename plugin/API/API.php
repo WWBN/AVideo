@@ -142,7 +142,11 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        if (!empty($parameters['videos_id'])) {
+        $dataObj = $this->getDataObject();
+        if($dataObj->APISecret===@$_GET['APISecret']){
+            $rows = Video::getAllVideos("viewable", true, true);
+            $totalRows = Video::getTotalVideos("viewable", true, true);
+        }else if (!empty($parameters['videos_id'])) {
             $rows = Video::getVideo($parameters['videos_id']);
             $totalRows = empty($rows) ? 0 : 1;
         } else if (!empty($parameters['clean_title'])) {
