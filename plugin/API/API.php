@@ -20,7 +20,7 @@ class API extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->APISecret=md5($global['systemRootPath']);
+        $obj->APISecret = md5($global['systemRootPath']);
         return $obj;
     }
 
@@ -37,7 +37,7 @@ class API extends PluginAbstract {
             if (!empty($parameters['pass'])) {
                 $parameters['password'] = $parameters['pass'];
             }
-            if(!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass'])==='false'){
+            if (!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass']) === 'false') {
                 $parameters['encodedPass'] = false;
             }
             if (!empty($parameters['user']) && !empty($parameters['password'])) {
@@ -63,7 +63,7 @@ class API extends PluginAbstract {
                 $parameters['password'] = $parameters['pass'];
             }
             if (!empty($parameters['user']) && !empty($parameters['password'])) {
-                if(!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass'])==='false'){
+                if (!empty($parameters['encodedPass']) && strtolower($parameters['encodedPass']) === 'false') {
                     $parameters['encodedPass'] = false;
                 }
                 $user = new User("", $parameters['user'], $parameters['password']);
@@ -144,10 +144,10 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
         $dataObj = $this->getDataObject();
-        if($dataObj->APISecret===@$_GET['APISecret']){
+        if ($dataObj->APISecret === @$_GET['APISecret']) {
             $rows = Video::getAllVideos("viewable", false, true);
             $totalRows = Video::getTotalVideos("viewable", false, true);
-        }else if (!empty($parameters['videos_id'])) {
+        } else if (!empty($parameters['videos_id'])) {
             $rows = Video::getVideo($parameters['videos_id']);
             $totalRows = empty($rows) ? 0 : 1;
         } else if (!empty($parameters['clean_title'])) {
@@ -252,7 +252,7 @@ class API extends PluginAbstract {
         global $global;
         $this->getToPost();
         $obj = $this->getDataObject();
-        if($obj->APISecret!==@$_GET['APISecret']){
+        if ($obj->APISecret !== @$_GET['APISecret']) {
             return new ApiObject("APISecret Not valid");
         }
         $ignoreCaptcha = 1;
@@ -309,10 +309,28 @@ class API extends PluginAbstract {
             return new ApiObject("User must be logged");
         }
         $row = PlayList::getAllFromUser(User::getId(), false, 'favorite');
+        foreach ($row as $key => $value) {
+            unset($row[$key]['password']);
+            unset($row[$key]['recoverPass']);
+            foreach ($value['videos'] as $key2 => $value2) {
+                $row[$key]['videos'][$key2] = Video::getVideo($value2['id']);
+                unset($row[$key]['videos'][$key2]['password']);
+                unset($row[$key]['videos'][$key2]['recoverPass']);
+
+                $row[$key]['videos'][$key2]['typeLabels'] = Video::getVideoTypeLabels($row[$key]['videos'][$key2]['filename']);
+                if (!empty($row[$key]['videos'][$key2]['next_videos_id'])) {
+                    unset($_POST['searchPhrase']);
+                    $row[$key]['videos'][$key2]['next_video'] = Video::getVideo($row[$key]['videos'][$key2]['next_videos_id']);
+                }
+                $row[$key]['videos'][$key2]['videosURL'] = getVideosURL($row[$key]['videos'][$key2]['filename']);
+                unset($row[$key]['videos'][$key2]['password']);
+                unset($row[$key]['videos'][$key2]['recoverPass']);
+            }
+        }
         echo json_encode($row);
         exit;
     }
-    
+
     /**
      * add a video into a user favorite play list
      * @param type $parameters
@@ -326,7 +344,7 @@ class API extends PluginAbstract {
     public function set_api_favorite($parameters) {
         $this->favorite($parameters, true);
     }
-    
+
     /**
      * @param type $parameters
      * 'videos_id' the video id that you want to remove
@@ -339,14 +357,14 @@ class API extends PluginAbstract {
     public function set_api_removeFavorite($parameters) {
         $this->favorite($parameters, false);
     }
-    
-    private function favorite($parameters, $add){
+
+    private function favorite($parameters, $add) {
         global $global;
         $plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
         if (empty($plugin)) {
             return new ApiObject("Plugin disabled");
         }
-        if(!User::isLogged()){
+        if (!User::isLogged()) {
             return new ApiObject("Wrong user or password");
         }
         $_POST['videos_id'] = $parameters['videos_id'];
