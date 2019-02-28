@@ -313,7 +313,7 @@ class API extends PluginAbstract {
             unset($row[$key]['password']);
             unset($row[$key]['recoverPass']);
             foreach ($value['videos'] as $key2 => $value2) {
-                $row[$key]['videos'][$key2] = Video::getVideo($value2['id']);
+                //$row[$key]['videos'][$key2] = Video::getVideo($value2['id']);
                 unset($row[$key]['videos'][$key2]['password']);
                 unset($row[$key]['videos'][$key2]['recoverPass']);
 
