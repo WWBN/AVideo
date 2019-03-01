@@ -165,8 +165,6 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         $get = $_GET;
         unset($_GET);
         $types = TagsTypes::getAll();
-        $_POST = $post;
-        $_GET = $get;
 
         $tagsStrList = array();
         foreach ($types as $type) {
@@ -188,6 +186,8 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                 $tagsStrList[] = "{$label}{$strT}";
             }
         }
+        $_POST = $post;
+        $_GET = $get;
         return "<div class='text-muted'>".implode("</div><div class='text-muted'>", $tagsStrList)."</div>";
     }
 
