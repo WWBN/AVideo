@@ -35,7 +35,7 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
 ?>
 
 <?php
-$channelName = $_GET['channelName'];
+$channelName = @$_GET['channelName'];
 unset($_GET['channelName']);
 $startC = microtime(true);
 foreach ($playlists as $playlist) {
