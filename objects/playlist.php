@@ -165,11 +165,30 @@ class PlayList extends ObjectYPT {
     }
 
     static function getFavoriteIdFromUser($users_id) {
-        return self::getIdFromUser($users_id, "favorite");
+        $favorite = self::getIdFromUser($users_id, "favorite");
+        if(empty($favorite)){
+            $pl = new PlayList(0);
+            $pl->setName("Favorite");
+            $pl->setUsers_id($users_id);
+            $pl->setStatus("favorite");
+            $pl->save();
+            $favorite = self::getIdFromUser($users_id, "favorite");
+        }
+        return $favorite;
     }
 
     static function getWatchLaterIdFromUser($users_id) {
-        return self::getIdFromUser($users_id, "watch_later");
+        $watch_later = self::getIdFromUser($users_id, "watch_later");
+        
+        if(empty($watch_later)){
+            $pl = new PlayList(0);
+            $pl->setName("Watch Later");
+            $pl->setUsers_id($users_id);
+            $pl->setStatus("watch_later");
+            $pl->save();
+            $watch_later = self::getIdFromUser($users_id, "watch_later");
+        }
+        return $watch_later;
     }
 
     private static function getIdFromUser($users_id, $status) {
