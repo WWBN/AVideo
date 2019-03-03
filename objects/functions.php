@@ -497,6 +497,15 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $id = $matches[1];
         return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time";
+    }else if (strpos($link, 'youtu.be') !== false) {
+        //https://youtu.be/9XXOBSsPoMU
+        preg_match(
+                '/youtu.be\/([a-zA-Z0-9_]+)($|\/)/', $link, $matches
+        );
+        //the ID of the YouTube URL: x6qe_kVaBpg
+        $id = $matches[1];
+        return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
+                . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time";
     } else if (strpos($link, 'youtu.be') !== false) {
         preg_match(
                 '/youtu.be\/([a-zA-Z0-9_]+)\??/i', $link, $matches
