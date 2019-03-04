@@ -52,7 +52,7 @@
                 <?php
             } else {
                 // youtube!
-                if ((strpos($video['videoLink'], "youtube.com") != false)) {
+                if ((strpos($video['videoLink'], "youtube.com") != false) || (strpos($video['videoLink'], "youtu.be") != false)) {
                     $_GET['isEmbedded'] = "y";
                 } else if ((strpos($video['videoLink'], "vimeo.com") != false)) {
                     $_GET['isEmbedded'] = "v";
