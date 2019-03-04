@@ -61,13 +61,13 @@ $order = new BlockonomicsOrder($order_id);
 
                             <br/>
 
-                            <h2 ng-hide="invoice.status == -1">Payment Details: </h2>
-                            <div ng-hide="invoice.status == -1" class="value ng-binding">
-                                Received : <strong><?php echo $order->getFormatedBits_payed(); ?></strong>
+                            <h2>Payment Details: </h2>
+                            <div>
+                                Received : <strong id="received"><?php echo $order->getFormatedBits_payed(); ?></strong>
                                 <small>BTC</small> 
                             </div>
-                            <div ng-show="invoice.status != -1" class="value ng-binding" style="margin-bottom:10px;" >
-                                Transaction : <a target="_blank" href="http://www.blockonomics.co/api/tx?txid={{invoice.txid}}&addr={{<?php echo $order->getAddr(); ?>}}">{{invoice.txid|limitTo: 20}}</a>
+                            <div style="margin-bottom:10px;" >
+                                Transaction : <span id="transaction"></span>
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,11 @@ $order = new BlockonomicsOrder($order_id);
                                             url: '<?php echo $global['webSiteRootURL']; ?>plugin/BlockonomicsYPT/check.php?addr=<?php echo $order->getAddr(); ?>',
                                             success: function (response) {
                                                 console.log(response);
-                                                setTimeout(function(){check();},3000);
+                                                if(response.status<2){
+                                                    $("#transaction").html('<a target="_blank" href="http://www.blockonomics.co/api/tx?txid='+response.txid+'&addr={{<?php echo $order->getAddr(); ?>}}">'+response.txid+'</a>');
+                                                    $("#received").html(response.bits_payed);
+                                                    setTimeout(function(){check();},3000);
+                                                }
                                             }
                                         });
                                     }

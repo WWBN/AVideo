@@ -46,7 +46,7 @@ if ($status == 0 && time() > strtotime($order->getCreated()) + $obj->ExpireInSec
     $new_status = -3;
     print('expired');
 }
-if ($status == 2 && $value != $order->getBits()) {
+if ($status == 2 && $value < $order->getBits()) {
     //Payment error, amount paid not matching expected
     $new_status = -2;
 }
