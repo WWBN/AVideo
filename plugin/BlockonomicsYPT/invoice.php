@@ -51,17 +51,20 @@ $order = new BlockonomicsOrder($order_id);
                         </div>
                         <div class="col-md-6">
                             <h2>To pay, send exact amount of BTC to the given address</h2>
-                            <h4 class="subtitle has-text-danger" ng-show="invoice.status == -3"> Payment Expired</h4>
-                            <h4 class="subtitle has-text-danger" ng-show="invoice.status == -2"> Payment Error</h4>
-                            <h4 class="subtitle" ng-show="invoice.status == 0"> Unconfirmed</h4>
-                            <h4 class="subtitle" ng-show="invoice.status == 1"> Partially Confirmed</h4>
-                            <h4 class="subtitle has-text-success" ng-show="invoice.status >= 2" >Confirmed</h4>
                             <h3>Amount</h3>
                             <p><strong><?php echo $order->getFormatedBits(); ?></strong> BTC ⇌ <strong><?php echo $order->getTotal_value(); ?></strong> <?php echo $order->getCurrency(); ?></p>
 
                             <br/>
 
-                            <h2>Payment Details: </h2>
+                            <h2>Payment Details: 
+
+                                <h4 style="display: none;" class="bstatus label label-danger" id="status-3"> Payment Expired</h4>
+                                <h4 style="display: none;" class="bstatus label label-danger" id="status-2"> Payment Error</h4>
+                                <h4 style="display: none;" class="bstatus label label-danger" id="status0"> Unconfirmed</h4>
+                                <h4 style="display: none;" class="bstatus label label-danger" id="status1"> Partially Confirmed</h4>
+                                <h4 style="display: none;" class="bstatus label label-danger" id="status2" >Confirmed</h4>
+
+                            </h2>
                             <div>
                                 Received : <strong id="received"><?php echo $order->getFormatedBits_payed(); ?></strong>
                                 <small>BTC</small> 
@@ -110,16 +113,20 @@ $order = new BlockonomicsOrder($order_id);
                                     function check() {
                                         $.ajax({
                                             url: '<?php echo $global['webSiteRootURL']; ?>plugin/BlockonomicsYPT/check.php?addr=<?php echo $order->getAddr(); ?>',
-                                            success: function (response) {
-                                                console.log(response);
-                                                if(response.status<2){
-                                                    $("#transaction").html('<a target="_blank" href="http://www.blockonomics.co/api/tx?txid='+response.txid+'&addr={{<?php echo $order->getAddr(); ?>}}">'+response.txid+'</a>');
-                                                    $("#received").html((response.bits_payed / 1.0e8));
-                                                    setTimeout(function(){check();},3000);
+                                                        success: function (response) {
+                                                            console.log(response);
+                                                            if (response.status < 2) {
+                                                                $("#transaction").html('<a target="_blank" href="http://www.blockonomics.co/api/tx?txid=' + response.txid + '&addr={{<?php echo $order->getAddr(); ?>}}">' + response.txid + '</a>');
+                                                                $("#received").html((response.bits_payed / 1.0e8));
+                                                                setTimeout(function () {
+                                                                    check();
+                                                                }, 3000);
+                                                            }
+                                                            $(".bstatus").not("#status"+response.status).hide();
+                                                            $("#status"+response.status).fadeIn();
+                                                        }
+                                                    });
                                                 }
-                                            }
-                                        });
-                                    }
         </script>
     </body>
 </html>
