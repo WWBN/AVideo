@@ -56,15 +56,15 @@ $order = new BlockonomicsOrder($order_id);
 
                             <br/>
 
-                            <h2>Payment Details: 
+                            <h2>Payment Details: </h2>
 
                                 <h4 style="display: none;" class="bstatus label label-danger" id="status-3"> Payment Expired</h4>
                                 <h4 style="display: none;" class="bstatus label label-danger" id="status-2"> Payment Error</h4>
-                                <h4 style="display: none;" class="bstatus label label-danger" id="status0"> Unconfirmed</h4>
-                                <h4 style="display: none;" class="bstatus label label-danger" id="status1"> Partially Confirmed</h4>
-                                <h4 style="display: none;" class="bstatus label label-danger" id="status2" >Confirmed</h4>
+                                <h4 style="display: none;" class="bstatus label label-warning" id="status0"> Unconfirmed</h4>
+                                <h4 style="display: none;" class="bstatus label label-warning" id="status1"> Partially Confirmed</h4>
+                                <h4 style="display: none;" class="bstatus label label-success" id="status2" >Confirmed</h4>
 
-                            </h2>
+                            
                             <div>
                                 Received : <strong id="received"><?php echo $order->getFormatedBits_payed(); ?></strong>
                                 <small>BTC</small> 
