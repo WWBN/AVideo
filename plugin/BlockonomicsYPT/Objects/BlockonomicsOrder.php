@@ -37,7 +37,7 @@ class BlockonomicsOrder extends ObjectYPT {
     }
 
     function getBits() {
-        return $this->bits;
+        return floatval($this->bits);
     }
 
     function getFormatedBits() {
@@ -45,7 +45,7 @@ class BlockonomicsOrder extends ObjectYPT {
     }
 
     function getBits_payed() {
-        return $this->bits_payed;
+        return floatval($this->bits_payed);
     }
 
     function getFormatedBits_payed() {
@@ -69,11 +69,11 @@ class BlockonomicsOrder extends ObjectYPT {
     }
 
     function setBits($bits) {
-        $this->bits = $bits;
+        $this->bits = floatval($bits);
     }
 
     function setBits_payed($bits_payed) {
-        $this->bits_payed = $bits_payed;
+        $this->bits_payed = floatval($bits_payed);
     }
 
     function setUsers_id($users_id) {
