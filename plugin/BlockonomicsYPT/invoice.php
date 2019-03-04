@@ -114,7 +114,7 @@ $order = new BlockonomicsOrder($order_id);
                                                 console.log(response);
                                                 if(response.status<2){
                                                     $("#transaction").html('<a target="_blank" href="http://www.blockonomics.co/api/tx?txid='+response.txid+'&addr={{<?php echo $order->getAddr(); ?>}}">'+response.txid+'</a>');
-                                                    $("#received").html(response.bits_payed);
+                                                    $("#received").html((response.bits_payed / 1.0e8));
                                                     setTimeout(function(){check();},3000);
                                                 }
                                             }
