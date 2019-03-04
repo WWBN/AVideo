@@ -121,6 +121,8 @@ $order = new BlockonomicsOrder($order_id);
                                                                 setTimeout(function () {
                                                                     check();
                                                                 }, 3000);
+                                                            }else{
+                                                                response.status = 2;
                                                             }
                                                             $(".bstatus").not("#status"+response.status).hide();
                                                             $("#status"+response.status).fadeIn();
