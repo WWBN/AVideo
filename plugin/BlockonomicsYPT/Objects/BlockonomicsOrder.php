@@ -96,7 +96,7 @@ class BlockonomicsOrder extends ObjectYPT {
         $this->currency = $currency;
     }
 
-    protected function loadFromAddress($id) {
+    function loadFromAddress($id) {
         $row = self::getFromAddressFromDb($id);
         if (empty($row))
             return false;
