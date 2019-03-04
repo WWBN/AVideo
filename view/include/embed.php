@@ -30,8 +30,8 @@
             if (!empty($advancedCustom->disableYoutubePlayerIntegration)) {
                 $disableYoutubeIntegration = true;
             }
-            $_GET['isEmbedded'] = "";
-            if (((strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
+            $_GET['isEmbedded'] = ""; 
+            if (((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
                 $_GET['isEmbedded'] = "e";
                 ?>
                 <video playsinline id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
