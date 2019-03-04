@@ -59,7 +59,7 @@ if ($new_status == 2 && $order->getStatus()!=200) {
     $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
     $users_id = $order->getUsers_id();
     $total = $order->getTotal_value();
-    $plugin->addBalance($users_id, $total, "Blockonomics payment", json_encode($this));
+    $plugin->addBalance($users_id, $total, "Blockonomics payment", json_encode($order));
     // status OK, do not process it anymore
     $new_status = 200;
 }
