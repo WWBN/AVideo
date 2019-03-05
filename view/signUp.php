@@ -92,7 +92,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                             </div>
 
                             <?php
-                            if (empty($advancedCustomUser->signUpRequestUploadRights)) {
+                            if (!empty($advancedCustomUser->signUpRequestUploadRights)) {
                                 ?>
 
                                 <div class="form-group">
@@ -108,7 +108,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
 
                                 <?php
                             }
-                            if (empty($advancedCustomUser->signUpRequestLivestreamRights)) {
+                            if (!empty($advancedCustomUser->signUpRequestLivestreamRights)) {
                                 ?>
 
                                 <div class="form-group">
