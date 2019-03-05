@@ -141,40 +141,49 @@ if ($playNowVideo['type'] == "linkVideo") {
 
 <?php if ($config->getAutoplay()) {
     ?>
+    <?php
+    if (isset($_GET['t'])) {
+        ?>
+                                                player.currentTime(<?php echo intval($_GET['t']); ?>);
+        <?php
+    } else if (!empty($video['progress']['lastVideoTime'])) {
+        ?>
+                                                player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
+        <?php
+    } else if (!empty($video['externalOptions']->videoStartSeconds)) {
+        ?>
+                                                player.currentTime(<?php echo intval($video['externalOptions']->videoStartSeconds); ?>);
+        <?php
+    }
+    ?>
                                             setTimeout(function () {
                                                 if (typeof player === 'undefined') {
                                                     player = videojs('mainVideo');
                                                 }
                                                 try {
                                                     player.play();
-    <?php
-    if (isset($_GET['t'])) {
-        ?>
-                                                        player.currentTime(<?php echo intval($_GET['t']); ?>);
-        <?php
-    } else if (!empty($video['progress']['lastVideoTime'])) {
-        ?>
-                                                        player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
-        <?php
-    }
-    ?>
                                                 } catch (e) {
                                                     setTimeout(function () {
-                                                        player.play();<?php
-    if (isset($_GET['t'])) {
-        ?>
-                                                            player.currentTime(<?php echo intval($_GET['t']); ?>);
-        <?php
-    } else if (!empty($video['progress']['lastVideoTime'])) {
-        ?>
-                                                            player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
-        <?php
-    }
-    ?>
+                                                        player.play();
                                                     }, 1000);
                                                 }
                                             }, 150);
 <?php } else {
+    ?>
+    <?php
+    if (isset($_GET['t'])) {
+        ?>
+                                                player.currentTime(<?php echo intval($_GET['t']); ?>);
+        <?php
+    } else if (!empty($video['progress']['lastVideoTime'])) {
+        ?>
+                                                player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
+        <?php
+    } else if (!empty($video['externalOptions']->videoStartSeconds)) {
+        ?>
+                                                player.currentTime(<?php echo intval($video['externalOptions']->videoStartSeconds); ?>);
+        <?php
+    }
     ?>
                                             if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                                                 setTimeout(function () {
@@ -182,17 +191,6 @@ if ($playNowVideo['type'] == "linkVideo") {
                                                         player = videojs('mainVideo');
                                                     }
                                                     try {
-    <?php
-    if (isset($_GET['t'])) {
-        ?>
-                                                            player.currentTime(<?php echo intval($_GET['t']); ?>);
-        <?php
-    } else if (!empty($video['progress']['lastVideoTime'])) {
-        ?>
-                                                            player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
-        <?php
-    }
-    ?>
                                                         player.play();
                                                     } catch (e) {
                                                         setTimeout(function () {
@@ -204,6 +202,10 @@ if ($playNowVideo['type'] == "linkVideo") {
     } else if (!empty($video['progress']['lastVideoTime'])) {
         ?>
                                                                 player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
+        <?php
+    } else if (!empty($video['externalOptions']->videoStartSeconds)) {
+        ?>
+                                                                player.currentTime(<?php echo intval($video['externalOptions']->videoStartSeconds); ?>);
         <?php
     }
     ?>
@@ -263,9 +265,9 @@ if (!empty($autoPlayVideo)) {
                                     });
                                     // in case the video is muted
                                     setTimeout(function () {
-										if (typeof player === 'undefined') {
-											player = videojs('mainVideo');
-										}
+                                        if (typeof player === 'undefined') {
+                                            player = videojs('mainVideo');
+                                        }
                                         if (player.muted()) {
                                             swal({
                                                 title: "<?php echo __("Your Media is Muted"); ?>",

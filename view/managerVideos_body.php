@@ -460,7 +460,11 @@
                     </div>
                     <div id="videoLinkContent">
                         <label for="videoLink" ><?php echo __("Video Link"); ?></label>
-                        <input type="text" id="videoLink" class="form-control first" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
+                        <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
+                    </div>
+                    <div>
+                        <label for="videoStartSecond" ><?php echo __("Start video at seconds"); ?></label>
+                        <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="<?php echo __("Start video at seconds"); ?>" value="0" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -721,6 +725,22 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             if (!row.id) {
                                                 row.id = videos_id;
                                             }
+                                            
+                                            $(".externalOptions").val("");
+                                            try {
+                                                externalOptionsObject = JSON.parse(row.externalOptions);
+                                                for (var key in externalOptionsObject) {
+                                                    if (externalOptionsObject.hasOwnProperty(key)) {
+                                                        $('#' + key).val(externalOptionsObject[key]);
+                                                    }
+                                                }
+                                            } catch (e) {
+
+                                            }
+
+
+
+
                                             $('.uploadFile').hide();
                                             $('.nav-tabs a[href="#pmetadata"]').tab('show');
                                             waitToSubmit = true;
@@ -732,6 +752,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             } else {
                                                 $('#videoLinkContent').slideUp();
                                             }
+
                                             $('#inputVideoId').val(row.id);
                                             $('#inputTitle').val(row.title);
                                             $('#inputTrailer').val(row.trailer1);
@@ -890,10 +911,20 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 selectedVideoGroups = [];
                                             }
                                             modal.showPleaseWait();
+
+                                            var externalOptionsObject = {};
+                                            $('.externalOptions').each(function (i, obj) {
+                                                var name = $(this).attr('id');
+                                                eval('externalOptionsObject.' + name + '="' + $(this).val() + '"');
+                                            });
+
+                                            var externalOptions = JSON.stringify(externalOptionsObject);
+
                                             $.ajax({
                                             url: '<?php echo $global['webSiteRootURL']; ?>objects/videoAddNew.json.php',
                                                     data: {
-                                                    "id": $('#inputVideoId').val(),
+                                                    "externalOptions":externalOptions,
+                                                            "id": $('#inputVideoId').val(),
                                                             "title": $('#inputTitle').val(),
 <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
@@ -1247,6 +1278,7 @@ if (!empty($row)) {
                                                 $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                                 $('#videoLinkContent').slideDown();
                                                 $('#videoLink').val('');
+                                                $('#videoStartSecond').val(0);
 <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
     echo VideoTags::getTagsInputsJqueryRemoveAll();
@@ -1500,17 +1532,17 @@ if (User::isAdmin()) {
                                                                 img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                             }
                                                         }
-                                                        <?php
-                                                        if(YouPHPTubePlugin::isEnabledByName('PlayLists')){
-                                                        ?>
+<?php
+if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
+    ?>
                                                             var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' style='height:100px; overflow-y: scroll; padding:10px 5px;'></div>";
-                                                        <?php
-                                                        }else{
-                                                        ?>
+    <?php
+} else {
+    ?>
                                                             var playList = '';
-                                                        <?php
-                                                        }
-                                                        ?>
+    <?php
+}
+?>
                                                         return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt + playList;
                                                     }
 
@@ -1542,7 +1574,7 @@ if (User::isAdmin()) {
                                                                     continue;
                                                                 }
 
-                                                                lists += '<div class="material-small material-switch"><input onchange="saveVideoOnPlaylist(' + videos_id + ', $(this).is(\':checked\'), '+ response[x].id + ')" data-toggle="toggle" type="checkbox" id="playlistVideo' + videos_id + "_" + response[x].id + '" value="1" ' + (response[x].isOnPlaylist ? "checked" : "") + ' videos_id="' + videos_id + '" ><label for="playlistVideo' + videos_id + "_" + response[x].id + '" class="label-primary"></label>  ' + response[x].name + '</div>';
+                                                                lists += '<div class="material-small material-switch"><input onchange="saveVideoOnPlaylist(' + videos_id + ', $(this).is(\':checked\'), ' + response[x].id + ')" data-toggle="toggle" type="checkbox" id="playlistVideo' + videos_id + "_" + response[x].id + '" value="1" ' + (response[x].isOnPlaylist ? "checked" : "") + ' videos_id="' + videos_id + '" ><label for="playlistVideo' + videos_id + "_" + response[x].id + '" class="label-primary"></label>  ' + response[x].name + '</div>';
 
                                                             }
                                                             $($this).html(lists);
