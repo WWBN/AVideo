@@ -248,7 +248,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                         <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off" />
                                                     </form>
                                                     <a href="#" onclick="$('#formEncoderN').submit();
-                                                                            return false;">
+                                                            return false;">
                                                         <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel) ? __("Encoder Network") : $advancedCustom->encoderNetworkLabel; ?>
                                                     </a>
                                                 </li>
@@ -264,7 +264,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                             <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off"  />
                                                         </form>
                                                         <a href="#" onclick="$('#formEncoder').submit();
-                                                                                    return false;">
+                                                                return false;">
                                                             <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?>
                                                         </a>
                                                     </li>
@@ -550,29 +550,36 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
             <div id="sideBarContainer">
                 <ul class="nav navbar">
 
-                    <li>
-
-                        <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-primary btn-block  ">
-                                <span class="fa fa-home"></span>
-                                <?php echo __("Home"); ?>
-                            </a>
-
-                        </div>
-                    </li>
-
-                    <li>
-
-                        <div>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>trending" class="btn btn-primary btn-block ">
-                                <i class="fas fa-fire"></i>
-                                <?php echo __("Trending"); ?>
-                            </a>
-
-                        </div>
-                    </li>
-
                     <?php
+                    if (empty($advancedCustomUser->doNotShowLeftHomeButton)) {
+                        ?>
+                        <li>
+
+                            <div>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-primary btn-block  ">
+                                    <span class="fa fa-home"></span>
+                                    <?php echo __("Home"); ?>
+                                </a>
+
+                            </div>
+                        </li>
+                        <?php
+                    }
+
+                    if (empty($advancedCustomUser->doNotShowLeftTrendingButton)) {
+                        ?>
+                        <li>
+
+                            <div>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>trending" class="btn btn-primary btn-block ">
+                                    <i class="fas fa-fire"></i>
+                                    <?php echo __("Trending"); ?>
+                                </a>
+
+                            </div>
+                        </li>
+                        <?php
+                    }
                     if (empty($advancedCustomUser->doNotShowLeftProfile)) {
                         if (User::isLogged()) {
                             ?>
@@ -859,7 +866,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         }
 
                     }
-                    if(empty($advancedCustom->doNotDisplayCategoryLeftMenu)){
+                    if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
                         $categories = Category::getAllCategories();
                         foreach ($categories as $value) {
                             if (empty($value['total'])) {
