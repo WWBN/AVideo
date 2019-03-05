@@ -60,6 +60,8 @@ class CustomizeUser extends PluginAbstract {
         $o->value = "";        
         $obj->messageToAppearBelowLoginBox = $o;     
                 
+        $obj->signUpRequestUploadRights = false;
+        $obj->signUpRequestLivestreamRights = false;
         
         
         return $obj;
