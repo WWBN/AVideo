@@ -7,10 +7,10 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-if(!empty($_GET['videoName'])){
-    $v = Video::getVideoFromCleanTitle($_GET['videoName']);
-}else if(!empty($_GET['v'])){
+if(!empty($_GET['v'])){
     $v = Video::getVideo($_GET['v']);
+}else if(!empty($_GET['videoName'])){
+    $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 }
 
 if(empty($v)){
