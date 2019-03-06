@@ -140,7 +140,7 @@ class Category {
 
         // check if clean name exists
         $exists = $this->getCategoryByName(xss_esc($this->clean_name));
-        if (!empty($exists)) {
+        if (!empty($exists) && $exists['id'] != $this->id) {
             $this->clean_name .= uniqid();
         }
 
