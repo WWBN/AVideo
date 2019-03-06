@@ -93,6 +93,8 @@ if (!empty($_GET['t'])) {
     $t = intval($_GET['t']);
 } else if (!empty($video['progress']['lastVideoTime'])) {
     $t = intval($video['progress']['lastVideoTime']);
+} else if (!empty($video['externalOptions']->videoStartSeconds)) {
+    $t = intval($video['externalOptions']->videoStartSeconds);
 }
 ?>
 <!DOCTYPE html>
@@ -250,6 +252,7 @@ if (!empty($_GET['t'])) {
                         }
                     });
 
+                    player.currentTime(<?php echo $t; ?>);
     <?php
     if ($autoplay) {
         ?>
