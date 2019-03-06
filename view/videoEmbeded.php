@@ -74,7 +74,7 @@ $loop = "";
 $mute = "";
 $t = 0;
 
-if (isset($_GET['modestbranding']) && $_GET['modestbranding'] == "0") {
+if (isset($_GET['modestbranding']) && $_GET['modestbranding'] == "1") {
     $modestbranding = true;
 }
 if (!empty($_GET['autoplay']) || $config->getAutoplay()) {
