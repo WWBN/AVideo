@@ -8,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 if(!empty($_GET['v'])){
-    $v = Video::getVideo($_GET['v']);
+    $v = Video::getVideo($_GET['v'], "viewable", false, false, false, true);
 }else if(!empty($_GET['videoName'])){
     $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 }
