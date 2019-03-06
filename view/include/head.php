@@ -3,15 +3,24 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 $head = YouPHPTubePlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - YouPHPTube";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
-if (file_exists($extraPluginFile) && YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
-    require_once $extraPluginFile;
-    $ec = new ExtraConfig();
-    $custom = $ec->getDescription();
-}
+
+$custom = "";
 
 if(!empty($poster)){
     $subTitle = str_replace(array('"',"\n","\r"),array("","",""),strip_tags($video['description']));
-    $custom = "{$subTitle}";
+    $custom .= " {$subTitle}";
+}
+
+if(!empty($_GET['catName'])){
+    $category = Category::getCategoryByName($_GET['catName']);
+    $description = str_replace(array('"',"\n","\r"),array("","",""),strip_tags($category['description']));
+    $custom = " {$description} - {$custom}";
+}
+
+if (file_exists($extraPluginFile) && YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+    require_once $extraPluginFile;
+    $ec = new ExtraConfig();
+    $custom .= $ec->getDescription();
 }
 
 $theme = $config->getTheme();
