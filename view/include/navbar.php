@@ -551,7 +551,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                 <ul class="nav navbar">
 
                     <?php
-                    if (empty($advancedCustomUser->doNotShowLeftHomeButton)) {
+                    if (empty($advancedCustom->doNotShowLeftHomeButton)) {
                         ?>
                         <li>
 
@@ -566,7 +566,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <?php
                     }
 
-                    if (empty($advancedCustomUser->doNotShowLeftTrendingButton)) {
+                    if (empty($advancedCustom->doNotShowLeftTrendingButton)) {
                         ?>
                         <li>
 
