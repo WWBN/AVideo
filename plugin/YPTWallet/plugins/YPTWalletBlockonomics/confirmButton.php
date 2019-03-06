@@ -1,4 +1,4 @@
-<button type="submit" class="btn btn-primary" id="YPTWalletBlockonomicsButton"><i class="fab fa-bitcoin"></i> Blockonomics</button>
+<button type="submit" class="btn btn-primary" id="YPTWalletBlockonomicsButton"><i class="fab fa-bitcoin"></i> Bitcoin</button>
 <script>
     $(document).ready(function () {
         $('#YPTWalletBlockonomicsButton').click(function (evt) {
