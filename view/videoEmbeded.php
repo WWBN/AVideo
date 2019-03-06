@@ -7,13 +7,13 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-if(!empty($_GET['v'])){
-    $v = Video::getVideo($_GET['v'], "viewable", false, false, false, true);
-}else if(!empty($_GET['videoName'])){
-    $v = Video::getVideoFromCleanTitle($_GET['videoName']);
+if (!empty($_GET['v'])) {
+    $video = Video::getVideo($_GET['v'], "viewable", false, false, false, true);
+} else if (!empty($_GET['videoName'])) {
+    $video = Video::getVideoFromCleanTitle($_GET['videoName']);
 }
 
-if(empty($v)){
+if (empty($video)) {
     die("Video not found");
 }
 
@@ -26,36 +26,25 @@ if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 
-require_once $global['systemRootPath'] . 'objects/video.php';
-$video = Video::getVideo("", "viewable", false, false, false, true);
-if (empty($video)) {
-    $video = YouPHPTubePlugin::getVideo();
-}
-if (empty($video)) {
-    die(__("Video not found"));
-}
-
 $imgw = 1280;
 $imgh = 720;
 
-if (!empty($video)) {
-    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
-        $source = Video::getSourceFile($video['filename']);
-        $img = $source['url'];
-        $data = getimgsize($source['path']);
-        $imgw = $data[0];
-        $imgh = $data[1];
-    } else {
-        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-    }
-    $images = Video::getImageFromFilename($video['filename']);
-    $poster = $images->poster;
-    if (!empty($images->posterPortrait)) {
-        $img = $images->posterPortrait;
-        $data = getimgsize($source['path']);
-        $imgw = $data[0];
-        $imgh = $data[1];
-    }
+if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
+    $source = Video::getSourceFile($video['filename']);
+    $img = $source['url'];
+    $data = getimgsize($source['path']);
+    $imgw = $data[0];
+    $imgh = $data[1];
+} else {
+    $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+}
+$images = Video::getImageFromFilename($video['filename']);
+$poster = $images->poster;
+if (!empty($images->posterPortrait)) {
+    $img = $images->posterPortrait;
+    $data = getimgsize($source['path']);
+    $imgw = $data[0];
+    $imgh = $data[1];
 }
 
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
@@ -144,13 +133,13 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
                 echo "?autoplay=1";
             }
             ?>"></iframe>
-            <?php
-            echo YouPHPTubePlugin::getFooterCode();
-            ?>
+                    <?php
+                    echo YouPHPTubePlugin::getFooterCode();
+                    ?>
             <script>
-            $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>, 0);
-            });
+                $(document).ready(function () {
+                    addView(<?php echo $video['id']; ?>, 0);
+                });
             </script>
             <?php
         } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
@@ -178,9 +167,9 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             echo YouPHPTubePlugin::getFooterCode();
             ?>
             <script>
-            $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>, this.currentTime());
-            });
+                $(document).ready(function () {
+                    addView(<?php echo $video['id']; ?>, this.currentTime());
+                });
             </script>
             <?php
         } else {
@@ -213,48 +202,34 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             echo YouPHPTubePlugin::getFooterCode();
             ?>
             <script>
-            $(document).ready(function () {
-                //Prevent HTML5 video from being downloaded (right-click saved)?
-                $('#mainVideo').bind('contextmenu', function () {
-                    return false;
-                });
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo');
-                }
-                player.on('play', function () {
-                    addView(<?php echo $video['id']; ?>, this.currentTime());
-                });
-
-                player.on('timeupdate', function () {
-                    var time = Math.round(this.currentTime());
-                    if (time >= 5 && time % 5 === 0) {
-                        addView(<?php echo $video['id']; ?>, time);
+                $(document).ready(function () {
+                    //Prevent HTML5 video from being downloaded (right-click saved)?
+                    $('#mainVideo').bind('contextmenu', function () {
+                        return false;
+                    });
+                    if (typeof player === 'undefined') {
+                        player = videojs('mainVideo');
                     }
-                });
+                    player.on('play', function () {
+                        addView(<?php echo $video['id']; ?>, this.currentTime());
+                    });
+
+                    player.on('timeupdate', function () {
+                        var time = Math.round(this.currentTime());
+                        if (time >= 5 && time % 5 === 0) {
+                            addView(<?php echo $video['id']; ?>, time);
+                        }
+                    });
 
     <?php
     if ($config->getAutoplay() || !empty($_GET['autoplay'])) {
         ?>
-                    setTimeout(function () {
-                        if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                        }
-                        try {
+                        setTimeout(function () {
+                            if (typeof player === 'undefined') {
+                                player = videojs('mainVideo');
+                            }
+                            try {
 
-        <?php
-        if (isset($_GET['t'])) {
-            ?>
-                                player.currentTime(<?php echo intval($_GET['t']); ?>);
-            <?php
-        } else if (!empty($video['progress']['lastVideoTime'])) {
-            ?>
-                                player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
-            <?php
-        }
-        ?>
-                            player.play();
-                        } catch (e) {
-                            setTimeout(function () {
         <?php
         if (isset($_GET['t'])) {
             ?>
@@ -267,24 +242,38 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
         }
         ?>
                                 player.play();
-                            }, 1000);
-                        }
-                    }, 150);
+                            } catch (e) {
+                                setTimeout(function () {
+        <?php
+        if (isset($_GET['t'])) {
+            ?>
+                                        player.currentTime(<?php echo intval($_GET['t']); ?>);
+            <?php
+        } else if (!empty($video['progress']['lastVideoTime'])) {
+            ?>
+                                        player.currentTime(<?php echo intval($video['progress']['lastVideoTime']); ?>);
+            <?php
+        }
+        ?>
+                                    player.play();
+                                }, 1000);
+                            }
+                        }, 150);
         <?php
     }
 
     if (!empty($_GET['mute'])) {
         ?>
-                    player.muted(true);
+                        player.muted(true);
         <?php
     }
     if (!empty($_GET['loop'])) {
         ?>
-                    player.loop(true);
+                        player.loop(true);
         <?php
     }
     ?>
-            });
+                });
             </script>
             <?php
         }
