@@ -17,7 +17,7 @@ if (empty($video)) {
     die("Video not found");
 }
 
-YouPHPTubePlugin::getModeYouTube($v['id']);
+YouPHPTubePlugin::getModeYouTube($video['id']);
 
 $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
