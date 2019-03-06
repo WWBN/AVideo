@@ -2,15 +2,16 @@
 
 class PlayListElement {
 
-    public $name, $description, $duration, $sources, $thumbnail, $poster;
+    public $name, $description, $duration, $sources, $thumbnail, $poster, $videoStartSeconds;
 
-    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster) {
+    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds) {
         $this->name = $name;
         $this->description = $description;
         $this->setDuration($duration);
         $this->sources = $playListSource;
         $this->thumbnail = $playListThumbnail;
         $this->poster = $poster;
+        $this->videoStartSeconds = $videoStartSeconds;
     }
 
     
@@ -56,6 +57,8 @@ class PlayListElement {
     function setPlayListThumbnail($playListThumbnail) {
         $this->thumbnail = $playListThumbnail;
     }
+    
+    
 
 }
 

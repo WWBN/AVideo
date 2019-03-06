@@ -58,6 +58,10 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                 <?php } ?>
 
             </div>
+            
+            <a href="<?php echo $_SERVER["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
+                <i class="fas fa-times"></i>
+            </a>
         </div>
     </div>
     <div class="col-sm-2 col-md-2"></div>
