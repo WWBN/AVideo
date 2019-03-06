@@ -2347,7 +2347,7 @@ if (!class_exists('Video')) {
             global $global;
             $filePath = "{$global['systemRootPath']}videos/{$filename}";
 // Streamlined for less coding space.
-            $files = glob("{$filePath}_thumbs*.jpg");
+            $files = glob("{$filePath}*_thumbs*.jpg");
             foreach ($files as $file) {
                 if (file_exists($file)) {
                     @unlink($file);
