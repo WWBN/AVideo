@@ -141,6 +141,60 @@ $contentSearchFound = false;
                         if ($obj->MostPopular) {
                             createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
+
+                        if ($obj->Categorys && empty($_GET['showOnly'])) {
+
+                            unset($_POST['sort']);
+                            unset($_POST['rowCount']);
+                            $categories = Category::getAllCategories();
+                            $_POST['rowCount'] = $obj->CategorysRowCount;
+                            $showAllVideos = false;
+                            if (!empty($_GET['catName'])) {
+                                $showAllVideos = true;
+                            }
+                            foreach ($categories as $value) {
+                                $oldCatName = @$_GET['catName'];
+                                if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
+                                    continue;
+                                } else {
+                                    $_GET['catName'] = $value['clean_name'];
+                                }
+                                unset($_POST['sort']);
+                                $_POST['sort']['v.created'] = "DESC";
+                                $_POST['sort']['likes'] = "DESC";
+                                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                                if (empty($videos)) {
+                                    $_GET['catName'] = $oldCatName;
+                                    continue;
+                                }
+                                ?>
+                                <div class="clear clearfix">
+                                    <h3 class="galleryTitle">
+                                        <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $value['clean_name']; ?>">
+                                            <i class="glyphicon glyphicon-list-alt"></i>
+                                            <?php
+                                            echo $value['name'];
+                                            ?>
+                                        </a>
+                                    </h3>
+                                    <?php
+                                    createGallerySection($videos, dechex(crc32($value['clean_name'])));
+                                    ?>
+                                </div>
+                                <?php
+                            }
+                            if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
+                                $channels = Subscribe::getSubscribedChannels(User::getId());
+                                foreach ($channels as $value) {
+                                    $_POST['disableAddTo'] = 0;
+                                    createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $obj->SubscribedChannelsRowCount);
+                                }
+                            }
+                            unset($_POST['sort']);
+                            ?>
+
+                            <?php
+                        }
                         if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
                             $channels = Subscribe::getSubscribedChannels(User::getId());
                             foreach ($channels as $value) {
