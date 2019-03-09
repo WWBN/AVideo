@@ -142,7 +142,7 @@ $contentSearchFound = false;
                             createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
 
-                        if ($obj->Categories && empty($_GET['showOnly'])) {
+                        if ($obj->Categories) {
 
                             unset($_POST['sort']);
                             unset($_POST['rowCount']);
