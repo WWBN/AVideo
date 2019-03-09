@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
+require_once $global['systemRootPath'] . 'objects/category.php';
 
 $obj = YouPHPTubePlugin::getObjectData("YouTube");
 if (!empty($_GET['type'])) {
