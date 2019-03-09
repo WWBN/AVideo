@@ -144,7 +144,7 @@ $contentSearchFound = false;
                         }
 
                         if ($obj->Categories) {
-
+                            echo "<!-- Do Category -->";
                             unset($_POST['sort']);
                             unset($_POST['rowCount']);
                             $categories = Category::getAllCategories();
@@ -196,6 +196,8 @@ $contentSearchFound = false;
                             ?>
 
                             <?php
+                        }else{
+                            echo "<!-- Do NOT Category -->";
                         }
                         if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
                             $channels = Subscribe::getSubscribedChannels(User::getId());
