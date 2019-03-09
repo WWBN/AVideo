@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
-$obj = YouPHPTubePlugin::getObjectData("YouTube");
+$objYTube = YouPHPTubePlugin::getObjectData("YouTube");
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
         $_SESSION['type'] = 'audio';
@@ -37,7 +37,7 @@ if ((empty($_GET['type'])) && (!empty($currentCatType))) {
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 $orderString = "";
-if ($obj->sortReverseable) {
+if ($objYTube->sortReverseable) {
     if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
         $orderString = $_SERVER['REQUEST_URI'] . "&";
     } else {
@@ -92,7 +92,7 @@ $contentSearchFound = false;
                         include $global['systemRootPath'] . 'plugin/YouTube/view/Category.php';
                     }
 
-                    if ($obj->searchOnChannels && !empty($_GET['search'])) {
+                    if ($objYTube->searchOnChannels && !empty($_GET['search'])) {
                         $channels = User::getAllUsers(true);
                         clearSearch();
                         foreach ($channels as $value) {
@@ -130,25 +130,25 @@ $contentSearchFound = false;
                         ?>
                         <!-- For Live Videos End -->
                         <?php
-                        if ($obj->SortByName) {
-                            createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
+                        if ($objYTube->SortByName) {
+                            createGallery(!empty($objYTube->SortByNameCustomTitle) ? $objYTube->SortByNameCustomTitle : __("Sort by name"), 'title', $objYTube->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
                         }
-                        if ($obj->DateAdded) {
-                            createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC");
+                        if ($objYTube->DateAdded) {
+                            createGallery(!empty($objYTube->DateAddedCustomTitle) ? $objYTube->DateAddedCustomTitle : __("Date added"), 'created', $objYTube->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC");
                         }
-                        if ($obj->MostWatched) {
-                            createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC");
+                        if ($objYTube->MostWatched) {
+                            createGallery(!empty($objYTube->MostWatchedCustomTitle) ? $objYTube->MostWatchedCustomTitle : __("Most watched"), 'views_count', $objYTube->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
-                        if ($obj->MostPopular) {
-                            createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
+                        if ($objYTube->MostPopular) {
+                            createGallery(!empty($objYTube->MostPopularCustomTitle) ? $objYTube->MostPopularCustomTitle : __("Most popular"), 'likes', $objYTube->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
 
-                        if ($obj->Categories) {
+                        if ($objYTube->Categories) {
                             echo "<!-- Do Category -->";
                             unset($_POST['sort']);
                             unset($_POST['rowCount']);
                             $categories = Category::getAllCategories();
-                            $_POST['rowCount'] = $obj->CategoriesRowCount;
+                            $_POST['rowCount'] = $objYTube->CategoriesRowCount;
                             $showAllVideos = false;
                             if (!empty($_GET['catName'])) {
                                 $showAllVideos = true;
@@ -185,11 +185,11 @@ $contentSearchFound = false;
                                 </div>
                                 <?php
                             }
-                            if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
+                            if ($objYTube->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
                                 $channels = Subscribe::getSubscribedChannels(User::getId());
                                 foreach ($channels as $value) {
                                     $_POST['disableAddTo'] = 0;
-                                    createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $obj->SubscribedChannelsRowCount);
+                                    createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $objYTube->SubscribedChannelsRowCount);
                                 }
                             }
                             unset($_POST['sort']);
@@ -199,11 +199,11 @@ $contentSearchFound = false;
                         }else{
                             echo "<!-- Do NOT Category -->";
                         }
-                        if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
+                        if ($objYTube->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
                             $channels = Subscribe::getSubscribedChannels(User::getId());
                             foreach ($channels as $value) {
                                 $_POST['disableAddTo'] = 0;
-                                createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $obj->SubscribedChannelsRowCount);
+                                createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $objYTube->SubscribedChannelsRowCount);
                             }
                         }
                         unset($_POST['sort']);
