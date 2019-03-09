@@ -44,7 +44,7 @@ class AD_Server extends PluginAbstract {
     }
 
     public function canLoadAds() {
-        if (empty($_GET['videoName'])) {
+        if (empty($_GET['videoName']) && empty($_GET['u'])) {
             return false;
         }
         session_write_close();
@@ -94,10 +94,13 @@ class AD_Server extends PluginAbstract {
             return "";
         }
         global $global;
-
-        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        
+        if(empty($_GET['u'])){
+            $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        }else{
+            $video['duration'] = "01:00:00";
+        }
         $video_length = parseDurationToSeconds($video['duration']);
-
         $vmap_id = @$_GET['vmap_id'];
 
         if (!empty($_GET['vmap_id']) && !empty($_SESSION['vmap'][$_GET['vmap_id']])) {
