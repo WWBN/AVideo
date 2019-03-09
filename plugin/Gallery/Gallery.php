@@ -39,6 +39,7 @@ class Gallery extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->BigVideo = true;
+        $obj->GifOnBigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;
         $obj->DateAdded = true;
