@@ -24,7 +24,7 @@ $lt = new LiveTransmition($t['id']);
 if($lt->userCanSeeTransmition()){
     $uuid = $t['key'];
     $p = YouPHPTubePlugin::loadPlugin("Live");
-    $video = "{$p->getPlayerServer()}/{$uuid}/index.m3u8";
+    $video = "{$p->getM3U8File($uuid)}";
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
         $content = url_get_contents($url);

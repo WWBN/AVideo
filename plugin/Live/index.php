@@ -102,7 +102,7 @@ if(empty($channelName)){
                     <div class="panel-body">          
                         <div class="form-group">
                             <label for="playerURL"><i class="fa fa-play-circle"></i> <?php echo __("Player URL"); ?>:</label>
-                            <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8"  readonly="readonly">
+                            <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getM3U8File($trasnmition['key']); ?>"  readonly="readonly">
                         </div>       
                         <div class="form-group">
                             <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("Live URL"); ?>:</label>
@@ -151,7 +151,7 @@ if(empty($channelName)){
                             <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
                                    class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                                    id="mainVideo" data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>",  "techorder" : ["flash", "html5"] }'>
-                                <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8" type='application/x-mpegURL'>
+                                <source src="<?php echo $p->getM3U8File($trasnmition['key']); ?>" type='application/x-mpegURL'>
                             </video>
                         </div>
                     </div>
