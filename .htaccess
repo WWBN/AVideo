@@ -31,7 +31,9 @@ Options All -Indexes
 # END Expires
 # BEGIN Caching
 <ifModule mod_headers.c>
-    Header set Access-Control-Allow-Origin: *
+    <FilesMatch "\.(ts)$">
+        Header set Access-Control-Allow-Origin: *
+    </FilesMatch>
     <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
         Header set Cache-Control "max-age=2592000, public"
     </filesMatch>
