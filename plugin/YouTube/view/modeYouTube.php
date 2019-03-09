@@ -164,6 +164,7 @@ $contentSearchFound = false;
                                 $_POST['sort']['v.created'] = "DESC";
                                 $_POST['sort']['likes'] = "DESC";
                                 $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                                echo "<!-- Category {$value['clean_name']} -->";
                                 if (empty($videos)) {
                                     $_GET['catName'] = $oldCatName;
                                     continue;
