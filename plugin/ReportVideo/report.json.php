@@ -1,6 +1,4 @@
 <?php
-
-header('Access-Control-Allow-Origin: *');
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/plugin.php';

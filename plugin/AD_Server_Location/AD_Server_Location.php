@@ -1,6 +1,4 @@
 <?php
-
-header('Access-Control-Allow-Origin: *');
 /**
  * https://support.google.com/adsense/answer/4455881
  * https://support.google.com/adsense/answer/1705822

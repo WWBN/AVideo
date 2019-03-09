@@ -252,7 +252,6 @@ if (!empty($_GET['t'])) {
                         }
                     });
 
-                    player.currentTime(<?php echo $t; ?>);
     <?php
     if ($autoplay) {
         ?>

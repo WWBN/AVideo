@@ -72,6 +72,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+allowOrigin();
 if (class_exists("Plugin")) {
     YouPHPTubePlugin::getStart();
 } else {

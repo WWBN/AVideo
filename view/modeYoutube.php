@@ -42,7 +42,9 @@ if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $ad
     $_GET['catName'] = "";
 }
 
-$video = Video::getVideo("", "viewable", false, false, true, true);
+if (empty($video)) {
+    $video = Video::getVideo("", "viewable", false, false, true, true);
+}
 
 if (empty($video)) {
     $video = Video::getVideo("", "viewable", false, false, false, true);
@@ -249,6 +251,8 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                 $vType = $video['type'];
                 if ($vType == "linkVideo") {
                     $vType = "video";
+                } else if ($vType == "live") {
+                    $vType = "../../plugin/Live/view/liveVideo";
                 } else if ($vType == "linkAudio") {
                     $vType = "audio";
                 }
