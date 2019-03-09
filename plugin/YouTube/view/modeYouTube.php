@@ -142,12 +142,12 @@ $contentSearchFound = false;
                             createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
                         }
 
-                        if ($obj->Categorys && empty($_GET['showOnly'])) {
+                        if ($obj->Categories && empty($_GET['showOnly'])) {
 
                             unset($_POST['sort']);
                             unset($_POST['rowCount']);
                             $categories = Category::getAllCategories();
-                            $_POST['rowCount'] = $obj->CategorysRowCount;
+                            $_POST['rowCount'] = $obj->CategoriesRowCount;
                             $showAllVideos = false;
                             if (!empty($_GET['catName'])) {
                                 $showAllVideos = true;
