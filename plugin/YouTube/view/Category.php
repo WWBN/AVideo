@@ -1,12 +1,12 @@
 <?php
-if ((!empty($videos)) || ($obj->SubCategorys)) {
+if ((!empty($videos)) || ($objYTube->SubCategorys)) {
     ?>
-    <?php if (($obj->CategoryDescription) && (!empty($_GET['catName']))) { ?>
+    <?php if (($objYTube->CategoryDescription) && (!empty($_GET['catName']))) { ?>
         <h1 style="text-align: center;"><?php echo $video['category']; ?></h1>
         <p style="margin-left: 10%; margin-right: 10%; max-height: 200px; overflow-x: auto;"><?php echo $video['category_description']; ?></p>
         <?php
     }
-    if (($obj->SubCategorys) && (!empty($_GET['catName']))) {
+    if (($objYTube->SubCategorys) && (!empty($_GET['catName']))) {
         unset($_POST['rowCount']);
         if (!empty($currentCat)) {
             $childCategories = Category::getChildCategories($currentCat['id']);

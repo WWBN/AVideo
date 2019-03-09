@@ -2,7 +2,7 @@
 if (empty($crc)) {
     $crc = uniqid();
 }
-if ($obj->BigVideo && empty($_GET['showOnly'])) {
+if ($objYTube->BigVideo && empty($_GET['showOnly'])) {
     $name = User::getNameIdentificationById($video['users_id']);
     if (empty($get)) {
         $get = array();
@@ -51,7 +51,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             </a>
                         <?php } ?>
                         <?php
-                        if (!empty($obj->showTags)) {
+                        if (!empty($objYTube->showTags)) {
                             $video['tags'] = Video::getTags($video['id']);
                             if (!empty($video['tags'])) {
                                 foreach ($video['tags'] as $value2) {
