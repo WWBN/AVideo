@@ -175,7 +175,7 @@ if ($playNowVideo['type'] == "linkVideo") {
                                                     }, 1000);
                                                 }
                                             }, 150);
-<?php } else {
+<?php } else { ?>
     
                                             
                                             setTimeout(function () {
