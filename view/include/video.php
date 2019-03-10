@@ -15,7 +15,7 @@ if (isset($_GET['t'])) {
 } else if (!empty($video['progress']['lastVideoTime'])) {
     $currentTime = intval($video['progress']['lastVideoTime']);
     $maxCurrentTime = parseDurationToSeconds($video['duration']);
-    if ($maxCurrentTime <= $currentTime - 5) {
+    if ($maxCurrentTime <= $currentTime + 5) {
         if (!empty($video['externalOptions']->videoStartSeconds)) {
             $currentTime = intval($video['externalOptions']->videoStartSeconds);
         } else {
