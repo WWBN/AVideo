@@ -154,6 +154,7 @@ $contentSearchFound = false;
                                 $showAllVideos = true;
                             }
                             foreach ($categories as $value) {
+                                $_GET['catName'] = $value['clean_name'];
                                 unset($_POST['sort']);
                                 $_POST['sort']['v.created'] = "DESC";
                                 $_POST['sort']['likes'] = "DESC";
@@ -178,6 +179,7 @@ $contentSearchFound = false;
                                 </div>
                                 <?php
                             }
+                            unset($_GET['catName']);
                             ?>
 
                             <?php
