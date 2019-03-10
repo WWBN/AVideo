@@ -154,19 +154,12 @@ $contentSearchFound = false;
                                 $showAllVideos = true;
                             }
                             foreach ($categories as $value) {
-                                $oldCatName = @$_GET['catName'];
-                                if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
-                                    continue;
-                                } else {
-                                    $_GET['catName'] = $value['clean_name'];
-                                }
                                 unset($_POST['sort']);
                                 $_POST['sort']['v.created'] = "DESC";
                                 $_POST['sort']['likes'] = "DESC";
                                 $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                                 echo "<!-- Category {$value['clean_name']} -->";
                                 if (empty($videos)) {
-                                    $_GET['catName'] = $oldCatName;
                                     continue;
                                 }
                                 ?>
