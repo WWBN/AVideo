@@ -177,10 +177,9 @@ if ($playNowVideo['type'] == "linkVideo") {
                                             }, 150);
 <?php } else { ?>
     
-                                            
-                                            setTimeout(function () {
+                                            if (typeof player !== 'undefined') {
                                                 player.currentTime(<?php echo $currentTime; ?>);
-                                            }, 1000);
+                                            }
                                             if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                                                 setTimeout(function () {
                                                     if (typeof player === 'undefined') {
