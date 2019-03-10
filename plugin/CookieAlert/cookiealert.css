@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     margin: 0 !important;
-    z-index: 999;
+    z-index: 99999;
     opacity: 0;
     border-radius: 0;
     background: #212327 url("cubes.png");
