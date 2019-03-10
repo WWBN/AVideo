@@ -1487,7 +1487,7 @@ function getPlayerSnapshot(player) {
   var snapshotObject = {
     ended: player.ended(),
     currentSrc: player.currentSrc(),
-    sources: player.currentSources(),
+    sources: (typeof player.currentSources === "function")?player.currentSources():[],
     src: player.tech_.src(),
     currentTime: currentTime,
     type: player.currentType()
