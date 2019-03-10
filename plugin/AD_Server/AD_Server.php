@@ -43,8 +43,8 @@ class AD_Server extends PluginAbstract {
     }
 
     public function canLoadAds() {
-        if (empty($_GET['videoName']) && empty($_GET['u'])) {
-        //if (empty($_GET['videoName'])) {
+        //if (empty($_GET['videoName']) && empty($_GET['u'])) {
+        if (empty($_GET['videoName'])) {
             return false;
         }
         session_write_close();
