@@ -18,7 +18,7 @@ if (isset($_GET['t'])) {
     $currentTime = intval($video['externalOptions']->videoStartSeconds);
 }
 $maxCurrentTime = parseDurationToSeconds($video['duration']);
-if ($maxCurrentTime <= $currentTime - 2) {
+if ($maxCurrentTime <= $currentTime - 5) {
     $currentTime = 0;
 }
 ?>
