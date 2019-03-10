@@ -167,7 +167,9 @@ $contentSearchFound = false;
                                 <div class="clear clearfix">
                                     <h3 class="galleryTitle">
                                         <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>">
-                                            <i class="glyphicon glyphicon-list-alt"></i>
+                                            <i class="<?php
+                                            echo $value['iconClass'];
+                                            ?>"></i>
                                             <?php
                                             echo $value['name'];
                                             ?>
