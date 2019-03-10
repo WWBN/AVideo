@@ -730,7 +730,7 @@ img.blur{
     margin-right: 0 !important;
 }
 
-.ima-controls-div, .ima-ad-container, .ima-ad-container iframe{
+.ima-controls-div, .ima-ad-container{
     pointer-events: none !important;
 }
 
