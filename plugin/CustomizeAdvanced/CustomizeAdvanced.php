@@ -101,6 +101,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotDisplayLikes = false;
         $obj->doNotDisplayCategoryLeftMenu = false;
         $obj->doNotDisplayCategory = false;
+        $obj->doNotDisplayTags = false;
         $obj->showNotRatedLabel = false;
         $obj->askRRatingConfirmationBeforePlay_G = false;
         $obj->askRRatingConfirmationBeforePlay_PG = false;
