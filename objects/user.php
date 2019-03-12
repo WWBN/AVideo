@@ -515,7 +515,7 @@ if (typeof gtag !== \"function\") {
                 return true; // the video is public
             }
         }
-
+        
         if (!User::isLogged()) {
             return false;
         }
