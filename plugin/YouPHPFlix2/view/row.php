@@ -75,12 +75,19 @@ foreach ($videos as $value) {
                     ?> 
                     <span class="label label-default"><i class="fa fa-eye"></i> <?php echo $value['views_count']; ?></span>
                 <?php } ?>
-                <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
-                <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="fa"></i> <?php echo $value['category']; ?></a></span>
-
+                <?php
+                if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayLikes)) {
+                    ?>
+                    <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $value['likes']; ?></span>
+                <?php } ?>
+                <?php
+                if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayCategory)) {
+                    ?>
+                    <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>                       
+                <?php } ?>
                 <?php
                 foreach ($value['tags'] as $value2) {
-                    if ($value2->label === __("Group")) {
+                    if ($value2->label === __("Group") || $value2->label === __("Plugin")) {
                         ?>
                         <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                         <?php
@@ -90,7 +97,7 @@ foreach ($videos as $value) {
                 <?php
                 if (!empty($value['rrating'])) {
                     include $global['systemRootPath'] . 'view/rrating/rating-' . $value['rrating'] . '.php';
-                }else if(!empty($advancedCustom) && $advancedCustom->showNotRatedLabel){
+                } else if (!empty($advancedCustom) && $advancedCustom->showNotRatedLabel) {
                     include $global['systemRootPath'] . 'view/rrating/notRated.php';
                 }
                 ?>
