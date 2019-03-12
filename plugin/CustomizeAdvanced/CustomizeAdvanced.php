@@ -98,7 +98,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->useFFMPEGToGenerateThumbs = false;
         $obj->showImageDownloadOption = false;
         $obj->doNotDisplayViews = false;
+        $obj->doNotDisplayLikes = false;
         $obj->doNotDisplayCategoryLeftMenu = false;
+        $obj->doNotDisplayCategory = false;
         $obj->showNotRatedLabel = false;
         $obj->askRRatingConfirmationBeforePlay_G = false;
         $obj->askRRatingConfirmationBeforePlay_PG = false;
@@ -130,7 +132,7 @@ class CustomizeAdvanced extends PluginAbstract {
         global $global, $config;
         $obj = $this->getDataObject();
         $video = Video::getVideo($videos_id, "viewable", true);
-        if(!empty($video['rrating']) && User::canWatchVideo($videos_id) && empty($_GET['rrating'])){
+        if(!empty($video['rrating']) && empty($_GET['rrating'])){
             $suffix = strtoupper(str_replace("-", "", $video['rrating']));
             eval("\$show = \$obj->askRRatingConfirmationBeforePlay_$suffix;");
             if(!empty($show)){
@@ -139,4 +141,5 @@ class CustomizeAdvanced extends PluginAbstract {
             }
         }
     }
+    
 }
