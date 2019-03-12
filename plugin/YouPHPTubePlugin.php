@@ -790,4 +790,40 @@ class YouPHPTubePlugin {
         }
         return $r;
     }
+    
+    public static function profileTabName($users_id){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->profileTabName($users_id);
+            }
+        }
+        return $r;
+    }
+    
+    public static function profileTabContent($users_id){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->profileTabContent($users_id);
+            }
+        }
+        return $r;
+    }
+    
+    public static function getVideoTags($videos_id){
+        $plugins = Plugin::getAllEnabled();
+        $array = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $array = array_merge($array, $p->getVideoTags($videos_id));
+            }
+        }
+        return $array;
+    }
 }
