@@ -641,6 +641,7 @@ if (!class_exists('Video')) {
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
                     $video['progress'] = self::getVideoPogressPercent($video['id']);
+                    $video['tags'] = self::getTags($video['id']);
                     if(!empty($video['externalOptions'])){
                         $video['externalOptions'] = json_decode($video['externalOptions']);
                     }else{
@@ -1613,6 +1614,9 @@ if (!class_exists('Video')) {
                     $obj = new stdClass();
                 }
             }
+            
+            $tags = array_merge($tags, YouPHPTubePlugin::getVideoTags($video_id));
+            //var_dump($tags);
             return $tags;
         }
 
