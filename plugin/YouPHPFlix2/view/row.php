@@ -86,9 +86,17 @@ foreach ($videos as $value) {
                     <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>                       
                 <?php } ?>
                 <?php
-                if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayTags)) {
-                    foreach ($value['tags'] as $value2) {
-                        if ($value2->label === __("Group") || $value2->label === __("Plugin")) {
+                foreach ($value['tags'] as $value2) {
+                    if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayGroupsTags)) {
+                        if ($value2->label === __("Group")) {
+                            ?>
+                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                            <?php
+                        }
+                    }
+                    if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {
+
+                        if ($value2->label === "Plugin") {
                             ?>
                             <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                             <?php
