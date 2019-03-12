@@ -82,11 +82,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>                       
                         <?php } ?>
                         <?php
-                        foreach ($video['tags'] as $value2) {
-                            if ($value2->label === __("Group") || $value2->label === "Plugin") {
-                                ?>
-                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                <?php
+                        if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayTags)) {
+                            foreach ($video['tags'] as $value2) {
+                                if ($value2->label === __("Group") || $value2->label === "Plugin") {
+                                    ?>
+                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                    <?php
+                                }
                             }
                         }
                         ?>   
