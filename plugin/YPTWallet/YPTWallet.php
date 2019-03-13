@@ -327,6 +327,21 @@ class YPTWallet extends PluginAbstract {
         }
     }
     
+    static function getAvailableRecurrentPayments() {
+        global $global;
+        $dir = self::getPluginDir();
+        $plugins = self::getEnabledPlugins();
+        foreach ($plugins as $value) {
+            $subdir = $dir . DIRECTORY_SEPARATOR . $value . DIRECTORY_SEPARATOR;
+            $file = $subdir . "{$value}.php";
+            if (is_dir($subdir) && file_exists($file)) {
+                require_once $file;
+                $eval = "\$obj = new {$value}();\$obj->getRecurrentAprovalButton();";
+                eval($eval);
+            }
+        }
+    }
+    
     static function getAvailablePlugins() {
         $dir = self::getPluginDir();
         $dirs = scandir($dir);

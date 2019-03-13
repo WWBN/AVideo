@@ -22,8 +22,8 @@ if(empty($_POST['value']) || !in_array($_POST['value'], $options)){
 }
 
 $invoiceNumber = uniqid();
-
-$payment = $plugin->setUpSubscription("Test recurrent payment ".$invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, "Day", "Recurrent Payment");
+//setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $name = 'Base Agreement') {
+$payment = $plugin->setUpSubscription($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, "Day", "Recurrent Payment");
 if (!empty($payment)) {
     $obj->error = false;
     $obj->approvalLink = $payment->getApprovalLink();
