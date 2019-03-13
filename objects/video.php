@@ -652,6 +652,8 @@ if (!class_exists('Video')) {
                         $video['videoTags'] = Tags::getAllFromVideosId($video['id']);
                         $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['id']);
                     }
+                    unset($video['password']);
+                    unset($video['recoverPass']);
                 }
             } else {
                 $video = false;
