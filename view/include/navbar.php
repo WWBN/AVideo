@@ -248,7 +248,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                         <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off" />
                                                     </form>
                                                     <a href="#" onclick="$('#formEncoderN').submit();
-                                                            return false;">
+                                                                            return false;">
                                                         <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel) ? __("Encoder Network") : $advancedCustom->encoderNetworkLabel; ?>
                                                     </a>
                                                 </li>
@@ -264,7 +264,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                             <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off"  />
                                                         </form>
                                                         <a href="#" onclick="$('#formEncoder').submit();
-                                                                return false;">
+                                                                                    return false;">
                                                             <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?>
                                                         </a>
                                                     </li>
@@ -505,15 +505,15 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                                                     </li>
                                                     <?php
-                                                    ?>
-                                                    <li>
-                                                        <a href="<?php echo $global['webSiteRootURL']; ?>comments">
-                                                            <span class="fa fa-comment"></span>
-                                                            <?php echo __("Comments"); ?>
-                                                        </a>
-                                                    </li>
-                                                    <?php
                                                 }
+                                                ?>
+                                                <li>
+                                                    <a href="<?php echo $global['webSiteRootURL']; ?>comments">
+                                                        <span class="fa fa-comment"></span>
+                                                        <?php echo __("Comments"); ?>
+                                                    </a>
+                                                </li>
+                                                <?php
                                             }
                                             ?>
                                             <?php
