@@ -148,7 +148,7 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos("viewable", false, true);
             $totalRows = Video::getTotalVideos("viewable", false, true);
         } else if (!empty($parameters['videos_id'])) {
-            $rows = Video::getVideo($parameters['videos_id']);
+            $rows = array(Video::getVideo($parameters['videos_id']));
             $totalRows = empty($rows) ? 0 : 1;
         } else if (!empty($parameters['clean_title'])) {
             $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
@@ -158,7 +158,7 @@ class API extends PluginAbstract {
             $totalRows = Video::getTotalVideos();
         }
         $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
-        foreach ($rows as $key => $value) {
+        foreach ($rows as $key=>$value) {       
             $rows[$key]['images'] = Video::getImageFromFilename($value['filename']);
             $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
             if ($SubtitleSwitcher) {
