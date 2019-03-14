@@ -52,7 +52,7 @@ $obj->countLiveStream = count($lifeStream);
 foreach ($lifeStream as $value){
     if(!empty($value->name)){
         $row = LiveTransmition::keyExists($value->name);
-        if(!empty($row)){
+        if(!empty($row) && $value->name === $_POST['name']){
             $obj->msg = "ONLINE";
         }
         if(empty($row) || empty($row['public'])){
