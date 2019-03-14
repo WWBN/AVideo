@@ -10,7 +10,7 @@
             data: {"name": "<?php echo $streamName; ?>"},
             type: 'post',
             success: function (response) {
-                if (!response.error) {
+                if (!response.error || response.msg === "ONLINE") {
                     $('#liveViewStatus').removeClass('label-danger');
                     $('#liveViewStatus').addClass('label-success');
                     $('#liveViewViews').removeClass('label-default');
