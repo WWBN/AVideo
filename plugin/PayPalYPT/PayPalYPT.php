@@ -144,14 +144,14 @@ class PayPalYPT extends PluginAbstract {
                 // Output plan id
                 return $plan;
             } catch (PayPal\Exception\PayPalConnectionException $ex) {
-                error_log("PayPal Error createBillingPlan: " . $ex->getData());
+                error_log("PayPal Error createBillingPlan 1: " . $ex->getData());
             } catch (Exception $ex) {
-                error_log("PayPal Error createBillingPlan: " . $ex->getData());
+                error_log("PayPal Error createBillingPlan 2: " . $ex->getData());
             }
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
+            error_log("PayPal Error createBillingPlan 3: " . $ex->getData());
         } catch (Exception $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
+            error_log("PayPal Error createBillingPlan 4: " . $ex->getData());
         }
         return false;
     }
@@ -262,9 +262,9 @@ class PayPalYPT extends PluginAbstract {
             error_log("PayPal Try to execute ");
             return $agreement->execute($token, $apiContext);
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
+            error_log("PayPal Error executeBillingAgreement: " . $ex->getData());
         } catch (Exception $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex);
+            error_log("PayPal Error executeBillingAgreement: " . $ex);
         }
         return false;
     }
