@@ -93,7 +93,7 @@ class PayPalYPT extends PluginAbstract {
         return false;
     }
 
-    private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $name = 'Base Agreement') {
+    private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
         global $global;
 
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
@@ -109,7 +109,7 @@ class PayPalYPT extends PluginAbstract {
         $paymentDefinition->setName('Regular Payments')
                 ->setType('REGULAR')
                 ->setFrequency($frequency)
-                ->setFrequencyInterval('1')
+                ->setFrequencyInterval($interval)
                 ->setCycles('0')
                 ->setAmount(new Currency(array('value' => $total, 'currency' => $currency)));
 
@@ -156,14 +156,14 @@ class PayPalYPT extends PluginAbstract {
         return false;
     }
 
-    public function setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $name = 'Base Agreement') {
+    public function setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
         global $global;
 
         require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
 
         $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
-
-        $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency, $name);
+        //createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') 
+        $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency,$interval, $name);
 
         if (empty($plan)) {
             error_log("PayPal Error setUpSubscription Plan ID is empty ");
@@ -175,7 +175,7 @@ class PayPalYPT extends PluginAbstract {
         $agreement = new Agreement();
         $agreement->setName($name)
                 ->setDescription($name)
-                ->setStartDate(date("Y-m-d\TH:i:s.000\Z", strtotime("+1 minute")));
+                ->setStartDate(date("Y-m-d\TH:i:s.000\Z", strtotime("+2 minute")));
 
         $plan = new Plan();
         $plan->setId($planId);
