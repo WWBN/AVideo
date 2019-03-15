@@ -140,7 +140,7 @@ class PayPalYPT extends PluginAbstract {
                 $patchRequest->addPatch($patch);
                 $createdPlan->update($patchRequest, $apiContext);
                 $plan = Plan::get($createdPlan->getId(), $apiContext);
-
+                error_log("createBillingPlan: ". json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
                 // Output plan id
                 return $plan;
             } catch (PayPal\Exception\PayPalConnectionException $ex) {
