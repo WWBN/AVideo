@@ -1,14 +1,18 @@
-<button type="submit" class="btn btn-primary" id="YPTWalletPayPalRecurrentButton"><i class="fab fa-paypal"></i> <?php echo __("Subscribe"); ?> PayPal</button>
+<?php
+$uniqid = uniqid();
+?>
+<button type="submit" class="btn btn-primary" id="YPTWalletPayPalRecurrentButton<?php echo $uniqid; ?>"><i class="fab fa-paypal"></i> <?php echo __("Subscribe"); ?> PayPal</button>
 <script>
     $(document).ready(function () {
-        $('#YPTWalletPayPalRecurrentButton').click(function (evt) {
+        $('#YPTWalletPayPalRecurrentButton<?php echo $uniqid; ?>').click(function (evt) {
             evt.preventDefault();
             modal.showPleaseWait();
 
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletPayPal/requestSubscription.json.php',
                 data: {
-                    "value": $('#value').val()
+                    "value": $('#value').val(),
+                    "paymentName": "<?php echo $_GET['paymentName']; ?>"
                 },
                 type: 'post',
                 success: function (response) {

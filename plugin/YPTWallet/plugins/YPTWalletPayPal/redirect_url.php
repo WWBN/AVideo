@@ -10,6 +10,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
 $paypal = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
+// how to get the users_ID from the PayPal call back IPN?
 $users_id = User::getId();
 
 $invoiceNumber = uniqid();
@@ -37,4 +38,6 @@ if (!empty($payment)) {
     }
 }
 error_log(json_encode($obj));
+error_log("PAYPAL redirect_url GET:  ".json_encode($_GET));
+error_log("PAYPAL redirect_url POST: ".json_encode($_POST));
 ?>
