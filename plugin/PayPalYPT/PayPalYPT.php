@@ -172,7 +172,8 @@ class PayPalYPT extends PluginAbstract {
         $planId = $plan->getId();
 
         // Create new agreement
-        $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+2 minute"));
+        // the setup fee will be the first payment and start date is the next payment
+        $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
         $agreement = new Agreement();
         $agreement->setName($name)
                 ->setDescription($name)
