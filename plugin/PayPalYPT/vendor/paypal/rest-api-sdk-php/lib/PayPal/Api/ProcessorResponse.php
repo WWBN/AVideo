@@ -24,7 +24,7 @@ class ProcessorResponse extends PayPalModel
      * Paypal normalized response code, generated from the processor's specific response code
      *
      * @param string $response_code
-     * 
+     *
      * @return $this
      */
     public function setResponseCode($response_code)
@@ -44,10 +44,10 @@ class ProcessorResponse extends PayPalModel
     }
 
     /**
-     * Address Verification System response code. https://developer.paypal.com/webapps/developer/docs/classic/api/AVSResponseCodes/
+     * Address Verification System response code. https://developer.paypal.com/docs/classic/api/AVSResponseCodes/
      *
      * @param string $avs_code
-     * 
+     *
      * @return $this
      */
     public function setAvsCode($avs_code)
@@ -57,7 +57,7 @@ class ProcessorResponse extends PayPalModel
     }
 
     /**
-     * Address Verification System response code. https://developer.paypal.com/webapps/developer/docs/classic/api/AVSResponseCodes/
+     * Address Verification System response code. https://developer.paypal.com/docs/classic/api/AVSResponseCodes/
      *
      * @return string
      */
@@ -67,10 +67,10 @@ class ProcessorResponse extends PayPalModel
     }
 
     /**
-     * CVV System response code. https://developer.paypal.com/webapps/developer/docs/classic/api/AVSResponseCodes/
+     * CVV System response code. https://developer.paypal.com/docs/classic/api/AVSResponseCodes/
      *
      * @param string $cvv_code
-     * 
+     *
      * @return $this
      */
     public function setCvvCode($cvv_code)
@@ -80,7 +80,7 @@ class ProcessorResponse extends PayPalModel
     }
 
     /**
-     * CVV System response code. https://developer.paypal.com/webapps/developer/docs/classic/api/AVSResponseCodes/
+     * CVV System response code. https://developer.paypal.com/docs/classic/api/AVSResponseCodes/
      *
      * @return string
      */
@@ -94,7 +94,7 @@ class ProcessorResponse extends PayPalModel
      * Valid Values: ["01_NEW_ACCOUNT_INFORMATION", "02_TRY_AGAIN_LATER", "02_STOP_SPECIFIC_PAYMENT", "03_DO_NOT_TRY_AGAIN", "03_REVOKE_AUTHORIZATION_FOR_FUTURE_PAYMENT", "21_DO_NOT_TRY_AGAIN_CARD_HOLDER_CANCELLED_RECURRRING_CHARGE", "21_CANCEL_ALL_RECURRING_PAYMENTS"]
      *
      * @param string $advice_code
-     * 
+     *
      * @return $this
      */
     public function setAdviceCode($advice_code)
@@ -117,7 +117,7 @@ class ProcessorResponse extends PayPalModel
      * Response back from the authorization. Provided by the processor
      *
      * @param string $eci_submitted
-     * 
+     *
      * @return $this
      */
     public function setEciSubmitted($eci_submitted)
@@ -140,7 +140,7 @@ class ProcessorResponse extends PayPalModel
      * Visa Payer Authentication Service status. Will be return from processor
      *
      * @param string $vpas
-     * 
+     *
      * @return $this
      */
     public function setVpas($vpas)

@@ -83,6 +83,11 @@ class PayPalHttpConnection
             return strlen($data);
         }
 
+        // Added condition to ignore extra header which dont have colon ( : )
+        if (strpos($trimmedData, ":") == false) {
+            return strlen($data);
+        }
+        
         list($key, $value) = explode(":", $trimmedData, 2);
 
         $key = trim($key);

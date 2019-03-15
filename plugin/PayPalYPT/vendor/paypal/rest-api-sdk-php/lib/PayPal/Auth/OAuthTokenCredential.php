@@ -48,6 +48,11 @@ class OAuthTokenCredential extends PayPalResourceModel
     private $clientSecret;
 
     /**
+     * Target subject
+     */
+    private $targetSubject;
+
+    /**
      * Generated Access Token
      *
      * @var string $accessToken
@@ -81,11 +86,12 @@ class OAuthTokenCredential extends PayPalResourceModel
      * @param string $clientId     client id obtained from the developer portal
      * @param string $clientSecret client secret obtained from the developer portal
      */
-    public function __construct($clientId, $clientSecret)
+    public function __construct($clientId, $clientSecret, $targetSubject = null)
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->cipher = new Cipher($this->clientSecret);
+        $this->targetSubject = $targetSubject;
     }
 
     /**
@@ -266,6 +272,9 @@ class OAuthTokenCredential extends PayPalResourceModel
             // Used for Future Payments
             $params['grant_type'] = 'refresh_token';
             $params['refresh_token'] = $refreshToken;
+        }
+        if ($this->targetSubject != null) {
+            $params['target_subject'] = $this->targetSubject;
         }
         $payload = http_build_query($params);
         $response = $this->getToken($config, $this->clientId, $this->clientSecret, $payload);

@@ -20,8 +20,10 @@ use PayPal\Common\PayPalModel;
 class Payer extends PayPalModel
 {
     /**
-     * Payment method being used - PayPal Wallet payment, Bank Direct Debit  or Direct Credit card.
-     * Valid Values: ["credit_card", "bank", "paypal", "pay_upon_invoice", "carrier", "alternate_payment"]
+     * Payment method being used. "credit_card" is not available for general use.
+     * Please ensure that you have acquired the approval for using "credit_card" for your live
+     * credentials.
+     * Valid Values: ["credit_card", "paypal"]
      *
      * @param string $payment_method
      * 

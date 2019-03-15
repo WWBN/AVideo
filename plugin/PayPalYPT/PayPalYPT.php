@@ -93,6 +93,55 @@ class PayPalYPT extends PluginAbstract {
         return false;
     }
 
+    private function executePayment() {
+        global $global;
+        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        // ### Approval Status
+        // Determine if the user approved the payment or not
+        // Get the payment Object by passing paymentId
+        // payment id was previously stored in session in
+        // CreatePaymentUsingPayPal.php
+        $paymentId = $_GET['paymentId'];
+        $payment = Payment::get($paymentId, $apiContext);
+        $amount = self::getAmountFromPayment($payment);
+        $total = $amount->total;
+        $currency = $amount->currency;
+        // ### Payment Execute
+        // PaymentExecution object includes information necessary
+        // to execute a PayPal account payment.
+        // The payer_id is added to the request query parameters
+        // when the user is redirected from paypal back to your site
+        $execution = new PaymentExecution();
+        $execution->setPayerId($_GET['PayerID']);
+        // ### Optional Changes to Amount
+        // If you wish to update the amount that you wish to charge the customer,
+        // based on the shipping address or any other reason, you could
+        // do that by passing the transaction object with just `amount` field in it.
+        // Here is the example on how we changed the shipping to $1 more than before.
+        $transaction = new Transaction();
+        $amount = new Amount();
+        //$details = new Details();
+        $amount->setCurrency($currency);
+        $amount->setTotal($total);
+        //$amount->setDetails($details);
+        $transaction->setAmount($amount);
+        // Add the above transaction object inside our Execution object.
+        $execution->addTransaction($transaction);
+        try {
+            // Execute the payment
+            // (See bootstrap.php for more on `ApiContext`)
+            $result = $payment->execute($execution, $apiContext);
+            try {
+                $payment = Payment::get($paymentId, $apiContext);
+            } catch (Exception $ex) {
+                return false;
+            }
+        } catch (Exception $ex) {
+            return false;
+        }
+        return $payment;
+    }
+
     private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
         global $global;
 
@@ -201,62 +250,13 @@ class PayPalYPT extends PluginAbstract {
         }
         return false;
     }
-
-    private function executePayment() {
-        global $global;
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
-        // ### Approval Status
-        // Determine if the user approved the payment or not
-        // Get the payment Object by passing paymentId
-        // payment id was previously stored in session in
-        // CreatePaymentUsingPayPal.php
-        $paymentId = $_GET['paymentId'];
-        $payment = Payment::get($paymentId, $apiContext);
-        $amount = self::getAmountFromPayment($payment);
-        $total = $amount->total;
-        $currency = $amount->currency;
-        // ### Payment Execute
-        // PaymentExecution object includes information necessary
-        // to execute a PayPal account payment.
-        // The payer_id is added to the request query parameters
-        // when the user is redirected from paypal back to your site
-        $execution = new PaymentExecution();
-        $execution->setPayerId($_GET['PayerID']);
-        // ### Optional Changes to Amount
-        // If you wish to update the amount that you wish to charge the customer,
-        // based on the shipping address or any other reason, you could
-        // do that by passing the transaction object with just `amount` field in it.
-        // Here is the example on how we changed the shipping to $1 more than before.
-        $transaction = new Transaction();
-        $amount = new Amount();
-        //$details = new Details();
-        $amount->setCurrency($currency);
-        $amount->setTotal($total);
-        //$amount->setDetails($details);
-        $transaction->setAmount($amount);
-        // Add the above transaction object inside our Execution object.
-        $execution->addTransaction($transaction);
-        try {
-            // Execute the payment
-            // (See bootstrap.php for more on `ApiContext`)
-            $result = $payment->execute($execution, $apiContext);
-            try {
-                $payment = Payment::get($paymentId, $apiContext);
-            } catch (Exception $ex) {
-                return false;
-            }
-        } catch (Exception $ex) {
-            return false;
-        }
-        return $payment;
-    }
-
+    
     private function executeBillingAgreement() {
         global $global;
         require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $token = $_GET['token'];
         $agreement = new \PayPal\Api\Agreement();
-
+        
         try {
             // Execute agreement
             error_log("PayPal Try to execute ");

@@ -7,7 +7,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-
+error_log("PayPalIPN Start");
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
 $paypal = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
 $users_id = User::getId();
@@ -26,7 +26,11 @@ if (!empty($payment)) {
 }else{
     header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=fail");
 }
-error_log(json_encode($obj));
 
+
+error_log(json_encode($obj));
+error_log($_POST);
+error_log($_GET);
+error_log("PayPalIPN END");
 
 ?>
