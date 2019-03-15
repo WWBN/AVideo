@@ -172,10 +172,11 @@ class PayPalYPT extends PluginAbstract {
         $planId = $plan->getId();
 
         // Create new agreement
+        $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+2 minute"));
         $agreement = new Agreement();
         $agreement->setName($name)
                 ->setDescription($name)
-                ->setStartDate(date("Y-m-d\TH:i:s.000\Z", strtotime("+2 minute")));
+                ->setStartDate($startDate);
 
         $plan = new Plan();
         $plan->setId($planId);
@@ -193,9 +194,9 @@ class PayPalYPT extends PluginAbstract {
             // Extract approval URL to redirect user
             return $agreement;
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
+            error_log("PayPal Error createBillingPlan:  startDate: {$startDate} " . $ex->getData());
         } catch (Exception $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
+            error_log("PayPal Error createBillingPlan: startDate: {$startDate} " . $ex->getData());
         }
         return false;
     }
