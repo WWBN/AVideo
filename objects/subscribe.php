@@ -1,6 +1,7 @@
 <?php
+
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
@@ -14,16 +15,18 @@ class Subscribe {
     private $ip;
     private $users_id;
     private $notify;
+    private $subscriber_users_id;
 
-    function __construct($id, $email = "", $user_id = "") {
+    function __construct($id, $email = "", $user_id = "", $subscriber_users_id = "") {
         if (!empty($id)) {
             $this->load($id);
         }
-        if (!empty($email)) {
+        if (!empty($subscriber_users_id)) {
             $this->email = $email;
             $this->users_id = $user_id;
+            $this->subscriber_users_id = $subscriber_users_id;
             if (empty($this->id)) {
-                $this->loadFromEmail($email, $user_id, "");
+                $this->loadFromId($this->subscriber_users_id, $user_id, "");
             }
         }
     }
@@ -48,12 +51,22 @@ class Subscribe {
         return true;
     }
 
+    private function loadFromId($subscriber_users_id, $user_id, $status = "a") {
+        $obj = self::getSubscribeFromID($subscriber_users_id, $user_id, $status);
+        if (empty($obj))
+            return false;
+        foreach ($obj as $key => $value) {
+            $this->$key = $value;
+        }
+        return true;
+    }
+
     function save() {
         global $global;
         if (!empty($this->id)) {
             $sql = "UPDATE subscribes SET status = '{$this->status}',  notify = '{$this->notify}',ip = '" . getRealIpAddr() . "', modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO subscribes ( users_id, email,status,ip, created, modified) VALUES ('{$this->users_id}','{$this->email}', 'a', '" . getRealIpAddr() . "',now(), now())";
+            $sql = "INSERT INTO subscribes ( users_id, email,status,ip, created, modified, subscriber_users_id) VALUES ('{$this->users_id}','{$this->email}', 'a', '" . getRealIpAddr() . "',now(), now(), '$this->subscriber_users_id')";
         }
         return sqlDAL::writeSql($sql);
     }
@@ -62,10 +75,10 @@ class Subscribe {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM subscribes WHERE  id = $id LIMIT 1";
-        $res = sqlDAL::readSql($sql,"i",array($id));
+        $res = sqlDAL::readSql($sql, "i", array($id));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res!=false) {
+        if ($res != false) {
             $subscribe = $data;
         } else {
             $subscribe = false;
@@ -83,7 +96,25 @@ class Subscribe {
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res!=false) {
+        if ($res != false) {
+            $subscribe = $data;
+        } else {
+            $subscribe = false;
+        }
+        return $subscribe;
+    }
+
+    static function getSubscribeFromID($subscriber_users_id, $user_id, $status = "a") {
+        global $global;
+        $sql = "SELECT * FROM subscribes WHERE  subscriber_users_id = '$subscriber_users_id' AND users_id = {$user_id} ";
+        if (!empty($status)) {
+            $sql .= " AND status = '{$status}' ";
+        }
+        $sql .= " LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
             $subscribe = $data;
         } else {
             $subscribe = false;
@@ -111,20 +142,20 @@ class Subscribe {
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $subscribe = array();
-        if ($res!=false) {
+        if ($res != false) {
             $emails = array();
             foreach ($fullData as $row) {
-                if(in_array($row['email'], $emails)){
+                if (in_array($row['email'], $emails)) {
                     continue;
                 }
                 $emails[] = $row['email'];
                 $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
-                if($row['identification'] === __("Unknown User")){
+                if ($row['identification'] === __("Unknown User")) {
                     $row['identification'] = $row['email'];
                 }
                 $row['backgroundURL'] = User::getBackground($row['subscriber_id']);
                 $row['photoURL'] = User::getPhoto($row['subscriber_id']);
-                
+
                 $subscribe[] = $row;
             }
             //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
@@ -134,7 +165,7 @@ class Subscribe {
         }
         return $subscribe;
     }
-    
+
     /**
      * return all channels that a user has subscribed
      * @global type $global
@@ -143,25 +174,22 @@ class Subscribe {
      */
     static function getSubscribedChannels($user_id) {
         global $global;
-        
-        $user = new User($user_id);
-        $email = $user->getEmail();
-        
-        $sql = "SELECT s.* FROM subscribes as s WHERE email=? ";
-        
-        $res = sqlDAL::readSql($sql,"s",array($email));
+
+        $sql = "SELECT s.* FROM subscribes as s WHERE subscriber_users_id = ? ";
+
+        $res = sqlDAL::readSql($sql, "i", array($user_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $subscribe = array();
-        if ($res!=false) {
+        if ($res != false) {
             foreach ($fullData as $row) {
                 $row['identification'] = User::getNameIdentificationById($row['users_id']);
-                if($row['identification'] === __("Unknown User")){
+                if ($row['identification'] === __("Unknown User")) {
                     $row['identification'] = $row['email'];
                 }
                 $row['backgroundURL'] = User::getBackground($row['users_id']);
                 $row['photoURL'] = User::getPhoto($row['users_id']);
-                
+
                 $subscribe[] = $row;
             }
             //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
@@ -196,7 +224,7 @@ class Subscribe {
         }
         $this->save();
     }
-    
+
     function notifyToggle() {
         if (empty($this->notify)) {
             $this->notify = 1;
@@ -209,7 +237,7 @@ class Subscribe {
     function getStatus() {
         return $this->status;
     }
-    
+
     function getNotify() {
         return $this->notify;
     }
@@ -218,68 +246,67 @@ class Subscribe {
         $this->notify = $notify;
     }
 
-    
     static function getButton($user_id) {
         global $global;
         $total = static::getTotalSubscribes($user_id);
-        
+
         $subscribe = "<div class=\"btn-group\" >"
                 . "<button class='btn btn-xs subsB subs{$user_id} subscribeButton{$user_id}' title=\"" . __("Want to subscribe to this channel?") . "\" data-content=\"" . __("Sign in to subscribe to this channel") . "<hr><center><a class='btn btn-success btn-sm' href='{$global['webSiteRootURL']}user'>" . __("Sign in") . "</a></center>\"  tabindex=\"0\" role=\"button\" data-html=\"true\"  data-toggle=\"popover\" data-placement=\"bottom\" ><i class='fab fa-youtube'></i> <b class='text'>" . __("Subscribe") . "</b></button>"
                 . "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>{$total}</b></button>"
                 . "</div>";
-                
+
         //show subscribe button with mail field
         $popover = "";
         $script = "";
         if (User::isLogged()) {
             //check if the email is logged
             $email = User::getMail();
-            if (!empty($email)) {
-                $subs = Subscribe::getSubscribeFromEmail($email, $user_id);
-                $popover = "<input type=\"hidden\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail{$user_id}\" value=\"{$email}\">";
-                if (!empty($subs)) {
-                    // show unsubscribe Button
-                    $subscribe = "<div class=\"btn-group\">"
-                . "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><i class='fab fa-youtube'></i> <b class='text'>" . __("Subscribed") . "</b></button>"
-                . "<button class='btn btn-xs subsB subscribed subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>"
-                . "</div>";
-        
-                    if(!empty($subs['notify'])){
-                        $notify = '';
-                        $notNotify = 'hidden';
-                    }else{
-                        $notify = 'hidden';
-                        $notNotify = '';
-                    }
-                    $subscribe .= '<span class=" notify'.$user_id.' '.$notify.'"><button onclick="toogleNotify'.$user_id.'();" class="btn btn-default btn-xs " data-toggle="tooltip" 
-                                   title="'.__("Stop getting notified for every new video").'">
+            $subs = Subscribe::getSubscribeFromID(User::getId(), $user_id);
+            $popover = "<input type=\"hidden\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail{$user_id}\" value=\"{$email}\">";
+            // show unsubscribe Button
+            $subscribe = "<div class=\"btn-group\">"
+                    . "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><i class='fab fa-youtube'></i> <b class='text'>" . __("Subscribed") . "</b></button>"
+                    . "<button class='btn btn-xs subsB subscribed subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>"
+                    . "</div>";
+
+            if (!empty($subs['notify'])) {
+                $notify = '';
+                $notNotify = 'hidden';
+            } else {
+                $notify = 'hidden';
+                $notNotify = '';
+            }
+            $subscribe .= '<span class=" notify' . $user_id . ' ' . $notify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs " data-toggle="tooltip" 
+                                   title="' . __("Stop getting notified for every new video") . '">
                                 <i class="fa fa-bell" ></i>
-                            </button></span><span class=" notNotify'.$user_id.' '.$notNotify.'"><button onclick="toogleNotify'.$user_id.'();" class="btn btn-default btn-xs "  data-toggle="tooltip" 
-                                   title="'.__("Get notified for every new video").'">
+                            </button></span><span class=" notNotify' . $user_id . ' ' . $notNotify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs "  data-toggle="tooltip" 
+                                   title="' . __("Get notified for every new video") . '">
                                 <i class="fa fa-bell-slash"></i>
                             </button></span>';
-                }
-                $script = "<script>
+            $script = "<script>
                     function toogleNotify{$user_id}(){
                         email = $('#subscribeEmail{$user_id}').val();
-                        if (validateEmail(email)) {
-                            subscribeNotify(email, '{$user_id}');
-                        }
+                        subscribeNotify(email, '{$user_id}');
                     }
                     $(document).ready(function () {
                         $(\".subscribeButton{$user_id}\").off(\"click\");
                         $(\".subscribeButton{$user_id}\").click(function () {
                             email = $('#subscribeEmail{$user_id}').val();
-                            if (validateEmail(email)) {
-                                subscribe(email, '{$user_id}');
-                            }
+                            subscribe(email, '{$user_id}');
                         });
                         $('[data-toggle=\"tooltip\"]').tooltip(); 
                     });
                 </script>";
-            }
         }
-        return $subscribe.$popover.$script;
+        return $subscribe . $popover . $script;
+    }
+
+    function getSubscriber_users_id() {
+        return $this->subscriber_users_id;
+    }
+
+    function setSubscriber_users_id($subscriber_users_id) {
+        $this->subscriber_users_id = $subscriber_users_id;
     }
 
 }

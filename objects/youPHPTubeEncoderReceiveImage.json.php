@@ -38,7 +38,7 @@ $video = new Video("", "", $_POST['videos_id']);
 $obj->video_id = $_POST['videos_id'];
 
 error_log("ReceiveImage: "."Encoder receiving post ". print_r($_FILES, true));
-error_log("ReceiveImage: ".print_r($_POST, true));
+//error_log("ReceiveImage: ".print_r($_POST, true));
 
 $videoFileName = $video->getFilename();
 

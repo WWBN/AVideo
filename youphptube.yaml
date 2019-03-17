@@ -1,0 +1,127 @@
+---
+- hosts: jitsi     #or name it how do you want
+  become: true
+  pre_tasks:
+    - name: Update apt cache
+      apt: update_cache=yes cache_valid_time=3600
+
+  handlers:
+    - name: restart apache
+      service: name=apache2 state=restarted
+
+  tasks:
+
+    - name: install some packages
+      apt: name={{ item }} state=present
+      with_items:
+        - software-properties-common
+        - dirmngr
+        - sudo
+        - python-mysqldb
+
+    - name: add key
+      command:
+        apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xF1656F24C74CD1D8
+
+    - name: add repo
+      apt_repository:
+        repo: deb [arch=amd64,i386,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.2/debian stretch main
+        state: present
+
+    - name: install mariadb
+      apt:
+        name: mariadb-server
+        state: present
+
+    - name: remove test database
+      mysql_db: db=test state=absent
+
+    - name: create youPHPtube database
+      mysql_db: db=youPHPTube state=present
+
+    - name: create user youphptube
+      mysql_user: 
+        name: youphptube
+        password: passw0rd
+        priv: 'youPHPTube.*:ALL,GRANT'
+        host: localhost
+        state: present
+
+    - name: create youPHPTubeEncoder database
+      mysql_db: db=youPHPTube-Encoder state=present
+
+    - name: create user youPHPTubeEncoder
+      mysql_user: 
+        name: youphptubeencoder
+        password: passw0rd
+        priv: 'youPHPTube-Encoder.*:ALL,GRANT'      
+        host: localhost
+        state: present
+
+    - name: install packages
+      apt: name={{ item }} state=present
+      with_items:
+        - curl
+        - apache2
+        - php7.0
+        - libapache2-mod-php7.0
+        - php7.0-mysql
+        - php7.0-curl
+        - php7.0-gd
+        - php7.0-intl
+        - ffmpeg
+        - git
+        - libimage-exiftool-perl
+        - python
+
+    - name: get youPHPtube
+      git:
+        repo: https://github.com/DanielnetoDotCom/YouPHPTube.git
+        dest: /var/www/html/YouPHPTube
+        clone: yes
+
+    - name: get youPHPTubeEncoder
+      git:
+        repo: https://github.com/DanielnetoDotCom/YouPHPTube-Encoder.git
+        dest: /var/www/html/YouPHPTube-Encoder
+        clone: yes
+    
+    - name: get youtube-dl and set rights
+      command: "{{ item }}" 
+      warn: False 
+      with_items:
+        - curl -L https://youtube-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+        - chmod a+rx /usr/local/bin/youtube-dl
+        - a2enmod rewrite
+      notify: restart apache
+
+    - name: create folder videos in youPHPtube
+      file:
+        path: /var/www/html/YouPHPTube/videos
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: 0755
+
+    - name: create folder videos in youPHPTubeEncoder
+      file:
+        path: /var/www/html/YouPHPTube-Encoder/videos
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: 0755
+
+    - name: modify php.ini and apache2.conf
+      lineinfile:
+        dest: "{{ item.dest}}"
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+        backrefs: yes
+      with_items:
+        - {dest: '/etc/php/7.0/apache2/php.ini', regexp: 'post_max_size = 8M', line: 'post_max_size = 1000M'}
+        - {dest: '/etc/php/7.0/apache2/php.ini', regexp: 'upload_max_filesize = 2M', line: 'upload_max_filesize = 1000M'}
+        - {dest: '/etc/php/7.0/apache2/php.ini', regexp: 'max_execution_time = 30', line: 'max_execution_time = 7200'}
+        - {dest: '/etc/php/7.0/apache2/php.ini', regexp: 'memory_limit = 128M', line: 'memory_limit = 512M'}
+        - {dest: '/etc/apache2/apache2.conf', regexp: 'AllowOverride None', line: 'AllowOverride All', insertbefore='<Directory /srv/>' }
+      notify: restart apache
+

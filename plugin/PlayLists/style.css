@@ -1,0 +1,14 @@
+.PlayListList{
+    max-height: 125px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.vjs-playlist img {
+    min-height: 10px;
+}
+.vjs-mouse.vjs-playlist {
+    font-size: 12px;
+}
+.vjs-playlist .vjs-up-next-text {
+    font-size: .8em;
+}

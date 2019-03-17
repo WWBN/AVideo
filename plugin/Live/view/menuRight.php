@@ -60,7 +60,8 @@ if (User::canStream()) {
             <?php
             require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
             // the live users plugin
-            if (YouPHPTubePlugin::isEnabled("cf145581-7d5e-4bb6-8c12-48fc37c0630d")) {
+            $lu = YouPHPTubePlugin::getObjectDataIfEnabled("LiveUsers");
+            if(!empty($lu) && !$lu->doNotDisplayCounter){
                 ?>
                 <span class="label label-primary"  data-toggle="tooltip" title="<?php echo __("Watching Now"); ?>" data-placement="bottom" ><i class="fa fa-user"></i> <b class="liveUsersOnline">0</b></span>
                 <span class="label label-default"  data-toggle="tooltip" title="<?php echo __("Total Views"); ?>" data-placement="bottom" ><i class="fa fa-eye"></i> <b class="liveUsersViews">0</b></span>
@@ -83,6 +84,9 @@ if (User::canStream()) {
             $liveLi.find('.fa-video').removeClass("fa-video").addClass("fa-ban");
             $liveLi.find('.liveUser').removeClass("label-success").addClass("label-danger");
             $liveLi.find('.badge').text("offline");
+            //$('#mainVideo.liveVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
+        }else{
+            //$('#mainVideo.liveVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg)'});
         }
         $liveLi.removeClass("hidden").removeClass("liveModel");
         $liveLi.find('a').attr("href", href);

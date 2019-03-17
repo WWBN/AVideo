@@ -24,7 +24,7 @@ if (!empty($_GET['users_id'])) {
         ?>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
@@ -89,6 +89,14 @@ if (User::isAdmin()) {
     <?php
 }
 ?>
+                                        }else{
+                                            if (row.status == 'success') {
+                                                status = "<span class='label label-success'>Success</span>";
+                                            }else if (row.status == 'pending') {
+                                                status = "<span class='label label-warning'>Pending</span>";
+                                            } else if (row.status == 'canceled') {
+                                                status = "<span class='label label-danger'>Canceled</span>";
+                                            }
                                         }
                                         return status;
                                     }

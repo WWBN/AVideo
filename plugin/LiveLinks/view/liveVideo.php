@@ -8,7 +8,7 @@
                     <i class="fas fa-expand-arrows-alt"></i>
                 </p>
                 <button type="button" class="btn btn-outline btn-xs" onclick="closeFloatVideo();floatClosed = 1;">
-                    <i class="far fa-window-close"></i>
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <div id="main-video" class="embed-responsive embed-responsive-16by9">
@@ -26,7 +26,9 @@
 <script>
 
     $(document).ready(function () {
-        player = videojs('mainVideo');
+        if (typeof player === 'undefined') {
+            player = videojs('mainVideo');
+        }
         player.ready(function () {
             var err = this.error();
             if (err && err.code) {

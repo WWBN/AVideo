@@ -8,15 +8,14 @@ if(!isset($global['systemRootPath'])){
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $config->getWebSiteTitle(); ?></title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/FBTube/view/style.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/FBTube/view/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
+        <?php
+        include $global['systemRootPath'] . 'view/include/head.php';
+        ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-rotatezoom/videojs.zoomrotate.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/view/js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
@@ -30,7 +29,7 @@ if(!isset($global['systemRootPath'])){
         </script>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

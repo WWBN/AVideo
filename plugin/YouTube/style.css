@@ -1,0 +1,261 @@
+
+.YouTube .duration {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6)!important;
+    padding: 3px;
+    color: #FFF;
+    top: 5px;
+    left: 25px;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+.YouTube h2,
+.videosDetails .title {
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 16px; /* fallback */
+    max-height: 32px; /* fallback */
+    min-height: 32px; /* fallback */
+    -webkit-line-clamp: 2; /* number of lines to show */
+
+    -webkit-box-orient: vertical;
+}
+.YouTube .watch-view-count {
+    font-size: 0.8em;
+    font-weight: normal;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+.YouTubeVideo .group {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mainArea{
+    padding: 15px;
+}
+
+h3.YouTubeTitle{
+    padding: 15px 5px;
+}
+
+.aspectRatio16_9 {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+    background-image: url(../../view/img/video-placeholder.png);
+    background-size: cover; 
+}
+
+.aspectRatio16_9 img{
+    text-indent:-9999px;
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thumbsGIF{
+    text-indent:-9999px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.firstRow{
+    margin-bottom: 10px;
+    padding-bottom: 25px;
+    border-bottom: solid 1px #EEE;
+}
+
+.aligned-row {
+    overflow: hidden;
+    border-bottom: solid 1px #EEE;
+    margin-bottom: 10px; 
+    padding-bottom: 10px; 
+}
+
+.galeryDetails div{
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+    font-size: 0.7em;
+}
+
+.firstRow .galeryDetails div{
+    font-size: 1em;
+}
+
+.galeryDetails div.userName{
+    width: 100%;
+}
+.fixPadding{
+    padding: 0 5px;
+}
+
+.popover-content, .popover-content>div{
+    white-space: normal !important;
+    width: auto;
+    color: inherit !important;
+}
+.popover-content>div{
+    overflow-y: auto;
+    height: 140px;
+}
+.aligned-row{
+    overflow: visible !important;
+}
+
+.mainAreaDescription{
+    position:relative;
+    height:100%;
+    width: 110%;
+    padding-right: 10%;
+    overflow-x:hidden;
+    overflow-y:scroll; 
+    max-height: 17vw;
+}
+.mainAreaDescriptionContainer{
+    position: relative;
+    overflow: hidden;
+}
+a.h6{
+    text-decoration: none !important;
+}
+
+.popover-title { 
+    color: black;
+    font-size: 1em;
+} 
+
+.popover-content{
+    color: black !important; 
+    font-size: 0.8em;
+}
+
+.YouTube .label{
+    font-size: 100%;
+    border-radius: 0;
+}
+
+.YouTubeTitle a.btn-default:hover{
+    background-color: transparent;
+}
+
+
+.ytd-shelf-renderer {
+    color: #000;
+    display: block;
+    max-height: 2rem;
+    overflow: hidden;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 2rem;
+}
+
+#sidebar{
+
+    background-color: #f5f5f5;
+}
+#sideBarContainer{
+    padding: 0;
+}
+
+#sideBarContainer li a {
+    color: #0a0a0a;
+    padding: 10px 20px;
+
+}
+#sideBarContainer li span:not(.badge), #sideBarContainer li i {
+    color: #888;
+    margin-right: 20px;
+    font-size: 1.4em;
+}
+#sideBarContainer ul li h3, #sideBarContainer ul li h2 {
+    color: #555;
+    font-weight: bolder;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+}
+#sideBarContainer .btn  {
+    background: transparent;
+    border-width: 0;
+    text-align: left;
+    border-radius: 0;
+}
+
+#sideBarContainer .btn:focus, #sideBarContainer .btn:hover{
+    text-decoration: none;
+    background-color: #eee;
+}
+#sideBarContainer .selected, .rightProfile .selected  {
+    background-color:#DDD;
+}
+
+.rightProfile li a:focus span:not(.badge), .rightProfile li a:hover span:not(.badge),
+.rightProfile li .selected i, .rightProfile li .selected span:not(.badge),
+#sideBarContainer li a:focus span:not(.badge), #sideBarContainer li a:hover span:not(.badge),
+#sideBarContainer li a:focus i, #sideBarContainer li a:hover i, 
+#sideBarContainer .selected i, #sideBarContainer .selected span:not(.badge){
+    color: #ff0000;
+}
+
+.galleryTitle a{
+    background-color: transparent;
+}
+@media screen and (min-width: 768px) {
+    body.youtube{
+        margin-left: 300px;
+    }
+}
+body{
+    transition: all 0.3s ease-in-out;
+    background-color: #fafafa;
+}
+.navbar{
+    background-color: #fff;
+    color: hsl(0, 0%, 63%);
+}
+#searchForm .btn{
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    color: #333;
+}
+#sideBarContainer .navbar{
+    background: transparent;
+}
+
+.navbar .btn{
+    background-color: transparent;
+    border-width: 0;
+    color: hsl(0, 0%, 63%);
+}
+
+.fixPadding{
+    padding: 0 2px;
+}
+#buttonMenu {
+    width: 36px;
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 18px;
+}
+#rightProfileButton{
+    margin: 6px; 
+    padding: 3px; 
+    background-color: transparent; 
+    border-width: 0;
+    border-radius: 16px;
+}

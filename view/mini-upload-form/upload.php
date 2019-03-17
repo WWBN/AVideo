@@ -36,7 +36,20 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $path_parts = pathinfo($_FILES['upl']['name']);
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
     $filename = uniqid($mainName . "_", true);
-    $video = new Video(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4), $filename, @$_FILES['upl']['videoId']);
+    $videos_id = 0;
+    if(!empty($_FILES['upl']['videoId'])){
+        $videos_id = $_FILES['upl']['videoId'];
+    }else if(!empty($_POST['videos_id'])){
+        $videos_id = $_POST['videos_id'];
+    }
+    if(empty($videos_id)){
+        $video = new Video(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4), $filename, 0);
+    }else{
+        $video = new Video("", $filename, $videos_id);
+        if($video->getTitle() === "Video automatically booked"){
+            $video->setTitle(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4));
+        }
+    }
     $video->setDuration($duration);
 
     if (!empty($_POST['title'])) {
@@ -47,7 +60,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video->setDescription($_POST['description']);
     }
 
-    if ($extension == "mp4") {
+    if ($extension == "mp4" || $extension == "webm") {
         $video->setType("video");
     } else
     if (($extension == "mp3") || ($extension == "ogg")) {
@@ -73,20 +86,13 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $tmp_name = $_FILES['upl']['tmp_name'];
         $filenameMP4 = $filename . "." . $extension;
         decideMoveUploadedToVideos($tmp_name, $filenameMP4);
-        if ((YouPHPTubePlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) && ($extension == "mp4")) {
+        if ((YouPHPTubePlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) && ($extension == "mp4" || $extension == "webm")) {
             require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
 
             $videoFileName = $video->getFilename();
             MP4ThumbsAndGif::getImage($videoFileName, 'jpg');
             MP4ThumbsAndGif::getImage($videoFileName, 'gif');
-        } else
-        if ((YouPHPTubePlugin::isEnabled("916c9afb-css90e-26fa-97fd-864856180cc9")) && ($extension == "mp4")) {
-            require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGifLocal/MP4ThumbsAndGifLocal.php';
-
-            $videoFileName = $video->getFilename();
-            MP4ThumbsAndGifLocal::getImage($videoFileName, 'jpg');
-            MP4ThumbsAndGifLocal::getImage($videoFileName, 'gif');
-        }
+        } 
 
         //    } else if(($extension=="mp3")||($extension=="ogg")){
         //  }
@@ -94,7 +100,12 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $obj->error = false;
         $obj->filename = $filename;
         $obj->duration = $duration;
-        YouPHPTubePlugin::afterNewVideo($video->getId());
+        $obj->videos_id = $id;
+        
+
+        if(!empty($_FILES['upl']['tmp_name'])){
+            YouPHPTubePlugin::afterNewVideo($obj->videos_id);
+        }
         die(json_encode($obj));
     }
 }

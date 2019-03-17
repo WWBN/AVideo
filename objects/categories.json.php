@@ -7,8 +7,8 @@ if(!isset($global['systemRootPath'])){
 require_once $global['systemRootPath'].'objects/category.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-$categories = Category::getAllCategories();
-$total = Category::getTotalCategories();
+$categories = Category::getAllCategories(true);
+$total = Category::getTotalCategories(true);
 $breaks = array("<br />","<br>","<br/>");  
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";     

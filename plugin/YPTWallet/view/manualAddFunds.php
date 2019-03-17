@@ -20,7 +20,7 @@ $options = json_decode($obj->addFundsOptions);
         ?>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

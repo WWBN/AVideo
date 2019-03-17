@@ -1,8 +1,6 @@
 <?php
-
-header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 $object = new stdClass();
@@ -25,7 +23,7 @@ if (!User::canUpload()) {
 }
 
 // A list of permitted file extensions
-$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv');
+$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv', 'mpg', 'mpeg', 'f4v', 'm4v', 'm4a', 'm2p', 'rm', 'vob', 'mkv');
 error_log("MOBILE UPLOAD: Starts");
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
@@ -93,16 +91,16 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
         $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")";
-        error_log("MOBILE UPLOAD: {$object->msg}");
-        die($object->msg);
+        error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
+        die(json_encode($object));
     }
     $object->videos_id = $video->save();
     $video->queue();
 
     $object->error = false;
     $object->msg = "We sent your video to the encoder";
-    error_log("MOBILE SUCCESS UPLOAD: {$object->msg}");
+    error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
     die(json_encode($object));
 } else {
-    error_log("MOBILE UPLOAD: File Not exists - " . print_r($_FILES, true));
+    error_log("MOBILE UPLOAD: File Not exists - " . json_encode($_FILES));
 }

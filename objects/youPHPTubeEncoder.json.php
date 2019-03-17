@@ -6,7 +6,7 @@ $obj = new stdClass();
 $obj->error = true;
 
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -17,22 +17,24 @@ if (empty($_POST)) {
     error_log($obj->msg);
     die(json_encode($obj));
 }
-
+error_log("youPHPTubeEncoder.json: start");
 if (empty($_POST['format']) || !in_array($_POST['format'], $global['allowedExtension'])) {
-    error_log("Extension not allowed File " . __FILE__ . ": " . print_r($_POST, true));
+    error_log("youPHPTubeEncoder.json: Extension not allowed File " . __FILE__ . ": " . json_encode($_POST));
     die();
 }
 // pass admin user and pass
 $user = new User("", @$_POST['user'], @$_POST['password']);
 $user->login(false, true);
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to receive a file: " . print_r($_POST, true));
+    error_log("youPHPTubeEncoder.json: Permission denied to receive a file: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to receive a file: " . json_encode($_POST));
     error_log($obj->msg);
     die(json_encode($obj));
 }
 
-if(!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])){
-    $obj->msg = __("Permission denied to edit a video: " . print_r($_POST, true));
+if (!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])) {
+    error_log("youPHPTubeEncoder.json: Permission denied to edit a video: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to edit a video: " . json_encode($_POST));
     error_log($obj->msg);
     die(json_encode($obj));
 }
@@ -48,20 +50,23 @@ if (empty($title) && !empty($_POST['title'])) {
 }
 $video->setDuration($_POST['duration']);
 $video->setDescription($_POST['description']);
-
-if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
-    // set active
-    $video->setStatus('a');
-}else{
-    $video->setStatus('i');
+$status = $video->getStatus();
+// if status is not unlisted
+if ($status !== 'u' && $status !== 'a') {
+    if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
+        // set active
+        $video->setStatus('a');
+    } else {
+        $video->setStatus('i');
+    }
 }
 $video->setVideoDownloadedLink($_POST['videoDownloadedLink']);
-error_log("Encoder receiving post");
-error_log(print_r($_POST, true));
+error_log("youPHPTubeEncoder.json: Encoder receiving post");
+//error_log(print_r($_POST, true));
 if (preg_match("/(mp3|wav|ogg)$/i", $_POST['format'])) {
     $type = 'audio';
     $video->setType($type);
-} elseif (preg_match("/(mp4|webm)$/i", $_POST['format'])) {
+} elseif (preg_match("/(mp4|webm|zip)$/i", $_POST['format'])) {
     $type = 'video';
     $video->setType($type);
 }
@@ -82,6 +87,7 @@ if (!empty($_FILES['video']['tmp_name'])) {
         $resolution = "_{$_POST['resolution']}";
     }
     $filename = "{$videoFileName}{$resolution}.{$_POST['format']}";
+    error_log("youPHPTubeEncoder.json: receiving video upload to {$filename} ". json_encode($_FILES));
     decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
 } else {
     // set encoding
@@ -90,28 +96,29 @@ if (!empty($_FILES['video']['tmp_name'])) {
 if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.jpg")) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination_local}.jpg")) {
         $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
-        error_log($obj->msg);
+        error_log("youPHPTubeEncoder.json: ".$obj->msg);
         die(json_encode($obj));
-    } 
+    }
 }
 if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local}.gif")) {
     if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination_local}.gif")) {
         $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
-        error_log($obj->msg);
+        error_log("youPHPTubeEncoder.json: ".$obj->msg);
         die(json_encode($obj));
-    } 
+    }
 }
 
-if(!empty($_POST['categories_id'])){
+if (!empty($_POST['categories_id'])) {
     $video->setCategories_id($_POST['categories_id']);
 }
 
 $video_id = $video->save();
 $video->updateDurationIfNeed();
+$video->updateHLSDurationIfNeed();
 
 $obj->error = false;
 $obj->video_id = $video_id;
-error_log("Files Received for video {$video_id}: " . $video->getTitle());
+error_log("youPHPTubeEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
 die(json_encode($obj));
 
 /*

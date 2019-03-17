@@ -8,6 +8,10 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
+if(!empty($advancedCustomUser->forceLoginToBeTheEmail)){
+    $_POST['email'] = $_POST['user'];
+}
+
 $user = new User(@$_POST['id']);
 $user->setUser($_POST['user']);
 $user->setPassword($_POST['pass']);

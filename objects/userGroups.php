@@ -169,14 +169,26 @@ class UserGroups {
         if (empty($users_id)) {
             return array();
         }
-        $sql = "SELECT * FROM users_has_users_groups"
-                . " LEFT JOIN users_groups ON users_groups_id = id WHERE users_id = ? ";
+        $sql = "SELECT uug.*, ug.* FROM users_groups ug"
+                . " LEFT JOIN users_has_users_groups uug ON users_groups_id = ug.id WHERE users_id = ? ";
+        
+        $ids = YouPHPTubePlugin::getDynamicUserGroupsId();
+        if(!empty($ids) && is_array($ids)){
+            $ids = array_unique($ids);
+            $sql .= " OR ug.id IN ('". implode("','", $ids)."') ";
+        }
+        //var_dump($ids);echo $sql;exit;
         $res = sqlDAL::readSql($sql,"i",array($users_id));
         $fullData = sqlDal::fetchAllAssoc($res);
         sqlDAL::close($res);
         $arr = array();
+        $doNotRepeat = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
+                if(in_array($row['id'], $doNotRepeat)){
+                    continue;
+                }
+                $doNotRepeat[] = $row['id'];
                 $arr[] = $row;
             }
         } else {
@@ -200,10 +212,53 @@ class UserGroups {
         return sqlDAL::writeSql($sql,"i",array($users_id));
     }
 
-    // for users end
+    static function getVideoGroupsViewId($videos_id, $users_groups_id) {
+        if(empty($videos_id)){
+            return false;
+        }
+        if(empty($users_groups_id)){
+            return false;
+        }
+        global $global;
 
-    // for videos
+        $sql = "SELECT id FROM videos_group_view WHERE videos_id = ? AND users_groups_id = ? LIMIT 1 ";
+        $res = sqlDAL::readSql($sql,"ii",array($videos_id, $users_groups_id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($data)) {
+            return $data['id'];
+        } else {
+            return 0;
+        }
+        
+    }
 
+    static function addVideoGroups($videos_id, $users_groups_id) {
+        if (!User::canUpload()) {
+            return false;
+        }
+        global $global;
+        
+        if(self::getVideoGroupsViewId($videos_id, $users_groups_id)){
+            return false;
+        }
+
+        $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
+        $value = intval($value);
+        sqlDAL::writeSql($sql,"ii",array($videos_id,$users_groups_id));
+
+        return true;
+    }
+    
+    static function deleteVideoGroups($videos_id, $users_groups_id) {
+        if (!User::canUpload()) {
+            return false;
+        }
+        
+        $sql = "DELETE FROM videos_group_view WHERE videos_id = ? AND users_groups_id = ?";
+        return sqlDAL::writeSql($sql,"ii",array($videos_id, $users_groups_id));
+    }
+    
     static function updateVideoGroups($videos_id, $array_groups_id) {
         if (!User::canUpload()) {
             return false;
@@ -239,7 +294,7 @@ class UserGroups {
             return array();
         }
 
-        $sql = "SELECT * FROM videos_group_view as v "
+        $sql = "SELECT v.*, ug.*FROM videos_group_view as v "
                 . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = ? ";
         $res = sqlDAL::readSql($sql,"i",array($videos_id));
         $fullData = sqlDAL::fetchAllAssoc($res);

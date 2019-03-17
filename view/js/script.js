@@ -16,10 +16,10 @@ var doNotFloatVideo = false;
 
 var mouseX;
 var mouseY;
-$(document).mousemove( function(e) {
-   mouseX = e.pageX; 
-   mouseY = e.pageY;
-});  
+$(document).mousemove(function (e) {
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+});
 
 String.prototype.stripAccents = function () {
     var translate_re = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
@@ -34,6 +34,7 @@ function clean_name(str) {
     str = str.stripAccents().toLowerCase();
     return str.replace(/\W+/g, "-");
 }
+var pleaseWaitIsINUse = false;
 $(document).ready(function () {
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
@@ -43,10 +44,15 @@ $(document).ready(function () {
 
         return {
             showPleaseWait: function () {
+                if (pleaseWaitIsINUse) {
+                    return false;
+                }
+                pleaseWaitIsINUse = true;
                 pleaseWaitDiv.modal();
             },
             hidePleaseWait: function () {
                 pleaseWaitDiv.modal('hide');
+                pleaseWaitIsINUse = false;
             },
             setProgress: function (valeur) {
                 pleaseWaitDiv.find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
@@ -79,16 +85,16 @@ $(document).ready(function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
     });
 
-
-    $('.thumbsJPG').lazy({
-        effect: 'fadeIn',
-        visibleOnly: true,
-        // called after an element was successfully handled
-        afterLoad: function (element) {
-            element.removeClass('blur');
-        }
-    });
-
+    if ($(".thumbsJPG").length) {
+        $('.thumbsJPG').lazy({
+            effect: 'fadeIn',
+            visibleOnly: true,
+            // called after an element was successfully handled
+            afterLoad: function (element) {
+                element.removeClass('blur');
+            }
+        });
+    }
     mainVideoHeight = $('#videoContainer').innerHeight();
     $(window).resize(function () {
         mainVideoHeight = $('#videoContainer').innerHeight();
@@ -137,6 +143,17 @@ $(document).ready(function () {
             } else {
                 changingVideoFloat = 0;
             }
+        }
+    });
+
+    $("a").each(function () {
+        var location = window.location.toString()
+        var res = location.split("?");
+        pathWitoutGet = res[0];
+        if ($(this).attr("href") == window.location.pathname
+                || $(this).attr("href") == window.location
+                || $(this).attr("href") == pathWitoutGet) {
+            $(this).addClass("selected");
         }
     });
 });
@@ -335,12 +352,20 @@ function copyToClipboard(text) {
     $temp.remove();
 }
 
-function addView(videos_id) {
+var last_videos_id = 0;
+var last_currentTime = -1;
+function addView(videos_id, currentTime) {
+    if (last_videos_id == videos_id && last_currentTime == currentTime) {
+        return false;
+    }
+    last_videos_id = videos_id;
+    last_currentTime = currentTime;
     $.ajax({
         url: webSiteRootURL + 'objects/videoAddViewCount.json.php',
         method: 'POST',
         data: {
-            'id': videos_id
+            'id': videos_id,
+            'currentTime': currentTime
         },
         success: function (response) {
             $('.view-count' + videos_id).text(response.count);
@@ -360,10 +385,18 @@ function getPlayerButtonIndex(name) {
 
 
 function copyToClipboard(text) {
-    
-    $('#elementToCopy').css({'top':mouseY,'left':mouseX}).fadeIn('slow');
+
+    $('#elementToCopy').css({'top': mouseY, 'left': mouseX}).fadeIn('slow');
     $('#elementToCopy').val(text);
     $('#elementToCopy').focus();
     $('#elementToCopy').select();
     document.execCommand('copy');
+}
+
+function nl2br(str, is_xhtml) {
+    if (typeof str === 'undefined' || str === null) {
+        return '';
+    }
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }

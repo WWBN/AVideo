@@ -14,6 +14,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     if (!showThis($getName)) {
         return "";
     }
+    $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
     if (!empty($_GET['showOnly'])) {
         $rowCount = 60;
     }
@@ -40,6 +41,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         <?php
         $countCols = 0;
         unset($_POST['sort']);
+        if (empty($_GET['page'])) {
+            $_GET['page'] = 1;
+        }
         $_POST['sort'][$sort] = $_GET[$getName];
         $_POST['current'] = $_GET['page'];
         $_POST['rowCount'] = $rowCount;
@@ -106,24 +110,38 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGallerySection($videos, $crc = "") {
+function createGallerySection($videos, $crc = "", $get = array()) {
     global $global, $config, $obj, $advancedCustom;
     $countCols = 0;
-
+    $obj = YouPHPTubePlugin::getObjectData("Gallery");
+    $zindex = 1000;
+    $startG = microtime(true);
     foreach ($videos as $value) {
+
+        // that meas auto generate the channelName
+        if (empty($get) && !empty($obj->filterUserChannel)) {
+            $getCN = array('channelName' => $value['channelName'], 'catName' => @$_GET['catName']);
+        } else {
+            $getCN = $get;
+        }
+
         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
         $name = User::getNameIdentificationById($value['users_id']);
         // make a row each 6 cols
-        if ($countCols % 6 === 0) {
+        if ($countCols % $obj->screenColsLarge === 0) {
             echo '</div><div class="row aligned-row ">';
         }
 
         $countCols ++;
         ?>
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding" style="z-index: 2; min-height: 175px;">
-            <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
+        <div class="col-lg-<?php echo 12 / $obj->screenColsLarge; ?> col-md-<?php echo 12 / $obj->screenColsMedium; ?> col-sm-<?php echo 12 / $obj->screenColsSmall; ?> col-xs-<?php echo 12 / $obj->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
+            <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <?php
+                @$timesG[__LINE__] += microtime(true) - $startG;
+                $startG = microtime(true);
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                @$timesG[__LINE__] += microtime(true) - $startG;
+                $startG = microtime(true);
                 $imgGif = $images->thumbsGif;
                 $poster = $images->thumbsJpg;
                 ?>
@@ -132,14 +150,22 @@ function createGallerySection($videos, $crc = "") {
                     <?php if (!empty($imgGif)) { ?>
                         <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                     <?php } ?>
+                    <?php
+                    echo YouPHPTubePlugin::thumbsOverlay($value['id']);
+                    @$timesG[__LINE__] += microtime(true) - $startG;
+                    $startG = microtime(true);
+                    ?>
                 </div>
                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                <div class="progress" style="height: 3px; margin-bottom: 2px;">
+                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </a>
-            <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
+            <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <h2><?php echo $value['title']; ?></h2>
             </a>
 
-            <div class="text-muted galeryDetails">
+            <div class="text-muted galeryDetails" style="overflow: hidden;">
                 <div>
                     <?php if (empty($_GET['catName'])) { ?>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
@@ -154,6 +180,8 @@ function createGallerySection($videos, $crc = "") {
                         </a>
                     <?php } ?>
                     <?php
+                    @$timesG[__LINE__] += microtime(true) - $startG;
+                    $startG = microtime(true);
                     if (!empty($obj->showTags)) {
                         $value['tags'] = Video::getTags($value['id']);
                         foreach ($value['tags'] as $value2) {
@@ -162,14 +190,21 @@ function createGallerySection($videos, $crc = "") {
                             }
                         }
                     }
+                    @$timesG[__LINE__] += microtime(true) - $startG;
+                    $startG = microtime(true);
                     ?>
                 </div>
-                <div>
-                    <i class="fa fa-eye"></i>
-                    <span itemprop="interactionCount">
-                        <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                    </span>
-                </div>
+
+                <?php
+                if (empty($advancedCustom->doNotDisplayViews)) {
+                    ?>
+                    <div>
+                        <i class="fa fa-eye"></i>
+                        <span itemprop="interactionCount">
+                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                        </span>
+                    </div>
+                <?php } ?>
                 <div>
                     <i class="fa fa-clock-o"></i>
                     <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -191,96 +226,62 @@ function createGallerySection($videos, $crc = "") {
                     </div>
                 <?php }
                 ?>
-                <div class="">
-                    <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
-                        <a href="#" class="text-primary" style="float:right;" id="addBtn<?php echo $value['id'] . $crc; ?>" data-placement="top" onclick="loadPlayLists('<?php echo $value['id'] . $crc; ?>', '<?php echo $value['id']; ?>');">
-                            <span class="fa fa-plus"></span> <?php echo __("Add to"); ?>
-                        </a>
-                        <div class="webui-popover-content" >
-                            <?php if (User::isLogged()) { ?>
-                                <form role="form">
-                                    <div class="form-group">
-                                        <input class="form-control" id="searchinput<?php echo $value['id'] . $crc; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
-                                    </div>
-                                    <div id="searchlist<?php echo $value['id'] . $crc; ?>" class="list-group">
-                                    </div>
-                                </form>
-                                <div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <input id="playListName<?php echo $value['id'] . $crc; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
-                                    </div>
-                                    <div class="form-group">
-                                        <?php echo __("Make it public"); ?>
-                                        <div class="material-switch pull-right">
-                                            <input id="publicPlayList<?php echo $value['id'] . $crc; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
-                                            <label for="publicPlayList" class="label-success"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-success btn-block" id="addPlayList<?php echo $value['id'] . $crc; ?>" ><?php echo __("Create a New Play List"); ?></button>
-                                    </div>
-                                </div>
-                            <?php } else { ?>
-                                <h5><?php echo __("Want to watch this again later?"); ?></h5>
-                                <?php echo __("Sign in to add this video to a playlist."); ?>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
-                                    <span class="fas fa-sign-in-alt"></span>
-                                    <?php echo __("Login"); ?>
+                <?php
+                echo YouPHPTubePlugin::getGalleryActionButton($value['id']);
+                ?>
+            </div>
+            <?php
+            @$timesG[__LINE__] += microtime(true) - $startG;
+            $startG = microtime(true);
+            if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {
+                ?>
+
+                <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
+                    <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
+                        <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                        <?php
+                        @$timesG[__LINE__] += microtime(true) - $startG;
+                        $startG = microtime(true);
+                        $files = getVideosURL($value['filename']);
+                        @$timesG[__LINE__] += microtime(true) - $startG;
+                        $startG = microtime(true);
+                        //var_dump($files);exit;
+                        foreach ($files as $key => $theLink) {
+                            if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') {
+                                continue;
+                            }
+                            $path_parts = pathinfo($theLink['filename']);
+                            ?>
+                            <li>
+                                <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                    <?php echo __("Download"); ?> <?php echo $key; ?>
                                 </a>
-                            <?php } ?>
-                        </div>
-                        <script>
-                            $(document).ready(function () {
-                                loadPlayLists('<?php echo $value['id'] . $crc; ?>', '<?php echo $value['id']; ?>');
-                                $('#addBtn<?php echo $value['id'] . $crc; ?>').webuiPopover();
-                                $('#addPlayList<?php echo $value['id'] . $crc; ?>').click(function () {
-                                    modal.showPleaseWait();
-                                    $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistAddNew.json.php',
-                                        method: 'POST',
-                                        data: {
-                                            'videos_id': <?php echo $value['id']; ?>,
-                                            'status': $('#publicPlayList<?php echo $value['id'] . $crc; ?>').is(":checked") ? "public" : "private",
-                                            'name': $('#playListName<?php echo $value['id'] . $crc; ?>').val()
-                                        },
-                                        success: function (response) {
-                                            if (response.status==="1") {
-                                                playList = [];
-                                                console.log(1);
-                                                reloadPlayLists();
-                                                loadPlayLists('<?php echo $value['id'] . $crc; ?>', '<?php echo $value['id']; ?>');
-                                                //$('#searchlist<?php echo $value['id'] . $crc; ?>').btsListFilter('#searchinput<?php echo $value['id'] . $name; ?>', {itemChild: 'span'});
-                                                $('#playListName<?php echo $value['id'] . $crc; ?>').val("");
-                                                $('#publicPlayList<?php echo $value['id'] . $crc; ?>').prop('checked', true);
-                                            }
-                                            modal.hidePleaseWait();
-                                        }
-                                    });
-                                    return false;
-                                });
-                            });
-                        </script>
-                    <?php } ?>
+                            </li>
+                        <?php }
+                        ?>
+                    </ul>
                 </div>
                 <?php
-                if ($config->getAllow_download()) {
-                    $ext = ".mp4";
-                    if ($value['type'] == "audio") {
-                        if (file_exists($global['systemRootPath'] . "videos/" . $value['filename'] . ".ogg")) {
-                            $ext = ".ogg";
-                        } else if (file_exists($global['systemRootPath'] . "videos/" . $value['filename'] . ".mp3")) {
-                            $ext = ".mp3";
-                        }
-                    }
-                    ?>
-                    <div><a class="label label-default " role="button" href="<?php echo $global['webSiteRootURL'] . "videos/" . $value['filename'] . $ext; ?>" download="<?php echo $value['title'] . $ext; ?>"><?php echo __("Download"); ?></a></div>
-                <?php } ?>
-
-            </div>
+            }
+            @$timesG[__LINE__] += microtime(true) - $startG;
+            $startG = microtime(true);
+            ?>
         </div>
+
     <?php } ?>
 
+    <!--
+    createGallerySection
+    <?php
+    $timesG[__LINE__] = microtime(true) - $startG;
+    $startG = microtime(true);
+    foreach ($timesG as $key => $value) {
+        echo "Line: {$key} -> {$value}\n";
+    }
+    ?>
+    -->
     <?php
     unset($_POST['disableAddTo']);
 }

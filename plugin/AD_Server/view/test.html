@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <!-- Load dependent stylesheets. -->
+        <link href="../../../view/js/video.js/video-js.css" rel="stylesheet" type="text/css"/>
+        <link href="../../../view/js/videojs-contrib-ads/videojs-contrib-ads.css" rel="stylesheet" type="text/css"/>
+        <link href="../videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+        <video id="content_video" class="video-js vjs-default-skin"
+            controls preload="auto"
+            width="640" height="360">
+          <source src="//commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+              type="video/mp4" ></source>
+        </video>
+        <!-- Load dependent scripts -->
+        <script src="../../../view/js/video.js/video.js" type="text/javascript"></script>
+        <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+        <script src="../../../view/js/videojs-contrib-ads/videojs-contrib-ads.js" type="text/javascript"></script>
+        <script src="../videojs-ima/videojs.ima.js" type="text/javascript"></script>
+        <script>
+
+            var player = videojs('content_video');
+
+            var options = {
+                id: 'content_video',
+                adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator='
+            };
+
+            player.ima(options);
+        </script>
+    </body>
+</html>

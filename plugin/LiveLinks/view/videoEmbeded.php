@@ -1,8 +1,9 @@
 <?php
 $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
-$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-if (!empty($objSecure->disableEmbedMode)) {
-    die('Embed Mode disabled');
+
+$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+if(!empty($objSecure)){
+    $objSecure->verifyEmbedSecurity();
 }
 ?>
 <!DOCTYPE html>
@@ -19,6 +20,9 @@ if (!empty($objSecure->disableEmbedMode)) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <?php
+        echo YouPHPTubePlugin::getHeadCode();
+        ?>
         <style>
             body {
                 padding: 0 !important;
@@ -49,7 +53,9 @@ if (!empty($objSecure->disableEmbedMode)) {
         <script>
 
             $(document).ready(function () {
-                player = videojs('mainVideo');
+                if (typeof player === 'undefined') {
+                    player = videojs('mainVideo');
+                }
                 player.ready(function () {
                     var err = this.error();
                     if (err && err.code) {

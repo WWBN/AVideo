@@ -315,6 +315,31 @@ footer ul.list-inline li {
     background: inherit;
     left: 20px;
 }
+
+
+
+/* fancy checkbox */
+.material-small.material-switch > input[type="checkbox"] {
+    display: none;
+}
+.material-small.material-switch > label {
+    width: 20px;
+    margin-right: 5px;
+}
+.material-small.material-switch > label::before {
+    margin-top: -5px;
+    width: 20px;
+    height: 10px;
+}
+.material-small.material-switch > label::after {
+    margin-top: -4px;
+    width: 15px;
+    height: 15px;
+}
+.material-small.material-switch > input[type="checkbox"]:checked + label::after {
+    left: 10px;
+}
+
 /* fancy checkbox  end */
 
 .label.fix-width {
@@ -480,7 +505,7 @@ nav ul.items-container li:first-child {
 nav ul.items-container li:first-child ul.left-side {
     display: flex;
     align-items: center
-}
+} z
 ul.left-side {
     height: 50px;
 }
@@ -652,19 +677,15 @@ nav ul.items-container li ul.right-menus li li {
         width: 450px;
     }
 }
-@media (max-width: 768px) {
-    nav ul.items-container li ul.right-menus {
-        flex-direction: column;
-    }
-}
 @media (max-width: 500px) {
     .floatVideo {
-        width: 380px;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 1050;
     }
-}
-@media (max-width: 400px) {
-    .floatVideo {
-        width: 320px;
+    #floatButtons{
+        display: none !important;
     }
 }
 .navbar-collapse.in {
@@ -694,4 +715,31 @@ img.blur{
 
 .navbar-default .navbar-default, .navbar-inverse .navbar-default {
     border-width: 0;
+}
+
+/*Show play button only when paused*/
+.vjs-paused .vjs-big-play-button,
+.vjs-paused.vjs-has-started .vjs-big-play-button {
+   display: block;
+}
+
+.rightProfile li a{
+    text-align: left;
+}
+#mainNavBar ul.items-container li:last-child {
+    margin-right: 0 !important;
+}
+
+.ima-controls-div{
+    pointer-events: none !important;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.42;
+  border-radius: 15px;
 }

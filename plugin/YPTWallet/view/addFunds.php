@@ -11,6 +11,8 @@ if (!empty($paypal)) {
     $paypalObj = $paypal->getDataObject();
 }
 $options = json_decode($obj->addFundsOptions);
+unset($_SESSION['addFunds_Success']);
+unset($_SESSION['addFunds_Fail']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -21,7 +23,7 @@ $options = json_decode($obj->addFundsOptions);
         ?>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

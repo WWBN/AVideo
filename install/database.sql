@@ -29,10 +29,33 @@ CREATE TABLE IF NOT EXISTS `users` (
   `emailVerified` TINYINT(1) NOT NULL DEFAULT 0,
   `analyticsCode` VARCHAR(45) NULL DEFAULT NULL,
   `externalOptions` TEXT NULL,
+  `first_name` VARCHAR(255) NULL DEFAULT NULL,
+  `last_name` VARCHAR(255) NULL DEFAULT NULL,
+  `address` VARCHAR(255) NULL DEFAULT NULL,
+  `zip_code` VARCHAR(45) NULL DEFAULT NULL,
+  `country` VARCHAR(100) NULL DEFAULT NULL,
+  `region` VARCHAR(100) NULL DEFAULT NULL,
+  `city` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
 
+
+CREATE TABLE IF NOT EXISTS `users_blob` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `blob` LONGBLOB NULL,
+  `users_id` INT NOT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `type` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_users_document_image_users1_idx` (`users_id` ASC),
+  CONSTRAINT `fk_users_document_image_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `categories`
@@ -47,8 +70,16 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder',
+  `users_id` INT(11) NOT NULL DEFAULT 1,
+  `private` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC))
+  INDEX `fk_categories_users1_idx` (`users_id` ASC),
+  UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
+  CONSTRAINT `fk_categories_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -77,6 +108,14 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `videoLink` VARCHAR(255) NULL,
   `next_videos_id` INT NULL,
   `isSuggested` INT(1) NOT NULL DEFAULT 0,
+  `trailer1` VARCHAR(255) NULL DEFAULT NULL,
+  `trailer2` VARCHAR(255) NULL DEFAULT NULL,
+  `trailer3` VARCHAR(255) NULL DEFAULT NULL,
+  `rate` FLOAT(4,2) NULL DEFAULT NULL,
+  `can_download` TINYINT(1) NULL DEFAULT NULL,
+  `can_share` TINYINT(1) NULL DEFAULT NULL,
+  `rrating` VARCHAR(45) NULL DEFAULT NULL,
+  `externalOptions` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
@@ -195,9 +234,15 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   `ip` VARCHAR(45) NULL,
   `users_id` INT NULL,
   `videos_id` INT NOT NULL,
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
+  `lastVideoTime` INT(11) NULL DEFAULT NULL,
+  `session_id` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
   INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),
+  INDEX `when_statisci` (`when` ASC),
+  INDEX `session_id_statistics` (`session_id` ASC),
   CONSTRAINT `fk_videos_statistics_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
@@ -305,10 +350,17 @@ CREATE TABLE IF NOT EXISTS `subscribes` (
   `ip` VARCHAR(45) NULL,
   `users_id` INT NOT NULL DEFAULT 1 COMMENT 'subscribes to user channel',
   `notify` TINYINT(1) NOT NULL DEFAULT 1,
+  `subscriber_users_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_subscribes_users1_idx` (`users_id` ASC),
+  INDEX `fk_subscribes_users2_idx` (`subscriber_users_id` ASC),
   CONSTRAINT `fk_subscribes_users1`
     FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_subscribes_users2`
+    FOREIGN KEY (`subscriber_users_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
@@ -324,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `playlists` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `users_id` INT NOT NULL,
-  `status` ENUM('public', 'private') NOT NULL DEFAULT 'public',
+  `status` ENUM('public', 'private', 'unlisted', 'favorite', 'watch_later') NOT NULL DEFAULT 'public',
   PRIMARY KEY (`id`),
   INDEX `fk_playlists_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_playlists_users1`

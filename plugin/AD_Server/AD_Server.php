@@ -1,6 +1,5 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
 /**
  * https://support.google.com/adsense/answer/4455881
  * https://support.google.com/adsense/answer/1705822
@@ -44,6 +43,7 @@ class AD_Server extends PluginAbstract {
     }
 
     public function canLoadAds() {
+        //if (empty($_GET['videoName']) && empty($_GET['u'])) {
         if (empty($_GET['videoName'])) {
             return false;
         }
@@ -94,10 +94,13 @@ class AD_Server extends PluginAbstract {
             return "";
         }
         global $global;
-
-        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        
+        if(empty($_GET['u'])){
+            $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        }else{
+            $video['duration'] = "01:00:00";
+        }
         $video_length = parseDurationToSeconds($video['duration']);
-
         $vmap_id = @$_GET['vmap_id'];
 
         if (!empty($_GET['vmap_id']) && !empty($_SESSION['vmap'][$_GET['vmap_id']])) {

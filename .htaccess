@@ -14,10 +14,26 @@
 Order Allow,Deny
 Deny from all
 </Files>
+<Files PayPal.log>
+Order Allow,Deny
+Deny from all
+</Files>
+<Files youphptube.log>
+Order Allow,Deny
+Deny from all
+</Files>
+<Files youphptube.js.log>
+Order Allow,Deny
+Deny from all
+</Files>
+# Disable directory browsing
+Options All -Indexes
 # END Expires
 # BEGIN Caching
 <ifModule mod_headers.c>
-    Header set Access-Control-Allow-Origin: *
+    <FilesMatch "\.(ts|key)$">
+        Header set Access-Control-Allow-Origin: *
+    </FilesMatch>
     <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
         Header set Cache-Control "max-age=2592000, public"
     </filesMatch>
@@ -46,6 +62,7 @@ Deny from all
     RewriteRule    ^js/(.+)$ view/js/$1 [NC,L]
     RewriteRule    ^css/(.+)$ view/css/$1 [NC,L]
     RewriteRule    ^img/(.+)$ view/img/$1 [NC,L]
+    RewriteRule    ^videos/fonts/(.+)$ view/bootstrap/fonts/$1 [NC,L]
     RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [QSA]
     RewriteRule    ^videoOnly/?$ view/?type=video    [NC,L]
     RewriteRule    ^audioOnly/?$ view/?type=audio    [NC,L]
@@ -54,6 +71,9 @@ Deny from all
     RewriteRule    ^downloadNow$ objects/downloadVideo.php    [NC,L]
     RewriteRule    ^getDownloadProgress$ objects/downloadVideoProgress.php    [NC,L]
     RewriteRule    ^status$ objects/status.json.php    [NC,L]
+    RewriteRule    ^menu/([A-Za-z0-9-_.]+)/? plugin/TopMenu/seo.php?menuSeoUrlItem=$1    [QSA,L]
+    RewriteRule    ^admin/plugin/(.+)$ plugin/$1 [NC,L]
+    RewriteRule    ^trending/?$ view/trending.php    [NC,L,QSA]
 
     RewriteRule    ^about$ view/about.php    [NC,L]
     RewriteRule    ^contact$ view/contact.php    [NC,L]
@@ -68,6 +88,8 @@ Deny from all
     RewriteRule    ^cat/([A-Za-z0-9-]+)/?$ view/?catName=$1    [NC,L,QSA]
     RewriteRule    ^cat/([A-Za-z0-9-]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L,QSA]
 
+    RewriteRule    ^tag/([0-9-]+)(.*)?$ view/?tags_id=$1    [NC,L,QSA]
+
 
     #for the video name
     RewriteRule    ^video/([A-Za-z0-9-_.]+)/?$ view/?videoName=$1    [QSA]
@@ -80,6 +102,7 @@ Deny from all
     RewriteRule    ^cat/([A-Za-z0-9-]+)/video/([A-Za-z0-9-_.]+)/page/([0-9]+)/?$ view/?catName=$1&videoName=$2&page=$3   [QSA]
     #for the embeded video name
     RewriteRule    ^videoEmbeded/([A-Za-z0-9-_.]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
+    RewriteRule    ^cat/([A-Za-z0-9-_.]+)/videoEmbeded/([A-Za-z0-9-_.]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2    [QSA]
     RewriteRule    ^videoEmbed/([A-Za-z0-9-_.]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
     RewriteRule    ^vEmbed/([0-9]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
 
@@ -155,8 +178,6 @@ Deny from all
     RewriteRule    ^setCategoryVideo$ objects/videoCategory.json.php    [NC,L]
     RewriteRule    ^reencodeVideo$ objects/videoReencode.json.php    [NC,L]
     RewriteRule    ^rotateVideo$ objects/videoRotate.json.php    [NC,L]
-    RewriteRule    ^addViewCountVideo$ objects/videoAddViewCount.json.php    [NC,L]
-    RewriteRule    ^fetch/([A-Za-z_0-9]+)/([A-Za-z0-9-._]+)$ objects/download.php?filetype=$1&clean_title=$2    [QSA]
 
 
     # Subscribes
@@ -198,6 +219,9 @@ Deny from all
 
     RewriteRule    ^notifications.json$ objects/notifications.json.php    [NC,L]
 
+    RewriteRule    ^sitemap.xml$ view/sitemap.xml.php    [NC,L]
+
+    RewriteRule    ^videos/(.*)/index.m3u8$ view/hls.php?videoDirectory=$1    [NC,L,QSA]
     # It must be before image not found
     <IfModule mod_xsendfile.c>
        RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [QSA]

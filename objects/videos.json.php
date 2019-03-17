@@ -22,11 +22,14 @@ foreach ($videos as $key => $value) {
     $videos[$key]['next_video'] = array();
     $videos[$key]['description'] = ($videos[$key]['description']);
     $videos[$key]['title'] = ($videos[$key]['title']);
+    $videos[$key]['typeLabels'] = Video::getVideoTypeLabels($videos[$key]['filename']);
     if(!empty($videos[$key]['next_videos_id'])){
         unset($_POST['searchPhrase']);
         $videos[$key]['next_video'] = Video::getVideo($videos[$key]['next_videos_id']);
     }
     $videos[$key]['videosURL'] = getVideosURL($videos[$key]['filename']);
+    unset($videos[$key]['password']);
+    unset($videos[$key]['recoverPass']);
 }
 
 echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($videos).'}';

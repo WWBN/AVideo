@@ -105,9 +105,13 @@ if (!empty($videos)) {
                     }
                 }
                 ?>
-
-                <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
-
+                <?php
+                if (empty($advancedCustom->doNotDisplayViews)) {
+                    ?>
+                    <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>
+                    <?php
+                }
+                ?>
                 <div class="row">
                     <div class="col-md-12 col-lg-12 watch8-action-buttons text-muted">
                         <button class="btn btn-default no-outline" id="addBtn<?php echo $video['id']; ?>" data-placement="bottom">
@@ -565,13 +569,9 @@ if (!empty($videos)) {
                             fullDuration<?php echo $video['id']; ?> = strToSeconds('<?php echo @$ad['duration']; ?>');
                             player<?php echo $video['id']; ?> = videojs('mainVideo<?php echo $video['id']; ?>');
 
-                            player<?php echo $video['id']; ?>.zoomrotate(<?php echo $transformation; ?>);
                             player<?php echo $video['id']; ?>.ready(function () {
 
 
-                                this.on('ended', function () {
-                                    console.log("Finish Video");
-                                });
 
                             });
                             player<?php echo $video['id']; ?>.persistvolume({

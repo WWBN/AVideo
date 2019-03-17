@@ -22,7 +22,7 @@ require_once $global['systemRootPath'] . 'objects/comment.php';
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

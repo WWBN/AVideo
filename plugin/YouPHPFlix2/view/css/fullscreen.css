@@ -1,0 +1,25 @@
+body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+#videoContainer{
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 99999;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 120px;
+}
+
+#youtubeModeOnFullscreenCloseButton{
+    display: block !important;
+}
+
+.firstC{
+    position: absolute;
+}

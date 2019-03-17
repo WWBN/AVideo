@@ -11,7 +11,7 @@ require_once '../../videos/configuration.php';
 
         </style>
     </head>
-    <body leftmargin="10" rightmargin="10" marginwidth="10" topmargin="10" bottommargin="10" marginheight="10" offset="0" bgcolor="#f0f1f4">
+    <body class="<?php echo $global['bodyClass']; ?>" leftmargin="10" rightmargin="10" marginwidth="10" topmargin="10" bottommargin="10" marginheight="10" offset="0" bgcolor="#f0f1f4">
         <table width="80%"  cellpadding="10" cellspacing="0" border="0" align="center" bgcolor="#FFF" style="margin:0 auto;">
             <tr>
                 <td align="center"><img src="<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>"/></td>

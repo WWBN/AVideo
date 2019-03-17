@@ -19,7 +19,7 @@ if (!User::canUpload()) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
@@ -30,7 +30,7 @@ if (!User::canUpload()) {
             </div>
             <div class="col-lg-3">
                 <button type="button" class="btn btn-success" id="sendSubscribeBtn">
-                    <span class="fa fa-envelope-o" aria-hidden="true"></span> <?php echo __("Notify Subscribers"); ?>
+                    <i class="fas fa-envelope-square"></i> <?php echo __("Notify Subscribers"); ?>
                 </button>
             </div>
             <table id="grid" class="table table-condensed table-hover table-striped">

@@ -2,15 +2,25 @@
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 $head = YouPHPTubePlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - YouPHPTube";
-if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
-    require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
-    $ec = new ExtraConfig();
-    $custom = $ec->getDescription();
-}
+$extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+
+$custom = "";
 
 if(!empty($poster)){
     $subTitle = str_replace(array('"',"\n","\r"),array("","",""),strip_tags($video['description']));
-    $custom = "{$subTitle}";
+    $custom .= " {$subTitle}";
+}
+
+if(!empty($_GET['catName'])){
+    $category = Category::getCategoryByName($_GET['catName']);
+    $description = str_replace(array('"',"\n","\r"),array("","",""),strip_tags($category['description']));
+    $custom = " {$description} - {$custom}";
+}
+
+if (file_exists($extraPluginFile) && YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+    require_once $extraPluginFile;
+    $ec = new ExtraConfig();
+    $custom .= $ec->getDescription();
 }
 
 $theme = $config->getTheme();
@@ -23,7 +33,7 @@ $theme = $config->getTheme();
 <!-- <link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 768px)" href="view/css/mobile.css" /> -->
 <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-5.0.10/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $global['webSiteRootURL']; ?>view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
 <?php
 $cssFiles = array();
@@ -40,6 +50,7 @@ $cssURL = combineFiles($cssFiles, "css");
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js"></script>
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+    var player;
 </script>
 <?php
 if (!$config->getDisable_analytics()) {

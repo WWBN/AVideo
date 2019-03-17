@@ -42,9 +42,9 @@ class LoginYahoo extends PluginAbstract {
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = "btn btn-primary btn-block"; 
-        $obj->icon = "fa fa-yahoo"; 
+        $obj->icon = "fab fa-yahoo"; 
         $obj->type = "Yahoo"; 
-        $obj->linkToDevelopersPage = "https://developer.yahoo.com/oauth2/guide/flows_authcode/";         
+        $obj->linkToDevelopersPage = "https://developer.yahoo.com/apps";         
         return $obj;
     }
     

@@ -25,46 +25,45 @@ class CustomizeAdvanced extends PluginAbstract {
     }    
     
     public function getEmptyDataObject() {
+        global $global;
         $obj = new stdClass();
+        $obj->logoMenuBarURL = $global['webSiteRootURL'];
         $obj->encoderNetwork = "https://network.youphptube.com/";
         $obj->useEncoderNetworkRecomendation = false;
+        $obj->doNotShowEncoderNetwork = true;
+        $obj->doNotShowUploadButton = false;
+        $obj->uploadButtonDropdownIcon = "fas fa-video";
+        $obj->uploadButtonDropdownText = "";
+        $obj->encoderNetworkLabel = "";
         $obj->doNotShowUploadMP4Button = true;
-        $obj->doNotShowImportMP4Button = false;
-        $obj->doNotShowImportLocalVideosButton = false;
+        $obj->uploadMP4ButtonLabel = "";
+        $obj->doNotShowImportMP4Button = true;
+        $obj->importMP4ButtonLabel = "";
         $obj->doNotShowEncoderButton = false;
+        $obj->encoderButtonLabel = "";
         $obj->doNotShowEmbedButton = false;
+        $obj->embedBackgroundColor = "white";
+        $obj->embedButtonLabel = "";
+        $obj->doNotShowEncoderHLS = false;
         $obj->doNotShowEncoderResolutionLow = false;
         $obj->doNotShowEncoderResolutionSD = false;
         $obj->doNotShowEncoderResolutionHD = false;
         $obj->doNotShowLeftMenuAudioAndVideoButtons = false;
-        $obj->disableNativeSignUp = false;
-        $obj->disableNativeSignIn = false;
         $obj->doNotShowWebsiteOnContactForm = false;
-        $obj->newUsersCanStream = false;
-        $obj->doNotIndentifyByEmail = false;
-        $obj->doNotIndentifyByName = false;
-        $obj->doNotIndentifyByUserName = false;
         $obj->doNotUseXsendFile = false;
         $obj->makeVideosInactiveAfterEncode = false;
         $obj->usePermalinks = false;
         $obj->showAdsenseBannerOnTop = false;
         $obj->showAdsenseBannerOnLeft = true;
         $obj->disableAnimatedGif = false;
-        $obj->unverifiedEmailsCanNOTLogin = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
-        $obj->uploadButtonDropdownIcon = "fas fa-video";
-        $obj->uploadButtonDropdownText = "";
-        $obj->EnableWavesurfer = true;
+        $obj->EnableWavesurfer = false;
         $obj->EnableMinifyJS = false;
         $obj->disableShareAndPlaylist = false;
         $obj->commentsMaxLength = 200;
         $obj->disableYoutubePlayerIntegration = false;
         $obj->utf8Encode = false;
         $obj->utf8Decode = false;
-        $obj->embedBackgroundColor = "white";
-        $obj->userMustBeLoggedIn = false;
-        $obj->onlyVerifiedEmailCanUpload= false;
-        $obj->sendVerificationMailAutomaic=false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";        
@@ -90,6 +89,32 @@ class CustomizeAdvanced extends PluginAbstract {
                 }
             }
         }
+                
+        $obj->disableHelpLeftMenu= false;
+        $obj->disableAboutLeftMenu= false;
+        $obj->disableContactLeftMenu= false;
+        $obj->disableNavbar= false;
+        $obj->videosCDN = "";
+        $obj->useFFMPEGToGenerateThumbs = false;
+        $obj->showImageDownloadOption = false;
+        $obj->doNotDisplayViews = false;
+        $obj->doNotDisplayLikes = false;
+        $obj->doNotDisplayCategoryLeftMenu = false;
+        $obj->doNotDisplayCategory = false;
+        $obj->doNotDisplayGroupsTags = false;
+        $obj->doNotDisplayPluginsTags = false;
+        $obj->showNotRatedLabel = false;
+        $obj->askRRatingConfirmationBeforePlay_G = false;
+        $obj->askRRatingConfirmationBeforePlay_PG = false;
+        $obj->askRRatingConfirmationBeforePlay_PG13 = false;
+        $obj->askRRatingConfirmationBeforePlay_R = false;
+        $obj->askRRatingConfirmationBeforePlay_NC17 = true;
+        $obj->askRRatingConfirmationBeforePlay_MA = true;
+        $obj->AsyncJobs = false;
+        
+        
+        $obj->doNotShowLeftHomeButton = false;
+        $obj->doNotShowLeftTrendingButton = false;
         
         return $obj;
     }
@@ -104,4 +129,19 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getTags() {
         return array('free', 'customization', 'buttons', 'resolutions');
     }
+    
+    public function getModeYouTube($videos_id) {
+        global $global, $config;
+        $obj = $this->getDataObject();
+        $video = Video::getVideo($videos_id, "viewable", true);
+        if(!empty($video['rrating']) && empty($_GET['rrating'])){
+            $suffix = strtoupper(str_replace("-", "", $video['rrating']));
+            eval("\$show = \$obj->askRRatingConfirmationBeforePlay_$suffix;");
+            if(!empty($show)){
+                include "{$global['systemRootPath']}plugin/CustomizeAdvanced/confirmRating.php";
+                exit;
+            }
+        }
+    }
+    
 }

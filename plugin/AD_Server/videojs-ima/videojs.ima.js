@@ -107,6 +107,12 @@ var PlayerWrapper = function PlayerWrapper(player, adsPluginSettings, controller
   this.contentSource = '';
 
   /**
+   * Stores the content source type so we can re-populate it manually after a
+   * post-roll.
+   */
+  this.contentSourceType = '';
+
+  /**
    * Stores data for the content playhead tracker.
    */
   this.contentPlayheadTracker = {
@@ -436,10 +442,24 @@ PlayerWrapper.prototype.onAdError = function (adErrorEvent) {
 };
 
 /**
+ * Handles ad log messages.
+ * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the IMA SDK.
+ */
+PlayerWrapper.prototype.onAdLog = function (adEvent) {
+  var adData = adEvent.getAdData();
+  var errorMessage = adData['adError'] !== undefined ? adData['adError'].getMessage() : undefined;
+  this.vjsPlayer.trigger({ type: 'adslog', data: {
+      AdError: errorMessage,
+      AdEvent: adEvent
+    } });
+};
+
+/**
  * Handles ad break starting.
  */
 PlayerWrapper.prototype.onAdBreakStart = function () {
   this.contentSource = this.vjsPlayer.currentSrc();
+  this.contentSourceType = this.vjsPlayer.currentType();
   this.vjsPlayer.off('contentended', this.boundContentEndedListener);
   this.vjsPlayer.ads.startLinearAdMode();
   this.vjsControls.hide();
@@ -470,7 +490,12 @@ PlayerWrapper.prototype.onAdStart = function () {
 PlayerWrapper.prototype.onAllAdsCompleted = function () {
   if (this.contentComplete == true) {
     if (this.h5Player.src != this.contentSource) {
-      this.vjsPlayer.src(this.contentSource);
+      // Avoid setted autoplay after the post-roll
+      this.vjsPlayer.autoplay(false);
+      this.vjsPlayer.src({
+        src: this.contentSource,
+        type: this.contentSourceType
+      });
     }
     this.controller.onContentAndAdsCompleted();
   }
@@ -1092,11 +1117,11 @@ var license = "Apache-2.0";
 var main = "./dist/videojs.ima.js";
 var author = { "name": "Google Inc." };
 var engines = { "node": ">=0.8.0" };
-var scripts = { "contBuild": "watch 'npm run rollup:max' src", "predevServer": "echo \"Starting up server on localhost:8000.\"", "devServer": "forever start ./node_modules/http-server/bin/http-server -p 8000 && npm run contBuild", "postdevServer": "forever stop ./node_modules/http-server/bin/http-server", "lint": "eslint \"src/*.js\"", "rollup": "npm-run-all rollup:*", "rollup:max": "rollup -c configs/rollup.config.js", "rollup:min": "rollup -c configs/rollup.config.min.js", "pretest": "npm run rollup", "start": "npm run devServer", "test": "npm-run-all test:*", "test:vjs5": "npm install video.js@5.19.2 --no-save && npm-run-all -p -r testServer webdriver", "test:vjs6": "npm install video.js@6 --no-save && npm-run-all -p -r testServer webdriver", "testServer": "http-server --cors -p 8000 --silent", "preversion": "node scripts/preversion.js && npm run lint && npm test", "version": "node scripts/version.js", "postversion": "node scripts/postversion.js", "webdriver": "mocha test/webdriver/*.js --no-timeouts" };
+var scripts = { "contBuild": "watch 'npm run rollup:max' src", "predevServer": "echo \"Starting up server on localhost:8000.\"", "devServer": "npm-run-all -p testServer contBuild", "lint": "eslint \"src/*.js\"", "rollup": "npm-run-all rollup:*", "rollup:max": "rollup -c configs/rollup.config.js", "rollup:min": "rollup -c configs/rollup.config.min.js", "pretest": "npm run rollup", "start": "npm run devServer", "test": "npm-run-all test:*", "test:vjs5": "npm install video.js@5.19.2 --no-save && npm-run-all -p -r testServer webdriver", "test:vjs6": "npm install video.js@6 --no-save && npm-run-all -p -r testServer webdriver", "testServer": "http-server --cors -p 8000 --silent", "preversion": "node scripts/preversion.js && npm run lint && npm test", "version": "node scripts/version.js", "postversion": "node scripts/postversion.js", "webdriver": "mocha test/webdriver/*.js --no-timeouts" };
 var repository = { "type": "git", "url": "https://github.com/googleads/videojs-ima" };
 var files = ["CHANGELOG.md", "LICENSE", "README.md", "dist/", "src/"];
-var dependencies = { "can-autoplay": "^3.0.0", "video.js": "^5.19.2 || ^6", "videojs-contrib-ads": "^6" };
-var devDependencies = { "babel-core": "^6.26.0", "babel-preset-env": "^1.6.1", "child_process": "^1.0.2", "chromedriver": "^2.35.0", "conventional-changelog-cli": "^1.3.5", "conventional-changelog-videojs": "^3.0.0", "eslint": "^4.11.0", "eslint-config-google": "^0.9.1", "eslint-plugin-jsdoc": "^3.2.0", "forever": "^0.15.3", "geckodriver": "^1.10.0", "http-server": "^0.10.0", "mocha": "^4.0.1", "npm-run-all": "^4.1.2", "path": "^0.12.7", "rimraf": "^2.6.2", "rollup": "^0.51.8", "rollup-plugin-babel": "^3.0.3", "rollup-plugin-copy": "^0.2.3", "rollup-plugin-json": "^2.3.0", "rollup-plugin-uglify": "^2.0.1", "selenium-webdriver": "^3.6.0", "uglify-es": "^3.1.10", "watch": "^1.0.2" };
+var dependencies = { "can-autoplay": "^3.0.0", "cryptiles": "^4.1.2", "video.js": "^5.19.2 || ^6", "videojs-contrib-ads": "^6" };
+var devDependencies = { "babel-core": "^6.26.3", "babel-preset-env": "^1.7.0", "child_process": "^1.0.2", "chromedriver": "^2.35.0", "conventional-changelog-cli": "^1.3.5", "conventional-changelog-videojs": "^3.0.0", "eslint": "^4.11.0", "eslint-config-google": "^0.9.1", "eslint-plugin-jsdoc": "^3.2.0", "geckodriver": "^1.12.2", "http-server": "^0.10.0", "mocha": "^4.0.1", "npm-run-all": "^4.1.2", "path": "^0.12.7", "rimraf": "^2.6.2", "rollup": "^0.51.8", "rollup-plugin-babel": "^3.0.3", "rollup-plugin-copy": "^0.2.3", "rollup-plugin-json": "^2.3.0", "rollup-plugin-uglify": "^2.0.1", "selenium-webdriver": "^3.6.0", "uglify-es": "^3.1.10", "watch": "^1.0.2" };
 var keywords = ["videojs", "videojs-plugin"];
 var pkg = {
 	name: name,
@@ -1112,6 +1137,8 @@ var pkg = {
 	devDependencies: devDependencies,
 	keywords: keywords
 };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /**
  * Copyright 2017 Google Inc.
@@ -1171,11 +1198,6 @@ var SdkImpl = function SdkImpl(controller) {
    * IMA SDK AdsRenderingSettings.
    */
   this.adsRenderingSettings = null;
-
-  /**
-   * Ad tag URL. Should return VAST, VMAP, or ad rules.
-   */
-  this.adTagUrl = null;
 
   /**
    * VAST, VMAP, or ad rules response. Used in lieu of fetching a response
@@ -1312,6 +1334,15 @@ SdkImpl.prototype.requestAds = function () {
   adsRequest.setAdWillAutoPlay(this.controller.adsWillAutoplay());
   adsRequest.setAdWillPlayMuted(this.controller.adsWillPlayMuted());
 
+  // Populate the adsRequestproperties with those provided in the AdsRequest
+  // object in the settings.
+  var providedAdsRequest = this.controller.getSettings().adsRequest;
+  if (providedAdsRequest && (typeof providedAdsRequest === 'undefined' ? 'undefined' : _typeof(providedAdsRequest)) === 'object') {
+    Object.keys(providedAdsRequest).forEach(function (key) {
+      adsRequest[key] = providedAdsRequest[key];
+    });
+  }
+
   this.adsLoader.requestAds(adsRequest);
   this.controller.triggerPlayerEvent('ads-request', adsRequest);
 };
@@ -1340,6 +1371,7 @@ SdkImpl.prototype.onAdsManagerLoaded = function (adsManagerLoadedEvent) {
   this.adsManager.addEventListener(google.ima.AdEvent.Type.CLICK, this.onAdPaused.bind(this));
   this.adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, this.onAdComplete.bind(this));
   this.adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, this.onAdComplete.bind(this));
+  this.adsManager.addEventListener(google.ima.AdEvent.Type.LOG, this.onAdLog.bind(this));
 
   if (this.controller.getIsMobile()) {
     // Show/hide controls on pause and resume (triggered by tap).
@@ -1513,6 +1545,14 @@ SdkImpl.prototype.onAdComplete = function () {
   if (this.currentAd.isLinear()) {
     clearInterval(this.adTrackingTimer);
   }
+};
+
+/**
+ * Handles ad log messages.
+ * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the AdsManager.
+ */
+SdkImpl.prototype.onAdLog = function (adEvent) {
+  this.controller.onAdLog(adEvent);
 };
 
 /**
@@ -2109,6 +2149,14 @@ Controller.prototype.onAdPlayheadUpdated = function (currentTime, remainingTime,
 };
 
 /**
+ * Handles ad log messages.
+ * @param {google.ima.AdEvent} adEvent The AdEvent thrown by the IMA SDK.
+ */
+Controller.prototype.onAdLog = function (adEvent) {
+  this.playerWrapper.onAdLog(adEvent);
+};
+
+/**
  * @return {Object} The current ad.
  */
 Controller.prototype.getCurrentAd = function () {
@@ -2285,6 +2333,23 @@ Controller.prototype.setContentWithAdTag = function (contentSrc, adTag, playOnLo
 Controller.prototype.setContentWithAdsResponse = function (contentSrc, adsResponse, playOnLoad) {
   this.reset();
   this.settings.adsResponse = adsResponse ? adsResponse : this.settings.adsResponse;
+  this.playerWrapper.changeSource(contentSrc, playOnLoad);
+};
+
+/**
+ * Sets the content of the video player. You should use this method instead
+ * of setting the content src directly to ensure the proper ads request is
+ * used when the video content is loaded.
+ * @param {?string} contentSrc The URI for the content to be played. Leave
+ *     blank to use the existing content.
+ * @param {?Object} adsRequest The ads request to be requested when the
+ *     content loads. Leave blank to use the existing ads request.
+ * @param {?boolean} playOnLoad True to play the content once it has loaded,
+ *     false to only load the content but not start playback.
+ */
+Controller.prototype.setContentWithAdsRequest = function (contentSrc, adsRequest, playOnLoad) {
+  this.reset();
+  this.settings.adsRequest = adsRequest ? adsRequest : this.settings.adsRequest;
   this.playerWrapper.changeSource(contentSrc, playOnLoad);
 };
 
@@ -2655,6 +2720,21 @@ var ImaPlugin = function ImaPlugin(player, options) {
    */
   this.setContentWithAdsResponse = function (contentSrc, adsResponse, playOnLoad) {
     this.controller.setContentWithAdsResponse(contentSrc, adsResponse, playOnLoad);
+  }.bind(this);
+
+  /**
+   * Sets the content of the video player. You should use this method instead
+   * of setting the content src directly to ensure the proper ads request is
+   * used when the video content is loaded.
+   * @param {?string} contentSrc The URI for the content to be played. Leave
+   *     blank to use the existing content.
+   * @param {?Object} adsRequest The ads request to be requested when the
+   *     content loads. Leave blank to use the existing ads request.
+   * @param {?boolean} playOnLoad True to play the content once it has loaded,
+   *     false to only load the content but not start playback.
+   */
+  this.setContentWithAdsRequest = function (contentSrc, adsRequest, playOnLoad) {
+    this.controller.setContentWithAdsRequest(contentSrc, adsRequest, playOnLoad);
   }.bind(this);
 
   /**

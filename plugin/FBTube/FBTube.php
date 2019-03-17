@@ -9,7 +9,7 @@ class FBTube extends PluginAbstract {
     }
 
     public function getName() {
-        return "Facebook Tube";
+        return "FBTube";
     }
 
     public function getUUID() {

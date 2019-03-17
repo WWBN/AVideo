@@ -250,9 +250,35 @@ class Plugin extends ObjectYPT {
         return $getEnabled[$uuid];
     }
 
+    static function getOrCreatePluginByName($name, $statusIfCreate='inactive'){
+        global $global;
+        if(self::getPluginByName($name)===false){
+            $pluginFile = $global['systemRootPath'] . "plugin/{$name}/{$name}.php";
+            if(file_exists($pluginFile)){
+                require_once $pluginFile;
+                $code = "\$p = new {$name}();";
+                eval($code);
+                $plugin = new Plugin(0);
+                $plugin->setDirName($name);
+                $plugin->setName($name);
+                $plugin->setObject_data(json_encode($p->getDataObject()));
+                $plugin->setStatus($statusIfCreate);
+                $plugin->setUuid($p->getUUID());
+                $plugin->save();
+            }
+        }
+        return self::getPluginByName($name);
+    }
+    
     function save() {
+        if(empty($this->uuid)){
+            return false;
+        }
         global $global;
         $this->object_data = $global['mysqli']->real_escape_string($this->object_data);
+        if(empty($this->object_data)){
+            $this->object_data = 'null';
+        }
         return parent::save();
     }
 

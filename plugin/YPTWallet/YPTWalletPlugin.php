@@ -40,5 +40,9 @@ abstract class YPTWalletPlugin {
     function setCurrency($currency) {
         $this->currency = $currency;
     }
+
+    public function getRecurrentAprovalButton() {
+        include "";
+    }
     
 }

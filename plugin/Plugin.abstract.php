@@ -3,7 +3,9 @@
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 abstract class PluginAbstract {
-    
+
+    static $dataObject = array();
+
     /**
      * the plugin identification, that is what differ one prlugin from other, so it needs to be unique
      * return the universally unique identifier (UUID) is a 128-bit number used to identify information in computer systems
@@ -21,14 +23,14 @@ abstract class PluginAbstract {
      * return the description of the plugin
      */
     abstract function getDescription();
-    
-    /** 
+
+    /**
      * return the version of the plugin
      */
-    public function getPluginVersion(){
+    public function getPluginVersion() {
         return "1.0";
     }
-    
+
     public function updateScript() {
         return false;
     }
@@ -58,7 +60,7 @@ abstract class PluginAbstract {
     }
 
     public function getChartContent() {
-	return "";
+        return "";
     }
 
     public function getPluginMenu() {
@@ -86,60 +88,70 @@ abstract class PluginAbstract {
     }
 
     public function getDataObject() {
-        $obj = Plugin::getPluginByUUID($this->getUUID());
-        //echo $obj['object_data'];
-        $o = array();
-        if (!empty($obj['object_data'])) {
-            $o = json_decode(stripslashes($obj['object_data']));
-            switch (json_last_error()) {
-                case JSON_ERROR_NONE:
-                    //echo ' - No errors';
-                    break;
-                default:
-                    error_log('getDataObject - JSON error');
-                    error_log($obj['object_data']);
-                    error_log('striped slashes');
-                    error_log(stripslashes($obj['object_data']));
-                case JSON_ERROR_DEPTH:
-                    error_log(' - Maximum stack depth exceeded');
-                    break;
-                case JSON_ERROR_STATE_MISMATCH:
-                    error_log(' - Underflow or the modes mismatch');
-                    break;
-                case JSON_ERROR_CTRL_CHAR:
-                    error_log(' - Unexpected control character found');
-                    break;
-                case JSON_ERROR_SYNTAX:
-                    error_log(' - Syntax error, malformed JSON');
-                    error_log($obj['object_data']);
-                    error_log('striped slashes');
-                    error_log(stripslashes($obj['object_data']));
-                    break;
-                case JSON_ERROR_UTF8:
-                    error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
-                    break;
-            }
-        }
-        $eo = $this->getEmptyDataObject();
-        $wholeObjects=array_merge((array) $eo, (array) $o);
-        $disabledPlugins= plugin::getAllDisabled(); 
-        foreach ($disabledPlugins as $value) {
-            $p = YouPHPTubePlugin::loadPlugin($value['dirName']);
-            if (is_object($p)) {
-                $foreginObjects=$p->getCustomizeAdvancedOptions();
-                if($foreginObjects)
-                {
-                    foreach($foreginObjects as $optionName => $defaultValue)
-                    if(isset($wholeObjects[$optionName]))
-                    unset($wholeObjects[$optionName]);
+        if (empty(PluginAbstract::$dataObject[$this->getUUID()])) {
+            $obj = Plugin::getPluginByUUID($this->getUUID());
+            //echo $obj['object_data'];
+            $o = array();
+            if (!empty($obj['object_data'])) {
+                $o = json_decode(stripslashes($obj['object_data']));
+                switch (json_last_error()) {
+                    case JSON_ERROR_NONE:
+                        //echo ' - No errors';
+                        break;
+                    default:
+                        error_log('getDataObject - JSON error');
+                        error_log($obj['object_data']);
+                        error_log('striped slashes');
+                        error_log(stripslashes($obj['object_data']));
+                    case JSON_ERROR_DEPTH:
+                        error_log(' - Maximum stack depth exceeded');
+                        break;
+                    case JSON_ERROR_STATE_MISMATCH:
+                        error_log(' - Underflow or the modes mismatch');
+                        break;
+                    case JSON_ERROR_CTRL_CHAR:
+                        error_log(' - Unexpected control character found');
+                        break;
+                    case JSON_ERROR_SYNTAX:
+                        error_log(' - Syntax error, malformed JSON');
+                        error_log($obj['object_data']);
+                        error_log('striped slashes');
+                        error_log(stripslashes($obj['object_data']));
+                        break;
+                    case JSON_ERROR_UTF8:
+                        error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
+                        break;
                 }
             }
+            $eo = $this->getEmptyDataObject();
+            $wholeObjects = array_merge((array) $eo, (array) $o);
+            $disabledPlugins = plugin::getAllDisabled();
+            foreach ($disabledPlugins as $value) {
+                $p = YouPHPTubePlugin::loadPlugin($value['dirName']);
+                if (is_object($p)) {
+                    $foreginObjects = $p->getCustomizeAdvancedOptions();
+                    if ($foreginObjects) {
+                        foreach ($foreginObjects as $optionName => $defaultValue)
+                            if (isset($wholeObjects[$optionName]))
+                                unset($wholeObjects[$optionName]);
+                    }
+                }
+            }
+
+            PluginAbstract::$dataObject[$this->getUUID()] = $wholeObjects;
+        }else {
+            $wholeObjects = PluginAbstract::$dataObject[$this->getUUID()];
         }
-        
-        
         //var_dump($obj['object_data']);
         //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         return (object) $wholeObjects;
+    }
+    
+    public function setDataObject($object) {
+        $pluginRow = Plugin::getPluginByUUID($this->getUUID());
+        $obj = new Plugin($pluginRow['id']);
+        $obj->setObject_data(addcslashes(json_encode($object),'\\'));
+        return $obj->save();
     }
 
     public function getEmptyDataObject() {
@@ -177,7 +189,15 @@ abstract class PluginAbstract {
         return $obj;
     }
 
-    public function getWatchActionButton() {
+    public function getWatchActionButton($videos_id) {
+        return "";
+    }
+
+    public function getNetflixActionButton($videos_id) {
+        return "";
+    }
+
+    public function getGalleryActionButton($videos_id) {
         return "";
     }
 
@@ -202,13 +222,22 @@ abstract class PluginAbstract {
         return "";
     }
 
+    public function getVideoManagerButton() {
+        return "";
+    }
+
     public function getLivePanel() {
         return "";
     }
 
     public function getPlayListButtons($playlist_id) {
-	return "";
+        return "";
     }
+
+    public function getMyAccount($users_id) {
+        return "";
+    }
+
     /**
      * 
      * @return type array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
@@ -216,54 +245,138 @@ abstract class PluginAbstract {
     public function getLiveApplicationArray() {
         return array();
     }
-    
-    public function addRoutes()
-    {
+
+    public function addRoutes() {
         return false;
     }
-    
-    public function getCustomizeAdvancedOptions()
-    {
+
+    public function addView($videos_id, $total) {
         return false;
     }
-    
-    public function getUserOptions()
-    {
+
+    public function getCustomizeAdvancedOptions() {
+        return false;
+    }
+
+    public function getUserOptions() {
         return array();
     }
-    
-    public function navBarButtons()
-    {
+
+    public function getModeYouTube($videos_id) {
+        return false;
+    }
+
+    /**
+     * Loads a channel before display the channel page, usefull to create customized channel pages
+     * @param type $user is an database array from channels owner
+     * @return boolean
+     */
+    public function getChannel($user_id, $user) {
+        return false;
+    }
+
+    /**
+     * 
+     * @return type return a list of IDs of the user groups
+     */
+    public function getDynamicUserGroupsId() {
+        return array();
+    }
+
+    public function navBarButtons() {
         return "";
     }
-    
-    public function isReady($pluginsList){
-        $return = array('ready'=>array(), 'missing'=>array());
+
+    public function navBar() {
+        return "";
+    }
+
+    public function isReady($pluginsList) {
+        $return = array('ready' => array(), 'missing' => array());
         foreach ($pluginsList as $name) {
             $plugin = YouPHPTubePlugin::loadPlugin($name);
             $uuid = $plugin->getUUID();
-            if(!YouPHPTubePlugin::isEnabled($uuid)){
-                $return['missing'][] = array('name'=>$name, 'uuid'=>$uuid);
-            }else{
-                $return['ready'][] = array('name'=>$name, 'uuid'=>$uuid);
+            if (!YouPHPTubePlugin::isEnabled($uuid)) {
+                $return['missing'][] = array('name' => $name, 'uuid' => $uuid);
+            } else {
+                $return['ready'][] = array('name' => $name, 'uuid' => $uuid);
             }
         }
         return $return;
     }
-    
-    public function isReadyLabel($pluginsList){
+
+    public function isReadyLabel($pluginsList) {
         $desc = "<br>";
-        
+
         $ready = $this->isReady($pluginsList);
-        
+
         foreach ($ready['ready'] as $value) {
             $desc .= "<span class='btn btn-success btn-sm btn-xs' onclick='$(\"#enable{$value['uuid']}\").prop(\"checked\", false);$(\"#enable{$value['uuid']}\").trigger(\"change\");'>{$value['name']}</span> ";
         }
         foreach ($ready['missing'] as $value) {
             $desc .= "<span class='btn btn-danger btn-sm btn-xs' onclick='$(\"#enable{$value['uuid']}\").prop(\"checked\", true);$(\"#enable{$value['uuid']}\").trigger(\"change\");'>{$value['name']}</span> ";
         }
-        
+
         return $desc;
     }
+
+    public function getAllVideosExcludeVideosIDArray() {
+        return array();
+    }
+
+    /**
+     * 
+     * @param type $users_id
+     * @param type $videos_id
+     * @return 0 = I dont know, -1 = can not watch, 1 = can watch
+     */
+    public function userCanWatchVideo($users_id, $videos_id) {
+        return 0;
+    }
+
+    public function userCanWatchVideoWithAds($users_id, $videos_id) {
+        return 0;
+    }
+
+    /**
+     * temporary, to avoid error on old secureVideosDirectory plugins
+     * @return boolean
+     */
+    function verifyEmbedSecurity() {
+        return true;
+    }
+
+    function showAds($videos_id) {
+        return true;
+    }
+
+    function getVideo() {
+        return null;
+    }
+    
+    public function onUserSignup($users_id){
+        return null;
+    }
+    
+    public function onLiveStream($users_id){
+        return null;
+    }
+    
+    public function thumbsOverlay($videos_id){
+        return "";
+    }    
+    
+    public static function profileTabName($users_id){
+        return "";
+    }
+    
+    public static function profileTabContent($users_id){
+        return "";
+    }
+    
+    public static function getVideoTags($videos_id){
+        return array();
+    }
+    
 
 }

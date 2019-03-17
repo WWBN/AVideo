@@ -2,6 +2,8 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistory.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistoryLog.php';
 
 class Live extends PluginAbstract {
 
@@ -24,7 +26,27 @@ class Live extends PluginAbstract {
     }
     
     public function getPluginVersion() {
-        return "1.0";   
+        return "3.0";   
+    }
+    
+    public function updateScript() {
+        global $global;
+        //update version 2.0
+        $sql = "SELECT 1 FROM live_transmitions_history LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        $fetch=sqlDAL::fetchAssoc($res);
+        if(!$fetch){
+            sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV2.0.sql'));
+        }
+        //update version 3.0
+        $sql = "SELECT 1 FROM live_transmition_history_log LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        $fetch=sqlDAL::fetchAssoc($res);
+        if(!$fetch){
+            sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV3.0.sql')); 
+            return true;
+        }
+        return true;
     }
 
     public function getEmptyDataObject() {
@@ -46,7 +68,7 @@ class Live extends PluginAbstract {
         //$obj->playerServer = "https://{$server['host']}:444/live";
         $obj->stats = "{$scheme}://{$server['host']}:{$port}/stat";
         $obj->disableGifThumbs = false;
-        $obj->useLowResolution = false;
+        $obj->useAadaptiveMode = false;
         $obj->experimentalWebcam = false;
         return $obj;
     }
@@ -66,13 +88,14 @@ class Live extends PluginAbstract {
         return $o->server;
     }
 
-    public function getPlayerServer() {
+    public function getM3U8File($uuid) {
         $o = $this->getDataObject();
         $playerServer = $o->playerServer;
-        if(!empty($o->useLowResolution)){
-            $playerServer = str_replace("/live", "/low", $playerServer);
+        if($o->useAadaptiveMode){
+            return $playerServer."/{$uuid}.m3u8";
+        }else{
+            return $playerServer."/{$uuid}/index.m3u8";
         }
-        return $playerServer;
     }
 
     public function getDisableGifThumbs() {
@@ -101,23 +124,30 @@ class Live extends PluginAbstract {
     }
 
     function get_data($url) {
-        $ch = curl_init();
-        $timeout = 5;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        $data = curl_exec($ch);
-        if($data===false){
-            error_log(curl_error($ch));
-        }
-        curl_close($ch);
-        return $data;
+        return url_get_contents($url);
     }
     
     public function getTags() {
         return array('free', 'live', 'streaming', 'live stream');
+    }
+    
+    public function getChartTabs() {
+        return '<li><a data-toggle="tab" id="liveVideos" href="#liveVideosMenu"><i class="fab fa-youtube"></i> Live videos</a></li>';
+    }
+    
+    public function getChartContent() {
+        global $global;
+        include $global['systemRootPath'].'plugin/Live/report.php';         
+    }
+    
+    static public function saveHistoryLog($key){
+        // get the latest history for this key
+        $latest = LiveTransmitionHistory::getLatest($key);
+        
+        if(!empty($latest)){
+            LiveTransmitionHistoryLog::addLog($latest['id']);
+        }
+        
     }
 
 }

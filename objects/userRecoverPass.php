@@ -61,7 +61,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
             ?>
         </head>
 
-        <body>
+        <body class="<?php echo $global['bodyClass']; ?>">
             <?php
             include $global['systemRootPath'] . 'view/include/navbar.php';
             ?>

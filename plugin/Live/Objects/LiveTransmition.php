@@ -1,5 +1,4 @@
 <?php
-
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
@@ -54,8 +53,8 @@ class LiveTransmition extends ObjectYPT {
 
     function setTitle($title) {
         global $global;
-        $title = $global['mysqli']->real_escape_string($title);
-        $this->title = $title;
+        //$title = $global['mysqli']->real_escape_string($title);
+        $this->title = xss_esc($title);
     }
 
     function setPublic($public) {
@@ -80,8 +79,8 @@ class LiveTransmition extends ObjectYPT {
 
     function setDescription($description) {
         global $global;
-        $description = $global['mysqli']->real_escape_string($description);
-        $this->description = $description;
+        //$description = $global['mysqli']->real_escape_string($description);
+        $this->description = xss_esc($description);
     }
 
     function loadByUser($user_id) {
@@ -98,10 +97,10 @@ class LiveTransmition extends ObjectYPT {
         global $global;
         $user_id = intval($user_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"i",array($user_id), true);
+        $res = sqlDAL::readSql($sql, "i", array($user_id), true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res!=false) {
+        if ($res != false) {
             $user = $data;
         } else {
             $user = false;
@@ -109,7 +108,10 @@ class LiveTransmition extends ObjectYPT {
         return $user;
     }
 
-    static function createTransmitionIfNeed($user_id) {
+    static function createTransmitionIfNeed($user_id) { 
+        if(empty($user_id)){
+            return false;
+        }
         $row = static::getFromDbByUser($user_id);
         if ($row) {
             return $row;
@@ -119,7 +121,7 @@ class LiveTransmition extends ObjectYPT {
         $l->setDescription("");
         $l->setKey(uniqid());
         $l->setCategories_id(1);
-        $l->setUsers_id(User::getId());
+        $l->setUsers_id($user_id);
         $l->save();
         return static::getFromDbByUser($user_id);
     }
@@ -136,10 +138,10 @@ class LiveTransmition extends ObjectYPT {
         global $global;
         $userName = $global['mysqli']->real_escape_string($userName);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"s",array($userName), true);
+        $res = sqlDAL::readSql($sql, "s", array($userName), true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res!=false) {
+        if ($res != false) {
             $user = $data;
             return static::getFromDbByUser($user['id']);
         } else {
@@ -149,6 +151,9 @@ class LiveTransmition extends ObjectYPT {
 
     static function keyExists($key) {
         global $global;
+        if (!is_string($key)) {
+            return false;
+        }
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
@@ -174,13 +179,13 @@ class LiveTransmition extends ObjectYPT {
         }
         global $global;
         $sql = "DELETE FROM live_transmitions_has_users_groups WHERE live_transmitions_id = ?";
-        return sqlDAL::writeSql($sql,"i",array($this->id));
+        return sqlDAL::writeSql($sql, "i", array($this->id));
     }
 
     function insertGroup($users_groups_id) {
         global $global;
         $sql = "INSERT INTO live_transmitions_has_users_groups (live_transmitions_id, users_groups_id) VALUES (?,?)";
-        return sqlDAL::writeSql($sql,"ii",array($this->id,$users_groups_id));
+        return sqlDAL::writeSql($sql, "ii", array($this->id, $users_groups_id));
     }
 
     function getGroups() {
@@ -190,10 +195,10 @@ class LiveTransmition extends ObjectYPT {
         }
         global $global;
         $sql = "SELECT * FROM live_transmitions_has_users_groups WHERE live_transmitions_id = ?";
-        $res = sqlDAL::readSql($sql,"i",array($this->id));
+        $res = sqlDAL::readSql($sql, "i", array($this->id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        if ($res!=false) {
+        if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row["users_groups_id"];
             }
@@ -207,6 +212,9 @@ class LiveTransmition extends ObjectYPT {
         global $global;
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
         require_once $global['systemRootPath'] . 'objects/user.php';
+        if (User::isAdmin()) {
+            return true;
+        }
 
         $transmitionGroups = $this->getGroups();
         if (!empty($transmitionGroups)) {
@@ -232,4 +240,5 @@ class LiveTransmition extends ObjectYPT {
             return true;
         }
     }
+
 }

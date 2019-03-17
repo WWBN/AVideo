@@ -16,6 +16,7 @@ $obj->webSiteLogo = $config->getLogo();
 $obj->webSiteTitle = $config->getWebSiteTitle();
 $obj->version = $config->getVersion();
 $obj->mobileSreamerVersion = MobileManager::getVersion();
+$obj->reportVideoPluginEnabled = YouPHPTubePlugin::isEnabledByName("ReportVideo");
 $obj->oauthLogin = array();
 $obj->oauthLogin[] = array('type'=>'Facebook', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginFacebook')));
 $obj->oauthLogin[] = array('type'=>'Google', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginGoogle')));

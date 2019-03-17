@@ -77,12 +77,18 @@ $contentSearchFound = false;
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
-            <div class="row text-center" style="padding: 10px;">
-                <?php echo $config->getAdsense(); ?>
-            </div>
+            <?php
+            if (!empty($obj->showTopBannerOnMobile) || !isMobile()) {
+                ?>
+                <div class="row text-center" style="padding: 10px;">
+                    <?php echo $config->getAdsense(); ?>
+                </div>
+                <?php
+            }
+            ?>
             <div class="col-sm-10 col-sm-offset-1 list-group-item">
 
                 <div class="row mainArea">

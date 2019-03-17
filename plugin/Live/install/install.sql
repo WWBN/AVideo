@@ -64,6 +64,39 @@ CREATE TABLE IF NOT EXISTS `live_transmitions_has_users_groups` (
 ENGINE = InnoDB;
 
 
+CREATE TABLE IF NOT EXISTS `live_transmitions_history` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NULL,
+  `description` TEXT NULL,
+  `key` VARCHAR(255) NOT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `users_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_live_transmitions_history_users_idx` (`users_id` ASC),
+  CONSTRAINT `fk_live_transmitions_history_users`
+    FOREIGN KEY (`users_id`)
+    REFERENCES  `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `live_transmition_history_log` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `live_transmitions_history_id` INT NOT NULL,
+  `users_id` INT(11) NULL,
+  `session_id` VARCHAR(45) NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_live_transmition_history_log_live_transmitions_history1_idx` (`live_transmitions_history_id` ASC),
+  CONSTRAINT `fk_live_transmition_history_log_live_transmitions_history1`
+    FOREIGN KEY (`live_transmitions_history_id`)
+    REFERENCES `live_transmitions_history` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

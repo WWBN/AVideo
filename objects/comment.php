@@ -67,7 +67,7 @@ class Comment {
             header('Content-Type: application/json');
             die('{"error":"'.__("Permission denied").'"}');
         }
-        $this->comment = htmlentities($this->comment);
+        //$this->comment = htmlentities($this->comment);
         $this->comment = $global['mysqli']->real_escape_string($this->comment);
 
         if(empty($this->comment)){
@@ -194,7 +194,8 @@ class Comment {
         $comment = array();
         if ($res!=false) {
             foreach ($allData as $row) {
-                $row['commentPlain'] = $row['comment'];
+                $row['comment'] = str_replace('\n', "\n", $row['comment']);
+                $row['commentPlain'] = xss_esc_back($row['comment']);
                 $row['commentHTML'] = nl2br(xss_esc_back($row['comment']));
                 $comment[] = $row;
             }

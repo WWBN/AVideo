@@ -10,15 +10,19 @@ header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = "";
 $obj->subscribe = "";
-if (empty($_POST['email'])) {
-    $obj->error = __("Email can not be blank");
+
+
+if (!User::isLogged()) {
+    $obj->error = "Must be logged";
     die(json_encode($obj));
 }
+
+$_POST['email'] = User::getEmail_();
 if (empty($_POST['user_id'])) {
     $obj->error = __("User can not be blank");
     die(json_encode($obj));
 }
-$subscribe = new Subscribe(0, $_POST['email'], $_POST['user_id']);
+$subscribe = new Subscribe(0, $_POST['email'], $_POST['user_id'], User::getId());
 $subscribe->toggle();
 $obj->subscribe = $subscribe->getStatus();
 die(json_encode($obj));

@@ -16,7 +16,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
         ?>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

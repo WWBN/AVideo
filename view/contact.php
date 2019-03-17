@@ -18,7 +18,7 @@ if (User::isLogged()) {
         ?>
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
@@ -37,6 +37,7 @@ if (User::isLogged()) {
                 <a class="btn btn-success btn-block" href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Go back to the main page"); ?></a>
             </div>
             <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+                <input type="hidden" name="contactForm" value="1"/>
                 <fieldset>
 
                     <!-- Form Name -->

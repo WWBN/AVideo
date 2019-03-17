@@ -14,7 +14,7 @@ if(empty($plugin)){
 if(empty($_GET['link'])){
     die('Link not found');
 }
-
+$_GET['link'] = intval($_GET['link']);
 $liveLink = new LiveLinksTable($_GET['link']);
 
 if($liveLink->getType()=='logged_only' && !User::isLogged()){
@@ -25,6 +25,7 @@ $uuid = $_GET['link'];
 $t['users_id'] = $liveLink->getUsers_id();
 $t['title'] = $liveLink->getTitle();
 $t['link'] = $liveLink->getLink();
+$t['description'] = $liveLink->getDescription();
 
 $u = new User($t['users_id']);
 $user_id = $u->getBdId();
@@ -46,14 +47,14 @@ if(!empty($_GET['embed'])){
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $t['title']; ?> - <?php echo __("Live Video"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <?php
+        include $global['systemRootPath'] . 'view/include/head.php';
+        ?>
         
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/Live.php?link=<?php echo $_GET['link']; ?>" />
@@ -65,7 +66,7 @@ if(!empty($_GET['embed'])){
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
     </head>
 
-    <body>
+    <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>

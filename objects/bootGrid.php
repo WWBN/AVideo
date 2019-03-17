@@ -1,9 +1,19 @@
 <?php
 class BootGrid {
 
-    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "", $alternativeOrderBy = "") {
-        $sql = self::getSqlSearchFromPost($searchFieldsNames);
-
+    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false) {
+        if(empty($doNotSearch)){
+            $sql = self::getSqlSearchFromPost($searchFieldsNames);
+        }else{
+            $sql = "";
+        }
+        
+        if(empty($_POST['sort']) && !empty($_GET['order'][0]['dir'])){
+            $index = intval($_GET['order'][0]['column']);
+            $_GET['columns'][$index]['data'];
+            $_POST['sort'][$_GET['columns'][$index]['data']] = $_GET['order'][0]['dir'];
+        }
+        
         if (!empty($_POST['sort'])) {
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
@@ -18,7 +28,10 @@ class BootGrid {
             if(empty($_POST['current'])){
                 $_POST['current'] = 1;
             }
-            $current = ($_POST['current']-1)*$_POST['rowCount'];
+            $_POST['rowCount'] = intval($_POST['rowCount']);
+            $_POST['current'] = intval($_POST['current']);
+            $current = intval(($_POST['current']-1)*$_POST['rowCount']);
+            $current = $current<0?0:$current;
             $sql .= " LIMIT $current, {$_POST['rowCount']} ";
         }else{
             $_POST['current'] = 0;
@@ -27,20 +40,20 @@ class BootGrid {
         return $sql;
     }
 
-    static function getSqlSearchFromPost($searchFieldsNames = array()) {
+    static function getSqlSearchFromPost($searchFieldsNames = array(), $connection = "AND") {
         $sql = "";
         if(!empty($_POST['searchPhrase'])){
             global $global;
-            $search = $global['mysqli']->real_escape_string($_POST['searchPhrase']);
+            $search = $global['mysqli']->real_escape_string(xss_esc($_POST['searchPhrase']));
 
             $like = array();
             foreach ($searchFieldsNames as $value) {
                 $like[] = " {$value} LIKE '%{$search}%' ";
             }
             if(!empty($like)){
-                $sql .= " AND (". implode(" OR ", $like).")";
+                $sql .= " {$connection} (". implode(" OR ", $like).")";
             }else{
-                $sql .= " AND 1=1 ";
+                $sql .= " {$connection} 1=1 ";
             }
         }
 
