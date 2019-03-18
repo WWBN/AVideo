@@ -25,7 +25,7 @@ class YPTWallet extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.1";
+        return "1.0";
     }
 
     public function getEmptyDataObject() {
@@ -492,17 +492,6 @@ class YPTWallet extends PluginAbstract {
                     return $this->transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $walletLog->getValue());
                 }
             }
-        }
-        return true;
-    }
-
-    public function updateScript() {
-        global $global;
-        $sql = "SELECT 1 FROM paypal_subscription LIMIT 1";
-        $res = sqlDAL::readSql($sql);
-        $fetch = sqlDAL::fetchAssoc($res);
-        if (!$fetch) {
-            sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/YPTWallet/install/updateV2.1.sql'));
         }
         return true;
     }

@@ -19,16 +19,16 @@ $payment = $paypal->execute();
 
 //check if there is a token and this token has a user (recurrent payments)
 if (!empty($_GET['token'])) {
-    $row = PayPalSubscription::getFromAgreement_id($payment->getId());
-    if (!empty($row)) {
-        $users_id = $row['users_id'];
-    } else {
-        if (!empty($users_id)) {
-            //save token
-            $p = new PayPalSubscription(0);
-            $p->setAgreement_id($payment->getId());
-            $p->setUsers_id($users_id);
-            $p->save();
+    if(YouPHPTubePlugin::isEnabled("Subscription")){
+        $subscription = Subscription::getFromAgreement($payment->getId());
+        if (!empty($subscription)) {
+            $users_id = $subscription['users_id'];
+        } else {
+            if (!empty($users_id) && !empty($_SESSION['recurrentSubscription']['plans_id'])) {
+                //save token
+                $subscription = SubscriptionTable::getOrCreateSubscription($users_id, $_SESSION['recurrentSubscription']['plans_id'] , $payment->getId());
+                unset($_SESSION['recurrentSubscription']['plans_id']);
+            }
         }
     }
 }
@@ -46,6 +46,9 @@ if (!empty($payment)) {
     $plugin->addBalance($users_id, $amount->total, "Paypal payment", json_encode($payment));
     $obj->error = false;
     if (!empty($_SESSION['addFunds_Success'])) {
+        if(!empty($subscription)){
+            Subscription::renew($subscription['users_id'], $subscription['subscriptions_plans_id']);
+        }
         header("Location: {$_SESSION['addFunds_Success']}");
         unset($_SESSION['addFunds_Success']);
     } else {

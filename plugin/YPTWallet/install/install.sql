@@ -37,23 +37,6 @@ CREATE TABLE IF NOT EXISTS `wallet_log` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `paypal_subscription` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `created` DATETIME NULL DEFAULT NULL,
-  `modified` DATETIME NULL DEFAULT NULL,
-  `wallet_id` INT(11) NOT NULL,
-  `agreement_id` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_paypal_subscription_wallet_idx` (`wallet_id` ASC),
-  UNIQUE INDEX `agreement_id_UNIQUE` (`agreement_id` ASC),
-  CONSTRAINT `fk_paypal_subscription_wallet`
-    FOREIGN KEY (`wallet_id`)
-    REFERENCES `wallet` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
