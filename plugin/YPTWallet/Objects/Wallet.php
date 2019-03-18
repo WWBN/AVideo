@@ -99,7 +99,18 @@ class Wallet extends ObjectYPT {
         $this->crypto_wallet_address = $global['mysqli']->real_escape_string($this->crypto_wallet_address);
         return parent::save();
     }
-
     
+    static function getOrCreateFromUser($users_id) {
+        $wallet = self::getFromUser($users_id);
+        if(empty($wallet)){
+            $w = new Wallet(0);
+            $w->setBalance(0);
+            $w->setCrypto_wallet_address("");
+            $w->setUsers_id($users_id);
+            $w->save();
+            $wallet = self::getFromUser($users_id);
+        }
+        return $wallet;
+    }
 
 }
