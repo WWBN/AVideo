@@ -3,10 +3,10 @@ CREATE TABLE IF NOT EXISTS `paypal_subscription` (
   `created` DATETIME NULL DEFAULT NULL,
   `modified` DATETIME NULL DEFAULT NULL,
   `wallet_id` INT(11) NOT NULL,
-  `token` VARCHAR(45) NOT NULL,
+  `agreement_id` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_paypal_subscription_wallet_idx` (`wallet_id` ASC),
-  UNIQUE INDEX `token_UNIQUE` (`token` ASC),
+  UNIQUE INDEX `agreement_id_UNIQUE` (`agreement_id` ASC),
   CONSTRAINT `fk_paypal_subscription_wallet`
     FOREIGN KEY (`wallet_id`)
     REFERENCES `wallet` (`id`)
