@@ -306,6 +306,7 @@ class PayPalYPT extends PluginAbstract {
         }
         if (get_class($payment) === 'PayPal\Api\Agreement') {
             $amount = new stdClass();
+            error_log("getAmountFromPayment: ".json_encode($payment));
             $amount->total = $payment->agreement_details->last_payment_amount->value;
             return $amount;
         } else {
