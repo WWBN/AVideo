@@ -8,7 +8,7 @@ require_once $global['systemRootPath'].'plugin/YPTWallet/Objects/Wallet.php';
 
 class PayPalSubscription extends ObjectYPT {
 
-    protected $id, $wallet_id, $token;
+    protected $id, $wallet_id, $agreement_id;
 
 
     static function getSearchFieldsNames() {
@@ -23,8 +23,8 @@ class PayPalSubscription extends ObjectYPT {
         return $this->wallet_id;
     }
 
-    function getToken() {
-        return $this->token;
+    function getAgreement_id() {
+        return $this->agreement_id;
     }
 
     function setWallet_id($wallet_id) {
@@ -37,14 +37,14 @@ class PayPalSubscription extends ObjectYPT {
         $this->wallet_id = $wallet_id;
     }
 
-    function setToken($token) {
-        $this->token = $token;
+    function setAgreement_id($agreement_id) {
+        $this->agreement_id = $agreement_id;
     }
     
-    static function getFromToken($token){
+    static function getFromAgreement_id($agreement_id){
         global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " s LEFT JOIN wallet w ON w.id =  wallet_id WHERE  token = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", array($token));
+        $sql = "SELECT * FROM " . static::getTableName() . " s LEFT JOIN wallet w ON w.id =  wallet_id WHERE  agreement_id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($agreement_id));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {

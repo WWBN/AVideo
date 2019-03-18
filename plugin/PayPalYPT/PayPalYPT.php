@@ -279,7 +279,8 @@ class PayPalYPT extends PluginAbstract {
         try {
             // Execute agreement
             error_log("PayPal Try to execute ");
-            return $agreement->execute($token, $apiContext);
+            $agreement->execute($token, $apiContext);
+            return $agreement;
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
             error_log("PayPal Error executeBillingAgreement: " . $ex->getData());
         } catch (Exception $ex) {

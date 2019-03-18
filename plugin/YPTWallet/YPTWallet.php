@@ -25,7 +25,7 @@ class YPTWallet extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "2.1";
     }
 
     public function getEmptyDataObject() {
@@ -498,12 +498,11 @@ class YPTWallet extends PluginAbstract {
 
     public function updateScript() {
         global $global;
-        //update version 2.0
         $sql = "SELECT 1 FROM paypal_subscription LIMIT 1";
         $res = sqlDAL::readSql($sql);
         $fetch = sqlDAL::fetchAssoc($res);
         if (!$fetch) {
-            sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/YPTWallet/install/updateV2.0.sql'));
+            sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/YPTWallet/install/updateV2.1.sql'));
         }
         return true;
     }

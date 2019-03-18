@@ -13,16 +13,20 @@ $paypal = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
 // how to get the users_ID from the PayPal call back IPN?
 $users_id = User::getId();
 
+$invoiceNumber = uniqid();
+
+$payment = $paypal->execute();
+
 //check if there is a token and this token has a user (recurrent payments)
 if (!empty($_GET['token'])) {
-    $row = PayPalSubscription::getFromToken($_GET['token']);
+    $row = PayPalSubscription::getFromAgreement_id($payment->getId());
     if (!empty($row)) {
         $users_id = $row['users_id'];
     } else {
         if (!empty($users_id)) {
             //save token
             $p = new PayPalSubscription(0);
-            $p->setToken($_GET['token']);
+            $p->setAgreement_id($payment->getId());
             $p->setUsers_id($users_id);
             $p->save();
         }
@@ -34,9 +38,6 @@ if (empty($users_id)) {
     die();
 }
 
-$invoiceNumber = uniqid();
-
-$payment = $paypal->execute();
 //var_dump($amount);
 $obj = new stdClass();
 $obj->error = true;
