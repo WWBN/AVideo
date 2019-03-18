@@ -12,7 +12,8 @@ $uniqid = uniqid();
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletPayPal/requestSubscription.json.php',
                 data: {
                     "value": $('#value').val(),
-                    "paymentName": "<?php echo $_GET['paymentName']; ?>"
+                    "paymentName": "<?php echo $_GET['paymentName']; ?>",
+                    "plans_id": "<?php echo @$_GET['plans_id']; ?>"
                 },
                 type: 'post',
                 success: function (response) {

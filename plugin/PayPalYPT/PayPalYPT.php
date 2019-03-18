@@ -52,7 +52,7 @@ class PayPalYPT extends PluginAbstract {
         return $obj;
     }
 
-    public function setUpPayment($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $description="") {
+    public function setUpPayment($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $description = "") {
         global $global;
 
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
@@ -189,7 +189,7 @@ class PayPalYPT extends PluginAbstract {
                 $patchRequest->addPatch($patch);
                 $createdPlan->update($patchRequest, $apiContext);
                 $plan = Plan::get($createdPlan->getId(), $apiContext);
-                error_log("createBillingPlan: ". json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
+                error_log("createBillingPlan: " . json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
                 // Output plan id
                 return $plan;
             } catch (PayPal\Exception\PayPalConnectionException $ex) {
@@ -205,21 +205,40 @@ class PayPalYPT extends PluginAbstract {
         return false;
     }
 
+    private function getPlanId() {
+        global $global;
+        if (!empty($_GET['plans_id'])) {
+            require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+            try {
+                $plan = Plan::get($_GET['plans_id'], $apiContext);
+                if (!empty($plan)) {
+                    return $plan->getId();
+                }
+            } catch (Exception $ex) {
+                return false;
+            }
+        }
+        return false;
+    }
+
     public function setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
         global $global;
 
         require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
 
         $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
-        //createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') 
-        $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency,$interval, $name);
 
-        if (empty($plan)) {
-            error_log("PayPal Error setUpSubscription Plan ID is empty ");
-            return false;
+        $planId = $this->getPlanId();
+        if (empty($planId)) {
+            //createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') 
+            $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name);
+
+            if (empty($plan)) {
+                error_log("PayPal Error setUpSubscription Plan ID is empty ");
+                return false;
+            }
+            $planId = $plan->getId();
         }
-        $planId = $plan->getId();
-
         // Create new agreement
         // the setup fee will be the first payment and start date is the next payment
         $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
@@ -250,13 +269,13 @@ class PayPalYPT extends PluginAbstract {
         }
         return false;
     }
-    
+
     private function executeBillingAgreement() {
         global $global;
         require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $token = $_GET['token'];
         $agreement = new \PayPal\Api\Agreement();
-        
+
         try {
             // Execute agreement
             error_log("PayPal Try to execute ");
@@ -268,12 +287,12 @@ class PayPalYPT extends PluginAbstract {
         }
         return false;
     }
-    
-    function execute(){
-        if(!empty($_GET['paymentId'])){
+
+    function execute() {
+        if (!empty($_GET['paymentId'])) {
             error_log("PayPal Execute payment ");
             return $this->executePayment();
-        }else if(!empty($_GET['token'])){
+        } else if (!empty($_GET['token'])) {
             error_log("PayPal Billing Agreement ");
             return $this->executeBillingAgreement();
         }
@@ -285,11 +304,11 @@ class PayPalYPT extends PluginAbstract {
         if (!is_object($payment)) {
             return false;
         }
-        if(get_class($payment) === 'PayPal\Api\Agreement'){
+        if (get_class($payment) === 'PayPal\Api\Agreement') {
             $amount = new stdClass();
             $amount->total = $payment->agreement_details->last_payment_amount->value;
             return $amount;
-        }else{
+        } else {
             return $payment->getTransactions()[0]->amount;
         }
     }
