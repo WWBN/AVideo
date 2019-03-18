@@ -32,7 +32,7 @@ class PayPalSubscription extends ObjectYPT {
     }
     
     function setUsers_id($users_id) {
-        $wallet = Wallet::getFromUser($users_id);
+        $wallet = Wallet::getOrCreateFromUser($users_id);
         $wallet_id = $wallet['id'];
         $this->wallet_id = $wallet_id;
     }
@@ -43,7 +43,6 @@ class PayPalSubscription extends ObjectYPT {
     
     static function getFromToken($token){
         global $global;
-        $id = intval($id);
         $sql = "SELECT * FROM " . static::getTableName() . " s LEFT JOIN wallet w ON w.id =  wallet_id WHERE  token = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($token));
         $data = sqlDAL::fetchAssoc($res);
