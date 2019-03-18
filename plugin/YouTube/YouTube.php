@@ -40,6 +40,7 @@ class YouTube extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
+        
         $obj->BigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;
