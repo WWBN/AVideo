@@ -5,7 +5,6 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/YPTWallet/Objects/Wallet.php';
 require_once $global['systemRootPath'] . 'plugin/YPTWallet/Objects/Wallet_log.php';
-require_once $global['systemRootPath'] . 'plugin/YPTWallet/Objects/PayPalSubscription.php';
 
 class YPTWallet extends PluginAbstract {
 
