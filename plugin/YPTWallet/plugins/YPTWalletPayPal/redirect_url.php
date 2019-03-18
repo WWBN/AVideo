@@ -19,12 +19,12 @@ if (!empty($_GET['token'])) {
     if (!empty($row)) {
         $users_id = $row['users_id'];
     } else {
-        $users_id = User::getId();
         if (!empty($users_id)) {
             //save token
             $p = new PayPalSubscription(0);
             $p->setToken($_GET['token']);
             $p->setUsers_id($users_id);
+            $p->save();
         }
     }
 }
