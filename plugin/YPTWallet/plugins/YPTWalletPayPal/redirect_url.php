@@ -18,7 +18,9 @@ $invoiceNumber = uniqid();
 $payment = $paypal->execute();
 
 //check if there is a token and this token has a user (recurrent payments)
+error_log("Redirect_URL line:".__LINE__." Start ");
 if (!empty($_GET['token'])) {
+    error_log("Redirect_URL line:".__LINE__." \$_GET['token'] ".$_GET['token']);
     if(YouPHPTubePlugin::isEnabled("Subscription")){
         error_log("Redirect_URL line:".__LINE__." \$payment->getId ".$payment->getId());
         $subscription = Subscription::getFromAgreement($payment->getId());
@@ -37,6 +39,7 @@ if (!empty($_GET['token'])) {
         }
     }
 }
+error_log("Redirect_URL line:".__LINE__." END ");
 
 if (empty($users_id)) {
     error_log("Redirect URL error, Not found user or token");
