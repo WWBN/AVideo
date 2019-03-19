@@ -188,6 +188,7 @@ class PayPalYPT extends PluginAbstract {
                 $patchRequest = new PatchRequest();
                 $patchRequest->addPatch($patch);
                 $createdPlan->update($patchRequest, $apiContext);
+                
                 $plan = Plan::get($createdPlan->getId(), $apiContext);
                 error_log("createBillingPlan: " . json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
                 // Output plan id
@@ -208,9 +209,11 @@ class PayPalYPT extends PluginAbstract {
     private function getPlanId() {
         global $global;
         if (!empty($_POST['plans_id'])) {
+            $s = new SubscriptionPlansTable($_POST['plans_id']);
+            $plan_id = $s->getPaypal_plan_id();
             require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
             try {
-                $plan = Plan::get($_POST['plans_id'], $apiContext);
+                $plan = Plan::get($plan_id, $apiContext);
                 if (!empty($plan)) {
                     return $plan->getId();
                 }
@@ -238,6 +241,12 @@ class PayPalYPT extends PluginAbstract {
                 return false;
             }
             $planId = $plan->getId();
+            // save the paypal plan ID for reuse
+            if(!empty($_POST['plans_id'])){
+                $s = new SubscriptionPlansTable($_POST['plans_id']);
+                $s->setPaypal_plan_id($planId);
+                $s->save();
+            }
         }
         // Create new agreement
         // the setup fee will be the first payment and start date is the next payment
