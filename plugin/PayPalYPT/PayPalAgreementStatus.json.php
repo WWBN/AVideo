@@ -2,6 +2,7 @@
 
 require_once '../../../videos/configuration.php';
 
+header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
@@ -16,7 +17,6 @@ if (empty($_POST['agreement_id'])) {
     die(json_encode($obj));
 }
 
-header('Content-Type: application/json');
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
 
 $agreement = PayPalYPT::getBillingAgreement($_POST['agreement_id']);
