@@ -309,11 +309,19 @@ class PayPalYPT extends PluginAbstract {
             $amount = new stdClass();
             //error_log("getAmountFromPayment: ".json_encode($payment));
             //error_log("getAmountFromPayment: ". print_r($payment, true));
-            error_log("getAmountFromPayment: ".($payment->getId()));
+            //error_log("getAmountFromPayment: ".($payment->getId()));
             //error_log("getAmountFromPayment: ".($payment->getPlan()));
-            error_log("getAmountFromPayment: ".($payment->getPlan()->payment_definitions->amount->value));
-            error_log("getAmountFromPayment: ".($payment->getPlan()->merchant_preferences->setup_fee->value));
+            //error_log("getAmountFromPayment: ".($payment->getPlan()->payment_definitions->amount->value));
+            //error_log("getAmountFromPayment: ".($payment->getPlan()->merchant_preferences->setup_fee->value));
             //$amount->total = $payment->agreement_details->last_payment_amount->value;
+            if(!empty(@$payment->getPlan()->payment_definitions->amount->value)){
+                $amount->total = $payment->getPlan()->payment_definitions->amount->value;
+            }else if(!empty(@$payment->getPlan()->merchant_preferences->setup_fee->value)){
+                $amount->total = $payment->getPlan()->merchant_preferences->setup_fee->value;
+            }else{
+                $amount->total = 0;
+            }
+            
             $amount->total = $payment->getPlan()->payment_definitions->amount->value;
             return $amount;
         } else {
