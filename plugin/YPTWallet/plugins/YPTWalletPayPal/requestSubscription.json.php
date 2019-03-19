@@ -33,8 +33,8 @@ if(empty($_REQUEST['paymentName'])){
 @session_write_close();
 @session_start();
 unset($_SESSION['recurrentSubscription']['plans_id']);
-if(!empty($_GET['plans_id'])){
-    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];
+if(!empty($_POST['plans_id'])){
+    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];    
 }
 
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
