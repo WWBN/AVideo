@@ -27,7 +27,7 @@ if(empty($agreement)){
 }
 
 $obj->error = false;
-$obj->msg = "<b>State: </b>".$agreement->getState();
+$obj->msg  = "<b>State: </b>".$agreement->getState();
 $obj->msg .= "<br><b>Description: </b>".$agreement->getDescription();
 $obj->msg .= "<br><b>Plan: </b>".$agreement->getPlan()->name;
 $obj->msg .= "<br><b>Plan Frequency: </b>".$agreement->getPlan()->frequency;
