@@ -20,13 +20,18 @@ $payment = $paypal->execute();
 //check if there is a token and this token has a user (recurrent payments)
 if (!empty($_GET['token'])) {
     if(YouPHPTubePlugin::isEnabled("Subscription")){
+        error_log("Redirect_URL line:".__LINE__." \$payment->getId ".$payment->getId());
         $subscription = Subscription::getFromAgreement($payment->getId());
+        
         if (!empty($subscription)) {
             $users_id = $subscription['users_id'];
+            error_log("Redirect_URL line:".__LINE__." \$subscription ".$subscription);
         } else {
+            error_log("Redirect_URL line:".__LINE__." \$subscription ".$subscription);
             if (!empty($users_id) && !empty($_SESSION['recurrentSubscription']['plans_id'])) {
                 //save token
                 $subscription = SubscriptionTable::getOrCreateSubscription($users_id, $_SESSION['recurrentSubscription']['plans_id'] , $payment->getId());
+                error_log("Redirect_URL line:".__LINE__." \$subscription ".$subscription);
                 unset($_SESSION['recurrentSubscription']['plans_id']);
             }
         }
