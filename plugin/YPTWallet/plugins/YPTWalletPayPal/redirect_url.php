@@ -21,7 +21,7 @@ $payment = $paypal->execute();
 error_log("Redirect_URL line:".__LINE__." Start ");
 if (!empty($_GET['token'])) {
     error_log("Redirect_URL line:".__LINE__." \$_GET['token'] ".$_GET['token']);
-    if(YouPHPTubePlugin::isEnabled("Subscription")){
+    if(YouPHPTubePlugin::isEnabledByName("Subscription")){
         error_log("Redirect_URL line:".__LINE__." \$payment->getId ".$payment->getId());
         $subscription = Subscription::getFromAgreement($payment->getId());
         
