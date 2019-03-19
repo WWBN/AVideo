@@ -33,9 +33,9 @@ $obj->msg .= "<br><b>Plan: </b>".$agreement->getPlan()->name;
 $obj->msg .= "<br><b>Plan Frequency: </b>".$agreement->getPlan()->frequency;
 $obj->msg .= "<br><b>Plan Frequency Interval: </b>".$agreement->getPlan()->frequency_interval;
 $obj->msg .= "<br><b>Plan Value: </b>".$agreement->getPlan()->payment_definitions->amount->value." ".$agreement->getPlan()->payment_definitions->amount->currency;
-$obj->msg .= "<br><b>Start Date: </b>".$agreement->getStart_date();
-$obj->msg .= "<br><b>Cycles Completed: </b>".$agreement->getAgreement_details()->cycles_completed;
-$obj->msg .= "<br><b>Next Billing Date: </b>".$agreement->getAgreement_details()->next_billing_date;
-$obj->msg .= "<br><b>Last Payment Date: </b>".$agreement->getAgreement_details()->last_payment_date;
+$obj->msg .= "<br><b>Start Date: </b>".$agreement->getStartDate();
+$obj->msg .= "<br><b>Cycles Completed: </b>".$agreement->getAgreementDetails()->cycles_completed;
+$obj->msg .= "<br><b>Next Billing Date: </b>".$agreement->getAgreementDetails()->next_billing_date;
+$obj->msg .= "<br><b>Last Payment Date: </b>".$agreement->getAgreementDetails()->last_payment_date;
 die(json_encode($obj));
 ?>
