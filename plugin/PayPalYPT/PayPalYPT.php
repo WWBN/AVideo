@@ -352,7 +352,9 @@ class PayPalYPT extends PluginAbstract {
 
     static function updateBillingPlan($plan_id, $total = '1.00', $currency = "USD", $interval = 1, $name = 'Base Agreement') {
         global $global;
-
+        if(empty($plan_id)){
+            return false;
+        }
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
 
         $createdPlan = Plan::get($plan_id, $apiContext);
