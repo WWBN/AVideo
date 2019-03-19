@@ -297,6 +297,12 @@ class PayPalYPT extends PluginAbstract {
         }
         return false;
     }
+    
+    static function getBillingAgreement($agreement_id) {
+        global $global;
+        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        return Agreement::get($agreement_id, $apiContext);;
+    }
 
     function execute() {
         if (!empty($_GET['paymentId'])) {
