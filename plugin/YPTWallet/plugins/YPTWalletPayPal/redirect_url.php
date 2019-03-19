@@ -29,7 +29,7 @@ if (!empty($_GET['token'])) {
             $users_id = $subscription['users_id'];
             error_log("Redirect_URL line:".__LINE__." \$subscription ".$subscription);
         } else {
-            error_log("Redirect_URL line:".__LINE__." \$subscription ".$subscription);
+            error_log("Redirect_URL line:".__LINE__." \$subscription ".$_SESSION['recurrentSubscription']['plans_id']);
             if (!empty($users_id) && !empty($_SESSION['recurrentSubscription']['plans_id'])) {
                 //save token
                 $subscription = SubscriptionTable::getOrCreateSubscription($users_id, $_SESSION['recurrentSubscription']['plans_id'] , $payment->getId());
