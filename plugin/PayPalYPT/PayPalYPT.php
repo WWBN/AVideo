@@ -321,8 +321,6 @@ class PayPalYPT extends PluginAbstract {
             }else{
                 $amount->total = 0;
             }
-            
-            $amount->total = $payment->getPlan()->payment_definitions->amount->value;
             return $amount;
         } else {
             return $payment->getTransactions()[0]->amount;
