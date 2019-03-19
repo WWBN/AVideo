@@ -188,7 +188,7 @@ class PayPalYPT extends PluginAbstract {
                 $patchRequest = new PatchRequest();
                 $patchRequest->addPatch($patch);
                 $createdPlan->update($patchRequest, $apiContext);
-                
+
                 $plan = Plan::get($createdPlan->getId(), $apiContext);
                 error_log("createBillingPlan: " . json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
                 // Output plan id
@@ -242,7 +242,7 @@ class PayPalYPT extends PluginAbstract {
             }
             $planId = $plan->getId();
             // save the paypal plan ID for reuse
-            if(!empty($_POST['plans_id'])){
+            if (!empty($_POST['plans_id'])) {
                 $s = new SubscriptionPlansTable($_POST['plans_id']);
                 $s->setPaypal_plan_id($planId);
                 $s->save();
@@ -297,11 +297,11 @@ class PayPalYPT extends PluginAbstract {
         }
         return false;
     }
-    
+
     static function getBillingAgreement($agreement_id) {
         global $global;
         require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
-        return Agreement::get($agreement_id, $apiContext);;
+        return Agreement::get($agreement_id, $apiContext);
     }
 
     function execute() {
@@ -329,11 +329,11 @@ class PayPalYPT extends PluginAbstract {
             //error_log("getAmountFromPayment: ".($payment->getPlan()->payment_definitions->amount->value));
             //error_log("getAmountFromPayment: ".($payment->getPlan()->merchant_preferences->setup_fee->value));
             //$amount->total = $payment->agreement_details->last_payment_amount->value;
-            if(!empty(@$payment->getPlan()->payment_definitions->amount->value)){
+            if (!empty(@$payment->getPlan()->payment_definitions->amount->value)) {
                 $amount->total = $payment->getPlan()->payment_definitions->amount->value;
-            }else if(!empty(@$payment->getPlan()->merchant_preferences->setup_fee->value)){
+            } else if (!empty(@$payment->getPlan()->merchant_preferences->setup_fee->value)) {
                 $amount->total = $payment->getPlan()->merchant_preferences->setup_fee->value;
-            }else{
+            } else {
                 $amount->total = 0;
             }
             return $amount;
@@ -348,6 +348,48 @@ class PayPalYPT extends PluginAbstract {
             header("Location: {$payment->getApprovalLink()}");
             exit;
         }
+    }
+
+    static function updateBillingPlan($plan_id, $total = '1.00', $currency = "USD", $interval = 1, $name = 'Base Agreement') {
+        global $global;
+
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+
+        $createdPlan = Plan::get($plan_id, $apiContext);
+
+        try {
+
+
+            $patch1 = new Patch();
+            $patch1->setOp('replace')
+                    ->setPath('/')
+                    ->setValue(json_decode('{"name": "' . $name . '"}'));
+
+            $paymentDefinitions = $createdPlan->getPaymentDefinitions();
+            $paymentDefinition = $paymentDefinitions[0];
+            $paymentDefinitionId = $paymentDefinition->getId();
+
+            $patch2 = new Patch();
+            $patch2->setOp('replace')
+                    ->setPath('/payment-definitions/' . $paymentDefinitionId)
+                    ->setValue(json_decode('{
+                                                "amount": {
+                                                    "currency": "' . $currency . '",
+                                                    "value": "' . $total . '"
+                                                },
+                                                "frequency_interval": "' . $interval . '"
+                                            }'));
+            $patchRequest = new PatchRequest();
+            $patchRequest->addPatch($patch1);
+            $patchRequest->addPatch($patch2);
+
+            $createdPlan->update($patchRequest, $apiContext);
+
+            return Plan::get($createdPlan->getId(), $apiContext);
+        } catch (Exception $ex) {
+            error_log("PayPal Error updateBillingPlan: " . $ex->getData());
+        }
+        return false;
     }
 
 }
