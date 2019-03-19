@@ -207,10 +207,10 @@ class PayPalYPT extends PluginAbstract {
 
     private function getPlanId() {
         global $global;
-        if (!empty($_GET['plans_id'])) {
+        if (!empty($_POST['plans_id'])) {
             require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
             try {
-                $plan = Plan::get($_GET['plans_id'], $apiContext);
+                $plan = Plan::get($_POST['plans_id'], $apiContext);
                 if (!empty($plan)) {
                     return $plan->getId();
                 }
