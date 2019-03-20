@@ -1026,9 +1026,10 @@ function unzipDirectory($filename, $destination) {
     global $global;
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 7200); // 2 hours
-    error_log("unzipDirectory: {$filename}");
-    exec("unzip {$filename} -d {$destination}" . "  2>&1", $output, $return_val);
-    if ($return_val !== 0) {
+    $cmd = "unzip {$filename} -d {$destination}" . "  2>&1";
+    error_log("unzipDirectory: {$cmd}");
+    exec($cmd, $output, $return_val);
+    if ($return_val !== 0 && function_exists("zip_open")) { 
         // try to unzip using PHP
         error_log("unzipDirectory: TRY to use PHP {$filename}");
         $zip = zip_open($filename);
