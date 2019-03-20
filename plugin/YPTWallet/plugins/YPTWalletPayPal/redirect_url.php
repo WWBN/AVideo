@@ -27,7 +27,7 @@ if (!empty($_GET['token'])) {
         
         if (!empty($subscription)) {
             $users_id = $subscription['users_id'];
-            error_log("Redirect_URL line:".__LINE__." \$subscription ".json_decode($subscription));
+            error_log("Redirect_URL line:".__LINE__." \$subscription ".json_encode($subscription));
         } else {
             error_log("Redirect_URL line:".__LINE__." \$subscription ".$_SESSION['recurrentSubscription']['plans_id']);
             if (!empty($users_id) && !empty($_SESSION['recurrentSubscription']['plans_id'])) {
