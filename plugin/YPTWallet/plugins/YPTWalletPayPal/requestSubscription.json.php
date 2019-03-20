@@ -42,7 +42,7 @@ $payment = $plugin->setUpSubscription($invoiceNumber, $objS->RedirectURL, $objS-
 if (!empty($payment)) {
     if(YouPHPTubePlugin::isEnabledByName('Subscription')){
         // create a subscription here
-        Subscription::createEmptySubscription($payment->getId(), $_POST['plans_id'], User::getId());
+        Subscription::getOrCreateSubscription(User::getId(), $_POST['plans_id'] , $payment->getId());
     }
     $obj->error = false;
     $obj->approvalLink = $payment->getApprovalLink();
