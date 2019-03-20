@@ -40,6 +40,10 @@ if(!empty($_POST['plans_id'])){
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
 $payment = $plugin->setUpSubscription($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, "Day",$interval, $paymentName);
 if (!empty($payment)) {
+    if(YouPHPTubePlugin::isEnabledByName('Subscription')){
+        // create a subscription here
+        Subscription::createEmptySubscription($payment->getId(), $_POST['plans_id'], User::getId());
+    }
     $obj->error = false;
     $obj->approvalLink = $payment->getApprovalLink();
 }
