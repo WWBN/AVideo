@@ -279,7 +279,7 @@ abstract class PluginAbstract {
      * 
      * @return type return a list of IDs of the user groups
      */
-    public function getDynamicUserGroupsId() {
+    public function getDynamicUserGroupsId($users_id) {
         return array();
     }
 
