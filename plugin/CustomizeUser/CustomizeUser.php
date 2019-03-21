@@ -63,6 +63,8 @@ class CustomizeUser extends PluginAbstract {
         $obj->signUpRequestUploadRights = false;
         $obj->signUpRequestLivestreamRights = false;
         
+        $obj->doNotShowTopBannerOnChannel = false;
+        
         
         return $obj;
     }
