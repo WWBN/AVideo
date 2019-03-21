@@ -29,9 +29,15 @@ unset($_POST['current']);
 $get = array('channelName' => $_GET['channelName']);
 ?>
 <div class="bgWhite list-group-item gallery clear clearfix" >
-    <div class="row bg-info profileBg" style="background-image: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(); ?>')">
-        <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
-    </div>
+    <?php
+    if(empty($advancedCustomUser->doNotShowTopBannerOnChannel)){
+        ?>
+        <div class="row bg-info profileBg" style="background-image: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(); ?>')">
+            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
+        </div>    
+        <?php
+    }
+    ?>
     <div class="row"><div class="col-6 col-md-12">
             <h1 class="pull-left">
                 <?php
