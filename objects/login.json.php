@@ -26,8 +26,12 @@ Category::clearCacheCount();
 
 error_log("Start Login Request");
 
-if(!preg_match("|^".$global['webSiteRootURL']."|", $_POST['RedirectUri']))
-$_POST['RedirectUri']=$global['webSiteRootURL'];
+error_log("redirectUri: ".$_POST['redirectUri']);
+
+if(!preg_match("|^".$global['webSiteRootURL']."|", $_POST['redirectUri']))
+$_POST['redirectUri']=$global['webSiteRootURL'];
+
+error_log("sane redirectUri: ".$_POST['redirectUri']);
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
@@ -144,8 +148,7 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
-if($_POST['RedirectUri'])
-$object->redirectUri=$_POST['RedirectUri'];
+$object->redirectUri=$_POST['redirectUri'];
 
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $object->categories = Category::getAllCategories(true);

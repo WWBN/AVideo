@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 
 if(!User::isLogged()) {
-    header("Location: {$global['webSiteRootURL']}user?RedirectUri={$global['webSiteRootURL']}mvideos");
+    header("Location: {$global['webSiteRootURL']}user?redirectUri={$global['webSiteRootURL']}mvideos");
     exit;
 }
 
