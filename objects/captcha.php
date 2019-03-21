@@ -30,7 +30,7 @@ class Captcha{
         $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789';
         $palavra = substr(str_shuffle($letters), 0, ($this->quantidade_letras));
         if(User::isAdmin()){
-            $palavra = "     ";
+            $palavra = "admin";
         }
         $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
         for ($i = 1; $i <= $this->quantidade_letras; $i++) {
