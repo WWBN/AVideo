@@ -120,7 +120,7 @@ if (!empty($_GET['error'])) {
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
-                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val()},
+                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val(), "RedirectUri": "<?=$_GET['RedirectUri'];?>"},
                 type: 'post',
                 success: function (response) {
                     if (!response.isLogged) {
@@ -135,7 +135,7 @@ if (!empty($_GET['error'])) {
                             $('#captchaForm').slideDown();
                         }
                     } else {
-                        document.location = '<?php echo $global['webSiteRootURL']; ?>'
+                        document.location = response.redirectUri
                     }
                 }
             });
