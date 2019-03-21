@@ -20,9 +20,9 @@ $obj= new stdClass();
 $obj->error = true;
 if (!empty($payment)) {
     $amount = PayPalYPT::getAmountFromPayment($payment);
-    $plugin->addBalance($users_id, $amount->total, "Paypal payment", json_encode("PayPalIPN: ".$payment));
+    $plugin->addBalance($users_id, $amount->total, "Paypal payment", "PayPalIPN");
     $obj->error = false;
-    error_log("PayPalIPN: Executed");
+    error_log("PayPalIPN: Executed ".json_encode($payment));
     //header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=success");
 }else{
     error_log("PayPalIPN: Fail");
