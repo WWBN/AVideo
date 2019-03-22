@@ -257,7 +257,7 @@
                                     <input type="hidden" id="inputVideoId"  >
                                     <div class="titles">
                                         <label for="inputTitle"><?php echo __("Title"); ?></label>
-                                        <input type="text" id="inputTitle" class="form-control" placeholder="<?php echo __("Title"); ?>" required autofocus>
+                                        <input type="text" id="inputTitle" class="form-control" placeholder="<?php echo __("Title"); ?>" required>
                                         <label for="inputCleanTitle" ><?php echo __("Clean Title"); ?></label>
                                         <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
                                     </div>
@@ -385,8 +385,12 @@
                                         </div>
                                     </div>
                                     <label for="inputTrailer"><?php echo __("Embed code for trailer"); ?></label>
-                                    <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required autofocus>
+                                    <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required>
 
+                                    <div>
+                                        <label for="videoStartSecond" ><?php echo __("Start video at seconds"); ?></label>
+                                        <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="<?php echo __("Start video at seconds"); ?>" value="0" required>
+                                    </div>
 
                                     <script>
                                         $(function () {
@@ -461,10 +465,6 @@
                     <div id="videoLinkContent">
                         <label for="videoLink" ><?php echo __("Video Link"); ?></label>
                         <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
-                    </div>
-                    <div>
-                        <label for="videoStartSecond" ><?php echo __("Start video at seconds"); ?></label>
-                        <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="<?php echo __("Start video at seconds"); ?>" value="0" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -818,6 +818,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#videoIsAd').prop('checked', false);
                                             $('#videoIsAd').trigger("change");
                                             $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
+                                            console.log("Fileinput: input-jpg");
                                             $("#input-jpg").fileinput({
                                                 uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
                                                 autoReplace: true,
@@ -834,6 +835,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
                                                 allowedFileExtensions: ["jpg"]
                                             });
+                                            console.log("Fileinput: input-pjpg");
                                             $("#input-pjpg").fileinput({
                                                 uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pjpg",
                                                 autoReplace: true,
@@ -850,6 +852,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
                                                 allowedFileExtensions: ["jpg"]
                                             });
+                                            console.log("Fileinput: input-gif");
                                             $("#input-gif").fileinput({
                                                 uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
                                                 autoReplace: true,
@@ -866,6 +869,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
                                                 allowedFileExtensions: ["gif"]
                                             });
+                                            console.log("Fileinput: input-pgif");
                                             $("#input-pgif").fileinput({
                                                 uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pgif",
                                                 autoReplace: true,
