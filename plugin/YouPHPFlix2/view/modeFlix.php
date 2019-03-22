@@ -184,12 +184,14 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
                             
                             if($showAllVideos){
-                                $_POST['current']++;
-                                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
-                                if (empty($videos)) {
-                                    break;
+                                while(1){
+                                    $_POST['current']++;
+                                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                                    if (empty($videos)) {
+                                        break;
+                                    }
+                                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
                                 }
-                                include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
                             }
                             ?>
                         </div>
