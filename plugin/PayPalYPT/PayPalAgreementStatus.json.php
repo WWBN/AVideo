@@ -25,7 +25,7 @@ if(empty($agreement)){
     $obj->msg = "Agreement not found";
     die(json_encode($obj));
 }
-error_log("PayPalAgreementStatus: ".json_encode($agreement->getPlan()->getPaymentDefinitions()));
+error_log("PayPalAgreementStatus: ".json_encode($agreement->getPlan()->getPaymentDefinitions()->getAmount()->getValue()));
 $obj->error = false;
 $obj->msg  = "<b>State: </b>".$agreement->getState();
 $obj->msg .= "<br><b>Description: </b>".$agreement->getDescription();
