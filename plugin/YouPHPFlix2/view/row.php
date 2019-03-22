@@ -83,7 +83,7 @@ foreach ($videos as $value) {
                 <?php
                 if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayCategory)) {
                     ?>
-                    <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>                       
+                    <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['category']; ?></a></span>                       
                 <?php } ?>
                 <?php
                 foreach ($value['tags'] as $value2) {
