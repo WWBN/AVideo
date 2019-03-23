@@ -16,7 +16,8 @@ $ipn = PayPalYPT::IPNcheck();
 if(!$ipn){
     die("IPN Fail");
 }
-
+$obj= new stdClass();
+$obj->error = true;
 if(empty($_POST["recurring_payment_id"])){
     $users_id = User::getId();
 
@@ -24,8 +25,6 @@ if(empty($_POST["recurring_payment_id"])){
 
     $payment = $paypal->execute();
     //var_dump($amount);
-    $obj= new stdClass();
-    $obj->error = true;
     if (!empty($payment)) {
         $amount = PayPalYPT::getAmountFromPayment($payment);
         $plugin->addBalance($users_id, $amount->total, "Paypal payment", "PayPalIPN");
@@ -46,6 +45,7 @@ if(empty($_POST["recurring_payment_id"])){
         $payment_currency = $_POST['mc_currency'];
         if($walletObject->currency===$payment_currency){
             $plugin->addBalance($users_id, $payment_amount, "Paypal recurrent", json_encode($_POST));
+            $obj->error = false;
         }
     }
 }
