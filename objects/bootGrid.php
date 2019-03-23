@@ -17,7 +17,12 @@ class BootGrid {
         if (!empty($_POST['sort'])) {
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
-                $orderBy[] = " {$keyPrefix}{$key} {$value} ";
+                $direction = "ASC";
+                if(strtoupper($value)==="DESC"){
+                    $direction = "DESC";
+                }
+                $key = preg_replace("/[^A-Za-z0-9 ]/", '', $key);
+                $orderBy[] = " {$keyPrefix}{$key} {$direction} ";
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
         } else {
