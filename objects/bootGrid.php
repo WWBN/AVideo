@@ -21,7 +21,7 @@ class BootGrid {
                 if(strtoupper($value)==="DESC"){
                     $direction = "DESC";
                 }
-                $key = preg_replace("/[^A-Za-z0-9 ]/", '', $key);
+                $key = preg_replace("/[^A-Za-z0-9._ ]/", '', $key);
                 $orderBy[] = " {$keyPrefix}{$key} {$direction} ";
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
