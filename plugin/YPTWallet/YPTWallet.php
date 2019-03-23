@@ -283,7 +283,7 @@ class YPTWallet extends PluginAbstract {
         if (!empty($forceDescription)) {
             $description = $forceDescription;
         }
-        WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance to");
+        WalletLog::addLog($wallet_id, "-".$value, $description, "{}", "success", "transferBalance to");
 
 
         $wallet = $this->getWallet($users_id_to);
