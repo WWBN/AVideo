@@ -104,7 +104,12 @@ abstract class ObjectYPT implements ObjectInterface {
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
                 $key = $global['mysqli']->real_escape_string($key);
-                $value = $global['mysqli']->real_escape_string($value);
+                //$value = $global['mysqli']->real_escape_string($value);
+                $direction = "ASC";
+                if(strtoupper($value)==="DESC"){
+                    $direction = "DESC";
+                }
+                $key = preg_replace("/[^A-Za-z0-9 ]/", '', $key);
                 $orderBy[] = " {$keyPrefix}{$key} {$value} ";
             }
             $sql .= " ORDER BY " . implode(",", $orderBy);
