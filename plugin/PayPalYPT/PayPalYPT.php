@@ -352,7 +352,7 @@ class PayPalYPT extends PluginAbstract {
 
     static function updateBillingPlan($plan_id, $total = '1.00', $currency = "USD", $interval = 1, $name = 'Base Agreement') {
         global $global;
-        if(empty($plan_id)){
+        if (empty($plan_id)) {
             return false;
         }
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
@@ -392,6 +392,61 @@ class PayPalYPT extends PluginAbstract {
             error_log("PayPal Error updateBillingPlan: " . $ex->getData());
         }
         return false;
+    }
+
+    static function IPNcheck() {
+        $raw_post_data = file_get_contents('php://input');
+        $raw_post_array = explode('&', $raw_post_data);
+        $myPost = array();
+        foreach ($raw_post_array as $keyval) {
+            $keyval = explode('=', $keyval);
+            if (count($keyval) == 2)
+                $myPost[$keyval[0]] = urldecode($keyval[1]);
+        }
+        // read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
+        $req = 'cmd=_notify-validate';
+        if (function_exists('get_magic_quotes_gpc')) {
+            $get_magic_quotes_exists = true;
+        }
+        foreach ($myPost as $key => $value) {
+            if ($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
+                $value = urlencode(stripslashes($value));
+            } else {
+                $value = urlencode($value);
+            }
+            $req .= "&$key=$value";
+        }
+
+        // Step 2: POST IPN data back to PayPal to validate
+        $ch = curl_init('https://ipnpb.paypal.com/cgi-bin/webscr');
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+        // In wamp-like environments that do not come bundled with root authority certificates,
+        // please download 'cacert.pem' from "https://curl.haxx.se/docs/caextract.html" and set
+        // the directory path of the certificate as shown below:
+        // curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
+        if (!($res = curl_exec($ch))) {
+            error_log("IPNcheck: Got " . curl_error($ch) . " when processing IPN data");
+            curl_close($ch);
+            exit;
+        }
+        // inspect IPN validation result and act accordingly
+        if (strcmp($res, "VERIFIED") == 0) {
+            error_log("IPNcheck SUCCESS: The response from IPN was: <b>" . $res . "");
+            return true;
+        } else if (strcmp($res, "INVALID") == 0) {
+            // IPN invalid, log for manual investigation
+            error_log("IPNcheck ERROR: The response from IPN was: <b>" . $res . "");
+            return false;
+        }
+        
+        curl_close($ch);
     }
 
 }
