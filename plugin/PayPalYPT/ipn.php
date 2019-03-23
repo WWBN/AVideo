@@ -45,6 +45,7 @@ if(empty($_POST["recurring_payment_id"])){
         $payment_currency = $_POST['mc_currency'];
         if($walletObject->currency===$payment_currency){
             $plugin->addBalance($users_id, $payment_amount, "Paypal recurrent", json_encode($_POST));
+            Subscription::renew($users_id, $row['subscriptions_plans_id']);
             $obj->error = false;
         }
     }
