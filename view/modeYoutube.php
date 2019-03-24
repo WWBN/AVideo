@@ -146,8 +146,8 @@ if ($video['type'] == "video") {
 }
 
 if (!empty($video)) {
+    $source = Video::getSourceFile($video['filename']);
     if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
-        $source = Video::getSourceFile($video['filename']);
         $img = $source['url'];
         $data = getimgsize($source['path']);
         $imgw = $data[0];
