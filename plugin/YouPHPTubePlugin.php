@@ -317,6 +317,19 @@ class YouPHPTubePlugin {
         return $str;
     }
 
+    static function getUsersManagerListButton() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+
+            if (is_object($p)) {
+                $str .= $p->getUsersManagerListButton();
+            }
+        }
+        return $str;
+    }
+
     static function getWatchActionButton($videos_id) {
         $plugins = Plugin::getAllEnabled();
         $str = "";
@@ -758,6 +771,16 @@ class YouPHPTubePlugin {
         return $resp;
     }
     
+    
+    public static function onUserSignIn($users_id){
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onUserSignIn($users_id);
+            }
+        }
+    }
     
     public static function onUserSignup($users_id){
         $plugins = Plugin::getAllEnabled();

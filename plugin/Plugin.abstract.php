@@ -78,6 +78,10 @@ abstract class PluginAbstract {
     public function getVideosManagerListButton() {
         return "";
     }
+    
+    public function getUsersManagerListButton() {
+        return "";
+    }
 
     public function getTags() {
         
@@ -351,6 +355,10 @@ abstract class PluginAbstract {
     }
 
     function getVideo() {
+        return null;
+    }
+    
+    public function onUserSignIn($users_id){
         return null;
     }
     
