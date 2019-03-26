@@ -10,7 +10,12 @@ if (!empty($_GET['c'])) {
         $_GET['u'] = $user['user'];
     }
 }
-
+if(!empty($_GET['c'])){
+    $user = User::getChannelOwner($_GET['c']);
+    if($user['status']!=='a'){
+        header("Location: {$global['webSiteRootURL']}");
+    }
+}
 if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
     include $global['systemRootPath'] . 'plugin/Live/view/videoEmbededV2.php';
     exit;

@@ -28,7 +28,9 @@ if($lt->userCanSeeTransmition()){
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
         $content = url_get_contents($url);
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         error_log(" Image Expired in ".  date("d/m/Y H:i:s", @$_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
         $_SESSION[$url] = array('content' => $content, 'expire' => strtotime("+2 min"));
         error_log(" New Image will Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));

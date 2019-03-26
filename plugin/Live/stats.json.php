@@ -70,6 +70,10 @@ foreach ($lifeStream as $value){
         }
         
         $u = new User($row['users_id']);
+        if($u->getStatus()!=='a'){
+            continue;
+        }
+        
         $userName = $u->getNameIdentificationBd();
         $user = $u->getUser();
         $channelName = $u->getChannelName();

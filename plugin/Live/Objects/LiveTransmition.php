@@ -155,7 +155,7 @@ class LiveTransmition extends ObjectYPT {
             return false;
         }
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
-                . " LEFT JOIN users u ON u.id = users_id WHERE  `key` = '$key' LIMIT 1";
+                . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

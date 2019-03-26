@@ -30,8 +30,9 @@ if(empty($_REQUEST['paymentName'])){
 }else{
     $paymentName = $_REQUEST['paymentName'];
 }
-@session_write_close();
-@session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 unset($_SESSION['recurrentSubscription']['plans_id']);
 if(!empty($_POST['plans_id'])){
     $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];    

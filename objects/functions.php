@@ -17,7 +17,6 @@ function xss_esc($text) {
     return @htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
 
-
 function xss_esc_back($text) {
     $text = htmlspecialchars_decode($text, ENT_QUOTES);
     $text = str_replace(array('&amp;', '&#039;', "#039;"), array(" ", "`", "`"), $text);
@@ -497,7 +496,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $id = $matches[1];
         return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time";
-    }else if (strpos($link, 'youtu.be') !== false) {
+    } else if (strpos($link, 'youtu.be') !== false) {
         //https://youtu.be/9XXOBSsPoMU
         preg_match(
                 '/youtu.be\/([a-zA-Z0-9_]+)($|\/)/', $link, $matches
@@ -1029,7 +1028,7 @@ function unzipDirectory($filename, $destination) {
     $cmd = "unzip {$filename} -d {$destination}" . "  2>&1";
     error_log("unzipDirectory: {$cmd}");
     exec($cmd, $output, $return_val);
-    if ($return_val !== 0 && function_exists("zip_open")) { 
+    if ($return_val !== 0 && function_exists("zip_open")) {
         // try to unzip using PHP
         error_log("unzipDirectory: TRY to use PHP {$filename}");
         $zip = zip_open($filename);
@@ -1286,7 +1285,9 @@ function url_get_contents($Url, $ctx = "") {
         try {
             $tmp = @file_get_contents($Url, false, $context);
             if ($tmp != false) {
-                session_start();
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
                 $_SESSION = $session;
                 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
                 return $tmp;
@@ -1302,13 +1303,17 @@ function url_get_contents($Url, $ctx = "") {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $output = curl_exec($ch);
         curl_close($ch);
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         $_SESSION = $session;
         $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
         return $output;
     }
     $result = @file_get_contents($Url, false, $context);
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
     $_SESSION = $session;
     $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
     return $result;
@@ -1551,12 +1556,29 @@ function object_to_array($obj) {
     }
 }
 
-function allowOrigin(){
+function allowOrigin() {
     global $global;
     if (empty($_SERVER['HTTP_ORIGIN'])) {
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
     } else {
         header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+    }
+}
+
+if (!function_exists("rrmdir")) {
+    function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (is_dir($dir . "/" . $object))
+                        rrmdir($dir . "/" . $object);
+                    else
+                        unlink($dir . "/" . $object);
+                }
+            }
+            rmdir($dir);
+        }
     }
 }

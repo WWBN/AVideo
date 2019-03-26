@@ -47,8 +47,9 @@ class AD_Server extends PluginAbstract {
         if (empty($_GET['videoName'])) {
             return false;
         }
-        session_write_close();
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         // count it each 2 seconds
         if (empty($_SESSION['lastAdShowed']) || $_SESSION['lastAdShowed'] + 2 <= time()) {
             $_SESSION['lastAdShowed'] = time();
@@ -120,10 +121,11 @@ class AD_Server extends PluginAbstract {
     private function getRandomPositions(){        
         
         $obj = $this->getDataObject();
-        session_write_close();
         $oldId = session_id();
         session_id($_GET['vmap_id']);
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         $options = array();
         
         if (!empty($obj->start)) {
@@ -157,11 +159,11 @@ class AD_Server extends PluginAbstract {
             }
             $_SESSION['adRandomPositions'] = $selectedOptions;
         }
-        session_write_close();
         $adRandomPositions = $_SESSION['adRandomPositions'];
         session_id($oldId);
-        session_start();
-        
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         error_log("VMAP select those options: ".print_r($adRandomPositions, true));
         return $adRandomPositions;
     }

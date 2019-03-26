@@ -494,6 +494,20 @@ if (typeof gtag !== \"function\") {
         }
         return $user;
     }
+    static function getFromUsername($user) {
+        global $global;
+        $user = $global['mysqli']->real_escape_string($user);
+        $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($user));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $user = $result;
+        } else {
+            $user = false;
+        }
+        return $user;
+    }
 
     static function canWatchVideo($videos_id) {
         if (User::isAdmin()) {
@@ -574,8 +588,9 @@ if (typeof gtag !== \"function\") {
         if(!self::checkLoginAttempts()){
             return self::CAPTCHA_ERROR;
         }
-        session_write_close();
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
@@ -595,6 +610,7 @@ if (typeof gtag !== \"function\") {
                 setcookie("user", $user['user'], time() + 3600 * 24 * 30 * 12 * 10, "/");
                 setcookie("pass", $user['password'], time() + 3600 * 24 * 30 * 12 * 10, "/");
             }
+            YouPHPTubePlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             return self::USER_LOGGED;
         } else {
@@ -616,8 +632,9 @@ if (typeof gtag !== \"function\") {
     
     static function checkLoginAttempts(){
         global $advancedCustomUser, $global;
-        session_write_close();
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         // check for multiple logins attempts to prevent hacking
         if(empty($_SESSION['loginAttempts'])){
             $_SESSION['loginAttempts'] = 0;

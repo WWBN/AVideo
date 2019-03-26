@@ -1964,7 +1964,7 @@ if (!class_exists('Video')) {
                 }
                 $token = "";
                 $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
-                if (!empty($secure) && ($type == ".mp4" || $type == ".webm" || $type == ".m3u8")) {
+                if (!empty($secure) && ($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8")) {
                     $token = "?" . $secure->getToken($filename);
                 }
                 $source = array();
