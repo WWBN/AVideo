@@ -28,13 +28,13 @@ if (!empty($userCheck->getBdId())) {
     die(json_encode($obj));
 }
 
+if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
+    $_POST['email'] = $_POST['user'];
+}
+
 if (empty($_POST['user']) || empty($_POST['pass']) || empty($_POST['email']) || empty($_POST['name'])) {
     $obj->error = __("You must fill all fields");
     die(json_encode($obj));
-}
-
-if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-    $_POST['email'] = $_POST['user'];
 }
 
 
