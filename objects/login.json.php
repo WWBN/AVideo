@@ -176,6 +176,16 @@ if($object->isLogged){
     if(!empty($p)){
         $object->videoHLS = true;
     }
+    
+    $p = YouPHPTubePlugin::loadPluginIfEnabled("Subscription");
+    if(!empty($p)){
+        $object->Subscription = Subscription::getAllFromUser($object->id);
+    }
+    
+    $p = YouPHPTubePlugin::loadPluginIfEnabled("PayPerView");
+    if(!empty($p)){
+        $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
+    }
 }
 
 $json = json_encode($object);
