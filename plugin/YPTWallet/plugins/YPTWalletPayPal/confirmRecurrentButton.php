@@ -11,8 +11,6 @@ $uniqid = uniqid();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletPayPal/requestSubscription.json.php',
                 data: {
-                    "value": "<?php echo @$_GET['price']; ?>",
-                    "paymentName": "<?php echo $_GET['paymentName']; ?>",
                     "plans_id": "<?php echo @$_GET['plans_id']; ?>"
                 },
                 type: 'post',
