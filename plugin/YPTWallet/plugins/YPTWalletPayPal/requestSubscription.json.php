@@ -15,21 +15,7 @@ $objS = $pluginS->getDataObject();
 $obj= new stdClass();
 $obj->error = true;
 
-if(empty($_REQUEST['interval'])){
-    $interval = 1;
-}else{
-    $interval = $_REQUEST['interval'];
-}
-if(empty($_POST['value'])){ 
-    $obj->msg = "Invalid Value";
-    die(json_encode($obj));
-}
 $invoiceNumber = uniqid();
-if(empty($_REQUEST['paymentName'])){
-    $paymentName = "Recurrent Payment";
-}else{
-    $paymentName = $_REQUEST['paymentName'];
-}
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -38,8 +24,20 @@ if(!empty($_POST['plans_id'])){
     $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];    
 }
 
+$subs = new SubscriptionPlansTable($_POST['plans_id']);
+
+if(empty($subs)){
+    die("Plan Not found");
+}
+
+$interval = $subs->getHow_many_days();
+$price = $subs->getPrice();
+$paymentName = $subs->getName();
+if(empty($paymentName)){
+    $paymentName = "Recurrent Payment";
+}
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
-$payment = $plugin->setUpSubscription($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, "Day",$interval, $paymentName);
+$payment = $plugin->setUpSubscription($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $price, $objS->currency, "Day",$interval, $paymentName);
 if (!empty($payment)) {
     if(YouPHPTubePlugin::isEnabledByName('Subscription')){
         // create a subscription here
