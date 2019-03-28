@@ -56,6 +56,10 @@ if (!empty($payment)) {
     if (!empty($_SESSION['addFunds_Success'])) {
         if(!empty($subscription)){
             Subscription::renew($subscription['users_id'], $subscription['subscriptions_plans_id']);
+        }else if(!empty($_SESSION['redirect_url'])){
+            header("Location: {$_SESSION['redirect_url']}");
+            unset($_SESSION['redirect_url']);
+            exit;
         }
         header("Location: {$_SESSION['addFunds_Success']}");
         unset($_SESSION['addFunds_Success']);
