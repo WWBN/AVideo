@@ -16,6 +16,7 @@ use PayPal\Api\Patch;
 use PayPal\Api\PatchRequest;
 use PayPal\Common\PayPalModel;
 use PayPal\Api\Agreement;
+use PayPal\Api\AgreementStateDescriptor;
 use PayPal\Api\Payer;
 use PayPal\Api\Plan;
 use PayPal\Api\ShippingAddress;
@@ -304,6 +305,25 @@ class PayPalYPT extends PluginAbstract {
         return Agreement::get($agreement_id, $apiContext);
     }
 
+    static function cancelAgreement($agreement_id) {
+        global $global;
+        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+
+        //Create an Agreement State Descriptor, explaining the reason to suspend.
+        $agreementStateDescriptor = new AgreementStateDescriptor();
+        $agreementStateDescriptor->setNote("Canceled by user");
+
+        $createdAgreement = self::getBillingAgreement($agreement_id);
+
+        try {
+            $createdAgreement->suspend($agreementStateDescriptor, $apiContext);
+            // Lets get the updated Agreement Object
+            return Agreement::get($createdAgreement->getId(), $apiContext);
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
     function execute() {
         if (!empty($_GET['paymentId'])) {
             error_log("PayPal Execute payment ");
@@ -445,7 +465,7 @@ class PayPalYPT extends PluginAbstract {
             error_log("IPNcheck ERROR: The response from IPN was: <b>" . $res . "");
             return false;
         }
-        
+
         curl_close($ch);
     }
 
