@@ -96,7 +96,7 @@ class PayPalYPT extends PluginAbstract {
 
     private function executePayment() {
         global $global;
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         // ### Approval Status
         // Determine if the user approved the payment or not
         // Get the payment Object by passing paymentId
@@ -228,7 +228,7 @@ class PayPalYPT extends PluginAbstract {
     public function setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
         global $global;
 
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
 
         $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
 
@@ -282,7 +282,7 @@ class PayPalYPT extends PluginAbstract {
 
     private function executeBillingAgreement() {
         global $global;
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $token = $_GET['token'];
         $agreement = new \PayPal\Api\Agreement();
 
@@ -301,13 +301,13 @@ class PayPalYPT extends PluginAbstract {
 
     static function getBillingAgreement($agreement_id) {
         global $global;
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         return Agreement::get($agreement_id, $apiContext);
     }
 
     static function cancelAgreement($agreement_id) {
         global $global;
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
 
         //Create an Agreement State Descriptor, explaining the reason to suspend.
         $agreementStateDescriptor = new AgreementStateDescriptor();
