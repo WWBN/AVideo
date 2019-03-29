@@ -441,7 +441,6 @@ class Category {
                 session_start();
             }
             $_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)] = $total;
-            session_write_close();
         }
         return $_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)];
     }
