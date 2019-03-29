@@ -42,7 +42,6 @@ abstract class YPTWalletPlugin {
     }
 
     public function getRecurrentAprovalButton() {
-        include "";
     }
     
 }
