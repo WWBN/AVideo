@@ -57,10 +57,6 @@ if (!empty($_GET['msg'])) {
     <?php
 }
 ?>
-        // try to keep the session live each minute
-        setInterval(function () {
-            $.ajax({url: '<?php echo $global['webSiteRootURL']; ?>objects/keepSessionLive.php'});
-        }, 60000);
     });
 </script>
 <!-- <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script> -->
