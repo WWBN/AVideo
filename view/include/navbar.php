@@ -869,7 +869,12 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
                         $categories = Category::getAllCategories();
                         foreach ($categories as $value) {
-                            if (empty($value['total'])) {
+                            if($advancedCustom->ShowAllVideosOnCategory){
+                                $total = $value['fullTotal'];
+                            }else{
+                                $total = $value['total'];
+                            }
+                            if (empty($total)) {
                                 continue;
                             }
                             echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
