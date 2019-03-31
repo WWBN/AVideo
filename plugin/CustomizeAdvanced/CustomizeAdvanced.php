@@ -117,7 +117,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowLeftTrendingButton = false;
         
         $obj->CategoryLabel = "Categories";
-        $obj->ShowCategoriesToOfflineUsers = false;
+        $obj->ShowAllVideosOnCategory = false;
         
         return $obj;
     }
