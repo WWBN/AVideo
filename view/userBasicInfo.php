@@ -86,7 +86,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group <?php if(!empty($advancedCustomUser->doNotShowMyChannelNameOnBasicInfo)){echo " hidden ";} ?>">
     <label class="col-md-4 control-label"><?php echo __("Channel Name"); ?></label>
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
@@ -96,7 +96,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group <?php if(!empty($advancedCustomUser->doNotShowMyAnalyticsCodeOnBasicInfo)){echo " hidden ";} ?>">
     <label class="col-md-4 control-label"><?php echo __("Analytics Code"); ?></label>
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
@@ -107,7 +107,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group <?php if(!empty($advancedCustomUser->doNotShowMyAboutOnBasicInfo)){echo " hidden ";} ?> ">
     <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
     <div class="col-md-8 inputGroupContainer">
         <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>

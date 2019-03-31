@@ -65,6 +65,12 @@ class CustomizeUser extends PluginAbstract {
         
         $obj->doNotShowTopBannerOnChannel = false;
         
+        $obj->doNotShowMyChannelNameOnBasicInfo = false;
+        $obj->doNotShowMyAnalyticsCodeOnBasicInfo = false;
+        $obj->doNotShowMyAboutOnBasicInfo = false;
+        
+        $obj->MyChannelLabel = "My Channel";
+        
         
         return $obj;
     }

@@ -116,6 +116,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowLeftHomeButton = false;
         $obj->doNotShowLeftTrendingButton = false;
         
+        $obj->CategoryLabel = "Categories";
+        $obj->ShowCategoriesToOfflineUsers = false;
+        
         return $obj;
     }
     

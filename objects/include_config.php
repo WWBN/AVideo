@@ -87,6 +87,6 @@ if (empty($global['bodyClass'])) {
     $global['bodyClass'] = "";
 }
 $global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'ogg', 'zip');
-$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-$advancedCustomUser = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
+$advancedCustom = YouPHPTubePlugin::getObjectData("CustomizeAdvanced");
+$advancedCustomUser = YouPHPTubePlugin::getObjectData("CustomizeUser");
 $sitemapFile = "{$global['systemRootPath']}sitemap.xml";
