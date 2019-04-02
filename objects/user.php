@@ -579,6 +579,8 @@ if (typeof gtag !== \"function\") {
 
     function login($noPass = false, $encodedPass = false) {
         global $global,$advancedCustom, $advancedCustomUser;
+        
+        error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user ". getRealIpAddr());
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
@@ -602,13 +604,15 @@ if (typeof gtag !== \"function\") {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
             if (!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") {
-                error_log("[INFO] Do login with cookie (log in for next 10 years)!");
+                error_log("user::login: Do login with cookie (log in for next 10 years)!");
                 global $global;
                 //$url = parse_url($global['webSiteRootURL']);
                 //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 setcookie("user", $user['user'], time() + 3600 * 24 * 30 * 12 * 10, "/");
                 setcookie("pass", $user['password'], time() + 3600 * 24 * 30 * 12 * 10, "/");
+            }else{
+                error_log("user::login: Do login without cookie");
             }
             YouPHPTubePlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
@@ -898,6 +902,9 @@ if (typeof gtag !== \"function\") {
 
     static private function getUserDbFromUser($user) {
         global $global;
+        if(empty($user)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($user));
         $user = sqlDAL::fetchAssoc($res);
