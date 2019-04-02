@@ -713,7 +713,7 @@ if (typeof gtag !== \"function\") {
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
                 $resp = $user->login(false, $_COOKIE['pass']);
 
-                error_log("[INFO] do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
+                error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
                 if (0 == $resp) {
                     error_log("success " . $_SESSION['user']['id']);
                 }
@@ -890,6 +890,9 @@ if (typeof gtag !== \"function\") {
     static private function getUserDb($id) {
         global $global;
         $id = intval($id);
+        if(empty($id)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
         $res = sqlDAL::readSql($sql, "i", array($id));
         $user = sqlDAL::fetchAssoc($res);
