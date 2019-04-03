@@ -338,7 +338,9 @@ if (!User::isAdmin()) {
                     sortable: false,
                     data: null,
                     "render": function (data, type, full, meta) {
-                        return '<img src="' + full.poster.thumbsJpg + '" class="ui-state-default img-responsive" alt="">';
+                        return '<img src="' + full.poster.thumbsJpg + '" class="ui-state-default img-responsive" alt=""><br>'+
+                               "<a href='<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id="+full.id+"' target='_blank'>VAST URL</a>";
+                   
                     }, "width": "20%"
                 },
                 {
@@ -426,12 +428,7 @@ if (!User::isAdmin()) {
         var tableLinks = $('#campaignTable').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/campaigns.json.php",
             "columns": [
-                {
-                    data: 'name',
-                    "render": function (data, type, full, meta) {
-                        return "<a href='<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id="+full.id+"' target='_blank'>"+full.name+"</a>";
-                    }
-                },
+                {"data": "name"},
                 {"data": "start_date"},
                 {"data": "end_date"},
                 {"data": "status", width: 10},
