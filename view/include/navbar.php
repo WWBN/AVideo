@@ -1,5 +1,18 @@
 <?php
-global $includeDefaultNavBar;
+global $includeDefaultNavBar, $global, $config, $advancedCustom, $advancedCustomUser;
+if (!isset($global['systemRootPath'])) {
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/category.php';
+$_GET['parentsOnly'] = "1";
+if (empty($_SESSION['language'])) {
+    $lang = 'us';
+} else {
+    $lang = $_SESSION['language'];
+}
+
+$thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
 if (empty($sidebarStyle)) {
     $sidebarStyle = "display: none;";
 }
@@ -106,20 +119,6 @@ if (!$includeDefaultNavBar) {
     }
 </style>
 <?php
-global $global, $config;
-if (!isset($global['systemRootPath'])) {
-    require_once '../videos/configuration.php';
-}
-require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/category.php';
-$_GET['parentsOnly'] = "1";
-if (empty($_SESSION['language'])) {
-    $lang = 'us';
-} else {
-    $lang = $_SESSION['language'];
-}
-
-$thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
 if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php") || User::isLogged()) {
     $updateFiles = getUpdatesFilesArray();
     ?>

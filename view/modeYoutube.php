@@ -168,7 +168,6 @@ if (!empty($video)) {
 }
 
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
 if (!empty($autoPlayVideo)) {
     $autoPlaySources = getSources($autoPlayVideo['filename'], true);

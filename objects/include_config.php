@@ -1,8 +1,7 @@
 <?php
 
 ini_set('error_log', $global['systemRootPath'] . 'videos/youphptube.log');
-global $global;
-global $config;
+global $global, $config, $advancedCustom, $advancedCustomUser;
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
