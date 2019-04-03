@@ -426,7 +426,12 @@ if (!User::isAdmin()) {
         var tableLinks = $('#campaignTable').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/campaigns.json.php",
             "columns": [
-                {"data": "name"},
+                {
+                    data: 'name',
+                    "render": function (data, type, full, meta) {
+                        return "<a href='<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id="+full.id+"' target='_blank'>"+full.name+"</a>";
+                    }
+                },
                 {"data": "start_date"},
                 {"data": "end_date"},
                 {"data": "status", width: 10},
