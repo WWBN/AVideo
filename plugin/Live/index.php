@@ -173,7 +173,7 @@ if (empty($channelName)) {
                                     <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1"><i class="fa fa-refresh"></i> <?php echo __("Reset Key"); ?></a>
                                 </span>
                             </div>
-                            <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Anyone with this key can watch your live stream."); ?></span>
+                            <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Keep Key Private, Anyone with key can broadcast on your account"); ?></span>
                         </div>
                     </div>
                 </div>
