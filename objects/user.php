@@ -859,7 +859,10 @@ if (typeof gtag !== \"function\") {
 
     static private function findById($id) {
         global $global;
-
+        $id = intval($id);
+        if(empty($id)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE id = ?  LIMIT 1";
         $res = sqlDAL::readSql($sql, "i", array($id));
         $result = sqlDAL::fetchAssoc($res);
@@ -874,7 +877,10 @@ if (typeof gtag !== \"function\") {
 
     static function findByEmail($email) {
         global $global;
-
+        $email = trim($email);
+        if(empty($email)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE email = ?  LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($email));
         $result = sqlDAL::fetchAssoc($res);
