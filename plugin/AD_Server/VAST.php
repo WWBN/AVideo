@@ -3,11 +3,8 @@ header('Content-type: application/xml');
 
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-$ad_server = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
-$obj = YouPHPTubePlugin::getObjectDataIfEnabled('AD_Server');
-if (empty($ad_server)) {
-    die("not enabled");
-}
+$ad_server = YouPHPTubePlugin::loadPlugin('AD_Server');
+$obj = YouPHPTubePlugin::getObjectData('AD_Server');
 $types = array('', '_Low', '_SD', '_HD');
 
 $vastCampaingVideos = new VastCampaignsVideos($_GET['campaign_has_videos_id']);
