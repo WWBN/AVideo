@@ -4,6 +4,8 @@ include $global['systemRootPath'] . 'view/include/updateCheck.php';
 <?php
 if (User::isAdmin()) {
     ?>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
     <div class="row">
         <div class="col-md-12">
             <form class="form-compact well form-horizontal"  id="updateConfigForm" onsubmit="">
