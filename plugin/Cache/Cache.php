@@ -66,7 +66,7 @@ class Cache extends PluginAbstract {
             $this->start();
         }
         if($this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){ 
-            $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
+            $cachefile = $obj->cacheDir . $this->getFileName().User::getId(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if(!empty($_GET['lifetime'])){
                 $lifetime = intval($_GET['lifetime']);
@@ -90,7 +90,7 @@ class Cache extends PluginAbstract {
     public function getEnd() {
         global $global;
         $obj = $this->getDataObject();
-        $cachefile = $obj->cacheDir . $this->getFileName();
+        $cachefile = $obj->cacheDir . $this->getFileName().User::getId();
         $c = ob_get_contents();
         header_remove('Set-Cookie');
         if (!file_exists($obj->cacheDir)) {
