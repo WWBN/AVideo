@@ -48,6 +48,16 @@ class Cache extends PluginAbstract {
         }
         return md5($_SERVER['REQUEST_URI'].$user) . '.cache';
     }
+    
+    private function isFirstPage(){
+        global $global;
+        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $actual_link = rtrim($actual_link, '/') . '/';
+        if($global['webSiteRootURL']===$actual_link){
+            return true;
+        }
+        return false;
+    }
 
     public function getStart() {
         global $global;
@@ -55,7 +65,7 @@ class Cache extends PluginAbstract {
         if ($obj->logPageLoadTime) {
             $this->start();
         }
-        if(!class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){ 
+        if($this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){ 
             $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if(!empty($_GET['lifetime'])){
