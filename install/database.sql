@@ -465,6 +465,16 @@ CREATE TABLE `category_type_cache` (
 
 ALTER TABLE `category_type_cache`
   ADD UNIQUE KEY `categoryId` (`categoryId`);
+
+ALTER TABLE `plugins` 
+ADD INDEX `plugin_status` (`status` ASC);
+
+ALTER TABLE `videos` 
+ADD INDEX `videos_status_index` (`status` ASC),
+ADD INDEX `is_suggested_index` (`isSuggested` ASC),
+ADD INDEX `views_count_index` (`views_count` ASC),
+ADD INDEX `filename_index` (`filename` ASC);
+
 COMMIT;
 
 SET SQL_MODE=@OLD_SQL_MODE;
