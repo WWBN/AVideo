@@ -30,7 +30,7 @@ class VideoStatistic extends ObjectYPT {
         global $global;
         /**
          * Dont crash if is an old version
-         */
+        
         $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
         $result = sqlDal::num_rows($res);
         sqlDAL::close($res);
@@ -38,7 +38,7 @@ class VideoStatistic extends ObjectYPT {
             echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
             return false;
         }
-
+ */
         if (empty($videos_id)) {
             die(__("You need a video to generate statistics"));
         }
