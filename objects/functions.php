@@ -1582,3 +1582,23 @@ if (!function_exists("rrmdir")) {
         }
     }
 }
+
+function stopDDoS(){
+    $maxCon = 10;
+    $secondTimeout = 5;
+    if(empty($_SESSION['bruteForeceBlock'])){
+        $_SESSION['bruteForeceBlock'] = array();
+    }
+    $time = time();
+    foreach ($_SESSION['bruteForeceBlock'] as $key=>$value) {
+        if($_SESSION['bruteForeceBlock'][$key]<$time-$secondTimeout){
+            unset($_SESSION['bruteForeceBlock'][$key]);
+        }
+    }
+    if(count($_SESSION['bruteForeceBlock'])>$maxCon){
+        $str = "bruteForeceBlock: maxCon: $maxCon => secondTimeout: $secondTimeout | IP: ". getRealIpAddr()." | count:".count($_SESSION['bruteForeceBlock']);
+        error_log($str);
+        die($str);
+    }
+    $_SESSION['bruteForeceBlock'][] = $time;
+}
