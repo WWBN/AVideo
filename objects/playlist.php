@@ -128,6 +128,7 @@ class PlayList extends ObjectYPT {
                     $row['pluginBtns'] = YouPHPTubePlugin::getPlayListButtons($playlists_id);
                     $row['humancreate'] = humanTiming(strtotime($row['cre']));
                 }
+                unset($row['humancreate']);
                 $rows[] = $row;
             }
         } else {
