@@ -12,6 +12,7 @@
     function loadPlayLists(videos_id, crc) {
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
+            cache: true,
             success: function (response) {
                 $('.searchlist' + videos_id+crc).html('');
                 for (var i in response) {
