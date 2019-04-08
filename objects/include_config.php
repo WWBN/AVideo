@@ -42,7 +42,7 @@ session_set_cookie_params($config->getSession_timeout());
 
 session_start();
 // uncomment the line below for DDoS protecion
-//bruteForeceBlock();
+//stopDDoS();
 
 // set the reffer for youPHPTube
 $url1['host'] = "";
