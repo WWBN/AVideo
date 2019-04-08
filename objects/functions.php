@@ -1586,6 +1586,11 @@ if (!function_exists("rrmdir")) {
 function stopDDoS(){
     $maxCon = 20;
     $secondTimeout = 5;
+    $whitelistedFiles = array('playlists.json.php');
+    $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+    if (in_array($baseName, $whitelistedFiles)) {
+        return true;
+    }
     if(empty($_SESSION['bruteForeceBlock'])){
         $_SESSION['bruteForeceBlock'] = array();
     }
