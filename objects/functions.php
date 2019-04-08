@@ -1584,7 +1584,7 @@ if (!function_exists("rrmdir")) {
 }
 
 function stopDDoS(){
-    $maxCon = 10;
+    $maxCon = 20;
     $secondTimeout = 5;
     if(empty($_SESSION['bruteForeceBlock'])){
         $_SESSION['bruteForeceBlock'] = array();
