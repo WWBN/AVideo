@@ -67,6 +67,10 @@ class Cache extends PluginAbstract {
 
     public function getStart() {
         global $global;
+        // ignore cache if it is command line
+        if(isCommandLineInterface()){
+            return true;
+        }
         $obj = $this->getDataObject();       
         if ($obj->logPageLoadTime) {
             $this->start();

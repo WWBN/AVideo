@@ -1,13 +1,19 @@
 <?php
-$time_start = microtime(true); 
-require_once '../../videos/configuration.php';
+$time_start = microtime(true);
+$config = '../../videos/configuration.php';
+session_write_close();
+if (!file_exists($config)) {
+    list($scriptPath) = get_included_files();
+    $path = pathinfo($scriptPath);
+    $config = $path['dirname'] . "/" . $config;
+}
+header('Content-Type: application/json');
+require_once $config;
 set_time_limit(0);
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'plugin/CloneSite/CloneSite.php';
 require_once $global['systemRootPath'] . 'plugin/CloneSite/CloneLog.php';
 require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
-session_write_close();
-header('Content-Type: application/json');
 
 $totalSteps = 7;
 
@@ -19,13 +25,18 @@ $log = new CloneLog();
 
 $log->add("Clone: Clone Start");
 
-if (!User::isAdmin()) {
-    $resp->msg = "You cant do this";
-    $log->add("Clone: {$resp->msg}");
-    die(json_encode($resp));
+$obj = YouPHPTubePlugin::getObjectDataIfEnabled("CloneSite");
+
+if (empty($obj) || empty($argv[1]) || $obj->myKey !== $argv[1]) {
+    if (!User::isAdmin()) {
+        $resp->msg = "You cant do this";
+        $log->add("Clone: {$resp->msg}");echo "$obj->myKey !== $argv[1]";
+        die(json_encode($resp));
+    }
 }
 
-$obj = YouPHPTubePlugin::getObjectDataIfEnabled("CloneSite");
+
+
 if (empty($obj->cloneSiteURL)) {
     $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an YouPHPTube URL";
     $log->add("Clone: {$resp->msg}");
@@ -156,9 +167,9 @@ $time_end = microtime(true);
 //dividing with 60 will give the execution time in minutes otherwise seconds
 $execution_time = ($time_end - $time_start);
 $timeStr = "Seconds";
-if($execution_time>60){
-    $execution_time = $execution_time/60;
+if ($execution_time > 60) {
+    $execution_time = $execution_time / 60;
     $timeStr = "Minutes";
 }
 //execution time of the script
-$log->add('Total Execution Time: '.$execution_time.' '.$timeStr);
+$log->add('Total Execution Time: ' . $execution_time . ' ' . $timeStr);
