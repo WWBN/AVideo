@@ -50,10 +50,10 @@ class Cache extends PluginAbstract {
     }
     
     private function isFirstPage(){
-        // may be a hacker
+        // can not process
         if(empty($_SERVER['HTTP_HOST'])){
-            $str = "isFirstPage: Empty HTTP_HOST, IP: ". getRealIpAddr()." SERVER: ".  json_encode($_SERVER);
-            error_log($str);
+            //$str = "isFirstPage: Empty HTTP_HOST, IP: ". getRealIpAddr()." SERVER: ".  json_encode($_SERVER);
+            //error_log($str);
             die();
         }
         global $global;
