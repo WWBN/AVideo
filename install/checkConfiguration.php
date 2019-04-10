@@ -134,7 +134,8 @@ if(!empty(\$_SERVER['SERVER_NAME'])){
 }
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
 \$global['salt'] = '{$_POST['salt']}';
-
+\$global['ddosMaxConnections'] = 40;
+\$global['ddosSecondTimeout'] = 5;
 
 \$mysqlHost = '{$_POST['databaseHost']}';
 \$mysqlPort = '{$_POST['databasePort']}';
