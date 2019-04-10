@@ -1583,6 +1583,10 @@ if (!function_exists("rrmdir")) {
     }
 }
 
+/**
+ * You can now configure it on the configuration.php
+ * @return boolean
+ */
 function stopDDoS(){
     $maxCon = empty($global['ddosMaxConnections'])?40:$global['ddosMaxConnections'];
     $secondTimeout =  empty($global['ddosSecondTimeout'])?5:$global['ddosSecondTimeout'];
