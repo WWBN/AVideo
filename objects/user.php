@@ -584,7 +584,7 @@ if (typeof gtag !== \"function\") {
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
-            $user = $this->find($this->user, $this->password, true, $encodedPass);
+            $user = $this->find($this->user, $encodedPass, true, true);
         }
         
         if(!self::checkLoginAttempts()){
