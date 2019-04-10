@@ -102,10 +102,15 @@ foreach ($videos as $key => $value) {
     ?>
     <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" id="divVideo-<?php echo $value['id']; ?>" itemscope itemtype="http://schema.org/VideoObject">
         <a href="<?php
-        echo Video::getLink($value['id'], $value['clean_title'], "", $get);
-        if (!empty($_GET['page']) && $_GET['page'] > 1) {
-            echo "/page/{$_GET['page']}";
+        $link = Video::getLink($value['id'], $value['clean_title'], "", $get);
+        $connection = "?";
+        if (strpos($link, '?') !== false) {
+            $connection = "&";
         }
+        if (!empty($_GET['page']) && $_GET['page'] > 1) {
+            $link .= "{$connection}page={$_GET['page']}";
+        }
+        echo $link;
         ?>" title="<?php echo $value['title']; ?>" class="videoLink h6">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
                 <?php

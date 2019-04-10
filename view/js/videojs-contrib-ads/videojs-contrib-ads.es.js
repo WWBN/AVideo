@@ -2,7 +2,7 @@ import videojs from 'video.js';
 import window from 'global/window';
 import document from 'global/document';
 
-var version = "6.6.0";
+var version = "6.6.1";
 
 /*
  * Implements the public API available in `player.ads` as well as application state.
@@ -98,7 +98,7 @@ function getAds(player) {
     // deprecated.
     stitchedAds: function stitchedAds(arg) {
       if (arg !== undefined) {
-        videojs.log.warn('Using player.ads.stitchedAds() as a setter is deprecated, it should be set as an option upon initialization of contrib-ads.');
+        videojs.log.warn('Using player.ads.stitchedAds() as a setter is deprecated, ' + 'it should be set as an option upon initialization of contrib-ads.');
 
         // Keep the private property and the settings in sync. When this
         // setter is removed, we can probably stop using the private property.
@@ -926,7 +926,7 @@ cueTextTracks.processAdTrack = function (player, cues, processCue, cancelAdsHand
 
 function initCancelContentPlay(player, debug) {
   if (debug) {
-    videojs.log('ADS:', 'Using cancelContentPlay to block content playback');
+    videojs.log('Using cancelContentPlay to block content playback');
   }
 
   // Listen to play events to "cancel" them afterward
@@ -1096,6 +1096,7 @@ function register(contribAdsPlugin) {
     // Register the play middleware
     videojs.use('*', playMiddleware);
     videojs.usingContribAdsMiddleware_ = true;
+    videojs.log('Play middleware has been registered with videojs');
   }
 
   return true;
@@ -1179,8 +1180,6 @@ var State = function () {
 
   State.prototype.onContentChanged = function onContentChanged() {};
 
-  State.prototype.onDispose = function onDispose() {};
-
   State.prototype.onContentResumed = function onContentResumed() {};
 
   State.prototype.onReadyForPostroll = function onReadyForPostroll() {
@@ -1262,8 +1261,6 @@ var State = function () {
       this.onAdStarted(player);
     } else if (type === 'contentchanged') {
       this.onContentChanged(player);
-    } else if (type === 'dispose') {
-      this.onDispose(player);
     } else if (type === 'contentresumed') {
       this.onContentResumed(player);
     } else if (type === 'readyforpostroll') {
@@ -1952,8 +1949,8 @@ var Preroll = function (_AdState) {
     if (this.inAdBreak()) {
       player.removeClass('vjs-ad-loading');
       player.addClass('vjs-ad-content-resuming');
-      obj$1.end(player);
       this.contentResuming = true;
+      obj$1.end(player);
     }
   };
 
@@ -2425,13 +2422,6 @@ var BeforePreroll = function (_ContentState) {
 
   BeforePreroll.prototype.onContentChanged = function onContentChanged() {
     this.init(this.player);
-
-    // TODO: Handle case where player does not play on content change
-    this.onPlay(this.player);
-  };
-
-  BeforePreroll.prototype.onDispose = function onDispose() {
-    this.init(this.player);
   };
 
   return BeforePreroll;
@@ -2742,11 +2732,7 @@ var contribAdsPlugin = function contribAdsPlugin(options) {
   // will disallow calling play once play blocking is lifted)
   // The middleware must also be registered outside of the plugin,
   // to avoid a middleware factory being created for each player
-  if (isMiddlewareMediatorSupported() && settings.debug) {
-    // We log the debug message here as the plugin settings are available here
-    videojs.log('ADS:', 'Play middleware has been registered with videojs');
-  } else {
-    // Register the cancelContentPlay feature on the player
+  if (!isMiddlewareMediatorSupported()) {
     initCancelContentPlay(player, settings.debug);
   }
 

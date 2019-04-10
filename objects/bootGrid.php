@@ -1,9 +1,12 @@
 <?php
 class BootGrid {
 
-    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "", $alternativeOrderBy = "") {
-        $sql = self::getSqlSearchFromPost($searchFieldsNames);
-
+    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false) {
+        if(empty($doNotSearch)){
+            $sql = self::getSqlSearchFromPost($searchFieldsNames);
+        }else{
+            $sql = "";
+        }
         
         if(empty($_POST['sort']) && !empty($_GET['order'][0]['dir'])){
             $index = intval($_GET['order'][0]['column']);
@@ -14,7 +17,12 @@ class BootGrid {
         if (!empty($_POST['sort'])) {
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
-                $orderBy[] = " {$keyPrefix}{$key} {$value} ";
+                $direction = "ASC";
+                if(strtoupper($value)==="DESC"){
+                    $direction = "DESC";
+                }
+                $key = preg_replace("/[^A-Za-z0-9._ ]/", '', $key);
+                $orderBy[] = " {$keyPrefix}{$key} {$direction} ";
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
         } else {
@@ -37,7 +45,7 @@ class BootGrid {
         return $sql;
     }
 
-    static function getSqlSearchFromPost($searchFieldsNames = array()) {
+    static function getSqlSearchFromPost($searchFieldsNames = array(), $connection = "AND") {
         $sql = "";
         if(!empty($_POST['searchPhrase'])){
             global $global;
@@ -48,9 +56,9 @@ class BootGrid {
                 $like[] = " {$value} LIKE '%{$search}%' ";
             }
             if(!empty($like)){
-                $sql .= " AND (". implode(" OR ", $like).")";
+                $sql .= " {$connection} (". implode(" OR ", $like).")";
             }else{
-                $sql .= " AND 1=1 ";
+                $sql .= " {$connection} 1=1 ";
             }
         }
 

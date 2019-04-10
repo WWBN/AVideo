@@ -26,6 +26,13 @@ Category::clearCacheCount();
 
 error_log("Start Login Request");
 
+error_log("redirectUri: ".$_POST['redirectUri']);
+
+if(!preg_match("|^".$global['webSiteRootURL']."|", $_POST['redirectUri']))
+$_POST['redirectUri']=$global['webSiteRootURL'];
+
+error_log("sane redirectUri: ".$_POST['redirectUri']);
+
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
 
@@ -141,6 +148,8 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->redirectUri=$_POST['redirectUri'];
+
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $object->categories = Category::getAllCategories(true);
 }else{
@@ -166,6 +175,16 @@ if($object->isLogged){
     $p = YouPHPTubePlugin::loadPluginIfEnabled("VideoHLS");
     if(!empty($p)){
         $object->videoHLS = true;
+    }
+    
+    $p = YouPHPTubePlugin::loadPluginIfEnabled("Subscription");
+    if(!empty($p)){
+        $object->Subscription = Subscription::getAllFromUser($object->id);
+    }
+    
+    $p = YouPHPTubePlugin::loadPluginIfEnabled("PayPerView");
+    if(!empty($p)){
+        $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
     }
 }
 

@@ -12,7 +12,11 @@ if (!User::isAdmin()) {
 }
 
 header('Content-Type: application/json');
-$users = User::getAllUsers();
+if(empty($_POST['email'])){
+    $users = User::getAllUsers();
+}else{
+    $users[0]["email"] = $_POST['email'];
+}
 require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
 // send 100 emails at a time
 $mailsLimit = 100;

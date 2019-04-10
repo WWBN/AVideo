@@ -31,7 +31,7 @@ if ($valid) {
     // if it is from contact form send the message to the siteowner and the sender is the email on the form field
     if(!empty($_POST['contactForm'])){
         $replyTo = $_POST['email'];
-        $sendTo = $config->getContactEmail();;
+        $sendTo = $config->getContactEmail();
     }
     
     if (filter_var($sendTo, FILTER_VALIDATE_EMAIL)) {

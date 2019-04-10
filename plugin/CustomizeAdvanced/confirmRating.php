@@ -59,7 +59,7 @@ if (!empty($images->posterPortrait)) {
 
                     <div class="modal-footer" >
                         <a href="<?php echo $_SERVER['REQUEST_URI'],strpos($_SERVER['REQUEST_URI'], "?")===false?"?":"&"; ?>rrating=1" class="btn btn-success pull-right"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></a>
-                        <button class="btn btn-danger pull-right" onclick="closeConfirmRating();"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></button>
+                        <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-danger pull-right"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
                     </div>
                 </div>
 
@@ -72,14 +72,6 @@ if (!empty($images->posterPortrait)) {
             $(window).on('load', function () {
                 $('#myModal').modal('show');
             });
-            
-            function closeConfirmRating(){
-                if(typeof window.top.closeFlixFullScreen !== 'undefined'){
-                    window.top.closeFlixFullScreen();
-                }else{
-                    document.location = "<?php echo $global['webSiteRootURL']; ?>";
-                }
-            }
         </script>
     </body>
 </html>

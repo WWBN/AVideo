@@ -43,13 +43,19 @@ if (!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])) {
 $video = new Video("", "", @$_POST['videos_id']);
 $obj->video_id = @$_POST['videos_id'];
 $title = $video->getTitle();
+$description = $video->getDescription();
 if (empty($title) && !empty($_POST['title'])) {
     $title = $video->setTitle($_POST['title']);
 } elseif (empty($title)) {
     $video->setTitle("Automatic Title");
 }
+
+if (empty($description)) {
+    $video->setDescription($_POST['description']);
+}
+
 $video->setDuration($_POST['duration']);
-$video->setDescription($_POST['description']);
+
 $status = $video->getStatus();
 // if status is not unlisted
 if ($status !== 'u' && $status !== 'a') {

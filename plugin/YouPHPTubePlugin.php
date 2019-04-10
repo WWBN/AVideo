@@ -317,6 +317,19 @@ class YouPHPTubePlugin {
         return $str;
     }
 
+    static function getUsersManagerListButton() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+
+            if (is_object($p)) {
+                $str .= $p->getUsersManagerListButton();
+            }
+        }
+        return $str;
+    }
+
     static function getWatchActionButton($videos_id) {
         $plugins = Plugin::getAllEnabled();
         $str = "";
@@ -546,13 +559,13 @@ class YouPHPTubePlugin {
      * 
      * @return type return a list of IDs of the user groups
      */
-    public static function getDynamicUserGroupsId() {
+    public static function getDynamicUserGroupsId($users_id) {
         $plugins = Plugin::getAllEnabled();
         $array = array();
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $appArray = $p->getDynamicUserGroupsId();
+                $appArray = $p->getDynamicUserGroupsId($users_id);
                 $array = array_merge($array, $appArray);
             }
         }
@@ -759,6 +772,16 @@ class YouPHPTubePlugin {
     }
     
     
+    public static function onUserSignIn($users_id){
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onUserSignIn($users_id);
+            }
+        }
+    }
+    
     public static function onUserSignup($users_id){
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
@@ -777,5 +800,53 @@ class YouPHPTubePlugin {
                 $p->onLiveStream($users_id);
             }
         }
+    }
+    
+    public static function thumbsOverlay($videos_id){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->thumbsOverlay($videos_id);
+            }
+        }
+        return $r;
+    }
+    
+    public static function profileTabName($users_id){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->profileTabName($users_id);
+            }
+        }
+        return $r;
+    }
+    
+    public static function profileTabContent($users_id){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->profileTabContent($users_id);
+            }
+        }
+        return $r;
+    }
+    
+    public static function getVideoTags($videos_id){
+        $plugins = Plugin::getAllEnabled();
+        $array = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $array = array_merge($array, $p->getVideoTags($videos_id));
+            }
+        }
+        return $array;
     }
 }

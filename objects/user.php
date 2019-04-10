@@ -494,6 +494,20 @@ if (typeof gtag !== \"function\") {
         }
         return $user;
     }
+    static function getFromUsername($user) {
+        global $global;
+        $user = $global['mysqli']->real_escape_string($user);
+        $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($user));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $user = $result;
+        } else {
+            $user = false;
+        }
+        return $user;
+    }
 
     static function canWatchVideo($videos_id) {
         if (User::isAdmin()) {
@@ -515,7 +529,7 @@ if (typeof gtag !== \"function\") {
                 return true; // the video is public
             }
         }
-
+        
         if (!User::isLogged()) {
             return false;
         }
@@ -565,6 +579,8 @@ if (typeof gtag !== \"function\") {
 
     function login($noPass = false, $encodedPass = false) {
         global $global,$advancedCustom, $advancedCustomUser;
+        
+        error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user ". getRealIpAddr());
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
@@ -574,8 +590,9 @@ if (typeof gtag !== \"function\") {
         if(!self::checkLoginAttempts()){
             return self::CAPTCHA_ERROR;
         }
-        session_write_close();
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
@@ -587,14 +604,17 @@ if (typeof gtag !== \"function\") {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
             if (!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") {
-                error_log("[INFO] Do login with cookie (log in for next 10 years)!");
+                error_log("user::login: Do login with cookie (log in for next 10 years)!");
                 global $global;
                 //$url = parse_url($global['webSiteRootURL']);
                 //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 setcookie("user", $user['user'], time() + 3600 * 24 * 30 * 12 * 10, "/");
                 setcookie("pass", $user['password'], time() + 3600 * 24 * 30 * 12 * 10, "/");
+            }else{
+                error_log("user::login: Do login without cookie");
             }
+            YouPHPTubePlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             return self::USER_LOGGED;
         } else {
@@ -616,8 +636,9 @@ if (typeof gtag !== \"function\") {
     
     static function checkLoginAttempts(){
         global $advancedCustomUser, $global;
-        session_write_close();
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         // check for multiple logins attempts to prevent hacking
         if(empty($_SESSION['loginAttempts'])){
             $_SESSION['loginAttempts'] = 0;
@@ -689,10 +710,11 @@ if (typeof gtag !== \"function\") {
         if (empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass']))) {
                 $user = new User(0, $_COOKIE['user'], false);
+                $user->setPassword($_COOKIE['pass']);
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
-                $resp = $user->login(false, $_COOKIE['pass']);
+                $resp = $user->login(false, true);
 
-                error_log("[INFO] do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
+                error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
                 if (0 == $resp) {
                     error_log("success " . $_SESSION['user']['id']);
                 }
@@ -838,7 +860,10 @@ if (typeof gtag !== \"function\") {
 
     static private function findById($id) {
         global $global;
-
+        $id = intval($id);
+        if(empty($id)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE id = ?  LIMIT 1";
         $res = sqlDAL::readSql($sql, "i", array($id));
         $result = sqlDAL::fetchAssoc($res);
@@ -853,7 +878,10 @@ if (typeof gtag !== \"function\") {
 
     static function findByEmail($email) {
         global $global;
-
+        $email = trim($email);
+        if(empty($email)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE email = ?  LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($email));
         $result = sqlDAL::fetchAssoc($res);
@@ -869,6 +897,9 @@ if (typeof gtag !== \"function\") {
     static private function getUserDb($id) {
         global $global;
         $id = intval($id);
+        if(empty($id)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
         $res = sqlDAL::readSql($sql, "i", array($id));
         $user = sqlDAL::fetchAssoc($res);
@@ -881,6 +912,9 @@ if (typeof gtag !== \"function\") {
 
     static private function getUserDbFromUser($user) {
         global $global;
+        if(empty($user)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($user));
         $user = sqlDAL::fetchAssoc($res);

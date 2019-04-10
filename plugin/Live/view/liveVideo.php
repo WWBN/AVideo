@@ -13,9 +13,9 @@
             </div>
             <div id="main-video" class="embed-responsive embed-responsive-16by9">
                 <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
-                       class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered liveVideo" 
-                       id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                    <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
+                       class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered liveVideo vjs-16-9" 
+                       id="mainVideo">
+                    <source src="<?php echo $p->getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                 </video>
                 <?php
                 

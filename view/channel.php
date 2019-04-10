@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
-
+session_write_close();
 if (empty($_GET['channelName'])) {
     if (User::isLogged()) {
         $_GET['user_id'] = User::getId();
@@ -31,7 +31,7 @@ YouPHPTubePlugin::getChannel($user_id, $user);
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channel"); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channel"); ?> :: <?php echo @$_GET['channelName']; ?> </title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'view/channelHead.php';

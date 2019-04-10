@@ -23,6 +23,7 @@ foreach ($comments as $key => $value) {
     $comments[$key]['comment'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong><a href="'.User::getChannelLink($value['users_id']).'/">'.$name.'</a></strong> <small>'.humanTiming(strtotime($value['created'])).'</small></div>'. fixCommentText(textToLink($value['commentHTML'])).'</div>';
     $comments[$key]['total_replies'] = Comment::getTotalComments($_GET['video_id'], $comments[$key]['id']);
     $comments[$key]['video'] = Video::getVideo($comments[$key]['videos_id']);
+    unset($comments[$key]['video']['description']);
     $comments[$key]['poster'] = Video::getImageFromFilename($comments[$key]['video']['filename']);
     $comments[$key]['userCanAdminComment'] = Comment::userCanAdminComment($comments[$key]['id']);
 }

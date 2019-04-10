@@ -65,6 +65,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 }
 
                 if ($obj->MostPopular) {
+                    $_POST['rowCount'] = $obj->maxVideos;
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
                     $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -79,6 +80,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     }
                     unset($_POST['sort']);
                     $_POST['sort']['likes'] = "DESC";
+                    $_POST['sort']['v.created'] = "DESC";
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     ?>
                     <div class="row">
@@ -98,6 +100,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
 
 
                 if ($obj->MostWatched) {
+                    $_POST['rowCount'] = $obj->maxVideos;
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
                     $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -112,6 +115,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     }
                     unset($_POST['sort']);
                     $_POST['sort']['views_count'] = "DESC";
+                    $_POST['sort']['created'] = "DESC";
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     ?>
                     <span class="md-col-12">&nbsp;</span>
@@ -146,8 +150,14 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         unset($_POST['searchPhrase']);
                     }
                     unset($_POST['sort']);
+                    unset($_POST['rowCount']);
                     $categories = Category::getAllCategories();
+                    $_POST['rowCount'] = $obj->maxVideos;
                     $_POST['searchPhrase'] = $searchPhrase;
+                    $showAllVideos = false;
+                    if(!empty($_GET['catName'])){
+                        $showAllVideos = true;
+                    }
                     foreach ($categories as $value) {
                         $oldCatName = @$_GET['catName'];
                         if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
@@ -156,6 +166,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                             $_GET['catName'] = $value['clean_name'];
                         }
                         unset($_POST['sort']);
+                        $_POST['sort']['v.created'] = "DESC";
                         $_POST['sort']['likes'] = "DESC";
                         $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                         if (empty($videos)) {
@@ -171,6 +182,17 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                             <!-- Categories -->
                             <?php
                             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            
+                            if($showAllVideos){
+                                while(1){
+                                    $_POST['current']++;
+                                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                                    if (empty($videos)) {
+                                        break;
+                                    }
+                                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                                }
+                            }
                             ?>
                         </div>
                         <?php
@@ -182,6 +204,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         foreach ($categories as $value) {
                             unset($_POST['sort']);
                             $_GET['catName'] = $value['clean_name'];
+                            $_POST['sort']['v.created'] = "DESC";
                             $_POST['sort']['likes'] = "DESC";
                             $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                             if (empty($videos)) {

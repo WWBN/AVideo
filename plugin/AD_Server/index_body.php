@@ -338,7 +338,9 @@ if (!User::isAdmin()) {
                     sortable: false,
                     data: null,
                     "render": function (data, type, full, meta) {
-                        return '<img src="' + full.poster.thumbsJpg + '" class="ui-state-default img-responsive" alt="">';
+                        return '<img src="' + full.poster.thumbsJpg + '" class="ui-state-default img-responsive" alt=""><br>'+
+                               "<a href='<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id="+full.id+"' target='_blank'>VAST URL</a>";
+                   
                     }, "width": "20%"
                 },
                 {

@@ -42,7 +42,9 @@ if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $ad
     $_GET['catName'] = "";
 }
 
-$video = Video::getVideo("", "viewable", false, false, true, true);
+if (empty($video)) {
+    $video = Video::getVideo("", "viewable", false, false, true, true);
+}
 
 if (empty($video)) {
     $video = Video::getVideo("", "viewable", false, false, false, true);
@@ -144,8 +146,8 @@ if ($video['type'] == "video") {
 }
 
 if (!empty($video)) {
+    $source = Video::getSourceFile($video['filename']);
     if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
-        $source = Video::getSourceFile($video['filename']);
         $img = $source['url'];
         $data = getimgsize($source['path']);
         $imgw = $data[0];
@@ -166,7 +168,6 @@ if (!empty($video)) {
 }
 
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
 if (!empty($autoPlayVideo)) {
     $autoPlaySources = getSources($autoPlayVideo['filename'], true);
@@ -249,6 +250,8 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                 $vType = $video['type'];
                 if ($vType == "linkVideo") {
                     $vType = "video";
+                } else if ($vType == "live") {
+                    $vType = "../../plugin/Live/view/liveVideo";
                 } else if ($vType == "linkAudio") {
                     $vType = "audio";
                 }
@@ -307,7 +310,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                     ?>
                                     <?php
                                     if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-                                        echo VideoTags::getLabels($video['id']);
+                                        echo VideoTags::getLabels($video['id'], false);
                                     }
                                     ?>
                                 </div>

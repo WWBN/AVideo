@@ -49,6 +49,7 @@ foreach ($tags as $value) {
                                     <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>
                                         <li><a data-toggle="tab" href="#personalInfo" id="aPersonalInfo"><?php echo __("Personal Info") ?></a></li>
                                     <?php } ?>
+                                    <?php echo YouPHPTubePlugin::profileTabName($user->getId()); ?>
                                 </ul>
 
                                 <div class="tab-content">
@@ -65,6 +66,7 @@ foreach ($tags as $value) {
                                             ?>
                                         </div>
                                     <?php } ?>
+                                    <?php echo YouPHPTubePlugin::profileTabContent($user->getId()); ?>
                                 </div>
 
                                 <!-- Button -->

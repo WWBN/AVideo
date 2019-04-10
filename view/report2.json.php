@@ -7,6 +7,7 @@ if(!isset($global['systemRootPath'])){
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
 
+session_write_close();
 $from = date("Y-m-d 00:00:00", strtotime($_POST['dateFrom']));
 $to = date('Y-m-d 23:59:59', strtotime($_POST['dateTo']));
 

@@ -6,6 +6,8 @@ require_once './Objects/LiveTransmitionHistory.php';
 $obj = new stdClass();
 $obj->error = true;
 
+error_log("NGINX ON Publish POST: ".json_encode($_POST));
+error_log("NGINX ON Publish GET: ".json_encode($_GET));
 // get GET parameters
 $url = $_POST['tcurl'];
 if (empty($url)) {

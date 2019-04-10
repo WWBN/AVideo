@@ -490,14 +490,7 @@ if (User::isAdmin()) {
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-4"><?php echo __("Test your email"); ?></label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
-                                                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                                                    <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-8">
                                                 <span class="btn btn-warning btn-lg" id="testEmail" ><?php echo __("Test Email"); ?> <span class="glyphicon glyphicon-send"></span></span>
                                             </div>
                                         </div>

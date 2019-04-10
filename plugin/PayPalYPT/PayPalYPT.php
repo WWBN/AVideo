@@ -16,6 +16,7 @@ use PayPal\Api\Patch;
 use PayPal\Api\PatchRequest;
 use PayPal\Common\PayPalModel;
 use PayPal\Api\Agreement;
+use PayPal\Api\AgreementStateDescriptor;
 use PayPal\Api\Payer;
 use PayPal\Api\Plan;
 use PayPal\Api\ShippingAddress;
@@ -52,7 +53,7 @@ class PayPalYPT extends PluginAbstract {
         return $obj;
     }
 
-    public function setUpPayment($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $description="") {
+    public function setUpPayment($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $description = "") {
         global $global;
 
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
@@ -93,116 +94,9 @@ class PayPalYPT extends PluginAbstract {
         return false;
     }
 
-    private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $name = 'Base Agreement') {
-        global $global;
-
-        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
-        $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
-        // Create a new billing plan
-        $plan = new Plan();
-        $plan->setName($name)
-                ->setDescription($name)
-                ->setType('INFINITE');
-
-        // Set billing plan definitions
-        $paymentDefinition = new PaymentDefinition();
-        $paymentDefinition->setName('Regular Payments')
-                ->setType('REGULAR')
-                ->setFrequency($frequency)
-                ->setFrequencyInterval('1')
-                ->setCycles('0')
-                ->setAmount(new Currency(array('value' => $total, 'currency' => $currency)));
-
-        // Set merchant preferences
-        $merchantPreferences = new MerchantPreferences();
-        $merchantPreferences->setReturnUrl($redirect_url)
-                ->setCancelUrl($cancel_url)
-                //->setNotifyUrl($notify_url)
-                ->setAutoBillAmount('yes')
-                ->setInitialFailAmountAction('CONTINUE')
-                ->setMaxFailAttempts('0')
-                ->setSetupFee(new Currency(array('value' => $total, 'currency' => $currency)));
-
-        $plan->setPaymentDefinitions(array($paymentDefinition));
-        $plan->setMerchantPreferences($merchantPreferences);
-
-        //create plan
-        try {
-            $createdPlan = $plan->create($apiContext);
-
-            try {
-                $patch = new Patch();
-                $value = new PayPalModel('{"state":"ACTIVE"}');
-                $patch->setOp('replace')
-                        ->setPath('/')
-                        ->setValue($value);
-                $patchRequest = new PatchRequest();
-                $patchRequest->addPatch($patch);
-                $createdPlan->update($patchRequest, $apiContext);
-                $plan = Plan::get($createdPlan->getId(), $apiContext);
-
-                // Output plan id
-                return $plan;
-            } catch (PayPal\Exception\PayPalConnectionException $ex) {
-                error_log("PayPal Error createBillingPlan: " . $ex->getData());
-            } catch (Exception $ex) {
-                error_log("PayPal Error createBillingPlan: " . $ex->getData());
-            }
-        } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
-        } catch (Exception $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
-        }
-        return false;
-    }
-
-    public function setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $name = 'Base Agreement') {
-        global $global;
-
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
-
-        $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
-
-        $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency, $name);
-
-        if (empty($plan)) {
-            error_log("PayPal Error setUpSubscription Plan ID is empty ");
-            return false;
-        }
-        $planId = $plan->getId();
-
-        // Create new agreement
-        $agreement = new Agreement();
-        $agreement->setName($name)
-                ->setDescription($name)
-                ->setStartDate(date("Y-m-d\TH:i:s.000\Z", strtotime("+1 minute")));
-
-        $plan = new Plan();
-        $plan->setId($planId);
-        $agreement->setPlan($plan);
-
-        // Add payer type
-        $payer = new Payer();
-        $payer->setPaymentMethod('paypal');
-        $agreement->setPayer($payer);
-
-        try {
-            // Create agreement
-            $agreement = $agreement->create($apiContext);
-
-            // Extract approval URL to redirect user
-            return $agreement;
-        } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
-        } catch (Exception $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
-        }
-        return false;
-    }
-
     private function executePayment() {
         global $global;
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         // ### Approval Status
         // Determine if the user approved the payment or not
         // Get the payment Object by passing paymentId
@@ -249,29 +143,192 @@ class PayPalYPT extends PluginAbstract {
         return $payment;
     }
 
+    private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
+        global $global;
+
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
+        // Create a new billing plan
+        $plan = new Plan();
+        $plan->setName($name)
+                ->setDescription($name)
+                ->setType('INFINITE');
+
+        // Set billing plan definitions
+        $paymentDefinition = new PaymentDefinition();
+        $paymentDefinition->setName('Regular Payments')
+                ->setType('REGULAR')
+                ->setFrequency($frequency)
+                ->setFrequencyInterval($interval)
+                ->setCycles('0')
+                ->setAmount(new Currency(array('value' => $total, 'currency' => $currency)));
+
+        // Set merchant preferences
+        $merchantPreferences = new MerchantPreferences();
+        $merchantPreferences->setReturnUrl($redirect_url)
+                ->setCancelUrl($cancel_url)
+                //->setNotifyUrl($notify_url)
+                ->setAutoBillAmount('yes')
+                ->setInitialFailAmountAction('CONTINUE')
+                ->setMaxFailAttempts('0')
+                ->setSetupFee(new Currency(array('value' => $total, 'currency' => $currency)));
+
+        $plan->setPaymentDefinitions(array($paymentDefinition));
+        $plan->setMerchantPreferences($merchantPreferences);
+
+        //create plan
+        try {
+            $createdPlan = $plan->create($apiContext);
+
+            try {
+                $patch = new Patch();
+                $value = new PayPalModel('{"state":"ACTIVE"}');
+                $patch->setOp('replace')
+                        ->setPath('/')
+                        ->setValue($value);
+                $patchRequest = new PatchRequest();
+                $patchRequest->addPatch($patch);
+                $createdPlan->update($patchRequest, $apiContext);
+
+                $plan = Plan::get($createdPlan->getId(), $apiContext);
+                error_log("createBillingPlan: " . json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
+                // Output plan id
+                return $plan;
+            } catch (PayPal\Exception\PayPalConnectionException $ex) {
+                error_log("PayPal Error createBillingPlan 1: " . $ex->getData());
+            } catch (Exception $ex) {
+                error_log("PayPal Error createBillingPlan 2: " . $ex->getData());
+            }
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+            error_log("PayPal Error createBillingPlan 3: " . $ex->getData());
+        } catch (Exception $ex) {
+            error_log("PayPal Error createBillingPlan 4: " . $ex->getData());
+        }
+        return false;
+    }
+
+    private function getPlanId() {
+        global $global;
+        if (!empty($_POST['plans_id'])) {
+            $s = new SubscriptionPlansTable($_POST['plans_id']);
+            $plan_id = $s->getPaypal_plan_id();
+            require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+            try {
+                $plan = Plan::get($plan_id, $apiContext);
+                if (!empty($plan)) {
+                    return $plan->getId();
+                }
+            } catch (Exception $ex) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public function setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
+        global $global;
+
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+
+        $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
+
+        $planId = $this->getPlanId();
+        if (empty($planId)) {
+            //createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') 
+            $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name);
+
+            if (empty($plan)) {
+                error_log("PayPal Error setUpSubscription Plan ID is empty ");
+                return false;
+            }
+            $planId = $plan->getId();
+            // save the paypal plan ID for reuse
+            if (!empty($_POST['plans_id'])) {
+                $s = new SubscriptionPlansTable($_POST['plans_id']);
+                $s->setPaypal_plan_id($planId);
+                $s->save();
+            }
+        }
+        // Create new agreement
+        // the setup fee will be the first payment and start date is the next payment
+        $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
+        $agreement = new Agreement();
+        $agreement->setName($name)
+                ->setDescription($name)
+                ->setStartDate($startDate);
+
+        $plan = new Plan();
+        $plan->setId($planId);
+        $agreement->setPlan($plan);
+
+        // Add payer type
+        $payer = new Payer();
+        $payer->setPaymentMethod('paypal');
+        $agreement->setPayer($payer);
+
+        try {
+            // Create agreement
+            $agreement = $agreement->create($apiContext);
+
+            // Extract approval URL to redirect user
+            return $agreement;
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+            error_log("PayPal Error createBillingPlan:  startDate: {$startDate} " . $ex->getData());
+        } catch (Exception $ex) {
+            error_log("PayPal Error createBillingPlan: startDate: {$startDate} " . $ex->getData());
+        }
+        return false;
+    }
+
     private function executeBillingAgreement() {
         global $global;
-        require_once $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $token = $_GET['token'];
         $agreement = new \PayPal\Api\Agreement();
 
         try {
             // Execute agreement
             error_log("PayPal Try to execute ");
-            return $agreement->execute($token, $apiContext);
+            $agreement->execute($token, $apiContext);
+            return $agreement;
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex->getData());
+            error_log("PayPal Error executeBillingAgreement: " . $ex->getData());
         } catch (Exception $ex) {
-            error_log("PayPal Error createBillingPlan: " . $ex);
+            error_log("PayPal Error executeBillingAgreement: " . $ex);
         }
         return false;
     }
-    
-    function execute(){
-        if(!empty($_GET['paymentId'])){
+
+    static function getBillingAgreement($agreement_id) {
+        global $global;
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        return Agreement::get($agreement_id, $apiContext);
+    }
+
+    static function cancelAgreement($agreement_id) {
+        global $global;
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+
+        //Create an Agreement State Descriptor, explaining the reason to suspend.
+        $agreementStateDescriptor = new AgreementStateDescriptor();
+        $agreementStateDescriptor->setNote("Canceled by user");
+
+        $createdAgreement = self::getBillingAgreement($agreement_id);
+
+        try {
+            $createdAgreement->suspend($agreementStateDescriptor, $apiContext);
+            // Lets get the updated Agreement Object
+            return Agreement::get($createdAgreement->getId(), $apiContext);
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
+    function execute() {
+        if (!empty($_GET['paymentId'])) {
             error_log("PayPal Execute payment ");
             return $this->executePayment();
-        }else if(!empty($_GET['token'])){
+        } else if (!empty($_GET['token'])) {
             error_log("PayPal Billing Agreement ");
             return $this->executeBillingAgreement();
         }
@@ -283,11 +340,24 @@ class PayPalYPT extends PluginAbstract {
         if (!is_object($payment)) {
             return false;
         }
-        if(get_class($payment) === 'PayPal\Api\Agreement'){
+        if (get_class($payment) === 'PayPal\Api\Agreement') {
             $amount = new stdClass();
-            $amount->total = $payment->agreement_details->last_payment_amount->value;
+            //error_log("getAmountFromPayment: ".json_encode($payment));
+            //error_log("getAmountFromPayment: ". print_r($payment, true));
+            //error_log("getAmountFromPayment: ".($payment->getId()));
+            //error_log("getAmountFromPayment: ".($payment->getPlan()));
+            //error_log("getAmountFromPayment: ".($payment->getPlan()->payment_definitions->amount->value));
+            //error_log("getAmountFromPayment: ".($payment->getPlan()->merchant_preferences->setup_fee->value));
+            //$amount->total = $payment->agreement_details->last_payment_amount->value;
+            if (!empty(@$payment->getPlan()->payment_definitions->amount->value)) {
+                $amount->total = $payment->getPlan()->payment_definitions->amount->value;
+            } else if (!empty(@$payment->getPlan()->merchant_preferences->setup_fee->value)) {
+                $amount->total = $payment->getPlan()->merchant_preferences->setup_fee->value;
+            } else {
+                $amount->total = 0;
+            }
             return $amount;
-        }else{
+        } else {
             return $payment->getTransactions()[0]->amount;
         }
     }
@@ -298,6 +368,105 @@ class PayPalYPT extends PluginAbstract {
             header("Location: {$payment->getApprovalLink()}");
             exit;
         }
+    }
+
+    static function updateBillingPlan($plan_id, $total = '1.00', $currency = "USD", $interval = 1, $name = 'Base Agreement') {
+        global $global;
+        if (empty($plan_id)) {
+            return false;
+        }
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+
+        $createdPlan = Plan::get($plan_id, $apiContext);
+
+        try {
+
+
+            $patch1 = new Patch();
+            $patch1->setOp('replace')
+                    ->setPath('/')
+                    ->setValue(json_decode('{"name": "' . $name . '"}'));
+
+            $paymentDefinitions = $createdPlan->getPaymentDefinitions();
+            $paymentDefinition = $paymentDefinitions[0];
+            $paymentDefinitionId = $paymentDefinition->getId();
+
+            $patch2 = new Patch();
+            $patch2->setOp('replace')
+                    ->setPath('/payment-definitions/' . $paymentDefinitionId)
+                    ->setValue(json_decode('{
+                                                "amount": {
+                                                    "currency": "' . $currency . '",
+                                                    "value": "' . $total . '"
+                                                },
+                                                "frequency_interval": "' . $interval . '"
+                                            }'));
+            $patchRequest = new PatchRequest();
+            $patchRequest->addPatch($patch1);
+            $patchRequest->addPatch($patch2);
+
+            $createdPlan->update($patchRequest, $apiContext);
+
+            return Plan::get($createdPlan->getId(), $apiContext);
+        } catch (Exception $ex) {
+            error_log("PayPal Error updateBillingPlan: " . $ex->getData());
+        }
+        return false;
+    }
+
+    static function IPNcheck() {
+        $raw_post_data = file_get_contents('php://input');
+        $raw_post_array = explode('&', $raw_post_data);
+        $myPost = array();
+        foreach ($raw_post_array as $keyval) {
+            $keyval = explode('=', $keyval);
+            if (count($keyval) == 2)
+                $myPost[$keyval[0]] = urldecode($keyval[1]);
+        }
+        // read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
+        $req = 'cmd=_notify-validate';
+        if (function_exists('get_magic_quotes_gpc')) {
+            $get_magic_quotes_exists = true;
+        }
+        foreach ($myPost as $key => $value) {
+            if ($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
+                $value = urlencode(stripslashes($value));
+            } else {
+                $value = urlencode($value);
+            }
+            $req .= "&$key=$value";
+        }
+
+        // Step 2: POST IPN data back to PayPal to validate
+        $ch = curl_init('https://ipnpb.paypal.com/cgi-bin/webscr');
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+        // In wamp-like environments that do not come bundled with root authority certificates,
+        // please download 'cacert.pem' from "https://curl.haxx.se/docs/caextract.html" and set
+        // the directory path of the certificate as shown below:
+        // curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
+        if (!($res = curl_exec($ch))) {
+            error_log("IPNcheck: Got " . curl_error($ch) . " when processing IPN data");
+            curl_close($ch);
+            exit;
+        }
+        // inspect IPN validation result and act accordingly
+        if (strcmp($res, "VERIFIED") == 0) {
+            error_log("IPNcheck SUCCESS: The response from IPN was: <b>" . $res . "");
+            return true;
+        } else if (strcmp($res, "INVALID") == 0) {
+            // IPN invalid, log for manual investigation
+            error_log("IPNcheck ERROR: The response from IPN was: <b>" . $res . "");
+            return false;
+        }
+
+        curl_close($ch);
     }
 
 }

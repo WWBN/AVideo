@@ -172,7 +172,7 @@ class UserGroups {
         $sql = "SELECT uug.*, ug.* FROM users_groups ug"
                 . " LEFT JOIN users_has_users_groups uug ON users_groups_id = ug.id WHERE users_id = ? ";
         
-        $ids = YouPHPTubePlugin::getDynamicUserGroupsId();
+        $ids = YouPHPTubePlugin::getDynamicUserGroupsId($users_id);
         if(!empty($ids) && is_array($ids)){
             $ids = array_unique($ids);
             $sql .= " OR ug.id IN ('". implode("','", $ids)."') ";

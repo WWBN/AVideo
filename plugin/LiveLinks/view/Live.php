@@ -25,6 +25,7 @@ $uuid = $_GET['link'];
 $t['users_id'] = $liveLink->getUsers_id();
 $t['title'] = $liveLink->getTitle();
 $t['link'] = $liveLink->getLink();
+$t['description'] = $liveLink->getDescription();
 
 $u = new User($t['users_id']);
 $user_id = $u->getBdId();

@@ -78,6 +78,10 @@ abstract class PluginAbstract {
     public function getVideosManagerListButton() {
         return "";
     }
+    
+    public function getUsersManagerListButton() {
+        return "";
+    }
 
     public function getTags() {
         
@@ -145,6 +149,13 @@ abstract class PluginAbstract {
         //var_dump($obj['object_data']);
         //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         return (object) $wholeObjects;
+    }
+    
+    public function setDataObject($object) {
+        $pluginRow = Plugin::getPluginByUUID($this->getUUID());
+        $obj = new Plugin($pluginRow['id']);
+        $obj->setObject_data(addcslashes(json_encode($object),'\\'));
+        return $obj->save();
     }
 
     public function getEmptyDataObject() {
@@ -272,7 +283,7 @@ abstract class PluginAbstract {
      * 
      * @return type return a list of IDs of the user groups
      */
-    public function getDynamicUserGroupsId() {
+    public function getDynamicUserGroupsId($users_id) {
         return array();
     }
 
@@ -347,6 +358,10 @@ abstract class PluginAbstract {
         return null;
     }
     
+    public function onUserSignIn($users_id){
+        return null;
+    }
+    
     public function onUserSignup($users_id){
         return null;
     }
@@ -354,5 +369,22 @@ abstract class PluginAbstract {
     public function onLiveStream($users_id){
         return null;
     }
+    
+    public function thumbsOverlay($videos_id){
+        return "";
+    }    
+    
+    public static function profileTabName($users_id){
+        return "";
+    }
+    
+    public static function profileTabContent($users_id){
+        return "";
+    }
+    
+    public static function getVideoTags($videos_id){
+        return array();
+    }
+    
 
 }

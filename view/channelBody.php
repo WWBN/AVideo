@@ -3,7 +3,6 @@ $isMyChannel = false;
 if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
 }
-
 $user = new User($user_id);
 $_GET['channelName'] = $user->getChannelName();
 
@@ -17,7 +16,8 @@ if (empty($_GET['current'])) {
 $current = $_POST['current'];
 $rowCount = 25;
 $_POST['rowCount'] = $rowCount;
-$uploadedVideos = Video::getAllVideos("a", $user_id);
+
+$uploadedVideos = Video::getAllVideosAsync("a", $user_id);
 $uploadedTotalVideos = Video::getTotalVideos("a", $user_id);
 
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
@@ -29,9 +29,15 @@ unset($_POST['current']);
 $get = array('channelName' => $_GET['channelName']);
 ?>
 <div class="bgWhite list-group-item gallery clear clearfix" >
-    <div class="row bg-info profileBg" style="background-image: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(); ?>')">
-        <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
-    </div>
+    <?php
+    if(empty($advancedCustomUser->doNotShowTopBannerOnChannel)){
+        ?>
+        <div class="row bg-info profileBg" style="background-image: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(); ?>')">
+            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
+        </div>    
+        <?php
+    }
+    ?>
     <div class="row"><div class="col-6 col-md-12">
             <h1 class="pull-left">
                 <?php

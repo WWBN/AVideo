@@ -1,5 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 $configFile = '../../videos/configuration.php';
 if (!file_exists($configFile)) {
     list($scriptPath) = get_included_files();

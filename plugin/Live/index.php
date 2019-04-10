@@ -4,21 +4,64 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 $p = YouPHPTubePlugin::loadPlugin("Live");
 
-if(!empty($_GET['c'])){
+if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
-    if(!empty($user)){
+    if (!empty($user)) {
         $_GET['u'] = $user['user'];
     }
 }
-
+if(!empty($_GET['c'])){
+    $user = User::getChannelOwner($_GET['c']);
+    if($user['status']!=='a'){
+        header("Location: {$global['webSiteRootURL']}");
+    }
+}
 if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
-    include $global['systemRootPath'].'plugin/Live/view/videoEmbededV2.php';
+    include $global['systemRootPath'] . 'plugin/Live/view/videoEmbededV2.php';
     exit;
 } else if (!empty($_GET['u']) && !empty($_GET['embed'])) {
-    include $global['systemRootPath'].'plugin/Live/view/videoEmbeded.php';
+    include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
     exit;
 } else if (!empty($_GET['u'])) {
     include $global['systemRootPath'].'plugin/Live/view/modeYoutubeLive.php';
+    /*
+    require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
+    if (!empty($_GET['c'])) {
+        $user = User::getChannelOwner($_GET['c']);
+        if (!empty($user)) {
+            $_GET['u'] = $user['user'];
+        }
+    }
+
+
+    $t = LiveTransmition::getFromDbByUserName($_GET['u']);
+
+    $uuid = $t['key'];
+
+    $video = array();
+    $video['id'] = 0;
+    $video['filename'] = "";
+    $video['videoLink'] = "";
+    $video['iconClass'] = "";
+    $video['category_order'] = 0;
+    $video['views_count'] = 0;
+    $video['title'] = $t['title'];
+    $video['videoCreation'] = "Live";
+    $video['created'] = "Live";
+    $video['category'] = "Live";
+    $video['clean_category'] = "Live";
+    $video['duration'] = "Live";
+    $video['likes'] = -1;
+    $video['dislikes'] = -1;
+    $video['myVote'] = -1;
+    $video['clean_title'] = "";
+    $video['rotation'] = 0;
+    $video['users_id'] = $user['id'];
+    $video['description'] = $t['description'];
+    $video['type'] = "live";
+    include $global['systemRootPath'] . 'view/modeYoutube.php';
+     * 
+     */
     exit;
 } else if (!User::canStream()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not stream live videos"));
@@ -31,7 +74,7 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
-if(!empty($_GET['resetKey'])){
+if (!empty($_GET['resetKey'])) {
     LiveTransmition::resetTransmitionKey(User::getId());
     header("Location: {$global['webSiteRootURL']}plugin/Live/");
     exit;
@@ -46,11 +89,11 @@ $obj = $p->getDataObject();
 
 //check if channel name exists
 $channelName = User::getUserChannelName();
-if(empty($channelName)){
+if (empty($channelName)) {
     $channelName = uniqid();
     $user = new User(User::getId());
     $user->setChannelName($channelName);
-    $user->save();    
+    $user->save();
 }
 ?>
 <!DOCTYPE html>
@@ -73,28 +116,28 @@ if(empty($channelName)){
         <div class="container">
             <div class="col-md-6">
                 <?php
-                if(!empty($obj->experimentalWebcam)){
-                ?>
-                <div class="panel panel-default">
-                    <div class="panel-heading"><?php echo __("WebCam Streaming"); ?></div>
-                    <div class="panel-body">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <div class="embed-responsive-item"  id="webcam">
-                                <button class="btn btn-primary btn-block" id="enableWebCam">
-                                    <i class="fa fa-camera"></i> <?php echo __("Enable WebCam Stream"); ?>
-                                </button>
-                                <div class="alert alert-warning">
-                                    <i class="fa fa-warning"><?php echo __("We will check if there is a stream conflict before stream"); ?></i>
-                                </div>
-                                
-                                <div class="alert alert-info">
-                                    <?php echo __("This is an experimental resource"); ?>
+                if (!empty($obj->experimentalWebcam)) {
+                    ?>
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><?php echo __("WebCam Streaming"); ?></div>
+                        <div class="panel-body">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <div class="embed-responsive-item"  id="webcam">
+                                    <button class="btn btn-primary btn-block" id="enableWebCam">
+                                        <i class="fa fa-camera"></i> <?php echo __("Enable WebCam Stream"); ?>
+                                    </button>
+                                    <div class="alert alert-warning">
+                                        <i class="fa fa-warning"><?php echo __("We will check if there is a stream conflict before stream"); ?></i>
+                                    </div>
+
+                                    <div class="alert alert-info">
+                                        <?php echo __("This is an experimental resource"); ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <?php
+                    <?php
                 }
                 ?>
                 <div class="panel panel-default">
@@ -102,7 +145,7 @@ if(empty($channelName)){
                     <div class="panel-body">          
                         <div class="form-group">
                             <label for="playerURL"><i class="fa fa-play-circle"></i> <?php echo __("Player URL"); ?>:</label>
-                            <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8"  readonly="readonly">
+                            <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getM3U8File($trasnmition['key']); ?>"  readonly="readonly">
                         </div>       
                         <div class="form-group">
                             <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("Live URL"); ?>:</label>
@@ -130,7 +173,7 @@ if(empty($channelName)){
                                     <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1"><i class="fa fa-refresh"></i> <?php echo __("Reset Key"); ?></a>
                                 </span>
                             </div>
-                            <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Anyone with this key can watch your live stream."); ?></span>
+                            <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Keep Key Private, Anyone with key can broadcast on your account"); ?></span>
                         </div>
                     </div>
                 </div>
@@ -143,7 +186,7 @@ if(empty($channelName)){
                     <div class="panel-heading">
                         <?php
                         $streamName = $trasnmition['key'];
-                        include $global['systemRootPath'].'plugin/Live/view/onlineLabel.php';
+                        include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
                         ?>
                     </div>
                     <div class="panel-body">          
@@ -151,7 +194,7 @@ if(empty($channelName)){
                             <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
                                    class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                                    id="mainVideo" data-setup='{ aspectRatio: "<?php echo $aspectRatio; ?>",  "techorder" : ["flash", "html5"] }'>
-                                <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $trasnmition['key']; ?>/index.m3u8" type='application/x-mpegURL'>
+                                <source src="<?php echo $p->getM3U8File($trasnmition['key']); ?>" type='application/x-mpegURL'>
                             </video>
                         </div>
                     </div>
@@ -236,15 +279,15 @@ if(empty($channelName)){
                         }
                     });
                 }
-				
+
                 function saveStream() {
                     modal.showPleaseWait();
-					
+
                     var selectedUserGroups = [];
                     $('.userGroups:checked').each(function () {
                         selectedUserGroups.push($(this).val());
                     });
-					
+
                     $.ajax({
                         url: 'saveLive.php',
                         data: {

@@ -48,15 +48,35 @@ class Cache extends PluginAbstract {
         }
         return md5($_SERVER['REQUEST_URI'].$user) . '.cache';
     }
+    
+    private function isFirstPage(){
+        // can not process
+        if(empty($_SERVER['HTTP_HOST'])){
+            //$str = "isFirstPage: Empty HTTP_HOST, IP: ". getRealIpAddr()." SERVER: ".  json_encode($_SERVER);
+            //error_log($str);
+            die();
+        }
+        global $global;
+        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $actual_link = rtrim($actual_link, '/') . '/';
+        if($global['webSiteRootURL']===$actual_link){
+            return true;
+        }
+        return false;
+    }
 
     public function getStart() {
         global $global;
+        // ignore cache if it is command line
+        if(isCommandLineInterface()){
+            return true;
+        }
         $obj = $this->getDataObject();       
         if ($obj->logPageLoadTime) {
             $this->start();
         }
-        if(!class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){ 
-            $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
+        if($this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){ 
+            $cachefile = $obj->cacheDir . $this->getFileName().User::getId(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if(!empty($_GET['lifetime'])){
                 $lifetime = intval($_GET['lifetime']);
@@ -78,13 +98,22 @@ class Cache extends PluginAbstract {
     }
 
     public function getEnd() {
+        global $global;
         $obj = $this->getDataObject();
-        $cachefile = $obj->cacheDir . $this->getFileName();
+        $cachefile = $obj->cacheDir . $this->getFileName().User::getId();
         $c = ob_get_contents();
+        header_remove('Set-Cookie');
         if (!file_exists($obj->cacheDir)) {
             mkdir($obj->cacheDir, 0777, true);
         }
-        if(!class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){
+        if (!file_exists($obj->cacheDir)) {
+            $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
+            $this->setDataObject($obj);
+            if (!file_exists($obj->cacheDir)) {
+                mkdir($obj->cacheDir, 0777, true);
+            }
+        }
+        if($this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)){
             file_put_contents($cachefile, $c);
         }
         if ($obj->logPageLoadTime) {

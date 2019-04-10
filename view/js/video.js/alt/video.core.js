@@ -1,6 +1,6 @@
 /**
  * @license
- * Video.js 7.5.0 <http://videojs.com/>
+ * Video.js 7.4.1 <http://videojs.com/>
  * Copyright Brightcove, Inc. <https://www.brightcove.com/>
  * Available under Apache License Version 2.0
  * <https://github.com/videojs/video.js/blob/master/LICENSE>
@@ -13,12 +13,12 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('global/window'), require('global/document')) :
   typeof define === 'function' && define.amd ? define(['global/window', 'global/document'], factory) :
-  (global = global || self, global.videojs = factory(global.window, global.document));
-}(this, function (window$1, document) {
+  (global.videojs = factory(global.window,global.document));
+}(this, (function (window$1,document) {
   window$1 = window$1 && window$1.hasOwnProperty('default') ? window$1['default'] : window$1;
   document = document && document.hasOwnProperty('default') ? document['default'] : document;
 
-  var version = "7.5.0";
+  var version = "7.4.1";
 
   function _inheritsLoose(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
@@ -2185,7 +2185,7 @@
    * @param    {Function} fn
    *           The function to be throttled.
    *
-   * @param    {number}   wait
+   * @param    {Number}   wait
    *           The number of milliseconds by which to throttle.
    *
    * @return   {Function}
@@ -3156,10 +3156,8 @@
         this.player_ = player = this; // eslint-disable-line
       } else {
         this.player_ = player;
-      } // Hold the reference to the parent component via `addChild` method
+      } // Make a copy of prototype.options_ to protect against overriding defaults
 
-
-      this.parentComponent_ = null; // Make a copy of prototype.options_ to protect against overriding defaults
 
       this.options_ = mergeOptions({}, this.options_); // Updated options with supplied options
 
@@ -3242,7 +3240,6 @@
       this.children_ = null;
       this.childIndex_ = null;
       this.childNameIndex_ = null;
-      this.parentComponent_ = null;
 
       if (this.el_) {
         // Remove element from DOM
@@ -3256,18 +3253,18 @@
 
 
       this.player_ = null;
-    }
+    };
     /**
      * Return the {@link Player} that the `Component` has attached to.
      *
      * @return {Player}
      *         The player that this `Component` has attached to.
      */
-    ;
+
 
     _proto.player = function player() {
       return this.player_;
-    }
+    };
     /**
      * Deep merge of options objects with new options.
      * > Note: When both `obj` and `options` contain properties whose values are objects.
@@ -3281,7 +3278,7 @@
      *
      * @deprecated since version 5
      */
-    ;
+
 
     _proto.options = function options(obj) {
       log.warn('this.options() has been deprecated and will be moved to the constructor in 6.0');
@@ -3292,18 +3289,18 @@
 
       this.options_ = mergeOptions(this.options_, obj);
       return this.options_;
-    }
+    };
     /**
      * Get the `Component`s DOM element
      *
      * @return {Element}
      *         The DOM element for this `Component`.
      */
-    ;
+
 
     _proto.el = function el() {
       return this.el_;
-    }
+    };
     /**
      * Create the `Component`s DOM element.
      *
@@ -3319,11 +3316,11 @@
      * @return {Element}
      *         The element that gets created.
      */
-    ;
+
 
     _proto.createEl = function createEl$$1(tagName, properties, attributes) {
       return createEl(tagName, properties, attributes);
-    }
+    };
     /**
      * Localize a string given the string in english.
      *
@@ -3362,7 +3359,7 @@
      * @return {string}
      *         The localized string or if no localization exists the english string.
      */
-    ;
+
 
     _proto.localize = function localize(string, tokens, defaultValue) {
       if (defaultValue === void 0) {
@@ -3396,7 +3393,7 @@
       }
 
       return localizedString;
-    }
+    };
     /**
      * Return the `Component`s DOM element. This is where children get inserted.
      * This will usually be the the same as the element returned in {@link Component#el}.
@@ -3404,22 +3401,22 @@
      * @return {Element}
      *         The content element for this `Component`.
      */
-    ;
+
 
     _proto.contentEl = function contentEl() {
       return this.contentEl_ || this.el_;
-    }
+    };
     /**
      * Get this `Component`s ID
      *
      * @return {string}
      *         The id of this `Component`
      */
-    ;
+
 
     _proto.id = function id() {
       return this.id_;
-    }
+    };
     /**
      * Get the `Component`s name. The name gets used to reference the `Component`
      * and is set during registration.
@@ -3427,22 +3424,22 @@
      * @return {string}
      *         The name of this `Component`.
      */
-    ;
+
 
     _proto.name = function name() {
       return this.name_;
-    }
+    };
     /**
      * Get an array of all child components
      *
      * @return {Array}
      *         The children
      */
-    ;
+
 
     _proto.children = function children() {
       return this.children_;
-    }
+    };
     /**
      * Returns the child `Component` with the given `id`.
      *
@@ -3452,11 +3449,11 @@
      * @return {Component|undefined}
      *         The child `Component` with the given `id` or undefined.
      */
-    ;
+
 
     _proto.getChildById = function getChildById(id) {
       return this.childIndex_[id];
-    }
+    };
     /**
      * Returns the child `Component` with the given `name`.
      *
@@ -3466,7 +3463,7 @@
      * @return {Component|undefined}
      *         The child `Component` with the given `name` or undefined.
      */
-    ;
+
 
     _proto.getChild = function getChild(name) {
       if (!name) {
@@ -3475,7 +3472,7 @@
 
       name = toTitleCase(name);
       return this.childNameIndex_[name];
-    }
+    };
     /**
      * Add a child `Component` inside the current `Component`.
      *
@@ -3494,7 +3491,7 @@
      *         The `Component` that gets added as a child. When using a string the
      *         `Component` will get created by this process.
      */
-    ;
+
 
     _proto.addChild = function addChild(child, options, index) {
       if (options === void 0) {
@@ -3534,12 +3531,7 @@
         component = child;
       }
 
-      if (component.parentComponent_) {
-        component.parentComponent_.removeChild(component);
-      }
-
       this.children_.splice(index, 0, component);
-      component.parentComponent_ = this;
 
       if (typeof component.id === 'function') {
         this.childIndex_[component.id()] = component;
@@ -3563,7 +3555,7 @@
 
 
       return component;
-    }
+    };
     /**
      * Remove a child `Component` from this `Component`s list of children. Also removes
      * the child `Component`s element from this `Component`s element.
@@ -3571,7 +3563,7 @@
      * @param {Component} component
      *        The child `Component` to remove.
      */
-    ;
+
 
     _proto.removeChild = function removeChild(component) {
       if (typeof component === 'string') {
@@ -3596,7 +3588,6 @@
         return;
       }
 
-      component.parentComponent_ = null;
       this.childIndex_[component.id()] = null;
       this.childNameIndex_[component.name()] = null;
       var compEl = component.el();
@@ -3604,11 +3595,11 @@
       if (compEl && compEl.parentNode === this.contentEl()) {
         this.contentEl().removeChild(component.el());
       }
-    }
+    };
     /**
      * Add and initialize default child `Component`s based upon options.
      */
-    ;
+
 
     _proto.initChildren = function initChildren() {
       var _this = this;
@@ -3700,7 +3691,7 @@
           return c && !Tech.isTech(c);
         }).forEach(handleAdd);
       }
-    }
+    };
     /**
      * Builds the default DOM class name. Should be overriden by sub-components.
      *
@@ -3709,13 +3700,13 @@
      *
      * @abstract
      */
-    ;
+
 
     _proto.buildCSSClass = function buildCSSClass() {
       // Child classes can include a function that does:
       // return 'CLASS NAME' + this._super();
       return '';
-    }
+    };
     /**
      * Bind a listener to the component's ready state.
      * Different from event listeners in that if the ready event has already happened
@@ -3724,7 +3715,7 @@
      * @return {Component}
      *         Returns itself; method can be chained.
      */
-    ;
+
 
     _proto.ready = function ready(fn, sync) {
       if (sync === void 0) {
@@ -3747,13 +3738,13 @@
         // Call the function asynchronously by default for consistency
         this.setTimeout(fn, 1);
       }
-    }
+    };
     /**
      * Trigger all the ready listeners for this `Component`.
      *
      * @fires Component#ready
      */
-    ;
+
 
     _proto.triggerReady = function triggerReady() {
       this.isReady_ = true; // Ensure ready is triggered asynchronously
@@ -3779,7 +3770,7 @@
 
         this.trigger('ready');
       }, 1);
-    }
+    };
     /**
      * Find a single DOM element matching a `selector`. This can be within the `Component`s
      * `contentEl()` or another custom context.
@@ -3798,11 +3789,11 @@
      *
      * @see [Information on CSS Selectors](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_Started/Selectors)
      */
-    ;
+
 
     _proto.$ = function $$$1(selector, context) {
       return $(selector, context || this.contentEl());
-    }
+    };
     /**
      * Finds all DOM element matching a `selector`. This can be within the `Component`s
      * `contentEl()` or another custom context.
@@ -3821,11 +3812,11 @@
      *
      * @see [Information on CSS Selectors](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_Started/Selectors)
      */
-    ;
+
 
     _proto.$$ = function $$$$1(selector, context) {
       return $$(selector, context || this.contentEl());
-    }
+    };
     /**
      * Check if a component's element has a CSS class name.
      *
@@ -3836,33 +3827,33 @@
      *         - True if the `Component` has the class.
      *         - False if the `Component` does not have the class`
      */
-    ;
+
 
     _proto.hasClass = function hasClass$$1(classToCheck) {
       return hasClass(this.el_, classToCheck);
-    }
+    };
     /**
      * Add a CSS class name to the `Component`s element.
      *
      * @param {string} classToAdd
      *        CSS class name to add
      */
-    ;
+
 
     _proto.addClass = function addClass$$1(classToAdd) {
       addClass(this.el_, classToAdd);
-    }
+    };
     /**
      * Remove a CSS class name from the `Component`s element.
      *
      * @param {string} classToRemove
      *        CSS class name to remove
      */
-    ;
+
 
     _proto.removeClass = function removeClass$$1(classToRemove) {
       removeClass(this.el_, classToRemove);
-    }
+    };
     /**
      * Add or remove a CSS class name from the component's element.
      * - `classToToggle` gets added when {@link Component#hasClass} would return false.
@@ -3874,51 +3865,51 @@
      * @param  {boolean|Dom~predicate} [predicate]
      *         An {@link Dom~predicate} function or a boolean
      */
-    ;
+
 
     _proto.toggleClass = function toggleClass$$1(classToToggle, predicate) {
       toggleClass(this.el_, classToToggle, predicate);
-    }
+    };
     /**
      * Show the `Component`s element if it is hidden by removing the
      * 'vjs-hidden' class name from it.
      */
-    ;
+
 
     _proto.show = function show() {
       this.removeClass('vjs-hidden');
-    }
+    };
     /**
      * Hide the `Component`s element if it is currently showing by adding the
      * 'vjs-hidden` class name to it.
      */
-    ;
+
 
     _proto.hide = function hide() {
       this.addClass('vjs-hidden');
-    }
+    };
     /**
      * Lock a `Component`s element in its visible state by adding the 'vjs-lock-showing'
      * class name to it. Used during fadeIn/fadeOut.
      *
      * @private
      */
-    ;
+
 
     _proto.lockShowing = function lockShowing() {
       this.addClass('vjs-lock-showing');
-    }
+    };
     /**
      * Unlock a `Component`s element from its visible state by removing the 'vjs-lock-showing'
      * class name from it. Used during fadeIn/fadeOut.
      *
      * @private
      */
-    ;
+
 
     _proto.unlockShowing = function unlockShowing() {
       this.removeClass('vjs-lock-showing');
-    }
+    };
     /**
      * Get the value of an attribute on the `Component`s element.
      *
@@ -3934,11 +3925,11 @@
      *
      * @see [DOM API]{@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute}
      */
-    ;
+
 
     _proto.getAttribute = function getAttribute$$1(attribute) {
       return getAttribute(this.el_, attribute);
-    }
+    };
     /**
      * Set the value of an attribute on the `Component`'s element
      *
@@ -3950,11 +3941,11 @@
      *
      * @see [DOM API]{@link https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute}
      */
-    ;
+
 
     _proto.setAttribute = function setAttribute$$1(attribute, value) {
       setAttribute(this.el_, attribute, value);
-    }
+    };
     /**
      * Remove an attribute from the `Component`s element.
      *
@@ -3963,11 +3954,11 @@
      *
      * @see [DOM API]{@link https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute}
      */
-    ;
+
 
     _proto.removeAttribute = function removeAttribute$$1(attribute) {
       removeAttribute(this.el_, attribute);
-    }
+    };
     /**
      * Get or set the width of the component based upon the CSS styles.
      * See {@link Component#dimension} for more detailed information.
@@ -3982,11 +3973,11 @@
      *         The width when getting, zero if there is no width. Can be a string
      *           postpixed with '%' or 'px'.
      */
-    ;
+
 
     _proto.width = function width(num, skipListeners) {
       return this.dimension('width', num, skipListeners);
-    }
+    };
     /**
      * Get or set the height of the component based upon the CSS styles.
      * See {@link Component#dimension} for more detailed information.
@@ -4001,11 +3992,11 @@
      *         The width when getting, zero if there is no width. Can be a string
      *         postpixed with '%' or 'px'.
      */
-    ;
+
 
     _proto.height = function height(num, skipListeners) {
       return this.dimension('height', num, skipListeners);
-    }
+    };
     /**
      * Set both the width and height of the `Component` element at the same time.
      *
@@ -4015,13 +4006,13 @@
      * @param  {number|string} height
      *         Height to set the `Component`s element to.
      */
-    ;
+
 
     _proto.dimensions = function dimensions(width, height) {
       // Skip componentresize listeners on width for optimization
       this.width(width, true);
       this.height(height);
-    }
+    };
     /**
      * Get or set width or height of the `Component` element. This is the shared code
      * for the {@link Component#width} and {@link Component#height}.
@@ -4050,7 +4041,7 @@
      * @return {number}
      *         The dimension when getting or 0 if unset
      */
-    ;
+
 
     _proto.dimension = function dimension(widthOrHeight, num, skipListeners) {
       if (num !== undefined) {
@@ -4101,7 +4092,7 @@
 
 
       return parseInt(this.el_['offset' + toTitleCase(widthOrHeight)], 10);
-    }
+    };
     /**
      * Get the computed width or the height of the component's element.
      *
@@ -4114,7 +4105,7 @@
      *         The dimension that gets asked for or 0 if nothing was set
      *         for that dimension.
      */
-    ;
+
 
     _proto.currentDimension = function currentDimension(widthOrHeight) {
       var computedWidthOrHeight = 0;
@@ -4139,7 +4130,7 @@
       }
 
       return computedWidthOrHeight;
-    }
+    };
     /**
      * An object that contains width and height values of the `Component`s
      * computed style. Uses `window.getComputedStyle`.
@@ -4162,14 +4153,14 @@
      * @return {Component~DimensionObject}
      *         The computed dimensions of the component's element.
      */
-    ;
+
 
     _proto.currentDimensions = function currentDimensions() {
       return {
         width: this.currentDimension('width'),
         height: this.currentDimension('height')
       };
-    }
+    };
     /**
      * Get the computed width of the component's element.
      *
@@ -4178,11 +4169,11 @@
      * @return {number}
      *         The computed width of the component's element.
      */
-    ;
+
 
     _proto.currentWidth = function currentWidth() {
       return this.currentDimension('width');
-    }
+    };
     /**
      * Get the computed height of the component's element.
      *
@@ -4191,41 +4182,27 @@
      * @return {number}
      *         The computed height of the component's element.
      */
-    ;
+
 
     _proto.currentHeight = function currentHeight() {
       return this.currentDimension('height');
-    }
+    };
     /**
      * Set the focus to this component
      */
-    ;
+
 
     _proto.focus = function focus() {
       this.el_.focus();
-    }
+    };
     /**
      * Remove the focus from this component
      */
-    ;
+
 
     _proto.blur = function blur() {
       this.el_.blur();
-    }
-    /**
-     * When this Component receives a keydown event which it does not process,
-     *  it passes the event to the Player for handling.
-     *
-     * @param {EventTarget~Event} event
-     *        The `keydown` event that caused this function to be called.
-     */
-    ;
-
-    _proto.handleKeyPress = function handleKeyPress(event) {
-      if (this.player_) {
-        this.player_.handleKeyPress(event);
-      }
-    }
+    };
     /**
      * Emit a 'tap' events when touch event support gets detected. This gets used to
      * support toggling the controls through a tap on the video. They get enabled
@@ -4239,7 +4216,7 @@
      * @listens Component#touchcancel
      * @listens Component#touchend
       */
-    ;
+
 
     _proto.emitTapEvents = function emitTapEvents() {
       // Track the start time so we can determine how long the touch lasted
@@ -4315,7 +4292,7 @@
           }
         }
       });
-    }
+    };
     /**
      * This function reports user activity whenever touch events happen. This can get
      * turned off by any sub-components that wants touch events to act another way.
@@ -4339,7 +4316,7 @@
      * @listens Component#touchend
      * @listens Component#touchcancel
      */
-    ;
+
 
     _proto.enableTouchActivity = function enableTouchActivity() {
       // Don't continue if the root player doesn't support reporting user activity
@@ -4369,7 +4346,7 @@
       this.on('touchmove', report);
       this.on('touchend', touchEnd);
       this.on('touchcancel', touchEnd);
-    }
+    };
     /**
      * A callback that has no parameters and is bound into `Component`s context.
      *
@@ -4403,7 +4380,7 @@
      * @listens Component#dispose
      * @see [Similar to]{@link https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout}
      */
-    ;
+
 
     _proto.setTimeout = function setTimeout(fn, timeout) {
       var _this2 = this;
@@ -4425,7 +4402,7 @@
       disposeFn.guid = "vjs-timeout-" + timeoutId;
       this.on('dispose', disposeFn);
       return timeoutId;
-    }
+    };
     /**
      * Clears a timeout that gets created via `window.setTimeout` or
      * {@link Component#setTimeout}. If you set a timeout via {@link Component#setTimeout}
@@ -4441,7 +4418,7 @@
      *
      * @see [Similar to]{@link https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/clearTimeout}
      */
-    ;
+
 
     _proto.clearTimeout = function clearTimeout(timeoutId) {
       window$1.clearTimeout(timeoutId);
@@ -4451,7 +4428,7 @@
       disposeFn.guid = "vjs-timeout-" + timeoutId;
       this.off('dispose', disposeFn);
       return timeoutId;
-    }
+    };
     /**
      * Creates a function that gets run every `x` milliseconds. This function is a wrapper
      * around `window.setInterval`. There are a few reasons to use this one instead though.
@@ -4472,7 +4449,7 @@
      * @listens Component#dispose
      * @see [Similar to]{@link https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval}
      */
-    ;
+
 
     _proto.setInterval = function setInterval(fn, interval) {
       var _this3 = this;
@@ -4487,7 +4464,7 @@
       disposeFn.guid = "vjs-interval-" + intervalId;
       this.on('dispose', disposeFn);
       return intervalId;
-    }
+    };
     /**
      * Clears an interval that gets created via `window.setInterval` or
      * {@link Component#setInterval}. If you set an inteval via {@link Component#setInterval}
@@ -4503,7 +4480,7 @@
      *
      * @see [Similar to]{@link https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/clearInterval}
      */
-    ;
+
 
     _proto.clearInterval = function clearInterval(intervalId) {
       window$1.clearInterval(intervalId);
@@ -4513,7 +4490,7 @@
       disposeFn.guid = "vjs-interval-" + intervalId;
       this.off('dispose', disposeFn);
       return intervalId;
-    }
+    };
     /**
      * Queues up a callback to be passed to requestAnimationFrame (rAF), but
      * with a few extra bonuses:
@@ -4539,7 +4516,7 @@
      * @listens Component#dispose
      * @see [Similar to]{@link https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame}
      */
-    ;
+
 
     _proto.requestAnimationFrame = function requestAnimationFrame(fn) {
       var _this4 = this;
@@ -4567,7 +4544,7 @@
 
 
       return this.setTimeout(fn, 1000 / 60);
-    }
+    };
     /**
      * Cancels a queued callback passed to {@link Component#requestAnimationFrame}
      * (rAF).
@@ -4584,7 +4561,7 @@
      *
      * @see [Similar to]{@link https://developer.mozilla.org/en-US/docs/Web/API/window/cancelAnimationFrame}
      */
-    ;
+
 
     _proto.cancelAnimationFrame = function cancelAnimationFrame(id) {
       if (this.supportsRaf_) {
@@ -4599,7 +4576,7 @@
 
 
       return this.clearTimeout(id);
-    }
+    };
     /**
      * Register a `Component` with `videojs` given the name and the component.
      *
@@ -4619,7 +4596,7 @@
      * @return {Component}
      *         The `Component` that was registered.
      */
-    ;
+
 
     Component.registerComponent = function registerComponent(name, ComponentToRegister) {
       if (typeof name !== 'string' || !name) {
@@ -4667,7 +4644,7 @@
 
       Component.components_[name] = ComponentToRegister;
       return ComponentToRegister;
-    }
+    };
     /**
      * Get a `Component` based on the name it was registered with.
      *
@@ -4682,7 +4659,7 @@
      *             check the global `videojs` object for a `Component` name and
      *             return that if it exists.
      */
-    ;
+
 
     Component.getComponent = function getComponent(name) {
       if (!name) {
@@ -5138,8 +5115,7 @@
   ['mozRequestFullScreen', 'mozCancelFullScreen', 'mozFullScreenElement', 'mozFullScreenEnabled', 'mozfullscreenchange', 'mozfullscreenerror'], // Microsoft
   ['msRequestFullscreen', 'msExitFullscreen', 'msFullscreenElement', 'msFullscreenEnabled', 'MSFullscreenChange', 'MSFullscreenError']];
   var specApi = apiMap[0];
-  var browserApi;
-  var prefixedAPI = false; // determine the supported set of functions
+  var browserApi; // determine the supported set of functions
 
   for (var i = 0; i < apiMap.length; i++) {
     // check for exitFullscreen function
@@ -5154,8 +5130,6 @@
     for (var _i = 0; _i < browserApi.length; _i++) {
       FullscreenApi[specApi[_i]] = browserApi[_i];
     }
-
-    prefixedAPI = browserApi[0] === specApi[0];
   }
 
   /**
@@ -5413,207 +5387,8 @@
     trackToJson_: trackToJson_
   };
 
-  function createCommonjsModule(fn, module) {
-  	return module = { exports: {} }, fn(module, module.exports), module.exports;
-  }
-
-  var keycode = createCommonjsModule(function (module, exports) {
-    // Source: http://jsfiddle.net/vWx8V/
-    // http://stackoverflow.com/questions/5603195/full-list-of-javascript-keycodes
-
-    /**
-     * Conenience method returns corresponding value for given keyName or keyCode.
-     *
-     * @param {Mixed} keyCode {Number} or keyName {String}
-     * @return {Mixed}
-     * @api public
-     */
-    function keyCode(searchInput) {
-      // Keyboard Events
-      if (searchInput && 'object' === typeof searchInput) {
-        var hasKeyCode = searchInput.which || searchInput.keyCode || searchInput.charCode;
-        if (hasKeyCode) searchInput = hasKeyCode;
-      } // Numbers
-
-
-      if ('number' === typeof searchInput) return names[searchInput]; // Everything else (cast to string)
-
-      var search = String(searchInput); // check codes
-
-      var foundNamedKey = codes[search.toLowerCase()];
-      if (foundNamedKey) return foundNamedKey; // check aliases
-
-      var foundNamedKey = aliases[search.toLowerCase()];
-      if (foundNamedKey) return foundNamedKey; // weird character?
-
-      if (search.length === 1) return search.charCodeAt(0);
-      return undefined;
-    }
-    /**
-     * Compares a keyboard event with a given keyCode or keyName.
-     *
-     * @param {Event} event Keyboard event that should be tested
-     * @param {Mixed} keyCode {Number} or keyName {String}
-     * @return {Boolean}
-     * @api public
-     */
-
-
-    keyCode.isEventKey = function isEventKey(event, nameOrCode) {
-      if (event && 'object' === typeof event) {
-        var keyCode = event.which || event.keyCode || event.charCode;
-
-        if (keyCode === null || keyCode === undefined) {
-          return false;
-        }
-
-        if (typeof nameOrCode === 'string') {
-          // check codes
-          var foundNamedKey = codes[nameOrCode.toLowerCase()];
-
-          if (foundNamedKey) {
-            return foundNamedKey === keyCode;
-          } // check aliases
-
-
-          var foundNamedKey = aliases[nameOrCode.toLowerCase()];
-
-          if (foundNamedKey) {
-            return foundNamedKey === keyCode;
-          }
-        } else if (typeof nameOrCode === 'number') {
-          return nameOrCode === keyCode;
-        }
-
-        return false;
-      }
-    };
-
-    exports = module.exports = keyCode;
-    /**
-     * Get by name
-     *
-     *   exports.code['enter'] // => 13
-     */
-
-    var codes = exports.code = exports.codes = {
-      'backspace': 8,
-      'tab': 9,
-      'enter': 13,
-      'shift': 16,
-      'ctrl': 17,
-      'alt': 18,
-      'pause/break': 19,
-      'caps lock': 20,
-      'esc': 27,
-      'space': 32,
-      'page up': 33,
-      'page down': 34,
-      'end': 35,
-      'home': 36,
-      'left': 37,
-      'up': 38,
-      'right': 39,
-      'down': 40,
-      'insert': 45,
-      'delete': 46,
-      'command': 91,
-      'left command': 91,
-      'right command': 93,
-      'numpad *': 106,
-      'numpad +': 107,
-      'numpad -': 109,
-      'numpad .': 110,
-      'numpad /': 111,
-      'num lock': 144,
-      'scroll lock': 145,
-      'my computer': 182,
-      'my calculator': 183,
-      ';': 186,
-      '=': 187,
-      ',': 188,
-      '-': 189,
-      '.': 190,
-      '/': 191,
-      '`': 192,
-      '[': 219,
-      '\\': 220,
-      ']': 221,
-      "'": 222 // Helper aliases
-
-    };
-    var aliases = exports.aliases = {
-      'windows': 91,
-      '⇧': 16,
-      '⌥': 18,
-      '⌃': 17,
-      '⌘': 91,
-      'ctl': 17,
-      'control': 17,
-      'option': 18,
-      'pause': 19,
-      'break': 19,
-      'caps': 20,
-      'return': 13,
-      'escape': 27,
-      'spc': 32,
-      'spacebar': 32,
-      'pgup': 33,
-      'pgdn': 34,
-      'ins': 45,
-      'del': 46,
-      'cmd': 91
-      /*!
-       * Programatically add the following
-       */
-      // lower case chars
-
-    };
-
-    for (i = 97; i < 123; i++) {
-      codes[String.fromCharCode(i)] = i - 32;
-    } // numbers
-
-
-    for (var i = 48; i < 58; i++) {
-      codes[i - 48] = i;
-    } // function keys
-
-
-    for (i = 1; i < 13; i++) {
-      codes['f' + i] = i + 111;
-    } // numpad keys
-
-
-    for (i = 0; i < 10; i++) {
-      codes['numpad ' + i] = i + 96;
-    }
-    /**
-     * Get by code
-     *
-     *   exports.name[13] // => 'Enter'
-     */
-
-
-    var names = exports.names = exports.title = {}; // title for backward compat
-    // Create reverse mapping
-
-    for (i in codes) {
-      names[codes[i]] = i;
-    } // Add aliases
-
-
-    for (var alias in aliases) {
-      codes[alias] = aliases[alias];
-    }
-  });
-  var keycode_1 = keycode.code;
-  var keycode_2 = keycode.codes;
-  var keycode_3 = keycode.aliases;
-  var keycode_4 = keycode.names;
-  var keycode_5 = keycode.title;
-
   var MODAL_CLASS_NAME = 'vjs-modal-dialog';
+  var ESC = 27;
   /**
    * The `ModalDialog` displays over the video and its controls, which blocks
    * interaction with the player until it is closed.
@@ -5719,45 +5494,45 @@
       this.previouslyActiveEl_ = null;
 
       _Component.prototype.dispose.call(this);
-    }
+    };
     /**
      * Builds the default DOM `className`.
      *
      * @return {string}
      *         The DOM `className` for this object.
      */
-    ;
+
 
     _proto.buildCSSClass = function buildCSSClass() {
       return MODAL_CLASS_NAME + " vjs-hidden " + _Component.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * Handles `keydown` events on the document, looking for ESC, which closes
      * the modal.
      *
-     * @param {EventTarget~Event} event
+     * @param {EventTarget~Event} e
      *        The keypress that triggered this event.
      *
      * @listens keydown
      */
-    ;
 
-    _proto.handleKeyPress = function handleKeyPress(event) {
-      if (keycode.isEventKey(event, 'Escape') && this.closeable()) {
+
+    _proto.handleKeyPress = function handleKeyPress(e) {
+      if (e.which === ESC && this.closeable()) {
         this.close();
       }
-    }
+    };
     /**
      * Returns the label string for this modal. Primarily used for accessibility.
      *
      * @return {string}
      *         the localized or raw label of this modal.
      */
-    ;
+
 
     _proto.label = function label() {
       return this.localize(this.options_.label || 'Modal Window');
-    }
+    };
     /**
      * Returns the description string for this modal. Primarily used for
      * accessibility.
@@ -5765,7 +5540,7 @@
      * @return {string}
      *         The localized or raw description of this modal.
      */
-    ;
+
 
     _proto.description = function description() {
       var desc = this.options_.description || this.localize('This is a modal window.'); // Append a universal closeability message if the modal is closeable.
@@ -5775,14 +5550,14 @@
       }
 
       return desc;
-    }
+    };
     /**
      * Opens the modal.
      *
      * @fires ModalDialog#beforemodalopen
      * @fires ModalDialog#modalopen
      */
-    ;
+
 
     _proto.open = function open() {
       if (!this.opened_) {
@@ -5830,7 +5605,7 @@
         this.trigger('modalopen');
         this.hasBeenOpened_ = true;
       }
-    }
+    };
     /**
      * If the `ModalDialog` is currently open or closed.
      *
@@ -5840,7 +5615,7 @@
      * @return {boolean}
      *         the current open state of the modaldialog
      */
-    ;
+
 
     _proto.opened = function opened(value) {
       if (typeof value === 'boolean') {
@@ -5848,7 +5623,7 @@
       }
 
       return this.opened_;
-    }
+    };
     /**
      * Closes the modal, does nothing if the `ModalDialog` is
      * not open.
@@ -5856,7 +5631,7 @@
      * @fires ModalDialog#beforemodalclose
      * @fires ModalDialog#modalclose
      */
-    ;
+
 
     _proto.close = function close() {
       if (!this.opened_) {
@@ -5901,7 +5676,7 @@
       if (this.options_.temporary) {
         this.dispose();
       }
-    }
+    };
     /**
      * Check to see if the `ModalDialog` is closeable via the UI.
      *
@@ -5911,7 +5686,7 @@
      * @return {boolean}
      *         Returns the final value of the closable option.
      */
-    ;
+
 
     _proto.closeable = function closeable(value) {
       if (typeof value === 'boolean') {
@@ -5939,16 +5714,16 @@
       }
 
       return this.closeable_;
-    }
+    };
     /**
      * Fill the modal's content element with the modal's "content" option.
      * The content element will be emptied before this change takes place.
      */
-    ;
+
 
     _proto.fill = function fill() {
       this.fillWith(this.content());
-    }
+    };
     /**
      * Fill the modal's content element with arbitrary content.
      * The content element will be emptied before this change takes place.
@@ -5959,7 +5734,7 @@
      * @param {Mixed} [content]
      *        The same rules apply to this as apply to the `content` option.
      */
-    ;
+
 
     _proto.fillWith = function fillWith(content) {
       var contentEl = this.contentEl();
@@ -6000,14 +5775,14 @@
       if (closeButton) {
         parentEl.appendChild(closeButton.el_);
       }
-    }
+    };
     /**
      * Empties the content element. This happens anytime the modal is filled.
      *
      * @fires ModalDialog#beforemodalempty
      * @fires ModalDialog#modalempty
      */
-    ;
+
 
     _proto.empty = function empty() {
       /**
@@ -6026,7 +5801,7 @@
       */
 
       this.trigger('modalempty');
-    }
+    };
     /**
      * Gets or sets the modal content, which gets normalized before being
      * rendered into the DOM.
@@ -6042,7 +5817,7 @@
      * @return {Mixed}
      *         The current content of the modal dialog
      */
-    ;
+
 
     _proto.content = function content(value) {
       if (typeof value !== 'undefined') {
@@ -6050,13 +5825,13 @@
       }
 
       return this.content_;
-    }
+    };
     /**
      * conditionally focus the modal dialog if focus was previously on the player.
      *
      * @private
      */
-    ;
+
 
     _proto.conditionalFocus_ = function conditionalFocus_() {
       var activeEl = document.activeElement;
@@ -6068,13 +5843,13 @@
         this.focus();
         this.on(document, 'keydown', this.handleKeyDown);
       }
-    }
+    };
     /**
      * conditionally blur the element and refocus the last focused element
      *
      * @private
      */
-    ;
+
 
     _proto.conditionalBlur_ = function conditionalBlur_() {
       if (this.previouslyActiveEl_) {
@@ -6083,17 +5858,17 @@
       }
 
       this.off(document, 'keydown', this.handleKeyDown);
-    }
+    };
     /**
      * Keydown handler. Attached when modal is focused.
      *
      * @listens keydown
      */
-    ;
+
 
     _proto.handleKeyDown = function handleKeyDown(event) {
       // exit early if it isn't a tab key
-      if (!keycode.isEventKey(event, 'Tab')) {
+      if (event.which !== 9) {
         return;
       }
 
@@ -6119,13 +5894,13 @@
         focusableEls[0].focus();
         event.preventDefault();
       }
-    }
+    };
     /**
      * get all focusable elements
      *
      * @private
      */
-    ;
+
 
     _proto.focusableEls_ = function focusableEls_() {
       var allChildren = this.el_.querySelectorAll('*');
@@ -6238,7 +6013,7 @@
           type: 'addtrack'
         });
       }
-    }
+    };
     /**
      * Remove a {@link Track} from the `TrackList`
      *
@@ -6247,7 +6022,7 @@
      *
      * @fires TrackList#removetrack
      */
-    ;
+
 
     _proto.removeTrack = function removeTrack(rtrack) {
       var track;
@@ -6282,7 +6057,7 @@
         track: track,
         type: 'removetrack'
       });
-    }
+    };
     /**
      * Get a Track from the TrackList by a tracks id
      *
@@ -6291,7 +6066,7 @@
      * @return {Track}
      * @private
      */
-    ;
+
 
     _proto.getTrackById = function getTrackById(id) {
       var result = null;
@@ -6687,7 +6462,7 @@
       if (this.trackElements_.indexOf(trackElement) === -1) {
         this.trackElements_.push(trackElement);
       }
-    }
+    };
     /**
      * Get an {@link HtmlTrackElement} from the `HtmlTrackElementList` given an
      * {@link TextTrack}.
@@ -6700,7 +6475,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.getTrackElementByTrack_ = function getTrackElementByTrack_(track) {
       var trackElement_;
@@ -6713,7 +6488,7 @@
       }
 
       return trackElement_;
-    }
+    };
     /**
      * Remove a {@link HtmlTrackElement} from the `HtmlTrackElementList`
      *
@@ -6722,7 +6497,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.removeTrackElement_ = function removeTrackElement_(trackElement) {
       for (var i = 0, length = this.trackElements_.length; i < length; i++) {
@@ -6824,7 +6599,7 @@
           defineProp.call(this, i);
         }
       }
-    }
+    };
     /**
      * Get a `TextTrackCue` that is currently in the `TextTrackCueList` by id.
      *
@@ -6834,7 +6609,7 @@
      * @return {TextTrackCueList~TextTrackCue|null}
      *         A single cue or null if none was found.
      */
-    ;
+
 
     _proto.getCueById = function getCueById(id) {
       var result = null;
@@ -7145,7 +6920,7 @@
    * @param    {string} path
    *           The fileName path like '/path/to/file.mp4'
    *
-   * @return  {string}
+   * @returns  {string}
    *           The extension in lower case or an empty string if no
    *           extension could be found.
    */
@@ -7198,6 +6973,10 @@
     var string = toString$1.call(fn);
     return string === '[object Function]' || typeof fn === 'function' && string !== '[object RegExp]' || typeof window !== 'undefined' && ( // IE8 and below
     fn === window.setTimeout || fn === window.alert || fn === window.confirm || fn === window.prompt);
+  }
+
+  function createCommonjsModule(fn, module) {
+  	return module = { exports: {} }, fn(module, module.exports), module.exports;
   }
 
   var trim_1 = createCommonjsModule(function (module, exports) {
@@ -7993,14 +7772,14 @@
 
       this.cues_.push(cue);
       this.cues.setCues_(this.cues_);
-    }
+    };
     /**
      * Remove a cue from our internal list
      *
      * @param {TextTrack~Cue} removeCue
      *        The cue to remove from our internal list
      */
-    ;
+
 
     _proto.removeCue = function removeCue(_removeCue) {
       var i = this.cues_.length;
@@ -10401,7 +10180,7 @@
         src: src,
         type: 'sourceset'
       });
-    }
+    };
     /* Fallbacks for unsupported event types
     ================================================================================ */
 
@@ -10410,25 +10189,25 @@
      *
      * @see {@link Tech#trackProgress}
      */
-    ;
+
 
     _proto.manualProgressOn = function manualProgressOn() {
       this.on('durationchange', this.onDurationChange);
       this.manualProgress = true; // Trigger progress watching when a source begins loading
 
       this.one('ready', this.trackProgress);
-    }
+    };
     /**
      * Turn off the polyfill for `progress` events that was created in
      * {@link Tech#manualProgressOn}
      */
-    ;
+
 
     _proto.manualProgressOff = function manualProgressOff() {
       this.manualProgress = false;
       this.stopTrackingProgress();
       this.off('durationchange', this.onDurationChange);
-    }
+    };
     /**
      * This is used to trigger a `progress` event when the buffered percent changes. It
      * sets an interval function that will be called every 500 milliseconds to check if the
@@ -10442,7 +10221,7 @@
      * @listens Tech#ready
      * @fires Tech#progress
      */
-    ;
+
 
     _proto.trackProgress = function trackProgress(event) {
       this.stopTrackingProgress();
@@ -10466,7 +10245,7 @@
           this.stopTrackingProgress();
         }
       }), 500);
-    }
+    };
     /**
      * Update our internal duration on a `durationchange` event by calling
      * {@link Tech#duration}.
@@ -10476,22 +10255,22 @@
      *
      * @listens Tech#durationchange
      */
-    ;
+
 
     _proto.onDurationChange = function onDurationChange(event) {
       this.duration_ = this.duration();
-    }
+    };
     /**
      * Get and create a `TimeRange` object for buffering.
      *
      * @return {TimeRange}
      *         The time range object that was created.
      */
-    ;
+
 
     _proto.buffered = function buffered() {
       return createTimeRanges(0, 0);
-    }
+    };
     /**
      * Get the percentage of the current video that is currently buffered.
      *
@@ -10500,46 +10279,46 @@
      *         video that is buffered.
      *
      */
-    ;
+
 
     _proto.bufferedPercent = function bufferedPercent$$1() {
       return bufferedPercent(this.buffered(), this.duration_);
-    }
+    };
     /**
      * Turn off the polyfill for `progress` events that was created in
      * {@link Tech#manualProgressOn}
      * Stop manually tracking progress events by clearing the interval that was set in
      * {@link Tech#trackProgress}.
      */
-    ;
+
 
     _proto.stopTrackingProgress = function stopTrackingProgress() {
       this.clearInterval(this.progressInterval);
-    }
+    };
     /**
      * Polyfill the `timeupdate` event for browsers that don't support it.
      *
      * @see {@link Tech#trackCurrentTime}
      */
-    ;
+
 
     _proto.manualTimeUpdatesOn = function manualTimeUpdatesOn() {
       this.manualTimeUpdates = true;
       this.on('play', this.trackCurrentTime);
       this.on('pause', this.stopTrackingCurrentTime);
-    }
+    };
     /**
      * Turn off the polyfill for `timeupdate` events that was created in
      * {@link Tech#manualTimeUpdatesOn}
      */
-    ;
+
 
     _proto.manualTimeUpdatesOff = function manualTimeUpdatesOff() {
       this.manualTimeUpdates = false;
       this.stopTrackingCurrentTime();
       this.off('play', this.trackCurrentTime);
       this.off('pause', this.stopTrackingCurrentTime);
-    }
+    };
     /**
      * Sets up an interval function to track current time and trigger `timeupdate` every
      * 250 milliseconds.
@@ -10547,7 +10326,7 @@
      * @listens Tech#play
      * @triggers Tech#timeupdate
      */
-    ;
+
 
     _proto.trackCurrentTime = function trackCurrentTime() {
       if (this.currentTimeInterval) {
@@ -10567,14 +10346,14 @@
           manuallyTriggered: true
         }); // 42 = 24 fps // 250 is what Webkit uses // FF uses 15
       }, 250);
-    }
+    };
     /**
      * Stop the interval function created in {@link Tech#trackCurrentTime} so that the
      * `timeupdate` event is no longer triggered.
      *
      * @listens {Tech#pause}
      */
-    ;
+
 
     _proto.stopTrackingCurrentTime = function stopTrackingCurrentTime() {
       this.clearInterval(this.currentTimeInterval); // #1002 - if the video ends right before the next timeupdate would happen,
@@ -10585,14 +10364,14 @@
         target: this,
         manuallyTriggered: true
       });
-    }
+    };
     /**
      * Turn off all event polyfills, clear the `Tech`s {@link AudioTrackList},
      * {@link VideoTrackList}, and {@link TextTrackList}, and dispose of this Tech.
      *
      * @fires Component#dispose
      */
-    ;
+
 
     _proto.dispose = function dispose() {
       // clear out all tracks because we can't reuse them between techs
@@ -10607,7 +10386,7 @@
       }
 
       _Component.prototype.dispose.call(this);
-    }
+    };
     /**
      * Clear out a single `TrackList` or an array of `TrackLists` given their names.
      *
@@ -10618,7 +10397,7 @@
      *        TrackList names to clear, valid names are `video`, `audio`, and
      *        `text`.
      */
-    ;
+
 
     _proto.clearTracks = function clearTracks(types) {
       var _this3 = this;
@@ -10639,12 +10418,12 @@
           list.removeTrack(track);
         }
       });
-    }
+    };
     /**
      * Remove any TextTracks added via addRemoteTextTrack that are
      * flagged for automatic garbage collection
      */
-    ;
+
 
     _proto.cleanupAutoTextTracks = function cleanupAutoTextTracks() {
       var list = this.autoRemoteTextTracks_ || [];
@@ -10654,15 +10433,15 @@
         var track = list[i];
         this.removeRemoteTextTrack(track);
       }
-    }
+    };
     /**
      * Reset the tech, which will removes all sources and reset the internal readyState.
      *
      * @abstract
      */
-    ;
 
-    _proto.reset = function reset() {}
+
+    _proto.reset = function reset() {};
     /**
      * Get or set an error on the Tech.
      *
@@ -10672,7 +10451,7 @@
      * @return {MediaError|null}
      *         The current error object on the tech, or null if there isn't one.
      */
-    ;
+
 
     _proto.error = function error(err) {
       if (err !== undefined) {
@@ -10681,7 +10460,7 @@
       }
 
       return this.error_;
-    }
+    };
     /**
      * Returns the `TimeRange`s that have been played through for the current source.
      *
@@ -10692,7 +10471,7 @@
      *         - A single time range if this video has played
      *         - An empty set of ranges if not.
      */
-    ;
+
 
     _proto.played = function played() {
       if (this.hasStarted_) {
@@ -10700,14 +10479,14 @@
       }
 
       return createTimeRanges();
-    }
+    };
     /**
      * Causes a manual time update to occur if {@link Tech#manualTimeUpdatesOn} was
      * previously called.
      *
      * @fires Tech#timeupdate
      */
-    ;
+
 
     _proto.setCurrentTime = function setCurrentTime() {
       // improve the accuracy of manual timeupdates
@@ -10724,7 +10503,7 @@
           manuallyTriggered: true
         });
       }
-    }
+    };
     /**
      * Turn on listeners for {@link VideoTrackList}, {@link {AudioTrackList}, and
      * {@link TextTrackList} events.
@@ -10735,7 +10514,7 @@
      * @fires Tech#videotrackchange
      * @fires Tech#texttrackchange
      */
-    ;
+
 
     _proto.initTrackListeners = function initTrackListeners() {
       var _this4 = this;
@@ -10777,14 +10556,14 @@
           tracks.removeEventListener('addtrack', trackListChanges);
         });
       });
-    }
+    };
     /**
      * Emulate TextTracks using vtt.js if necessary
      *
      * @fires Tech#vttjsloaded
      * @fires Tech#vttjserror
      */
-    ;
+
 
     _proto.addWebVttScript_ = function addWebVttScript_() {
       var _this5 = this;
@@ -10841,12 +10620,12 @@
       } else {
         this.ready(this.addWebVttScript_);
       }
-    }
+    };
     /**
      * Emulate texttracks
      *
      */
-    ;
+
 
     _proto.emulateTextTracks = function emulateTextTracks() {
       var _this6 = this;
@@ -10899,7 +10678,7 @@
           track.removeEventListener('cuechange', updateDisplay);
         }
       });
-    }
+    };
     /**
      * Create and returns a remote {@link TextTrack} object.
      *
@@ -10915,7 +10694,7 @@
      * @return {TextTrack}
      *         The TextTrack that gets created.
      */
-    ;
+
 
     _proto.addTextTrack = function addTextTrack(kind, label, language) {
       if (!kind) {
@@ -10923,7 +10702,7 @@
       }
 
       return createTrackHelper(this, kind, label, language);
-    }
+    };
     /**
      * Create an emulated TextTrack for use by addRemoteTextTrack
      *
@@ -10945,14 +10724,14 @@
      * @return {HTMLTrackElement}
      *         The track element that gets created.
      */
-    ;
+
 
     _proto.createRemoteTextTrack = function createRemoteTextTrack(options) {
       var track = mergeOptions(options, {
         tech: this
       });
       return new REMOTE.remoteTextEl.TrackClass(track);
-    }
+    };
     /**
      * Creates a remote text track object and returns an html track element.
      *
@@ -10973,7 +10752,7 @@
      *             to "manualCleanup=false" in the future. The manualCleanup parameter will
      *             also be removed.
      */
-    ;
+
 
     _proto.addRemoteTextTrack = function addRemoteTextTrack(options, manualCleanup) {
       var _this7 = this;
@@ -11002,14 +10781,14 @@
       }
 
       return htmlTrackElement;
-    }
+    };
     /**
      * Remove a remote text track from the remote `TextTrackList`.
      *
      * @param {TextTrack} track
      *        `TextTrack` to remove from the `TextTrackList`
      */
-    ;
+
 
     _proto.removeRemoteTextTrack = function removeRemoteTextTrack(track) {
       var trackElement = this.remoteTextTrackEls().getTrackElementByTrack_(track); // remove HTMLTrackElement and TextTrack from remote list
@@ -11017,7 +10796,7 @@
       this.remoteTextTrackEls().removeTrackElement_(trackElement);
       this.remoteTextTracks().removeTrack(track);
       this.autoRemoteTextTracks_.removeTrack(track);
-    }
+    };
     /**
      * Gets available media playback quality metrics as specified by the W3C's Media
      * Playback Quality API.
@@ -11029,35 +10808,35 @@
      *
      * @abstract
      */
-    ;
+
 
     _proto.getVideoPlaybackQuality = function getVideoPlaybackQuality() {
       return {};
-    }
+    };
     /**
      * A method to set a poster from a `Tech`.
      *
      * @abstract
      */
-    ;
 
-    _proto.setPoster = function setPoster() {}
+
+    _proto.setPoster = function setPoster() {};
     /**
      * A method to check for the presence of the 'playsinline' <video> attribute.
      *
      * @abstract
      */
-    ;
 
-    _proto.playsinline = function playsinline() {}
+
+    _proto.playsinline = function playsinline() {};
     /**
      * A method to set or unset the 'playsinline' <video> attribute.
      *
      * @abstract
      */
-    ;
 
-    _proto.setPlaysinline = function setPlaysinline() {}
+
+    _proto.setPlaysinline = function setPlaysinline() {};
     /**
      * Attempt to force override of native audio tracks.
      *
@@ -11066,9 +10845,9 @@
      *
      * @abstract
      */
-    ;
 
-    _proto.overrideNativeAudioTracks = function overrideNativeAudioTracks() {}
+
+    _proto.overrideNativeAudioTracks = function overrideNativeAudioTracks() {};
     /**
      * Attempt to force override of native video tracks.
      *
@@ -11077,9 +10856,9 @@
      *
      * @abstract
      */
-    ;
 
-    _proto.overrideNativeVideoTracks = function overrideNativeVideoTracks() {}
+
+    _proto.overrideNativeVideoTracks = function overrideNativeVideoTracks() {};
     /*
      * Check if the tech can support the given mime-type.
      *
@@ -11096,11 +10875,11 @@
      *
      * @abstract
      */
-    ;
+
 
     _proto.canPlayType = function canPlayType() {
       return '';
-    }
+    };
     /**
      * Check if the type is supported by this tech.
      *
@@ -11111,11 +10890,11 @@
      *        The media type to check
      * @return {string} Returns the native video element's response
      */
-    ;
+
 
     Tech.canPlayType = function canPlayType() {
       return '';
-    }
+    };
     /**
      * Check if the tech can support the given source
      *
@@ -11125,11 +10904,11 @@
      *        The options passed to the tech
      * @return {string} 'probably', 'maybe', or '' (empty string)
      */
-    ;
+
 
     Tech.canPlaySource = function canPlaySource(srcObj, options) {
       return Tech.canPlayType(srcObj.type);
-    }
+    };
     /*
      * Return whether the argument is a Tech or not.
      * Can be passed either a Class like `Html5` or a instance like `player.tech_`
@@ -11142,11 +10921,11 @@
      *         - True if it is a tech
      *         - False if it is not
      */
-    ;
+
 
     Tech.isTech = function isTech(component) {
       return component.prototype instanceof Tech || component instanceof Tech || component === Tech;
-    }
+    };
     /**
      * Registers a `Tech` into a shared list for videojs.
      *
@@ -11156,7 +10935,7 @@
      * @param {Object} tech
      *        The `Tech` class to register.
      */
-    ;
+
 
     Tech.registerTech = function registerTech(name, tech) {
       if (!Tech.techs_) {
@@ -11184,7 +10963,7 @@
       }
 
       return tech;
-    }
+    };
     /**
      * Get a `Tech` from the shared list by name.
      *
@@ -11194,7 +10973,7 @@
      * @return {Tech|undefined}
      *         The `Tech` or undefined if there was no tech with the name requested.
      */
-    ;
+
 
     Tech.getTech = function getTech(name) {
       if (!name) {
@@ -11926,13 +11705,7 @@
     mp3: 'audio/mpeg',
     aac: 'audio/aac',
     oga: 'audio/ogg',
-    m3u8: 'application/x-mpegURL',
-    jpg: 'image/jpeg',
-    jpeg: 'image/jpeg',
-    gif: 'image/gif',
-    png: 'image/png',
-    svg: 'image/svg+xml',
-    webp: 'image/webp'
+    m3u8: 'application/x-mpegURL'
   };
   /**
    * Get the mimetype of a given src url if possible
@@ -12224,7 +11997,7 @@
       this.controlTextEl_ = null;
 
       _Component.prototype.dispose.call(this);
-    }
+    };
     /**
      * Create a control text element on this `Component`
      *
@@ -12234,7 +12007,7 @@
      * @return {Element}
      *         The control text element that gets created.
      */
-    ;
+
 
     _proto.createControlTextEl = function createControlTextEl(el) {
       this.controlTextEl_ = createEl('span', {
@@ -12250,7 +12023,7 @@
 
       this.controlText(this.controlText_, el);
       return this.controlTextEl_;
-    }
+    };
     /**
      * Get or set the localize text to use for the controls on the `Component`.
      *
@@ -12263,7 +12036,7 @@
      * @return {string}
      *         - The control text when getting
      */
-    ;
+
 
     _proto.controlText = function controlText(text, el) {
       if (el === void 0) {
@@ -12282,22 +12055,22 @@
         // Set title attribute if only an icon is shown
         el.setAttribute('title', localizedText);
       }
-    }
+    };
     /**
      * Builds the default DOM `className`.
      *
      * @return {string}
      *         The DOM `className` for this object.
      */
-    ;
+
 
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-control vjs-button " + _Component.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * Enable this `Component`s element.
      */
-    ;
+
 
     _proto.enable = function enable() {
       if (!this.enabled_) {
@@ -12313,11 +12086,11 @@
         this.on('focus', this.handleFocus);
         this.on('blur', this.handleBlur);
       }
-    }
+    };
     /**
      * Disable this `Component`s element.
      */
-    ;
+
 
     _proto.disable = function disable() {
       this.enabled_ = false;
@@ -12331,7 +12104,7 @@
       this.off(['tap', 'click'], this.handleClick);
       this.off('focus', this.handleFocus);
       this.off('blur', this.handleBlur);
-    }
+    };
     /**
      * This gets called when a `ClickableComponent` gets:
      * - Clicked (via the `click` event, listening starts in the constructor)
@@ -12354,9 +12127,9 @@
      * @listens click
      * @abstract
      */
-    ;
 
-    _proto.handleClick = function handleClick(event) {}
+
+    _proto.handleClick = function handleClick(event) {};
     /**
      * This gets called when a `ClickableComponent` gains focus via a `focus` event.
      * Turns on listening for `keydown` events. When they happen it
@@ -12367,11 +12140,11 @@
      *
      * @listens focus
      */
-    ;
+
 
     _proto.handleFocus = function handleFocus(event) {
       on(document, 'keydown', bind(this, this.handleKeyPress));
-    }
+    };
     /**
      * Called when this ClickableComponent has focus and a key gets pressed down. By
      * default it will call `this.handleClick` when the key is space or enter.
@@ -12381,18 +12154,18 @@
      *
      * @listens keydown
      */
-    ;
+
 
     _proto.handleKeyPress = function handleKeyPress(event) {
-      // Support Space or Enter key operation to fire a click event
-      if (keycode.isEventKey(event, 'Space') || keycode.isEventKey(event, 'Enter')) {
+      // Support Space (32) or Enter (13) key operation to fire a click event
+      if (event.which === 32 || event.which === 13) {
         event.preventDefault();
         this.trigger('click');
-      } else {
+      } else if (_Component.prototype.handleKeyPress) {
         // Pass keypress handling up for unsupported keys
         _Component.prototype.handleKeyPress.call(this, event);
       }
-    }
+    };
     /**
      * Called when a `ClickableComponent` loses focus. Turns off the listener for
      * `keydown` events. Which Stops `this.handleKeyPress` from getting called.
@@ -12402,7 +12175,7 @@
      *
      * @listens blur
      */
-    ;
+
 
     _proto.handleBlur = function handleBlur(event) {
       off(document, 'keydown', bind(this, this.handleKeyPress));
@@ -12454,14 +12227,14 @@
       this.player().off('posterchange', this.update);
 
       _ClickableComponent.prototype.dispose.call(this);
-    }
+    };
     /**
      * Create the `PosterImage`s DOM element.
      *
      * @return {Element}
      *         The element that gets created.
      */
-    ;
+
 
     _proto.createEl = function createEl$$1() {
       var el = createEl('div', {
@@ -12470,7 +12243,7 @@
         tabIndex: -1
       });
       return el;
-    }
+    };
     /**
      * An {@link EventTarget~EventListener} for {@link Player#posterchange} events.
      *
@@ -12479,7 +12252,7 @@
      * @param {EventTarget~Event} [event]
      *        The `Player#posterchange` event that triggered this function.
      */
-    ;
+
 
     _proto.update = function update(event) {
       var url = this.player().poster();
@@ -12491,14 +12264,14 @@
       } else {
         this.hide();
       }
-    }
+    };
     /**
      * Set the source of the `PosterImage` depending on the display method.
      *
      * @param {string} url
      *        The URL to the source for the `PosterImage`.
      */
-    ;
+
 
     _proto.setSrc = function setSrc(url) {
       var backgroundImage = ''; // Any falsy value should stay as an empty string, otherwise
@@ -12509,7 +12282,7 @@
       }
 
       this.el_.style.backgroundImage = backgroundImage;
-    }
+    };
     /**
      * An {@link EventTarget~EventListener} for clicks on the `PosterImage`. See
      * {@link ClickableComponent#handleClick} for instances where this will be triggered.
@@ -12521,7 +12294,7 @@
      * @param {EventTarget~Event} event
      +        The `click`, `tap` or `keydown` event that caused this function to be called.
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       // We don't want a click to trigger playback when controls are disabled
@@ -12533,10 +12306,7 @@
         silencePromise(this.player_.play());
       } else {
         this.player_.pause();
-      } // call handleFocus manually to get hotkeys working
-
-
-      this.player_.handleFocus({});
+      }
     };
 
     return PosterImage;
@@ -12727,7 +12497,7 @@
       } else if (firstDesc) {
         firstDesc.mode = 'showing';
       }
-    }
+    };
     /**
      * Turn display of {@link TextTrack}'s from the current state into the other state.
      * There are only two states:
@@ -12736,7 +12506,7 @@
      *
      * @listens Player#loadstart
      */
-    ;
+
 
     _proto.toggleDisplay = function toggleDisplay() {
       if (this.player_.tech_ && this.player_.tech_.featuresNativeTextTracks) {
@@ -12744,14 +12514,14 @@
       } else {
         this.show();
       }
-    }
+    };
     /**
      * Create the {@link Component}'s DOM element.
      *
      * @return {Element}
      *         The element that was created.
      */
-    ;
+
 
     _proto.createEl = function createEl() {
       return _Component.prototype.createEl.call(this, 'div', {
@@ -12760,17 +12530,17 @@
         'aria-live': 'off',
         'aria-atomic': 'true'
       });
-    }
+    };
     /**
      * Clear all displayed {@link TextTrack}s.
      */
-    ;
+
 
     _proto.clearDisplay = function clearDisplay() {
       if (typeof window$1.WebVTT === 'function') {
         window$1.WebVTT.processCues(window$1, [], this.el_);
       }
-    }
+    };
     /**
      * Update the displayed TextTrack when a either a {@link Player#texttrackchange} or
      * a {@link Player#fullscreenchange} is fired.
@@ -12778,7 +12548,7 @@
      * @listens Player#texttrackchange
      * @listens Player#fullscreenchange
      */
-    ;
+
 
     _proto.updateDisplay = function updateDisplay() {
       var tracks = this.player_.textTracks();
@@ -12815,14 +12585,14 @@
 
         this.updateForTrack(descriptionsTrack);
       }
-    }
+    };
     /**
      * Add an {@link TextTrack} to to the {@link Tech}s {@link TextTrackList}.
      *
      * @param {TextTrack} track
      *        Text track object to be added to the list.
      */
-    ;
+
 
     _proto.updateForTrack = function updateForTrack(track) {
       if (typeof window$1.WebVTT !== 'function' || !track.activeCues) {
@@ -13012,7 +12782,7 @@
       var el = Component.prototype.createEl.call(this, tag, props, attributes);
       this.createControlTextEl(el);
       return el;
-    }
+    };
     /**
      * Add a child `Component` inside of this `Button`.
      *
@@ -13029,7 +12799,7 @@
      *
      * @deprecated since version 5
      */
-    ;
+
 
     _proto.addChild = function addChild(child, options) {
       if (options === void 0) {
@@ -13040,29 +12810,29 @@
       log.warn("Adding an actionable (user controllable) child to a Button (" + className + ") is not supported; use a ClickableComponent instead."); // Avoid the error message generated by ClickableComponent's addChild method
 
       return Component.prototype.addChild.call(this, child, options);
-    }
+    };
     /**
      * Enable the `Button` element so that it can be activated or clicked. Use this with
      * {@link Button#disable}.
      */
-    ;
+
 
     _proto.enable = function enable() {
       _ClickableComponent.prototype.enable.call(this);
 
       this.el_.removeAttribute('disabled');
-    }
+    };
     /**
      * Disable the `Button` element so that it cannot be activated or clicked. Use this with
      * {@link Button#enable}.
      */
-    ;
+
 
     _proto.disable = function disable() {
       _ClickableComponent.prototype.disable.call(this);
 
       this.el_.setAttribute('disabled', 'disabled');
-    }
+    };
     /**
      * This gets called when a `Button` has focus and `keydown` is triggered via a key
      * press.
@@ -13072,14 +12842,16 @@
      *
      * @listens keydown
      */
-    ;
+
 
     _proto.handleKeyPress = function handleKeyPress(event) {
-      // Ignore Space or Enter key operation, which is handled by the browser for a button.
-      if (!(keycode.isEventKey(event, 'Space') || keycode.isEventKey(event, 'Enter'))) {
-        // Pass keypress handling up for unsupported keys
-        _ClickableComponent.prototype.handleKeyPress.call(this, event);
-      }
+      // Ignore Space (32) or Enter (13) key operation, which is handled by the browser for a button.
+      if (event.which === 32 || event.which === 13) {
+        return;
+      } // Pass keypress handling up for unsupported keys
+
+
+      _ClickableComponent.prototype.handleKeyPress.call(this, event);
     };
 
     return Button;
@@ -13121,7 +12893,7 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return 'vjs-big-play-button';
-    }
+    };
     /**
      * This gets called when a `BigPlayButton` "clicked". See {@link ClickableComponent}
      * for more detailed information on what a click can be.
@@ -13133,15 +12905,13 @@
      * @listens tap
      * @listens click
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       var playPromise = this.player_.play(); // exit early if clicked via the mouse
 
       if (this.mouseused_ && event.clientX && event.clientY) {
-        silencePromise(playPromise); // call handleFocus manually to get hotkeys working
-
-        this.player_.handleFocus({});
+        silencePromise(playPromise);
         return;
       }
 
@@ -13229,22 +12999,7 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-close-button " + _Button.prototype.buildCSSClass.call(this);
-    }
-    /**
-     * This gets called when a `CloseButton` has focus and `keydown` is triggered via a key
-     * press.
-     *
-     * @param {EventTarget~Event} event
-     *        The event that caused this function to get called.
-     *
-     * @listens keydown
-     */
-    ;
-
-    _proto.handleKeyPress = function handleKeyPress(event) {} // Override the default `Button` behavior, and don't pass the keypress event
-    //  up to the player because this button is part of a `ModalDialog`, which
-    //  doesn't pass keypresses to the player either.
-
+    };
     /**
      * This gets called when a `CloseButton` gets clicked. See
      * {@link ClickableComponent#handleClick} for more information on when this will be
@@ -13258,7 +13013,7 @@
      * @listens click
      * @fires CloseButton#close
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       /**
@@ -13335,7 +13090,7 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-play-control " + _Button.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * This gets called when an `PlayToggle` is "clicked". See
      * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -13347,7 +13102,7 @@
      * @listens tap
      * @listens click
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       if (this.player_.paused()) {
@@ -13355,7 +13110,7 @@
       } else {
         this.player_.pause();
       }
-    }
+    };
     /**
      * This gets called once after the video has ended and the user seeks so that
      * we can change the replay button back to a play button.
@@ -13365,7 +13120,7 @@
      *
      * @listens Player#seeked
      */
-    ;
+
 
     _proto.handleSeeked = function handleSeeked(event) {
       this.removeClass('vjs-ended');
@@ -13375,7 +13130,7 @@
       } else {
         this.handlePlay(event);
       }
-    }
+    };
     /**
      * Add the vjs-playing class to the element so it can change appearance.
      *
@@ -13384,7 +13139,7 @@
      *
      * @listens Player#play
      */
-    ;
+
 
     _proto.handlePlay = function handlePlay(event) {
       this.removeClass('vjs-ended');
@@ -13392,7 +13147,7 @@
       this.addClass('vjs-playing'); // change the button text to "Pause"
 
       this.controlText('Pause');
-    }
+    };
     /**
      * Add the vjs-paused class to the element so it can change appearance.
      *
@@ -13401,14 +13156,14 @@
      *
      * @listens Player#pause
      */
-    ;
+
 
     _proto.handlePause = function handlePause(event) {
       this.removeClass('vjs-playing');
       this.addClass('vjs-paused'); // change the button text to "Play"
 
       this.controlText('Play');
-    }
+    };
     /**
      * Add the vjs-ended class to the element so it can change appearance
      *
@@ -13417,7 +13172,7 @@
      *
      * @listens Player#ended
      */
-    ;
+
 
     _proto.handleEnded = function handleEnded(event) {
       this.removeClass('vjs-playing');
@@ -13574,7 +13329,7 @@
 
     var _proto = TimeDisplay.prototype;
 
-    _proto.createEl = function createEl$$1() {
+    _proto.createEl = function createEl$$1(plainName) {
       var className = this.buildCSSClass();
 
       var el = _Component.prototype.createEl.call(this, 'div', {
@@ -13603,14 +13358,14 @@
       this.textNode_ = null;
 
       _Component.prototype.dispose.call(this);
-    }
+    };
     /**
      * Updates the "remaining time" text node with new content using the
      * contents of the `formattedTime_` property.
      *
      * @private
      */
-    ;
+
 
     _proto.updateTextNode_ = function updateTextNode_() {
       if (!this.contentEl_) {
@@ -13623,7 +13378,7 @@
 
       this.textNode_ = document.createTextNode(this.formattedTime_ || this.formatTime_(0));
       this.contentEl_.appendChild(this.textNode_);
-    }
+    };
     /**
      * Generates a formatted time for this component to use in display.
      *
@@ -13635,11 +13390,11 @@
      *
      * @private
      */
-    ;
+
 
     _proto.formatTime_ = function formatTime_(time) {
       return formatTime(time);
-    }
+    };
     /**
      * Updates the time display text node if it has what was passed in changed
      * the formatted time.
@@ -13649,7 +13404,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.updateFormattedTime_ = function updateFormattedTime_(time) {
       var formattedTime = this.formatTime_(time);
@@ -13660,7 +13415,7 @@
 
       this.formattedTime_ = formattedTime;
       this.requestAnimationFrame(this.updateTextNode_);
-    }
+    };
     /**
      * To be filled out in the child class, should update the displayed time
      * in accordance with the fact that the current time has changed.
@@ -13670,7 +13425,7 @@
      *
      * @listens Player#timeupdate
      */
-    ;
+
 
     _proto.updateContent = function updateContent(event) {};
 
@@ -13738,7 +13493,7 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return 'vjs-current-time';
-    }
+    };
     /**
      * Update current time display
      *
@@ -13747,13 +13502,13 @@
      *
      * @listens Player#timeupdate
      */
-    ;
+
 
     _proto.updateContent = function updateContent(event) {
       // Allows for smooth scrubbing, when player can't keep up.
       var time = this.player_.scrubbing() ? this.player_.getCache().currentTime : this.player_.currentTime();
       this.updateFormattedTime_(time);
-    }
+    };
     /**
      * When the player fires ended there should be no time left. Sadly
      * this is not always the case, lets make it seem like that is the case
@@ -13764,7 +13519,7 @@
      *
      * @listens Player#ended
      */
-    ;
+
 
     _proto.handleEnded = function handleEnded(event) {
       if (!this.player_.duration()) {
@@ -13850,7 +13605,7 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return 'vjs-duration';
-    }
+    };
     /**
      * Update duration time display.
      *
@@ -13862,7 +13617,7 @@
      * @listens Player#timeupdate
      * @listens Player#loadedmetadata
      */
-    ;
+
 
     _proto.updateContent = function updateContent(event) {
       var duration = this.player_.duration();
@@ -13980,23 +13735,24 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return 'vjs-remaining-time';
-    }
+    };
     /**
-     * Create the `Component`'s DOM element with the "minus" characted prepend to the time
+     * The remaining time display prefixes numbers with a "minus" character.
      *
-     * @return {Element}
-     *         The element that was created.
+     * @param  {number} time
+     *         A numeric time, in seconds.
+     *
+     * @return {string}
+     *         A formatted time
+     *
+     * @private
      */
-    ;
 
-    _proto.createEl = function createEl$$1() {
-      var el = _TimeDisplay.prototype.createEl.call(this);
 
-      el.insertBefore(createEl('span', {}, {
-        'aria-hidden': true
-      }, '-'), this.contentEl_);
-      return el;
-    }
+    _proto.formatTime_ = function formatTime_(time) {
+      // TODO: The "-" should be decorative, and not announced by a screen reader
+      return '-' + _TimeDisplay.prototype.formatTime_.call(this, time);
+    };
     /**
      * Update remaining time display.
      *
@@ -14006,10 +13762,10 @@
      * @listens Player#timeupdate
      * @listens Player#durationchange
      */
-    ;
+
 
     _proto.updateContent = function updateContent(event) {
-      if (typeof this.player_.duration() !== 'number') {
+      if (!this.player_.duration()) {
         return;
       } // @deprecated We should only use remainingTimeDisplay
       // as of video.js 7
@@ -14020,7 +13776,7 @@
       } else {
         this.updateFormattedTime_(this.player_.remainingTime());
       }
-    }
+    };
     /**
      * When the player fires ended there should be no time left. Sadly
      * this is not always the case, lets make it seem like that is the case
@@ -14031,7 +13787,7 @@
      *
      * @listens Player#ended
      */
-    ;
+
 
     _proto.handleEnded = function handleEnded(event) {
       if (!this.player_.duration()) {
@@ -14124,7 +13880,7 @@
       this.contentEl_ = null;
 
       _Component.prototype.dispose.call(this);
-    }
+    };
     /**
      * Check the duration to see if the LiveDisplay should be showing or not. Then show/hide
      * it accordingly
@@ -14134,7 +13890,7 @@
      *
      * @listens Player#durationchange
      */
-    ;
+
 
     _proto.updateShowing = function updateShowing(event) {
       if (this.player().duration() === Infinity) {
@@ -14205,12 +13961,12 @@
       });
       el.appendChild(this.textEl_);
       return el;
-    }
+    };
     /**
      * Update the state of this button if we are at the live edge
      * or not
      */
-    ;
+
 
     _proto.updateLiveEdgeStatus = function updateLiveEdgeStatus(e) {
       // default to live edge
@@ -14223,21 +13979,21 @@
         this.removeClass('vjs-at-live-edge');
         this.controlText('Seek to live, currently behind live');
       }
-    }
+    };
     /**
      * On click bring us as near to the live point as possible.
      * This requires that we wait for the next `live-seekable-change`
      * event which will happen every segment length seconds.
      */
-    ;
+
 
     _proto.handleClick = function handleClick() {
       this.player_.liveTracker.seekToLiveEdge();
-    }
+    };
     /**
      * Dispose of the element and stop tracking
      */
-    ;
+
 
     _proto.dispose = function dispose() {
       if (this.player_.liveTracker) {
@@ -14301,11 +14057,11 @@
 
     _proto.enabled = function enabled() {
       return this.enabled_;
-    }
+    };
     /**
      * Enable controls for this slider if they are disabled
      */
-    ;
+
 
     _proto.enable = function enable() {
       if (this.enabled()) {
@@ -14326,11 +14082,11 @@
       this.removeClass('disabled');
       this.setAttribute('tabindex', 0);
       this.enabled_ = true;
-    }
+    };
     /**
      * Disable controls for this slider if they are enabled
      */
-    ;
+
 
     _proto.disable = function disable() {
       if (!this.enabled()) {
@@ -14356,7 +14112,7 @@
       }
 
       this.enabled_ = false;
-    }
+    };
     /**
      * Create the `Slider`s DOM element.
      *
@@ -14372,7 +14128,7 @@
      * @return {Element}
      *         The element that gets created.
      */
-    ;
+
 
     _proto.createEl = function createEl$$1(type, props, attributes) {
       if (props === void 0) {
@@ -14396,7 +14152,7 @@
         'tabIndex': 0
       }, attributes);
       return _Component.prototype.createEl.call(this, type, props, attributes);
-    }
+    };
     /**
      * Handle `mousedown` or `touchstart` events on the `Slider`.
      *
@@ -14407,7 +14163,7 @@
      * @listens touchstart
      * @fires Slider#slideractive
      */
-    ;
+
 
     _proto.handleMouseDown = function handleMouseDown(event) {
       var doc = this.bar.el_.ownerDocument;
@@ -14439,7 +14195,7 @@
       this.on(doc, 'touchmove', this.handleMouseMove);
       this.on(doc, 'touchend', this.handleMouseUp);
       this.handleMouseMove(event);
-    }
+    };
     /**
      * Handle the `mousemove`, `touchmove`, and `mousedown` events on this `Slider`.
      * The `mousemove` and `touchmove` events will only only trigger this function during
@@ -14453,9 +14209,9 @@
      * @listens mousemove
      * @listens touchmove
      */
-    ;
 
-    _proto.handleMouseMove = function handleMouseMove(event) {}
+
+    _proto.handleMouseMove = function handleMouseMove(event) {};
     /**
      * Handle `mouseup` or `touchend` events on the `Slider`.
      *
@@ -14466,7 +14222,7 @@
      * @listens mouseup
      * @fires Slider#sliderinactive
      */
-    ;
+
 
     _proto.handleMouseUp = function handleMouseUp() {
       var doc = this.bar.el_.ownerDocument;
@@ -14485,7 +14241,7 @@
       this.off(doc, 'touchmove', this.handleMouseMove);
       this.off(doc, 'touchend', this.handleMouseUp);
       this.update();
-    }
+    };
     /**
      * Update the progress bar of the `Slider`.
      *
@@ -14493,7 +14249,7 @@
      *          The percentage of progress the progress bar represents as a
      *          number from 0 to 1.
      */
-    ;
+
 
     _proto.update = function update() {
       // In VolumeBar init we have a setTimeout for update that pops and update
@@ -14530,7 +14286,7 @@
       }
 
       return progress;
-    }
+    };
     /**
      * Calculate distance for slider
      *
@@ -14542,7 +14298,7 @@
      *         - position.x for vertical `Slider`s
      *         - position.y for horizontal `Slider`s
      */
-    ;
+
 
     _proto.calculateDistance = function calculateDistance(event) {
       var position = getPointerPosition(this.el_, event);
@@ -14552,7 +14308,7 @@
       }
 
       return position.x;
-    }
+    };
     /**
      * Handle a `focus` event on this `Slider`.
      *
@@ -14561,11 +14317,11 @@
      *
      * @listens focus
      */
-    ;
+
 
     _proto.handleFocus = function handleFocus() {
       this.on(this.bar.el_.ownerDocument, 'keydown', this.handleKeyPress);
-    }
+    };
     /**
      * Handle a `keydown` event on the `Slider`. Watches for left, rigth, up, and down
      * arrow keys. This function will only be called when the slider has focus. See
@@ -14576,21 +14332,18 @@
      *
      * @listens keydown
      */
-    ;
+
 
     _proto.handleKeyPress = function handleKeyPress(event) {
       // Left and Down Arrows
-      if (keycode.isEventKey(event, 'Left') || keycode.isEventKey(event, 'Down')) {
+      if (event.which === 37 || event.which === 40) {
         event.preventDefault();
         this.stepBack(); // Up and Right Arrows
-      } else if (keycode.isEventKey(event, 'Right') || keycode.isEventKey(event, 'Up')) {
+      } else if (event.which === 38 || event.which === 39) {
         event.preventDefault();
         this.stepForward();
-      } else {
-        // Pass keypress handling up for unsupported keys
-        _Component.prototype.handleKeyPress.call(this, event);
       }
-    }
+    };
     /**
      * Handle a `blur` event on this `Slider`.
      *
@@ -14599,11 +14352,11 @@
      *
      * @listens blur
      */
-    ;
+
 
     _proto.handleBlur = function handleBlur() {
       this.off(this.bar.el_.ownerDocument, 'keydown', this.handleKeyPress);
-    }
+    };
     /**
      * Listener for click events on slider, used to prevent clicks
      *   from bubbling up to parent elements like button menus.
@@ -14611,12 +14364,12 @@
      * @param {Object} event
      *        Event that caused this object to run
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       event.stopImmediatePropagation();
       event.preventDefault();
-    }
+    };
     /**
      * Get/set if slider is horizontal for vertical
      *
@@ -14628,7 +14381,7 @@
      *         - true if slider is vertical, and getting
      *         - false if the slider is horizontal, and getting
      */
-    ;
+
 
     _proto.vertical = function vertical(bool) {
       if (bool === undefined) {
@@ -14700,7 +14453,7 @@
       this.partEls_ = null;
 
       _Component.prototype.dispose.call(this);
-    }
+    };
     /**
      * Update progress bar
      *
@@ -14709,7 +14462,7 @@
      *
      * @listens Player#progress
      */
-    ;
+
 
     _proto.update = function update(event) {
       var liveTracker = this.player_.liveTracker;
@@ -14793,7 +14546,7 @@
       }, {
         'aria-hidden': 'true'
       });
-    }
+    };
     /**
      * Updates the position of the time tooltip relative to the `SeekBar`.
      *
@@ -14804,7 +14557,7 @@
      *        A number from 0 to 1, representing a horizontal reference point
      *        from the left edge of the {@link SeekBar}
      */
-    ;
+
 
     _proto.update = function update(seekBarRect, seekBarPoint, content) {
       var tooltipRect = getBoundingClientRect(this.el_);
@@ -14848,7 +14601,7 @@
 
       this.el_.style.right = "-" + pullTooltipBy + "px";
       textContent(this.el_, content);
-    }
+    };
     /**
      * Updates the position of the time tooltip relative to the `SeekBar`.
      *
@@ -14866,7 +14619,7 @@
      *        A function that will be called during the request animation frame
      *        for tooltips that need to do additional animations from the default
      */
-    ;
+
 
     _proto.updateTime = function updateTime(seekBarRect, seekBarPoint, time, cb) {
       var _this = this;
@@ -14933,7 +14686,7 @@
       }, {
         'aria-hidden': 'true'
       });
-    }
+    };
     /**
      * Enqueues updates to its own DOM as well as the DOM of its
      * {@link TimeTooltip} child.
@@ -14945,7 +14698,7 @@
      *        A number from 0 to 1, representing a horizontal reference point
      *        from the left edge of the {@link SeekBar}
      */
-    ;
+
 
     _proto.update = function update(seekBarRect, seekBarPoint) {
       var timeTooltip = this.getChild('timeTooltip');
@@ -15022,7 +14775,7 @@
       return _Component.prototype.createEl.call(this, 'div', {
         className: 'vjs-mouse-display'
       });
-    }
+    };
     /**
      * Enqueues updates to its own DOM as well as the DOM of its
      * {@link TimeTooltip} child.
@@ -15034,7 +14787,7 @@
      *        A number from 0 to 1, representing a horizontal reference point
      *        from the left edge of the {@link SeekBar}
      */
-    ;
+
 
     _proto.update = function update(seekBarRect, seekBarPoint) {
       var _this2 = this;
@@ -15060,9 +14813,7 @@
   };
   Component.registerComponent('MouseTimeDisplay', MouseTimeDisplay);
 
-  var STEP_SECONDS = 5; // The multiplier of STEP_SECONDS that PgUp/PgDown move the timeline.
-
-  var PAGE_KEY_MULTIPLIER = 12; // The interval at which the bar should update as it progresses.
+  var STEP_SECONDS = 5; // The interval at which the bar should update as it progresses.
 
   var UPDATE_REFRESH_INTERVAL = 30;
   /**
@@ -15136,14 +14887,14 @@
         _this2.clearInterval(_this2.updateInterval);
       });
       this.on(this.player_, ['timeupdate', 'ended'], this.update);
-    }
+    };
     /**
      * Create the `Component`'s DOM element
      *
      * @return {Element}
      *         The element that was created.
      */
-    ;
+
 
     _proto.createEl = function createEl$$1() {
       return _Slider.prototype.createEl.call(this, 'div', {
@@ -15151,7 +14902,7 @@
       }, {
         'aria-label': this.localize('Progress Bar')
       });
-    }
+    };
     /**
      * This function updates the play progress bar and accessibility
      * attributes to whatever is passed in.
@@ -15164,7 +14915,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.update_ = function update_(currentTime, percent) {
       var liveTracker = this.player_.liveTracker;
@@ -15172,6 +14923,12 @@
 
       if (liveTracker && liveTracker.isLive()) {
         duration = this.player_.liveTracker.liveCurrentTime();
+      }
+
+      if (liveTracker && liveTracker.seekableEnd() === Infinity) {
+        this.disable();
+      } else {
+        this.enable();
       } // machine readable value of progress bar (percentage complete)
 
 
@@ -15180,7 +14937,7 @@
       this.el_.setAttribute('aria-valuetext', this.localize('progress bar timing: currentTime={1} duration={2}', [formatTime(currentTime, duration), formatTime(duration, duration)], '{1} of {2}')); // Update the `PlayProgressBar`.
 
       this.bar.update(getBoundingClientRect(this.el_), percent);
-    }
+    };
     /**
      * Update the seek bar's UI.
      *
@@ -15192,14 +14949,14 @@
      * @return {number}
      *          The current percent at a number from 0-1
      */
-    ;
+
 
     _proto.update = function update(event) {
       var percent = _Slider.prototype.update.call(this);
 
       this.update_(this.getCurrentTime_(), percent);
       return percent;
-    }
+    };
     /**
      * Get the value of current time but allows for smooth scrubbing,
      * when player can't keep up.
@@ -15209,11 +14966,11 @@
      *
      * @private
      */
-    ;
+
 
     _proto.getCurrentTime_ = function getCurrentTime_() {
       return this.player_.scrubbing() ? this.player_.getCache().currentTime : this.player_.currentTime();
-    }
+    };
     /**
      * We want the seek bar to be full on ended
      * no matter what the actual internal values are. so we force it.
@@ -15223,18 +14980,18 @@
      *
      * @listens Player#ended
      */
-    ;
+
 
     _proto.handleEnded = function handleEnded(event) {
       this.update_(this.player_.duration(), 1);
-    }
+    };
     /**
      * Get the percentage of media played so far.
      *
      * @return {number}
      *         The percentage of media played so far (0 to 1).
      */
-    ;
+
 
     _proto.getPercent = function getPercent() {
       var currentTime = this.getCurrentTime_();
@@ -15252,7 +15009,7 @@
       }
 
       return percent >= 1 ? 1 : percent || 0;
-    }
+    };
     /**
      * Handle mouse down on seek bar
      *
@@ -15261,7 +15018,7 @@
      *
      * @listens mousedown
      */
-    ;
+
 
     _proto.handleMouseDown = function handleMouseDown(event) {
       if (!isSingleLeftClick(event)) {
@@ -15275,7 +15032,7 @@
       this.player_.pause();
 
       _Slider.prototype.handleMouseDown.call(this, event);
-    }
+    };
     /**
      * Handle mouse move on seek bar
      *
@@ -15284,7 +15041,7 @@
      *
      * @listens mousemove
      */
-    ;
+
 
     _proto.handleMouseMove = function handleMouseMove(event) {
       if (!isSingleLeftClick(event)) {
@@ -15350,7 +15107,7 @@
       }
 
       mouseTimeDisplay.hide();
-    }
+    };
     /**
      * Handle mouse up on seek bar
      *
@@ -15359,7 +15116,7 @@
      *
      * @listens mouseup
      */
-    ;
+
 
     _proto.handleMouseUp = function handleMouseUp(event) {
       _Slider.prototype.handleMouseUp.call(this, event); // Stop event propagation to prevent double fire in progress-control.js
@@ -15387,23 +15144,23 @@
       if (this.videoWasPlaying) {
         silencePromise(this.player_.play());
       }
-    }
+    };
     /**
      * Move more quickly fast forward for keyboard-only users
      */
-    ;
+
 
     _proto.stepForward = function stepForward() {
       this.player_.currentTime(this.player_.currentTime() + STEP_SECONDS);
-    }
+    };
     /**
      * Move more quickly rewind for keyboard-only users
      */
-    ;
+
 
     _proto.stepBack = function stepBack() {
       this.player_.currentTime(this.player_.currentTime() - STEP_SECONDS);
-    }
+    };
     /**
      * Toggles the playback state of the player
      * This gets called when enter or space is used on the seekbar
@@ -15412,7 +15169,7 @@
      *        The `keydown` event that caused this function to be called
      *
      */
-    ;
+
 
     _proto.handleAction = function handleAction(event) {
       if (this.player_.paused()) {
@@ -15420,46 +15177,24 @@
       } else {
         this.player_.pause();
       }
-    }
+    };
     /**
-     * Called when this SeekBar has focus and a key gets pressed down.
-     * Supports the following keys:
-     *
-     *   Space or Enter key fire a click event
-     *   Home key moves to start of the timeline
-     *   End key moves to end of the timeline
-     *   Digit "0" through "9" keys move to 0%, 10% ... 80%, 90% of the timeline
-     *   PageDown key moves back a larger step than ArrowDown
-     *   PageUp key moves forward a large step
+     * Called when this SeekBar has focus and a key gets pressed down. By
+     * default it will call `this.handleAction` when the key is space or enter.
      *
      * @param {EventTarget~Event} event
      *        The `keydown` event that caused this function to be called.
      *
      * @listens keydown
      */
-    ;
+
 
     _proto.handleKeyPress = function handleKeyPress(event) {
-      if (keycode.isEventKey(event, 'Space') || keycode.isEventKey(event, 'Enter')) {
+      // Support Space (32) or Enter (13) key operation to fire a click event
+      if (event.which === 32 || event.which === 13) {
         event.preventDefault();
         this.handleAction(event);
-      } else if (keycode.isEventKey(event, 'Home')) {
-        event.preventDefault();
-        this.player_.currentTime(0);
-      } else if (keycode.isEventKey(event, 'End')) {
-        event.preventDefault();
-        this.player_.currentTime(this.player_.duration());
-      } else if (/^[0-9]$/.test(keycode(event))) {
-        event.preventDefault();
-        var gotoFraction = (keycode.codes[keycode(event)] - keycode.codes['0']) * 10.0 / 100.0;
-        this.player_.currentTime(this.player_.duration() * gotoFraction);
-      } else if (keycode.isEventKey(event, 'PgDn')) {
-        event.preventDefault();
-        this.player_.currentTime(this.player_.currentTime() - STEP_SECONDS * PAGE_KEY_MULTIPLIER);
-      } else if (keycode.isEventKey(event, 'PgUp')) {
-        event.preventDefault();
-        this.player_.currentTime(this.player_.currentTime() + STEP_SECONDS * PAGE_KEY_MULTIPLIER);
-      } else {
+      } else if (_Slider.prototype.handleKeyPress) {
         // Pass keypress handling up for unsupported keys
         _Slider.prototype.handleKeyPress.call(this, event);
       }
@@ -15539,7 +15274,7 @@
       return _Component.prototype.createEl.call(this, 'div', {
         className: 'vjs-progress-control vjs-control'
       });
-    }
+    };
     /**
      * When the mouse moves over the `ProgressControl`, the pointer position
      * gets passed down to the `MouseTimeDisplay` component.
@@ -15549,7 +15284,7 @@
      *
      * @listen mousemove
      */
-    ;
+
 
     _proto.handleMouseMove = function handleMouseMove(event) {
       var seekBar = this.getChild('seekBar');
@@ -15572,7 +15307,7 @@
           mouseTimeDisplay.update(seekBarRect, seekBarPoint);
         }
       }
-    }
+    };
     /**
      * A throttled version of the {@link ProgressControl#handleMouseSeek} listener.
      *
@@ -15593,7 +15328,7 @@
      * @listens mousemove
      * @listens touchmove
      */
-    ;
+
 
     _proto.handleMouseSeek = function handleMouseSeek(event) {
       var seekBar = this.getChild('seekBar');
@@ -15601,22 +15336,22 @@
       if (seekBar) {
         seekBar.handleMouseMove(event);
       }
-    }
+    };
     /**
      * Are controls are currently enabled for this progress control.
      *
      * @return {boolean}
      *         true if controls are enabled, false otherwise
      */
-    ;
+
 
     _proto.enabled = function enabled() {
       return this.enabled_;
-    }
+    };
     /**
      * Disable all controls on the progress control and its children
      */
-    ;
+
 
     _proto.disable = function disable() {
       this.children().forEach(function (child) {
@@ -15632,11 +15367,11 @@
       this.handleMouseUp();
       this.addClass('disabled');
       this.enabled_ = false;
-    }
+    };
     /**
      * Enable all controls on the progress control and its children
      */
-    ;
+
 
     _proto.enable = function enable() {
       this.children().forEach(function (child) {
@@ -15651,7 +15386,7 @@
       this.on(this.el_, 'mousemove', this.handleMouseMove);
       this.removeClass('disabled');
       this.enabled_ = true;
-    }
+    };
     /**
      * Handle `mousedown` or `touchstart` events on the `ProgressControl`.
      *
@@ -15661,7 +15396,7 @@
      * @listens mousedown
      * @listens touchstart
      */
-    ;
+
 
     _proto.handleMouseDown = function handleMouseDown(event) {
       var doc = this.el_.ownerDocument;
@@ -15675,7 +15410,7 @@
       this.on(doc, 'touchmove', this.throttledHandleMouseSeek);
       this.on(doc, 'mouseup', this.handleMouseUp);
       this.on(doc, 'touchend', this.handleMouseUp);
-    }
+    };
     /**
      * Handle `mouseup` or `touchend` events on the `ProgressControl`.
      *
@@ -15685,7 +15420,7 @@
      * @listens touchend
      * @listens mouseup
      */
-    ;
+
 
     _proto.handleMouseUp = function handleMouseUp(event) {
       var doc = this.el_.ownerDocument;
@@ -15761,7 +15496,7 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-fullscreen-control " + _Button.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * Handles fullscreenchange on the player and change control text accordingly.
      *
@@ -15771,7 +15506,7 @@
      *
      * @listens Player#fullscreenchange
      */
-    ;
+
 
     _proto.handleFullscreenChange = function handleFullscreenChange(event) {
       if (this.player_.isFullscreen()) {
@@ -15779,7 +15514,7 @@
       } else {
         this.controlText('Fullscreen');
       }
-    }
+    };
     /**
      * This gets called when an `FullscreenToggle` is "clicked". See
      * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -15791,7 +15526,7 @@
      * @listens tap
      * @listens click
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       if (!this.player_.isFullscreen()) {
@@ -15927,7 +15662,7 @@
         'aria-label': this.localize('Volume Level'),
         'aria-live': 'polite'
       });
-    }
+    };
     /**
      * Handle mouse down on volume bar
      *
@@ -15936,7 +15671,7 @@
      *
      * @listens mousedown
      */
-    ;
+
 
     _proto.handleMouseDown = function handleMouseDown(event) {
       if (!isSingleLeftClick(event)) {
@@ -15944,7 +15679,7 @@
       }
 
       _Slider.prototype.handleMouseDown.call(this, event);
-    }
+    };
     /**
      * Handle movement events on the {@link VolumeMenuButton}.
      *
@@ -15953,7 +15688,7 @@
      *
      * @listens mousemove
      */
-    ;
+
 
     _proto.handleMouseMove = function handleMouseMove(event) {
       if (!isSingleLeftClick(event)) {
@@ -15962,24 +15697,24 @@
 
       this.checkMuted();
       this.player_.volume(this.calculateDistance(event));
-    }
+    };
     /**
      * If the player is muted unmute it.
      */
-    ;
+
 
     _proto.checkMuted = function checkMuted() {
       if (this.player_.muted()) {
         this.player_.muted(false);
       }
-    }
+    };
     /**
      * Get percent of volume level
      *
      * @return {number}
      *         Volume level percent as a decimal number.
      */
-    ;
+
 
     _proto.getPercent = function getPercent() {
       if (this.player_.muted()) {
@@ -15987,25 +15722,25 @@
       }
 
       return this.player_.volume();
-    }
+    };
     /**
      * Increase volume level for keyboard users
      */
-    ;
+
 
     _proto.stepForward = function stepForward() {
       this.checkMuted();
       this.player_.volume(this.player_.volume() + 0.1);
-    }
+    };
     /**
      * Decrease volume level for keyboard users
      */
-    ;
+
 
     _proto.stepBack = function stepBack() {
       this.checkMuted();
       this.player_.volume(this.player_.volume() - 0.1);
-    }
+    };
     /**
      * Update ARIA accessibility attributes
      *
@@ -16014,23 +15749,23 @@
      *
      * @listens Player#volumechange
      */
-    ;
+
 
     _proto.updateARIAAttributes = function updateARIAAttributes(event) {
       var ariaValue = this.player_.muted() ? 0 : this.volumeAsPercentage_();
       this.el_.setAttribute('aria-valuenow', ariaValue);
       this.el_.setAttribute('aria-valuetext', ariaValue + '%');
-    }
+    };
     /**
      * Returns the current value of the player volume as a percentage
      *
      * @private
      */
-    ;
+
 
     _proto.volumeAsPercentage_ = function volumeAsPercentage_() {
       return Math.round(this.player_.volume() * 100);
-    }
+    };
     /**
      * When user starts dragging the VolumeBar, store the volume and listen for
      * the end of the drag. When the drag ends, if the volume was set to zero,
@@ -16039,7 +15774,7 @@
      * @listens slideractive
      * @private
      */
-    ;
+
 
     _proto.updateLastVolume_ = function updateLastVolume_() {
       var _this2 = this;
@@ -16159,7 +15894,7 @@
       return _Component.prototype.createEl.call(this, 'div', {
         className: "vjs-volume-control vjs-control " + orientationClass
       });
-    }
+    };
     /**
      * Handle `mousedown` or `touchstart` events on the `VolumeControl`.
      *
@@ -16169,7 +15904,7 @@
      * @listens mousedown
      * @listens touchstart
      */
-    ;
+
 
     _proto.handleMouseDown = function handleMouseDown(event) {
       var doc = this.el_.ownerDocument;
@@ -16177,7 +15912,7 @@
       this.on(doc, 'touchmove', this.throttledHandleMouseMove);
       this.on(doc, 'mouseup', this.handleMouseUp);
       this.on(doc, 'touchend', this.handleMouseUp);
-    }
+    };
     /**
      * Handle `mouseup` or `touchend` events on the `VolumeControl`.
      *
@@ -16187,7 +15922,7 @@
      * @listens touchend
      * @listens mouseup
      */
-    ;
+
 
     _proto.handleMouseUp = function handleMouseUp(event) {
       var doc = this.el_.ownerDocument;
@@ -16195,7 +15930,7 @@
       this.off(doc, 'touchmove', this.throttledHandleMouseMove);
       this.off(doc, 'mouseup', this.handleMouseUp);
       this.off(doc, 'touchend', this.handleMouseUp);
-    }
+    };
     /**
      * Handle `mousedown` or `touchstart` events on the `VolumeControl`.
      *
@@ -16205,7 +15940,7 @@
      * @listens mousedown
      * @listens touchstart
      */
-    ;
+
 
     _proto.handleMouseMove = function handleMouseMove(event) {
       this.volumeBar.handleMouseMove(event);
@@ -16296,7 +16031,7 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-mute-control " + _Button.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * This gets called when an `MuteToggle` is "clicked". See
      * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -16308,7 +16043,7 @@
      * @listens tap
      * @listens click
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       var vol = this.player_.volume();
@@ -16321,7 +16056,7 @@
       } else {
         this.player_.muted(this.player_.muted() ? false : true);
       }
-    }
+    };
     /**
      * Update the `MuteToggle` button based on the state of `volume` and `muted`
      * on the player.
@@ -16333,12 +16068,12 @@
      * @listens Player#loadstart
      * @listens Player#volumechange
      */
-    ;
+
 
     _proto.update = function update(event) {
       this.updateIcon_();
       this.updateControlText_();
-    }
+    };
     /**
      * Update the appearance of the `MuteToggle` icon.
      *
@@ -16350,7 +16085,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.updateIcon_ = function updateIcon_() {
       var vol = this.player_.volume();
@@ -16376,7 +16111,7 @@
       }
 
       addClass(this.el_, "vjs-vol-" + level);
-    }
+    };
     /**
      * If `muted` has changed on the player, update the control text
      * (`title` attribute on `vjs-mute-control` element and content of
@@ -16384,7 +16119,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.updateControlText_ = function updateControlText_() {
       var soundOff = this.player_.muted() || this.player_.volume() === 0;
@@ -16473,18 +16208,18 @@
 
     _proto.sliderActive_ = function sliderActive_() {
       this.addClass('vjs-slider-active');
-    }
+    };
     /**
      * Removes vjs-slider-active class to the VolumePanel
      *
      * @listens VolumeControl#sliderinactive
      * @private
      */
-    ;
+
 
     _proto.sliderInactive_ = function sliderInactive_() {
       this.removeClass('vjs-slider-active');
-    }
+    };
     /**
      * Adds vjs-hidden or vjs-mute-toggle-only to the VolumePanel
      * depending on MuteToggle and VolumeControl state
@@ -16492,7 +16227,7 @@
      * @listens Player#loadstart
      * @private
      */
-    ;
+
 
     _proto.volumePanelState_ = function volumePanelState_() {
       // hide volume panel if neither volume control or mute toggle
@@ -16506,14 +16241,14 @@
       if (this.volumeControl.hasClass('vjs-hidden') && !this.muteToggle.hasClass('vjs-hidden')) {
         this.addClass('vjs-mute-toggle-only');
       }
-    }
+    };
     /**
      * Create the `Component`'s DOM element
      *
      * @return {Element}
      *         The element that was created.
      */
-    ;
+
 
     _proto.createEl = function createEl() {
       var orientationClass = 'vjs-volume-panel-horizontal';
@@ -16575,68 +16310,9 @@
 
       _this.focusedChild_ = -1;
 
-      _this.on('keydown', _this.handleKeyPress); // All the menu item instances share the same blur handler provided by the menu container.
+      _this.on('keydown', _this.handleKeyPress);
 
-
-      _this.boundHandleBlur_ = bind(_assertThisInitialized(_assertThisInitialized(_this)), _this.handleBlur);
-      _this.boundHandleTapClick_ = bind(_assertThisInitialized(_assertThisInitialized(_this)), _this.handleTapClick);
       return _this;
-    }
-    /**
-     * Add event listeners to the {@link MenuItem}.
-     *
-     * @param {Object} component
-     *        The instance of the `MenuItem` to add listeners to.
-     *
-     */
-
-
-    var _proto = Menu.prototype;
-
-    _proto.addEventListenerForItem = function addEventListenerForItem(component) {
-      if (!(component instanceof Component)) {
-        return;
-      }
-
-      component.on('blur', this.boundHandleBlur_);
-      component.on(['tap', 'click'], this.boundHandleTapClick_);
-    }
-    /**
-     * Remove event listeners from the {@link MenuItem}.
-     *
-     * @param {Object} component
-     *        The instance of the `MenuItem` to remove listeners.
-     *
-     */
-    ;
-
-    _proto.removeEventListenerForItem = function removeEventListenerForItem(component) {
-      if (!(component instanceof Component)) {
-        return;
-      }
-
-      component.off('blur', this.boundHandleBlur_);
-      component.off(['tap', 'click'], this.boundHandleTapClick_);
-    }
-    /**
-     * This method will be called indirectly when the component has been added
-     * before the component adds to the new menu instance by `addItem`.
-     * In this case, the original menu instance will remove the component
-     * by calling `removeChild`.
-     *
-     * @param {Object} component
-     *        The instance of the `MenuItem`
-     */
-    ;
-
-    _proto.removeChild = function removeChild(component) {
-      if (typeof component === 'string') {
-        component = this.getChild(component);
-      }
-
-      this.removeEventListenerForItem(component);
-
-      _Component.prototype.removeChild.call(this, component);
     }
     /**
      * Add a {@link MenuItem} to the menu.
@@ -16645,22 +16321,32 @@
      *        The name or instance of the `MenuItem` to add.
      *
      */
-    ;
+
+
+    var _proto = Menu.prototype;
 
     _proto.addItem = function addItem(component) {
-      var childComponent = this.addChild(component);
+      this.addChild(component);
+      component.on('blur', bind(this, this.handleBlur));
+      component.on(['tap', 'click'], bind(this, function (event) {
+        // Unpress the associated MenuButton, and move focus back to it
+        if (this.menuButton_) {
+          this.menuButton_.unpressButton(); // don't focus menu button if item is a caption settings item
+          // because focus will move elsewhere
 
-      if (childComponent) {
-        this.addEventListenerForItem(childComponent);
-      }
-    }
+          if (component.name() !== 'CaptionSettingsMenuItem') {
+            this.menuButton_.focus();
+          }
+        }
+      }));
+    };
     /**
      * Create the `Menu`s DOM element.
      *
      * @return {Element}
      *         the element that was created
      */
-    ;
+
 
     _proto.createEl = function createEl$$1() {
       var contentElType = this.options_.contentElType || 'ul';
@@ -16686,11 +16372,9 @@
 
     _proto.dispose = function dispose() {
       this.contentEl_ = null;
-      this.boundHandleBlur_ = null;
-      this.boundHandleTapClick_ = null;
 
       _Component.prototype.dispose.call(this);
-    }
+    };
     /**
      * Called when a `MenuItem` loses focus.
      *
@@ -16699,7 +16383,7 @@
      *
      * @listens blur
      */
-    ;
+
 
     _proto.handleBlur = function handleBlur(event) {
       var relatedTarget = event.relatedTarget || document.activeElement; // Close menu popup when a user clicks outside the menu
@@ -16713,42 +16397,7 @@
           btn.unpressButton();
         }
       }
-    }
-    /**
-     * Called when a `MenuItem` gets clicked or tapped.
-     *
-     * @param {EventTarget~Event} event
-     *        The `click` or `tap` event that caused this function to be called.
-     *
-     * @listens click,tap
-     */
-    ;
-
-    _proto.handleTapClick = function handleTapClick(event) {
-      // Unpress the associated MenuButton, and move focus back to it
-      if (this.menuButton_) {
-        this.menuButton_.unpressButton();
-        var childComponents = this.children();
-
-        if (!Array.isArray(childComponents)) {
-          return;
-        }
-
-        var foundComponent = childComponents.filter(function (component) {
-          return component.el() === event.target;
-        })[0];
-
-        if (!foundComponent) {
-          return;
-        } // don't focus menu button if item is a caption settings item
-        // because focus will move elsewhere
-
-
-        if (foundComponent.name() !== 'CaptionSettingsMenuItem') {
-          this.menuButton_.focus();
-        }
-      }
-    }
+    };
     /**
      * Handle a `keydown` event on this menu. This listener is added in the constructor.
      *
@@ -16757,22 +16406,22 @@
      *
      * @listens keydown
      */
-    ;
+
 
     _proto.handleKeyPress = function handleKeyPress(event) {
       // Left and Down Arrows
-      if (keycode.isEventKey(event, 'Left') || keycode.isEventKey(event, 'Down')) {
+      if (event.which === 37 || event.which === 40) {
         event.preventDefault();
         this.stepForward(); // Up and Right Arrows
-      } else if (keycode.isEventKey(event, 'Right') || keycode.isEventKey(event, 'Up')) {
+      } else if (event.which === 38 || event.which === 39) {
         event.preventDefault();
         this.stepBack();
       }
-    }
+    };
     /**
      * Move to next (lower) menu item for keyboard users.
      */
-    ;
+
 
     _proto.stepForward = function stepForward() {
       var stepChild = 0;
@@ -16782,11 +16431,11 @@
       }
 
       this.focus(stepChild);
-    }
+    };
     /**
      * Move to previous (higher) menu item for keyboard users.
      */
-    ;
+
 
     _proto.stepBack = function stepBack() {
       var stepChild = 0;
@@ -16796,14 +16445,14 @@
       }
 
       this.focus(stepChild);
-    }
+    };
     /**
      * Set focus on a {@link MenuItem} in the `Menu`.
      *
      * @param {Object|string} [item=0]
      *        Index of child item set focus on.
      */
-    ;
+
 
     _proto.focus = function focus(item) {
       if (item === void 0) {
@@ -16928,14 +16577,14 @@
       } else {
         this.show();
       }
-    }
+    };
     /**
      * Create the menu and add all items to it.
      *
      * @return {Menu}
      *         The constructed menu
      */
-    ;
+
 
     _proto.createMenu = function createMenu() {
       var menu = new Menu(this.player_, {
@@ -16953,16 +16602,14 @@
       this.hideThreshold_ = 0; // Add a title list item to the top
 
       if (this.options_.title) {
-        var titleEl = createEl('li', {
+        var title = createEl('li', {
           className: 'vjs-menu-title',
           innerHTML: toTitleCase(this.options_.title),
           tabIndex: -1
         });
         this.hideThreshold_ += 1;
-        var titleComponent = new Component(this.player_, {
-          el: titleEl
-        });
-        menu.addItem(titleComponent);
+        menu.children_.unshift(title);
+        prependTo(title, menu.contentEl());
       }
 
       this.items = this.createItems();
@@ -16975,35 +16622,35 @@
       }
 
       return menu;
-    }
+    };
     /**
      * Create the list of menu items. Specific to each subclass.
      *
      * @abstract
      */
-    ;
 
-    _proto.createItems = function createItems() {}
+
+    _proto.createItems = function createItems() {};
     /**
      * Create the `MenuButtons`s DOM element.
      *
      * @return {Element}
      *         The element that gets created.
      */
-    ;
+
 
     _proto.createEl = function createEl$$1() {
       return _Component.prototype.createEl.call(this, 'div', {
         className: this.buildWrapperCSSClass()
       }, {});
-    }
+    };
     /**
      * Allow sub components to stack CSS class names for the wrapper element
      *
      * @return {string}
      *         The constructed wrapper DOM `className`
      */
-    ;
+
 
     _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
       var menuButtonClass = 'vjs-menu-button'; // If the inline option is passed, we want to use different styles altogether.
@@ -17017,14 +16664,14 @@
 
       var buttonClass = Button.prototype.buildCSSClass();
       return "vjs-menu-button " + menuButtonClass + " " + buttonClass + " " + _Component.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * Builds the default DOM `className`.
      *
      * @return {string}
      *         The DOM `className` for this object.
      */
-    ;
+
 
     _proto.buildCSSClass = function buildCSSClass() {
       var menuButtonClass = 'vjs-menu-button'; // If the inline option is passed, we want to use different styles altogether.
@@ -17036,7 +16683,7 @@
       }
 
       return "vjs-menu-button " + menuButtonClass + " " + _Component.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * Get or set the localized control text that will be used for accessibility.
      *
@@ -17051,7 +16698,7 @@
      * @return {string}
      *         - The control text when getting
      */
-    ;
+
 
     _proto.controlText = function controlText(text, el) {
       if (el === void 0) {
@@ -17059,7 +16706,7 @@
       }
 
       return this.menuButton_.controlText(text, el);
-    }
+    };
     /**
      * Handle a click on a `MenuButton`.
      * See {@link ClickableComponent#handleClick} for instances where this is called.
@@ -17071,7 +16718,7 @@
      * @listens tap
      * @listens click
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       if (this.buttonPressed_) {
@@ -17079,23 +16726,23 @@
       } else {
         this.pressButton();
       }
-    }
+    };
     /**
      * Set the focus to the actual button, not to this element
      */
-    ;
+
 
     _proto.focus = function focus() {
       this.menuButton_.focus();
-    }
+    };
     /**
      * Remove the focus from the actual button, not this element
      */
-    ;
+
 
     _proto.blur = function blur() {
       this.menuButton_.blur();
-    }
+    };
     /**
      * This gets called when a `MenuButton` gains focus via a `focus` event.
      * Turns on listening for `keydown` events. When they happen it
@@ -17106,11 +16753,11 @@
      *
      * @listens focus
      */
-    ;
+
 
     _proto.handleFocus = function handleFocus() {
       on(document, 'keydown', bind(this, this.handleKeyPress));
-    }
+    };
     /**
      * Called when a `MenuButton` loses focus. Turns off the listener for
      * `keydown` events. Which Stops `this.handleKeyPress` from getting called.
@@ -17120,11 +16767,11 @@
      *
      * @listens blur
      */
-    ;
+
 
     _proto.handleBlur = function handleBlur() {
       off(document, 'keydown', bind(this, this.handleKeyPress));
-    }
+    };
     /**
      * Handle tab, escape, down arrow, and up arrow keys for `MenuButton`. See
      * {@link ClickableComponent#handleKeyPress} for instances where this is called.
@@ -17134,29 +16781,29 @@
      *
      * @listens keydown
      */
-    ;
+
 
     _proto.handleKeyPress = function handleKeyPress(event) {
-      // Escape or Tab unpress the 'button'
-      if (keycode.isEventKey(event, 'Esc') || keycode.isEventKey(event, 'Tab')) {
+      // Escape (27) key or Tab (9) key unpress the 'button'
+      if (event.which === 27 || event.which === 9) {
         if (this.buttonPressed_) {
           this.unpressButton();
         } // Don't preventDefault for Tab key - we still want to lose focus
 
 
-        if (!keycode.isEventKey(event, 'Tab')) {
+        if (event.which !== 9) {
           event.preventDefault(); // Set focus back to the menu button's button
 
-          this.menuButton_.focus();
-        } // Up Arrow or Down Arrow also 'press' the button to open the menu
+          this.menuButton_.el_.focus();
+        } // Enter (13) or Up (38) key or Down (40) key press the 'button'
 
-      } else if (keycode.isEventKey(event, 'Up') || keycode.isEventKey(event, 'Down')) {
+      } else if (event.which === 13 || event.which === 38 || event.which === 40) {
         if (!this.buttonPressed_) {
-          event.preventDefault();
           this.pressButton();
+          event.preventDefault();
         }
       }
-    }
+    };
     /**
      * Handle a `keydown` event on a sub-menu. The listener for this is added in
      * the constructor.
@@ -17166,27 +16813,27 @@
      *
      * @listens keydown
      */
-    ;
+
 
     _proto.handleSubmenuKeyPress = function handleSubmenuKeyPress(event) {
-      // Escape or Tab unpress the 'button'
-      if (keycode.isEventKey(event, 'Esc') || keycode.isEventKey(event, 'Tab')) {
+      // Escape (27) key or Tab (9) key unpress the 'button'
+      if (event.which === 27 || event.which === 9) {
         if (this.buttonPressed_) {
           this.unpressButton();
         } // Don't preventDefault for Tab key - we still want to lose focus
 
 
-        if (!keycode.isEventKey(event, 'Tab')) {
+        if (event.which !== 9) {
           event.preventDefault(); // Set focus back to the menu button's button
 
-          this.menuButton_.focus();
+          this.menuButton_.el_.focus();
         }
       }
-    }
+    };
     /**
      * Put the current `MenuButton` into a pressed state.
      */
-    ;
+
 
     _proto.pressButton = function pressButton() {
       if (this.enabled_) {
@@ -17203,11 +16850,11 @@
 
         this.menu.focus();
       }
-    }
+    };
     /**
      * Take the current `MenuButton` out of a pressed state.
      */
-    ;
+
 
     _proto.unpressButton = function unpressButton() {
       if (this.enabled_) {
@@ -17216,22 +16863,22 @@
         this.menu.hide();
         this.menuButton_.el_.setAttribute('aria-expanded', 'false');
       }
-    }
+    };
     /**
      * Disable the `MenuButton`. Don't allow it to be clicked.
      */
-    ;
+
 
     _proto.disable = function disable() {
       this.unpressButton();
       this.enabled_ = false;
       this.addClass('vjs-disabled');
       this.menuButton_.disable();
-    }
+    };
     /**
      * Enable the `MenuButton`. Allow it to be clicked.
      */
-    ;
+
 
     _proto.enable = function enable() {
       this.enabled_ = true;
@@ -17296,19 +16943,6 @@
   }(MenuButton);
 
   Component.registerComponent('TrackButton', TrackButton);
-
-  /**
-   * @file menu-keys.js
-   */
-
-  /**
-    * All keys used for operation of a menu (`MenuButton`, `Menu`, and `MenuItem`)
-    * Note that 'Enter' and 'Space' are not included here (otherwise they would
-    * prevent the `MenuButton` and `MenuItem` from being keyboard-clickable)
-    * @typedef MenuKeys
-    * @array
-    */
-  var MenuKeys = ['Tab', 'Esc', 'Up', 'Down', 'Right', 'Left'];
 
   /**
    * The component for a menu item. `<li>`
@@ -17380,26 +17014,7 @@
         innerHTML: "<span class=\"vjs-menu-item-text\">" + this.localize(this.options_.label) + "</span>",
         tabIndex: -1
       }, props), attrs);
-    }
-    /**
-     * Ignore keys which are used by the menu, but pass any other ones up. See
-     * {@link ClickableComponent#handleKeyPress} for instances where this is called.
-     *
-     * @param {EventTarget~Event} event
-     *        The `keydown` event that caused this function to be called.
-     *
-     * @listens keydown
-     */
-    ;
-
-    _proto.handleKeyPress = function handleKeyPress(event) {
-      if (!MenuKeys.some(function (key) {
-        return keycode.isEventKey(event, key);
-      })) {
-        // Pass keypress handling up for unused keys
-        _ClickableComponent.prototype.handleKeyPress.call(this, event);
-      }
-    }
+    };
     /**
      * Any click on a `MenuItem` puts it into the selected state.
      * See {@link ClickableComponent#handleClick} for instances where this is called.
@@ -17411,18 +17026,18 @@
      * @listens tap
      * @listens click
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       this.selected(true);
-    }
+    };
     /**
      * Set the state for this menu item as selected or not.
      *
      * @param {boolean} selected
      *        if the menu item is selected or not
      */
-    ;
+
 
     _proto.selected = function selected(_selected) {
       if (this.selectable) {
@@ -17553,40 +17168,32 @@
     var _proto = TextTrackMenuItem.prototype;
 
     _proto.handleClick = function handleClick(event) {
-      var referenceTrack = this.track;
+      var kind = this.track.kind;
+      var kinds = this.track.kinds;
       var tracks = this.player_.textTracks();
+
+      if (!kinds) {
+        kinds = [kind];
+      }
 
       _MenuItem.prototype.handleClick.call(this, event);
 
       if (!tracks) {
         return;
-      } // Determine the relevant kind(s) of tracks for this component and filter
-      // out empty kinds.
-
-
-      var kinds = (referenceTrack.kinds || [referenceTrack.kind]).filter(Boolean);
+      }
 
       for (var i = 0; i < tracks.length; i++) {
-        var track = tracks[i]; // If the track from the text tracks list is not of the right kind,
-        // skip it. We do not want to affect tracks of incompatible kind(s).
+        var track = tracks[i];
 
-        if (kinds.indexOf(track.kind) === -1) {
-          continue;
-        } // If this text track is the component's track and it is not showing,
-        // set it to showing.
-
-
-        if (track === referenceTrack) {
+        if (track === this.track && kinds.indexOf(track.kind) > -1) {
           if (track.mode !== 'showing') {
             track.mode = 'showing';
-          } // If this text track is not the component's track and it is not
-          // disabled, set it to disabled.
-
+          }
         } else if (track.mode !== 'disabled') {
           track.mode = 'disabled';
         }
       }
-    }
+    };
     /**
      * Handle text track list change
      *
@@ -17595,7 +17202,7 @@
      *
      * @listens TextTrackList#change
      */
-    ;
+
 
     _proto.handleTracksChange = function handleTracksChange(event) {
       var shouldBeSelected = this.track.mode === 'showing'; // Prevent redundant selected() calls because they may cause
@@ -17888,7 +17495,7 @@
 
       this.player_.currentTime(this.cue.startTime);
       this.update(this.cue.startTime);
-    }
+    };
     /**
      * Update chapter menu item
      *
@@ -17897,7 +17504,7 @@
      *
      * @listens TextTrack#cuechange
      */
-    ;
+
 
     _proto.update = function update(event) {
       var cue = this.cue;
@@ -17955,7 +17562,7 @@
 
     _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
       return "vjs-chapters-button " + _TextTrackButton.prototype.buildWrapperCSSClass.call(this);
-    }
+    };
     /**
      * Update the menu based on the current state of its items.
      *
@@ -17966,7 +17573,7 @@
      * @listens TextTrackList#removetrack
      * @listens TextTrackList#change
      */
-    ;
+
 
     _proto.update = function update(event) {
       if (!this.track_ || event && (event.type === 'addtrack' || event.type === 'removetrack')) {
@@ -17974,7 +17581,7 @@
       }
 
       _TextTrackButton.prototype.update.call(this);
-    }
+    };
     /**
      * Set the currently selected track for the chapters button.
      *
@@ -17982,7 +17589,7 @@
      *        The new track to select. Nothing will change if this is the currently selected
      *        track.
      */
-    ;
+
 
     _proto.setTrack = function setTrack(track) {
       if (this.track_ === track) {
@@ -18015,14 +17622,14 @@
           _remoteTextTrackEl.addEventListener('load', this.updateHandler_);
         }
       }
-    }
+    };
     /**
      * Find the track object that is currently in use by this ChaptersButton
      *
      * @return {TextTrack|undefined}
      *         The current track or undefined if none was found.
      */
-    ;
+
 
     _proto.findChaptersTrack = function findChaptersTrack() {
       var tracks = this.player_.textTracks() || [];
@@ -18035,7 +17642,7 @@
           return track;
         }
       }
-    }
+    };
     /**
      * Get the caption for the ChaptersButton based on the track label. This will also
      * use the current tracks localized kind as a fallback if a label does not exist.
@@ -18043,7 +17650,7 @@
      * @return {string}
      *         The tracks current label or the localized track kind.
      */
-    ;
+
 
     _proto.getMenuCaption = function getMenuCaption() {
       if (this.track_ && this.track_.label) {
@@ -18051,26 +17658,26 @@
       }
 
       return this.localize(toTitleCase(this.kind_));
-    }
+    };
     /**
      * Create menu from chapter track
      *
      * @return {Menu}
      *         New menu for the chapter buttons
      */
-    ;
+
 
     _proto.createMenu = function createMenu() {
       this.options_.title = this.getMenuCaption();
       return _TextTrackButton.prototype.createMenu.call(this);
-    }
+    };
     /**
      * Create a menu item for each text track
      *
      * @return {TextTrackMenuItem[]}
      *         Array of menu items
      */
-    ;
+
 
     _proto.createItems = function createItems() {
       var items = [];
@@ -18186,14 +17793,14 @@
       } else {
         this.enable();
       }
-    }
+    };
     /**
      * Builds the default DOM `className`.
      *
      * @return {string}
      *         The DOM `className` for this object.
      */
-    ;
+
 
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-descriptions-button " + _TextTrackButton.prototype.buildCSSClass.call(this);
@@ -18397,14 +18004,14 @@
 
     _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
       return "vjs-captions-button " + _TextTrackButton.prototype.buildWrapperCSSClass.call(this);
-    }
+    };
     /**
      * Create caption menu items
      *
      * @return {CaptionSettingsMenuItem[]}
      *         The array of current menu items.
      */
-    ;
+
 
     _proto.createItems = function createItems() {
       var items = [];
@@ -18526,14 +18133,14 @@
 
     _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
       return "vjs-subs-caps-button " + _TextTrackButton.prototype.buildWrapperCSSClass.call(this);
-    }
+    };
     /**
      * Create caption/subtitles menu items
      *
      * @return {CaptionSettingsMenuItem[]}
      *         The array of current menu items.
      */
-    ;
+
 
     _proto.createItems = function createItems() {
       var items = [];
@@ -18637,7 +18244,7 @@
       }, props), attrs);
 
       return el;
-    }
+    };
     /**
      * This gets called when an `AudioTrackMenuItem is "clicked". See {@link ClickableComponent}
      * for more detailed information on what a click can be.
@@ -18649,7 +18256,7 @@
      * @listens tap
      * @listens click
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       var tracks = this.player_.audioTracks();
@@ -18660,7 +18267,7 @@
         var track = tracks[i];
         track.enabled = track === this.track;
       }
-    }
+    };
     /**
      * Handle any {@link AudioTrack} change.
      *
@@ -18669,7 +18276,7 @@
      *
      * @listens AudioTrackList#change
      */
-    ;
+
 
     _proto.handleTracksChange = function handleTracksChange(event) {
       this.selected(this.track.enabled);
@@ -18724,7 +18331,7 @@
 
     _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
       return "vjs-audio-button " + _TrackButton.prototype.buildWrapperCSSClass.call(this);
-    }
+    };
     /**
      * Create a menu item for each audio track
      *
@@ -18734,7 +18341,7 @@
      * @return {AudioTrackMenuItem[]}
      *         An array of menu items
      */
-    ;
+
 
     _proto.createItems = function createItems(items) {
       if (items === void 0) {
@@ -18829,7 +18436,7 @@
       _MenuItem.prototype.handleClick.call(this);
 
       this.player().playbackRate(this.rate);
-    }
+    };
     /**
      * Update the PlaybackRateMenuItem when the playbackrate changes.
      *
@@ -18838,7 +18445,7 @@
      *
      * @listens Player#ratechange
      */
-    ;
+
 
     _proto.update = function update(event) {
       this.selected(this.player().playbackRate() === this.rate);
@@ -18917,14 +18524,14 @@
       this.labelEl_ = null;
 
       _MenuButton.prototype.dispose.call(this);
-    }
+    };
     /**
      * Builds the default DOM `className`.
      *
      * @return {string}
      *         The DOM `className` for this object.
      */
-    ;
+
 
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-playback-rate " + _MenuButton.prototype.buildCSSClass.call(this);
@@ -18932,14 +18539,14 @@
 
     _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
       return "vjs-playback-rate " + _MenuButton.prototype.buildWrapperCSSClass.call(this);
-    }
+    };
     /**
      * Create the playback rate menu
      *
      * @return {Menu}
      *         Menu object populated with {@link PlaybackRateMenuItem}s
      */
-    ;
+
 
     _proto.createMenu = function createMenu() {
       var menu = new Menu(this.player());
@@ -18954,16 +18561,16 @@
       }
 
       return menu;
-    }
+    };
     /**
      * Updates ARIA accessibility attributes
      */
-    ;
+
 
     _proto.updateARIAAttributes = function updateARIAAttributes() {
       // Current playback rate
       this.el().setAttribute('aria-valuenow', this.player().playbackRate());
-    }
+    };
     /**
      * This gets called when an `PlaybackRateMenuButton` is "clicked". See
      * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -18975,7 +18582,7 @@
      * @listens tap
      * @listens click
      */
-    ;
+
 
     _proto.handleClick = function handleClick(event) {
       // select next rate option
@@ -18992,18 +18599,18 @@
       }
 
       this.player().playbackRate(newRate);
-    }
+    };
     /**
      * Get possible playback rates
      *
      * @return {Array}
      *         All possible playback rates
      */
-    ;
+
 
     _proto.playbackRates = function playbackRates() {
       return this.options_.playbackRates || this.options_.playerOptions && this.options_.playerOptions.playbackRates;
-    }
+    };
     /**
      * Get whether playback rates is supported by the tech
      * and an array of playback rates exists
@@ -19011,11 +18618,11 @@
      * @return {boolean}
      *         Whether changing playback rate is supported
      */
-    ;
+
 
     _proto.playbackRateSupported = function playbackRateSupported() {
       return this.player().tech_ && this.player().tech_.featuresPlaybackRate && this.playbackRates() && this.playbackRates().length > 0;
-    }
+    };
     /**
      * Hide playback rate controls when they're no playback rate options to select
      *
@@ -19024,7 +18631,7 @@
      *
      * @listens Player#loadstart
      */
-    ;
+
 
     _proto.updateVisibility = function updateVisibility(event) {
       if (this.playbackRateSupported()) {
@@ -19032,7 +18639,7 @@
       } else {
         this.addClass('vjs-hidden');
       }
-    }
+    };
     /**
      * Update button label when rate changed
      *
@@ -19041,7 +18648,7 @@
      *
      * @listens Player#ratechange
      */
-    ;
+
 
     _proto.updateLabel = function updateLabel(event) {
       if (this.playbackRateSupported()) {
@@ -19088,14 +18695,14 @@
     */
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-spacer " + _Component.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * Create the `Component`'s DOM element
      *
      * @return {Element}
      *         The element that was created.
      */
-    ;
+
 
     _proto.createEl = function createEl() {
       return _Component.prototype.createEl.call(this, 'div', {
@@ -19133,14 +18740,14 @@
      */
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-custom-control-spacer " + _Spacer.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * Create the `Component`'s DOM element
      *
      * @return {Element}
      *         The element that was created.
      */
-    ;
+
 
     _proto.createEl = function createEl() {
       var el = _Spacer.prototype.createEl.call(this, {
@@ -19247,14 +18854,14 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return "vjs-error-display " + _ModalDialog.prototype.buildCSSClass.call(this);
-    }
+    };
     /**
      * Gets the localized error message based on the `Player`s error.
      *
      * @return {string}
      *         The `Player`s error message localized or an empty string.
      */
-    ;
+
 
     _proto.content = function content() {
       var error = this.player().error();
@@ -19514,7 +19121,7 @@
       this.endDialog = null;
 
       _ModalDialog.prototype.dispose.call(this);
-    }
+    };
     /**
      * Create a <select> element with configured options.
      *
@@ -19526,7 +19133,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.createElSelect_ = function createElSelect_(key, legendId, type) {
       var _this2 = this;
@@ -19546,7 +19153,7 @@
         var optionId = id + '-' + o[1].replace(/\W+/g, '');
         return ["<option id=\"" + optionId + "\" value=\"" + o[0] + "\" ", "aria-labelledby=\"" + selectLabelledbyIds + " " + optionId + "\">", _this2.localize(o[1]), '</option>'].join('');
       })).concat('</select>').join('');
-    }
+    };
     /**
      * Create foreground color element for the component
      *
@@ -19555,12 +19162,12 @@
      *
      * @private
      */
-    ;
+
 
     _proto.createElFgColor_ = function createElFgColor_() {
       var legendId = "captions-text-legend-" + this.id_;
       return ['<fieldset class="vjs-fg-color vjs-track-setting">', "<legend id=\"" + legendId + "\">", this.localize('Text'), '</legend>', this.createElSelect_('color', legendId), '<span class="vjs-text-opacity vjs-opacity">', this.createElSelect_('textOpacity', legendId), '</span>', '</fieldset>'].join('');
-    }
+    };
     /**
      * Create background color element for the component
      *
@@ -19569,12 +19176,12 @@
      *
      * @private
      */
-    ;
+
 
     _proto.createElBgColor_ = function createElBgColor_() {
       var legendId = "captions-background-" + this.id_;
       return ['<fieldset class="vjs-bg-color vjs-track-setting">', "<legend id=\"" + legendId + "\">", this.localize('Background'), '</legend>', this.createElSelect_('backgroundColor', legendId), '<span class="vjs-bg-opacity vjs-opacity">', this.createElSelect_('backgroundOpacity', legendId), '</span>', '</fieldset>'].join('');
-    }
+    };
     /**
      * Create window color element for the component
      *
@@ -19583,12 +19190,12 @@
      *
      * @private
      */
-    ;
+
 
     _proto.createElWinColor_ = function createElWinColor_() {
       var legendId = "captions-window-" + this.id_;
       return ['<fieldset class="vjs-window-color vjs-track-setting">', "<legend id=\"" + legendId + "\">", this.localize('Window'), '</legend>', this.createElSelect_('windowColor', legendId), '<span class="vjs-window-opacity vjs-opacity">', this.createElSelect_('windowOpacity', legendId), '</span>', '</fieldset>'].join('');
-    }
+    };
     /**
      * Create color elements for the component
      *
@@ -19597,14 +19204,14 @@
      *
      * @private
      */
-    ;
+
 
     _proto.createElColors_ = function createElColors_() {
       return createEl('div', {
         className: 'vjs-track-settings-colors',
         innerHTML: [this.createElFgColor_(), this.createElBgColor_(), this.createElWinColor_()].join('')
       });
-    }
+    };
     /**
      * Create font elements for the component
      *
@@ -19613,14 +19220,14 @@
      *
      * @private
      */
-    ;
+
 
     _proto.createElFont_ = function createElFont_() {
       return createEl('div', {
         className: 'vjs-track-settings-font',
         innerHTML: ['<fieldset class="vjs-font-percent vjs-track-setting">', this.createElSelect_('fontPercent', '', 'legend'), '</fieldset>', '<fieldset class="vjs-edge-style vjs-track-setting">', this.createElSelect_('edgeStyle', '', 'legend'), '</fieldset>', '<fieldset class="vjs-font-family vjs-track-setting">', this.createElSelect_('fontFamily', '', 'legend'), '</fieldset>'].join('')
       });
-    }
+    };
     /**
      * Create controls for the component
      *
@@ -19629,7 +19236,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.createElControls_ = function createElControls_() {
       var defaultsDescription = this.localize('restore all settings to the default values');
@@ -19653,14 +19260,14 @@
 
     _proto.buildCSSClass = function buildCSSClass() {
       return _ModalDialog.prototype.buildCSSClass.call(this) + ' vjs-text-track-settings';
-    }
+    };
     /**
      * Gets an object of text track settings (or null).
      *
      * @return {Object}
      *         An object with config values parsed from the DOM or localStorage.
      */
-    ;
+
 
     _proto.getValues = function getValues() {
       var _this3 = this;
@@ -19674,14 +19281,14 @@
 
         return accum;
       }, {});
-    }
+    };
     /**
      * Sets text track settings from an object of values.
      *
      * @param {Object} values
      *        An object with config values parsed from the DOM or localStorage.
      */
-    ;
+
 
     _proto.setValues = function setValues(values) {
       var _this4 = this;
@@ -19689,11 +19296,11 @@
       each(selectConfigs, function (config, key) {
         setSelectedOption(_this4.$(config.selector), values[key], config.parser);
       });
-    }
+    };
     /**
      * Sets all `<select>` elements to their default values.
      */
-    ;
+
 
     _proto.setDefaults = function setDefaults() {
       var _this5 = this;
@@ -19702,11 +19309,11 @@
         var index = config.hasOwnProperty('default') ? config.default : 0;
         _this5.$(config.selector).selectedIndex = index;
       });
-    }
+    };
     /**
      * Restore texttrack settings from localStorage
      */
-    ;
+
 
     _proto.restoreSettings = function restoreSettings() {
       var values;
@@ -19720,11 +19327,11 @@
       if (values) {
         this.setValues(values);
       }
-    }
+    };
     /**
      * Save text track settings to localStorage
      */
-    ;
+
 
     _proto.saveSettings = function saveSettings() {
       if (!this.options_.persistTextTrackSettings) {
@@ -19742,11 +19349,11 @@
       } catch (err) {
         log.warn(err);
       }
-    }
+    };
     /**
      * Update display of text track settings
      */
-    ;
+
 
     _proto.updateDisplay = function updateDisplay() {
       var ttDisplay = this.player_.getChild('textTrackDisplay');
@@ -19754,13 +19361,13 @@
       if (ttDisplay) {
         ttDisplay.updateDisplay();
       }
-    }
+    };
     /**
      * conditionally blur the element and refocus the captions button
      *
      * @private
      */
-    ;
+
 
     _proto.conditionalBlur_ = function conditionalBlur_() {
       this.previouslyActiveEl_ = null;
@@ -19861,18 +19468,15 @@
 
     _proto.createEl = function createEl() {
       return _Component.prototype.createEl.call(this, 'iframe', {
-        className: 'vjs-resize-manager',
-        tabIndex: -1
-      }, {
-        'aria-hidden': 'true'
+        className: 'vjs-resize-manager'
       });
-    }
+    };
     /**
      * Called when a resize is triggered on the iframe or a resize is observed via the ResizeObserver
      *
      * @fires Player#playerresize
      */
-    ;
+
 
     _proto.resizeHandler = function resizeHandler() {
       /**
@@ -19964,9 +19568,9 @@
       // can be Infinity, so we handle that case.
 
       return liveCurrentTime !== Infinity && liveCurrentTime - liveEdgeWindow >= currentTime;
-    } // all the functionality for tracking when seek end changes
+    }; // all the functionality for tracking when seek end changes
     // and for tracking how far past seek end we should be
-    ;
+
 
     _proto.trackLive_ = function trackLive_() {
       this.pastSeekEnd_ = this.pastSeekEnd_;
@@ -19996,12 +19600,12 @@
         this.behindLiveEdge_ = this.isBehind_();
         this.trigger('liveedgechange');
       }
-    }
+    };
     /**
      * handle a durationchange event on the player
      * and start/stop tracking accordingly.
      */
-    ;
+
 
     _proto.handleDurationchange = function handleDurationchange() {
       if (this.player_.duration() === Infinity) {
@@ -20009,11 +19613,11 @@
       } else {
         this.stopTracking();
       }
-    }
+    };
     /**
      * start tracking live playback
      */
-    ;
+
 
     _proto.startTracking = function startTracking() {
       var _this2 = this;
@@ -20041,12 +19645,12 @@
 
     _proto.handlePlay = function handlePlay() {
       this.one(this.player_, 'timeupdate', this.seekToLiveEdge);
-    }
+    };
     /**
      * Stop tracking, and set all internal variables to
      * their initial value.
      */
-    ;
+
 
     _proto.reset_ = function reset_() {
       this.pastSeekEnd_ = 0;
@@ -20065,11 +19669,11 @@
         this.off(this.player_, 'timeupdate', this.handleTimeupdate);
         this.handleTimeupdate = null;
       }
-    }
+    };
     /**
      * stop tracking live playback
      */
-    ;
+
 
     _proto.stopTracking = function stopTracking() {
       if (!this.isTracking()) {
@@ -20077,12 +19681,12 @@
       }
 
       this.reset_();
-    }
+    };
     /**
      * A helper to get the player seekable end
      * so that we don't have to null check everywhere
      */
-    ;
+
 
     _proto.seekableEnd = function seekableEnd() {
       var seekable = this.player_.seekable();
@@ -20096,12 +19700,12 @@
 
 
       return seekableEnds.length ? seekableEnds.sort()[seekableEnds.length - 1] : Infinity;
-    }
+    };
     /**
      * A helper to get the player seekable start
      * so that we don't have to null check everywhere
      */
-    ;
+
 
     _proto.seekableStart = function seekableStart() {
       var seekable = this.player_.seekable();
@@ -20115,11 +19719,11 @@
 
 
       return seekableStarts.length ? seekableStarts.sort()[0] : 0;
-    }
+    };
     /**
      * Get the live time window
      */
-    ;
+
 
     _proto.liveWindow = function liveWindow() {
       var liveCurrentTime = this.liveCurrentTime();
@@ -20129,46 +19733,46 @@
       }
 
       return liveCurrentTime - this.seekableStart();
-    }
+    };
     /**
      * Determines if the player is live, only checks if this component
      * is tracking live playback or not
      */
-    ;
+
 
     _proto.isLive = function isLive() {
       return this.isTracking();
-    }
+    };
     /**
      * Determines if currentTime is at the live edge and won't fall behind
      * on each seekableendchange
      */
-    ;
+
 
     _proto.atLiveEdge = function atLiveEdge() {
       return !this.behindLiveEdge();
-    }
+    };
     /**
      * get what we expect the live current time to be
      */
-    ;
+
 
     _proto.liveCurrentTime = function liveCurrentTime() {
       return this.pastSeekEnd() + this.seekableEnd();
-    }
+    };
     /**
      * Returns how far past seek end we expect current time to be
      */
-    ;
+
 
     _proto.pastSeekEnd = function pastSeekEnd() {
       return this.pastSeekEnd_;
-    }
+    };
     /**
      * If we are currently behind the live edge, aka currentTime will be
      * behind on a seekableendchange
      */
-    ;
+
 
     _proto.behindLiveEdge = function behindLiveEdge() {
       return this.behindLiveEdge_;
@@ -20176,11 +19780,11 @@
 
     _proto.isTracking = function isTracking() {
       return typeof this.trackingInterval_ === 'number';
-    }
+    };
     /**
      * Seek to the live edge if we are behind the live edge
      */
-    ;
+
 
     _proto.seekToLiveEdge = function seekToLiveEdge() {
       if (this.atLiveEdge()) {
@@ -20628,16 +20232,16 @@
       this.options_ = null; // tech will handle clearing of the emulated track list
 
       _Tech.prototype.dispose.call(this);
-    }
+    };
     /**
      * Modify the media element so that we can detect when
      * the source is changed. Fires `sourceset` just after the source has changed
      */
-    ;
+
 
     _proto.setupSourcesetHandling_ = function setupSourcesetHandling_() {
       setupSourceset(this);
-    }
+    };
     /**
      * When a captions track is enabled in the iOS Safari native player, all other
      * tracks are disabled (including metadata tracks), which nulls all of their
@@ -20646,7 +20250,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.restoreMetadataTracksInIOSNativePlayer_ = function restoreMetadataTracksInIOSNativePlayer_() {
       var textTracks = this.textTracks();
@@ -20704,7 +20308,7 @@
 
         textTracks.removeEventListener('change', restoreTrackMode);
       });
-    }
+    };
     /**
      * Attempt to force override of tracks for the given type
      *
@@ -20714,7 +20318,7 @@
      * otherwise native audio/video will potentially be used.
      * @private
      */
-    ;
+
 
     _proto.overrideNative_ = function overrideNative_(type, override) {
       var _this2 = this;
@@ -20737,29 +20341,29 @@
       this["featuresNative" + type + "Tracks"] = !override;
       this[lowerCaseType + "TracksListeners_"] = null;
       this.proxyNativeTracksForType_(lowerCaseType);
-    }
+    };
     /**
      * Attempt to force override of native audio tracks.
      *
      * @param {boolean} override - If set to true native audio will be overridden,
      * otherwise native audio will potentially be used.
      */
-    ;
+
 
     _proto.overrideNativeAudioTracks = function overrideNativeAudioTracks(override) {
       this.overrideNative_('Audio', override);
-    }
+    };
     /**
      * Attempt to force override of native video tracks.
      *
      * @param {boolean} override - If set to true native video will be overridden,
      * otherwise native video will potentially be used.
      */
-    ;
+
 
     _proto.overrideNativeVideoTracks = function overrideNativeVideoTracks(override) {
       this.overrideNative_('Video', override);
-    }
+    };
     /**
      * Proxy native track list events for the given type to our track
      * lists if the browser we are playing in supports that type of track list.
@@ -20767,7 +20371,7 @@
      * @param {string} name - Track type; values include 'audio', 'video', and 'text'
      * @private
      */
-    ;
+
 
     _proto.proxyNativeTracksForType_ = function proxyNativeTracksForType_(name) {
       var _this3 = this;
@@ -20834,14 +20438,14 @@
       this.on('dispose', function (e) {
         return _this3.off('loadstart', removeOldTracks);
       });
-    }
+    };
     /**
      * Proxy all native track list events to our track lists if the browser we are playing
      * in supports that type of track list.
      *
      * @private
      */
-    ;
+
 
     _proto.proxyNativeTracks_ = function proxyNativeTracks_() {
       var _this4 = this;
@@ -20849,14 +20453,14 @@
       NORMAL.names.forEach(function (name) {
         _this4.proxyNativeTracksForType_(name);
       });
-    }
+    };
     /**
      * Create the `Html5` Tech's DOM element.
      *
      * @return {Element}
      *         The element that gets created.
      */
-    ;
+
 
     _proto.createEl = function createEl$$1() {
       var el = this.options_.tag; // Check if this browser supports moving the element into the box.
@@ -20919,7 +20523,7 @@
       }
 
       return el;
-    }
+    };
     /**
      * This will be triggered if the loadstart event has already fired, before videojs was
      * ready. Two known examples of when this can happen are:
@@ -20933,7 +20537,7 @@
      * @return {undefined}
      *         returns nothing.
      */
-    ;
+
 
     _proto.handleLateInit_ = function handleLateInit_(el) {
       if (el.networkState === 0 || el.networkState === 3) {
@@ -21010,14 +20614,14 @@
           this.trigger(type);
         }, this);
       });
-    }
+    };
     /**
      * Set current time for the `HTML5` tech.
      *
      * @param {number} seconds
      *        Set the current time of the media to this.
      */
-    ;
+
 
     _proto.setCurrentTime = function setCurrentTime(seconds) {
       try {
@@ -21025,14 +20629,14 @@
       } catch (e) {
         log(e, 'Video is not ready. (Video.js)'); // this.warning(VideoJS.warnings.videoNotReady);
       }
-    }
+    };
     /**
      * Get the current duration of the HTML5 media element.
      *
      * @return {number}
      *         The duration of the media or 0 if there is no duration.
      */
-    ;
+
 
     _proto.duration = function duration() {
       var _this5 = this;
@@ -21060,29 +20664,29 @@
       }
 
       return this.el_.duration || NaN;
-    }
+    };
     /**
      * Get the current width of the HTML5 media element.
      *
      * @return {number}
      *         The width of the HTML5 media element.
      */
-    ;
+
 
     _proto.width = function width() {
       return this.el_.offsetWidth;
-    }
+    };
     /**
      * Get the current height of the HTML5 media element.
      *
      * @return {number}
      *         The height of the HTML5 media element.
      */
-    ;
+
 
     _proto.height = function height() {
       return this.el_.offsetHeight;
-    }
+    };
     /**
      * Proxy iOS `webkitbeginfullscreen` and `webkitendfullscreen` into
      * `fullscreenchange` event.
@@ -21093,7 +20697,7 @@
      * @listens webkitbeginfullscreen
      * @listens webkitbeginfullscreen
      */
-    ;
+
 
     _proto.proxyWebkitFullscreen_ = function proxyWebkitFullscreen_() {
       var _this6 = this;
@@ -21123,7 +20727,7 @@
 
         _this6.off('webkitendfullscreen', endFn);
       });
-    }
+    };
     /**
      * Check if fullscreen is supported on the current playback device.
      *
@@ -21131,7 +20735,7 @@
      *         - True if fullscreen is supported.
      *         - False if fullscreen is not supported.
      */
-    ;
+
 
     _proto.supportsFullScreen = function supportsFullScreen() {
       if (typeof this.el_.webkitEnterFullScreen === 'function') {
@@ -21143,11 +20747,11 @@
       }
 
       return false;
-    }
+    };
     /**
      * Request that the `HTML5` Tech enter fullscreen.
      */
-    ;
+
 
     _proto.enterFullScreen = function enterFullScreen() {
       var video = this.el_;
@@ -21165,15 +20769,15 @@
       } else {
         video.webkitEnterFullScreen();
       }
-    }
+    };
     /**
      * Request that the `HTML5` Tech exit fullscreen.
      */
-    ;
+
 
     _proto.exitFullScreen = function exitFullScreen() {
       this.el_.webkitExitFullScreen();
-    }
+    };
     /**
      * A getter/setter for the `Html5` Tech's source object.
      * > Note: Please use {@link Html5#setSource}
@@ -21187,7 +20791,7 @@
      *
      * @deprecated Since version 5.
      */
-    ;
+
 
     _proto.src = function src(_src) {
       if (_src === undefined) {
@@ -21196,16 +20800,16 @@
 
 
       this.setSrc(_src);
-    }
+    };
     /**
      * Reset the tech by removing all sources and then calling
      * {@link Html5.resetMediaElement}.
      */
-    ;
+
 
     _proto.reset = function reset() {
       Html5.resetMediaElement(this.el_);
-    }
+    };
     /**
      * Get the current source on the `HTML5` Tech. Falls back to returning the source from
      * the HTML5 media element.
@@ -21214,7 +20818,7 @@
      *         The current source object from the HTML5 tech. With a fallback to the
      *         elements source.
      */
-    ;
+
 
     _proto.currentSrc = function currentSrc() {
       if (this.currentSource_) {
@@ -21222,18 +20826,18 @@
       }
 
       return this.el_.currentSrc;
-    }
+    };
     /**
      * Set controls attribute for the HTML5 media Element.
      *
      * @param {string} val
      *        Value to set the controls attribute to
      */
-    ;
+
 
     _proto.setControls = function setControls(val) {
       this.el_.controls = !!val;
-    }
+    };
     /**
      * Create and returns a remote {@link TextTrack} object.
      *
@@ -21249,7 +20853,7 @@
      * @return {TextTrack}
      *         The TextTrack that gets created.
      */
-    ;
+
 
     _proto.addTextTrack = function addTextTrack(kind, label, language) {
       if (!this.featuresNativeTextTracks) {
@@ -21257,7 +20861,7 @@
       }
 
       return this.el_.addTextTrack(kind, label, language);
-    }
+    };
     /**
      * Creates either native TextTrack or an emulated TextTrack depending
      * on the value of `featuresNativeTextTracks`
@@ -21286,7 +20890,7 @@
      * @return {HTMLTrackElement}
      *         The track element that gets created.
      */
-    ;
+
 
     _proto.createRemoteTextTrack = function createRemoteTextTrack(options) {
       if (!this.featuresNativeTextTracks) {
@@ -21320,7 +20924,7 @@
       }
 
       return htmlTrackElement;
-    }
+    };
     /**
      * Creates a remote text track object and returns an html track element.
      *
@@ -21333,7 +20937,7 @@
      * @deprecated The default value of the "manualCleanup" parameter will default
      * to "false" in upcoming versions of Video.js
      */
-    ;
+
 
     _proto.addRemoteTextTrack = function addRemoteTextTrack(options, manualCleanup) {
       var htmlTrackElement = _Tech.prototype.addRemoteTextTrack.call(this, options, manualCleanup);
@@ -21343,14 +20947,14 @@
       }
 
       return htmlTrackElement;
-    }
+    };
     /**
      * Remove remote `TextTrack` from `TextTrackList` object
      *
      * @param {TextTrack} track
      *        `TextTrack` object to remove
      */
-    ;
+
 
     _proto.removeRemoteTextTrack = function removeRemoteTextTrack(track) {
       _Tech.prototype.removeRemoteTextTrack.call(this, track);
@@ -21365,7 +20969,7 @@
           }
         }
       }
-    }
+    };
     /**
      * Gets available media playback quality metrics as specified by the W3C's Media
      * Playback Quality API.
@@ -21375,7 +20979,7 @@
      * @return {Object}
      *         An object with supported media playback quality metrics
      */
-    ;
+
 
     _proto.getVideoPlaybackQuality = function getVideoPlaybackQuality() {
       if (typeof this.el().getVideoPlaybackQuality === 'function') {
@@ -22749,14 +22353,16 @@
         _this.languages_ = languagesToLower;
       } else {
         _this.languages_ = Player.prototype.options_.languages;
-      }
+      } // Cache for video property values.
 
-      _this.resetCache_(); // Set poster
 
+      _this.cache_ = {}; // Set poster
 
       _this.poster_ = options.poster || ''; // Set controls
 
-      _this.controls_ = !!options.controls; // Original tag settings stored in options
+      _this.controls_ = !!options.controls; // Set default values for lastVolume
+
+      _this.cache_.lastVolume = 1; // Original tag settings stored in options
       // now remove immediately so native controls don't flash.
       // May be turned back on by HTML5 tech if nativeControlsForTouch is true
 
@@ -22779,7 +22385,9 @@
 
 
       _this.scrubbing_ = false;
-      _this.el_ = _this.createEl(); // Make this an evented object and use `el_` as its event bus.
+      _this.el_ = _this.createEl(); // Set default value for lastPlaybackRate
+
+      _this.cache_.lastPlaybackRate = _this.defaultPlaybackRate(); // Make this an evented object and use `el_` as its event bus.
 
       evented(_assertThisInitialized(_assertThisInitialized(_this)), {
         eventBusKey: 'el_'
@@ -22839,13 +22447,10 @@
         _this.addClass('vjs-no-flex');
       } // TODO: Make this smarter. Toggle user state between touching/mousing
       // using events, since devices can have both touch and mouse events.
-      // TODO: Make this check be performed again when the window switches between monitors
-      // (See https://github.com/videojs/video.js/issues/5683)
-
-
-      if (TOUCH_ENABLED) {
-        _this.addClass('vjs-touch-enabled');
-      } // iOS Safari has broken hover handling
+      // if (browser.TOUCH_ENABLED) {
+      //   this.addClass('vjs-touch-enabled');
+      // }
+      // iOS Safari has broken hover handling
 
 
       if (!IS_IOS) {
@@ -22867,9 +22472,7 @@
 
       _this.one('play', _this.listenForUserActivity_);
 
-      _this.on('focus', _this.handleFocus);
-
-      _this.on('blur', _this.handleBlur);
+      _this.on('fullscreenchange', _this.handleFullscreenChange_);
 
       _this.on('stageclick', _this.handleStageClick_);
 
@@ -22938,14 +22541,14 @@
       clearCacheForPlayer(this); // the actual .el_ is removed here
 
       _Component.prototype.dispose.call(this);
-    }
+    };
     /**
      * Create the `Player`'s DOM element.
      *
      * @return {Element}
      *         The DOM element that gets created.
      */
-    ;
+
 
     _proto.createEl = function createEl$$1() {
       var tag = this.tag;
@@ -23080,7 +22683,7 @@
       this.el_.setAttribute('lang', this.language_);
       this.el_ = el;
       return el;
-    }
+    };
     /**
      * A getter/setter for the `Player`'s width. Returns the player's configured value.
      * To get the current width use `currentWidth()`.
@@ -23091,11 +22694,11 @@
      * @return {number}
      *         The current width of the `Player` when getting.
      */
-    ;
+
 
     _proto.width = function width(value) {
       return this.dimension('width', value);
-    }
+    };
     /**
      * A getter/setter for the `Player`'s height. Returns the player's configured value.
      * To get the current height use `currentheight()`.
@@ -23106,11 +22709,11 @@
      * @return {number}
      *         The current height of the `Player` when getting.
      */
-    ;
+
 
     _proto.height = function height(value) {
       return this.dimension('height', value);
-    }
+    };
     /**
      * A getter/setter for the `Player`'s width & height.
      *
@@ -23125,7 +22728,7 @@
      * @return {number}
      *         The dimension arguments value when getting (width/height).
      */
-    ;
+
 
     _proto.dimension = function dimension(_dimension, value) {
       var privDimension = _dimension + '_';
@@ -23150,7 +22753,7 @@
 
       this[privDimension] = parsedVal;
       this.updateStyleEl_();
-    }
+    };
     /**
      * A getter/setter/toggler for the vjs-fluid `className` on the `Player`.
      *
@@ -23165,7 +22768,7 @@
      *         - The value of fluid when getting.
      *         - `undefined` when setting.
      */
-    ;
+
 
     _proto.fluid = function fluid(bool) {
       if (bool === undefined) {
@@ -23189,7 +22792,7 @@
       }
 
       this.updateStyleEl_();
-    }
+    };
     /**
      * A getter/setter/toggler for the vjs-fill `className` on the `Player`.
      *
@@ -23204,7 +22807,7 @@
      *         - The value of fluid when getting.
      *         - `undefined` when setting.
      */
-    ;
+
 
     _proto.fill = function fill(bool) {
       if (bool === undefined) {
@@ -23219,7 +22822,7 @@
       } else {
         this.removeClass('vjs-fill');
       }
-    }
+    };
     /**
      * Get/Set the aspect ratio
      *
@@ -23240,7 +22843,7 @@
      *         - The current aspect ratio of the `Player` when getting.
      *         - undefined when setting
      */
-    ;
+
 
     _proto.aspectRatio = function aspectRatio(ratio) {
       if (ratio === undefined) {
@@ -23257,14 +22860,14 @@
 
       this.fluid(true);
       this.updateStyleEl_();
-    }
+    };
     /**
      * Update styles of the `Player` element (height, width and aspect ratio).
      *
      * @private
      * @listens Tech#loadedmetadata
      */
-    ;
+
 
     _proto.updateStyleEl_ = function updateStyleEl_() {
       if (window$1.VIDEOJS_NO_DYNAMIC_STYLE === true) {
@@ -23336,7 +22939,7 @@
 
       this.addClass(idClass);
       setTextContent(this.styleEl_, "\n      ." + idClass + " {\n        width: " + width + "px;\n        height: " + height + "px;\n      }\n\n      ." + idClass + ".vjs-fluid {\n        padding-top: " + ratioMultiplier * 100 + "%;\n      }\n    ");
-    }
+    };
     /**
      * Load/Create an instance of playback {@link Tech} including element
      * and API methods. Then append the `Tech` element in `Player` as a child.
@@ -23349,7 +22952,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.loadTech_ = function loadTech_(techName, source) {
       var _this2 = this;
@@ -23469,13 +23072,13 @@
         this.tag.player = null;
         this.tag = null;
       }
-    }
+    };
     /**
      * Unload and dispose of the current playback {@link Tech}.
      *
      * @private
      */
-    ;
+
 
     _proto.unloadTech_ = function unloadTech_() {
       var _this3 = this;
@@ -23496,7 +23099,7 @@
       }
 
       this.isPosterFromTech_ = false;
-    }
+    };
     /**
      * Return a reference to the current {@link Tech}.
      * It will print a warning by default about the danger of using the tech directly
@@ -23508,7 +23111,7 @@
      * @return {Tech}
      *         The Tech
      */
-    ;
+
 
     _proto.tech = function tech(safety) {
       if (safety === undefined) {
@@ -23516,7 +23119,7 @@
       }
 
       return this.tech_;
-    }
+    };
     /**
      * Set up click and touch listeners for the playback element
      *
@@ -23538,7 +23141,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.addTechControlsListeners_ = function addTechControlsListeners_() {
       // Make sure to remove all the previous listeners in case we are called multiple times.
@@ -23558,14 +23161,14 @@
       // listener cancels out any reportedUserActivity when setting userActive(false)
 
       this.on(this.tech_, 'tap', this.handleTechTap_);
-    }
+    };
     /**
      * Remove the listeners used for click and tap controls. This is needed for
      * toggling to controls disabled, where a tap/touch should do nothing.
      *
      * @private
      */
-    ;
+
 
     _proto.removeTechControlsListeners_ = function removeTechControlsListeners_() {
       // We don't want to just use `this.off()` because there might be other needed
@@ -23576,13 +23179,13 @@
       this.off(this.tech_, 'touchend', this.handleTechTouchEnd_);
       this.off(this.tech_, 'mousedown', this.handleTechClick_);
       this.off(this.tech_, 'dblclick', this.handleTechDoubleClick_);
-    }
+    };
     /**
      * Player waits for the tech to be ready
      *
      * @private
      */
-    ;
+
 
     _proto.handleTechReady_ = function handleTechReady_() {
       this.triggerReady(); // Keep the same volume as before
@@ -23595,7 +23198,7 @@
       this.handleTechPosterChange_(); // Update the duration if available
 
       this.handleTechDurationChange_();
-    }
+    };
     /**
      * Retrigger the `loadstart` event that was triggered by the {@link Tech}. This
      * function will also trigger {@link Player#firstplay} if it is the first loadstart
@@ -23606,7 +23209,7 @@
      * @listens Tech#loadstart
      * @private
      */
-    ;
+
 
     _proto.handleTechLoadStart_ = function handleTechLoadStart_() {
       // TODO: Update to use `emptied` event instead. See #1277.
@@ -23637,14 +23240,14 @@
 
 
       this.manualAutoplay_(this.autoplay());
-    }
+    };
     /**
      * Handle autoplay string values, rather than the typical boolean
      * values that should be handled by the tech. Note that this is not
      * part of any specification. Valid values and what they do can be
      * found on the autoplay getter at Player#autoplay()
      */
-    ;
+
 
     _proto.manualAutoplay_ = function manualAutoplay_(type) {
       var _this4 = this;
@@ -23701,7 +23304,7 @@
           autoplay: type
         });
       });
-    }
+    };
     /**
      * Update the internal source caches so that we return the correct source from
      * `src()`, `currentSource()`, and `currentSources()`.
@@ -23713,7 +23316,7 @@
      * @param {Tech~SourceObject} srcObj
      *        A string or object source to update our caches to.
      */
-    ;
+
 
     _proto.updateSourceCaches_ = function updateSourceCaches_(srcObj) {
       if (srcObj === void 0) {
@@ -23769,7 +23372,7 @@
 
 
       this.cache_.src = src;
-    }
+    };
     /**
      * *EXPERIMENTAL* Fired when the source is set or changed on the {@link Tech}
      * causing the media element to reload.
@@ -23806,7 +23409,7 @@
      * @listens Tech#sourceset
      * @private
      */
-    ;
+
 
     _proto.handleTechSourceset_ = function handleTechSourceset_(event) {
       var _this5 = this;
@@ -23861,7 +23464,7 @@
         src: event.src,
         type: 'sourceset'
       });
-    }
+    };
     /**
      * Add/remove the vjs-has-started class
      *
@@ -23874,7 +23477,7 @@
      * @return {boolean}
      *         the boolean value of hasStarted_
      */
-    ;
+
 
     _proto.hasStarted = function hasStarted(request) {
       if (request === undefined) {
@@ -23894,7 +23497,7 @@
       } else {
         this.removeClass('vjs-has-started');
       }
-    }
+    };
     /**
      * Fired whenever the media begins or resumes playback
      *
@@ -23903,7 +23506,7 @@
      * @listens Tech#play
      * @private
      */
-    ;
+
 
     _proto.handleTechPlay_ = function handleTechPlay_() {
       this.removeClass('vjs-ended');
@@ -23920,7 +23523,7 @@
        */
 
       this.trigger('play');
-    }
+    };
     /**
      * Retrigger the `ratechange` event that was triggered by the {@link Tech}.
      *
@@ -23932,7 +23535,7 @@
      * @fires Player#ratechange
      * @listens Tech#ratechange
      */
-    ;
+
 
     _proto.handleTechRateChange_ = function handleTechRateChange_() {
       if (this.tech_.playbackRate() > 0 && this.cache_.lastPlaybackRate === 0) {
@@ -23951,7 +23554,7 @@
        */
 
       this.trigger('ratechange');
-    }
+    };
     /**
      * Retrigger the `waiting` event that was triggered by the {@link Tech}.
      *
@@ -23959,7 +23562,7 @@
      * @listens Tech#waiting
      * @private
      */
-    ;
+
 
     _proto.handleTechWaiting_ = function handleTechWaiting_() {
       var _this6 = this;
@@ -23986,7 +23589,7 @@
       };
 
       this.on('timeupdate', timeUpdateListener);
-    }
+    };
     /**
      * Retrigger the `canplay` event that was triggered by the {@link Tech}.
      * > Note: This is not consistent between browsers. See #1351
@@ -23995,7 +23598,7 @@
      * @listens Tech#canplay
      * @private
      */
-    ;
+
 
     _proto.handleTechCanPlay_ = function handleTechCanPlay_() {
       this.removeClass('vjs-waiting');
@@ -24007,7 +23610,7 @@
        */
 
       this.trigger('canplay');
-    }
+    };
     /**
      * Retrigger the `canplaythrough` event that was triggered by the {@link Tech}.
      *
@@ -24015,7 +23618,7 @@
      * @listens Tech#canplaythrough
      * @private
      */
-    ;
+
 
     _proto.handleTechCanPlayThrough_ = function handleTechCanPlayThrough_() {
       this.removeClass('vjs-waiting');
@@ -24028,7 +23631,7 @@
        */
 
       this.trigger('canplaythrough');
-    }
+    };
     /**
      * Retrigger the `playing` event that was triggered by the {@link Tech}.
      *
@@ -24036,7 +23639,7 @@
      * @listens Tech#playing
      * @private
      */
-    ;
+
 
     _proto.handleTechPlaying_ = function handleTechPlaying_() {
       this.removeClass('vjs-waiting');
@@ -24048,7 +23651,7 @@
        */
 
       this.trigger('playing');
-    }
+    };
     /**
      * Retrigger the `seeking` event that was triggered by the {@link Tech}.
      *
@@ -24056,7 +23659,7 @@
      * @listens Tech#seeking
      * @private
      */
-    ;
+
 
     _proto.handleTechSeeking_ = function handleTechSeeking_() {
       this.addClass('vjs-seeking');
@@ -24068,7 +23671,7 @@
        */
 
       this.trigger('seeking');
-    }
+    };
     /**
      * Retrigger the `seeked` event that was triggered by the {@link Tech}.
      *
@@ -24076,11 +23679,10 @@
      * @listens Tech#seeked
      * @private
      */
-    ;
+
 
     _proto.handleTechSeeked_ = function handleTechSeeked_() {
       this.removeClass('vjs-seeking');
-      this.removeClass('vjs-ended');
       /**
        * Fired when the player has finished jumping to a new time
        *
@@ -24089,7 +23691,7 @@
        */
 
       this.trigger('seeked');
-    }
+    };
     /**
      * Retrigger the `firstplay` event that was triggered by the {@link Tech}.
      *
@@ -24099,7 +23701,7 @@
      *             As of 6.0 passing the `starttime` option to the player and the firstplay event are deprecated.
      * @private
      */
-    ;
+
 
     _proto.handleTechFirstPlay_ = function handleTechFirstPlay_() {
       // If the first starttime attribute is specified
@@ -24121,7 +23723,7 @@
        */
 
       this.trigger('firstplay');
-    }
+    };
     /**
      * Retrigger the `pause` event that was triggered by the {@link Tech}.
      *
@@ -24129,7 +23731,7 @@
      * @listens Tech#pause
      * @private
      */
-    ;
+
 
     _proto.handleTechPause_ = function handleTechPause_() {
       this.removeClass('vjs-playing');
@@ -24142,7 +23744,7 @@
        */
 
       this.trigger('pause');
-    }
+    };
     /**
      * Retrigger the `ended` event that was triggered by the {@link Tech}.
      *
@@ -24150,7 +23752,7 @@
      * @listens Tech#ended
      * @private
      */
-    ;
+
 
     _proto.handleTechEnded_ = function handleTechEnded_() {
       this.addClass('vjs-ended');
@@ -24170,18 +23772,18 @@
 
 
       this.trigger('ended');
-    }
+    };
     /**
      * Fired when the duration of the media resource is first known or changed
      *
      * @listens Tech#durationchange
      * @private
      */
-    ;
+
 
     _proto.handleTechDurationChange_ = function handleTechDurationChange_() {
       this.duration(this.techGet_('duration'));
-    }
+    };
     /**
      * Handle a click on the media element to play/pause
      *
@@ -24191,7 +23793,7 @@
      * @listens Tech#mousedown
      * @private
      */
-    ;
+
 
     _proto.handleTechClick_ = function handleTechClick_(event) {
       if (!isSingleLeftClick(event)) {
@@ -24209,7 +23811,7 @@
       } else {
         this.pause();
       }
-    }
+    };
     /**
      * Handle a double-click on the media element to enter/exit fullscreen
      *
@@ -24219,7 +23821,7 @@
      * @listens Tech#dblclick
      * @private
      */
-    ;
+
 
     _proto.handleTechDoubleClick_ = function handleTechDoubleClick_(event) {
       if (!this.controls_) {
@@ -24233,24 +23835,13 @@
       });
 
       if (!inAllowedEls) {
-        /*
-         * options.userActions.doubleClick
-         *
-         * If `undefined` or `true`, double-click toggles fullscreen if controls are present
-         * Set to `false` to disable double-click handling
-         * Set to a function to substitute an external double-click handler
-         */
-        if (this.options_ === undefined || this.options_.userActions === undefined || this.options_.userActions.doubleClick === undefined || this.options_.userActions.doubleClick !== false) {
-          if (this.options_ !== undefined && this.options_.userActions !== undefined && typeof this.options_.userActions.doubleClick === 'function') {
-            this.options_.userActions.doubleClick.call(this, event);
-          } else if (this.isFullscreen()) {
-            this.exitFullscreen();
-          } else {
-            this.requestFullscreen();
-          }
+        if (this.isFullscreen()) {
+          this.exitFullscreen();
+        } else {
+          this.requestFullscreen();
         }
       }
-    }
+    };
     /**
      * Handle a tap on the media element. It will toggle the user
      * activity state, which hides and shows the controls.
@@ -24258,35 +23849,35 @@
      * @listens Tech#tap
      * @private
      */
-    ;
+
 
     _proto.handleTechTap_ = function handleTechTap_() {
       this.userActive(!this.userActive());
-    }
+    };
     /**
      * Handle touch to start
      *
      * @listens Tech#touchstart
      * @private
      */
-    ;
+
 
     _proto.handleTechTouchStart_ = function handleTechTouchStart_() {
       this.userWasActive = this.userActive();
-    }
+    };
     /**
      * Handle touch to move
      *
      * @listens Tech#touchmove
      * @private
      */
-    ;
+
 
     _proto.handleTechTouchMove_ = function handleTechTouchMove_() {
       if (this.userWasActive) {
         this.reportUserActivity();
       }
-    }
+    };
     /**
      * Handle touch to end
      *
@@ -24297,12 +23888,27 @@
      * @listens Tech#touchend
      * @private
      */
-    ;
+
 
     _proto.handleTechTouchEnd_ = function handleTechTouchEnd_(event) {
       // Stop the mouse events from also happening
       event.preventDefault();
-    }
+    };
+    /**
+     * Fired when the player switches in or out of fullscreen mode
+     *
+     * @private
+     * @listens Player#fullscreenchange
+     */
+
+
+    _proto.handleFullscreenChange_ = function handleFullscreenChange_() {
+      if (this.isFullscreen()) {
+        this.addClass('vjs-fullscreen');
+      } else {
+        this.removeClass('vjs-fullscreen');
+      }
+    };
     /**
      * native click events on the SWF aren't triggered on IE11, Win8.1RT
      * use stageclick events triggered from inside the SWF instead
@@ -24310,44 +23916,11 @@
      * @private
      * @listens stageclick
      */
-    ;
+
 
     _proto.handleStageClick_ = function handleStageClick_() {
       this.reportUserActivity();
-    }
-    /**
-     * @private
-     */
-    ;
-
-    _proto.toggleFullscreenClass_ = function toggleFullscreenClass_() {
-      if (this.isFullscreen()) {
-        this.addClass('vjs-fullscreen');
-      } else {
-        this.removeClass('vjs-fullscreen');
-      }
-    }
-    /**
-     * when the document fschange event triggers it calls this
-     */
-    ;
-
-    _proto.documentFullscreenChange_ = function documentFullscreenChange_(e) {
-      var fsApi = FullscreenApi;
-      this.isFullscreen(document[fsApi.fullscreenElement]); // If cancelling fullscreen, remove event listener.
-
-      if (this.isFullscreen() === false) {
-        off(document, fsApi.fullscreenchange, bind(this, this.documentFullscreenChange_));
-      }
-
-      if (!prefixedAPI) {
-        /**
-         * @event Player#fullscreenchange
-         * @type {EventTarget~Event}
-         */
-        this.trigger('fullscreenchange');
-      }
-    }
+    };
     /**
      * Handle Tech Fullscreen Change
      *
@@ -24361,7 +23934,7 @@
      * @listens Tech#fullscreenchange
      * @fires Player#fullscreenchange
      */
-    ;
+
 
     _proto.handleTechFullscreenChange_ = function handleTechFullscreenChange_(event, data) {
       if (data) {
@@ -24376,19 +23949,19 @@
 
 
       this.trigger('fullscreenchange');
-    }
+    };
     /**
      * Fires when an error occurred during the loading of an audio/video.
      *
      * @private
      * @listens Tech#error
      */
-    ;
+
 
     _proto.handleTechError_ = function handleTechError_() {
       var error = this.tech_.error();
       this.error(error);
-    }
+    };
     /**
      * Retrigger the `textdata` event that was triggered by the {@link Tech}.
      *
@@ -24396,7 +23969,7 @@
      * @listens Tech#textdata
      * @private
      */
-    ;
+
 
     _proto.handleTechTextData_ = function handleTechTextData_() {
       var data = null;
@@ -24413,45 +23986,18 @@
 
 
       this.trigger('textdata', data);
-    }
+    };
     /**
      * Get object for cached values.
      *
      * @return {Object}
      *         get the current object cache
      */
-    ;
+
 
     _proto.getCache = function getCache() {
       return this.cache_;
-    }
-    /**
-     * Resets the internal cache object.
-     *
-     * Using this function outside the player constructor or reset method may
-     * have unintended side-effects.
-     *
-     * @private
-     */
-    ;
-
-    _proto.resetCache_ = function resetCache_() {
-      this.cache_ = {
-        // Right now, the currentTime is not _really_ cached because it is always
-        // retrieved from the tech (see: currentTime). However, for completeness,
-        // we set it to zero here to ensure that if we do start actually caching
-        // it, we reset it along with everything else.
-        currentTime: 0,
-        duration: NaN,
-        lastVolume: 1,
-        lastPlaybackRate: this.defaultPlaybackRate(),
-        media: null,
-        src: '',
-        source: {},
-        sources: [],
-        volume: 1
-      };
-    }
+    };
     /**
      * Pass values to the playback tech
      *
@@ -24463,7 +24009,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.techCall_ = function techCall_(method, arg) {
       // If it's not ready yet, call method when it is
@@ -24483,7 +24029,7 @@
           throw e;
         }
       }, true);
-    }
+    };
     /**
      * Get calls can't wait for the tech, and sometimes don't need to.
      *
@@ -24495,7 +24041,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.techGet_ = function techGet_(method) {
       if (!this.tech_ || !this.tech_.isReady_) {
@@ -24531,7 +24077,7 @@
         log(e);
         throw e;
       }
-    }
+    };
     /**
      * Attempt to begin playback at the first opportunity.
      *
@@ -24542,7 +24088,7 @@
      *         promise chain otherwise the promise chain will be fulfilled when
      *         the promise from play is fulfilled.
      */
-    ;
+
 
     _proto.play = function play() {
       var _this7 = this;
@@ -24556,7 +24102,7 @@
       }
 
       return this.play_();
-    }
+    };
     /**
      * The actual logic for play, takes a callback that will be resolved on the
      * return value of play. This allows us to resolve to the play promise if there
@@ -24566,7 +24112,7 @@
      * @param {Function} [callback]
      *        The callback that should be called when the techs play is actually called
      */
-    ;
+
 
     _proto.play_ = function play_(callback) {
       var _this8 = this;
@@ -24611,18 +24157,18 @@
 
         this.one('loadstart', this.playOnLoadstart_);
       }
-    }
+    };
     /**
      * Pause the video playback
      *
      * @return {Player}
      *         A reference to the player object this function was called on
      */
-    ;
+
 
     _proto.pause = function pause() {
       this.techCall_('pause');
-    }
+    };
     /**
      * Check if the player is paused or has yet to play
      *
@@ -24630,12 +24176,12 @@
      *         - false: if the media is currently playing
      *         - true: if media is not currently playing
      */
-    ;
+
 
     _proto.paused = function paused() {
       // The initial state of paused should be true (in Safari it's actually false)
       return this.techGet_('paused') === false ? false : true;
-    }
+    };
     /**
      * Get a TimeRange object representing the current ranges of time that the user
      * has played.
@@ -24644,11 +24190,11 @@
      *         A time range object that represents all the increments of time that have
      *         been played.
      */
-    ;
+
 
     _proto.played = function played() {
       return this.techGet_('played') || createTimeRanges(0, 0);
-    }
+    };
     /**
      * Returns whether or not the user is "scrubbing". Scrubbing is
      * when the user has clicked the progress bar handle and is
@@ -24660,7 +24206,7 @@
      * @return {boolean}
      *         The value of scrubbing when getting
      */
-    ;
+
 
     _proto.scrubbing = function scrubbing(isScrubbing) {
       if (typeof isScrubbing === 'undefined') {
@@ -24674,7 +24220,7 @@
       } else {
         this.removeClass('vjs-scrubbing');
       }
-    }
+    };
     /**
      * Get or set the current time (in seconds)
      *
@@ -24684,7 +24230,7 @@
      * @return {number}
      *         - the current time in seconds when getting
      */
-    ;
+
 
     _proto.currentTime = function currentTime(seconds) {
       if (typeof seconds !== 'undefined') {
@@ -24704,7 +24250,7 @@
 
       this.cache_.currentTime = this.techGet_('currentTime') || 0;
       return this.cache_.currentTime;
-    }
+    };
     /**
      * Normally gets the length in time of the video in seconds;
      * in all but the rarest use cases an argument will NOT be passed to the method
@@ -24721,7 +24267,7 @@
      * @return {number}
      *         - The duration of the video in seconds when getting
      */
-    ;
+
 
     _proto.duration = function duration(seconds) {
       if (seconds === undefined) {
@@ -24761,7 +24307,7 @@
           this.trigger('durationchange');
         }
       }
-    }
+    };
     /**
      * Calculates how much time is left in the video. Not part
      * of the native video API.
@@ -24769,11 +24315,11 @@
      * @return {number}
      *         The time remaining in seconds
      */
-    ;
+
 
     _proto.remainingTime = function remainingTime() {
       return this.duration() - this.currentTime();
-    }
+    };
     /**
      * A remaining time function that is intented to be used when
      * the time is to be displayed directly to the user.
@@ -24781,11 +24327,11 @@
      * @return {number}
      *         The rounded time remaining in seconds
      */
-    ;
+
 
     _proto.remainingTimeDisplay = function remainingTimeDisplay() {
       return Math.floor(this.duration()) - Math.floor(this.currentTime());
-    } //
+    }; //
     // Kind of like an array of portions of the video that have been downloaded.
 
     /**
@@ -24798,7 +24344,7 @@
      * @return {TimeRange}
      *         A mock TimeRange object (following HTML spec)
      */
-    ;
+
 
     _proto.buffered = function buffered() {
       var buffered = this.techGet_('buffered');
@@ -24808,7 +24354,7 @@
       }
 
       return buffered;
-    }
+    };
     /**
      * Get the percent (as a decimal) of the video that's been downloaded.
      * This method is not a part of the native HTML video API.
@@ -24817,11 +24363,11 @@
      *         A decimal between 0 and 1 representing the percent
      *         that is buffered 0 being 0% and 1 being 100%
      */
-    ;
+
 
     _proto.bufferedPercent = function bufferedPercent$$1() {
       return bufferedPercent(this.buffered(), this.duration());
-    }
+    };
     /**
      * Get the ending time of the last buffered time range
      * This is used in the progress bar to encapsulate all time ranges.
@@ -24829,7 +24375,7 @@
      * @return {number}
      *         The end of the last buffered time range
      */
-    ;
+
 
     _proto.bufferedEnd = function bufferedEnd() {
       var buffered = this.buffered();
@@ -24841,7 +24387,7 @@
       }
 
       return end;
-    }
+    };
     /**
      * Get or set the current volume of the media
      *
@@ -24854,7 +24400,7 @@
      * @return {number}
      *         The current volume as a percent when getting
      */
-    ;
+
 
     _proto.volume = function volume(percentAsDecimal) {
       var vol;
@@ -24875,7 +24421,7 @@
 
       vol = parseFloat(this.techGet_('volume'));
       return isNaN(vol) ? 1 : vol;
-    }
+    };
     /**
      * Get the current muted state, or turn mute on or off
      *
@@ -24887,7 +24433,7 @@
      *         - true if mute is on and getting
      *         - false if mute is off and getting
      */
-    ;
+
 
     _proto.muted = function muted(_muted) {
       if (_muted !== undefined) {
@@ -24896,7 +24442,7 @@
       }
 
       return this.techGet_('muted') || false;
-    }
+    };
     /**
      * Get the current defaultMuted state, or turn defaultMuted on or off. defaultMuted
      * indicates the state of muted on initial playback.
@@ -24923,7 +24469,7 @@
      *         - false if defaultMuted is off and getting
      *         - A reference to the current player when setting
      */
-    ;
+
 
     _proto.defaultMuted = function defaultMuted(_defaultMuted) {
       if (_defaultMuted !== undefined) {
@@ -24931,7 +24477,7 @@
       }
 
       return this.techGet_('defaultMuted') || false;
-    }
+    };
     /**
      * Get the last volume, or set it
      *
@@ -24946,7 +24492,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.lastVolume_ = function lastVolume_(percentAsDecimal) {
       if (percentAsDecimal !== undefined && percentAsDecimal !== 0) {
@@ -24955,7 +24501,7 @@
       }
 
       return this.cache_.lastVolume;
-    }
+    };
     /**
      * Check if current tech can support native fullscreen
      * (e.g. with built in controls like iOS, so not our flash swf)
@@ -24963,11 +24509,11 @@
      * @return {boolean}
      *         if native fullscreen is supported
      */
-    ;
+
 
     _proto.supportsFullScreen = function supportsFullScreen() {
       return this.techGet_('supportsFullScreen') || false;
-    }
+    };
     /**
      * Check if the player is in fullscreen mode or tell the player that it
      * is or is not in fullscreen mode.
@@ -24983,17 +24529,16 @@
      *         - true if fullscreen is on and getting
      *         - false if fullscreen is off and getting
      */
-    ;
+
 
     _proto.isFullscreen = function isFullscreen(isFS) {
       if (isFS !== undefined) {
         this.isFullscreen_ = !!isFS;
-        this.toggleFullscreenClass_();
         return;
       }
 
       return !!this.isFullscreen_;
-    }
+    };
     /**
      * Increase the size of the video to full screen
      * In some browsers, full screen is not supported natively, so it enters
@@ -25005,7 +24550,7 @@
      *
      * @fires Player#fullscreenchange
      */
-    ;
+
 
     _proto.requestFullscreen = function requestFullscreen() {
       var fsApi = FullscreenApi;
@@ -25019,7 +24564,20 @@
         // when canceling fullscreen. Otherwise if there's multiple
         // players on a page, they would all be reacting to the same fullscreen
         // events
-        on(document, fsApi.fullscreenchange, bind(this, this.documentFullscreenChange_));
+        on(document, fsApi.fullscreenchange, bind(this, function documentFullscreenChange(e) {
+          this.isFullscreen(document[fsApi.fullscreenElement]); // If cancelling fullscreen, remove event listener.
+
+          if (this.isFullscreen() === false) {
+            off(document, fsApi.fullscreenchange, documentFullscreenChange);
+          }
+          /**
+           * @event Player#fullscreenchange
+           * @type {EventTarget~Event}
+           */
+
+
+          this.trigger('fullscreenchange');
+        }));
         this.el_[fsApi.requestFullscreen]();
       } else if (this.tech_.supportsFullScreen()) {
         // we can't take the video.js controls fullscreen but we can go fullscreen
@@ -25036,13 +24594,13 @@
 
         this.trigger('fullscreenchange');
       }
-    }
+    };
     /**
      * Return the video to its normal size after having been in full screen mode
      *
      * @fires Player#fullscreenchange
      */
-    ;
+
 
     _proto.exitFullscreen = function exitFullscreen() {
       var fsApi = FullscreenApi;
@@ -25061,14 +24619,14 @@
 
         this.trigger('fullscreenchange');
       }
-    }
+    };
     /**
      * When fullscreen isn't supported we can stretch the
      * video container to as wide as the browser will let us.
      *
      * @fires Player#enterFullWindow
      */
-    ;
+
 
     _proto.enterFullWindow = function enterFullWindow() {
       this.isFullWindow = true; // Storing original doc overflow value to return to when fullscreen is off
@@ -25086,7 +24644,7 @@
        */
 
       this.trigger('enterFullWindow');
-    }
+    };
     /**
      * Check for call to either exit full window or
      * full screen on ESC key
@@ -25094,23 +24652,23 @@
      * @param {string} event
      *        Event to check for key press
      */
-    ;
+
 
     _proto.fullWindowOnEscKey = function fullWindowOnEscKey(event) {
-      if (keycode.isEventKey(event, 'Esc')) {
+      if (event.keyCode === 27) {
         if (this.isFullscreen() === true) {
           this.exitFullscreen();
         } else {
           this.exitFullWindow();
         }
       }
-    }
+    };
     /**
      * Exit full window
      *
      * @fires Player#exitFullWindow
      */
-    ;
+
 
     _proto.exitFullWindow = function exitFullWindow() {
       this.isFullWindow = false;
@@ -25127,106 +24685,7 @@
        */
 
       this.trigger('exitFullWindow');
-    }
-    /**
-     * This gets called when a `Player` gains focus via a `focus` event.
-     * Turns on listening for `keydown` events. When they happen it
-     * calls `this.handleKeyPress`.
-     *
-     * @param {EventTarget~Event} event
-     *        The `focus` event that caused this function to be called.
-     *
-     * @listens focus
-     */
-    ;
-
-    _proto.handleFocus = function handleFocus(event) {
-      // call off first to make sure we don't keep adding keydown handlers
-      off(document, 'keydown', bind(this, this.handleKeyPress));
-      on(document, 'keydown', bind(this, this.handleKeyPress));
-    }
-    /**
-     * Called when a `Player` loses focus. Turns off the listener for
-     * `keydown` events. Which Stops `this.handleKeyPress` from getting called.
-     *
-     * @param {EventTarget~Event} event
-     *        The `blur` event that caused this function to be called.
-     *
-     * @listens blur
-     */
-    ;
-
-    _proto.handleBlur = function handleBlur(event) {
-      off(document, 'keydown', bind(this, this.handleKeyPress));
-    }
-    /**
-     * Called when this Player has focus and a key gets pressed down, or when
-     * any Component of this player receives a key press that it doesn't handle.
-     * This allows player-wide hotkeys (either as defined below, or optionally
-     * by an external function).
-     *
-     * @param {EventTarget~Event} event
-     *        The `keydown` event that caused this function to be called.
-     *
-     * @listens keydown
-     */
-    ;
-
-    _proto.handleKeyPress = function handleKeyPress(event) {
-      if (this.options_.userActions && this.options_.userActions.hotkeys && this.options_.userActions.hotkeys !== false) {
-        if (typeof this.options_.userActions.hotkeys === 'function') {
-          this.options_.userActions.hotkeys.call(this, event);
-        } else {
-          this.handleHotkeys(event);
-        }
-      }
-    }
-    /**
-     * Called when this Player receives a hotkey keydown event.
-     * Supported player-wide hotkeys are:
-     *
-     *   f          - toggle fullscreen
-     *   m          - toggle mute
-     *   k or Space - toggle play/pause
-     *
-     * @param {EventTarget~Event} event
-     *        The `keydown` event that caused this function to be called.
-     */
-    ;
-
-    _proto.handleHotkeys = function handleHotkeys(event) {
-      var hotkeys = this.options_.userActions ? this.options_.userActions.hotkeys : {}; // set fullscreenKey, muteKey, playPauseKey from `hotkeys`, use defaults if not set
-
-      var _hotkeys$fullscreenKe = hotkeys.fullscreenKey,
-          fullscreenKey = _hotkeys$fullscreenKe === void 0 ? function (keydownEvent) {
-        return keycode.isEventKey(keydownEvent, 'f');
-      } : _hotkeys$fullscreenKe,
-          _hotkeys$muteKey = hotkeys.muteKey,
-          muteKey = _hotkeys$muteKey === void 0 ? function (keydownEvent) {
-        return keycode.isEventKey(keydownEvent, 'm');
-      } : _hotkeys$muteKey,
-          _hotkeys$playPauseKey = hotkeys.playPauseKey,
-          playPauseKey = _hotkeys$playPauseKey === void 0 ? function (keydownEvent) {
-        return keycode.isEventKey(keydownEvent, 'k') || keycode.isEventKey(keydownEvent, 'Space');
-      } : _hotkeys$playPauseKey;
-
-      if (fullscreenKey.call(this, event)) {
-        event.preventDefault();
-        var FSToggle = Component.getComponent('FullscreenToggle');
-
-        if (document[FullscreenApi.fullscreenEnabled] !== false) {
-          FSToggle.prototype.handleClick.call(this);
-        }
-      } else if (muteKey.call(this, event)) {
-        event.preventDefault();
-        var MuteToggle = Component.getComponent('MuteToggle');
-        MuteToggle.prototype.handleClick.call(this);
-      } else if (playPauseKey.call(this, event)) {
-        event.preventDefault();
-        var PlayToggle = Component.getComponent('PlayToggle');
-        PlayToggle.prototype.handleClick.call(this);
-      }
-    }
+    };
     /**
      * Check whether the player can play a given mimetype
      *
@@ -25238,7 +24697,7 @@
      * @return {string}
      *         'probably', 'maybe', or '' (empty string)
      */
-    ;
+
 
     _proto.canPlayType = function canPlayType(type) {
       var can; // Loop through each playback technology in the options order
@@ -25269,7 +24728,7 @@
       }
 
       return '';
-    }
+    };
     /**
      * Select source based on tech-order or source-order
      * Uses source-order selection if `options.sourceOrder` is truthy. Otherwise,
@@ -25281,7 +24740,7 @@
      * @return {Object|boolean}
      *         Object of source and tech order or false
      */
-    ;
+
 
     _proto.selectSource = function selectSource(sources) {
       var _this9 = this;
@@ -25351,7 +24810,7 @@
       }
 
       return foundSourceAndTech || false;
-    }
+    };
     /**
      * Get or set the video source.
      *
@@ -25367,7 +24826,7 @@
      *         If the `source` argument is missing, returns the current source
      *         URL. Otherwise, returns nothing/undefined.
      */
-    ;
+
 
     _proto.src = function src(source) {
       var _this10 = this;
@@ -25431,7 +24890,7 @@
 
         setTech(mws, _this10.tech_);
       });
-    }
+    };
     /**
      * Set the source object on the tech, returns a boolean that indicates whether
      * there is a tech that can play the source or not
@@ -25445,7 +24904,7 @@
      *
      * @private
      */
-    ;
+
 
     _proto.src_ = function src_(source) {
       var _this11 = this;
@@ -25482,83 +24941,41 @@
         this.changingSrc_ = false;
       }, true);
       return false;
-    }
+    };
     /**
      * Begin loading the src data.
      */
-    ;
+
 
     _proto.load = function load() {
       this.techCall_('load');
-    }
+    };
     /**
      * Reset the player. Loads the first tech in the techOrder,
      * removes all the text tracks in the existing `tech`,
      * and calls `reset` on the `tech`.
      */
-    ;
+
 
     _proto.reset = function reset() {
       if (this.tech_) {
         this.tech_.clearTracks('text');
       }
 
-      this.resetCache_();
-      this.poster('');
       this.loadTech_(this.options_.techOrder[0], null);
       this.techCall_('reset');
-      this.resetControlBarUI_();
 
       if (isEvented(this)) {
         this.trigger('playerreset');
       }
-    }
-    /**
-     * Reset Control Bar's UI by calling sub-methods that reset
-     * all of Control Bar's components
-     */
-    ;
-
-    _proto.resetControlBarUI_ = function resetControlBarUI_() {
-      this.resetProgressBar_();
-      this.resetPlaybackRate_();
-      this.resetVolumeBar_();
-    }
-    /**
-     * Reset tech's progress so progress bar is reset in the UI
-     */
-    ;
-
-    _proto.resetProgressBar_ = function resetProgressBar_() {
-      this.currentTime(0);
-      this.controlBar.durationDisplay.updateContent();
-      this.controlBar.remainingTimeDisplay.updateContent();
-    }
-    /**
-     * Reset Playback ratio
-     */
-    ;
-
-    _proto.resetPlaybackRate_ = function resetPlaybackRate_() {
-      this.playbackRate(this.defaultPlaybackRate());
-      this.handleTechRateChange_();
-    }
-    /**
-     * Reset Volume bar
-     */
-    ;
-
-    _proto.resetVolumeBar_ = function resetVolumeBar_() {
-      this.volume(1.0);
-      this.trigger('volumechange');
-    }
+    };
     /**
      * Returns all of the current source objects.
      *
      * @return {Tech~SourceObject[]}
      *         The current source objects
      */
-    ;
+
 
     _proto.currentSources = function currentSources() {
       var source = this.currentSource();
@@ -25569,18 +24986,18 @@
       }
 
       return this.cache_.sources || sources;
-    }
+    };
     /**
      * Returns the current source object.
      *
      * @return {Tech~SourceObject}
      *         The current source object
      */
-    ;
+
 
     _proto.currentSource = function currentSource() {
       return this.cache_.source || {};
-    }
+    };
     /**
      * Returns the fully qualified URL of the current source value e.g. http://mysite.com/video.mp4
      * Can be used in conjunction with `currentType` to assist in rebuilding the current source object.
@@ -25588,11 +25005,11 @@
      * @return {string}
      *         The current source
      */
-    ;
+
 
     _proto.currentSrc = function currentSrc() {
       return this.currentSource() && this.currentSource().src || '';
-    }
+    };
     /**
      * Get the current source type e.g. video/mp4
      * This can allow you rebuild the current source object so that you could load the same
@@ -25601,11 +25018,11 @@
      * @return {string}
      *         The source MIME type
      */
-    ;
+
 
     _proto.currentType = function currentType() {
       return this.currentSource() && this.currentSource().type || '';
-    }
+    };
     /**
      * Get or set the preload attribute
      *
@@ -25616,7 +25033,7 @@
      * @return {string}
      *         The preload attribute value when getting
      */
-    ;
+
 
     _proto.preload = function preload(value) {
       if (value !== undefined) {
@@ -25626,7 +25043,7 @@
       }
 
       return this.techGet_('preload');
-    }
+    };
     /**
      * Get or set the autoplay option. When this is a boolean it will
      * modify the attribute on the tech. When this is a string the attribute on
@@ -25643,7 +25060,7 @@
      * @return {boolean|string}
      *         The current value of autoplay when getting
      */
-    ;
+
 
     _proto.autoplay = function autoplay(value) {
       // getter usage
@@ -25672,7 +25089,7 @@
       if (this.tech_) {
         this.techCall_('setAutoplay', techAutoplay);
       }
-    }
+    };
     /**
      * Set or unset the playsinline attribute.
      * Playsinline tells the browser that non-fullscreen playback is preferred.
@@ -25689,7 +25106,7 @@
      *
      * @see [Spec]{@link https://html.spec.whatwg.org/#attr-video-playsinline}
      */
-    ;
+
 
     _proto.playsinline = function playsinline(value) {
       if (value !== undefined) {
@@ -25699,7 +25116,7 @@
       }
 
       return this.techGet_('playsinline');
-    }
+    };
     /**
      * Get or set the loop attribute on the video element.
      *
@@ -25710,7 +25127,7 @@
      * @return {string}
      *         The current value of loop when getting
      */
-    ;
+
 
     _proto.loop = function loop(value) {
       if (value !== undefined) {
@@ -25720,7 +25137,7 @@
       }
 
       return this.techGet_('loop');
-    }
+    };
     /**
      * Get or set the poster image source url
      *
@@ -25732,7 +25149,7 @@
      * @return {string}
      *         The current value of poster when getting
      */
-    ;
+
 
     _proto.poster = function poster(src) {
       if (src === undefined) {
@@ -25763,7 +25180,7 @@
        */
 
       this.trigger('posterchange');
-    }
+    };
     /**
      * Some techs (e.g. YouTube) can provide a poster source in an
      * asynchronous way. We want the poster component to use this
@@ -25776,7 +25193,7 @@
      * @listens Tech#posterchange
      * @private
      */
-    ;
+
 
     _proto.handleTechPosterChange_ = function handleTechPosterChange_() {
       if ((!this.poster_ || this.options_.techCanOverridePoster) && this.tech_ && this.tech_.poster) {
@@ -25789,7 +25206,7 @@
           this.trigger('posterchange');
         }
       }
-    }
+    };
     /**
      * Get or set whether or not the controls are showing.
      *
@@ -25802,7 +25219,7 @@
      * @return {boolean}
      *         The current value of controls when getting
      */
-    ;
+
 
     _proto.controls = function controls(bool) {
       if (bool === undefined) {
@@ -25848,7 +25265,7 @@
           this.removeTechControlsListeners_();
         }
       }
-    }
+    };
     /**
      * Toggle native controls on/off. Native controls are the controls built into
      * devices (e.g. default iPhone controls), Flash, or other techs
@@ -25866,7 +25283,7 @@
      * @return {boolean}
      *         The current value of native controls when getting
      */
-    ;
+
 
     _proto.usingNativeControls = function usingNativeControls(bool) {
       if (bool === undefined) {
@@ -25902,7 +25319,7 @@
 
         this.trigger('usingcustomcontrols');
       }
-    }
+    };
     /**
      * Set or get the current MediaError
      *
@@ -25915,7 +25332,7 @@
      * @return {MediaError|null}
      *         The current MediaError when getting (or null)
      */
-    ;
+
 
     _proto.error = function error(err) {
       if (err === undefined) {
@@ -25947,18 +25364,18 @@
 
       this.trigger('error');
       return;
-    }
+    };
     /**
      * Report user activity
      *
      * @param {Object} event
      *        Event object
      */
-    ;
+
 
     _proto.reportUserActivity = function reportUserActivity(event) {
       this.userActivity_ = true;
-    }
+    };
     /**
      * Get/set if user is active
      *
@@ -25972,7 +25389,7 @@
      * @return {boolean}
      *         The current value of userActive when getting
      */
-    ;
+
 
     _proto.userActive = function userActive(bool) {
       if (bool === undefined) {
@@ -26024,13 +25441,13 @@
        */
 
       this.trigger('userinactive');
-    }
+    };
     /**
      * Listen for user activity based on timeout value
      *
      * @private
      */
-    ;
+
 
     _proto.listenForUserActivity_ = function listenForUserActivity_() {
       var mouseInProgress;
@@ -26069,20 +25486,8 @@
 
       this.on('mousedown', handleMouseDown);
       this.on('mousemove', handleMouseMove);
-      this.on('mouseup', handleMouseUp);
-      var controlBar = this.getChild('controlBar');
-
-      if (controlBar) {
-        controlBar.on('mouseenter', function (event) {
-          this.player().cache_.inactivityTimeout = this.player().options_.inactivityTimeout;
-          this.player().options_.inactivityTimeout = 0;
-        });
-        controlBar.on('mouseleave', function (event) {
-          this.player().options_.inactivityTimeout = this.player().cache_.inactivityTimeout;
-        });
-      } // Listen for keyboard navigation
+      this.on('mouseup', handleMouseUp); // Listen for keyboard navigation
       // Shouldn't need to use inProgress interval because of key repeat
-
 
       this.on('keydown', handleActivity);
       this.on('keyup', handleActivity); // Run an interval every 250 milliseconds instead of stuffing everything into
@@ -26121,7 +25526,7 @@
           }
         }, timeout);
       }, 250);
-    }
+    };
     /**
      * Gets or sets the current playback rate. A playback rate of
      * 1.0 represents normal speed and 0.5 would indicate half-speed
@@ -26135,7 +25540,7 @@
      * @return {number}
      *         The current playback rate when getting or 1.0
      */
-    ;
+
 
     _proto.playbackRate = function playbackRate(rate) {
       if (rate !== undefined) {
@@ -26150,7 +25555,7 @@
       }
 
       return 1.0;
-    }
+    };
     /**
      * Gets or sets the current default playback rate. A default playback rate of
      * 1.0 represents normal speed and 0.5 would indicate half-speed playback, for instance.
@@ -26166,7 +25571,7 @@
      *         - The default playback rate when getting or 1.0
      *         - the player when setting
      */
-    ;
+
 
     _proto.defaultPlaybackRate = function defaultPlaybackRate(rate) {
       if (rate !== undefined) {
@@ -26178,7 +25583,7 @@
       }
 
       return 1.0;
-    }
+    };
     /**
      * Gets or sets the audio flag
      *
@@ -26189,7 +25594,7 @@
      * @return {boolean}
      *         The current value of isAudio when getting
      */
-    ;
+
 
     _proto.isAudio = function isAudio(bool) {
       if (bool !== undefined) {
@@ -26198,7 +25603,7 @@
       }
 
       return !!this.isAudio_;
-    }
+    };
     /**
      * A helper method for adding a {@link TextTrack} to our
      * {@link TextTrackList}.
@@ -26220,13 +25625,13 @@
      *         the TextTrack that was added or undefined
      *         if there is no tech
      */
-    ;
+
 
     _proto.addTextTrack = function addTextTrack(kind, label, language) {
       if (this.tech_) {
         return this.tech_.addTextTrack(kind, label, language);
       }
-    }
+    };
     /**
      * Create a remote {@link TextTrack} and an {@link HTMLTrackElement}. It will
      * automatically removed from the video element whenever the source changes, unless
@@ -26246,13 +25651,13 @@
      * @deprecated The default value of the "manualCleanup" parameter will default
      *             to "false" in upcoming versions of Video.js
      */
-    ;
+
 
     _proto.addRemoteTextTrack = function addRemoteTextTrack(options, manualCleanup) {
       if (this.tech_) {
         return this.tech_.addRemoteTextTrack(options, manualCleanup);
       }
-    }
+    };
     /**
      * Remove a remote {@link TextTrack} from the respective
      * {@link TextTrackList} and {@link HtmlTrackElementList}.
@@ -26263,7 +25668,7 @@
      * @return {undefined}
      *         does not return anything
      */
-    ;
+
 
     _proto.removeRemoteTextTrack = function removeRemoteTextTrack(obj) {
       if (obj === void 0) {
@@ -26282,7 +25687,7 @@
       if (this.tech_) {
         return this.tech_.removeRemoteTextTrack(track);
       }
-    }
+    };
     /**
      * Gets available media playback quality metrics as specified by the W3C's Media
      * Playback Quality API.
@@ -26293,33 +25698,33 @@
      *         An object with supported media playback quality metrics or undefined if there
      *         is no tech or the tech does not support it.
      */
-    ;
+
 
     _proto.getVideoPlaybackQuality = function getVideoPlaybackQuality() {
       return this.techGet_('getVideoPlaybackQuality');
-    }
+    };
     /**
      * Get video width
      *
      * @return {number}
      *         current video width
      */
-    ;
+
 
     _proto.videoWidth = function videoWidth() {
       return this.tech_ && this.tech_.videoWidth && this.tech_.videoWidth() || 0;
-    }
+    };
     /**
      * Get video height
      *
      * @return {number}
      *         current video height
      */
-    ;
+
 
     _proto.videoHeight = function videoHeight() {
       return this.tech_ && this.tech_.videoHeight && this.tech_.videoHeight() || 0;
-    }
+    };
     /**
      * The player's language code
      * NOTE: The language should be set in the player options if you want the
@@ -26332,7 +25737,7 @@
      * @return {string}
      *         The current language code when getting
      */
-    ;
+
 
     _proto.language = function language(code) {
       if (code === undefined) {
@@ -26340,7 +25745,7 @@
       }
 
       this.language_ = String(code).toLowerCase();
-    }
+    };
     /**
      * Get the player's language dictionary
      * Merge every time, because a newly added plugin might call videojs.addLanguage() at any time
@@ -26349,11 +25754,11 @@
      * @return {Array}
      *         An array of of supported languages
      */
-    ;
+
 
     _proto.languages = function languages() {
       return mergeOptions(Player.prototype.options_.languages, this.languages_);
-    }
+    };
     /**
      * returns a JavaScript object reperesenting the current track
      * information. **DOES not return it as JSON**
@@ -26361,7 +25766,7 @@
      * @return {Object}
      *         Object representing the current of track info
      */
-    ;
+
 
     _proto.toJSON = function toJSON() {
       var options = mergeOptions(this.options_);
@@ -26377,7 +25782,7 @@
       }
 
       return options;
-    }
+    };
     /**
      * Creates a simple modal dialog (an instance of the {@link ModalDialog}
      * component) that immediately overlays the player with arbitrary
@@ -26394,7 +25799,7 @@
      * @return {ModalDialog}
      *         the {@link ModalDialog} that was created
      */
-    ;
+
 
     _proto.createModal = function createModal(content, options) {
       var _this12 = this;
@@ -26408,13 +25813,13 @@
       });
       modal.open();
       return modal;
-    }
+    };
     /**
      * Change breakpoint classes when the player resizes.
      *
      * @private
      */
-    ;
+
 
     _proto.updateCurrentBreakpoint_ = function updateCurrentBreakpoint_() {
       if (!this.responsive()) {
@@ -26444,13 +25849,13 @@
           break;
         }
       }
-    }
+    };
     /**
      * Removes the current breakpoint.
      *
      * @private
      */
-    ;
+
 
     _proto.removeCurrentBreakpoint_ = function removeCurrentBreakpoint_() {
       var className = this.currentBreakpointClass();
@@ -26459,7 +25864,7 @@
       if (className) {
         this.removeClass(className);
       }
-    }
+    };
     /**
      * Get or set breakpoints on the player.
      *
@@ -26496,7 +25901,7 @@
      * @return {Object}
      *         An object mapping breakpoint names to maximum width values.
      */
-    ;
+
 
     _proto.breakpoints = function breakpoints(_breakpoints) {
       // Used as a getter.
@@ -26511,7 +25916,7 @@
       this.updateCurrentBreakpoint_(); // Clone the breakpoints before returning.
 
       return assign(this.breakpoints_);
-    }
+    };
     /**
      * Get or set a flag indicating whether or not this player should adjust
      * its UI based on its dimensions.
@@ -26524,7 +25929,7 @@
      *         Will be `true` if this player should adjust its UI based on its
      *         dimensions; otherwise, will be `false`.
      */
-    ;
+
 
     _proto.responsive = function responsive(value) {
       // Used as a getter.
@@ -26552,7 +25957,7 @@
       }
 
       return value;
-    }
+    };
     /**
      * Get current breakpoint name, if any.
      *
@@ -26560,11 +25965,11 @@
      *         If there is currently a breakpoint set, returns a the key from the
      *         breakpoints object matching it. Otherwise, returns an empty string.
      */
-    ;
+
 
     _proto.currentBreakpoint = function currentBreakpoint() {
       return this.breakpoint_;
-    }
+    };
     /**
      * Get the current breakpoint class name.
      *
@@ -26573,146 +25978,11 @@
      *         `"vjs-layout-large"`) for the current breakpoint. Empty string if
      *         there is no current breakpoint.
      */
-    ;
+
 
     _proto.currentBreakpointClass = function currentBreakpointClass() {
       return BREAKPOINT_CLASSES[this.breakpoint_] || '';
-    }
-    /**
-     * An object that describes a single piece of media.
-     *
-     * Properties that are not part of this type description will be retained; so,
-     * this can be viewed as a generic metadata storage mechanism as well.
-     *
-     * @see      {@link https://wicg.github.io/mediasession/#the-mediametadata-interface}
-     * @typedef  {Object} Player~MediaObject
-     *
-     * @property {string} [album]
-     *           Unused, except if this object is passed to the `MediaSession`
-     *           API.
-     *
-     * @property {string} [artist]
-     *           Unused, except if this object is passed to the `MediaSession`
-     *           API.
-     *
-     * @property {Object[]} [artwork]
-     *           Unused, except if this object is passed to the `MediaSession`
-     *           API. If not specified, will be populated via the `poster`, if
-     *           available.
-     *
-     * @property {string} [poster]
-     *           URL to an image that will display before playback.
-     *
-     * @property {Tech~SourceObject|Tech~SourceObject[]|string} [src]
-     *           A single source object, an array of source objects, or a string
-     *           referencing a URL to a media source. It is _highly recommended_
-     *           that an object or array of objects is used here, so that source
-     *           selection algorithms can take the `type` into account.
-     *
-     * @property {string} [title]
-     *           Unused, except if this object is passed to the `MediaSession`
-     *           API.
-     *
-     * @property {Object[]} [textTracks]
-     *           An array of objects to be used to create text tracks, following
-     *           the {@link https://www.w3.org/TR/html50/embedded-content-0.html#the-track-element|native track element format}.
-     *           For ease of removal, these will be created as "remote" text
-     *           tracks and set to automatically clean up on source changes.
-     *
-     *           These objects may have properties like `src`, `kind`, `label`,
-     *           and `language`, see {@link Tech#createRemoteTextTrack}.
-     */
-
-    /**
-     * Populate the player using a {@link Player~MediaObject|MediaObject}.
-     *
-     * @param  {Player~MediaObject} media
-     *         A media object.
-     *
-     * @param  {Function} ready
-     *         A callback to be called when the player is ready.
-     */
-    ;
-
-    _proto.loadMedia = function loadMedia(media, ready) {
-      var _this13 = this;
-
-      if (!media || typeof media !== 'object') {
-        return;
-      }
-
-      this.reset(); // Clone the media object so it cannot be mutated from outside.
-
-      this.cache_.media = mergeOptions(media);
-      var _this$cache_$media = this.cache_.media,
-          artwork = _this$cache_$media.artwork,
-          poster = _this$cache_$media.poster,
-          src = _this$cache_$media.src,
-          textTracks = _this$cache_$media.textTracks; // If `artwork` is not given, create it using `poster`.
-
-      if (!artwork && poster) {
-        this.cache_.media.artwork = [{
-          src: poster,
-          type: getMimetype(poster)
-        }];
-      }
-
-      if (src) {
-        this.src(src);
-      }
-
-      if (poster) {
-        this.poster(poster);
-      }
-
-      if (Array.isArray(textTracks)) {
-        textTracks.forEach(function (tt) {
-          return _this13.addRemoteTextTrack(tt, false);
-        });
-      }
-
-      this.ready(ready);
-    }
-    /**
-     * Get a clone of the current {@link Player~MediaObject} for this player.
-     *
-     * If the `loadMedia` method has not been used, will attempt to return a
-     * {@link Player~MediaObject} based on the current state of the player.
-     *
-     * @return {Player~MediaObject}
-     */
-    ;
-
-    _proto.getMedia = function getMedia() {
-      if (!this.cache_.media) {
-        var poster = this.poster();
-        var src = this.currentSources();
-        var textTracks = Array.prototype.map.call(this.remoteTextTracks(), function (tt) {
-          return {
-            kind: tt.kind,
-            label: tt.label,
-            language: tt.language,
-            src: tt.src
-          };
-        });
-        var media = {
-          src: src,
-          textTracks: textTracks
-        };
-
-        if (poster) {
-          media.poster = poster;
-          media.artwork = [{
-            src: media.poster,
-            type: getMimetype(media.poster)
-          }];
-        }
-
-        return media;
-      }
-
-      return mergeOptions(this.cache_.media);
-    }
+    };
     /**
      * Gets tag settings
      *
@@ -26723,7 +25993,7 @@
      *         An object containing all of the settings
      *         for a player tag
      */
-    ;
+
 
     Player.getTagSettings = function getTagSettings(tag) {
       var baseOptions = {
@@ -26775,7 +26045,7 @@
       }
 
       return baseOptions;
-    }
+    };
     /**
      * Determine whether or not flexbox is supported
      *
@@ -26783,7 +26053,7 @@
      *         - true if flexbox is supported
      *         - false if flexbox is not supported
      */
-    ;
+
 
     _proto.flexNotSupported_ = function flexNotSupported_() {
       var elem = document.createElement('i'); // Note: We don't actually use flexBasis (or flexOrder), but it's one of the more
@@ -27274,7 +26544,7 @@
 
     _proto.version = function version() {
       return this.constructor.VERSION;
-    }
+    };
     /**
      * Each event triggered by plugins includes a hash of additional data with
      * conventional properties.
@@ -27287,7 +26557,7 @@
      * @return {Plugin~PluginEventHash}
      *          An event hash object with provided properties mixed-in.
      */
-    ;
+
 
     _proto.getEventHash = function getEventHash(hash) {
       if (hash === void 0) {
@@ -27298,7 +26568,7 @@
       hash.plugin = this.constructor;
       hash.instance = this;
       return hash;
-    }
+    };
     /**
      * Triggers an event on the plugin object and overrides
      * {@link module:evented~EventedMixin.trigger|EventedMixin.trigger}.
@@ -27313,7 +26583,7 @@
      * @return {boolean}
      *          Whether or not default was prevented.
      */
-    ;
+
 
     _proto.trigger = function trigger$$1(event, hash) {
       if (hash === void 0) {
@@ -27321,7 +26591,7 @@
       }
 
       return trigger(this.eventBusEl_, event, this.getEventHash(hash));
-    }
+    };
     /**
      * Handles "statechanged" events on the plugin. No-op by default, override by
      * subclassing.
@@ -27334,9 +26604,9 @@
      *           An object describing changes that occurred with the "statechanged"
      *           event.
      */
-    ;
 
-    _proto.handleStateChanged = function handleStateChanged(e) {}
+
+    _proto.handleStateChanged = function handleStateChanged(e) {};
     /**
      * Disposes a plugin.
      *
@@ -27345,7 +26615,7 @@
      *
      * @fires Plugin#dispose
      */
-    ;
+
 
     _proto.dispose = function dispose() {
       var name = this.name,
@@ -27368,7 +26638,7 @@
       // function, so that the plugin is ready to be set up again.
 
       player[name] = createPluginFactory(name, pluginStorage[name]);
-    }
+    };
     /**
      * Determines if a plugin is a basic plugin (i.e. not a sub-class of `Plugin`).
      *
@@ -27379,12 +26649,12 @@
      * @return {boolean}
      *          Whether or not a plugin is a basic plugin.
      */
-    ;
+
 
     Plugin.isBasic = function isBasic(plugin) {
       var p = typeof plugin === 'string' ? getPlugin(plugin) : plugin;
       return typeof p === 'function' && !Plugin.prototype.isPrototypeOf(p.prototype);
-    }
+    };
     /**
      * Register a Video.js plugin.
      *
@@ -27400,7 +26670,7 @@
      *          For advanced plugins, a factory function for that plugin. For
      *          basic plugins, a wrapper function that initializes the plugin.
      */
-    ;
+
 
     Plugin.registerPlugin = function registerPlugin(name, plugin) {
       if (typeof name !== 'string') {
@@ -27429,7 +26699,7 @@
       }
 
       return plugin;
-    }
+    };
     /**
      * De-register a Video.js plugin.
      *
@@ -27440,7 +26710,7 @@
      * @throws {Error}
      *         If an attempt is made to de-register the base plugin.
      */
-    ;
+
 
     Plugin.deregisterPlugin = function deregisterPlugin(name) {
       if (name === BASE_PLUGIN_NAME) {
@@ -27451,7 +26721,7 @@
         delete pluginStorage[name];
         delete Player.prototype[name];
       }
-    }
+    };
     /**
      * Gets an object containing multiple Video.js plugins.
      *
@@ -27463,7 +26733,7 @@
      *          An object containing plugin(s) associated with their name(s) or
      *          `undefined` if no matching plugins exist).
      */
-    ;
+
 
     Plugin.getPlugins = function getPlugins(names) {
       if (names === void 0) {
@@ -27480,7 +26750,7 @@
         }
       });
       return result;
-    }
+    };
     /**
      * Gets a plugin's version, if available
      *
@@ -27490,7 +26760,7 @@
      * @return {string}
      *          The plugin's version or an empty string.
      */
-    ;
+
 
     Plugin.getPluginVersion = function getPluginVersion(name) {
       var plugin = getPlugin(name);
@@ -28200,4 +27470,4 @@
 
   return videojs$1;
 
-}));
+})));

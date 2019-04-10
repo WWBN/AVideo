@@ -1,5 +1,5 @@
 <script>
-
+    var playListsAdding = false;
     var playList = [];
     function reloadPlayLists() {
         $.ajax({
@@ -12,6 +12,7 @@
     function loadPlayLists(videos_id, crc) {
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
+            cache: true,
             success: function (response) {
                 $('.searchlist' + videos_id+crc).html('');
                 for (var i in response) {
@@ -37,6 +38,10 @@
                 }
                 $('.searchlist' + videos_id+crc).btsListFilter('#searchinput' + videos_id+crc, {itemChild: 'span'});
                 $('.playListsIds' + videos_id).change(function () {
+                    if(playListsAdding){
+                        return false;
+                    }
+                    playListsAdding = true;
                     modal.showPleaseWait();
 
                     //tmp-variables simply make the values avaible on success.
@@ -53,6 +58,7 @@
                         success: function (response) {
                             $(".playListsIds" + tmpPIdBigVideo).prop("checked", tmpSaveBigVideo);
                             modal.hidePleaseWait();
+                            setTimeout(function(){playListsAdding=false},500);
                         }
                     });
                     return false;

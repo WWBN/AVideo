@@ -5,7 +5,10 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class CloneSite extends PluginAbstract {
    
     public function getDescription() {
+        global $global;
+        $obj = $this->getDataObject();
         $txt = "Clone and Backup YouPHPTube Sites";
+        $txt .= "<br>Crontab every day at 1am:<br><code>0 1 * * * php {$global['systemRootPath']}plugin/CloneSite/cloneClient.json.php {$obj->myKey}</code>";
         $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Clone-Site-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt . $help;
     }
@@ -29,9 +32,10 @@ class CloneSite extends PluginAbstract {
     }
 
     public function getEmptyDataObject() {
+        global $global;
         $obj = new stdClass();
         $obj->cloneSiteURL = "";
-        $obj->myKey = md5(uniqid());
+        $obj->myKey = md5($global['systemRootPath'].$global['salt']);
         return $obj;
     }
 

@@ -1,9 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+    <urlset
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-    <!-- Main Page -->
-        
-</urlset> 
+        <!-- Main Page -->
+        <url>
+            <loc>http://192.168.25.16/YouPHPTube/</loc>
+            <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+            <changefreq>always</changefreq>
+            <priority>1.00</priority>
+        </url>
+
+        <url>
+            <loc>http://192.168.25.16/YouPHPTube/help</loc>
+            <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.50</priority>
+        </url>
+        <url>
+            <loc>http://192.168.25.16/YouPHPTube/about</loc>
+            <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.50</priority>
+        </url>
+        <url>
+            <loc>http://192.168.25.16/YouPHPTube/contact</loc>
+            <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.50</priority>
+        </url>
+
+        <!-- Channels -->
+        <url>
+            <loc>http://192.168.25.16/YouPHPTube/channels</loc>
+            <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>0.80</priority>
+        </url>
+                
+            <url>
+                <loc>http://192.168.25.16/YouPHPTube/channel/5c4dfa2965b0e</loc>
+                <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+                <changefreq>daily</changefreq>
+                <priority>0.70</priority>
+            </url>
+                    
+            <url>
+                <loc>http://192.168.25.16/YouPHPTube/channel/5c4fbd79b9247</loc>
+                <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+                <changefreq>daily</changefreq>
+                <priority>0.70</priority>
+            </url>
+             
+        <!-- Categories -->
+          
+            <url>
+                <loc>http://192.168.25.16/YouPHPTube/cat/default</loc>
+                <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.80</priority>
+            </url>
+            <!-- Videos -->   
+            <url>
+                <loc>http://192.168.25.16/YouPHPTube/video/video-automatically-booked</loc>
+                <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>0.80</priority>
+            </url>
+               
+            <url>
+                <loc>http://192.168.25.16/YouPHPTube/video/creating-images</loc>
+                <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>0.80</priority>
+            </url>
+               
+            <url>
+                <loc>http://192.168.25.16/YouPHPTube/video/youphptubeintro</loc>
+                <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>0.80</priority>
+            </url>
+               
+            <url>
+                <loc>http://192.168.25.16/YouPHPTube/video/-marvel-avengers-the-key</loc>
+                <lastmod>2019-02-16T02:27:59+00:00</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>0.80</priority>
+            </url>
+            </urlset> 

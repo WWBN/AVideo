@@ -15,5 +15,14 @@ if(empty($_POST['rowCount'])){
 }
 $users = User::getAllUsers();
 $total = User::getTotalUsers();
+$json = json_encode($users);
 
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($users).'}';
+if(empty($json)){
+    error_log("users.json error: ".print_r($users, true));
+    foreach ($users as $key => $value) {
+        $users[$key]['about'] = "";
+    }
+    $json = json_encode($users);
+}
+
+echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. $json .'}';

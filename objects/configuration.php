@@ -198,11 +198,16 @@ class Configuration {
         return $this->head;
     }
 
-    function getLogo() {
+    function getLogo($timestamp=false) {
+        global $global;
         if (empty($this->logo)) {
             return "view/img/logo.png";
         }
-        return $this->logo;
+        $get = "";
+        if($timestamp){
+            $get .= "?".filemtime(str_replace("?", "", $global['systemRootPath'].$this->logo));
+        }
+        return $this->logo.$get;
     }
 
     function setHead($head) {

@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `can_download` TINYINT(1) NULL DEFAULT NULL,
   `can_share` TINYINT(1) NULL DEFAULT NULL,
   `rrating` VARCHAR(45) NULL DEFAULT NULL,
+  `externalOptions` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
@@ -236,9 +237,12 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   `created` DATETIME NULL DEFAULT NULL,
   `modified` DATETIME NULL DEFAULT NULL,
   `lastVideoTime` INT(11) NULL DEFAULT NULL,
+  `session_id` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
   INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),
+  INDEX `when_statisci` (`when` ASC),
+  INDEX `session_id_statistics` (`session_id` ASC),
   CONSTRAINT `fk_videos_statistics_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
@@ -346,10 +350,17 @@ CREATE TABLE IF NOT EXISTS `subscribes` (
   `ip` VARCHAR(45) NULL,
   `users_id` INT NOT NULL DEFAULT 1 COMMENT 'subscribes to user channel',
   `notify` TINYINT(1) NOT NULL DEFAULT 1,
+  `subscriber_users_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_subscribes_users1_idx` (`users_id` ASC),
+  INDEX `fk_subscribes_users2_idx` (`subscriber_users_id` ASC),
   CONSTRAINT `fk_subscribes_users1`
     FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_subscribes_users2`
+    FOREIGN KEY (`subscriber_users_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
@@ -365,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `playlists` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `users_id` INT NOT NULL,
-  `status` ENUM('public', 'private') NOT NULL DEFAULT 'public',
+  `status` ENUM('public', 'private', 'unlisted', 'favorite', 'watch_later') NOT NULL DEFAULT 'public',
   PRIMARY KEY (`id`),
   INDEX `fk_playlists_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_playlists_users1`
@@ -454,6 +465,16 @@ CREATE TABLE `category_type_cache` (
 
 ALTER TABLE `category_type_cache`
   ADD UNIQUE KEY `categoryId` (`categoryId`);
+
+ALTER TABLE `plugins` 
+ADD INDEX `plugin_status` (`status` ASC);
+
+ALTER TABLE `videos` 
+ADD INDEX `videos_status_index` (`status` ASC),
+ADD INDEX `is_suggested_index` (`isSuggested` ASC),
+ADD INDEX `views_count_index` (`views_count` ASC),
+ADD INDEX `filename_index` (`filename` ASC);
+
 COMMIT;
 
 SET SQL_MODE=@OLD_SQL_MODE;

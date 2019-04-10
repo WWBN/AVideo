@@ -315,6 +315,31 @@ footer ul.list-inline li {
     background: inherit;
     left: 20px;
 }
+
+
+
+/* fancy checkbox */
+.material-small.material-switch > input[type="checkbox"] {
+    display: none;
+}
+.material-small.material-switch > label {
+    width: 20px;
+    margin-right: 5px;
+}
+.material-small.material-switch > label::before {
+    margin-top: -5px;
+    width: 20px;
+    height: 10px;
+}
+.material-small.material-switch > label::after {
+    margin-top: -4px;
+    width: 15px;
+    height: 15px;
+}
+.material-small.material-switch > input[type="checkbox"]:checked + label::after {
+    left: 10px;
+}
+
 /* fancy checkbox  end */
 
 .label.fix-width {
@@ -703,4 +728,18 @@ img.blur{
 }
 #mainNavBar ul.items-container li:last-child {
     margin-right: 0 !important;
+}
+
+.ima-controls-div{
+    pointer-events: none !important;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.42;
+  border-radius: 15px;
 }

@@ -15,6 +15,11 @@ body{
     justify-content: center;
     padding-bottom: 120px;
 }
+
+#youtubeModeOnFullscreenCloseButton{
+    display: block !important;
+}
+
 .firstC{
     position: absolute;
 }

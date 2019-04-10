@@ -68,7 +68,7 @@ class Live extends PluginAbstract {
         //$obj->playerServer = "https://{$server['host']}:444/live";
         $obj->stats = "{$scheme}://{$server['host']}:{$port}/stat";
         $obj->disableGifThumbs = false;
-        $obj->useLowResolution = false;
+        $obj->useAadaptiveMode = false;
         $obj->experimentalWebcam = false;
         return $obj;
     }
@@ -88,13 +88,14 @@ class Live extends PluginAbstract {
         return $o->server;
     }
 
-    public function getPlayerServer() {
+    public function getM3U8File($uuid) {
         $o = $this->getDataObject();
         $playerServer = $o->playerServer;
-        if(!empty($o->useLowResolution)){
-            $playerServer = str_replace("/live", "/low", $playerServer);
+        if($o->useAadaptiveMode){
+            return $playerServer."/{$uuid}.m3u8";
+        }else{
+            return $playerServer."/{$uuid}/index.m3u8";
         }
-        return $playerServer;
     }
 
     public function getDisableGifThumbs() {

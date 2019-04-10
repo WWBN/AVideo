@@ -15,7 +15,7 @@
                         <div class="col-md-8 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input  id="inputUser" placeholder="<?php echo __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail) ? "text" : "email"; ?>" value="" required >
+                                <input  id="inputUser" placeholder="<?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail) ? "text" : "email"; ?>" value="" required >
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@ if (!empty($_GET['error'])) {
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
-                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val()},
+                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val(), "redirectUri": "<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>"},
                 type: 'post',
                 success: function (response) {
                     if (!response.isLogged) {
@@ -135,7 +135,8 @@ if (!empty($_GET['error'])) {
                             $('#captchaForm').slideDown();
                         }
                     } else {
-                        document.location = '<?php echo $global['webSiteRootURL']; ?>'
+
+                        document.location = response.redirectUri;
                     }
                 }
             });
@@ -146,7 +147,7 @@ if (!empty($_GET['error'])) {
                 swal("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
                 return false;
             }
-            var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">';
+            var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText2">';
             swal({
                 title: user + ", <?php echo __("Are you sure?"); ?>",
                 text: "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha,
@@ -161,7 +162,7 @@ if (!empty($_GET['error'])) {
                         modal.showPleaseWait();
                         $.ajax({
                             url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
-                            data: {"user": $('#inputUser').val(), "captcha": $('#captchaText').val()},
+                            data: {"user": $('#inputUser').val(), "captcha": $('#captchaText2').val()},
                             type: 'post',
                             success: function (response) {
                                 if (response.error) {

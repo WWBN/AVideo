@@ -35,16 +35,27 @@ $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
 ?>
 
 <?php
-$channelName = $_GET['channelName'];
+$channelName = @$_GET['channelName'];
 unset($_GET['channelName']);
+$startC = microtime(true);
 foreach ($playlists as $playlist) {
+    @$timesC[__LINE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
-    $videosP = Video::getAllVideos("a", false, false, $videosArrayId);
+    @$timesC[__LINE__] += microtime(true) - $startC;
+    $startC = microtime(true);
+    $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId);
+    @$timesC[__LINE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     //error_log("channelPlaylist videosP: ".json_encode($videosP));
     $videosP = PlayList::sortVideos($videosP, $videosArrayId);
+    @$timesC[__LINE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     //error_log("channelPlaylist videosP2: ".json_encode($videosP));
     //error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
     $playListButtons = YouPHPTubePlugin::getPlayListButtons($playlist['id']);
+    @$timesC[__LINE__] += microtime(true) - $startC;
+    $startC = microtime(true);
     ?>
 
     <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
@@ -80,15 +91,24 @@ foreach ($playlists as $playlist) {
 
                         <?php
                     }
-                    if (YouPHPTubePlugin::isEnabledByName("PlayLists")) {
+                    if ($playlist['status'] != "favorite" && $playlist['status'] != "watch_later") {
+                        if (YouPHPTubePlugin::isEnabledByName("PlayLists")) {
+                            ?>
+                            <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val());setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
+                            <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php echo $playlist['id']; ?>" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay"></iframe>'/>
+                            <?php
+                        }
                         ?>
-                        <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val());setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
-                        <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php echo $playlist['id']; ?>" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay"></iframe>'/>
+                        <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><span class="fa fa-trash-o"></span> <?php echo __("Delete"); ?></button>
+                        <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><span class="fa fa-pencil"></span> <?php echo __("Rename"); ?></button>
+                        <button class="btn btn-xs btn-default statusPlaylist" playlist_id="<?php echo $playlist['id']; ?>" style="" >
+                            <span class="fa fa-lock" id="statusPrivate" style="color: red; <?php if($playlist['status']!=='private'){echo ' display: none;';} ?> " ></span> 
+                            <span class="fa fa-globe" id="statusPublic" style="color: green; <?php if($playlist['status']!=='public'){echo ' display: none;';} ?>"></span> 
+                            <span class="fa fa-eye-slash" id="statusUnlisted" style="color: gray;   <?php if($playlist['status']!=='unlisted'){echo ' display: none;';} ?>"></span>
+                        </button>
                         <?php
                     }
                     ?>
-                    <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><span class="fa fa-trash-o"></span> <?php echo __("Delete"); ?></button>
-                    <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><span class="fa fa-pencil"></span> <?php echo __("Rename"); ?></button>
                 </div>
                 <?php
             }
@@ -328,6 +348,39 @@ $_GET['channelName'] = $channelName;
 
         });
 
+        $('.statusPlaylist').click(function () {
+            status = "public";
+            if ($('#statusPrivate').is(":visible")) {
+                status = "public";
+                $('.statusPlaylist span').hide();
+                $('#statusPublic').fadeIn();
+            } else if ($('#statusPublic').is(":visible")) {
+                status = "unlisted";
+                $('.statusPlaylist span').hide();
+                $('#statusUnlisted').fadeIn();
+            } else if ($('#statusUnlisted').is(":visible")) {
+                status = "private";
+                $('.statusPlaylist span').hide();
+                $('#statusPrivate').fadeIn();
+            }
+            modal.showPleaseWait();
+            var playlist_id = $(this).attr('playlist_id');
+            console.log(playlist_id);
+            $.ajax({
+                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistStatus.php',
+                data: {
+                    "playlist_id": playlist_id,
+                    "status": status
+                },
+                type: 'post',
+                success: function (response) {
+
+                    modal.hidePleaseWait();
+                }
+            });
+
+        });
+
         $('.renamePlaylist').click(function () {
             currentObject = this;
             swal({
@@ -380,3 +433,13 @@ $_GET['channelName'] = $channelName;
 
     });
 </script>
+<!--
+channelPlaylist
+<?php
+$timesC[__LINE__] = microtime(true) - $startC;
+$startC = microtime(true);
+foreach ($timesC as $key => $value) {
+    echo "Line: {$key} -> {$value}\n";
+}
+?>
+-->

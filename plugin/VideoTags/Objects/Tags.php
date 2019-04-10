@@ -83,6 +83,10 @@ class Tags extends ObjectYPT {
     
     static function getAllFromVideosId($videos_id) {        
         $tags = TagsHasVideos::getAllFromVideosId($videos_id);
+        if(!is_array($tags)){
+            //error_log("getAllFromVideosId($videos_id) ".  json_encode($tags));
+            return array();
+        }
         //var_dump($tags);
         $tagsArray = array();
         foreach ($tags as $value) {
@@ -104,7 +108,7 @@ class Tags extends ObjectYPT {
             }
             $tagsArray[$value->type_name][] = $value->name;
         }
-        return $tagsArray;
+        return empty($tagsArray)?(new stdClass()):$tagsArray;
     }
     
     static function getAllTagsList($tags_types_id) {

@@ -22,7 +22,7 @@
                 <th data-column-id="created" ><?php echo __("Created"); ?></th>
                 <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
                 <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="50px"></th>
+                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="100px"></th>
             </tr>
         </thead>
     </table>
@@ -244,10 +244,10 @@
             formatters: {
                 "commands": function (column, row) {
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                    var infoBtn = '<br><button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Info"><i class="fas fa-info-circle"></i></button>'
+                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Info"><i class="fas fa-info-circle"></i></button>'
                     //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
-                    //return editBtn + deleteBtn;
-                    return editBtn + infoBtn;
+                    var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getUsersManagerListButton(); ?>';
+                    return editBtn + infoBtn+pluginsButtons;
                 },
                 "tags": function (column, row) {
                     var tags = "";

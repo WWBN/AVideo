@@ -83,7 +83,7 @@ if(!empty($objSecure)){
                     <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls autoplay="autoplay"
                            class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered"
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                        <source src="<?php echo $p->getPlayerServer(); ?>/<?php echo $uuid; ?>/index.m3u8" type='application/x-mpegURL'>
+                        <source src="<?php echo getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                     </video>
                     <?php
                     if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {

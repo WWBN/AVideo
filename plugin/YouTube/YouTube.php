@@ -40,6 +40,7 @@ class YouTube extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
+        
         $obj->BigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;
@@ -57,6 +58,8 @@ class YouTube extends PluginAbstract {
         $obj->SortByNameRowCount = 12;
         $obj->SubscribedChannels = true;
         $obj->SubscribedChannelsRowCount = 12;
+        $obj->Categories = false;
+        $obj->CategoriesRowCount = 12;
         $obj->sortReverseable = false;
         $obj->SubCategorys = false;
         $obj->showTags = true;

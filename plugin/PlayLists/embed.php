@@ -12,14 +12,20 @@ if (!empty($objSecure)) {
 
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
+
+if (!PlayList::canSee($_GET['playlists_id'], User::getId())) {
+    die('{"error":"' . __("Permission denied") . '"}');
+}
+
 $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 
 $playListData = array();
+$videoStartSeconds = array();
 foreach ($playList as $value) {
 
     $sources = getVideosURL($value['filename']);
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
-
+    $externalOptions = json_decode($value['externalOptions']);
 
     $src = new stdClass();
     $src->src = $images->thumbsJpg;
@@ -32,7 +38,8 @@ foreach ($playList as $value) {
         }
         $playListSources[] = new playListSource($value2['url']);
     }
-    $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster);
+    $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, intval(@$externalOptions->videoStartSeconds));
+    $videoStartSeconds[] = intval(@$externalOptions->videoStartSeconds);
 }
 //var_dump($playListData);exit;
 ?>
@@ -137,6 +144,7 @@ foreach ($playList as $value) {
             // Initialize the playlist-ui plugin with no option (i.e. the defaults).
             player.playlistUi();
             var timeout;
+            var videoStartSeconds = <?php echo json_encode($videoStartSeconds); ?>;
             $(document).ready(function () {
                 timeout = setTimeout(function () {
                     $('#playList').fadeOut();
@@ -151,11 +159,21 @@ foreach ($playList as $value) {
                     }, 1000);
 
                 });
-                
+
                 //Prevent HTML5 video from being downloaded (right-click saved)?
                 $('#mainVideo').bind('contextmenu', function () {
                     return false;
                 });
+
+                player.currentTime(videoStartSeconds[0]);
+                $(".vjs-playlist-item ").click(function () {
+                    index = $(this).index();
+                    setTimeout(function () {
+                        player.currentTime(videoStartSeconds[index]);
+                    }, 500);
+
+                });
+
             });
         </script>
     </body>

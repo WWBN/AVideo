@@ -41,7 +41,7 @@ class User_Location extends PluginAbstract {
         $obj = $this->getDataObject();
         $User_Location = self::getThisUserLocation();
         if($obj->autoChangeLanguage){
-            if(empty($_SESSION['User_Location'])){
+            if(empty($_SESSION['User_Location']) && !empty($User_Location['country_code'])){
                 $_SESSION['language'] = strtolower($User_Location['country_code']);
                 $file = "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
                 if(file_exists($file)){

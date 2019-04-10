@@ -50,6 +50,9 @@ class TagsHasVideos extends ObjectYPT {
 
     static protected function getFromTagsIdAndVideosId($tags_id, $videos_id) {
         global $global;
+        if(!static::isTableInstalled()){
+            return false;
+        }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  tags_id = ? AND videos_id = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
         $res = sqlDAL::readSql($sql, "ii", array($tags_id, $videos_id));
@@ -65,6 +68,9 @@ class TagsHasVideos extends ObjectYPT {
         
     static function getAllFromVideosId($videos_id) {
         global $global;
+        if(!static::isTableInstalled()){
+            return false;
+        }
         $sql = "SELECT tt.*, tt.name as type_name, t.*, tv.* FROM  " . static::getTableName() . " tv "
                 . " LEFT JOIN tags as t ON tags_id = t.id "
                 . " LEFT JOIN tags_types as tt ON tags_types_id = tt.id "
@@ -86,6 +92,9 @@ class TagsHasVideos extends ObjectYPT {
     }    
     static function getAllVideosIdFromTagsId($tags_id) {
         global $global;
+        if(!static::isTableInstalled()){
+            return false;
+        }
         $sql = "SELECT * FROM  " . static::getTableName() . "  "
                 . " WHERE tags_id=? ";
         $res = sqlDAL::readSql($sql,"i",array($tags_id)); 
@@ -105,6 +114,9 @@ class TagsHasVideos extends ObjectYPT {
     
     static function getAllFromVideosIdAndTagsTypesId($videos_id, $tags_types_id) {
         global $global;
+        if(!static::isTableInstalled()){
+            return false;
+        }
         $sql = "SELECT t.*, tv.* FROM  " . static::getTableName() . " tv LEFT JOIN tags as t ON tags_id = t.id WHERE tags_types_id = ? AND videos_id=? ";
         $res = sqlDAL::readSql($sql,"ii",array($tags_types_id, $videos_id)); 
         $fullData = sqlDAL::fetchAllAssoc($res);
@@ -125,6 +137,9 @@ class TagsHasVideos extends ObjectYPT {
        
     static function getTotalVideosFromTagsId($tags_id) {
         global $global;
+        if(!static::isTableInstalled()){
+            return false;
+        }
         $sql = "SELECT count(*) as total FROM  " . static::getTableName() . "  "
                 . " WHERE tags_id=? ";
         $res = sqlDAL::readSql($sql,"i",array($tags_id)); 

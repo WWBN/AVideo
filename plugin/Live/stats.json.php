@@ -52,6 +52,9 @@ $obj->countLiveStream = count($lifeStream);
 foreach ($lifeStream as $value){
     if(!empty($value->name)){
         $row = LiveTransmition::keyExists($value->name);
+        if(!empty($row) && $value->name === $_POST['name']){
+            $obj->msg = "ONLINE";
+        }
         if(empty($row) || empty($row['public'])){
             continue;
         }
@@ -67,6 +70,10 @@ foreach ($lifeStream as $value){
         }
         
         $u = new User($row['users_id']);
+        if($u->getStatus()!=='a'){
+            continue;
+        }
+        
         $userName = $u->getNameIdentificationBd();
         $user = $u->getUser();
         $channelName = $u->getChannelName();

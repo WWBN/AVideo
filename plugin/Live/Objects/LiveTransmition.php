@@ -1,5 +1,4 @@
 <?php
-
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
@@ -54,8 +53,8 @@ class LiveTransmition extends ObjectYPT {
 
     function setTitle($title) {
         global $global;
-        $title = $global['mysqli']->real_escape_string($title);
-        $this->title = $title;
+        //$title = $global['mysqli']->real_escape_string($title);
+        $this->title = xss_esc($title);
     }
 
     function setPublic($public) {
@@ -80,8 +79,8 @@ class LiveTransmition extends ObjectYPT {
 
     function setDescription($description) {
         global $global;
-        $description = $global['mysqli']->real_escape_string($description);
-        $this->description = $description;
+        //$description = $global['mysqli']->real_escape_string($description);
+        $this->description = xss_esc($description);
     }
 
     function loadByUser($user_id) {
@@ -156,7 +155,7 @@ class LiveTransmition extends ObjectYPT {
             return false;
         }
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
-                . " LEFT JOIN users u ON u.id = users_id WHERE  `key` = '$key' LIMIT 1";
+                . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

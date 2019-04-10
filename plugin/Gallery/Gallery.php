@@ -39,6 +39,7 @@ class Gallery extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->BigVideo = true;
+        $obj->GifOnBigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;
         $obj->DateAdded = true;
@@ -67,6 +68,7 @@ class Gallery extends PluginAbstract {
         $obj->screenColsMedium = 3;
         $obj->screenColsSmall = 2;
         $obj->screenColsXSmall = 1;
+        $obj->showTopBannerOnMobile = false;
         return $obj;
     }
   

@@ -41,7 +41,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         <?php
         $countCols = 0;
         unset($_POST['sort']);
-        if(empty($_GET['page'])){
+        if (empty($_GET['page'])) {
             $_GET['page'] = 1;
         }
         $_POST['sort'][$sort] = $_GET[$getName];
@@ -114,7 +114,8 @@ function createGallerySection($videos, $crc = "", $get = array()) {
     global $global, $config, $obj, $advancedCustom;
     $countCols = 0;
     $obj = YouPHPTubePlugin::getObjectData("Gallery");
-    $zindex = 100;
+    $zindex = 1000;
+    $startG = microtime(true);
     foreach ($videos as $value) {
 
         // that meas auto generate the channelName
@@ -136,7 +137,11 @@ function createGallerySection($videos, $crc = "", $get = array()) {
         <div class="col-lg-<?php echo 12 / $obj->screenColsLarge; ?> col-md-<?php echo 12 / $obj->screenColsMedium; ?> col-sm-<?php echo 12 / $obj->screenColsSmall; ?> col-xs-<?php echo 12 / $obj->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <?php
+                @$timesG[__LINE__] += microtime(true) - $startG;
+                $startG = microtime(true);
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                @$timesG[__LINE__] += microtime(true) - $startG;
+                $startG = microtime(true);
                 $imgGif = $images->thumbsGif;
                 $poster = $images->thumbsJpg;
                 ?>
@@ -145,6 +150,11 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     <?php if (!empty($imgGif)) { ?>
                         <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                     <?php } ?>
+                    <?php
+                    echo YouPHPTubePlugin::thumbsOverlay($value['id']);
+                    @$timesG[__LINE__] += microtime(true) - $startG;
+                    $startG = microtime(true);
+                    ?>
                 </div>
                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                 <div class="progress" style="height: 3px; margin-bottom: 2px;">
@@ -170,6 +180,8 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                         </a>
                     <?php } ?>
                     <?php
+                    @$timesG[__LINE__] += microtime(true) - $startG;
+                    $startG = microtime(true);
                     if (!empty($obj->showTags)) {
                         $value['tags'] = Video::getTags($value['id']);
                         foreach ($value['tags'] as $value2) {
@@ -178,6 +190,8 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                             }
                         }
                     }
+                    @$timesG[__LINE__] += microtime(true) - $startG;
+                    $startG = microtime(true);
                     ?>
                 </div>
 
@@ -217,6 +231,8 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                 ?>
             </div>
             <?php
+            @$timesG[__LINE__] += microtime(true) - $startG;
+            $startG = microtime(true);
             if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {
                 ?>
 
@@ -226,7 +242,11 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left" role="menu">
                         <?php
+                        @$timesG[__LINE__] += microtime(true) - $startG;
+                        $startG = microtime(true);
                         $files = getVideosURL($value['filename']);
+                        @$timesG[__LINE__] += microtime(true) - $startG;
+                        $startG = microtime(true);
                         //var_dump($files);exit;
                         foreach ($files as $key => $theLink) {
                             if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') {
@@ -245,10 +265,23 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                 </div>
                 <?php
             }
+            @$timesG[__LINE__] += microtime(true) - $startG;
+            $startG = microtime(true);
             ?>
         </div>
+
     <?php } ?>
 
+    <!--
+    createGallerySection
+    <?php
+    $timesG[__LINE__] = microtime(true) - $startG;
+    $startG = microtime(true);
+    foreach ($timesG as $key => $value) {
+        echo "Line: {$key} -> {$value}\n";
+    }
+    ?>
+    -->
     <?php
     unset($_POST['disableAddTo']);
 }

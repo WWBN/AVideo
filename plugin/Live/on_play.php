@@ -1,8 +1,5 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+require_once '../../videos/configuration.php';
+error_log("NGINX ON Play POST: ".json_encode($_POST));
+error_log("NGINX ON Play GET: ".json_encode($_GET));
