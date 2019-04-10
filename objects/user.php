@@ -718,6 +718,7 @@ if (typeof gtag !== \"function\") {
                 if (0 == $resp) {
                     error_log("success " . $_SESSION['user']['id']);
                 }else{
+                    error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
                     self::logoff();
                 }
             }
