@@ -584,7 +584,7 @@ if (typeof gtag !== \"function\") {
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
-            $user = $this->find($this->user, $encodedPass, true, true);
+            $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
         
         if(!self::checkLoginAttempts()){
@@ -710,8 +710,9 @@ if (typeof gtag !== \"function\") {
         if (empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass']))) {
                 $user = new User(0, $_COOKIE['user'], false);
+                $user->setPassword($_COOKIE['pass']);
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
-                $resp = $user->login(false, $_COOKIE['pass']);
+                $resp = $user->login(false, true);
 
                 error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
                 if (0 == $resp) {
