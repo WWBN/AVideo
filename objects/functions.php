@@ -1567,6 +1567,7 @@ function allowOrigin() {
 }
 
 if (!function_exists("rrmdir")) {
+
     function rrmdir($dir) {
         if (is_dir($dir)) {
             $objects = scandir($dir);
@@ -1581,51 +1582,52 @@ if (!function_exists("rrmdir")) {
             rmdir($dir);
         }
     }
+
 }
 
 /**
  * You can now configure it on the configuration.php
  * @return boolean
  */
-function ddosProtection(){
-    $maxCon = empty($global['ddosMaxConnections'])?40:$global['ddosMaxConnections'];
-    $secondTimeout =  empty($global['ddosSecondTimeout'])?5:$global['ddosSecondTimeout'];
+function ddosProtection() {
+    $maxCon = empty($global['ddosMaxConnections']) ? 40 : $global['ddosMaxConnections'];
+    $secondTimeout = empty($global['ddosSecondTimeout']) ? 5 : $global['ddosSecondTimeout'];
     $whitelistedFiles = array(
         'playlists.json.php',
         'playlistsFromUserVideos.json.php'
-        );
-	
-    if(in_array($basename($_SERVER["SCRIPT_FILENAME"]), $whitelistedFiles)){
+    );
+
+    if (in_array($basename($_SERVER["SCRIPT_FILENAME"]), $whitelistedFiles)) {
         return true;
     }
-	
-	$time = time();
-	if(!isset($_SESSION['bruteForceBlock']) || empty($_SESSION['bruteForceBlock'])){
-        $_SESSION['bruteForceBlock'] = array();
-		$_SESSION['bruteForceBlock'][] = $time;
-		return true;
-    }
-	
-	$_SESSION['bruteForceBlock'][] = $time;	
 
-	//remove requests that are older than secondTimeout
-    foreach($_SESSION['bruteForceBlock'][$basename($_SERVER["SCRIPT_FILENAME"])] as $key => $request_time) {
-        if($request_time < $time - $secondTimeout){
+    $time = time();
+    if (!isset($_SESSION['bruteForceBlock']) || empty($_SESSION['bruteForceBlock'])) {
+        $_SESSION['bruteForceBlock'] = array();
+        $_SESSION['bruteForceBlock'][] = $time;
+        return true;
+    }
+
+    $_SESSION['bruteForceBlock'][] = $time;
+
+    //remove requests that are older than secondTimeout
+    foreach ($_SESSION['bruteForceBlock'][$basename($_SERVER["SCRIPT_FILENAME"])] as $key => $request_time) {
+        if ($request_time < $time - $secondTimeout) {
             unset($_SESSION['bruteForceBlock'][$key]);
         }
     }
-	
-	//progressive timeout-> more requests, longer timeout
-	$active_connections = count($_SESSION['bruteForceBlock']);	
-	timeoutReal = ($active_connections/$maxCon) < 1 ? 0 : ($active_connections/$maxCon) * secondTimeout;
-    sleep(timeoutReal);
-	
-	//with strict mode, penalize "attacker" with sleep() above, log and then die
-	if($global['strictDDOSprotection'] && $timeoutReal > 0){
+
+    //progressive timeout-> more requests, longer timeout
+    $active_connections = count($_SESSION['bruteForceBlock']);
+    $timeoutReal = ($active_connections / $maxCon) < 1 ? 0 : ($active_connections / $maxCon) * $secondTimeout;
+    sleep($timeoutReal);
+
+    //with strict mode, penalize "attacker" with sleep() above, log and then die
+    if ($global['strictDDOSprotection'] && $timeoutReal > 0) {
         $str = "bruteForceBlock: maxCon: $maxCon => secondTimeout: $secondTimeout | IP: " . getRealIpAddr() . " | count:" . count($_SESSION['bruteForceBlock']);
-		error_log($str);
-		die($str);				
+        error_log($str);
+        die($str);
     }
-	
-	return true;
+
+    return true;
 }
