@@ -299,7 +299,13 @@ class Configuration {
         $content = "<?php
 \$global['disableAdvancedConfigurations'] = 0;
 \$global['videoStorageLimitMinutes'] = 0;
-\$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';
+if(!empty(\$_SERVER['SERVER_NAME'])){
+    // get the subdirectory, if exists
+    \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), __FILE__);
+    \$global['webSiteRootURL'] = \"http\".(!empty(\$_SERVER['HTTPS'])?\"s\":\"\").\"://\".\$_SERVER['SERVER_NAME'].\$subDir;
+}else{
+    \$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
+}
 \$global['systemRootPath'] = '{$global['systemRootPath']}';
 \$global['salt'] = '{$global['salt']}';
 \$global['enableDDOSprotection'] = 1;
