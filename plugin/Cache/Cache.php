@@ -46,7 +46,7 @@ class Cache extends PluginAbstract {
         if (!empty($obj->enableCachePerUser)) {
             $session_id = session_id();
         }
-        return User::getId() . "_" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . ($_SERVER['HTTPS'] === 'on' ? 'a' : '') . '.cache';
+        return User::getId() . "_" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . '.cache';
     }
 
     private function isFirstPage() {
