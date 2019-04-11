@@ -46,7 +46,7 @@ class Cache extends PluginAbstract {
         if (!empty($obj->enableCachePerUser)) {
             $session_id = session_id();
         }
-        return User::getId() . "_" . md5($_SERVER['REQUEST_URI']) . "_" . $session_id . '.cache';
+        return User::getId() . "_" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . ($_SERVER['HTTPS'] === 'on' ? 'a' : '') . '.cache';
     }
 
     private function isFirstPage() {
@@ -71,13 +71,13 @@ class Cache extends PluginAbstract {
         if (isCommandLineInterface()) {
             return true;
         }
-        
+
         $whitelistedFiles = array('user.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         if (in_array($baseName, $whitelistedFiles)) {
             return true;
         }
-        
+
         $obj = $this->getDataObject();
         if ($obj->logPageLoadTime) {
             $this->start();
