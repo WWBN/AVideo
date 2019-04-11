@@ -1583,10 +1583,17 @@ if (!function_exists("rrmdir")) {
     }
 }
 
+/**
+ * You can now configure it on the configuration.php
+ * @return boolean
+ */
 function stopDDoS(){
-    $maxCon = 20;
-    $secondTimeout = 5;
-    $whitelistedFiles = array('playlists.json.php');
+    $maxCon = empty($global['ddosMaxConnections'])?40:$global['ddosMaxConnections'];
+    $secondTimeout =  empty($global['ddosSecondTimeout'])?5:$global['ddosSecondTimeout'];
+    $whitelistedFiles = array(
+        'playlists.json.php',
+        'playlistsFromUserVideos.json.php'
+        );
     $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
     if (in_array($baseName, $whitelistedFiles)) {
         return true;

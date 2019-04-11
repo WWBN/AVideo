@@ -717,6 +717,9 @@ if (typeof gtag !== \"function\") {
                 error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
                 if (0 == $resp) {
                     error_log("success " . $_SESSION['user']['id']);
+                }else{
+                    error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
+                    self::logoff();
                 }
             }
         }
