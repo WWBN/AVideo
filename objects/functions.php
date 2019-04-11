@@ -1597,7 +1597,7 @@ function ddosProtection() {
         'playlistsFromUserVideos.json.php'
     );
 
-    if (in_array($basename($_SERVER["SCRIPT_FILENAME"]), $whitelistedFiles)) {
+    if (in_array(basename($_SERVER["SCRIPT_FILENAME"]), $whitelistedFiles)) {
         return true;
     }
 
