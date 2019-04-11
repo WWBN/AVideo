@@ -302,6 +302,10 @@ class Configuration {
 \$global['webSiteRootURL'] = '{$global['webSiteRootURL']}';
 \$global['systemRootPath'] = '{$global['systemRootPath']}';
 \$global['salt'] = '{$global['salt']}';
+\$global['enableDDOSprotection'] = 1;
+\$global['ddosMaxConnections'] = 40;
+\$global['ddosSecondTimeout'] = 5;
+\$global['strictDDOSprotection'] = 0;
 
 \$mysqlHost = '{$mysqlHost}';
 \$mysqlUser = '{$mysqlUser}';
