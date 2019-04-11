@@ -20,12 +20,8 @@ require_once $global['systemRootPath'] . 'objects/security.php';
 $config = new Configuration();
 
 // for update config from old versions
-if (function_exists("getAllFlags")) {
-    Configuration::rewriteConfigFile();
-}
-
 // for update config to v5.3
-if (empty($global['salt'])) {
+if (function_exists("getAllFlags") || empty($global['salt']) || !isset($global['enableDDOSprotection'])) {
     Configuration::rewriteConfigFile();
 }
 
