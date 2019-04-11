@@ -43,7 +43,7 @@ session_set_cookie_params($config->getSession_timeout());
 session_start();
 
 // DDOS protection can be disabled in video/configuration.php
-if($global['enableDDOSprotection']) ddosProtection();
+if(!empty($global['enableDDOSprotection'])) ddosProtection();
 
 // set the reffer for youPHPTube
 $url1['host'] = "";
