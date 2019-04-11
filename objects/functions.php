@@ -1590,6 +1590,7 @@ if (!function_exists("rrmdir")) {
  * @return boolean
  */
 function ddosProtection() {
+    global $global;
     $maxCon = empty($global['ddosMaxConnections']) ? 40 : $global['ddosMaxConnections'];
     $secondTimeout = empty($global['ddosSecondTimeout']) ? 5 : $global['ddosSecondTimeout'];
     $whitelistedFiles = array(
@@ -1611,7 +1612,7 @@ function ddosProtection() {
     $_SESSION['bruteForceBlock'][] = $time;
 
     //remove requests that are older than secondTimeout
-    foreach ($_SESSION['bruteForceBlock'][$basename($_SERVER["SCRIPT_FILENAME"])] as $key => $request_time) {
+    foreach ($_SESSION['bruteForceBlock'] as $key => $request_time) {
         if ($request_time < $time - $secondTimeout) {
             unset($_SESSION['bruteForceBlock'][$key]);
         }
