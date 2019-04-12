@@ -505,13 +505,6 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $id = $matches[1];
         return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time";
-    } else if (strpos($link, 'youtu.be') !== false) {
-        preg_match(
-                '/youtu.be\/([a-zA-Z0-9_]+)\??/i', $link, $matches
-        );
-        $id = $matches[1];
-        return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
-                . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
     } else if (strpos($link, 'player.vimeo.com') !== false) {
         // works on:
         // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
@@ -584,7 +577,8 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
 
         $id = $matches[2];
         return '//streamable.com/s/' . $id;
-    } else if (strpos($link, 'twitch.tv/videos') !== false) {
+    } 
+    else if (strpos($link, 'twitch.tv/videos') !== false) {
         //extract the ID
         preg_match(
                 '/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches
