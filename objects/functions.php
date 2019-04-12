@@ -616,6 +616,9 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
 
     $url = $videoString;
     $url_parsed = parse_url($url);
+    if(empty($url_parsed['query'])){
+        return "";
+    }
     $new_qs_parsed = array();
 // Grab our first query string
     parse_str($url_parsed['query'], $new_qs_parsed);
@@ -1432,15 +1435,17 @@ function encryptPassword($password, $noSalt = false) {
 function encryptPasswordVerify($password, $hash, $encodedPass = false) {
     global $advancedCustom, $global;
     if (!$encodedPass || $encodedPass === 'false') {
+        error_log("encryptPasswordVerify: encrypt");
         $passwordSalted = encryptPassword($password);
         // in case you enable the salt later
         $passwordUnSalted = encryptPassword($password, true);
     } else {
+        error_log("encryptPasswordVerify: do not encrypt");
         $passwordSalted = $password;
         // in case you enable the salt later
         $passwordUnSalted = $password;
     }
-
+    //error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
     return $passwordSalted === $hash || $passwordUnSalted === $hash;
 }
 
