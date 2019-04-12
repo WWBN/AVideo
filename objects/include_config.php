@@ -35,8 +35,6 @@ ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 // each client should remember their session id for EXACTLY 1 hour
 session_set_cookie_params($config->getSession_timeout());
 
-$lifetime=3600 * 24 * 30 * 12 * 10;
-session_set_cookie_params($lifetime);
 session_start();
 
 // DDOS protection can be disabled in video/configuration.php
