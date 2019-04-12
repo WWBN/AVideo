@@ -609,8 +609,8 @@ if (typeof gtag !== \"function\") {
                 //$url = parse_url($global['webSiteRootURL']);
                 //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
-                setcookie("user", $user['user'], time() + 3600 * 24 * 30 * 12 * 10, "/");
-                setcookie("pass", $user['password'], time() + 3600 * 24 * 30 * 12 * 10, "/");
+                setcookie("user", $user['user'], 2147483647, "/", $_SERVER['HTTP_HOST']);
+                setcookie("pass", $user['password'], 2147483647, "/", $_SERVER['HTTP_HOST']);
             }else{
                 error_log("user::login: Do login without cookie");
             }
@@ -696,13 +696,16 @@ if (typeof gtag !== \"function\") {
 
     static function logoff() {
         global $global;
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         //$url = parse_url($global['webSiteRootURL']);
         unset($_COOKIE['user']);
         unset($_COOKIE['pass']);
         //  setcookie('user', null, -1,$url['path'],$url['host']);
         //  setcookie('pass', null, -1,$url['path'],$url['host']);
-        setcookie('user', null, -1, "/");
-        setcookie('pass', null, -1, "/");
+        setcookie('user', null, -1, "/", $_SERVER['HTTP_HOST']);
+        setcookie('pass', null, -1, "/", $_SERVER['HTTP_HOST']);
         unset($_SESSION['user']);
     }
 
@@ -710,15 +713,15 @@ if (typeof gtag !== \"function\") {
         if (empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass']))) {
                 $user = new User(0, $_COOKIE['user'], false);
-                $user->setPassword($_COOKIE['pass']);
+                $user->setPassword($_COOKIE['pass'], true);
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
                 $resp = $user->login(false, true);
 
-                error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
+                error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   result: " . $resp);
                 if (0 == $resp) {
                     error_log("success " . $_SESSION['user']['id']);
                 }else{
-                    error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   " . $_COOKIE['pass'] . "   result: " . $resp);
+                    error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   result: " . $resp);
                     self::logoff();
                 }
             }
@@ -940,9 +943,13 @@ if (typeof gtag !== \"function\") {
         $this->email = strip_tags($email);
     }
 
-    function setPassword($password) {
+    function setPassword($password, $doNotEncrypt=false) {
         if (!empty($password)) {
-            $this->password = encryptPassword($password);
+            if($doNotEncrypt){
+                $this->password = ($password);
+            }else{
+                $this->password = encryptPassword($password);
+            }
         }
     }
 
