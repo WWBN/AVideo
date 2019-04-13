@@ -706,6 +706,8 @@ if (typeof gtag !== \"function\") {
         //  setcookie('pass', null, -1,$url['path'],$url['host']);
         setcookie('user', null, -1, "/", $_SERVER['HTTP_HOST']);
         setcookie('pass', null, -1, "/", $_SERVER['HTTP_HOST']);
+        setcookie('user', null, -1, "/");
+        setcookie('pass', null, -1, "/");
         unset($_SESSION['user']);
     }
 
