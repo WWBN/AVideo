@@ -66,6 +66,7 @@ $canSendMessage = $p->canSendMessage();
             $("#chatOnline").slideDown();
 
             modal.showPleaseWait();
+            setTimeout(function(){modal.hidePleaseWait();},3000);
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/getChat.json.php',
                 data: {
