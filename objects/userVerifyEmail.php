@@ -24,7 +24,7 @@ if (!empty($_GET['users_id'])) {
 
     if($result){
         $msg = __("Email Verified");
-        header("Location: {$global['webSiteRootURL']}?msg={$msg}");
+        header("Location: {$global['webSiteRootURL']}?success={$msg}");
     }else{
         $msg = __("Email verification error");
         header("Location: {$global['webSiteRootURL']}?error={$msg}");
