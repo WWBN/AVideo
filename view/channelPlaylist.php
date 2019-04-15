@@ -44,7 +44,11 @@ foreach ($playlists as $playlist) {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
-    $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId);
+    if($advancedCustom->AsyncJobs){
+        $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId);
+    }else{
+        $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId);
+    }
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
     //error_log("channelPlaylist videosP: ".json_encode($videosP));
