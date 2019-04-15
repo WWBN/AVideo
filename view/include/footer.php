@@ -58,7 +58,7 @@ if (!empty($_GET['msg'])) {
 }
 ?>
 <?php
-if (!empty($_GET['success'])) {
+if (!empty($_GET['success']) && strlen($_GET['success'])>4) {
     ?>
             swal({title: "<?php echo __("Congratulations"); ?>", text: "<?php echo $_GET['success']; ?>", type: "success", html: true});
     <?php
