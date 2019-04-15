@@ -57,6 +57,13 @@ if (!empty($_GET['msg'])) {
     <?php
 }
 ?>
+<?php
+if (!empty($_GET['success'])) {
+    ?>
+            swal({title: "<?php echo __("Congratulations"); ?>", text: "<?php echo $_GET['success']; ?>", type: "success", html: true});
+    <?php
+}
+?>
     });
 </script>
 <!-- <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script> -->
