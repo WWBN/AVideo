@@ -65,8 +65,8 @@ $canSendMessage = $p->canSendMessage();
             $("#chatOffline").slideUp();
             $("#chatOnline").slideDown();
 
-            modal.showPleaseWait();
-            setTimeout(function(){modal.hidePleaseWait();},3000);
+            //modal.showPleaseWait();
+            //setTimeout(function(){modal.hidePleaseWait();},3000);
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/getChat.json.php',
                 data: {
@@ -74,7 +74,7 @@ $canSendMessage = $p->canSendMessage();
                 },
                 type: 'post',
                 success: function (response) {
-                    modal.hidePleaseWait();
+                    //modal.hidePleaseWait();
                     for(i=0; i<response.length;i++){
                         if(response[i].users_id == "<?php echo User::getId(); ?>"){
                             message_side = "right";
