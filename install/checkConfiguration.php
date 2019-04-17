@@ -123,7 +123,7 @@ if(empty($_POST['salt'])){
     $_POST['salt'] = uniqid();
 }
 $content = "<?php
-\$global['configurationVersion'] = 1;
+\$global['configurationVersion'] = 2;
 \$global['disableAdvancedConfigurations'] = 0;
 \$global['videoStorageLimitMinutes'] = 0;
 if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
