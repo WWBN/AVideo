@@ -21,7 +21,7 @@ $config = new Configuration();
 
 // for update config from old versions
 // for update config to v5.3
-if (function_exists("getAllFlags") || empty($global['salt']) || !isset($global['enableDDOSprotection'])) {
+if (empty($global['configurationVersion'])) {
     Configuration::rewriteConfigFile();
 }
 
