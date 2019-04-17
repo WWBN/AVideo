@@ -20,8 +20,7 @@ require_once $global['systemRootPath'] . 'objects/security.php';
 $config = new Configuration();
 
 // for update config from old versions
-// for update config to v5.3
-if (empty($global['configurationVersion'])) {
+if (empty($global['configurationVersion']) || $global['configurationVersion'] < 2) {
     Configuration::rewriteConfigFile();
 }
 
