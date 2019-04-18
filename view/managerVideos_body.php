@@ -1448,7 +1448,7 @@ if (User::isAdmin()) {
                                                         for (var k in row.videosURL) {
                                                             var url = row.videosURL[k].url;
                                                             if (url.indexOf('?') > -1) {
-                                                                url += "&download=1";
+                                                                //url += "&download=1";
                                                             } else {
                                                                 url += "?download=1";
                                                             }
