@@ -725,7 +725,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             if (!row.id) {
                                                 row.id = videos_id;
                                             }
-                                            
+
                                             $(".externalOptions").val("");
                                             try {
                                                 externalOptionsObject = JSON.parse(row.externalOptions);
@@ -951,27 +951,27 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                     },
                                                     type: 'post',
                                                     success: function (response) {
-                                                    if (response.status === "1" || response.status === true) {
-                                                    if (response.video.type === 'embed') {
-                                                    videoUploaded = true;
-                                                    }
-                                                    if (closeModal && videoUploaded) {
-                                                    $('#videoFormModal').modal('hide');
-                                                    }
-                                                    $("#grid").bootgrid("reload");
+                                                        if (response.status === "1" || response.status === true) {
+                                                            if (response.video.type === 'embed') {
+                                                                videoUploaded = true;
+                                                            }
+                                                            if (closeModal && videoUploaded) {
+                                                                $('#videoFormModal').modal('hide');
+                                                            }
+                                                            $("#grid").bootgrid("reload");
                                                             $('#fileUploadVideos_id').val(response.videos_id);
                                                             $('#inputVideoId').val(response.videos_id);
                                                             videos_id = response.videos_id;
-                                                    } else {
-                                                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
-                                                    }
-                                                    modal.hidePleaseWait();
-                                                            setTimeout(function () {
+                                                        } else {
+                                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                                                        }
+                                                        modal.hidePleaseWait();
+                                                        setTimeout(function () {
                                                             waitToSubmit = false;
-                                                            }, 3000);
-                                                    }
+                                                        }, 3000);
+                                                        }
                                             });
-                                            return false;
+                                                    return false;
                                         }
 
                                         function resetVideoForm() {
@@ -1446,7 +1446,13 @@ if (User::isAdmin()) {
                                                         var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getVideosManagerListButton(); ?>';
                                                         var download = "";
                                                         for (var k in row.videosURL) {
-                                                            download += '<a href="' + row.videosURL[k].url + '?download=1" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
+                                                            var url = row.videosURL[k].url;
+                                                            if (url.contains('?')) {
+                                                                url += "&download=1";
+                                                            } else {
+                                                                url += "?download=1";
+                                                            }
+                                                            download += '<a href="' + url + '?download=1" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
                                                         }
 
                                                         if (row.status == "i") {
