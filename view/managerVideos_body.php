@@ -1452,7 +1452,7 @@ if (User::isAdmin()) {
                                                             } else {
                                                                 url += "?download=1";
                                                             }
-                                                            download += '<a href="' + url + '?download=1" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
+                                                            download += '<a href="' + url + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
                                                         }
 
                                                         if (row.status == "i") {
