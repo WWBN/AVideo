@@ -1447,6 +1447,9 @@ if (User::isAdmin()) {
                                                         var download = "";
                                                         for (var k in row.videosURL) {
                                                             var url = row.videosURL[k].url;
+                                                            if(typeof row.videosURL[k].url === 'undefined'){
+                                                                continue;
+                                                            }
                                                             if (url.indexOf('?') > -1) {
                                                                 //url += "&download=1";
                                                             } else {
