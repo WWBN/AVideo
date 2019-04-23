@@ -67,6 +67,7 @@ class Live extends PluginAbstract {
         // for secure connections
         //$obj->playerServer = "https://{$server['host']}:444/live";
         $obj->stats = "{$scheme}://{$server['host']}:{$port}/stat";
+        $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
         $obj->useAadaptiveMode = false;
         $obj->experimentalWebcam = false;

@@ -5,9 +5,9 @@ require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
-if(!empty($_GET['c'])){
+if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
-    if(!empty($user)){
+    if (!empty($user)) {
         $_GET['u'] = $user['user'];
     }
 }
@@ -25,6 +25,8 @@ $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_i
 $img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
 $imgw = 640;
 $imgh = 360;
+
+$liveDO = YouPHPTubePlugin::getObjectData("Live");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -38,7 +40,7 @@ $imgh = 360;
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        
+
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo $_GET['u']; ?>" />
         <meta property="og:type"               content="video.other" />
@@ -53,64 +55,80 @@ $imgh = 360;
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         $lt = new LiveTransmition($t['id']);
-        if($lt->userCanSeeTransmition()){
-        ?>
-        
-        <div class="container-fluid principalContainer " itemscope itemtype="http://schema.org/VideoObject">
-            <div class="col-md-12">
-                <?php
-                require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
-                ?>
-            </div>  
-        </div>
-        <div class="container-fluid ">
-            <div class="col-md-5 col-md-offset-2 list-group-item">
-                <h1 itemprop="name">
-                    <i class="fas fa-video"></i> <?php echo $t['title']; ?>
-                </h1>
-                <p><?php echo nl2br(textToLink($t['description'])); ?></p>
-                <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-            </div> 
-            <div class="col-md-3">
+        if ($lt->userCanSeeTransmition()) {
+            ?>
+
+            <div class="container-fluid principalContainer " itemscope itemtype="http://schema.org/VideoObject">
+                <div class="col-md-12">
+                    <?php
+                    require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
+                    ?>
+                </div>  
+            </div>
+            <div class="container-fluid ">
+                <div class="col-md-5 col-md-offset-2 list-group-item">
+                    <h1 itemprop="name">
+                        <i class="fas fa-video"></i> <?php echo $t['title']; ?>
+                    </h1>
+                    <p><?php echo nl2br(textToLink($t['description'])); ?></p>
+                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                </div> 
+                <div class="col-md-3">
                     <?php
                     echo $config->getAdsense();
                     ?>
+                </div>
             </div>
-        </div>
-        <?php
-        }else{
+            <?php
+        } else {
             ?>
-        <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> <?php echo __("You are not allowed see this streaming"); ?></h1>    
+            <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> <?php echo __("You are not allowed see this streaming"); ?></h1>    
             <?php
         }
         ?>
-        
+
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                        $.widget.bridge('uibutton', $.ui.button);
-                        $.widget.bridge('uitooltip', $.ui.tooltip);
+            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+            $.widget.bridge('uibutton', $.ui.button);
+            $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>  
-        
+
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
-        <?php        
+        <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
-                <?php
-                if(!empty($p)){
-                    $p->getChat($uuid);
-                }
-                ?>
+        <?php
+        if (empty($liveDO->disableDVR)) {
+            ?>
+            <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/videojs-dvr/videojs-dvrseekbar.min.js" type="text/javascript"></script>          
+            <script>
+                $(document).ready(function () {
+                    if (typeof player === 'undefined') {
+                        player = videojs('mainVideo');
+                    }
+
+                    player.dvrseekbar();
+                });
+            </script>      
+            <?php
+        }
+        ?>    
+        <?php
+        if (!empty($p)) {
+            $p->getChat($uuid);
+        }
+        ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
-        
+
     </body>
 </html>
 
 <?php
-include $global['systemRootPath'].'objects/include_end.php';
+include $global['systemRootPath'] . 'objects/include_end.php';
 ?>
