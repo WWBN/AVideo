@@ -20,6 +20,7 @@ $video = $liveLink->getLink();
 if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $video)) {
     $url = $config->getEncoderURL() . "getImage/" . base64_encode($video) . "/{$_GET['format']}";
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
+        error_log("LiveLink: getImage.php: ".$url);
         $content = url_get_contents($url);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
