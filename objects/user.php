@@ -579,7 +579,9 @@ if (typeof gtag !== \"function\") {
 
     function login($noPass = false, $encodedPass = false) {
         global $global,$advancedCustom, $advancedCustomUser;
-        
+        if(strtolower($encodedPass)==='false'){
+            $encodedPass = false;
+        }
         error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user ". getRealIpAddr());
         if ($noPass) {
             $user = $this->find($this->user, false, true);
