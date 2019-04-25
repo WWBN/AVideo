@@ -42,7 +42,7 @@ class API extends PluginAbstract {
             }
             if (!empty($parameters['user']) && !empty($parameters['password'])) {
                 $user = new User("", $parameters['user'], $parameters['password']);
-                $user->login(false, !empty($parameters['encodedPass']));
+                $user->login(false, @$parameters['encodedPass']);
             }
             $APIName = $parameters['APIName'];
             if (method_exists($this, "set_api_$APIName")) {
@@ -67,7 +67,7 @@ class API extends PluginAbstract {
                     $parameters['encodedPass'] = false;
                 }
                 $user = new User("", $parameters['user'], $parameters['password']);
-                $user->login(false, !empty($parameters['encodedPass']));
+                $user->login(false, @$parameters['encodedPass']);
             }
             $APIName = $parameters['APIName'];
             if (method_exists($this, "get_api_$APIName")) {
