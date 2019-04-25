@@ -36,7 +36,9 @@ if (file_exists($path)) {
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
     }
-    YouPHPTubePlugin::xsendfilePreVideoPlay();
+    if(empty($_GET['ignoreXsendfilePreVideoPlay'])){
+        YouPHPTubePlugin::xsendfilePreVideoPlay();
+    }
     if (empty($advancedCustom->doNotUseXsendFile)) {
         //error_log("X-Sendfile: {$path}");
         header("X-Sendfile: {$path}");
