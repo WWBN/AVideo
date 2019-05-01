@@ -2099,8 +2099,9 @@ if (!class_exists('Video')) {
                     }
                 }
             } else {
-                $obj->posterPortraitThumbs = false;
-                $obj->posterPortraitThumbsSmall = false;
+                $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
             }
 
             if (file_exists($jpegSource['path'])) {
