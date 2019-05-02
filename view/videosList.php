@@ -118,7 +118,7 @@ foreach ($videos as $key => $value) {
 
                 $imgGif = $images->thumbsGif;
                 $img = $images->thumbsJpg;
-                if (!empty($images->posterPortrait)) {
+                if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg') {
                     $imgGif = $images->gifPortrait;
                     $img = $images->posterPortrait;
                 }
