@@ -157,7 +157,7 @@ if (!empty($video)) {
     }
     $images = Video::getImageFromFilename($video['filename']);
     $poster = $images->poster;
-    if (!empty($images->posterPortrait)) {
+    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg') {
         $img = $images->posterPortrait;
         $data = getimgsize($source['path']);
         $imgw = $data[0];
