@@ -595,7 +595,9 @@ if (!class_exists('Video')) {
 
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
-                $sql .= " AND v.users_id = {$user['id']} ";
+                if(!empty($user['id'])){
+                    $sql .= " AND v.users_id = {$user['id']} ";
+                }
             }
 
             if (!empty($_GET['search'])) {
