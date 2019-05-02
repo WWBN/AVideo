@@ -147,12 +147,12 @@ if ($video['type'] == "video") {
 
 if (!empty($video)) {
     $source = Video::getSourceFile($video['filename']);
-    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
         $img = $source['url'];
         $data = getimgsize($source['path']);
         $imgw = $data[0];
         $imgh = $data[1];
-    } else {
+    } else if($video['type'] == "audio"){
         $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
     }
     $images = Video::getImageFromFilename($video['filename']);
