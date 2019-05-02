@@ -2484,6 +2484,10 @@ if (!class_exists('Video')) {
         }
 
         static function userGroupAndVideoGroupMatch($users_id, $videos_id) {
+            
+            if (empty($users_id) || empty($videos_id)) {
+                return false;
+            }
 // check if the video is not public 
             $rows = UserGroups::getVideoGroups($videos_id);
             if (empty($rows)) {

@@ -704,6 +704,14 @@ class YouPHPTubePlugin {
     public static function userCanWatchVideo($users_id, $videos_id){
         $plugins = Plugin::getAllEnabled();
         $resp = true;
+        $video = new Video("", "", $videos_id);
+        if(empty($video)){
+            return false;
+        }
+        // check if the video is for paid plans only
+        if($video->getOnly_for_paid()){
+            $resp = false;
+        }
         foreach ($plugins as $value) {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
