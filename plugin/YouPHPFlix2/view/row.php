@@ -42,6 +42,15 @@ $post = $_POST;
                         <div class="progress" style="height: 3px; margin-bottom: 2px;">
                             <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
+                        <?php
+                        if ($advancedCustom->paidOnlyFreeLabel && !$obj->paidOnlyLabelOverPoster) {
+                            foreach ($value['tags'] as $value2) {
+                                if (!empty($value2->label) && $value2->label === __("Paid Content")) {
+                                    ?><div class="label label-<?php echo $value2->type; ?>" style="margin: 0; margin-top: -2px;  width: 100%; display: block; border-top-left-radius: 0; border-top-right-radius: 0; "><?php echo $value2->text; ?></div><?php
+                                }
+                            }
+                        }
+                        ?>  
                     </div>
                 </div>
                 <div class="arrow-down" style="display: none;"></div>
