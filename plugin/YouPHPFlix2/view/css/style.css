@@ -327,20 +327,12 @@ body.fullscreen{
         height: 450px !important;
     }
 }
-/*
-.poster {
-  -webkit-animation: zoomin 30s ease-in infinite;
-  animation: zoomin 30s ease-in infinite;
-  transition: all .5s ease-in-out;
+.paidOnlyLabel{
+    position: absolute; 
+    top: 30px; 
+    right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
 }
-@-webkit-keyframes zoomin {
-  0% {transform: scale(1);}
-  50% {transform: scale(1.5);}
-  100% {transform: scale(1);}
-}
-@keyframes zoomin {
-  0% {transform: scale(1);}
-  50% {transform: scale(1.5);}
-  100% {transform: scale(1);}
-} 
-*/

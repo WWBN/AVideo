@@ -27,12 +27,17 @@ if(!empty($_GET['user']) && !empty($_GET['pass'])){
 }
 $videos = Video::getAllVideos("viewable");
 $total = Video::getTotalVideos("viewable");
+
+$objMob = YouPHPTubePlugin::getObjectData("MobileManager");
+
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);
     $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
-    $videos[$key]['Poster'] = $images->poster;
-    $videos[$key]['Thumbnail'] = $images->thumbsJpg;
+    $videos[$key]['images'] = $images;
+    $videos[$key]['Poster'] = !empty($objMob->portraitImage)?$images->posterPortrait:$images->poster;
+    $videos[$key]['Thumbnail'] = !empty($objMob->portraitImage)?$images->posterPortraitThumbs:$images->thumbsJpg;
+    $videos[$key]['imageClass'] = !empty($objMob->portraitImage)?"portrait":"landscape";
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/".$videos[$key]['clean_title'];

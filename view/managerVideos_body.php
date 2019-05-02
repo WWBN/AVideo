@@ -337,6 +337,19 @@
                                                     <?php
                                                 }
                                                 ?>
+                                                <?php
+                                                if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || User::isAdmin()) {
+                                                    ?>
+                                                    <li class="list-group-item">
+                                                        <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can Watch"); ?>
+                                                        <div class="material-switch pull-right">
+                                                            <input id="only_for_paid" type="checkbox" value="0" class="userGroups"/>
+                                                            <label for="only_for_paid" class="label-success"></label>
+                                                        </div>
+                                                    </li>
+                                                    <?php
+                                                }
+                                                ?>
                                                 <li class="list-group-item">
                                                     <span class="fa fa-globe"></span> <?php echo __("Public Video"); ?>
                                                     <div class="material-switch pull-right">
@@ -813,6 +826,12 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             } else {
                                                 $('#can_share').prop('checked', false);
                                             }
+                                            
+                                            if (row.only_for_paid) {
+                                                $('#only_for_paid').prop('checked', true);
+                                            } else {
+                                                $('#only_for_paid').prop('checked', false);
+                                            }
 
                                             $('#public').trigger("change");
                                             $('#videoIsAd').prop('checked', false);
@@ -947,7 +966,8 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                             "next_videos_id": $('#inputNextVideo-id').val(),
                                                             "users_id": $('#inputUserOwner_id').val(),
                                                             "can_download": $('#can_download').is(':checked'),
-                                                            "can_share": $('#can_share').is(':checked')
+                                                            "can_share": $('#can_share').is(':checked'),
+                                                            "only_for_paid": $('#only_for_paid').is(':checked')
                                                     },
                                                     type: 'post',
                                                     success: function (response) {
@@ -1000,6 +1020,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('.videoGroups').prop('checked', false);
                                             $('#can_download').prop('checked', false);
                                             $('#can_share').prop('checked', false);
+                                            $('#only_for_paid').prop('checked', false);
                                             $('#public').prop('checked', true);
                                             $('#public').trigger("change");
                                             $('#videoIsAd').prop('checked', false);
@@ -1273,6 +1294,7 @@ if (!empty($row)) {
                                                 $('#inputRrating').val("");
                                                 $('.videoGroups').prop('checked', false);
                                                 $('#can_download').prop('checked', false);
+                                                $('#only_for_paid').prop('checked', false);
                                                 $('#can_share').prop('checked', false);
                                                 $('#public').prop('checked', true);
                                                 $('#public').trigger("change");

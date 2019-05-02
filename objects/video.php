@@ -40,6 +40,7 @@ if (!class_exists('Video')) {
         private $rate;
         private $can_download;
         private $can_share;
+        private $only_for_paid;
         private $rrating;
         private $externalOptions;
         static $statusDesc = array(
@@ -176,6 +177,7 @@ if (!class_exists('Video')) {
 
             $this->can_download = intval($this->can_download);
             $this->can_share = intval($this->can_share);
+            $this->only_for_paid = intval($this->only_for_paid);
 
             $this->rate = floatval($this->rate);
             if (!empty($this->id)) {
@@ -186,12 +188,12 @@ if (!class_exists('Video')) {
                 $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                         . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
                         . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, users_id = {$this->users_id}, "
-                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}' , modified = now()"
+                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}' , modified = now()"
                         . " WHERE id = {$this->id}";
             } else {
                 $sql = "INSERT INTO videos "
-                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, rrating, externalOptions) values "
-                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}', '{$this->rrating}', '$this->externalOptions')";
+                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions) values "
+                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions')";
             }
             $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
@@ -557,11 +559,11 @@ if (!class_exists('Video')) {
                     . "LEFT JOIN users u ON v.users_id = u.id "
                     . "LEFT JOIN videos nv ON v.next_videos_id = nv.id "
                     . " WHERE 1=1 ";
-            
+
             if (!empty($id)) {
                 $sql .= " AND v.id = '$id' ";
             }
-            
+
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
@@ -642,12 +644,12 @@ if (!class_exists('Video')) {
                     $video['description'] = UTF8encode($video['description']);
                     $video['progress'] = self::getVideoPogressPercent($video['id']);
                     $video['tags'] = self::getTags($video['id']);
-                    if(!empty($video['externalOptions'])){
+                    if (!empty($video['externalOptions'])) {
                         $video['externalOptions'] = json_decode($video['externalOptions']);
-                    }else{
+                    } else {
                         $video['externalOptions'] = new stdClass();
                     }
-                    
+
                     if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                         $video['videoTags'] = Tags::getAllFromVideosId($video['id']);
                         $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['id']);
@@ -705,7 +707,7 @@ if (!class_exists('Video')) {
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($res) {
-                return self::getVideo($video['id'], "", true,false,false,true);
+                return self::getVideo($video['id'], "", true, false, false, true);
 //$video['groups'] = UserGroups::getVideoGroups($video['id']);
             } else {
                 return false;
@@ -868,9 +870,9 @@ if (!class_exists('Video')) {
             $path = $global['systemRootPath'] . "videos/cache/getAllVideosAsync/";
             make_path($path);
             $cacheFileName = "{$path}{$md5}";
-            if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName) || filesize($cacheFileName)===0) {
-                if(file_exists($cacheFileName.".lock")){
-                   return array(); 
+            if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName) || filesize($cacheFileName) === 0) {
+                if (file_exists($cacheFileName . ".lock")) {
+                    return array();
                 }
                 $total = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly);
                 file_put_contents($cacheFileName, json_encode($total));
@@ -1025,8 +1027,8 @@ if (!class_exists('Video')) {
             $cacheFileName = "{$path}_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
             $return = array();
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
-                if(file_exists($cacheFileName.".lock")){
-                   return array(); 
+                if (file_exists($cacheFileName . ".lock")) {
+                    return array();
                 }
                 $total = static::getTotalVideosInfo($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
                 file_put_contents($cacheFileName, json_encode($total));
@@ -1481,12 +1483,34 @@ if (!class_exists('Video')) {
          * label Default Primary Success Info Warning Danger
          */
         static function getTags($video_id, $type = "") {
-            return self::getTagsAsync($video_id, $type);
+            global $advancedCustom;
+            if(empty($advancedCustom->AsyncJobs)){
+                return self::getTags_($video_id, $type);
+            }else{
+                return self::getTagsAsync($video_id, $type);
+            }
         }
 
         static function getTags_($video_id, $type = "") {
+            global $advancedCustom;
             $video = new Video("", "", $video_id);
             $tags = array();
+
+            if (empty($type) || $type === "paid") {
+                if (!empty($advancedCustom->paidOnlyShowLabels)) {
+                    $obj = new stdClass();
+                    $obj->label = __("Paid Content");
+                    if (!empty($video->getOnly_for_paid())) {
+                        $obj->type = "warning";
+                        $obj->text = $advancedCustom->paidOnlyLabel;
+                    } else {
+                        $obj->type = "success";
+                        $obj->text = $advancedCustom->paidOnlyFreeLabel;
+                    }
+                    $tags[] = $obj;
+                    $obj = new stdClass();
+                }
+            }
 
             /**
               a = active
@@ -1616,7 +1640,7 @@ if (!class_exists('Video')) {
                     $obj = new stdClass();
                 }
             }
-            
+
             $tags = array_merge($tags, YouPHPTubePlugin::getVideoTags($video_id));
             //var_dump($tags);
             return $tags;
@@ -1627,11 +1651,11 @@ if (!class_exists('Video')) {
             $path = $global['systemRootPath'] . "videos/cache/getTagsAsync/";
             make_path($path);
             $cacheFileName = "{$path}_{$video_id}_{$type}";
-            
+
             $return = array();
-            if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
-                if(file_exists($cacheFileName.".lock")){
-                   return array(); 
+            if (!file_exists($cacheFileName)) {
+                if (file_exists($cacheFileName . ".lock")) {
+                    return array();
                 }
                 $total = static::getTags_($video_id, $type);
                 file_put_contents($cacheFileName, json_encode($total));
@@ -1936,6 +1960,14 @@ if (!class_exists('Video')) {
             $this->can_share = (empty($can_share) || $can_share === "false") ? 0 : 1;
         }
 
+        function getOnly_for_paid() {
+            return $this->only_for_paid;
+        }
+
+        function setOnly_for_paid($only_for_paid) {
+            $this->only_for_paid = (empty($only_for_paid) || $only_for_paid === "false") ? 0 : 1;
+        }
+
         /**
          *
          * @param type $filename
@@ -2099,8 +2131,9 @@ if (!class_exists('Video')) {
                     }
                 }
             } else {
-                $obj->posterPortraitThumbs = false;
-                $obj->posterPortraitThumbsSmall = false;
+                $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
             }
 
             if (file_exists($jpegSource['path'])) {
@@ -2156,8 +2189,8 @@ if (!class_exists('Video')) {
             make_path($path);
             $cacheFileName = "{$path}_{$filename}_{$type}";
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
-                if(file_exists($cacheFileName.".lock")){
-                   return array(); 
+                if (file_exists($cacheFileName . ".lock")) {
+                    return array();
                 }
                 $total = static::getImageFromFilename_($filename, $type = "video");
                 file_put_contents($cacheFileName, json_encode($total));
@@ -2470,7 +2503,7 @@ if (!class_exists('Video')) {
             }
             return false;
         }
-        
+
         function getExternalOptions() {
             return $this->externalOptions;
         }
@@ -2479,7 +2512,6 @@ if (!class_exists('Video')) {
             $this->externalOptions = $externalOptions;
         }
 
-    
     }
 
 }
