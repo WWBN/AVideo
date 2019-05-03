@@ -3,13 +3,15 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 global $global, $config;
+if(!empty($_GET) && empty($_POST)){
+    $_POST = $_GET;
+}
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once 'comment.php';
 require_once 'subscribe.php';
-
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE); //convert JSON into array
@@ -17,9 +19,6 @@ if(!empty($input) && empty($_POST)){
     foreach ($input as $key => $value) {
         $_POST[$key]=$value;
     }
-}
-if(!empty($_GET) && empty($_POST)){
-    $_POST = $_GET;
 }
 if(!empty($_POST['user']) && !empty($_POST['pass'])){
     $user = new User(0, $_POST['user'], $_POST['pass']);
