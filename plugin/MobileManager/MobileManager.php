@@ -35,9 +35,11 @@ class MobileManager extends PluginAbstract {
         //$obj->aboutPage = ""; 
         //$obj->disableGif = false;             
         $obj->doNotAllowAnonimusAccess = false;
-        
-        $obj->disableWhitelabel = false;
         $obj->hideCreateAccount = false;
+        $obj->hideTabTrending = false;
+        $obj->hideTabLive = false;
+        $obj->hideTabSubscription = false;
+        $obj->hideTabPlayLists = false;
         
         
         $o = new stdClass();
@@ -50,20 +52,23 @@ class MobileManager extends PluginAbstract {
         
         $obj->themeDark = false;
         $obj->portraitImage = false;
-        
         $obj->netflixStyle = false;
-        $obj->netflixPlayList = true;
-        $obj->netflixPlayListAutoPlay = true;
+        
+        //$obj->netflixPlayList = true;
+        //$obj->netflixPlayListAutoPlay = true;
         $obj->netflixDateAdded = true;
-        $obj->netflixDateAddedAutoPlay = true;
+        //$obj->netflixDateAddedAutoPlay = true;
         $obj->netflixMostPopular = true;
-        $obj->netflixMostPopularAutoPlay = true;
+        //$obj->netflixMostPopularAutoPlay = true;
         $obj->netflixMostWatched = true;
-        $obj->netflixMostWatchedAutoPlay = true;
+        //$obj->netflixMostWatchedAutoPlay = true;
         $obj->netflixCategories = true;
-        $obj->netflixCategoriesAutoPlay = true;
-        $obj->netflixSortByName = false;
+        //$obj->netflixCategoriesAutoPlay = true;
+        //$obj->netflixSortByName = false;
         $obj->netflixBigVideo = true;
+        
+        
+        $obj->disableWhitelabel = false;
         
         return $obj;
     }
