@@ -73,6 +73,7 @@ class Cache extends PluginAbstract {
         }
 
         $whitelistedFiles = array('user.php');
+        $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         if (in_array($baseName, $whitelistedFiles)) {
             return true;
@@ -82,7 +83,8 @@ class Cache extends PluginAbstract {
         if ($obj->logPageLoadTime) {
             $this->start();
         }
-        if ($this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
+        
+        if (in_array($baseName, $blacklistedFiles) || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if (!empty($_GET['lifetime'])) {
