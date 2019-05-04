@@ -73,3 +73,4 @@ $obj->rowCount = $_POST['rowCount'];
 $obj->total = $total;
 $obj->videos = $videos;
 echo json_encode($obj);
+YouPHPTubePlugin::getEnd();
