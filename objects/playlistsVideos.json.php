@@ -30,12 +30,16 @@ if(empty($_POST['playlists_id'])){
 
 require_once './playlist.php';
 $videos = PlayList::getVideosFromPlaylist($_POST['playlists_id']);
+$objMob = YouPHPTubePlugin::getObjectData("MobileManager");
 
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);
-    $videos[$key]['Poster'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".jpg";
-    $videos[$key]['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename']."_thumbs.jpg";
+    $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
+    $videos[$key]['images'] = $images;
+    $videos[$key]['Poster'] = !empty($objMob->portraitImage)?$images->posterPortrait:$images->poster;
+    $videos[$key]['Thumbnail'] = !empty($objMob->portraitImage)?$images->posterPortraitThumbs:$images->thumbsJpg;
+    $videos[$key]['imageClass'] = !empty($objMob->portraitImage)?"portrait":"landscape";
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/".$videos[$key]['clean_title'];
