@@ -3,6 +3,7 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
+session_write_close();
 require_once $global['systemRootPath'].'objects/video.php';
 require_once $global['systemRootPath'].'objects/comment.php';
 require_once $global['systemRootPath'].'objects/subscribe.php';
@@ -73,4 +74,4 @@ $obj->rowCount = $_POST['rowCount'];
 $obj->total = $total;
 $obj->videos = $videos;
 echo json_encode($obj);
-YouPHPTubePlugin::getEnd();
+//YouPHPTubePlugin::getEnd();
