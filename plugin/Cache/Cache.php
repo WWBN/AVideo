@@ -84,7 +84,7 @@ class Cache extends PluginAbstract {
             $this->start();
         }
         
-        if (in_array($baseName, $blacklistedFiles) || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
+        if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if (!empty($_GET['lifetime'])) {
@@ -105,6 +105,12 @@ class Cache extends PluginAbstract {
         //ob_start('sanitize_output');
         ob_start();
     }
+    
+    private function isBlacklisted(){
+        $blacklistedFiles = array('videosAndroid.json.php');
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+        return in_array($baseName, $blacklistedFiles);
+    }
 
     public function getEnd() {
         global $global;
@@ -122,7 +128,7 @@ class Cache extends PluginAbstract {
                 mkdir($obj->cacheDir, 0777, true);
             }
         }
-        if ($this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
+        if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             file_put_contents($cachefile, $c);
         }
         if ($obj->logPageLoadTime) {
