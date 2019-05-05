@@ -10,7 +10,9 @@ class MobileManager extends PluginAbstract {
     }
     
     public function getDescription() {
-        return "Manage the Mobile App";
+        $desc = "Manage the Mobile App";
+        $desc .= $this->isReadyLabel(array('API')); 
+        return $desc;
     }
 
     public function getName() {
@@ -35,6 +37,9 @@ class MobileManager extends PluginAbstract {
         //$obj->aboutPage = ""; 
         //$obj->disableGif = false;             
         $obj->doNotAllowAnonimusAccess = false;
+        
+        $obj->doNotAllowUpload = false;
+        
         $obj->hideCreateAccount = false;
         $obj->hideTabTrending = false;
         $obj->hideTabLive = false;
