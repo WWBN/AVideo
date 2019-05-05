@@ -40,7 +40,7 @@ if (isset($_GET['t'])) {
                 </button>
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
-                <video playsinline
+                <video playsinline webkit-playsinline="webkit-playsinline" 
                 <?php if ($config->getAutoplay() && false) { // disable it for now  ?>
                            autoplay="true"
                            muted="muted"
