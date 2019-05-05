@@ -157,7 +157,7 @@ if (!empty($_GET['t'])) {
         <?php
         if ($video['type'] == "embed") {
             ?>
-            <video playsinline webkit-playsinline="webkit-playsinline" id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
         echo parseVideos($video['videoLink']);
         if ($autoplay) {
@@ -205,7 +205,7 @@ if (!empty($_GET['t'])) {
             <?php
         } else {
             ?>
-            <video style="width: 100%; height: 100%;" playsinline webkit-playsinline="webkit-playsinline" poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
+            <video playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
                    class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                        <?php
                        echo getSources($video['filename']);
