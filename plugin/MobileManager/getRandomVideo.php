@@ -1,10 +1,7 @@
 <?php
-header("Access-Control-Allow-Headers: Content-Type");
-header('Content-Type: application/json');
-
-
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-
+$random = 1;
+require_once $global['systemRootPath'] . 'objects/videosAndroid.json.php';
 $objMob = YouPHPTubePlugin::getObjectData("MobileManager");
 $video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
 if (empty($video)) {
