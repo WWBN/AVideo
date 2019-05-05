@@ -21,11 +21,22 @@ class CookieAlert extends PluginAbstract {
     }
 
     public function getHeadCode() {
+        if($this->doNotShow()){
+            return "";
+        }
         $obj = $this->getDataObject();
         global $global;
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/CookieAlert/cookiealert.css" rel="stylesheet" type="text/css"/>';
         $css .= '<style></style>';
         return $css;
+    }
+    
+    private function doNotShow(){
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+        if(preg_match("/embed/i", $baseName)){
+            return true;
+        }
+        return false;
     }
 
     public function getEmptyDataObject() {
@@ -36,6 +47,9 @@ class CookieAlert extends PluginAbstract {
     }
 
     public function getFooterCode() {
+        if($this->doNotShow()){
+            return "";
+        }
         $obj = $this->getDataObject();
         global $global;
 
