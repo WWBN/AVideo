@@ -93,6 +93,9 @@ class Cache extends PluginAbstract {
             // if is a bot always show a cache
             if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile))) || isBot()) {
                 $c = @local_get_contents($cachefile);
+                if(preg_match("/\.json\.?/", $baseName)){
+                    header('Content-Type: application/json');
+                }
                 echo $c;
                 if ($obj->logPageLoadTime) {
                     $this->end("Cache");
