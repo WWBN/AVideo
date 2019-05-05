@@ -29,7 +29,14 @@ if (!empty($_GET['user']) && !empty($_GET['pass'])) {
 }
 
 $objMob = YouPHPTubePlugin::getObjectData("MobileManager");
-if ($objMob->netflixStyle) {
+if(!empty($random)){
+    $video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
+    if (empty($video)) {
+        $video = Video::getVideo("", "viewableNotUnlisted", true, true);
+    }
+    $videos = array($video);
+    $total = 1;
+}else if ($objMob->netflixStyle) {
     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
     $total = Video::getTotalVideos("viewableNotUnlisted", false, true);
 } else {
