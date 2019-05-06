@@ -95,6 +95,15 @@
                         <?php
                     }
                     ?>
+                    <?php
+                    if (!empty($obj->discordLink)) {
+                        ?>
+                        <a href="<?php echo $obj->discordLink; ?>" class="flex-c-m size5 bg5 how1 trans-04 m-r-5">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <?php
+                    }
+                    ?>
 
                     <a href="<?php echo $global['webSiteRootURL']; ?>user" class="flex-c-m size5 bg1 how1 trans-04 m-r-5">
                         <i class="fas fa-unlock"></i>
