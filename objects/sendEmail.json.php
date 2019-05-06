@@ -6,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/captcha.php';
 $config = new Configuration();
-$valid = Captcha::validation($_POST['captcha']);
+$valid = Captcha::validation(@$_POST['captcha']);
 $obj = new stdClass();
 if ($valid) {
 
