@@ -945,7 +945,7 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false) {
+        static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
@@ -958,8 +958,12 @@ if (!class_exists('Video')) {
             $sql = "SELECT v.users_id, v.type, v.id, v.title,v.description, c.name as category {$cn} "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
+                    . " LEFT JOIN users u ON v.users_id = u.id "
                     . " WHERE 1=1 ";
 
+            if ($activeUsersOnly) {
+                $sql .= " AND u.status = 'a' ";
+            }
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
