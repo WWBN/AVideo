@@ -122,7 +122,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         }else{
                             ?>
                             <div class="col-md-2 col-sm-4 col-xs-6">
-                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->poster; ?>" style="min-width: 135px;" />
+                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
                             </div>
                             <?php
                         }
