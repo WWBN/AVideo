@@ -3,13 +3,15 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 global $global, $config;
+if(!empty($_GET) && empty($_POST)){
+    $_POST = $_GET;
+}
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once 'comment.php';
 require_once 'subscribe.php';
-
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE); //convert JSON into array
@@ -17,9 +19,6 @@ if(!empty($input) && empty($_POST)){
     foreach ($input as $key => $value) {
         $_POST[$key]=$value;
     }
-}
-if(!empty($_GET) && empty($_POST)){
-    $_POST = $_GET;
 }
 if(!empty($_POST['user']) && !empty($_POST['pass'])){
     $user = new User(0, $_POST['user'], $_POST['pass']);
@@ -31,12 +30,16 @@ if(empty($_POST['playlists_id'])){
 
 require_once './playlist.php';
 $videos = PlayList::getVideosFromPlaylist($_POST['playlists_id']);
+$objMob = YouPHPTubePlugin::getObjectData("MobileManager");
 
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);
-    $videos[$key]['Poster'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename'].".jpg";
-    $videos[$key]['Thumbnail'] = "{$global['webSiteRootURL']}videos/".$videos[$key]['filename']."_thumbs.jpg";
+    $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
+    $videos[$key]['images'] = $images;
+    $videos[$key]['Poster'] = !empty($objMob->portraitImage)?$images->posterPortrait:$images->poster;
+    $videos[$key]['Thumbnail'] = !empty($objMob->portraitImage)?$images->posterPortraitThumbs:$images->thumbsJpg;
+    $videos[$key]['imageClass'] = !empty($objMob->portraitImage)?"portrait":"landscape";
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/".$videos[$key]['clean_title'];

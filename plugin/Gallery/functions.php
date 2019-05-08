@@ -185,8 +185,16 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     if (!empty($obj->showTags)) {
                         $value['tags'] = Video::getTags($value['id']);
                         foreach ($value['tags'] as $value2) {
+                            if (!empty($value2->label) && $value2->label === __("Paid Content")) {
+                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                            }
                             if (!empty($value2->label) && $value2->label === __("Group")) {
                                 ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                            }
+                            if (!empty($value2->label) && $value2->label === __("Plugin")) {
+                                ?>
+                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                <?php
                             }
                         }
                     }

@@ -46,7 +46,7 @@ class Cache extends PluginAbstract {
         if (!empty($obj->enableCachePerUser)) {
             $session_id = session_id();
         }
-        return User::getId() . "_" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . '.cache';
+        return User::getId() . "_" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : ''). (@$_SESSION['language']) . '.cache';
     }
 
     private function isFirstPage() {
@@ -73,6 +73,7 @@ class Cache extends PluginAbstract {
         }
 
         $whitelistedFiles = array('user.php');
+        $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         if (in_array($baseName, $whitelistedFiles)) {
             return true;
@@ -82,7 +83,8 @@ class Cache extends PluginAbstract {
         if ($obj->logPageLoadTime) {
             $this->start();
         }
-        if ($this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
+        
+        if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if (!empty($_GET['lifetime'])) {
@@ -91,6 +93,9 @@ class Cache extends PluginAbstract {
             // if is a bot always show a cache
             if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile))) || isBot()) {
                 $c = @local_get_contents($cachefile);
+                if(preg_match("/\.json\.?/", $baseName)){
+                    header('Content-Type: application/json');
+                }
                 echo $c;
                 if ($obj->logPageLoadTime) {
                     $this->end("Cache");
@@ -102,6 +107,12 @@ class Cache extends PluginAbstract {
         }
         //ob_start('sanitize_output');
         ob_start();
+    }
+    
+    private function isBlacklisted(){
+        $blacklistedFiles = array('videosAndroid.json.php');
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+        return in_array($baseName, $blacklistedFiles);
     }
 
     public function getEnd() {
@@ -120,7 +131,7 @@ class Cache extends PluginAbstract {
                 mkdir($obj->cacheDir, 0777, true);
             }
         }
-        if ($this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
+        if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             file_put_contents($cachefile, $c);
         }
         if ($obj->logPageLoadTime) {

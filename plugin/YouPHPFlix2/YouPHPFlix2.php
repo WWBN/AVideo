@@ -43,6 +43,7 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->landscapePosters = true;
         $obj->playVideoOnFullscreen = true;
         $obj->youtubeModeOnFullscreen = false;
+        $obj->paidOnlyLabelOverPoster = false;
         return $obj;
     }
     

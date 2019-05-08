@@ -92,6 +92,10 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `clean_title` VARCHAR(190) NOT NULL,
   `description` TEXT NULL,
   `views_count` INT NOT NULL DEFAULT 0,
+  `views_count_25` INT(11) NULL DEFAULT 0,
+  `views_count_50` INT(11) NULL DEFAULT 0,
+  `views_count_75` INT(11) NULL DEFAULT 0,
+  `views_count_100` INT(11) NULL DEFAULT 0
   `status` ENUM('a', 'i', 'e', 'x', 'd', 'xmp4', 'xwebm', 'xmp3', 'xogg', 'ximg', 'u', 'p') NOT NULL DEFAULT 'e' COMMENT 'a = active\ni = inactive\ne = encoding\nx = encoding error\nd = downloading\nu = Unlisted\np = private\nxmp4 = encoding mp4 error \nxwebm = encoding webm error \nxmp3 = encoding mp3 error \nxogg = encoding ogg error \nximg = get image error',
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
@@ -116,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `can_share` TINYINT(1) NULL DEFAULT NULL,
   `rrating` VARCHAR(45) NULL DEFAULT NULL,
   `externalOptions` TEXT NULL DEFAULT NULL,
+  `only_for_paid` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),

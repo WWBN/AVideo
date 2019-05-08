@@ -79,6 +79,7 @@ if (User::isAdmin()) {
 
 $obj->setCan_download(@$_POST['can_download']);
 $obj->setCan_share(@$_POST['can_share']);
+$obj->setOnly_for_paid(@$_POST['only_for_paid']);
 $obj->setTrailer1(@$_POST['trailer1']);
 $obj->setRrating(@$_POST['rrating']);
 $obj->setExternalOptions(@$_POST['externalOptions']);

@@ -4,6 +4,7 @@ $isChannel = 1; // still workaround, for gallery-functions, please let it there.
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
@@ -52,6 +53,10 @@ if (empty($video)) {
 if(empty($video)){
     $video = YouPHPTubePlugin::getVideo();
 }
+
+// allow users to count a view again in case it is refreshed
+Video::unsetAddView($video['id']);
+
 // add this because if you change the video category the video was not loading anymore
 $_GET['catName'] = $catName;
 
@@ -147,17 +152,17 @@ if ($video['type'] == "video") {
 
 if (!empty($video)) {
     $source = Video::getSourceFile($video['filename']);
-    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
         $img = $source['url'];
         $data = getimgsize($source['path']);
         $imgw = $data[0];
         $imgh = $data[1];
-    } else {
+    } else if($video['type'] == "audio"){
         $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
     }
     $images = Video::getImageFromFilename($video['filename']);
     $poster = $images->poster;
-    if (!empty($images->posterPortrait)) {
+    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg') {
         $img = $images->posterPortrait;
         $data = getimgsize($source['path']);
         $imgw = $data[0];
@@ -187,7 +192,9 @@ if (empty($_GET['videoName'])) {
 
 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 
+
 YouPHPTubePlugin::getModeYouTube($v['id']);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

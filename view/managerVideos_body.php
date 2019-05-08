@@ -1,3 +1,10 @@
+<style>
+    .bootgrid-table td {
+        -ms-text-overflow: initial;
+        -o-text-overflow: initial;
+        text-overflow: initial;
+    }
+</style>
 <div class="container">
     <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
 
@@ -332,6 +339,19 @@
                                                         <div class="material-switch pull-right">
                                                             <input id="can_share" type="checkbox" value="0" class="userGroups"/>
                                                             <label for="can_share" class="label-success"></label>
+                                                        </div>
+                                                    </li>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php
+                                                if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || User::isAdmin()) {
+                                                    ?>
+                                                    <li class="list-group-item">
+                                                        <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can Watch"); ?>
+                                                        <div class="material-switch pull-right">
+                                                            <input id="only_for_paid" type="checkbox" value="0" class="userGroups"/>
+                                                            <label for="only_for_paid" class="label-success"></label>
                                                         </div>
                                                     </li>
                                                     <?php
@@ -814,6 +834,12 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 $('#can_share').prop('checked', false);
                                             }
 
+                                            if (row.only_for_paid) {
+                                                $('#only_for_paid').prop('checked', true);
+                                            } else {
+                                                $('#only_for_paid').prop('checked', false);
+                                            }
+
                                             $('#public').trigger("change");
                                             $('#videoIsAd').prop('checked', false);
                                             $('#videoIsAd').trigger("change");
@@ -947,31 +973,32 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                             "next_videos_id": $('#inputNextVideo-id').val(),
                                                             "users_id": $('#inputUserOwner_id').val(),
                                                             "can_download": $('#can_download').is(':checked'),
-                                                            "can_share": $('#can_share').is(':checked')
+                                                            "can_share": $('#can_share').is(':checked'),
+                                                            "only_for_paid": $('#only_for_paid').is(':checked')
                                                     },
                                                     type: 'post',
                                                     success: function (response) {
-                                                        if (response.status === "1" || response.status === true) {
-                                                            if (response.video.type === 'embed') {
-                                                                videoUploaded = true;
-                                                            }
-                                                            if (closeModal && videoUploaded) {
-                                                                $('#videoFormModal').modal('hide');
-                                                            }
-                                                            $("#grid").bootgrid("reload");
+                                                    if (response.status === "1" || response.status === true) {
+                                                    if (response.video.type === 'embed') {
+                                                    videoUploaded = true;
+                                                    }
+                                                    if (closeModal && videoUploaded) {
+                                                    $('#videoFormModal').modal('hide');
+                                                    }
+                                                    $("#grid").bootgrid("reload");
                                                             $('#fileUploadVideos_id').val(response.videos_id);
                                                             $('#inputVideoId').val(response.videos_id);
                                                             videos_id = response.videos_id;
-                                                        } else {
-                                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
-                                                        }
-                                                        modal.hidePleaseWait();
-                                                        setTimeout(function () {
+                                                    } else {
+                                                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                                                    }
+                                                    modal.hidePleaseWait();
+                                                            setTimeout(function () {
                                                             waitToSubmit = false;
-                                                        }, 3000);
-                                                        }
+                                                            }, 3000);
+                                                    }
                                             });
-                                                    return false;
+                                            return false;
                                         }
 
                                         function resetVideoForm() {
@@ -1000,6 +1027,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('.videoGroups').prop('checked', false);
                                             $('#can_download').prop('checked', false);
                                             $('#can_share').prop('checked', false);
+                                            $('#only_for_paid').prop('checked', false);
                                             $('#public').prop('checked', true);
                                             $('#public').trigger("change");
                                             $('#videoIsAd').prop('checked', false);
@@ -1273,6 +1301,7 @@ if (!empty($row)) {
                                                 $('#inputRrating').val("");
                                                 $('.videoGroups').prop('checked', false);
                                                 $('#can_download').prop('checked', false);
+                                                $('#only_for_paid').prop('checked', false);
                                                 $('#can_share').prop('checked', false);
                                                 $('#public').prop('checked', true);
                                                 $('#public').trigger("change");
@@ -1447,7 +1476,7 @@ if (User::isAdmin()) {
                                                         var download = "";
                                                         for (var k in row.videosURL) {
                                                             var url = row.videosURL[k].url;
-                                                            if(typeof row.videosURL[k].url === 'undefined'){
+                                                            if (typeof row.videosURL[k].url === 'undefined') {
                                                                 continue;
                                                             }
                                                             if (url.indexOf('?') > -1) {
@@ -1496,6 +1525,7 @@ if (User::isAdmin()) {
                                                             tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                                                         }
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
+                                                        tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + "</span><br>";
                                                         return tags + row.typeLabels;
                                                     },
                                                     "checkbox": function (column, row) {

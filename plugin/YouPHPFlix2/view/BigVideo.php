@@ -90,8 +90,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     <?php
                                 }
                             }
-                            if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {
 
+                            if ($advancedCustom->paidOnlyFreeLabel && !empty($value2->label) && $value2->label === __("Paid Content")) {
+                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                            }
+                            if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {
                                 if ($value2->label === "Plugin") {
                                     ?>
                                     <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>

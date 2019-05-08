@@ -1,4 +1,5 @@
 <?php
+
 $time_start = microtime(true);
 $config = '../../videos/configuration.php';
 session_write_close();
@@ -30,7 +31,8 @@ $obj = YouPHPTubePlugin::getObjectDataIfEnabled("CloneSite");
 if (empty($obj) || empty($argv[1]) || $obj->myKey !== $argv[1]) {
     if (!User::isAdmin()) {
         $resp->msg = "You cant do this";
-        $log->add("Clone: {$resp->msg}");echo "$obj->myKey !== $argv[1]";
+        $log->add("Clone: {$resp->msg}");
+        echo "$obj->myKey !== $argv[1]";
         die(json_encode($resp));
     }
 }
@@ -113,6 +115,12 @@ if (!empty($total)) {
     $log->add("Clone (4 of {$totalSteps}): Now we will copy {$total} new video files, usually this takes a while.");
     // copy videos
     foreach ($newVideoFiles as $value) {
+        $query = parse_url($value->url, PHP_URL_QUERY);
+        if ($query) {
+            $value->url .= '&ignoreXsendfilePreVideoPlay=1';
+        } else {
+            $value->url .= '?ignoreXsendfilePreVideoPlay=1';
+        }
         $count++;
         $log->add("Clone: Copying Videos {$count} of {$total} {$value->url}");
         file_put_contents("{$videosDir}{$value->filename}", fopen("$value->url", 'r'));

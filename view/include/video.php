@@ -40,7 +40,7 @@ if (isset($_GET['t'])) {
                 </button>
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
-                <video playsinline
+                <video playsinline webkit-playsinline="webkit-playsinline" 
                 <?php if ($config->getAutoplay() && false) { // disable it for now  ?>
                            autoplay="true"
                            muted="muted"
@@ -100,18 +100,18 @@ if ($playNowVideo['type'] == "linkVideo") {
         actions: [{
         name: '<?php echo __("Copy video URL"); ?>',
                 onClick: function () {
-                    copyToClipboard($('#linkFriendly').val());
+                copyToClipboard($('#linkFriendly').val());
                 }, iconClass: 'fas fa-link'
         }, {
         name: '<?php echo __("Copy video URL at current time"); ?>',
                 onClick: function () {
-                    copyToClipboard($('#linkCurrentTime').val());
+                copyToClipboard($('#linkCurrentTime').val());
                 }, iconClass: 'fas fa-link'
         }, {
         name: '<?php echo __("Copy embed code"); ?>',
                 onClick: function () {
-                    $('#textAreaEmbed').focus();
-                    copyToClipboard($('#textAreaEmbed').val());
+                $('#textAreaEmbed').focus();
+                        copyToClipboard($('#textAreaEmbed').val());
                 }, iconClass: 'fas fa-code'
         }
 <?php if (CustomizeUser::canDownloadVideosFromVideo($playNowVideo['id'])) { ?>
@@ -176,7 +176,7 @@ if ($playNowVideo['type'] == "linkVideo") {
                                                 }
                                             }, 150);
 <?php } else { ?>
-    
+
                                             if (typeof player !== 'undefined') {
                                                 player.currentTime(<?php echo $currentTime; ?>);
                                             }
@@ -240,29 +240,35 @@ if (!empty($autoPlayVideo)) {
                                                 addView(<?php echo $video['id']; ?>, time);
                                             }
                                         });
+
+                                        this.on('ended', function () {
+                                            var time = Math.round(this.currentTime());
+                                            addView(<?php echo $video['id']; ?>, time);
+                                        });
+
                                     });
                                     player.persistvolume({
                                         namespace: "YouPHPTube"
                                     });
                                     // in case the video is muted
                                     setTimeout(function () {
-                                        if (typeof player === 'undefined') {
-                                            player = videojs('mainVideo');
-                                        }
-                                        if (player.muted()) {
-                                            swal({
-                                                title: "<?php echo __("Your Media is Muted"); ?>",
-                                                text: "<?php echo __("Would you like to unmute it?"); ?>",
-                                                type: "warning",
-                                                showCancelButton: true,
-                                                confirmButtonColor: "#DD6B55",
-                                                confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
-                                                closeOnConfirm: true
-                                            },
-                                                    function () {
-                                                        player.muted(false);
-                                                    });
-                                        }
+                                    if (typeof player === 'undefined') {
+                                    player = videojs('mainVideo');
+                                    }
+                                    if (player.muted()) {
+                                    swal({
+                                    title: "<?php echo __("Your Media is Muted"); ?>",
+                                            text: "<?php echo __("Would you like to unmute it?"); ?>",
+                                            type: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#DD6B55",
+                                            confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
+                                            closeOnConfirm: true
+                                    },
+                                            function () {
+                                            player.muted(false);
+                                            });
+                                    }
                                     }, 1500);
                                     }
                                     );

@@ -3,6 +3,7 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
+session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 //check if there is a update
 if (!User::isAdmin()) {

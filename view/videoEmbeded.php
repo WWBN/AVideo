@@ -5,6 +5,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 if (!empty($_GET['v'])) {
@@ -12,6 +13,8 @@ if (!empty($_GET['v'])) {
 } else if (!empty($_GET['videoName'])) {
     $video = Video::getVideoFromCleanTitle($_GET['videoName']);
 }
+
+Video::unsetAddView($video['id']);
 
 if (empty($video)) {
     die("Video not found");
@@ -157,7 +160,7 @@ if (!empty($_GET['t'])) {
         <?php
         if ($video['type'] == "embed") {
             ?>
-            <video playsinline id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
         echo parseVideos($video['videoLink']);
         if ($autoplay) {
@@ -168,9 +171,9 @@ if (!empty($_GET['t'])) {
                     echo YouPHPTubePlugin::getFooterCode();
                     ?>
             <script>
-                $(document).ready(function () {
-                    addView(<?php echo $video['id']; ?>, 0);
-                });
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
             </script>
             <?php
         } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
@@ -205,7 +208,7 @@ if (!empty($_GET['t'])) {
             <?php
         } else {
             ?>
-            <video style="width: 100%; height: 100%;" playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
+            <video style="width: 100%; height: 100%; position: absolute; top: 0;" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
                    class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
                        <?php
                        echo getSources($video['filename']);
@@ -250,6 +253,10 @@ if (!empty($_GET['t'])) {
                         if (time >= 5 && time % 5 === 0) {
                             addView(<?php echo $video['id']; ?>, time);
                         }
+                    });
+                    player.on('ended', function () {
+                        var time = Math.round(this.currentTime());
+                        addView(<?php echo $video['id']; ?>, time);
                     });
 
     <?php

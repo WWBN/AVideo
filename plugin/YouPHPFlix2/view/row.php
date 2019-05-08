@@ -30,9 +30,27 @@ $post = $_POST;
                         <?php if (!empty($imgGif)) { ?>
                             <img style="position: absolute; top: 0; display: none;" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png"  alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
                         <?php } ?>
+                        <?php
+                        if ($advancedCustom->paidOnlyFreeLabel && $obj->paidOnlyLabelOverPoster) {
+                            foreach ($value['tags'] as $value2) {
+                                if (!empty($value2->label) && $value2->label === __("Paid Content")) {
+                                    ?><span class="paidOnlyLabel label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                                }
+                            }
+                        }
+                        ?>  
                         <div class="progress" style="height: 3px; margin-bottom: 2px;">
                             <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
+                        <?php
+                        if ($advancedCustom->paidOnlyFreeLabel && !$obj->paidOnlyLabelOverPoster) {
+                            foreach ($value['tags'] as $value2) {
+                                if (!empty($value2->label) && $value2->label === __("Paid Content")) {
+                                    ?><div class="label label-<?php echo $value2->type; ?>" style="margin: 0; margin-top: -2px;  width: 100%; display: block; border-top-left-radius: 0; border-top-right-radius: 0; "><?php echo $value2->text; ?></div><?php
+                                }
+                            }
+                        }
+                        ?>  
                     </div>
                 </div>
                 <div class="arrow-down" style="display: none;"></div>
@@ -93,6 +111,9 @@ foreach ($videos as $value) {
                             <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                             <?php
                         }
+                    }
+                    if ($advancedCustom->paidOnlyFreeLabel && !empty($value2->label) && $value2->label === __("Paid Content")) {
+                        ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
                     }
                     if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {
 

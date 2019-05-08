@@ -44,6 +44,7 @@ class MaintenanceMode extends PluginAbstract {
         $obj->facebookLink = '';
         $obj->twitterLink = '';
         $obj->googleLink = '';
+	$obj->discordLink = '';
         $obj->endIn = date("Y-m-d H:i:s", strtotime("+1 week"));
         $obj->hideClock = false;
         $obj->backgroundImageURL = $global['webSiteRootURL']."plugin/MaintenanceMode/images/bg01.jpg";

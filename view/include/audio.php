@@ -24,7 +24,7 @@ if ($video['type'] !== "audio") {
 
 if ($video['type'] != "audio") {
     $waveSurferEnabled = false;
-}else{
+} else {
     $waveSurferEnabled = !empty($advancedCustom->EnableWavesurfer);
 }
 ?>
@@ -42,7 +42,8 @@ if ($video['type'] != "audio") {
                 <?php
                 if ($waveSurferEnabled == false) {
                     echo getSources($video['filename']);
-                } ?>
+                }
+                ?>
             </audio>
         </div>
     </div>
@@ -86,10 +87,10 @@ if ($waveSurferEnabled) {
                 console.warn('VideoJS-ERROR:', error);
             });
             /* was rising an error
-            player.on('loadedmetadata', function () {
-                fullDuration = player.duration();
-            });
-            */
+             player.on('loadedmetadata', function () {
+             fullDuration = player.duration();
+             });
+             */
             player.ready(function () {
 <?php
 if ($config->getAutoplay()) {
@@ -126,6 +127,18 @@ if (!empty($autoPlayVideo)) {
                 });
                 this.on('play', function () {
                     addView(<?php echo $video['id']; ?>, this.currentTime());
+                });
+
+                player.on('timeupdate', function () {
+                    var time = Math.round(this.currentTime());
+                    if (time >= 5 && time % 5 === 0) {
+                        addView(<?php echo $video['id']; ?>, time);
+                    }
+                });
+
+                player.on('ended', function () {
+                    var time = Math.round(this.currentTime());
+                    addView(<?php echo $video['id']; ?>, time);
                 });
             });
         });
