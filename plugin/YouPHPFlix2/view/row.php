@@ -16,7 +16,7 @@ $post = $_POST;
         $img = $images->thumbsJpg;
         $poster = $images->poster;
         $cssClass = "";
-        if (!empty($images->posterPortraitThumbs)) {
+        if (empty($obj->landscapePosters) && !empty($images->posterPortraitThumbs)) {
             $imgGif = $images->gifPortrait;
             $img = $images->posterPortraitThumbs;
             $cssClass = "posterPortrait";
