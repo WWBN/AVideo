@@ -60,7 +60,7 @@ $groups = UserGroups::getAllUsersGroups();
                                     <div>
                                         <button class="btn btn-default" id="btnNewMenu"><i class="fa fa-plus"></i> New Menu</button>
                                         <button class="btn btn-success" id="btnSaveMenu"><i class="fa fa-save"></i> Save Menu</button>
-                                        <button class="btn btn-primary showWhenHaveId" id="btnEditMenuItens" style="display: none;"><i class="fa fa-edit"></i> Edit Menu Itens</button>
+                                        <button class="btn btn-primary showWhenHaveId" id="btnEditMenuItens" style="display: none;"><i class="fa fa-edit"></i> Edit Menu Items</button>
                                         <button class="btn btn-danger showWhenHaveId" id="btnDeleteMenu" style="display: none;"><i class="fa fa-times"></i> Delete Menu</button>
                                     </div>
                                     <hr>
