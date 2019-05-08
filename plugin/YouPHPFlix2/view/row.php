@@ -143,6 +143,15 @@ foreach ($videos as $value) {
                         </center>
                     </div>
                     <?php
+                }else{
+                    ?>
+                    <div class="col-md-2 col-sm-3 col-xs-4">
+                        <center>
+                            <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->thumbsJpg; ?>" style="min-width: 86px;" />
+                        </center>
+                    </div>
+                    <?php
+                    
                 }
                 ?>
                 <div class="infoText col-md-4 col-sm-6 col-xs-8">
