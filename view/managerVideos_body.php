@@ -357,6 +357,19 @@
                                                     <?php
                                                 }
                                                 ?>
+                                                <?php
+                                                if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || User::isAdmin()) {
+                                                    ?>
+                                                    <li class="list-group-item">
+                                                        <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can Watch"); ?>
+                                                        <div class="material-switch pull-right">
+                                                            <input id="only_for_paid" type="checkbox" value="0" class="userGroups"/>
+                                                            <label for="only_for_paid" class="label-success"></label>
+                                                        </div>
+                                                    </li>
+                                                    <?php
+                                                }
+                                                ?>
                                                 <li class="list-group-item">
                                                     <span class="fa fa-globe"></span> <?php echo __("Public Video"); ?>
                                                     <div class="material-switch pull-right">
@@ -832,6 +845,12 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                 $('#can_share').prop('checked', true);
                                             } else {
                                                 $('#can_share').prop('checked', false);
+                                            }
+                                            
+                                            if (row.only_for_paid) {
+                                                $('#only_for_paid').prop('checked', true);
+                                            } else {
+                                                $('#only_for_paid').prop('checked', false);
                                             }
 
                                             if (row.only_for_paid) {
