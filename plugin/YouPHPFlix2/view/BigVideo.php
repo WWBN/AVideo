@@ -113,10 +113,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </h4>
                     <div class="row">                
                         <?php
-                        if (!empty($images->posterPortrait)) {
+                        if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                             ?>
                             <div class="col-md-2 col-sm-4 col-xs-6">
                                 <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
+                            </div>
+                            <?php
+                        }else{
+                            ?>
+                            <div class="col-md-2 col-sm-4 col-xs-6">
+                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->poster; ?>" style="min-width: 135px;" />
                             </div>
                             <?php
                         }
