@@ -1239,25 +1239,25 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $("#progress25 .progress-bar")
                                                     .css("width", p25 + "%")
                                                     .attr("aria-valuenow", p25)
-                                                    .text("One-quarter of the video: " + p25 + "%");
+                                                    .text("25/100: " + p25 + "%");
 
 
                                             $("#progress50 .progress-bar")
                                                     .css("width", p50 + "%")
                                                     .attr("aria-valuenow", p50)
-                                                    .text("Half of the video: " + p50 + "%");
+                                                    .text("Half: " + p50 + "%");
 
 
                                             $("#progress75 .progress-bar")
                                                     .css("width", p75 + "%")
                                                     .attr("aria-valuenow", p75)
-                                                    .text("Three-quarter of the video: " + p75 + "%");
+                                                    .text("75/100: " + p75 + "%");
 
 
                                             $("#progress100 .progress-bar")
                                                     .css("width", p100 + "%")
                                                     .attr("aria-valuenow", p100)
-                                                    .text("Full video: " + p100 + "%");
+                                                    .text("End: " + p100 + "%");
 
                                         }
                                         
@@ -1657,7 +1657,8 @@ if (User::isAdmin()) {
                                                         }
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span><br>";
-                                                        return tags + row.typeLabels;
+                                                        tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>"+row.typeLabels;
+                                                        return tags;
                                                     },
                                                     "checkbox": function (column, row) {
                                                         var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";
