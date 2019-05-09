@@ -38,8 +38,8 @@ foreach ($playList as $value) {
         }
         $playListSources[] = new playListSource($value2['url']);
     }
-    $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, intval(@$externalOptions->videoStartSeconds));
-    $videoStartSeconds[] = intval(@$externalOptions->videoStartSeconds);
+    $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds));
+    $videoStartSeconds[] = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
 }
 //var_dump($playListData);exit;
 ?>

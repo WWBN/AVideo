@@ -4,6 +4,18 @@
         -o-text-overflow: initial;
         text-overflow: initial;
     }
+    .viewsDetails{
+        color: #FFF;
+    }
+
+    .viewsDetails:hover{
+        color: #AAF;
+    }
+
+    .progress-bar {
+        -webkit-transition: width 2.5s ease;
+        transition: width 2.5s ease;
+    }
 </style>
 <div class="container">
     <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
@@ -421,8 +433,8 @@
                                     <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required>
 
                                     <div>
-                                        <label for="videoStartSecond" ><?php echo __("Start video at seconds"); ?></label>
-                                        <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="<?php echo __("Start video at seconds"); ?>" value="0" required>
+                                        <label for="videoStartSecond" ><?php echo __("Start video at:"); ?></label>
+                                        <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
                                     </div>
 
                                     <script>
@@ -503,6 +515,42 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __("Close"); ?></button>
                     <button type="button" class="btn btn-primary" id="saveVideoBtn"><?php echo __("Save changes"); ?></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div id="videoViewFormModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><?php echo __("Video Views"); ?></h4>
+                </div>
+                <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
+                    <div class="progress" id="progress25" style="width: 100%;">
+                        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                            0%
+                        </div>
+                    </div>
+                    <div class="progress" id="progress50" style="width: 100%;">
+                        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                            0%
+                        </div>
+                    </div>
+                    <div class="progress" id="progress75" style="width: 100%;">
+                        <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                            0%
+                        </div>
+                    </div>
+                    <div class="progress" id="progress100" style="width: 100%;">
+                        <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0">
+                            0%
+                        </div>
+                    </div>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -846,7 +894,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             } else {
                                                 $('#can_share').prop('checked', false);
                                             }
-                                            
+
                                             if (row.only_for_paid) {
                                                 $('#only_for_paid').prop('checked', true);
                                             } else {
@@ -1178,6 +1226,70 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             item += '</div><div class="progress progress-striped active " id="downloadProgress' + queueItem.id + '" style="height: 10px;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
                                             $('#encodeProgress' + id).html(item);
                                         }
+
+                                        function viewsDetails(views_count, views_count_25, views_count_50, views_count_75, views_count_100) {
+                                            viewsDetailsReset();
+                                            $("#videoViewFormModal .modal-title").html("Total views: " + views_count);
+                                            var p25 = (views_count_25 / views_count) * 100;
+                                            var p50 = (views_count_50 / views_count) * 100;
+                                            var p75 = (views_count_75 / views_count) * 100;
+                                            var p100 = (views_count_100 / views_count) * 100;
+                                            $('#videoViewFormModal').modal();
+
+                                            $("#progress25 .progress-bar")
+                                                    .css("width", p25 + "%")
+                                                    .attr("aria-valuenow", p25)
+                                                    .text("One-quarter of the video: " + p25 + "%");
+
+
+                                            $("#progress50 .progress-bar")
+                                                    .css("width", p50 + "%")
+                                                    .attr("aria-valuenow", p50)
+                                                    .text("Half of the video: " + p50 + "%");
+
+
+                                            $("#progress75 .progress-bar")
+                                                    .css("width", p75 + "%")
+                                                    .attr("aria-valuenow", p75)
+                                                    .text("Three-quarter of the video: " + p75 + "%");
+
+
+                                            $("#progress100 .progress-bar")
+                                                    .css("width", p100 + "%")
+                                                    .attr("aria-valuenow", p100)
+                                                    .text("Full video: " + p100 + "%");
+
+                                        }
+                                        
+                                        function viewsDetailsReset() {
+                                            $("#videoViewFormModal .modal-title").html("Loading ... ");
+                                            $("#progress25 .progress-bar")
+                                                    .css("width", "0")
+                                                    .attr("aria-valuenow", "0")
+                                                    .text("Loading ...");
+
+
+                                            $("#progress50 .progress-bar")
+                                                    .css("width", "0")
+                                                    .attr("aria-valuenow", "0")
+                                                    .text("Loading ...");
+
+
+                                            $("#progress75 .progress-bar")
+                                                    .css("width", "0")
+                                                    .attr("aria-valuenow", "0")
+                                                    .text("Loading ...");
+
+
+                                            $("#progress100 .progress-bar")
+                                                    .css("width", "0")
+                                                    .attr("aria-valuenow", "0")
+                                                    .text("Loading ...");
+
+                                        }
+                                        
+                                        
+
                                         $(document).ready(function () {
 
                                             $('#videoFormModal').on('hidden.bs.modal', function () {
@@ -1330,7 +1442,7 @@ if (!empty($row)) {
                                                 $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                                 $('#videoLinkContent').slideDown();
                                                 $('#videoLink').val('');
-                                                $('#videoStartSecond').val(0);
+                                                $('#videoStartSecond').val('00:00:00');
 <?php
 if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
     echo VideoTags::getTagsInputsJqueryRemoveAll();
@@ -1544,7 +1656,7 @@ if (User::isAdmin()) {
                                                             tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
                                                         }
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
-                                                        tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + "</span><br>";
+                                                        tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span><br>";
                                                         return tags + row.typeLabels;
                                                     },
                                                     "checkbox": function (column, row) {

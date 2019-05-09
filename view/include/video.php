@@ -10,6 +10,11 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
     $embedResponsiveClass = "embed-responsive-16by9";
 }
 $currentTime = 0;
+if(!empty($video['externalOptions']->videoStartSeconds)){
+    $video['externalOptions']->videoStartSeconds = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
+}else{
+    $video['externalOptions']->videoStartSeconds = 0;
+}
 if (isset($_GET['t'])) {
     $currentTime = intval($_GET['t']);
 } else if (!empty($video['progress']['lastVideoTime'])) {

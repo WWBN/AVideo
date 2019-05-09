@@ -383,6 +383,9 @@ function getMinutesTotalVideosLength() {
 }
 
 function secondsToVideoTime($seconds) {
+    if(!is_numeric($seconds)){
+        return $seconds;
+    }
     $seconds = round($seconds);
     $hours = floor($seconds / 3600);
     $mins = floor($seconds / 60 % 60);
@@ -391,6 +394,9 @@ function secondsToVideoTime($seconds) {
 }
 
 function parseDurationToSeconds($str) {
+    if(is_numeric($str)){
+        return intval($str);
+    }
     $durationParts = explode(":", $str);
     if (empty($durationParts[1]) || $durationParts[0] == "EE") {
         return 0;
