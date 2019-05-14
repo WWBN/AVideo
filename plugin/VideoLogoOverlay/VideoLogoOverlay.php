@@ -36,7 +36,7 @@ class VideoLogoOverlay extends PluginAbstract {
         $obj = YouPHPTubePlugin::getObjectData("VideoLogoOverlay");
 
         "position: absolute; top: 0; left: 0; opacity: 0.5; filter: alpha(opacity=50);";
-        $opacity = "opacity: " . ($obj->opacity / 100) . "; filter: alpha(opacity={$obj->opacity});";
+        $opacity = "opacity: " . ($obj->opacity / 100) . "; filter: alpha(opacity={$obj->opacity});pointer-events:none; ";
 
         $position = "position: absolute; top: 0; left: 0; ";
         switch ($obj->position) {
