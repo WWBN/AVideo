@@ -491,7 +491,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $link = $videoString;
     }
 
-    if (strpos($link, 'embed') !== false) {
+    if (stripos($link, 'embed') !== false) {
         return $link;
     } else if (strpos($link, 'youtube.com') !== false) {
 
