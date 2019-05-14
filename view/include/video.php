@@ -65,9 +65,9 @@ if (isset($_GET['t'])) {
                         <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
                     </p>
                 </video>
+
+            </div>
                 <?php
-                require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-                // the live users plugin
                 if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
                     require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
                     $style = VideoLogoOverlay::getStyle();
@@ -77,8 +77,6 @@ if (isset($_GET['t'])) {
                         <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
                     </div>
                 <?php } ?>
-
-            </div>
 
             <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
                 <i class="fas fa-times"></i>
