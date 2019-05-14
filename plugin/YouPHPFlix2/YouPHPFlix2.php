@@ -74,7 +74,7 @@ class YouPHPFlix2 extends PluginAbstract {
             
         }
         if(!empty($obj->youtubeModeOnFullscreen)){
-            $css .= '<style>body.fullScreen{overflow: hidden;.VideoLogoOverlay: margin-top: 70px !important;}</style>';
+            $css .= '<style>body.fullScreen{overflow: hidden;}.VideoLogoOverlay{margin-top: 70px !important};</style>';
         }
         return $css;
     }
