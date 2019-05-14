@@ -70,7 +70,7 @@ class YouPHPFlix2 extends PluginAbstract {
         if(!empty($obj->youtubeModeOnFullscreen) && !empty($_GET['videoName'])){
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
         
-            $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important;#VideoLogoOverlay: margin-top: 60px !important;}</style>';
+            $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important;.VideoLogoOverlay: margin-top: 60px !important;}</style>';
             
         }
         if(!empty($obj->youtubeModeOnFullscreen)){
