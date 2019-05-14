@@ -224,7 +224,7 @@ if (!empty($_GET['t'])) {
                 $style = VideoLogoOverlay::getStyle();
                 $url = VideoLogoOverlay::getLink();
                 ?>
-                <div style="<?php echo $style; ?>">
+                <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
                     <a href="<?php echo $url; ?>"  target="_blank">
                         <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
                     </a>
