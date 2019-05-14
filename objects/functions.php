@@ -492,7 +492,8 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     }
 
     if (stripos($link, 'embed') !== false) {
-        return $link;
+        return $link. (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
+                . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
     } else if (strpos($link, 'youtube.com') !== false) {
 
         preg_match(
