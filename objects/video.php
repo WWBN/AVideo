@@ -1003,7 +1003,7 @@ if (!class_exists('Video')) {
             if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
             } elseif (!empty($status)) {
-                $sql .= " AND status = '{$status}'";
+                $sql .= " AND v.status = '{$status}'";
             }
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
