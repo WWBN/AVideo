@@ -158,7 +158,10 @@ class API extends PluginAbstract {
             $totalRows = Video::getTotalVideos();
         }
         $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
-        foreach ($rows as $key=>$value) {       
+        foreach ($rows as $key=>$value) {
+            if(is_object($value)){
+                $value = object_to_array($value);
+            }
             if(empty($value['filename'])){
                 continue;
             }
