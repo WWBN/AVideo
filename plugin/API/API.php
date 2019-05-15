@@ -159,6 +159,9 @@ class API extends PluginAbstract {
         }
         $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
         foreach ($rows as $key=>$value) {       
+            if(empty($value['filename'])){
+                continue;
+            }
             $rows[$key]['images'] = Video::getImageFromFilename($value['filename']);
             $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
             if ($SubtitleSwitcher) {
