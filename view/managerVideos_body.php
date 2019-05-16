@@ -1611,9 +1611,9 @@ if (User::isAdmin()) {
                                                                 continue;
                                                             }
                                                             <?php                                                            
-                                                                $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
-                                                                $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
-                                                                $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
+                                                                $aws_s3 = YouPHPTubePlugin::isEnabledByName('AWS_S3');
+                                                                $bb_b2 = YouPHPTubePlugin::isEnabledByName('Blackblaze_B2');
+                                                                $ftp = YouPHPTubePlugin::isEnabledByName('FTP_Storage');
                                                                 if(empty($aws_s3) && empty($bb_b2) && empty($ftp)){
                                                             ?>
                                                             if (url.indexOf('?') > -1) {
