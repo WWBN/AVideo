@@ -394,8 +394,11 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                                     continue;
                                                 }
                                             }
+                                            if(strpos($theLink['url'], '?') === false){
+                                                $theLink['url'] .= "?download=1&title=".urlencode($video['title'] . "_{$key}_.mp4");
+                                            }
                                             ?>
-                                            <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.mp4"); ?>" class="list-group-item list-group-item-action" target="_blank">
+                                            <a href="<?php echo $theLink['url']; ?>" class="list-group-item list-group-item-action" target="_blank">
                                                 <i class="fas fa-download"></i> <?php echo $key; ?>
                                             </a>
                                             <?php
