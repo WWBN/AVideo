@@ -1610,20 +1610,11 @@ if (User::isAdmin()) {
                                                             if (typeof row.videosURL[k].url === 'undefined') {
                                                                 continue;
                                                             }
-                                                            <?php                                                            
-                                                                $aws_s3 = YouPHPTubePlugin::isEnabledByName('AWS_S3');
-                                                                $bb_b2 = YouPHPTubePlugin::isEnabledByName('Blackblaze_B2');
-                                                                $ftp = YouPHPTubePlugin::isEnabledByName('FTP_Storage');
-                                                                if(empty($aws_s3) && empty($bb_b2) && empty($ftp)){
-                                                            ?>
                                                             if (url.indexOf('?') > -1) {
                                                                 //url += "&download=1";
                                                             } else {
                                                                 url += "?download=1";
                                                             }
-                                                            <?php
-                                                                }
-                                                            ?>
                                                             download += '<a href="' + url + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
                                                         }
 
