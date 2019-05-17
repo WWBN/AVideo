@@ -8,6 +8,15 @@ if (!isset($global['systemRootPath'])) {
 
 require_once $global['systemRootPath'] . 'objects/video.php';
 
+// for mobile login
+if(!empty($_GET['user']) && !empty($_GET['pass'])){
+    $user = $_GET['user'];
+    $password = $_GET['pass'];
+
+    $userObj = new User(0, $user, $password);
+    $userObj->login(false, true);
+}
+
 if (!empty($_GET['v'])) {
     $video = Video::getVideo($_GET['v'], "viewable", false, false, false, true);
 } else if (!empty($_GET['videoName'])) {
