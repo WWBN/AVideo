@@ -14,7 +14,7 @@
 if (User::canStream()) {
     ?>
     <li>
-        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live"  class="btn btn-danger navbar-btn" data-toggle="tooltip" title="<?php echo __("Broadcast a Live Streaming"); ?>" data-placement="bottom" >
+        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live"  class="btn btn-danger navbar-btn" data-toggle="tooltip" title="<?php echo __("Broadcast a Live Stream"); ?>" data-placement="bottom" >
             <span class="fa fa-circle"></span>  <span class="hidden-md hidden-sm"><?php echo $buttonTitle; ?></span>
         </a>
     </li>
