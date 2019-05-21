@@ -673,9 +673,28 @@ function canUseCDN($videos_id) {
     return $canUseCDN[$videos_id];
 }
 
-function getVideosURL($fileName) {
+function clearVideosURL($fileName="") {
+    global $global;
+    $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
+    if(empty($path)){
+        rrmdir($path);
+    }else{
+        $cacheFilename = "{$path}{$fileName}.cache";
+        @unlink($cacheFilename);
+    }
+}
+
+function getVideosURL($fileName, $cache = true) {
+    global $global;
     if (empty($fileName)) {
         return array();
+    }
+    $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
+    make_path($path);
+    $cacheFilename = "{$path}{$fileName}.cache";
+    if(file_exists($cacheFilename) && $cache){
+        $json = file_get_contents($cacheFilename);
+        return object_to_array(json_decode($json));
     }
     global $global;
     $types = array('', '_Low', '_SD', '_HD');
@@ -763,6 +782,8 @@ function getVideosURL($fileName) {
             }
         }
     }
+    
+    file_put_contents($cacheFilename, json_encode($files));
     return $files;
 }
 
