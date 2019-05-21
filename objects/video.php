@@ -2430,6 +2430,7 @@ if (!class_exists('Video')) {
                     @unlink($file);
                 }
             }
+            clearVideosURL($filename);
         }
 
         static function getVideoPogress($videos_id, $users_id = 0) {
