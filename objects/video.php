@@ -194,7 +194,7 @@ if (!class_exists('Video')) {
             $this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
             $this->setDescription($global['mysqli']->real_escape_string($this->description));
 
-            if (forbiddenWords($this->title) || forbiddenWords($this->description)) {
+            if (fornWords($this->title) || forbiddenWords($this->description)) {
                 return false;
             }
 
@@ -1232,6 +1232,7 @@ if (!class_exists('Video')) {
                     $ftp->removeFiles($video['filename']);
                 }
                 $this->removeFiles($video['filename']);
+                self::deleteThumbs($video['filename']);
             }
             return $resp;
         }
