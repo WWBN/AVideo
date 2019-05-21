@@ -908,8 +908,10 @@ if (!class_exists('Video')) {
                 if (file_exists($cacheFileName . ".lock")) {
                     return array();
                 }
+                file_put_contents($cacheFileName . ".lock", 1);
                 $total = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly);
                 file_put_contents($cacheFileName, json_encode($total));
+                unlink($cacheFileName . ".lock");
                 return $total;
             }
             $return = json_decode(file_get_contents($cacheFileName));
@@ -1068,8 +1070,10 @@ if (!class_exists('Video')) {
                 if (file_exists($cacheFileName . ".lock")) {
                     return array();
                 }
+                file_put_contents($cacheFileName . ".lock", 1);
                 $total = static::getTotalVideosInfo($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs);
                 file_put_contents($cacheFileName, json_encode($total));
+                unlink($cacheFileName . ".lock");
                 return $total;
             }
             $return = json_decode(file_get_contents($cacheFileName));
@@ -1695,8 +1699,10 @@ if (!class_exists('Video')) {
                 if (file_exists($cacheFileName . ".lock")) {
                     return array();
                 }
+                file_put_contents($cacheFileName . ".lock", 1);
                 $total = static::getTags_($video_id, $type);
                 file_put_contents($cacheFileName, json_encode($total));
+                unlink($cacheFileName . ".lock");
                 return $total;
             }
             $return = json_decode(file_get_contents($cacheFileName));
@@ -2230,8 +2236,10 @@ if (!class_exists('Video')) {
                 if (file_exists($cacheFileName . ".lock")) {
                     return array();
                 }
+                file_put_contents($cacheFileName . ".lock", 1);
                 $total = static::getImageFromFilename_($filename, $type = "video");
                 file_put_contents($cacheFileName, json_encode($total));
+                unlink($cacheFileName . ".lock");
                 return $total;
             }
             $return = json_decode(file_get_contents($cacheFileName));
