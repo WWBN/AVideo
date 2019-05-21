@@ -1,4 +1,18 @@
 <?php
+
+if(isset($_GET['getLanguage'])) {
+	
+	$lngFile = './'.strtolower(str_replace(['.', '/', '\\'], '', $_GET['getLanguage'])).'.php';
+	if(!file_exists($lngFile)) {
+		header('HTTP/1.0 404 Not Found');
+		exit;
+	}
+	
+	require_once($lngFile);
+	echo json_encode($t);
+	exit;
+}
+
 $vars = array();
 require_once '../videos/configuration.php';
 require_once '../objects/functions.php';
@@ -15,7 +29,7 @@ function listAll($dir) {
                 if (is_dir($filename)) {
                     listAll($filename);
                 } else if (preg_match("/\.php$/", $entry)) {
-                    $data = url_get_contents($filename);
+                    $data = file_get_contents($filename);
                     $regex = '/__\(["\']{1}(.*)["\']{1}\)/U';
                     preg_match_all(
                             $regex, $data, $matches
@@ -31,25 +45,25 @@ function listAll($dir) {
         closedir($handle);
     }
 }
-
 listAll($global['systemRootPath']);
 sort($vars);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $config->getWebSiteTitle();?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
+		
         ?>
-        <style>
+        <style type="text/css">
             textarea.form-control {
                 height: 100% !important;
             }
         </style>
     </head>
 
-    <body class="<?php echo $global['bodyClass']; ?>">
+    <body>
         <?php
         include $global['systemRootPath'].'view/include/navbar.php';
         ?>
@@ -64,6 +78,37 @@ sort($vars);
                             $("#navBarFlag2").flagStrap({
                                 inputName: 'country2',
                                 buttonType: "btn-default navbar-btn",
+								onSelect: function(value, element) {
+									var tb1 = $('#originalWords');
+									var tb2 = $('#translatedCode');
+									console.log('Changed language');
+									console.log(value);
+									$.ajax({
+										url: 'index.php?getLanguage='+value,
+										dataType: 'json'
+									}).done(function(data){
+										console.log("Found existing translation!");
+										var arrayOfLines = $('#originalWords').val().split('\n');
+										$.each(arrayOfLines, function(index, item) {
+											if(data.hasOwnProperty(item)) {
+												$('#translatedCode').append(data[item]+'\n');
+											} else {
+												$('#translatedCode').append('\n');
+											}
+										});
+										
+										tb1.scroll(function() {
+											tb2.scrollTop(tb1.scrollTop());
+										});
+										
+										
+									}).fail(function(){
+										console.log("New translation");
+										tb1.scroll(function() {
+											
+										});
+									});
+								}
                             });
                         });
                     </script>
@@ -76,7 +121,7 @@ sort($vars);
             <div class="row">
                 <div class="col-lg-4 col-md-12">
                     <h3><?php echo __("Original words found"); ?></h3>
-                    <textarea placeholder="<?php echo __("Original words found"); ?>" class="form-control" rows="20" readonly="readonly"><?php
+                    <textarea placeholder="<?php echo __("Original words found"); ?>" class="form-control" rows="20" readonly="readonly" id="originalWords" wrap="off"><?php
                         foreach ($vars as $value) {
                             echo $value, "\n";
                         }
@@ -84,7 +129,7 @@ sort($vars);
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <h3><?php echo __("Word Translations"); ?></h3>
-                    <textarea placeholder="<?php echo __("Paste here the translated words, one each line"); ?>" class="form-control" id="translatedCode"  rows="20"></textarea>
+                    <textarea placeholder="<?php echo __("Paste here the translated words, one each line"); ?>" class="form-control" id="translatedCode"  rows="20" wrap="off"></textarea>
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <h3><?php echo __("Translated Array"); ?></h3>
@@ -156,9 +201,7 @@ sort($vars);
                     });
                 });
             });
+			
         </script>
     </body>
 </html>
-
-
-
