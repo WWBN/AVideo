@@ -252,7 +252,7 @@ if (!class_exists('Video')) {
                 if (!empty($this->old_categories_id)) {
                     Video::autosetCategoryType($this->old_categories_id);
                 }
-
+                clearVideosURL($this->filename);
                 return $id;
             } else {
                 die($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
