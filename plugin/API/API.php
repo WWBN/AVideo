@@ -296,6 +296,31 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
         exit;
     }
+    
+    /**
+     * Return the location based on the provided IP
+     * @param type $parameters
+     * 'APISecret' mandatory for security reasons
+     * 'ip' Ip to verify
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&ip=2.20.147.123
+     * @return type
+     */
+    public function get_api_IP2Location($parameters) {
+        global $global;
+        $this->getToPost();
+        $obj = $this->getDataObject();
+        if ($obj->APISecret !== @$_GET['APISecret']) {
+            return new ApiObject("APISecret Not valid");
+        }
+        if(YouPHPTubePlugin::isEnabledByName("User_Location")){
+            $row = IP2Location::getLocation($parameters['ip']);
+            if(!empty($row)){
+                return new ApiObject("", false, $row);
+            }
+        }
+        return new ApiObject("IP2Location not working");
+        exit;
+    }
 
     /**
      * Return all favorites from a user
