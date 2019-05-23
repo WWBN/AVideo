@@ -1034,7 +1034,7 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
                                                     type: 'post',
                                                     success: function (response) {
                                                     if (response.status === "1" || response.status === true) {
-                                                    if (response.video.type === 'embed') {
+                                                    if (response.video.type === 'embed' || response.video.type === 'linkVideo') {
                                                     videoUploaded = true;
                                                     }
                                                     if (closeModal && videoUploaded) {
