@@ -20,9 +20,9 @@ if (!empty($_GET['lang'])) {
 function __($str) {
     global $t;
     if (empty($t[$str])) {
-        return $str;
+        return str_replace(array("'",'"',"<",'>'), array('&apos;','&quot;','&lt;','&gt;'), $str);
     } else {
-        return $t[$str];
+        return str_replace(array("'",'"',"<",'>'), array('&apos;','&quot;','&lt;','&gt;'), $t[$str]);
     }
 }
 
