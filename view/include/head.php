@@ -6,14 +6,14 @@ $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraCo
 
 $custom = "";
 
-if(!empty($poster)){
-    $subTitle = str_replace(array('"',"\n","\r"),array("","",""),strip_tags($video['description']));
+if (!empty($poster)) {
+    $subTitle = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($video['description']));
     $custom .= " {$subTitle}";
 }
 
-if(!empty($_GET['catName'])){
+if (!empty($_GET['catName'])) {
     $category = Category::getCategoryByName($_GET['catName']);
-    $description = str_replace(array('"',"\n","\r"),array("","",""),strip_tags($category['description']));
+    $description = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($category['description']));
     $custom = " {$description} - {$custom}";
 }
 
@@ -47,6 +47,34 @@ $cssFiles = array_merge($cssFiles, YouPHPTubePlugin::getCSSFiles());
 $cssURL = combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
+<?php
+if (isRTL()) {
+    ?>
+    <style>
+        .principalContainer, #mainContainer, #bigVideo, .mainArea, .galleryVideo, #sidebar, .navbar-header li{
+            direction:rtl;
+            unicode-bidi:embed;
+        }
+        #sidebar .nav{
+            padding-right: 0;
+        }
+        .dropdown-menu, .navbar-header li a, #sideBarContainer .btn {
+            text-align: right !important;
+        }
+        .dropdown-submenu a{
+            width: 100%;
+        }
+        .galeryDetails div{
+            float: right !important;
+        }
+        #saveCommentBtn{
+            border-width: 1px;
+            border-right-width: 0;
+        }
+    </style>    
+    <?php
+}
+?>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js"></script>
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
@@ -77,10 +105,10 @@ if (!$config->getDisable_analytics()) {
 echo $config->getHead();
 echo $head;
 if (!empty($video['users_id'])) {
-    if(!empty($video)){
-      $userAnalytics = new User($video['users_id']);
-      echo $userAnalytics->getAnalytics();
-      unset($userAnalytics);
+    if (!empty($video)) {
+        $userAnalytics = new User($video['users_id']);
+        echo $userAnalytics->getAnalytics();
+        unset($userAnalytics);
     }
 }
 ?>

@@ -313,20 +313,23 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-    * Overwrite Adapter's API endpoints
-    *
-    * @param Data\Collection $endpoints
-    */
-    protected function setApiEndpoints(Data\Collection $endpoints = null)
+     * Overwrite Adapter's API endpoints
+     *
+     * @param array|Data\Collection $endpoints
+     */
+    protected function setApiEndpoints($endpoints = null)
     {
         if (empty($endpoints)) {
             return;
         }
 
-        $this->apiBaseUrl = $endpoints->get('api_base_url') ?: $this->apiBaseUrl;
-        $this->authorizeUrl = $endpoints->get('authorize_url') ?: $this->authorizeUrl;
-        $this->accessTokenUrl = $endpoints->get('access_token_url') ?: $this->accessTokenUrl;
+        $collection = is_array($endpoints) ? new Data\Collection($endpoints) : $endpoints;
+
+        $this->apiBaseUrl = $collection->get('api_base_url') ?: $this->apiBaseUrl;
+        $this->authorizeUrl = $collection->get('authorize_url') ?: $this->authorizeUrl;
+        $this->accessTokenUrl = $collection->get('access_token_url') ?: $this->accessTokenUrl;
     }
+
 
     /**
      * Validate signed API responses Http status code.

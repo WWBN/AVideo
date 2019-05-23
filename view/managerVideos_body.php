@@ -229,6 +229,9 @@
                             <li class="active uploadFile"><a data-toggle="tab" href="#pmidia">Upload File</a></li>
                             <li><a data-toggle="tab" href="#pimages">Images</a></li>
                             <li><a data-toggle="tab" href="#pmetadata">Meta Data</a></li>
+                            <?php
+                            echo YouPHPTubePlugin::getManagerVideosTab();
+                            ?>
                         </ul>
 
                         <div class="tab-content">
@@ -281,9 +284,7 @@
                                         <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
                                     </div>
                                     <?php
-                                    if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-                                        echo VideoTags::getTagsInputs();
-                                    }
+                                    echo YouPHPTubePlugin::getManagerVideosEditField();
                                     ?>
                                     <label for="inputDescription" ><?php echo __("Description"); ?></label>
                                     <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
@@ -505,6 +506,10 @@
 
                                 </form>
                             </div>
+
+                            <?php
+                            echo YouPHPTubePlugin::getManagerVideosBody();
+                            ?>
                         </div>
                     </div>
                     <div id="videoLinkContent">
@@ -601,12 +606,7 @@
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.iframe-transport.js"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
 <?php
-if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    ?>
-    <script src="<?php echo $global['webSiteRootURL']; ?>plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js" type="text/javascript"></script>
-    <script src="<?php echo $global['webSiteRootURL']; ?>plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js" type="text/javascript"></script>
-    <?php
-}
+echo YouPHPTubePlugin::getManagerVideosJavaScripts();
 ?>
 
 <script>
@@ -842,17 +842,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#inputCategory').val(row.categories_id);
                                             $('#inputRrating').val(row.rrating);
 <?php
-if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    echo VideoTags::getTagsInputsJqueryRemoveAll();
-    ?>
-                                                if (typeof row.videoTags !== 'undefined' && row.videoTags.length) {
-                                                    console.log(row.videoTags);
-                                                    for (i = 0; i < row.videoTags.length; i++) {
-                                                        $('#inputTags' + row.videoTags[i].tag_types_id).tagsinput('add', row.videoTags[i].name);
-                                                    }
-                                                }
-    <?php
-}
+echo YouPHPTubePlugin::getManagerVideosEdit();
 ?>
 
                                             if (row.next_video && row.next_video.id) {
@@ -1021,14 +1011,12 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             url: '<?php echo $global['webSiteRootURL']; ?>objects/videoAddNew.json.php',
                                                     data: {
                                                     "externalOptions":externalOptions,
-                                                            "id": $('#inputVideoId').val(),
-                                                            "title": $('#inputTitle').val(),
 <?php
-if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    echo '"videoTags": ' . VideoTags::getTagsInputsJquery() . ',';
-}
+echo YouPHPTubePlugin::getManagerVideosAddNew();
 ?>
-                                                    "trailer1": $('#inputTrailer').val(),
+                                                    "id": $('#inputVideoId').val(),
+                                                            "title": $('#inputTitle').val(),
+                                                            "trailer1": $('#inputTrailer').val(),
                                                             "videoLink": $('#videoLink').val(),
                                                             "videoLinkType": $('#videoLinkType').val(),
                                                             "clean_title": $('#inputCleanTitle').val(),
@@ -1082,9 +1070,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                             $('#removeAutoplay').trigger('click');
 
 <?php
-if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    echo VideoTags::getTagsInputsJqueryRemoveAll();
-}
+echo YouPHPTubePlugin::getManagerVideosReset();
 ?>
                                             var photoURL = '<?php echo User::getPhoto(); ?>';
                                             $("#inputUserOwner-img").attr("src", photoURL);
@@ -1260,7 +1246,7 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                     .text("End: " + p100 + "%");
 
                                         }
-                                        
+
                                         function viewsDetailsReset() {
                                             $("#videoViewFormModal .modal-title").html("Loading ... ");
                                             $("#progress25 .progress-bar")
@@ -1287,8 +1273,8 @@ if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                                                     .text("Loading ...");
 
                                         }
-                                        
-                                        
+
+
 
                                         $(document).ready(function () {
 
@@ -1444,9 +1430,7 @@ if (!empty($row)) {
                                                 $('#videoLink').val('');
                                                 $('#videoStartSecond').val('00:00:00');
 <?php
-if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-    echo VideoTags::getTagsInputsJqueryRemoveAll();
-}
+echo YouPHPTubePlugin::getManagerVideosReset();
 ?>
 
                                                 setTimeout(function () {
@@ -1657,7 +1641,7 @@ if (User::isAdmin()) {
                                                         }
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
                                                         tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span><br>";
-                                                        tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>"+row.typeLabels;
+                                                        tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>" + row.typeLabels;
                                                         return tags;
                                                     },
                                                     "checkbox": function (column, row) {

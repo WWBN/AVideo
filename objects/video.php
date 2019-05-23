@@ -595,7 +595,7 @@ if (!class_exists('Video')) {
             if (!empty($id)) {
                 $sql .= " AND v.id = '$id' ";
             }
-
+            $sql .= YouPHPTubePlugin::getVideoWhereClause();
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
@@ -848,6 +848,8 @@ if (!class_exists('Video')) {
                     $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
                 }
             }
+            
+            $sql .= YouPHPTubePlugin::getVideoWhereClause();
 
             $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
 
@@ -855,6 +857,7 @@ if (!class_exists('Video')) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
             }
+            
 //echo $sql;exit;
 //error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             $res = sqlDAL::readSql($sql);
@@ -878,12 +881,9 @@ if (!class_exists('Video')) {
                     $row['category'] = xss_esc_back($row['category']);
                     $row['groups'] = UserGroups::getVideoGroups($row['id']);
                     $row['tags'] = self::getTags($row['id']);
-                    if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-                        $row['videoTags'] = Tags::getAllFromVideosId($row['id']);
-                        $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['id']);
-                    }
                     $row['title'] = UTF8encode($row['title']);
                     $row['description'] = UTF8encode($row['description']);
+                    $row = array_merge($row, YouPHPTubePlugin::getAllVideosArray($row['id']));
                     $videos[] = $row;
                 }
 //$videos = $res->fetch_all(MYSQLI_ASSOC);
@@ -963,6 +963,8 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id = {$user['id']} ";
             }
 
+            $sql .= YouPHPTubePlugin::getVideoWhereClause();
+            
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
@@ -1033,7 +1035,11 @@ if (!class_exists('Video')) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = {$user['id']} ";
             }
+                        
+            $sql .= YouPHPTubePlugin::getVideoWhereClause();
+            
             $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name'));
+            
             $res = sqlDAL::readSql($sql);
             $numRows = sqlDal::num_rows($res);
             sqlDAL::close($res);

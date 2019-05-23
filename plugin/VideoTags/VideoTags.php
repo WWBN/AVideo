@@ -196,5 +196,43 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         $filename = $global['systemRootPath'] . 'plugin/VideoTags/pluginMenu.html';
         return file_get_contents($filename);
     }
+    
+    
+    public static function getManagerVideosAddNew(){
+        return '"videoTags": ' . self::getTagsInputsJquery() . ',';
+    }
+    
+    public static function getManagerVideosReset(){
+        return self::getTagsInputsJqueryRemoveAll();
+    }    
+    
+    public static function getManagerVideosEdit(){
+        $js = "if (typeof row.videoTags !== 'undefined' && row.videoTags.length) {
+                                            for (i = 0; i < row.videoTags.length; i++) {
+                                                $('#inputTags' + row.videoTags[i].tag_types_id).tagsinput('add', row.videoTags[i].name);
+                                            }
+                                        }";
+        return self::getManagerVideosReset().$js;
+    }
+    
+    public static function getManagerVideosEditField(){
+        return self::getTagsInputs();
+    }
+    
+    public static function getManagerVideosJavaScripts(){
+        global $global;
+        return "<script src=\"{$global['webSiteRootURL']}plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js\" type=\"text/javascript\"></script><script src=\"{$global['webSiteRootURL']}plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js\" type=\"text/javascript\"></script>";
+    }
+    
+    public static function saveVideosAddNew($post, $videos_id){
+        return self::saveTags($post['videoTags'], $videos_id);
+    }
+    
+    public static function getAllVideosArray($videos_id){
+        $row = array();
+        $row['videoTags'] = Tags::getAllFromVideosId($videos_id);
+        $row['videoTagsObject'] = Tags::getObjectFromVideosId($videos_id);
+        return $row;
+    }   
 
 }

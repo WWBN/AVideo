@@ -86,12 +86,7 @@ $obj->setExternalOptions(@$_POST['externalOptions']);
 
 $resp = $obj->save(true);
 
-// add tags
-$videoTags = YouPHPTubePlugin::loadPluginIfEnabled('VideoTags');
-if(!empty($videoTags)){
-    $tagsSaved = VideoTags::saveTags($_POST['videoTags'], $resp);
-    //var_dump($tagsSaved);exit;
-}
+YouPHPTubePlugin::saveVideosAddNew($_POST, $resp);
 
 $obj = new stdClass();
 $obj->status = !empty($resp);

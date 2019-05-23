@@ -5,6 +5,11 @@ global $global, $config, $advancedCustom, $advancedCustomUser;
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
+if($global['mysqli']===false || !empty($global['mysqli']->connect_errno)){
+    include $global['systemRootPath'] . 'view/include/offlinePage.php';
+    exit;
+}
+
 $now = new DateTime();
 $mins = $now->getOffset() / 60;
 $sgn = ($mins < 0 ? -1 : 1);

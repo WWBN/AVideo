@@ -85,13 +85,13 @@ class Twitter extends OAuth1
 
         $data = new Data\Collection($response);
 
-        if (! $data->exists('id')) {
+        if (!$data->exists('id_str')) {
             throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
         }
 
         $userProfile = new User\Profile();
 
-        $userProfile->identifier    = $data->get('id');
+        $userProfile->identifier    = $data->get('id_str');
         $userProfile->displayName   = $data->get('screen_name');
         $userProfile->description   = $data->get('description');
         $userProfile->firstName     = $data->get('name');
@@ -168,7 +168,7 @@ class Twitter extends OAuth1
 
         $userContact = new User\Contact();
 
-        $userContact->identifier  = $item->get('id');
+        $userContact->identifier  = $item->get('id_str');
         $userContact->displayName = $item->get('name');
         $userContact->photoURL    = $item->get('profile_image_url');
         $userContact->description = $item->get('description');
@@ -196,7 +196,7 @@ class Twitter extends OAuth1
         }
         if (isset($status['picture'])) {
             $media = $this->apiRequest('https://upload.twitter.com/1.1/media/upload.json', 'POST', [
-                'media' => base64_encode(url_get_contents($status['picture'])),
+                'media' => base64_encode(file_get_contents($status['picture'])),
             ]);
             $params['media_ids'] = $media->media_id;
         }
@@ -239,11 +239,11 @@ class Twitter extends OAuth1
 
         $userActivity = new User\Activity();
 
-        $userActivity->id   = $item->get('id');
+        $userActivity->id   = $item->get('id_str');
         $userActivity->date = $item->get('created_at');
         $userActivity->text = $item->get('text');
 
-        $userActivity->user->identifier   = $item->filter('user')->get('id');
+        $userActivity->user->identifier   = $item->filter('user')->get('id_str');
         $userActivity->user->displayName  = $item->filter('user')->get('name');
         $userActivity->user->photoURL     = $item->filter('user')->get('profile_image_url');
 

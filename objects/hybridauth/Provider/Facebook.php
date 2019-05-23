@@ -42,12 +42,12 @@ class Facebook extends OAuth2
     /**
      * {@inheritdoc}
      */
-    protected $scope = 'email, public_profile, user_friends, publish_actions';
+    protected $scope = 'email, public_profile';
 
     /**
      * {@inheritdoc}
      */
-    protected $apiBaseUrl = 'https://graph.facebook.com/v2.8/';
+    protected $apiBaseUrl = 'https://graph.facebook.com/v2.12/';
 
     /**
      * {@inheritdoc}
@@ -63,6 +63,11 @@ class Facebook extends OAuth2
      * {@inheritdoc}
      */
     protected $apiDocumentation = 'https://developers.facebook.com/docs/facebook-login/overview';
+
+    /**
+     * @var string Profile URL template as the fallback when no `link` returned from the API.
+     */
+    protected $profileUrlTemplate = 'https://www.facebook.com/%s';
 
     /**
      * {@inheritdoc}
@@ -87,22 +92,27 @@ class Facebook extends OAuth2
 
         $data = new Data\Collection($response);
 
-        if (! $data->exists('id')) {
+        if (!$data->exists('id')) {
             throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
         }
 
         $userProfile = new User\Profile();
 
-        $userProfile->identifier  = $data->get('id');
+        $userProfile->identifier = $data->get('id');
         $userProfile->displayName = $data->get('name');
-        $userProfile->firstName   = $data->get('first_name');
-        $userProfile->lastName    = $data->get('last_name');
-        $userProfile->profileURL  = $data->get('link');
-        $userProfile->webSiteURL  = $data->get('website');
-        $userProfile->gender      = $data->get('gender');
-        $userProfile->language    = $data->get('locale');
+        $userProfile->firstName = $data->get('first_name');
+        $userProfile->lastName = $data->get('last_name');
+        $userProfile->profileURL = $data->get('link');
+        $userProfile->webSiteURL = $data->get('website');
+        $userProfile->gender = $data->get('gender');
+        $userProfile->language = $data->get('locale');
         $userProfile->description = $data->get('about');
-        $userProfile->email       = $data->get('email');
+        $userProfile->email = $data->get('email');
+
+        // Fallback for profile URL in case Facebook does not provide "pretty" link with username (if user set it).
+        if (empty($userProfile->profileURL)) {
+            $userProfile->profileURL = $this->getProfileUrl($userProfile->identifier);
+        }
 
         $userProfile->region = $data->filter('hometown')->get('name');
 
@@ -128,11 +138,11 @@ class Facebook extends OAuth2
      */
     protected function fetchUserRegion(User\Profile $userProfile)
     {
-        if (! empty($userProfile->region)) {
+        if (!empty($userProfile->region)) {
             $regionArr = explode(',', $userProfile->region);
 
             if (count($regionArr) > 1) {
-                $userProfile->city    = trim($regionArr[0]);
+                $userProfile->city = trim($regionArr[0]);
                 $userProfile->country = trim($regionArr[1]);
             }
         }
@@ -152,9 +162,9 @@ class Facebook extends OAuth2
     {
         $result = (new Data\Parser())->parseBirthday($birthday, '/');
 
-        $userProfile->birthYear  = (int) $result[0];
-        $userProfile->birthMonth = (int) $result[1];
-        $userProfile->birthDay   = (int) $result[2];
+        $userProfile->birthYear = (int)$result[0];
+        $userProfile->birthMonth = (int)$result[1];
+        $userProfile->birthDay = (int)$result[2];
 
         return $userProfile;
     }
@@ -177,16 +187,14 @@ class Facebook extends OAuth2
 
             $data = new Data\Collection($response);
 
-            if (! $data->exists('data')) {
+            if (!$data->exists('data')) {
                 throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
             }
 
-            if ($data->filter('data')->isEmpty()) {
-                continue;
-            }
-
-            foreach ($data->filter('data')->toArray() as $item) {
-                $contacts[] = $this->fetchUserContact($item);
+            if (!$data->filter('data')->isEmpty()) {
+                foreach ($data->filter('data')->toArray() as $item) {
+                    $contacts[] = $this->fetchUserContact($item);
+                }
             }
 
             if ($data->filter('paging')->exists('next')) {
@@ -214,11 +222,11 @@ class Facebook extends OAuth2
 
         $item = new Data\Collection($item);
 
-        $userContact->identifier  = $item->get('id');
+        $userContact->identifier = $item->get('id');
         $userContact->displayName = $item->get('name');
 
         $userContact->profileURL = $item->exists('link')
-                                      ?: 'https://www.facebook.com/profile.php?id=' . $userContact->identifier;
+            ?: $this->getProfileUrl($userContact->identifier);
 
         $userContact->photoURL = $this->apiBaseUrl . $userContact->identifier . '/picture?width=150&height=150';
 
@@ -227,9 +235,13 @@ class Facebook extends OAuth2
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated since August 1, 2018. Scheduled for removal before Hybridauth 3.0.0.
+     *   See https://developers.facebook.com/docs/graph-api/changelog/breaking-changes#login-4-24 for more info.
      */
     public function setUserStatus($status, $pageId = 'me')
     {
+        @trigger_error('The ' . __METHOD__ . ' method is deprecated since August 1, 2018 and will be removed in Hybridauth 3.0.0.', E_USER_DEPRECATED);
         $status = is_string($status) ? ['message' => $status] : $status;
 
         $response = $this->apiRequest("{$pageId}/feed", 'POST', $status);
@@ -268,8 +280,8 @@ class Facebook extends OAuth2
 
         // Refresh proof for API call.
         $parameters = $status + [
-            'appsecret_proof' => hash_hmac('sha256', $page->access_token, $this->clientSecret),
-        ];
+                'appsecret_proof' => hash_hmac('sha256', $page->access_token, $this->clientSecret),
+            ];
 
         $response = $this->apiRequest("{$pageId}/feed", 'POST', $parameters, $headers);
 
@@ -304,7 +316,7 @@ class Facebook extends OAuth2
 
         $data = new Data\Collection($response);
 
-        if (! $data->exists('data')) {
+        if (!$data->exists('data')) {
             throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
         }
 
@@ -318,15 +330,15 @@ class Facebook extends OAuth2
     }
 
     /**
-    *
-    */
+     *
+     */
     protected function fetchUserActivity($item)
     {
         $userActivity = new User\Activity();
 
         $item = new Data\Collection($item);
 
-        $userActivity->id   = $item->get('id');
+        $userActivity->id = $item->get('id');
         $userActivity->date = $item->get('created_time');
 
         if ('video' == $item->get('type') || 'link' == $item->get('type')) {
@@ -341,15 +353,30 @@ class Facebook extends OAuth2
             $userActivity->text = $item->get('message');
         }
 
-        if (! empty($userActivity->text) && $item->exists('from')) {
-            $userActivity->user->identifier  = $item->filter('from')->get('id');
+        if (!empty($userActivity->text) && $item->exists('from')) {
+            $userActivity->user->identifier = $item->filter('from')->get('id');
             $userActivity->user->displayName = $item->filter('from')->get('name');
 
-            $userActivity->user->profileURL  = 'https://www.facebook.com/profile.php?id=' . $userActivity->user->identifier;
+            $userActivity->user->profileURL = $this->getProfileUrl($userActivity->user->identifier);
 
-            $userActivity->user->photoURL    = $this->apiBaseUrl . $userActivity->user->identifier . '/picture?width=150&height=150';
+            $userActivity->user->photoURL = $this->apiBaseUrl . $userActivity->user->identifier . '/picture?width=150&height=150';
         }
 
         return $userActivity;
+    }
+
+    /**
+     * Get profile URL.
+     *
+     * @param int $identity User ID.
+     * @return string|null NULL when identity is not provided.
+     */
+    protected function getProfileUrl($identity)
+    {
+        if (!is_numeric($identity)) {
+            return null;
+        }
+
+        return sprintf($this->profileUrlTemplate, $identity);
     }
 }

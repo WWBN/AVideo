@@ -382,6 +382,46 @@ abstract class PluginAbstract {
         return "";
     }
     
+    public static function getVideoWhereClause(){
+        return "";
+    }
+    
+    public static function getManagerVideosAddNew(){
+        return "";
+    }
+    
+    public static function saveVideosAddNew($post, $videos_id){
+        return true;
+    }
+    
+    public static function getManagerVideosReset(){
+        return "";
+    }
+    
+    public static function getManagerVideosEdit(){
+        return "";
+    }
+    
+    public static function getManagerVideosEditField(){
+        return "";
+    }
+    
+    public static function getManagerVideosJavaScripts(){
+        return "";
+    }
+    
+    public static function getManagerVideosTab(){
+        return "";
+    }
+    
+    public static function getManagerVideosBody(){
+        return "";
+    }
+    
+    public static function getAllVideosArray($videos_id){
+        return array();
+    }    
+    
     public static function getVideoTags($videos_id){
         return array();
     }

@@ -857,4 +857,124 @@ class YouPHPTubePlugin {
         }
         return $array;
     }
+    
+    public static function getVideoWhereClause(){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getVideoWhereClause();
+            }
+        }
+        return $r;
+    }
+    
+    public static function getManagerVideosAddNew(){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getManagerVideosAddNew();
+            }
+        }
+        return $r;
+    }
+    
+    public static function saveVideosAddNew($post, $videos_id){
+        $plugins = Plugin::getAllEnabled();
+        $r = true;
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r = $r && $p->saveVideosAddNew($post, $videos_id);
+            }
+        }
+        return $r;
+    }
+    
+    public static function getManagerVideosReset(){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getManagerVideosReset();
+            }
+        }
+        return $r;
+    }
+    
+    public static function getManagerVideosEdit(){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getManagerVideosEdit();
+            }
+        }
+        return $r;
+    }
+    
+    public static function getManagerVideosEditField(){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getManagerVideosEditField();
+            }
+        }
+        return $r;
+    }
+    
+    public static function getManagerVideosJavaScripts(){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getManagerVideosJavaScripts();
+            }
+        }
+        return $r;
+    }
+    
+    public static function getManagerVideosTab(){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getManagerVideosTab();
+            }
+        }
+        return $r;
+    }
+    
+    public static function getManagerVideosBody(){
+        $plugins = Plugin::getAllEnabled();
+        $r = "";
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r .= $p->getManagerVideosBody();
+            }
+        }
+        return $r;
+    }
+    
+    public static function getAllVideosArray($videos_id){
+        $plugins = Plugin::getAllEnabled();
+        $r = array();
+        foreach ($plugins as $value) {
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $r = array_merge($r, $p->getAllVideosArray($videos_id));
+            }
+        }
+        return $r;
+    }
 }

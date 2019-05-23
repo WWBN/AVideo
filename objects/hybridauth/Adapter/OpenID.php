@@ -82,9 +82,7 @@ abstract class OpenID extends AbstractAdapter implements AdapterInterface
             return true;
         }
 
-        $openid_mode = filter_input(INPUT_GET, 'openid_mode');
-
-        if (empty($openid_mode)) {
+        if (empty($_REQUEST['openid_mode'])) {
             $this->authenticateBegin();
         } else {
             return $this->authenticateFinish();
@@ -170,7 +168,7 @@ abstract class OpenID extends AbstractAdapter implements AdapterInterface
         $openidAttributes = $this->openIdClient->getAttributes();
 
         if (! $this->openIdClient->identity) {
-            throw new UnexpectedApiResponseException('Provider returned an expected response.');
+            throw new UnexpectedApiResponseException('Provider returned an unexpected response.');
         }
 
         $userProfile = $this->fetchUserProfile($openidAttributes);
@@ -269,7 +267,7 @@ abstract class OpenID extends AbstractAdapter implements AdapterInterface
         $userProfile = $this->storage->get($this->providerId . '.user');
 
         if (! is_object($userProfile)) {
-            throw new UnexpectedApiResponseException('Provider returned an expected response.');
+            throw new UnexpectedApiResponseException('Provider returned an unexpected response.');
         }
 
         return $userProfile;

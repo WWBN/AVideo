@@ -26,6 +26,30 @@ function __($str) {
     }
 }
 
+function isRTL(){
+    /*
+    Arabic
+    Aramaic
+    Azeri
+    Dhivehi/Maldivian
+    Hebrew
+    Kurdish (Sorani)
+    Persian/Farsi
+    Urdu 
+     */
+    $array = array(
+        'JO', // Arabic Jordan
+        'PS', // Arabic Palestinian Territory, Occupied
+        'SY', // Arabic Syrian Arab Republic
+        'IL'  // Hebrew
+        );
+    
+    if(preg_grep( "/{$_SESSION['language']}/i" , $array )){
+        return true;
+    }
+    return false;
+}
+
 function getAllFlags() {
     global $global;
     $dir = "{$global['systemRootPath']}view/css/flag-icon-css-master/flags/4x3";
