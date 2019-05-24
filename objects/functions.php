@@ -725,6 +725,7 @@ function getVideosURL($fileName, $cache = true) {
     $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
     make_path($path);
     $cacheFilename = "{$path}{$fileName}.cache";
+    //var_dump($cacheFilename, recreateCache($cacheFilename), minimumExpirationTime());
     if(file_exists($cacheFilename) && $cache && !recreateCache($cacheFilename)){
         $json = file_get_contents($cacheFilename);
         return object_to_array(json_decode($json));
