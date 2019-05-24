@@ -54,6 +54,8 @@ class BootGrid {
             $like = array();
             foreach ($searchFieldsNames as $value) {
                 $like[] = " {$value} LIKE '%{$search}%' ";
+                // for accent insensitive
+                $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE '%{$search}%' ";
             }
             if(!empty($like)){
                 $sql .= " {$connection} (". implode(" OR ", $like).")";
