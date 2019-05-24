@@ -157,6 +157,8 @@ abstract class ObjectYPT implements ObjectInterface {
             $searchFields = static::getSearchFieldsNames();
             foreach ($searchFields as $value) {
                 $like[] = " {$value} LIKE '%{$search}%' ";
+                // for accent insensitive
+                $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE '%{$search}%' ";
             }
             if (!empty($like)) {
                 $sql .= " AND (" . implode(" OR ", $like) . ")";
