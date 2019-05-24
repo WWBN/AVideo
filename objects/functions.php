@@ -722,12 +722,23 @@ function getVideosURL($fileName, $cache = true) {
     if (empty($fileName)) {
         return array();
     }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $start = $time;
+    
     $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
     make_path($path);
     $cacheFilename = "{$path}{$fileName}.cache";
     //var_dump($cacheFilename, recreateCache($cacheFilename), minimumExpirationTime());
     if(file_exists($cacheFilename) && $cache && !recreateCache($cacheFilename)){
         $json = file_get_contents($cacheFilename);
+        $time = microtime();
+        $time = explode(' ', $time);
+        $time = $time[1] + $time[0];
+        $finish = $time;
+        $total_time = round(($finish - $start), 4);
+        error_log("getVideosURL Cache in {$total_time} seconds. fileName: $fileName ");
         return object_to_array(json_decode($json));
     }
     global $global;
@@ -818,6 +829,13 @@ function getVideosURL($fileName, $cache = true) {
     }
     
     file_put_contents($cacheFilename, json_encode($files));
+    
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $finish = $time;
+    $total_time = round(($finish - $start), 4);
+    error_log("getVideosURL generated in {$total_time} seconds. fileName: $fileName ");
     return $files;
 }
 
