@@ -684,6 +684,39 @@ function clearVideosURL($fileName="") {
     }
 }
 
+$minimumExpirationTime = false;
+function minimumExpirationTime(){
+    global $minimumExpirationTime;
+    if(empty($minimumExpirationTime)){
+        $aws_s3 = YouPHPTubePlugin::getObjectDataIfEnabled('AWS_S3');
+        $bb_b2 = YouPHPTubePlugin::getObjectDataIfEnabled('Blackblaze_B2');
+        $secure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
+        $minimumExpirationTime = 60*60*24*365;//1 year
+        if(!empty($aws_s3) && $aws_s3->presignedRequestSecondsTimeout < $minimumExpirationTime){
+            $minimumExpirationTime = $aws_s3->presignedRequestSecondsTimeout;
+        }
+        if(!empty($bb_b2) && $bb_b2->presignedRequestSecondsTimeout < $minimumExpirationTime){
+            $minimumExpirationTime = $bb_b2->presignedRequestSecondsTimeout;
+        }
+        if(!empty($secure) && $secure->tokenTimeOut < $minimumExpirationTime){
+            $minimumExpirationTime = $secure->tokenTimeOut;
+        }
+    }
+    return $minimumExpirationTime;
+}
+
+/**
+ * tell if a file should recreate a cache, based on its time and the plugins toke expirations
+ * @param type $filename
+ * @return boolean
+ */
+function recreateCache($filename){
+    if(time()-filemtime($filename)>  minimumExpirationTime()){
+        return true;
+    }
+    return false;
+}
+
 function getVideosURL($fileName, $cache = true) {
     global $global;
     if (empty($fileName)) {
@@ -692,7 +725,7 @@ function getVideosURL($fileName, $cache = true) {
     $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
     make_path($path);
     $cacheFilename = "{$path}{$fileName}.cache";
-    if(file_exists($cacheFilename) && $cache){
+    if(file_exists($cacheFilename) && $cache && !recreateCache($cacheFilename)){
         $json = file_get_contents($cacheFilename);
         return object_to_array(json_decode($json));
     }
