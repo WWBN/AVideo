@@ -711,7 +711,7 @@ function minimumExpirationTime(){
  * @return boolean
  */
 function recreateCache($filename){
-    if(time()-filemtime($filename)>  minimumExpirationTime()){
+    if(!file_exists($filename) || time()-filemtime($filename)>  minimumExpirationTime()){
         return true;
     }
     return false;
@@ -739,7 +739,7 @@ function getVideosURL($fileName, $cache = true) {
         $finish = $time;
         $total_time = round(($finish - $start), 4);
         error_log("getVideosURL Cache in {$total_time} seconds. fileName: $fileName ");
-        error_log("getVideosURL age: ".(time()-filemtime($fileName))." minimumExpirationTime: ".minimumExpirationTime());
+        error_log("getVideosURL age: ".(time()-filemtime($cacheFilename))." minimumExpirationTime: ".minimumExpirationTime());
         return object_to_array(json_decode($json));
     }
     global $global;
