@@ -739,7 +739,7 @@ function getVideosURL($fileName, $cache = true) {
         $finish = $time;
         $total_time = round(($finish - $start), 4);
         error_log("getVideosURL Cache in {$total_time} seconds. fileName: $fileName ");
-        error_log("getVideosURL age: ".time()-filemtime($filename)." minimumExpirationTime: ".minimumExpirationTime());
+        error_log("getVideosURL age: ".time()-filemtime($fileName)." minimumExpirationTime: ".minimumExpirationTime());
         return object_to_array(json_decode($json));
     }
     global $global;
