@@ -705,6 +705,16 @@ function minimumExpirationTime(){
     return $minimumExpirationTime;
 }
 
+$cacheExpirationTime = false;
+function cacheExpirationTime(){
+    global $cacheExpirationTime;
+    if(empty($cacheExpirationTime)){
+        $obj = YouPHPTubePlugin::getObjectDataIfEnabled('Cache');
+        $cacheExpirationTime = $obj->cacheTimeInSeconds;
+    }
+    return intval($cacheExpirationTime);
+}
+
 /**
  * tell if a file should recreate a cache, based on its time and the plugins toke expirations
  * @param type $filename
