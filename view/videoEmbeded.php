@@ -218,7 +218,7 @@ if (!empty($_GET['t'])) {
         } else {
             ?>
             <video style="width: 100%; height: 100%; position: absolute; top: 0;" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
-                   class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo"  data-setup='{"fluid": true }'>
+                   class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
                        <?php
                        echo getSources($video['filename']);
                        ?>
