@@ -34,6 +34,21 @@ function clean_name(str) {
     str = str.stripAccents().toLowerCase();
     return str.replace(/\W+/g, "-");
 }
+
+
+try {
+    if ($(".thumbsJPG").length) {
+        $('.thumbsJPG').lazy({
+            effect: 'fadeIn',
+            visibleOnly: true,
+            // called after an element was successfully handled
+            afterLoad: function (element) {
+                element.removeClass('blur');
+            }
+        });
+    }
+} catch (e) {}
+
 var pleaseWaitIsINUse = false;
 $(document).ready(function () {
     modal = modal || (function () {
