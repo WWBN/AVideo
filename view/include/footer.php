@@ -111,8 +111,8 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 if (isset($_SESSION['savedQuerys'])) {
     echo "<!-- Saved querys: " . $_SESSION['savedQuerys'] . " -->";
 }
-if (empty($advancedCustom->underMenuBarHTMLCode->value)) {
-    echo $advancedCustom->underMenuBarHTMLCode->value;
+if (empty($advancedCustom->footerHTMLCode->value)) {
+    echo $advancedCustom->footerHTMLCode->value;
 }
 ?>
 <textarea id="elementToCopy" style="
