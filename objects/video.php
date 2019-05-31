@@ -2570,9 +2570,9 @@ if (!class_exists('Video')) {
             $this->externalOptions = $externalOptions;
         }
         
-        function setVideoStartSecond($videoStartSecond){
+        function setVideoStartSeconds($videoStartSeconds){
             $externalOptions = json_decode($this->getExternalOptions());
-            $externalOptions->videoStartSecond = $videoStartSecond;
+            $externalOptions->videoStartSeconds = $videoStartSeconds;
             $this->setExternalOptions(json_encode($externalOptions));
         }
 
