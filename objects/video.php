@@ -2569,6 +2569,12 @@ if (!class_exists('Video')) {
         function setExternalOptions($externalOptions) {
             $this->externalOptions = $externalOptions;
         }
+        
+        function setVideoStartSecond($videoStartSecond){
+            $externalOptions = json_decode($this->getExternalOptions());
+            $externalOptions->videoStartSecond = $videoStartSecond;
+            $this->setExternalOptions(json_encode($externalOptions));
+        }
 
     }
 
