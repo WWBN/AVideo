@@ -71,6 +71,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $o->type = "textarea";
         $o->value = "";        
         $obj->underMenuBarHTMLCode = $o;
+        $o->type = "textarea";
+        $o->value = "";        
+        $obj->footerHTMLCode = $o;
         $obj->signInOnRight= true;
         $obj->signInOnLeft= true;
         $obj->forceCategory= false;
