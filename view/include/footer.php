@@ -58,7 +58,7 @@ if (!empty($_GET['msg'])) {
 }
 ?>
 <?php
-if (!empty($_GET['success']) && strlen($_GET['success'])>4) {
+if (!empty($_GET['success']) && strlen($_GET['success']) > 4) {
     ?>
             swal({title: "<?php echo __("Congratulations"); ?>", text: "<?php echo $_GET['success']; ?>", type: "success", html: true});
     <?php
@@ -110,6 +110,9 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 <?php
 if (isset($_SESSION['savedQuerys'])) {
     echo "<!-- Saved querys: " . $_SESSION['savedQuerys'] . " -->";
+}
+if (empty($advancedCustom->underMenuBarHTMLCode->value)) {
+    echo $advancedCustom->underMenuBarHTMLCode->value;
 }
 ?>
 <textarea id="elementToCopy" style="
