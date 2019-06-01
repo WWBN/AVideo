@@ -77,6 +77,21 @@ class Plugin extends ObjectYPT {
         $sql="update ".static::getTableName()." set pluginversion='$currentVersion' where uuid='$uuid'";
         $res=sqlDal::writeSql($sql); 
     }
+    
+    static function getCurrentVersionByUuid($uuid){
+        $p=static::getPluginByUUID($uuid);
+        if(!$p)
+        return false;
+        //pluginversion isn't an object property so we must explicity update it using this function
+        $sql="SELECT pluginversion FROM ".static::getTableName()." WHERE uuid=? LIMIT 1 ";
+        $res = sqlDAL::readSql($sql, "s", array($uuid));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($data)) {
+            return $data['pluginversion'];
+        } 
+        return false;
+    }
         
 
     static function getPluginByName($name) {

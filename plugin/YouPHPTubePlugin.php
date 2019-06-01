@@ -662,6 +662,26 @@ class YouPHPTubePlugin {
         return true;
     }
     
+    public static function getCurrentVersion($name){
+        $p = static::loadPlugin($name);
+        $uuid = $p->getUUID();
+        return Plugin::getCurrentVersionByUuid($uuid);
+    }
+    
+    /**
+     * 
+     * @param type $name
+     * @param type $version
+     * @return type
+     * -1 if your plugin is lower,
+     * 0 if they are equal, and
+     * 1 if your plugin is greater.
+     */
+    public static function compareVersion($name, $version){
+        $currentVersion = self::getCurrentVersion($name);
+        return version_compare($currentVersion, $version);
+    }
+
     public static function getSwitchButton($name) {
         global $global;
         $p = static::loadPlugin($name);
