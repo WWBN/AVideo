@@ -208,8 +208,9 @@ class StripeYPT extends PluginAbstract {
             $stripe_plan_id = $plan->id;
         }
 
+        error_log("setUpSubscription: will start");
         $this->start();
-        return \Stripe\Subscription::create([
+        $Subscription = \Stripe\Subscription::create([
                     "customer" => $sub['stripe_costumer_id'],
                     "items" => [
                         [
@@ -217,6 +218,8 @@ class StripeYPT extends PluginAbstract {
                         ],
                     ]
         ]);
+        error_log("setUpSubscription: result ".  json_encode($Subscription));
+        return $Subscription;
     }
 
 }
