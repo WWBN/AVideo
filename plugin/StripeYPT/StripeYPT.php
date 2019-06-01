@@ -115,6 +115,7 @@ class StripeYPT extends PluginAbstract {
         $user = new User($users_id);
 
         if (!empty($user)) {
+            $this->start();
             return \Stripe\Customer::create([
                         "description" => "Customer [$users_id] " . $user->getNameIdentification(),
                         "source" => $stripeToken // obtained with Stripe.js
