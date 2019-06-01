@@ -191,7 +191,8 @@ class StripeYPT extends PluginAbstract {
         }
 
         // check plan
-        if (empty($subs['stripe_plan_id'])) {
+        $stripe_plan_id = $subs->getStripe_plan_id();
+        if (empty($stripe_plan_id)) {
             $interval = $subs->getHow_many_days();
             $price = $subs->getPrice();
             $paymentName = $subs->getName();
@@ -204,7 +205,7 @@ class StripeYPT extends PluginAbstract {
                 error_log("setUpSubscription: could not create stripe plan");
                 return false;
             }
-            $subs['stripe_plan_id'] = $plan->id;
+            $stripe_plan_id = $plan->id;
         }
 
         $this->start();
@@ -212,7 +213,7 @@ class StripeYPT extends PluginAbstract {
                     "customer" => $sub['stripe_costumer_id'],
                     "items" => [
                         [
-                            "plan" => $subs['stripe_plan_id'],
+                            "plan" => $stripe_plan_id,
                         ],
                     ]
         ]);
