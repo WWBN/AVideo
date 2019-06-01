@@ -35,6 +35,32 @@ $disableMysqlNdMethods = false;
  */
 
 class sqlDAL {
+
+    static function executeFile($filename) {
+        global $global;
+        $templine = '';
+        // Read in entire file
+        $lines = file($filename);
+        // Loop through each line
+        foreach ($lines as $line) {
+            // Skip it if it's a comment
+            if (substr($line, 0, 2) == '--' || $line == '')
+                continue;
+
+            // Add this line to the current segment
+            $templine .= $line;
+            // If it has a semicolon at the end, it's the end of the query
+            if (substr(trim($line), -1, 1) == ';') {
+                // Perform the query
+                if (!$global['mysqli']->query($templine)) {
+                    error_log('sqlDAL::executeFile '.$filename.' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                }
+                // Reset temp variable to empty
+                $templine = '';
+            }
+        }
+    }
+
     /*
      * For Sql like INSERT and UPDATE. The special point about this method: You do not need to close it (more direct).
      * @param string $preparedStatement  The Sql-command 
@@ -202,7 +228,7 @@ class sqlDAL {
             if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
                 // Mysqlnd
                 $num_row_cache[$crc] = 0;
-                if(!empty($res->num_rows)){
+                if (!empty($res->num_rows)) {
                     $num_row_cache[$crc] = $res->num_rows;
                 }
                 return $num_row_cache[$crc];
