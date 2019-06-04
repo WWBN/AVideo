@@ -56,6 +56,9 @@ class Gallery extends PluginAbstract {
         $obj->SortByNameRowCount = 12;
         $obj->SubscribedChannels = true;
         $obj->SubscribedChannelsRowCount = 12;
+        $obj->Categories = true;
+        $obj->CategoriesCustomTitle = "";
+        $obj->CategoriesRowCount = 12;
         $obj->sortReverseable = false;
         $obj->SubCategorys = false;
         $obj->showTags = true;

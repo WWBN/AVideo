@@ -233,11 +233,11 @@
                     var editBtn = '';
 
                     if (row.id && !$.isEmptyObject(row.data_object)) {
-                        editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit parameters</button>';
+                        editBtn = '<button type="button" class="btn btn-xs btn-default command-edit  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit parameters</button>';
                     }
                     var sqlBtn = '';
                     if (row.databaseScript) {
-                        sqlBtn = '<button type="button" class="btn btn-xs btn-default command-sql" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> Install tables</button>';
+                        sqlBtn = '<button type="button" class="btn btn-xs btn-default command-sql  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> Install tables</button>';
                     }
                     menu = '';
                     if (row.installedPlugin && row.installedPlugin.status == 'active') {
@@ -245,10 +245,10 @@
                     }
                     updateBtn = '';
                     if (row.hasOwnProperty("installedPlugin") && row.installedPlugin.hasOwnProperty("pluginversion") && row.installedPlugin.pluginversion != row.pluginversion) {
-                        updateBtn = '<button type="button" class="btn btn-xs btn-warning command-update" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Update Script"><span class="fa fa-wrench" aria-hidden="true"></span> Update @' + row.pluginversion + '</button>';
+                        updateBtn = '<button type="button" class="btn btn-xs btn-warning command-update  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Update Script"><span class="fa fa-wrench" aria-hidden="true"></span> Update @' + row.pluginversion + '</button>';
                     }
 
-                    return  editBtn + "<br>" + sqlBtn + "<br>" + updateBtn + "<br>" + menu;
+                    return  editBtn + sqlBtn + updateBtn + "<br>" + menu;
                 },
                 "name": function (column, row) {
                     var checked = "";

@@ -154,6 +154,34 @@ $contentSearchFound = false;
                                 createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $obj->SubscribedChannelsRowCount);
                             }
                         }
+                        if ($obj->Categories && empty($_GET['catName'])) {
+                            unset($_POST['sort']);
+                            $_POST['sort']['name'] = "ASC";
+                            $categories = Category::getAllCategories();
+                            foreach ($categories as $value) {
+                                $_GET['catName'] = $value['clean_name'];
+                                unset($_POST['sort']);
+                                $_POST['sort']['v.created'] = "DESC";
+                                $_POST['sort']['likes'] = "DESC";
+                                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                                if (empty($videos)) {
+                                    continue;
+                                }
+                                ?>
+                                <div class="clear clearfix">
+                                    <h3 class="galleryTitle">
+                                        <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>">
+                                            <i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?>
+                                        </a>
+                                    </h3>
+                                    <?php
+                                    createGallerySection($videos);
+                                    ?>
+                                </div>
+
+                                <?php
+                            }
+                        }
                         ?>
 
                         <?php

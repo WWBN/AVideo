@@ -177,7 +177,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         <div class="row">
                             <span class="md-col-12">&nbsp;</span>
                             <h2>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="fas fa-folder"></i> <?php echo $value['name']; ?></a>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?></a>
                             </h2>
                             <!-- Categories -->
                             <?php
