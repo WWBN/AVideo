@@ -135,13 +135,14 @@ $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
             success: function (response) {
                 if (!response.error) {
                     $(".walletBalance").text(response.walletBalance);
-                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
+                    //swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
+                    location.reload(); 
                 } else {
                     swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
+                    setTimeout(function () {
+                        modal.hidePleaseWait();
+                    }, 500);
                 }
-                setTimeout(function () {
-                    modal.hidePleaseWait();
-                }, 500);
 
             }
         });
