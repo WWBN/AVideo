@@ -65,10 +65,10 @@ $uid = uniqid();
         });
     });
     // Create a Stripe client.
-    var stripe = Stripe('<?php echo $obj->Publishablekey; ?>');
+    var stripe<?php echo $uid; ?> = Stripe('<?php echo $obj->Publishablekey; ?>');
 
     // Create an instance of Elements.
-    var elements = stripe.elements();
+    var elements<?php echo $uid; ?> = stripe<?php echo $uid; ?>.elements();
 
     // Custom styling can be passed to options when creating an Element.
     // (Note that this demo uses a wider set of styles than the guide below.)
@@ -89,13 +89,13 @@ $uid = uniqid();
     };
 
     // Create an instance of the card Element.
-    var card = elements.create('card', {style: style});
+    var card<?php echo $uid; ?> = elements<?php echo $uid; ?>.create('card', {style: style});
 
     // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element<?php echo $uid; ?>');
+    card<?php echo $uid; ?>.mount('#card-element<?php echo $uid; ?>');
 
     // Handle real-time validation errors from the card Element.
-    card.addEventListener('change', function (event) {
+    card<?php echo $uid; ?>.addEventListener('change', function (event) {
         var displayError = document.getElementById('card-errors<?php echo $uid; ?>');
         if (event.error) {
             displayError.textContent = event.error.message;
@@ -109,7 +109,7 @@ $uid = uniqid();
     form<?php echo $uid; ?>.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        stripe.createToken(card).then(function (result) {
+        stripe<?php echo $uid; ?>.createToken(card).then(function (result) {
             console.log(result);
             if (result.error) {
                 // Inform the user if there was an error.
