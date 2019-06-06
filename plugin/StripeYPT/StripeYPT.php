@@ -228,13 +228,20 @@ class StripeYPT extends PluginAbstract {
 
         error_log("setUpSubscription: will start");
         $this->start();
+        
+        $metadata = new stdClass();
+        $metadata->users_id = User::getId();
+        $metadata->plans_id = $plans_id;
+        $metadata->stripe_costumer_id = $sub['stripe_costumer_id'];
+        
         $Subscription = \Stripe\Subscription::create([
                     "customer" => $sub['stripe_costumer_id'],
                     "items" => [
                         [
                             "plan" => $stripe_plan_id,
-                        ],
-                    ]
+                        ]
+                    ],
+                    "metadata" => $metadata
         ]);
         error_log("setUpSubscription: result ".  json_encode($Subscription));
         return $Subscription;
