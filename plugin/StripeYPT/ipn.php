@@ -23,8 +23,14 @@ $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 $event = null;
 
 //error_log("StripeIPN: WEBHOOK: ".json_encode($webhook));
-error_log("StripeIPN: payload ".json_encode($payload));
+//error_log("StripeIPN: payload ".json_encode($payload));
 //error_log("StripeIPN: sig_header ".json_encode($sig_header));
+
+error_log("StripeIPN: payload type: ".$payload->type);
+if($payload->type!=="invoice.payment_succeeded"){
+    return;
+}
+error_log("StripeIPN: payload ".json_encode($payload));
 
 try {
     $event = \Stripe\Webhook::constructEvent(
