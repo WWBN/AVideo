@@ -249,5 +249,6 @@ class StripeYPT extends PluginAbstract {
         error_log("setUpSubscription: result ".  json_encode($Subscription));
         return $Subscription;
     }
+    
 
 }
