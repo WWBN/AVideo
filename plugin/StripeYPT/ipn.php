@@ -18,26 +18,27 @@ $stripe->start();
 // You can find your endpoint's secret in your webhook settings
 $endpoint_secret = trim($stripeObject->SigningSecret);
 
-$payload = @json_decode(@file_get_contents('php://input'));
+$payload = @file_get_contents('php://input');
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 $event = null;
 
+$payloadObj = json_decode($payload);
 //error_log("StripeIPN: WEBHOOK: ".json_encode($webhook));
-//error_log("StripeIPN: payload ".json_encode($payload));
+//error_log("StripeIPN: payload ".json_encode($payloadObj));
 //error_log("StripeIPN: sig_header ".json_encode($sig_header));
 
-error_log("StripeIPN: payload type: ".$payload->type);
-if($payload->type!=="payment_intent.succeeded"){
+error_log("StripeIPN: payload type: ".$payloadObj->type);
+if($payloadObj->type!=="payment_intent.succeeded"){
     return;
 }
-error_log("StripeIPN: payload ".json_encode($payload));
+error_log("StripeIPN: payload ".json_encode($payloadObj));
 
 try {
     $event = \Stripe\Webhook::constructEvent(
-        json_encode($payload), $sig_header, $endpoint_secret
+        $payload, $sig_header, $endpoint_secret
     );
     error_log("Stripe IPN Valid payload and signature");
-    $stripe->processSubscriptionIPN($payload);
+    $stripe->processSubscriptionIPN($payloadObj);
 } catch(\UnexpectedValueException $e) {
     // Invalid payload
     error_log("Stripe IPN Invalid payload ");
