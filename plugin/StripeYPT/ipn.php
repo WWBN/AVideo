@@ -16,7 +16,7 @@ $stripeObject = YouPHPTubePlugin::getObjectData("StripeYPT");
 $stripe->start();
 
 // You can find your endpoint's secret in your webhook settings
-$endpoint_secret = $stripeObject->SigningSecret;
+$endpoint_secret = trim($stripeObject->SigningSecret);
 
 $payload = @json_decode(@file_get_contents('php://input'));
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
@@ -45,8 +45,8 @@ try {
     exit();
 } catch(\Stripe\Error\SignatureVerification $e) {
     // Invalid signature
-    error_log("Stripe IPN sig_header $sig_header");
-    error_log("Stripe IPN endpoint_secret $endpoint_secret");
+    error_log("Stripe IPN sig_header [$sig_header]");
+    error_log("Stripe IPN endpoint_secret [$endpoint_secret]");
     error_log("Stripe IPN Invalid signature ");
     http_response_code(400); // PHP 5.4 or greater
     exit();
