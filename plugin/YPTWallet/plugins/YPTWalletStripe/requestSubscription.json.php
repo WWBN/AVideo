@@ -7,7 +7,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'plugin/Subscription/Objects/Subscription.php';
+require_once $global['systemRootPath'] . 'plugin/Subscription/Subscription.php';
 
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
 $pluginS = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
