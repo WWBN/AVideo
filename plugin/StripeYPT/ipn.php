@@ -37,8 +37,6 @@ try {
         json_encode($payload), $sig_header, $endpoint_secret
     );
     error_log("Stripe IPN Valid payload and signature");
-    error_log("Stripe IPN sig_header $sig_header");
-    error_log("Stripe IPN endpoint_secret $endpoint_secret");
     $stripe->processSubscriptionIPN($payload);
 } catch(\UnexpectedValueException $e) {
     // Invalid payload
@@ -47,6 +45,8 @@ try {
     exit();
 } catch(\Stripe\Error\SignatureVerification $e) {
     // Invalid signature
+    error_log("Stripe IPN sig_header $sig_header");
+    error_log("Stripe IPN endpoint_secret $endpoint_secret");
     error_log("Stripe IPN Invalid signature ");
     http_response_code(400); // PHP 5.4 or greater
     exit();
