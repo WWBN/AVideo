@@ -27,7 +27,7 @@ $event = null;
 //error_log("StripeIPN: sig_header ".json_encode($sig_header));
 
 error_log("StripeIPN: payload type: ".$payload->type);
-if($payload->type!=="charge.succeeded"){
+if($payload->type!=="payment_intent.succeeded"){
     return;
 }
 error_log("StripeIPN: payload ".json_encode($payload));
@@ -37,6 +37,7 @@ try {
         json_encode($payload), $sig_header, $endpoint_secret
     );
     error_log("Stripe IPN Valid payload and signature");
+    $stripe->processSubscriptionIPN($payload);
 } catch(\UnexpectedValueException $e) {
     // Invalid payload
     error_log("Stripe IPN Invalid payload ");

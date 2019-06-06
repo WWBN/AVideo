@@ -250,5 +250,21 @@ class StripeYPT extends PluginAbstract {
         return $Subscription;
     }
     
+    function processSubscriptionIPN($payload){
+        if(!is_object($payload) && !empty($payload->data->object->lines->data)){
+            return false;
+        }
+        $pluginS = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+        foreach ($payload->data->object->lines->data as $payment) {
+            $payment_amount = StripeYPT::addDot($payment->plan->amount);
+            $users_id = $payment->metadata->users_id;
+            $plans_id = $payment->metadata->plans_id;
+            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent", json_encode($payment));
+            Subscription::renew($users_id, $plans_id);
+        }
+        
+        
+    }
+    
 
 }
