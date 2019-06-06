@@ -1,5 +1,6 @@
 <?php
 $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
+$uid = uniqid();
 ?>
 <style>
     /**
@@ -34,10 +35,10 @@ $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
         background-color: #fefde5 !important;
     }
 </style>
-<button type="submit" class="btn btn-primary" id="YPTWalletStripeButton"><i class="fas fa-credit-card"></i> Credit Card</button>
+<button type="submit" class="btn btn-primary" id="YPTWalletStripeButton<?php echo $uid; ?>"><i class="fas fa-credit-card"></i> Credit Card</button>
 <script src="https://js.stripe.com/v3/"></script>
 
-<form action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestSubscription.json.php" method="post" id="payment-form" style="display: none;">
+<form action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestSubscription.json.php" method="post" id="payment-form<?php echo $uid; ?>" style="display: none;">
     <hr>
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Credit or debit card</strong></div>
@@ -56,9 +57,9 @@ $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
 </form>
 <script>
     $(document).ready(function () {
-        $('#YPTWalletStripeButton').click(function (evt) {
+        $('#YPTWalletStripeButton<?php echo $uid; ?>').click(function (evt) {
             evt.preventDefault();
-            $('#payment-form').slideToggle();
+            $('#payment-form<?php echo $uid; ?>').slideToggle();
         });
     });
     // Create a Stripe client.
