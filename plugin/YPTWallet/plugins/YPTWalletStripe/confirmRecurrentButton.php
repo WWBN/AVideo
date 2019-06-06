@@ -138,8 +138,9 @@ $uid = uniqid();
             success: function (response) {
                 if (!response.error) {
                     $(".walletBalance").text(response.walletBalance);
-                    //swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
-                    
+                    setTimeout(function () {
+                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
+                    }, 2000);
                     setTimeout(function () {
                         location.reload(); 
                     }, 5000);
