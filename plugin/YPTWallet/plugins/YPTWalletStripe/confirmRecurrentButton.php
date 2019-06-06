@@ -109,7 +109,7 @@ $uid = uniqid();
     form<?php echo $uid; ?>.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        stripe<?php echo $uid; ?>.createToken(card).then(function (result) {
+        stripe<?php echo $uid; ?>.createToken(card<?php echo $uid; ?>).then(function (result) {
             console.log(result);
             if (result.error) {
                 // Inform the user if there was an error.
