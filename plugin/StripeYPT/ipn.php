@@ -22,14 +22,15 @@ $payload = @file_get_contents('php://input');
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 $event = null;
 
-error_log("StripeIPN: WEBHOOK: ".json_encode($webhook));
+//error_log("StripeIPN: WEBHOOK: ".json_encode($webhook));
 error_log("StripeIPN: payload ".json_encode($payload));
-error_log("StripeIPN: sig_header ".json_encode($sig_header));
+//error_log("StripeIPN: sig_header ".json_encode($sig_header));
 
 try {
     $event = \Stripe\Webhook::constructEvent(
         $payload, $sig_header, $endpoint_secret
     );
+    error_log("Stripe IPN Valid payload and signature");
 } catch(\UnexpectedValueException $e) {
     // Invalid payload
     error_log("Stripe IPN Invalid payload ");
