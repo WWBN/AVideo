@@ -89,7 +89,7 @@ $uid = uniqid();
     };
 
     // Create an instance of the card Element.
-    var card = elements.create('card<?php echo $uid; ?>', {style: style});
+    var card = elements.create('card', {style: style});
 
     // Add an instance of the card Element into the `card-element` <div>.
     card.mount('#card-element<?php echo $uid; ?>');
@@ -105,8 +105,8 @@ $uid = uniqid();
     });
 
     // Handle form submission.
-    var form = document.getElementById('payment-form<?php echo $uid; ?>');
-    form.addEventListener('submit', function (event) {
+    var form<?php echo $uid; ?> = document.getElementById('payment-form<?php echo $uid; ?>');
+    form<?php echo $uid; ?>.addEventListener('submit', function (event) {
         event.preventDefault();
 
         stripe.createToken(card).then(function (result) {
