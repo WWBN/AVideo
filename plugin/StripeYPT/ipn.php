@@ -27,7 +27,7 @@ $event = null;
 //error_log("StripeIPN: sig_header ".json_encode($sig_header));
 
 error_log("StripeIPN: payload type: ".$payload->type);
-if($payload->type!=="invoice.payment_succeeded"){
+if($payload->type!=="charge.succeeded"){
     return;
 }
 error_log("StripeIPN: payload ".json_encode($payload));
