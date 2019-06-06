@@ -18,7 +18,7 @@ $webhook = $stripe->getWebhook();
 // You can find your endpoint's secret in your webhook settings
 $endpoint_secret = $webhook->id;
 
-$payload = @file_get_contents('php://input');
+$payload = @json_decode(@file_get_contents('php://input'));
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 $event = null;
 
