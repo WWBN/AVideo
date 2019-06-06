@@ -12,6 +12,7 @@ $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = YouPHPTubePlugin::getObjectData("YPTWallet");
 $stripe = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
 
+$stripe->start();
 $webhook = $stripe->getWebhook();
 
 // You can find your endpoint's secret in your webhook settings

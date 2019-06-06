@@ -31,7 +31,7 @@ class StripeYPT extends PluginAbstract {
         return $obj;
     }
 
-    private function start() {
+    function start() {
         global $global;
         $obj = $this->getDataObject();
         $notify_url = "{$global['webSiteRootURL']}plugin/StripeYPT/ipn.php";
@@ -86,13 +86,13 @@ class StripeYPT extends PluginAbstract {
         return self::addDot($payment->amount);
     }
 
-    private static function addDot($value) {
+    static function addDot($value) {
         $val = substr($payment->amount, 0, -2);
         $cents = substr($payment->amount, -2);
         return floatval("$val.$cents");
     }
 
-    private static function removeDot($value) {
+    static function removeDot($value) {
         $value = floatval($value);
         return number_format($value, 2, "", "");
     }
