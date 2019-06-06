@@ -264,8 +264,8 @@ class StripeYPT extends PluginAbstract {
         $plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
         $payment_amount = StripeYPT::addDot($payload->data->object->amount);
         $users_id = $plan['users_id'];
-        $plans_id = $plan['plans_id'];
-        $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent", json_encode($payment));
+        $plans_id = $plan['subscriptions_plans_id'];
+        $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent", json_encode($payload));
         Subscription::renew($users_id, $plans_id);
     }
 
