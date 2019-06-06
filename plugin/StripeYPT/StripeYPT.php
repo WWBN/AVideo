@@ -47,8 +47,10 @@ class StripeYPT extends PluginAbstract {
         if(!empty($webhooks->data)){
             foreach ($webhooks->data as $value) {
                 if($value->url === $notify_url){
-                    return $value;
+                    //return $value;
                 }
+                $endpoint = \Stripe\WebhookEndpoint::retrieve($value->id);
+                $endpoint->delete();
             }
         }
         
