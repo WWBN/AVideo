@@ -46,26 +46,25 @@ class StripeYPT extends PluginAbstract {
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
         $this->getWebhook();
     }
-    
-    function getWebhook(){
+
+    function getWebhook() {
         global $global;
         $webhooks = \Stripe\WebhookEndpoint::all(["limit" => 20]);
         $notify_url = "{$global['webSiteRootURL']}plugin/StripeYPT/ipn.php";
-        if(!empty($webhooks->data)){
+        if (!empty($webhooks->data)) {
             foreach ($webhooks->data as $value) {
-                if($value->url === $notify_url){
+                if ($value->url === $notify_url) {
                     return $value;
                 }
                 //$endpoint = \Stripe\WebhookEndpoint::retrieve($value->id);
                 //$endpoint->delete();
             }
         }
-        
+
         return \Stripe\WebhookEndpoint::create([
-                "url" => $notify_url,
-                "enabled_events" => ["*"]
-            ]);
-        
+                    "url" => $notify_url,
+                    "enabled_events" => ["*"]
+        ]);
     }
 
     public function setUpPayment($total = '1.00', $currency = "USD", $description = "") {
@@ -234,12 +233,12 @@ class StripeYPT extends PluginAbstract {
 
         error_log("setUpSubscription: will start");
         $this->start();
-        
+
         $metadata = new stdClass();
         $metadata->users_id = User::getId();
         $metadata->plans_id = $plans_id;
         $metadata->stripe_costumer_id = $sub['stripe_costumer_id'];
-        
+
         $Subscription = \Stripe\Subscription::create([
                     "customer" => $sub['stripe_costumer_id'],
                     "items" => [
@@ -248,30 +247,26 @@ class StripeYPT extends PluginAbstract {
                         ]
                     ],
                     "metadata" => [
-                        'users_id'=>User::getId(),
-                        'plans_id'=>$plans_id,
-                        'stripe_costumer_id'=>$sub['stripe_costumer_id']
-                        ]
+                        'users_id' => User::getId(),
+                        'plans_id' => $plans_id,
+                        'stripe_costumer_id' => $sub['stripe_costumer_id']
+                    ]
         ]);
-        error_log("setUpSubscription: result ".  json_encode($Subscription));
+        error_log("setUpSubscription: result " . json_encode($Subscription));
         return $Subscription;
     }
-    
-    function processSubscriptionIPN($payload){
-        if(!is_object($payload) && !empty($payload->data->object->lines->data)){
+
+    function processSubscriptionIPN($payload) {
+        if (!is_object($payload) || empty($payload->data->object->customer)) {
             return false;
         }
         $pluginS = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
-        foreach ($payload->data->object->lines->data as $payment) {
-            $payment_amount = StripeYPT::addDot($payment->plan->amount);
-            $users_id = $payment->metadata->users_id;
-            $plans_id = $payment->metadata->plans_id;
-            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent", json_encode($payment));
-            Subscription::renew($users_id, $plans_id);
-        }
-        
-        
+        $plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
+        $payment_amount = StripeYPT::addDot($payload->data->object->amount);
+        $users_id = $plan['users_id'];
+        $plans_id = $plan['plans_id'];
+        $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent", json_encode($payment));
+        Subscription::renew($users_id, $plans_id);
     }
-    
 
 }
