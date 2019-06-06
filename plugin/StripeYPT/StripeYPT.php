@@ -7,8 +7,12 @@ require_once $global['systemRootPath'] . 'plugin/StripeYPT/init.php';
 class StripeYPT extends PluginAbstract {
 
     public function getDescription() {
-        return "Stripe module for several purposes<br>
-            Go to Stripe dashboard Site here https://dashboard.stripe.com/test/apikeys (you must have Stripe account, of course)";
+        $str = "Stripe module for several purposes<br>
+            Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/test/apikeys'>here</a>  (you must have Stripe account, of course)<br>";
+        $str .= "Before you can verify signatures, you need to retrieve your endpoint’s secret from your Dashboard’s"
+                . " <br><a href='https://dashboard.stripe.com/account/webhooks'>Webhooks settings</a>."
+                . " <br>Select an endpoint that you want to obtain the secret for, then select the Click to reveal button.";
+        return $str;
     }
 
     public function getName() {
@@ -27,7 +31,9 @@ class StripeYPT extends PluginAbstract {
         $obj = new stdClass();
         $obj->Publishablekey = "pk_test_aQT12wEjRLKhXgk77TX4ftfa";
         $obj->Restrictedkey = "rk_test_kjyL5JaoAQwyiptuRlSzYJMZ00kRqXkLux";
-        $obj->disableSandbox = false;
+        //Before you can verify signatures, you need to retrieve your endpoint’s secret from your Dashboard’s Webhooks settings. Select an endpoint that you want to obtain the secret for, then select the Click to reveal button.
+        $obj->SigningSecret = "whsec_54gqoVeSuoeXEiNPcFhMN0jkBZY0JJG3";
+        //$obj->disableSandbox = false;
         return $obj;
     }
 
