@@ -34,7 +34,7 @@ error_log("StripeIPN: payload ".json_encode($payload));
 
 try {
     $event = \Stripe\Webhook::constructEvent(
-        $payload, $sig_header, $endpoint_secret
+        json_encode($payload), $sig_header, $endpoint_secret
     );
     error_log("Stripe IPN Valid payload and signature");
 } catch(\UnexpectedValueException $e) {
