@@ -89,8 +89,8 @@ class StripeYPT extends PluginAbstract {
     }
 
     static function addDot($value) {
-        $val = substr($payment->amount, 0, -2);
-        $cents = substr($payment->amount, -2);
+        $val = substr($value, 0, -2);
+        $cents = substr($value, -2);
         return floatval("$val.$cents");
     }
 
