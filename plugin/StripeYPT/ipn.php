@@ -11,12 +11,12 @@ error_log("StripeIPN Start");
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = YouPHPTubePlugin::getObjectData("YPTWallet");
 $stripe = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
+$stripeObject = YouPHPTubePlugin::getObjectData("StripeYPT");
 
 $stripe->start();
-$webhook = $stripe->getWebhook();
 
 // You can find your endpoint's secret in your webhook settings
-$endpoint_secret = $webhook->id;
+$endpoint_secret = $stripeObject->SigningSecret;
 
 $payload = @json_decode(@file_get_contents('php://input'));
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
