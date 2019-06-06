@@ -8,7 +8,7 @@ class StripeYPT extends PluginAbstract {
 
     public function getDescription() {
         $str = "Stripe module for several purposes<br>
-            Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/test/apikeys'>here</a>  (you must have Stripe account, of course)<br>";
+            Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/apikeys'>here</a>  (you must have Stripe account, of course)<br>";
         $str .= "Before you can verify signatures, you need to retrieve your endpoint’s secret from your Dashboard’s"
                 . " <br><a href='https://dashboard.stripe.com/account/webhooks'>Webhooks settings</a>."
                 . " <br>Select an endpoint that you want to obtain the secret for, then select the Click to reveal button."
