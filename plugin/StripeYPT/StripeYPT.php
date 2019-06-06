@@ -37,12 +37,29 @@ class StripeYPT extends PluginAbstract {
         $notify_url = "{$global['webSiteRootURL']}plugin/StripeYPT/ipn.php";
 
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
-        if(!empty($obj->disableSandbox)){
+        $this->setWebhook();
+    }
+    
+    private function setWebhook(){
+        global $global;
+        $webhooks = \Stripe\WebhookEndpoint::all(["limit" => 20]);
+        $notify_url = "{$global['webSiteRootURL']}plugin/StripeYPT/ipn.php";
+        if(!empty($webhooks->data)){
+            foreach ($webhooks->data as $value) {
+                if($value->url === $notify_url){
+                    $notify_url = "";
+                    break;
+                }
+            }
+        }
+        
+        if(!empty($notify_url)){
             \Stripe\WebhookEndpoint::create([
                 "url" => $notify_url,
                 "enabled_events" => ["*"]
             ]);
         }
+        
     }
 
     public function setUpPayment($total = '1.00', $currency = "USD", $description = "") {
