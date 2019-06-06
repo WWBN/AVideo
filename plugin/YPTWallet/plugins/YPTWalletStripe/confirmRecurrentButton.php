@@ -43,11 +43,11 @@ $uid = uniqid();
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Credit or debit card</strong></div>
         <div class="panel-body">
-            <div id="card-element">
+            <div id="card-element<?php echo $uid; ?>">
                 <!-- A Stripe Element will be inserted here. -->
             </div>
             <!-- Used to display form errors. -->
-            <div id="card-errors" role="alert"></div>
+            <div id="card-errors<?php echo $uid; ?>" role="alert"></div>
         </div>
         <div class="panel-footer">
 
@@ -90,11 +90,11 @@ $uid = uniqid();
     var card = elements.create('card', {style: style});
 
     // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element');
+    card.mount('#card-element<?php echo $uid; ?>');
 
     // Handle real-time validation errors from the card Element.
     card.addEventListener('change', function (event) {
-        var displayError = document.getElementById('card-errors');
+        var displayError = document.getElementById('card-errors<?php echo $uid; ?>');
         if (event.error) {
             displayError.textContent = event.error.message;
         } else {
@@ -103,7 +103,7 @@ $uid = uniqid();
     });
 
     // Handle form submission.
-    var form = document.getElementById('payment-form');
+    var form = document.getElementById('payment-form<?php echo $uid; ?>');
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -111,7 +111,7 @@ $uid = uniqid();
             console.log(result);
             if (result.error) {
                 // Inform the user if there was an error.
-                var errorElement = document.getElementById('card-errors');
+                var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
                 errorElement.textContent = result.error.message;
             } else {
                 // Send the token to your server.
