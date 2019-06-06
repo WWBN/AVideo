@@ -11,7 +11,8 @@ class StripeYPT extends PluginAbstract {
             Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/test/apikeys'>here</a>  (you must have Stripe account, of course)<br>";
         $str .= "Before you can verify signatures, you need to retrieve your endpoint’s secret from your Dashboard’s"
                 . " <br><a href='https://dashboard.stripe.com/account/webhooks'>Webhooks settings</a>."
-                . " <br>Select an endpoint that you want to obtain the secret for, then select the Click to reveal button.";
+                . " <br>Select an endpoint that you want to obtain the secret for, then select the Click to reveal button."
+                . " <br><strong>The SigningSecret will be available after your first purchase attempt, Webhook will be created automatically.</strong>";
         return $str;
     }
 
