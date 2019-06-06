@@ -240,11 +240,11 @@ class StripeYPT extends PluginAbstract {
                             "plan" => $stripe_plan_id,
                         ]
                     ],
-                    "metadata" => array(
+                    "metadata" => [
                         'users_id'=>User::getId(),
                         'plans_id'=>$plans_id,
                         'stripe_costumer_id'=>$stripe_costumer_id
-                        )
+                        ]
         ]);
         error_log("setUpSubscription: result ".  json_encode($Subscription));
         return $Subscription;
