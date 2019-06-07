@@ -239,7 +239,7 @@ class StripeYPT extends PluginAbstract {
         $metadata->plans_id = $plans_id;
         $metadata->stripe_costumer_id = $sub['stripe_costumer_id'];
 
-        $Subscription = \Stripe\Subscription::create([
+        $parameters = [
                     "customer" => $sub['stripe_costumer_id'],
                     "items" => [
                         [
@@ -251,7 +251,15 @@ class StripeYPT extends PluginAbstract {
                         'plans_id' => $plans_id,
                         'stripe_costumer_id' => $sub['stripe_costumer_id']
                     ]
-        ]);
+        ];
+        
+        $trialDays = $subs->getHow_many_days_trial();
+        if(!empty($trialDays)) {
+            $trial = strtotime("+{$trialDays} days");
+            $parameters['trial_end'] = $trial;
+        }
+
+        $Subscription = \Stripe\Subscription::create($parameters);
         error_log("setUpSubscription: result " . json_encode($Subscription));
         return $Subscription;
     }
@@ -263,10 +271,14 @@ class StripeYPT extends PluginAbstract {
         $pluginS = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
         $plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
         $payment_amount = StripeYPT::addDot($payload->data->object->amount);
-        $users_id = $plan['users_id'];
-        $plans_id = $plan['subscriptions_plans_id'];
-        $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent", json_encode($payload));
-        Subscription::renew($users_id, $plans_id);
+        $users_id = @$plan['users_id'];
+        $plans_id = @$plan['subscriptions_plans_id'];
+        if(!empty($users_id)){
+            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent", json_encode($payload));
+            if(!empty($plans_id)){
+                Subscription::renew($users_id, $plans_id);                
+            }
+        }
     }
 
 }
