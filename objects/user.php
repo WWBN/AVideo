@@ -1085,7 +1085,7 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false) {
+    static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false) {
         global $global;
         $user = $global['mysqli']->real_escape_string($user);
         if (!$userId = self::userExists($user)) {
@@ -1098,6 +1098,7 @@ if (typeof gtag !== \"function\") {
             $userObject->setName($name);
             $userObject->setIsAdmin($isAdmin);
             $userObject->setPhotoURL($photoURL);
+            $userObject->setEmailVerified($emailVerified);
             $userId = $userObject->save();
             return $userId;
         }
