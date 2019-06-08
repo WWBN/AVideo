@@ -45,5 +45,7 @@ $payment = $plugin->setUpSubscription($_POST['plans_id'], $_POST['stripeToken'])
 if (!empty($payment) && !empty($payment->status) && $payment->status=="active") {
     $obj->error = false;
     $obj->subscription = $payment;
+}else{
+    error_log("Request subscription Stripe error: ".  json_encode($payment));
 }
 die(json_encode($obj));
