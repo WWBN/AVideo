@@ -189,6 +189,25 @@ class StripeYPT extends PluginAbstract {
                     'amount' => self::removeDot($total),
         ]);
     }
+    
+    static function getSubscriptions($stripe_costumer_id, $plans_id) {
+        if (!User::isAdmin()) {
+            error_log("getSubscription: User not admin");
+            return false;
+        }
+        if (empty($stripe_costumer_id)) {
+            error_log("costumer ID is empty");
+            return false;
+        }
+        global $global;
+        $this->start();
+        $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
+        error_log(json_encode($costumer));
+        foreach ($costumer->subscriptions->data as $value) {
+            $subscription = \Stripe\Subscription::retrieve($value->id);
+            error_log(json_encode($subscription));
+        }
+    }
 
     public function setUpSubscription($plans_id, $stripeToken) {
         if (!User::isLogged()) {
