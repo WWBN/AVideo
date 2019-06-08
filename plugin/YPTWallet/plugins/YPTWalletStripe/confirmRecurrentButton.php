@@ -117,20 +117,20 @@ $uid = uniqid();
                 errorElement.textContent = result.error.message;
             } else {
                 // Send the token to your server.
-                stripeTokenHandler(result.token);
+                stripeTokenHandler<?php echo $uid; ?>(result.token);
             }
         });
     });
 
     // Submit the form with the token ID.
-    function stripeTokenHandler(token) {
+    function stripeTokenHandler<?php echo $uid; ?>(token) {
 
         modal.showPleaseWait();
 
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestSubscription.json.php',
             data: {
-                "value": $('#value').val(),
+                "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
                 "stripeToken": token.id,
                 "plans_id": "<?php echo @$_GET['plans_id']; ?>"
             },

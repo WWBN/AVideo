@@ -127,7 +127,7 @@ $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestPayment.json.php',
             data: {
-                "value": $('#value').val(),
+                "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
                 "stripeToken": token.id
             },
             type: 'post',

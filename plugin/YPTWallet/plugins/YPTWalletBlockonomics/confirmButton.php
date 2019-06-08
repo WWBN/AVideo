@@ -4,7 +4,7 @@
         $('#YPTWalletBlockonomicsButton').click(function (evt) {
             evt.preventDefault();
             modal.showPleaseWait();
-            document.location = '<?php echo $global['webSiteRootURL']; ?>plugin/BlockonomicsYPT/invoice.php?value='+$('#value').val();
+            document.location = '<?php echo $global['webSiteRootURL']; ?>plugin/BlockonomicsYPT/invoice.php?value='+$('#value<?php echo @$_GET['plans_id']; ?>').val();
         });
     });
 

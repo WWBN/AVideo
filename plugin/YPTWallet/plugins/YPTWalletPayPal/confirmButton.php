@@ -8,7 +8,7 @@
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletPayPal/requestPayment.json.php',
                 data: {
-                    "value": $('#value').val()
+                    "value": $('#value<?php echo @$_GET['plans_id']; ?>').val()
                 },
                 type: 'post',
                 success: function (response) {
