@@ -95,6 +95,7 @@ class sqlDAL {
             $stmt->close();
             return false;
         }
+        $stmt->commit();
         $stmt->close();
         return true;
     }
