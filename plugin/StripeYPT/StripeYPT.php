@@ -201,9 +201,9 @@ class StripeYPT extends PluginAbstract {
         $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
         $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
-        error_log(json_encode($costumer));
         foreach ($costumer->subscriptions->data as $value) {
             $subscription = \Stripe\Subscription::retrieve($value->id);
+            error_log("getSubscriptions plans_id: ".$subscription->metadata->plans_id);
             if($subscription->metadata->plans_id == $plans_id){
                 return $subscription;
             }
