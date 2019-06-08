@@ -71,13 +71,18 @@ class StripeYPT extends PluginAbstract {
         $total = number_format(floatval($total), 2, "", "");
         if (!empty($_POST['stripeToken'])) {
             $token = $_POST['stripeToken'];
-            $charge = \Stripe\Charge::create([
-                        'amount' => $total,
-                        'currency' => $currency,
-                        'description' => $description,
-                        'source' => $token,
-            ]);
-            return $charge;
+            try {
+                $charge = \Stripe\Charge::create([
+                            'amount' => $total,
+                            'currency' => $currency,
+                            'description' => $description,
+                            'source' => $token,
+                ]);
+                return $charge;
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+
         }
         return false;
     }
