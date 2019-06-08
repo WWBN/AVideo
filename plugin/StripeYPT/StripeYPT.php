@@ -41,8 +41,6 @@ class StripeYPT extends PluginAbstract {
     function start() {
         global $global;
         $obj = $this->getDataObject();
-        $notify_url = "{$global['webSiteRootURL']}plugin/StripeYPT/ipn.php";
-
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
         $this->getWebhook();
     }
@@ -200,7 +198,8 @@ class StripeYPT extends PluginAbstract {
             return false;
         }
         global $global;
-        $this->start();
+        $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
+        \Stripe\Stripe::setApiKey($obj->Restrictedkey);
         $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
         error_log(json_encode($costumer));
         foreach ($costumer->subscriptions->data as $value) {
