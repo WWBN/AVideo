@@ -136,16 +136,21 @@ class StripeYPT extends PluginAbstract {
         $user = new User($users_id);
 
         if (!empty($user)) {
-            $this->start();
-            return \Stripe\Customer::create([
-                        "description" => "Customer [$users_id] " . $user->getNameIdentification(),
-                        "source" => $stripeToken // obtained with Stripe.js
-            ]);
+            try {
+                $this->start();
+                return \Stripe\Customer::create([
+                            "description" => "Customer [$users_id] " . $user->getNameIdentification(),
+                            "source" => $stripeToken // obtained with Stripe.js
+                ]);
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
         }
         return false;
     }
 
     public function getCostumerId($users_id, $stripeToken) {
+        
         $costumer = $this->createCostumer($users_id, $stripeToken);
 
         if (!empty($costumer)) {
