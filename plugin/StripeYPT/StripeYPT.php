@@ -204,8 +204,11 @@ class StripeYPT extends PluginAbstract {
         error_log(json_encode($costumer));
         foreach ($costumer->subscriptions->data as $value) {
             $subscription = \Stripe\Subscription::retrieve($value->id);
-            error_log(json_encode($subscription));
+            if($subscription->metadata->plans_id == $plans_id){
+                return $subscription;
+            }
         }
+        return false;
     }
 
     public function setUpSubscription($plans_id, $stripeToken) {
