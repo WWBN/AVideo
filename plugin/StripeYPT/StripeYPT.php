@@ -203,7 +203,6 @@ class StripeYPT extends PluginAbstract {
         $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
         foreach ($costumer->subscriptions->data as $value) {
             $subscription = \Stripe\Subscription::retrieve($value->id);
-            error_log("getSubscriptions plans_id: ".$subscription->metadata->plans_id);
             if($subscription->metadata->plans_id == $plans_id){
                 return $subscription;
             }
