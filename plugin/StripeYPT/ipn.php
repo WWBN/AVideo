@@ -38,6 +38,7 @@ try {
         $payload, $sig_header, $endpoint_secret
     );
     error_log("Stripe IPN Valid payload and signature");
+    error_log("Stripe processSubscriptionIPN: ".  json_encode($payloadObj));
     $stripe->processSubscriptionIPN($payloadObj);
 } catch(\UnexpectedValueException $e) {
     // Invalid payload
