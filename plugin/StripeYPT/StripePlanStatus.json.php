@@ -19,7 +19,7 @@ if (empty($_POST['stripe_costumer_id'])) {
 
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
 
-$agreement = StripeYPT::getSubscription($_POST['stripe_costumer_id'], $_POST['plans_id']);
+$agreement = StripeYPT::getSubscriptions($_POST['stripe_costumer_id'], $_POST['plans_id']);
 
 if(empty($agreement)){
     $obj->msg = "Agreement not found";
