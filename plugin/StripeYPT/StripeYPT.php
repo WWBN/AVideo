@@ -304,7 +304,7 @@ class StripeYPT extends PluginAbstract {
         $users_id = @$plan['users_id'];
         $plans_id = @$plan['subscriptions_plans_id'];
         if(!empty($users_id)){
-            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent", json_encode($payload));
+            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: ".$payload->description, json_encode($payload));
             if(!empty($plans_id)){
                 Subscription::renew($users_id, $plans_id);                
             }
