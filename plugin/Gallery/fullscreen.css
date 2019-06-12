@@ -15,9 +15,10 @@ body{
     flex-direction: column;
     justify-content: center;
 }
-video{
-    max-height: 100% !important;
-    max-width: 100% !important;
+video , #main-video, #mainVideo{
+    height: 100%  !important;
+    width: 100%  !important;
+    padding: 0 !important;
 }
 .firstC{
     position: absolute;
