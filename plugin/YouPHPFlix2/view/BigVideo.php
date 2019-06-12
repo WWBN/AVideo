@@ -39,7 +39,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
              if (!isMobile() && !empty($video['trailer1'])) {
                  ?>
                 <div id="bg_container" >
-                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
+                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 'fill'); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
                 </div>
                 <div id="bg_container_overlay" ></div>
                 <div class="posterDetails " style=" padding: 30px;
