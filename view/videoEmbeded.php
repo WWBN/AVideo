@@ -102,7 +102,7 @@ if (!empty($_GET['mute'])) {
     $mute = 'muted="muted"';
 }
 if (!empty($_GET['objectFit'])) {
-    $objectFit = 'objectFit: '.$_GET['objectFit'];
+    $objectFit = 'object-fit: '.$_GET['objectFit'];
 }
 if (!empty($_GET['t'])) {
     $t = intval($_GET['t']);
