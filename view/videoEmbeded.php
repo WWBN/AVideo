@@ -101,6 +101,9 @@ if (!empty($_GET['loop'])) {
 if (!empty($_GET['mute'])) {
     $mute = 'muted="muted"';
 }
+if (!empty($_GET['objectFit'])) {
+    $objectFit = 'objectFit: '.$_GET['objectFit'];
+}
 if (!empty($_GET['t'])) {
     $t = intval($_GET['t']);
 } else if (!empty($video['progress']['lastVideoTime'])) {
@@ -217,7 +220,7 @@ if (!empty($_GET['t'])) {
             <?php
         } else {
             ?>
-            <video style="width: 100%; height: 100%; position: fixed; top: 0;" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
+            <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
                    class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
                        <?php
                        echo getSources($video['filename']);
