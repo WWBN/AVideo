@@ -778,7 +778,8 @@ if (!class_exists('Video')) {
                     . " WHERE 1=1 ";
 
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
-                $sql .= " AND v.users_id = '" . User::getId() . "'";
+                $uid = intval(User::getId());
+                $sql .= " AND v.users_id = '{$uid}'";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
                 $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
             } else if (!empty($_GET['channelName'])) {
