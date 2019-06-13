@@ -2133,6 +2133,8 @@ if (!class_exists('Video')) {
 
         static function getImageFromFilename($filename, $type = "video", $async = false) {
             global $advancedCustom;
+            // I dont know why but I had to remove it to avoid ERR_RESPONSE_HEADERS_TOO_BIG
+            header_remove('Set-Cookie');
             if(empty($advancedCustom->AsyncJobs) && !$async){
                 return self::getImageFromFilename_($filename, $type);
             }else{
