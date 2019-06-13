@@ -91,7 +91,7 @@ class Cache extends PluginAbstract {
                 $lifetime = intval($_GET['lifetime']);
             }
             // if is a bot always show a cache
-            if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile))) || isBot()) {
+            if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile)) || isBot())) {
                 $c = @local_get_contents($cachefile);
                 if(preg_match("/\.json\.?/", $baseName)){
                     header('Content-Type: application/json');
