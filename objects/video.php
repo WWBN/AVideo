@@ -781,10 +781,12 @@ if (!class_exists('Video')) {
                 $uid = intval(User::getId());
                 $sql .= " AND v.users_id = '{$uid}'";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
-                $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
+                $uid = intval($showOnlyLoggedUserVideos);
+                $sql .= " AND v.users_id = '{$uid}'";
             } else if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
-                $sql .= " AND v.users_id = {$user['id']} ";
+                $uid = intval($user['id']);
+                $sql .= " AND v.users_id = '{$uid}' ";
             }
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
