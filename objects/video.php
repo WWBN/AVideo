@@ -582,7 +582,7 @@ if (!class_exists('Video')) {
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
             if (User::isLogged()) {
-                $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = " . User::getId() . " ) as myVote ";
+                $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = '" . User::getId() . "' ) as myVote ";
             } else {
                 $sql .= ", 0 as myVote ";
             }
@@ -628,7 +628,7 @@ if (!class_exists('Video')) {
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 if(!empty($user['id'])){
-                    $sql .= " AND v.users_id = {$user['id']} ";
+                    $sql .= " AND v.users_id = '{$user['id']}' ";
                 }
             }
 
@@ -963,7 +963,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
-                $sql .= " AND v.users_id = {$user['id']} ";
+                $sql .= " AND v.users_id = '{$user['id']}' ";
             }
 
             $sql .= YouPHPTubePlugin::getVideoWhereClause();
@@ -1015,7 +1015,7 @@ if (!class_exists('Video')) {
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (is_int($showOnlyLoggedUserVideos)) {
-                $sql .= " AND v.users_id = {$showOnlyLoggedUserVideos}";
+                $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
             }
             if (!empty($_GET['catName'])) {
                 $sql .= " AND c.clean_name = '{$_GET['catName']}'";
@@ -1036,7 +1036,8 @@ if (!class_exists('Video')) {
             }
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
-                $sql .= " AND v.users_id = {$user['id']} ";
+                $uid = intval($user['id']);
+                $sql .= " AND v.users_id = '{$uid}' ";
             }
                         
             $sql .= YouPHPTubePlugin::getVideoWhereClause();
