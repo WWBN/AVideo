@@ -109,6 +109,10 @@ class Cache extends PluginAbstract {
                 unlink($cachefile);
             }
         }
+        
+        if($isBot){
+            error_log("Bot Detected, NOT showing the cache ".(@$_SERVER['HTTP_USER_AGENT']));
+        }
         //ob_start('sanitize_output');
         ob_start();
     }
