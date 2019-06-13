@@ -84,6 +84,7 @@ class Cache extends PluginAbstract {
             $this->start();
         }
         
+        $isBot = isBot();
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
@@ -91,7 +92,6 @@ class Cache extends PluginAbstract {
                 $lifetime = intval($_GET['lifetime']);
             }
             // if is a bot always show a cache
-            $isBot = isBot();
             if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile)) || $isBot)) {
                 if($isBot){
                     error_log("Bot Detected, showing the cache ".(@$_SERVER['HTTP_USER_AGENT']));
