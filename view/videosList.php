@@ -117,6 +117,7 @@ foreach ($videos as $key => $value) {
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
                 
                 if(!is_object($images)){
+                    $images = new stdClass();
                     $images->thumbsGif = "";
                     $images->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
                     $images->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
