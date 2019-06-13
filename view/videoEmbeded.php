@@ -84,6 +84,7 @@ $autoplay = false;
 $controls = "controls";
 $loop = "";
 $mute = "";
+$objectFit = "";
 $t = 0;
 
 if (isset($_GET['modestbranding']) && $_GET['modestbranding'] == "1") {
