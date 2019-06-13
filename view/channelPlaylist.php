@@ -147,7 +147,7 @@ foreach ($playlists as $playlist) {
                         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                         $name = User::getNameIdentificationById($value['users_id']);
 
-                        $images = Video::getImageFromFilename($value['filename'], $value['type']);
+                        $images = Video::getImageFromFilename($value['filename'], $value['type'], true);
                         $imgGif = $images->thumbsGif;
                         $poster = $images->thumbsJpg;
                         $class = "";
