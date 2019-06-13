@@ -2131,9 +2131,9 @@ if (!class_exists('Video')) {
             return $path;
         }
 
-        static function getImageFromFilename($filename, $type = "video") {
+        static function getImageFromFilename($filename, $type = "video", $async = false) {
             global $advancedCustom;
-            if(empty($advancedCustom->AsyncJobs)){
+            if(empty($advancedCustom->AsyncJobs) && !$async){
                 return self::getImageFromFilename_($filename, $type);
             }else{
                 return self::getImageFromFilenameAsync($filename, $type);
