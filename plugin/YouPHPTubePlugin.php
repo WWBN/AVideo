@@ -989,17 +989,23 @@ class YouPHPTubePlugin {
     }
     
     public static function getVideoTags($videos_id){
-        $plugins = Plugin::getAllEnabled();
-        $array = array();
-        foreach ($plugins as $value) {
-            self::YPTstart();
-            $p = static::loadPlugin($value['dirName']);
-            if (is_object($p)) {
-                $array = array_merge($array, $p->getVideoTags($videos_id));
-            }
-            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+        if(empty($videos_id)){
+            return array();
         }
-        return $array;
+        if(empty($_SESSION['getVideoTags'][$videos_id])){
+            $plugins = Plugin::getAllEnabled();
+            $array = array();
+            foreach ($plugins as $value) {
+                self::YPTstart();
+                $p = static::loadPlugin($value['dirName']);
+                if (is_object($p)) {
+                    $array = array_merge($array, $p->getVideoTags($videos_id));
+                }
+                self::YPTend("{$value['dirName']}::".__FUNCTION__);
+            }
+            $_SESSION['getVideoTags'][$videos_id] = $array;
+        }        
+        return $_SESSION['getVideoTags'][$videos_id];
     }
     
     public static function getVideoWhereClause(){
