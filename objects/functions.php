@@ -1294,7 +1294,7 @@ function mime_content_type_per_filename($filename) {
 
 function combineFiles($filesArray, $extension = "js") {
     global $global, $advancedCustom;
-    $cacheDir = $global['systemRootPath'] . 'videos/cache/';
+    $cacheDir = $global['systemRootPath'] . 'videos/cache/'.$extension."/";
     if (!is_dir($cacheDir)) {
         mkdir($cacheDir, 0777, true);
     }
@@ -1340,7 +1340,7 @@ function combineFiles($filesArray, $extension = "js") {
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
-    return $global['webSiteRootURL'] . 'videos/cache/' . $md5FileName;
+    return $global['webSiteRootURL'] . 'videos/cache/'.$extension."/" . $md5FileName;
 }
 
 function local_get_contents($path) {
