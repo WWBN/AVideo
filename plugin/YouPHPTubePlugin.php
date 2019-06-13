@@ -1003,7 +1003,11 @@ class YouPHPTubePlugin {
                 }
                 self::YPTend("{$value['dirName']}::".__FUNCTION__);
             }
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
             $_SESSION['getVideoTags'][$videos_id] = $array;
+            session_write_close();
         }        
         return $_SESSION['getVideoTags'][$videos_id];
     }
