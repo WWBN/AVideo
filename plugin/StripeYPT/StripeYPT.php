@@ -144,7 +144,7 @@ class StripeYPT extends PluginAbstract {
             try {
                 $this->start();
                 return \Stripe\Customer::create([
-                            "description" => "Customer [$users_id] " . $user->getNameIdentification(),
+                            "description" => "Customer [$users_id] " . $user->getNameIdentification(). "(".$user->getEmail().")",
                             "source" => $stripeToken // obtained with Stripe.js
                 ]);
             } catch (Exception $exc) {
