@@ -115,7 +115,14 @@ foreach ($videos as $key => $value) {
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
-
+                
+                if(!is_object($images)){
+                    $images->thumbsGif = "";
+                    $images->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+                    $images->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
+                    $images->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
+                }
+                
                 $imgGif = $images->thumbsGif;
                 $img = $images->thumbsJpg;
                 if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg') {
