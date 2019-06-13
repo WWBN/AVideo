@@ -44,7 +44,9 @@ foreach ($playlists as $playlist) {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
-    if ($advancedCustom->AsyncJobs) {
+    if(empty($videosArrayId)){
+        $videosP = array();
+    }else if ($advancedCustom->AsyncJobs) {
         $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId);
     } else {
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId);
