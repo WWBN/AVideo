@@ -2132,7 +2132,12 @@ if (!class_exists('Video')) {
         }
 
         static function getImageFromFilename($filename, $type = "video") {
-            return self::getImageFromFilenameAsync($filename, $type);
+            global $advancedCustom;
+            if(empty($advancedCustom->AsyncJobs)){
+                return self::getImageFromFilename_($filename, $type);
+            }else{
+                return self::getImageFromFilenameAsync($filename, $type);
+            }
         }
 
         static function getImageFromFilename_($filename, $type = "video") {
@@ -2248,7 +2253,7 @@ if (!class_exists('Video')) {
                     return array();
                 }
                 file_put_contents($cacheFileName . ".lock", 1);
-                $total = static::getImageFromFilename_($filename, $type = "video");
+                $total = static::getImageFromFilename_($filename, $type);
                 file_put_contents($cacheFileName, json_encode($total));
                 unlink($cacheFileName . ".lock");
                 return $total;
