@@ -30,6 +30,7 @@ class Cache extends PluginAbstract {
         $obj->cacheTimeInSeconds = 600;
         $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
         $obj->logPageLoadTime = false;
+        $obj->stopBotsFromNonCachedPages = false;
         return $obj;
     }
 
@@ -112,6 +113,9 @@ class Cache extends PluginAbstract {
         
         if($isBot){
             error_log("Bot Detected, NOT showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
+            if($obj->stopBotsFromNonCachedPages){
+                error_log("Bot stopped");
+            }
         }
         //ob_start('sanitize_output');
         ob_start();
