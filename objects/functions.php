@@ -714,7 +714,7 @@ function cacheExpirationTime() {
     global $cacheExpirationTime;
     if (empty($cacheExpirationTime)) {
         $obj = YouPHPTubePlugin::getObjectDataIfEnabled('Cache');
-        $cacheExpirationTime = $obj->cacheTimeInSeconds;
+        $cacheExpirationTime = @$obj->cacheTimeInSeconds;
     }
     return intval($cacheExpirationTime);
 }
@@ -1561,6 +1561,9 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
 }
 
 function isMobile() {
+    if(empty($_SERVER["HTTP_USER_AGENT"])){
+        return false;
+    }
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }
 
