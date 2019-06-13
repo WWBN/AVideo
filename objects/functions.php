@@ -1457,6 +1457,7 @@ function isBot() {
         'curl',
         'facebook',
         'fetch',
+        'loader',
     );
     // See if one of the identifiers is in the UA string.
     foreach ($bot_identifiers as $identifier) {
