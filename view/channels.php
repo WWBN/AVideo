@@ -55,7 +55,7 @@ $channels = Channel::getChannels();
                             $_POST['sort']['created'] = "DESC";
                             $uploadedVideos = Video::getAllVideos("viewable", $value['id']);
                             foreach ($uploadedVideos as $value2) {
-                                $imgs = Video::getImageFromFilename($value2['filename']);
+                                $imgs = Video::getImageFromFilename($value2['filename'], "video", true);
                                 $poster = $imgs->thumbsJpg;
                                 ?>
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 ">
