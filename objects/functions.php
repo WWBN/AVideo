@@ -707,6 +707,9 @@ function minimumExpirationTime(){
 
 $cacheExpirationTime = false;
 function cacheExpirationTime(){
+    if(isBot()){
+        return 604800; // 1 week
+    }
     global $cacheExpirationTime;
     if(empty($cacheExpirationTime)){
         $obj = YouPHPTubePlugin::getObjectDataIfEnabled('Cache');
