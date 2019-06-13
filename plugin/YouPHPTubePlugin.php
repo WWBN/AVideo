@@ -3,13 +3,37 @@
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 class YouPHPTubePlugin {
+    
+    static function YPTstart() {
+        global $global;
+        $time = microtime();
+        $time = explode(' ', $time);
+        $time = $time[1] + $time[0];
+        $global['YouPHPTubePluginStart'] = $time;
+    }
+
+    static function YPTend($pluginName) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/user.php';
+        $time = microtime();
+        $time = explode(' ', $time);
+        $time = $time[1] + $time[0];
+        $finish = $time;
+        $total_time = round(($finish - $global['YouPHPTubePluginStart']), 4);
+        if($total_time > 0.1){
+            error_log("Warning: The plugin [{$pluginName}] takes {$total_time} seconds to complete. ");
+        }
+    }
 
     public static function addRoutes() {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                $this->start();
                 $p->addRoutes();
+                self::YPTend("{$value['dirName']}::".__FUNCTION__);
             }
         }
         return false;
@@ -17,10 +41,12 @@ class YouPHPTubePlugin {
     public static function addView($videos_id, $total) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->addView($videos_id, $total);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return false;
     }
@@ -29,10 +55,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $str .= $p->getHeadCode();
             }
+                self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -41,6 +69,7 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 if(method_exists ($p,'getChartTabs')){
@@ -52,6 +81,7 @@ class YouPHPTubePlugin {
                     }
                 }
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -60,6 +90,7 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $checkStr = $p->getChartContent();
@@ -67,6 +98,7 @@ class YouPHPTubePlugin {
                     $str .= '<div id="pluginMenu' . $p->getName() . '" class="tab-pane fade" style="padding: 10px;"><div class="row">' . $checkStr . '</div></div>';
                 }
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -75,10 +107,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $str .= $p->getGallerySection();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -87,6 +121,7 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "<h4>" . __("Table of content") . "</h4><ul>";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $t = $p->getHelp();
@@ -94,6 +129,7 @@ class YouPHPTubePlugin {
                     $str .= "<li><a href='#" . $value['name'] . " help'>" . $value['name'] . "</a></li>";
                 }
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str . "</ul>";
     }
@@ -102,6 +138,7 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $t = $p->getHelp();
@@ -110,6 +147,7 @@ class YouPHPTubePlugin {
                     $str .= "<hr />";
                 }
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -118,10 +156,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $str .= $p->getFooterCode();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -130,10 +170,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $allFiles = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $allFiles = array_merge($allFiles, $p->getJSFiles());
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $allFiles;
     }
@@ -142,10 +184,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $allFiles = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $allFiles = array_merge($allFiles, $p->getCSSFiles());
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $allFiles;
     }
@@ -154,10 +198,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $str .= $p->getHTMLBody();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -166,10 +212,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $str .= $p->getHTMLMenuLeft();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -178,10 +226,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $str .= $p->getHTMLMenuRight();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -215,6 +265,7 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $firstPage = false;
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (!is_object($p)) {
                 continue;
@@ -223,6 +274,7 @@ class YouPHPTubePlugin {
             if (!empty($fp)) {
                 $firstPage = $fp;
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $firstPage;
     }
@@ -295,11 +347,13 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
                 $str .= $p->xsendfilePreVideoPlay();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -308,11 +362,13 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
                 $str .= $p->getVideosManagerListButton();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -321,11 +377,13 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
                 $str .= $p->getUsersManagerListButton();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -334,11 +392,13 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
                 $str .= $p->getWatchActionButton($videos_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -347,11 +407,13 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
                 $str .= $p->getNetflixActionButton($videos_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -360,11 +422,13 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
                 $str .= $p->getGalleryActionButton($videos_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -388,6 +452,7 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $logins = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
@@ -398,6 +463,7 @@ class YouPHPTubePlugin {
                     $logins[] = array('parameters' => $l, 'loginObject' => $p);
                 }
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $logins;
     }
@@ -405,100 +471,120 @@ class YouPHPTubePlugin {
     public static function getStart() {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getStart();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
     public static function getEnd() {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getEnd();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
     public static function afterNewVideo($videos_id) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->afterNewVideo($videos_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
     public static function afterNewComment($comments_id) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->afterNewComment($comments_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
     public static function afterNewResponse($comments_id) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->afterNewResponse($comments_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
     public static function getChannelButton() {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getChannelButton();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
     
     public static function getVideoManagerButton() {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getVideoManagerButton();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
     public static function getLivePanel() {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getLivePanel();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
     public static function getModeYouTube($videos_id) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getModeYouTube($videos_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
     public static function getChannel($user_id, $user) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getChannel($user_id, $user);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
@@ -506,11 +592,13 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $array = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $appArray = $p->getLiveApplicationArray();
                 $array = array_merge($array, $appArray);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $array;
     }
@@ -521,10 +609,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $str .= $p->getPlayListButtons($playlist_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -535,10 +625,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $str .= $p->getMyAccount($users_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
@@ -547,10 +639,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $userOptions = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $userOptions = array_merge($userOptions, $p->getUserOptions());
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $userOptions;
     }
@@ -563,11 +657,13 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $array = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $appArray = $p->getDynamicUserGroupsId($users_id);
                 $array = array_merge($array, $appArray);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $array;
     }
@@ -622,10 +718,12 @@ class YouPHPTubePlugin {
         $userOptions = array();
         $navBarButtons = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $navBarButtons .= $p->navBarButtons();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $navBarButtons;
     }
@@ -635,10 +733,12 @@ class YouPHPTubePlugin {
         $userOptions = array();
         $navBarButtons = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $navBarButtons .= $p->navBar();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $navBarButtons;
     }
@@ -713,10 +813,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $array = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $array = array_merge($array, $p->getAllVideosExcludeVideosIDArray());
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $array;
     }
@@ -733,6 +835,7 @@ class YouPHPTubePlugin {
             $resp = false;
         }
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $can = $p->userCanWatchVideo($users_id, $videos_id);
@@ -743,6 +846,7 @@ class YouPHPTubePlugin {
                     }
                 }
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $resp;
     }
@@ -751,6 +855,7 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $resp = true;
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $can = $p->userCanWatchVideoWithAds($users_id, $videos_id);
@@ -763,6 +868,7 @@ class YouPHPTubePlugin {
                     }
                 }
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $resp;
     }
@@ -771,10 +877,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $resp = true;
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $resp = $resp && $p->showAds($videos_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $resp;
     }
@@ -788,6 +896,7 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $resp = null;
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $video = $p->getVideo();
@@ -795,6 +904,7 @@ class YouPHPTubePlugin {
                     return $video;
                 }
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $resp;
     }
@@ -803,30 +913,36 @@ class YouPHPTubePlugin {
     public static function onUserSignIn($users_id){
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->onUserSignIn($users_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
     
     public static function onUserSignup($users_id){
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->onUserSignup($users_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
     
     public static function onLiveStream($users_id){
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->onLiveStream($users_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
     
@@ -834,10 +950,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->thumbsOverlay($videos_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -846,10 +964,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->profileTabName($users_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -858,10 +978,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->profileTabContent($users_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -870,10 +992,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $array = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $array = array_merge($array, $p->getVideoTags($videos_id));
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $array;
     }
@@ -882,10 +1006,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->getVideoWhereClause();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -894,10 +1020,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->getManagerVideosAddNew();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -906,10 +1034,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = true;
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r = $r && $p->saveVideosAddNew($post, $videos_id);
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -918,10 +1048,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->getManagerVideosReset();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -930,10 +1062,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->getManagerVideosEdit();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -942,10 +1076,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->getManagerVideosEditField();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -954,10 +1090,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->getManagerVideosJavaScripts();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -966,10 +1104,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->getManagerVideosTab();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -978,10 +1118,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r .= $p->getManagerVideosBody();
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
@@ -990,10 +1132,12 @@ class YouPHPTubePlugin {
         $plugins = Plugin::getAllEnabled();
         $r = array();
         foreach ($plugins as $value) {
+            self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $r = array_merge($r, $p->getAllVideosArray($videos_id));
             }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $r;
     }
