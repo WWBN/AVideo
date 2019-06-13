@@ -918,7 +918,7 @@ if (!class_exists('Video')) {
                 return $total;
             }
             $return = json_decode(file_get_contents($cacheFileName));
-            if (time() - filemtime($cacheFileName) > 60) {
+            if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '" . json_encode($videosArrayId) . "' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$get}' '{$post}' '{$cacheFileName}'");
                 error_log("getAllVideosAsync: {$command}");
@@ -1087,7 +1087,7 @@ if (!class_exists('Video')) {
                 return $total;
             }
             $return = json_decode(file_get_contents($cacheFileName));
-            if (time() - filemtime($cacheFileName) > 60) {
+            if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getTotalVideosInfoAsync.php' "
                         . " '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup', '" . json_encode($videosArrayId) . "', "
@@ -2254,7 +2254,7 @@ if (!class_exists('Video')) {
                 return $total;
             }
             $return = json_decode(file_get_contents($cacheFileName));
-            if (time() - filemtime($cacheFileName) > 60) {
+            if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getImageFromFilenameAsync.php' '$filename' '$type' '{$cacheFileName}'");
                 //error_log("getImageFromFilenameAsync: {$command}");
