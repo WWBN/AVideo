@@ -34,6 +34,12 @@ class VideoTags extends PluginAbstract {
         // remove all tags from the video
         $tagsSaved = array();
         $deleted = self::removeAllTagFromVideo($videos_id);
+        
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        unset($_SESSION['getVideoTags'][$videos_id]);
+        session_write_close();
         if ($deleted) {
             foreach ($tagsNameList as $value) {
                 if (empty($value['items'])) {
