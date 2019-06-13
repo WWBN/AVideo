@@ -91,7 +91,7 @@ class AD_Server extends PluginAbstract {
 
     public function getFooterCode() {
         $obj = $this->getDataObject();
-        if (!$this->canLoadAds()) {
+        if (!$this->canLoadAds() || empty($_GET['vmap_id'])) {
             return "";
         }
         global $global;
@@ -120,6 +120,9 @@ class AD_Server extends PluginAbstract {
     
     private function getRandomPositions(){        
         
+        if (empty($_GET['vmap_id'])) {
+            return "";
+        }
         $obj = $this->getDataObject();
         $oldId = session_id();
         session_id($_GET['vmap_id']);
