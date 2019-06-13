@@ -383,7 +383,7 @@ function getMinutesTotalVideosLength() {
 }
 
 function secondsToVideoTime($seconds) {
-    if(!is_numeric($seconds)){
+    if (!is_numeric($seconds)) {
         return $seconds;
     }
     $seconds = round($seconds);
@@ -394,7 +394,7 @@ function secondsToVideoTime($seconds) {
 }
 
 function parseDurationToSeconds($str) {
-    if(is_numeric($str)){
+    if (is_numeric($str)) {
         return intval($str);
     }
     $durationParts = explode(":", $str);
@@ -492,7 +492,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     }
 
     if (stripos($link, 'embed') !== false) {
-        return $link. (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
+        return $link . (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time&objectFit=$objectFit";
     } else if (strpos($link, 'youtube.com') !== false) {
 
@@ -584,13 +584,12 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
 
         $id = $matches[2];
         return '//streamable.com/s/' . $id;
-    } 
-    else if (strpos($link, 'twitch.tv/videos') !== false) {
+    } else if (strpos($link, 'twitch.tv/videos') !== false) {
         //extract the ID
         preg_match(
                 '/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches
         );
-        if(!empty($matches[2])){
+        if (!empty($matches[2])) {
             $id = $matches[2];
             return '//player.twitch.tv/?video=' . $id . '#';
         }
@@ -623,7 +622,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
 
     $url = $videoString;
     $url_parsed = parse_url($url);
-    if(empty($url_parsed['query'])){
+    if (empty($url_parsed['query'])) {
         return "";
     }
     $new_qs_parsed = array();
@@ -673,32 +672,33 @@ function canUseCDN($videos_id) {
     return $canUseCDN[$videos_id];
 }
 
-function clearVideosURL($fileName="") {
+function clearVideosURL($fileName = "") {
     global $global;
     $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
-    if(empty($path)){
+    if (empty($path)) {
         rrmdir($path);
-    }else{
+    } else {
         $cacheFilename = "{$path}{$fileName}.cache";
         @unlink($cacheFilename);
     }
 }
 
 $minimumExpirationTime = false;
-function minimumExpirationTime(){
+
+function minimumExpirationTime() {
     global $minimumExpirationTime;
-    if(empty($minimumExpirationTime)){
+    if (empty($minimumExpirationTime)) {
         $aws_s3 = YouPHPTubePlugin::getObjectDataIfEnabled('AWS_S3');
         $bb_b2 = YouPHPTubePlugin::getObjectDataIfEnabled('Blackblaze_B2');
         $secure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-        $minimumExpirationTime = 60*60*24*365;//1 year
-        if(!empty($aws_s3) && $aws_s3->presignedRequestSecondsTimeout < $minimumExpirationTime){
+        $minimumExpirationTime = 60 * 60 * 24 * 365; //1 year
+        if (!empty($aws_s3) && $aws_s3->presignedRequestSecondsTimeout < $minimumExpirationTime) {
             $minimumExpirationTime = $aws_s3->presignedRequestSecondsTimeout;
         }
-        if(!empty($bb_b2) && $bb_b2->presignedRequestSecondsTimeout < $minimumExpirationTime){
+        if (!empty($bb_b2) && $bb_b2->presignedRequestSecondsTimeout < $minimumExpirationTime) {
             $minimumExpirationTime = $bb_b2->presignedRequestSecondsTimeout;
         }
-        if(!empty($secure) && $secure->tokenTimeOut < $minimumExpirationTime){
+        if (!empty($secure) && $secure->tokenTimeOut < $minimumExpirationTime) {
             $minimumExpirationTime = $secure->tokenTimeOut;
         }
     }
@@ -706,12 +706,13 @@ function minimumExpirationTime(){
 }
 
 $cacheExpirationTime = false;
-function cacheExpirationTime(){
-    if(isBot()){
+
+function cacheExpirationTime() {
+    if (isBot()) {
         return 604800; // 1 week
     }
     global $cacheExpirationTime;
-    if(empty($cacheExpirationTime)){
+    if (empty($cacheExpirationTime)) {
         $obj = YouPHPTubePlugin::getObjectDataIfEnabled('Cache');
         $cacheExpirationTime = $obj->cacheTimeInSeconds;
     }
@@ -723,8 +724,8 @@ function cacheExpirationTime(){
  * @param type $filename
  * @return boolean
  */
-function recreateCache($filename){
-    if(!file_exists($filename) || time()-filemtime($filename)>  minimumExpirationTime()){
+function recreateCache($filename) {
+    if (!file_exists($filename) || time() - filemtime($filename) > minimumExpirationTime()) {
         return true;
     }
     return false;
@@ -739,12 +740,12 @@ function getVideosURL($fileName, $cache = true) {
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-    
+
     $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
     make_path($path);
     $cacheFilename = "{$path}{$fileName}.cache";
     //var_dump($cacheFilename, recreateCache($cacheFilename), minimumExpirationTime());
-    if(file_exists($cacheFilename) && $cache && !recreateCache($cacheFilename)){
+    if (file_exists($cacheFilename) && $cache && !recreateCache($cacheFilename)) {
         $json = file_get_contents($cacheFilename);
         $time = microtime();
         $time = explode(' ', $time);
@@ -752,7 +753,7 @@ function getVideosURL($fileName, $cache = true) {
         $finish = $time;
         $total_time = round(($finish - $start), 4);
         error_log("getVideosURL Cache in {$total_time} seconds. fileName: $fileName ");
-        error_log("getVideosURL age: ".(time()-filemtime($cacheFilename))." minimumExpirationTime: ".minimumExpirationTime());
+        error_log("getVideosURL age: " . (time() - filemtime($cacheFilename)) . " minimumExpirationTime: " . minimumExpirationTime());
         return object_to_array(json_decode($json));
     }
     global $global;
@@ -841,9 +842,9 @@ function getVideosURL($fileName, $cache = true) {
             }
         }
     }
-    
+
     file_put_contents($cacheFilename, json_encode($files));
-    
+
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1297,7 +1298,7 @@ function mime_content_type_per_filename($filename) {
 
 function combineFiles($filesArray, $extension = "js") {
     global $global, $advancedCustom;
-    $cacheDir = $global['systemRootPath'] . 'videos/cache/'.$extension."/";
+    $cacheDir = $global['systemRootPath'] . 'videos/cache/' . $extension . "/";
     if (!is_dir($cacheDir)) {
         mkdir($cacheDir, 0777, true);
     }
@@ -1343,7 +1344,7 @@ function combineFiles($filesArray, $extension = "js") {
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
-    return $global['webSiteRootURL'] . 'videos/cache/'.$extension."/" . $md5FileName;
+    return $global['webSiteRootURL'] . 'videos/cache/' . $extension . "/" . $md5FileName;
 }
 
 function local_get_contents($path) {
@@ -1442,12 +1443,25 @@ function UTF8encode($data) {
 
 //detect search engine bots
 function isBot() {
-    return false;
-    $bot_regex = '/bot|BotLink|bingbot|AhrefsBot|ahoy|AlkalineBOT|anthill|appie|arale|araneo|AraybOt|ariadne|arks|ATN_Worldwide|Atomz|bbot|Bjaaland|Ukonline|borg\-bot\/0\.9|boxseabot|bspider|calif|christcrawler|CMC\/0\.01|combine|confuzzledbot|CoolBot|cosmos|Internet Cruiser Robot|cusco|cyberspyder|cydralspider|desertrealm, desert realm|digger|DIIbot|grabber|downloadexpress|DragonBot|dwcp|ecollector|ebiness|elfinbot|esculapio|esther|fastcrawler|FDSE|FELIX IDE|ESI|fido|H�m�h�kki|KIT\-Fireball|fouineur|Freecrawl|gammaSpider|gazz|gcreep|golem|googlebot|griffon|Gromit|gulliver|gulper|hambot|havIndex|hotwired|htdig|iajabot|INGRID\/0\.1|Informant|InfoSpiders|inspectorwww|irobot|Iron33|JBot|jcrawler|Teoma|Jeeves|jobo|image\.kapsi\.net|KDD\-Explorer|ko_yappo_robot|label\-grabber|larbin|legs|Linkidator|linkwalker|Lockon|logo_gif_crawler|marvin|mattie|mediafox|MerzScope|NEC\-MeshExplorer|MindCrawler|udmsearch|moget|Motor|msnbot|muncher|muninn|MuscatFerret|MwdSearch|sharp\-info\-agent|WebMechanic|NetScoop|newscan\-online|ObjectsSearch|Occam|Orbsearch\/1\.0|packrat|pageboy|ParaSite|patric|pegasus|perlcrawler|phpdig|piltdownman|Pimptrain|pjspider|PlumtreeWebAccessor|PortalBSpider|psbot|Getterrobo\-Plus|Raven|RHCS|RixBot|roadrunner|Robbie|robi|RoboCrawl|robofox|Scooter|Search\-AU|searchprocess|Senrigan|Shagseeker|sift|SimBot|Site Valet|skymob|SLCrawler\/2\.0|slurp|ESI|snooper|solbot|speedy|spider_monkey|SpiderBot\/1\.0|spiderline|nil|suke|http:\/\/www\.sygol\.com|tach_bw|TechBOT|templeton|titin|topiclink|UdmSearch|urlck|Valkyrie libwww\-perl|verticrawl|Victoria|void\-bot|Voyager|VWbot_K|crawlpaper|wapspider|WebBandit\/1\.0|webcatcher|T\-H\-U\-N\-D\-E\-R\-S\-T\-O\-N\-E|WebMoose|webquest|webreaper|webs|webspider|WebWalker|wget|winona|whowhere|wlm|WOLP|WWWC|none|XGET|Nederland\.zoek|AISearchBot|woriobot|NetSeer|Nutch|YandexBot|YandexMobileBot|SemrushBot|FatBot|MJ12bot|DotBot|AddThis|baiduspider|SeznamBot|mod_pagespeed|CCBot|openstat.ru\/Bot|m2e/i';
-    $userAgent = empty($_SERVER['HTTP_USER_AGENT']) ? false : $_SERVER['HTTP_USER_AGENT'];
-    $isBot = !$userAgent || preg_match($bot_regex, $userAgent);
-
-    return $isBot;
+    // User lowercase string for comparison.
+    $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+    // A list of some common words used only for bots and crawlers.
+    $bot_identifiers = array(
+        'bot',
+        'slurp',
+        'crawler',
+        'spider',
+        'curl',
+        'facebook',
+        'fetch',
+    );
+    // See if one of the identifiers is in the UA string.
+    foreach ($bot_identifiers as $identifier) {
+        if (strpos($user_agent, $identifier) !== FALSE) {
+            return TRUE;
+        }
+    }
+    return FALSE;
 }
 
 /**
