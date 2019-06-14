@@ -98,6 +98,60 @@ if ($playNowVideo['type'] == "linkVideo") {
     echo '$("time.duration").hide();';
 }
 ?>
+var menu = new BootstrapMenu('#mainVideo', {
+        actions: [{
+        name: '<?php echo __("Copy video URL"); ?>',
+                onClick: function () {
+                copyToClipboard($('#linkFriendly').val());
+                }, iconClass: 'fas fa-link'
+        }, {
+        name: '<?php echo __("Copy video URL at current time"); ?>',
+                onClick: function () {
+                copyToClipboard($('#linkCurrentTime').val());
+                }, iconClass: 'fas fa-link'
+        }, {
+        name: '<?php echo __("Copy embed code"); ?>',
+                onClick: function () {
+                $('#textAreaEmbed').focus();
+                        copyToClipboard($('#textAreaEmbed').val());
+                }, iconClass: 'fas fa-code'
+        }
+<?php if (CustomizeUser::canDownloadVideosFromVideo($playNowVideo['id'])) { ?>
+    <?php
+    if ($playNowVideo['type'] == "video") {
+        $files = getVideosURL($playNowVideo['filename']);
+        foreach ($files as $key => $theLink) {
+            if (empty($advancedCustom->showImageDownloadOption)) {
+                if ($key == "jpg" || $key == "gif") {
+                    continue;
+                }
+            }
+            ?>
+                    , {
+                        name: '<?php echo __("Download video") . " (" . $key . ")"; ?>',
+                        onClick: function () {
+                            document.location = '<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.mp4"); ?>';
+                                        }, iconClass: 'fas fa-download'
+                                    }
+            <?php
+        }
+    } else {
+        ?>
+                                , {
+                                    name: '<?php echo __("Download video"); ?>',
+                                    onClick: function () {
+                                        document.location = '<?php echo $video['videoLink']; ?>?download=1&title=<?php echo urlencode($video['title'] . ".mp4"); ?>';
+                                                    }, iconClass: 'fas fa-download'
+                                                }
+
+        <?php
+    }
+}
+?>
+
+                                        ]
+                                    });
+
 
 
                                     if (typeof player === 'undefined') {
