@@ -101,12 +101,9 @@ class PayPalYPT extends PluginAbstract {
         try {
             $plan = Plan::get($plan_id, $apiContext);
         } catch (Exception $ex) {
-            // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            ResultPrinter::printError("Retrieved a Plan", "Plan", $plan->getId(), null, $ex);
-            exit(1);
+            return $ex;
         }
-        // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        ResultPrinter::printResult("Retrieved a Plan", "Plan", $plan->getId(), null, $plan);
+        return $plan;
     }
 
     private function executePayment() {
