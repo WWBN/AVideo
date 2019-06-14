@@ -298,7 +298,7 @@ class PayPalYPT extends PluginAbstract {
         if(!empty($subs)){
             $trialDays = $subs->getHow_many_days_trial();
         }
-        if(empty($trialDays)){
+        if(!empty($trialDays)){
             $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+1 hour")); 
         }else{
             $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
