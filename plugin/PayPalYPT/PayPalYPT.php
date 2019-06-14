@@ -293,7 +293,16 @@ class PayPalYPT extends PluginAbstract {
         }
         // Create new agreement
         // the setup fee will be the first payment and start date is the next payment
-        $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
+        
+        $subs = new SubscriptionPlansTable($_POST['plans_id']);
+        if(!empty($subs)){
+            $trialDays = $subs->getHow_many_days_trial();
+        }
+        if(empty($trialDays)){
+            $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+1 hour")); 
+        }else{
+            $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
+        }
         $agreement = new Agreement();
         $agreement->setName($name)
                 ->setDescription($name)
