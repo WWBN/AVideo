@@ -270,7 +270,7 @@ class PayPalYPT extends PluginAbstract {
         $planId = $this->getPlanId();
         if (empty($planId)) {
             //createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') 
-            $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name, $planId);
+            $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name, $_POST['plans_id']);
 
             if (empty($plan)) {
                 error_log("PayPal Error setUpSubscription Plan ID is empty ");
