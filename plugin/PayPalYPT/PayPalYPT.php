@@ -94,6 +94,21 @@ class PayPalYPT extends PluginAbstract {
         return false;
     }
 
+    public function getPlanDetails($plan_id) {
+        global $global;
+
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        try {
+            $plan = Plan::get($createdPlan->getId(), $apiContext);
+        } catch (Exception $ex) {
+            // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+            ResultPrinter::printError("Retrieved a Plan", "Plan", $plan->getId(), null, $ex);
+            exit(1);
+        }
+        // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+        ResultPrinter::printResult("Retrieved a Plan", "Plan", $plan->getId(), null, $plan);
+    }
+
     private function executePayment() {
         global $global;
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
@@ -143,7 +158,7 @@ class PayPalYPT extends PluginAbstract {
         return $payment;
     }
 
-    private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement', $plans_id=0) {
+    private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement', $plans_id = 0) {
         global $global;
 
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
@@ -155,8 +170,8 @@ class PayPalYPT extends PluginAbstract {
                 ->setType('INFINITE');
 
         $paymentDefinitionArray = array();
-        
-        if(!empty($plans_id)){
+
+        if (!empty($plans_id)) {
             $subs = new SubscriptionPlansTable($plans_id);
             $trialDays = $subs->getHow_many_days_trial();
             if (!empty($trialDays)) {
@@ -170,7 +185,7 @@ class PayPalYPT extends PluginAbstract {
                 $paymentDefinitionArray[] = $trialPaymentDefinition;
             }
         }
-        
+
         // Set billing plan definitions
         $paymentDefinition = new PaymentDefinition();
         $paymentDefinition->setName('Regular Payments')
@@ -182,7 +197,7 @@ class PayPalYPT extends PluginAbstract {
         $paymentDefinitionArray[] = $paymentDefinition;
 
         $plan->setPaymentDefinitions($paymentDefinitionArray);
-        
+
         // if there is a trial do not charge a setup fee
         if (empty($trialDays)) {
             // Set merchant preferences
