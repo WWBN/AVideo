@@ -181,18 +181,23 @@ class PayPalYPT extends PluginAbstract {
                 ->setAmount(new Currency(array('value' => $total, 'currency' => $currency)));
         $paymentDefinitionArray[] = $paymentDefinition;
 
-        // Set merchant preferences
-        $merchantPreferences = new MerchantPreferences();
-        $merchantPreferences->setReturnUrl($redirect_url)
-                ->setCancelUrl($cancel_url)
-                //->setNotifyUrl($notify_url)
-                ->setAutoBillAmount('yes')
-                ->setInitialFailAmountAction('CONTINUE')
-                ->setMaxFailAttempts('0')
-                ->setSetupFee(new Currency(array('value' => $total, 'currency' => $currency)));
-
         $plan->setPaymentDefinitions($paymentDefinitionArray);
-        $plan->setMerchantPreferences($merchantPreferences);
+        
+        // if there is a trial do not charge a setup fee
+        if (empty($trialDays)) {
+            // Set merchant preferences
+            $merchantPreferences = new MerchantPreferences();
+            $merchantPreferences->setReturnUrl($redirect_url)
+                    ->setCancelUrl($cancel_url)
+                    //->setNotifyUrl($notify_url)
+                    ->setAutoBillAmount('yes')
+                    ->setInitialFailAmountAction('CONTINUE')
+                    ->setMaxFailAttempts('0')
+                    ->setSetupFee(new Currency(array('value' => $total, 'currency' => $currency)));
+
+
+            $plan->setMerchantPreferences($merchantPreferences);
+        }
 
         //create plan
         try {
