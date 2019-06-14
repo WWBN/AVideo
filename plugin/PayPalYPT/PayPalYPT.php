@@ -99,7 +99,7 @@ class PayPalYPT extends PluginAbstract {
 
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         try {
-            $plan = Plan::get($createdPlan->getId(), $apiContext);
+            $plan = Plan::get($plan_id, $apiContext);
         } catch (Exception $ex) {
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
             ResultPrinter::printError("Retrieved a Plan", "Plan", $plan->getId(), null, $ex);
