@@ -63,6 +63,11 @@ class Cache extends PluginAbstract {
         if ($global['webSiteRootURL'] === $actual_link) {
             return true;
         }
+        $regExp = "/". str_replace("/", '\/', $global['webSiteRootURL'])."\?showOnly=/";
+        //echo $regExp;
+        if(preg_match($regExp, $actual_link)){
+            return true;
+        }
         return false;
     }
 
