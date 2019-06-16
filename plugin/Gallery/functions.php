@@ -16,7 +16,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     }
     $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
     if (!empty($_GET['showOnly'])) {
-        $rowCount = 60;
+        $rowCount = 36;
     }
     global $global, $args, $url;
     $paggingId = uniqid();
