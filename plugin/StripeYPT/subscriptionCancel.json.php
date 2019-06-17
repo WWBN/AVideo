@@ -7,11 +7,6 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-if (!User::isAdmin()) {
-    $obj->msg = "Only for admin";
-    die(json_encode($obj));
-}
-
 if (empty($_POST['stripe_costumer_id'])) {
     $obj->msg = "Empty Stripe Costumer ID";
     die(json_encode($obj));
@@ -23,6 +18,11 @@ $subscription = StripeYPT::getSubscriptions($_POST['stripe_costumer_id'], $_POST
 
 if(empty($subscription)){
     $obj->msg = "Subscription not found";
+    die(json_encode($obj));
+}
+
+if (!User::isAdmin() || $subscription->metadata->users_id == User::getId()) {
+    $obj->msg = "You Can Not do this";
     die(json_encode($obj));
 }
 
