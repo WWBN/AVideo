@@ -37,5 +37,8 @@ if (!User::isAdmin() && $subscription->metadata->users_id != User::getId()) {
 $obj->error = false;
 $obj->msg = "";
 $obj->response  = $subscription->cancel();
+if(!empty($obj->response)){
+    SubscriptionTable::updateStripeCostumerId($subs['id'], "");
+}
 die(json_encode($obj));
 ?>
