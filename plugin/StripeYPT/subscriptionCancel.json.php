@@ -14,7 +14,15 @@ if (empty($_POST['stripe_costumer_id'])) {
 
 $plugin = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
 
-$subscription = StripeYPT::getSubscriptions($_POST['stripe_costumer_id'], $_POST['plans_id']);
+
+$subs = SubscriptionTable::getFromStripeCostumerId($_POST['stripe_costumer_id']);
+if(empty($subs)){
+    $obj->msg = "Subscription row not found";
+    die(json_encode($obj));
+}
+$plans_id = $subs['subscriptions_plans_id'];
+
+$subscription = StripeYPT::getSubscriptions($_POST['stripe_costumer_id'], $plans_id);
 
 if(empty($subscription)){
     $obj->msg = "Subscription not found";
