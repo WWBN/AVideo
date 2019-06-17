@@ -33,7 +33,7 @@ if(empty($agreement)){
 
 $subs = Subscription::getFromAgreement($_POST['agreement_id']);
 $s = new SubscriptionTable($subs['id']);
-$s->setAgreement_id('');
+$s->setAgreement_id('canceled');
 $s->save();
 
 $obj->error = false;
