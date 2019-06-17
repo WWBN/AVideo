@@ -11,8 +11,17 @@ $showOnlyLoggedUserVideos = true;
 if (User::isAdmin()) {
     $showOnlyLoggedUserVideos = false;
 }
-$videos = Video::getAllVideos('', $showOnlyLoggedUserVideos, true);
-$total = Video::getTotalVideos('', $showOnlyLoggedUserVideos, true);
+$showUnlisted = false;
+$activeUsersOnly = true;
+if(!empty($_REQUEST['showAll'])){
+    $showUnlisted = true;
+    if(User::isAdmin()){
+        $activeUsersOnly = false;
+    }
+}
+
+$videos = Video::getAllVideos('', $showOnlyLoggedUserVideos, true, array(), false, $showUnlisted, $activeUsersOnly);
+$total = Video::getTotalVideos('', $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly);
 foreach ($videos as $key => $value) {
     unset($value['password']);
     unset($value['recoverPass']);
