@@ -454,6 +454,7 @@ function sendSiteEmail($to, $subject, $message) {
         if (!is_array($to)) {
             $mail->addAddress($to);
         } else {
+            $to = array_unique($to);
             foreach ($to as $value) {
                 $mail->addBCC($value);
             }
