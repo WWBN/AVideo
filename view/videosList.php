@@ -6,10 +6,11 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-
+$post = $_POST;
 if (!empty($_POST['video_id'])) {
     $video = Video::getVideo($_POST['video_id'], "viewable");
 }
+$_POST = $post;
 
 $catLink = "";
 if (!empty($_GET['catName'])) {
@@ -43,6 +44,7 @@ $_SESSION['sort'] = $_POST['sort'];
 
 $videos = Video::getAllVideos("viewable");
 $total = Video::getTotalVideos("viewable");
+$_POST = $post;
 $totalPages = ceil($total / $_POST['rowCount']);
 if (empty($totalPages)) {
     $totalPages = 1;
@@ -71,9 +73,9 @@ if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannel
 ?>
 <div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
-        <option value="title" data-icon="glyphicon-text-height" value="desc" <?php echo (!empty($_POST['sort']['title']) && $_POST['sort']['title'] == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Title"); ?></option>
-        <option value="newest" data-icon="glyphicon-sort-by-attributes" value="desc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'desc') ? "selected='selected'" : "" ?>> <?php echo __("Date added (newest)"); ?></option>
-        <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" value="asc" <?php echo (!empty($_POST['sort']['created']) && $_POST['sort']['created'] == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Date added (oldest)"); ?></option>
+        <option value="title" data-icon="glyphicon-text-height" value="desc" <?php echo (!empty($_POST['sort']['title']) && strtolower($_POST['sort']['title']) == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Title"); ?></option>
+        <option value="newest" data-icon="glyphicon-sort-by-attributes" value="desc" <?php echo (!empty($_POST['sort']['created']) && strtolower($_POST['sort']['created']) == 'desc') ? "selected='selected'" : "" ?>> <?php echo __("Date added (newest)"); ?></option>
+        <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" value="asc" <?php echo (!empty($_POST['sort']['created']) && strtolower($_POST['sort']['created']) == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Date added (oldest)"); ?></option>
         <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo (!empty($_POST['sort']['likes'])) ? "selected='selected'" : "" ?>> <?php echo __("Most popular"); ?></option>
         <?php
         if (empty($advancedCustom->doNotDisplayViews)) {
