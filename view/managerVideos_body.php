@@ -1542,7 +1542,7 @@ echo YouPHPTubePlugin::getManagerVideosReset();
                                                     search: "<?php echo __("Search"); ?>",
                                                 },
                                                 ajax: true,
-                                                url: "<?php echo $global['webSiteRootURL'] . "objects/videos.json.php"; ?>",
+                                                url: "<?php echo $global['webSiteRootURL'] . "objects/videos.json.php?showAll=1"; ?>",
                                                 formatters: {
                                                     "commands": function (column, row)
                                                     {
