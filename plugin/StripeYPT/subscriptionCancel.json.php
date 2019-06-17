@@ -29,7 +29,7 @@ if(empty($subscription)){
     die(json_encode($obj));
 }
 
-if (!User::isAdmin() || $subscription->metadata->users_id == User::getId()) {
+if (!User::isAdmin() && $subscription->metadata->users_id != User::getId()) {
     $obj->msg = "You Can Not do this";
     die(json_encode($obj));
 }
