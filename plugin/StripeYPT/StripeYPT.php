@@ -218,7 +218,7 @@ class StripeYPT extends PluginAbstract {
                 return $subscription;
             }
         }
-        error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id ". json_encode($subscription));
+        error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id ". json_encode($costumer));
         return false;
     }
 
