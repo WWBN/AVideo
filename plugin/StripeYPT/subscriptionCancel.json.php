@@ -38,7 +38,7 @@ $obj->error = false;
 $obj->msg = "";
 $obj->response  = $subscription->cancel();
 if(!empty($obj->response)){
-    SubscriptionTable::updateStripeCostumerId($subs['id'], "");
+    SubscriptionTable::updateStripeCostumerId($subs['id'], "canceled");
 }
 die(json_encode($obj));
 ?>
