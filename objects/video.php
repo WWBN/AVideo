@@ -1113,9 +1113,11 @@ if (!class_exists('Video')) {
              */
             $viewable = array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
             if (!empty($_GET['videoName'])) {
+                $post = $_POST;
                 if ($showUnlisted || self::isOwnerFromCleanTitle($_GET['videoName']) || User::isAdmin()) {
                     $viewable[] = "u";
                 }
+                $_POST = $post;
             }
             return $viewable;
         }
