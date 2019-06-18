@@ -82,7 +82,6 @@ class StripeYPT extends PluginAbstract {
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());
             }
-
         }
         return false;
     }
@@ -144,7 +143,7 @@ class StripeYPT extends PluginAbstract {
             try {
                 $this->start();
                 return \Stripe\Customer::create([
-                            "description" => "Customer [$users_id] " . $user->getNameIdentification(). "(".$user->getEmail().")",
+                            "description" => "Customer [$users_id] " . $user->getNameIdentification() . "(" . $user->getEmail() . ")",
                             "source" => $stripeToken // obtained with Stripe.js
                 ]);
             } catch (Exception $exc) {
@@ -155,7 +154,7 @@ class StripeYPT extends PluginAbstract {
     }
 
     public function getCostumerId($users_id, $stripeToken) {
-        
+
         $costumer = $this->createCostumer($users_id, $stripeToken);
 
         if (!empty($costumer)) {
@@ -197,7 +196,7 @@ class StripeYPT extends PluginAbstract {
                     'amount' => self::removeDot($total),
         ]);
     }
-    
+
     static function getSubscriptions($stripe_costumer_id, $plans_id) {
         if (!User::isAdmin()) {
             error_log("getSubscription: User not admin");
@@ -213,12 +212,12 @@ class StripeYPT extends PluginAbstract {
         $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
         foreach ($costumer->subscriptions->data as $value) {
             $subscription = \Stripe\Subscription::retrieve($value->id);
-            if($subscription->metadata->plans_id == $plans_id){
-                error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id ". json_encode($subscription));
+            if ($subscription->metadata->plans_id == $plans_id) {
+                error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
                 return $subscription;
             }
         }
-        error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id ". json_encode($costumer));
+        error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id " . json_encode($costumer));
         return false;
     }
 
@@ -272,21 +271,21 @@ class StripeYPT extends PluginAbstract {
         $metadata->stripe_costumer_id = $sub['stripe_costumer_id'];
 
         $parameters = [
-                    "customer" => $sub['stripe_costumer_id'],
-                    "items" => [
-                        [
-                            "plan" => $stripe_plan_id,
-                        ]
-                    ],
-                    "metadata" => [
-                        'users_id' => User::getId(),
-                        'plans_id' => $plans_id,
-                        'stripe_costumer_id' => $sub['stripe_costumer_id']
-                    ]
+            "customer" => $sub['stripe_costumer_id'],
+            "items" => [
+                [
+                    "plan" => $stripe_plan_id,
+                ]
+            ],
+            "metadata" => [
+                'users_id' => User::getId(),
+                'plans_id' => $plans_id,
+                'stripe_costumer_id' => $sub['stripe_costumer_id']
+            ]
         ];
-        
+
         $trialDays = $subs->getHow_many_days_trial();
-        if(!empty($trialDays)) {
+        if (!empty($trialDays)) {
             $trial = strtotime("+{$trialDays} days");
             $parameters['trial_end'] = $trial;
         }
@@ -305,15 +304,14 @@ class StripeYPT extends PluginAbstract {
         $payment_amount = StripeYPT::addDot($payload->data->object->amount);
         $users_id = @$plan['users_id'];
         $plans_id = @$plan['subscriptions_plans_id'];
-        if(!empty($users_id)){
-            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: ".$payload->data->object->description, json_encode($payload));
-            if(!empty($plans_id)){
-                Subscription::renew($users_id, $plans_id);                
+        if (!empty($users_id)) {
+            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: " . $payload->data->object->description, json_encode($payload));
+            if (!empty($plans_id)) {
+                Subscription::renew($users_id, $plans_id);
             }
         }
     }
-    
-    
+
     function getAllSubscriptions() {
         if (!User::isAdmin()) {
             error_log("getAllSubscriptions: User not admin");
@@ -321,20 +319,25 @@ class StripeYPT extends PluginAbstract {
         }
         global $global;
         $this->start();
-        return \Stripe\Subscription::all(['limit' => 1000, 'status'=>'active']);
+        return \Stripe\Subscription::all(['limit' => 1000, 'status' => 'active']);
     }
-    
+
     function cancelSubscriptions($id) {
         if (!User::isAdmin()) {
             error_log("cancelSubscriptions: User not admin");
             return false;
         }
         global $global;
-        $this->start();
-        $sub = \Stripe\Subscription::retrieve($id);
-        return $sub->cancel();
+        try {
+            $this->start();
+            $sub = \Stripe\Subscription::retrieve($id);
+            $sub->cancel();
+            return true;
+        } catch (Exception $exc) {
+            return false;
+        }
     }
-    
+
     public function getPluginMenu() {
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/StripeYPT/pluginMenu.html';
