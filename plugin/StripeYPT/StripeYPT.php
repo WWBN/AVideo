@@ -323,5 +323,11 @@ class StripeYPT extends PluginAbstract {
         $this->start();
         return \Stripe\Subscription::all(['limit' => 1000, 'status'=>'active']);
     }
+    
+    public function getPluginMenu() {
+        global $global;
+        $filename = $global['systemRootPath'] . 'plugin/StripeYPT/pluginMenu.html';
+        return file_get_contents($filename);
+    }
 
 }
