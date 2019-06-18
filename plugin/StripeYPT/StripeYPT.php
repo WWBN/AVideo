@@ -158,7 +158,7 @@ class StripeYPT extends PluginAbstract {
         $costumer = $this->createCostumer($users_id, $stripeToken);
 
         if (!empty($costumer)) {
-            if(\Stripe\Customer::retrieve($costumer->id)){
+            if(self::isCostumerValid($costumer->id)){
                 return $costumer->id;
             }else{
                 return false;
@@ -166,6 +166,19 @@ class StripeYPT extends PluginAbstract {
         }
 
         return false;
+    }
+    
+    public static function isCostumerValid($id){
+        try {
+            if(\Stripe\Customer::retrieve($id)){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception $exc) {
+            return false;
+        }
+
     }
 
     private function createBillingPlan($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
