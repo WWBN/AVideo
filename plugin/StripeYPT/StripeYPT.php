@@ -324,6 +324,17 @@ class StripeYPT extends PluginAbstract {
         return \Stripe\Subscription::all(['limit' => 1000, 'status'=>'active']);
     }
     
+    function cancelSubscriptions($id) {
+        if (!User::isAdmin()) {
+            error_log("cancelSubscriptions: User not admin");
+            return false;
+        }
+        global $global;
+        $this->start();
+        $sub = \Stripe\Subscription::retrieve($id);
+        return $sub->cancel();
+    }
+    
     public function getPluginMenu() {
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/StripeYPT/pluginMenu.html';
