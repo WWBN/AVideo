@@ -111,5 +111,4 @@ if (!empty($video['users_id'])) {
         unset($userAnalytics);
     }
 }
-YouPHPTubePlugin::getHeadCode();
 ?>
