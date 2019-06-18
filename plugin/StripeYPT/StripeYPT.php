@@ -312,5 +312,16 @@ class StripeYPT extends PluginAbstract {
             }
         }
     }
+    
+    
+    static function getAllSubscriptions() {
+        if (!User::isAdmin()) {
+            error_log("getAllSubscriptions: User not admin");
+            return false;
+        }
+        global $global;
+        $this->start();
+        return \Stripe\Subscription::all(['limit' => 1000, 'status'=>'active']);
+    }
 
 }
