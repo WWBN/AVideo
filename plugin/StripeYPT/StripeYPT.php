@@ -169,6 +169,9 @@ class StripeYPT extends PluginAbstract {
     }
     
     public static function isCostumerValid($id){
+        if($id == 'canceled'){
+            return false;
+        }
         error_log("StripeYPT::isCostumerValid $id");
         try {
             $c = \Stripe\Customer::retrieve($id);
@@ -257,6 +260,11 @@ class StripeYPT extends PluginAbstract {
         }
         // check costumer
         $sub = Subscription::getOrCreateStripeSubscription(User::getId(), $plans_id);
+        
+        if(!self::isCostumerValid($sub['stripe_costumer_id'])){
+            $sub['stripe_costumer_id'] = "";
+        }
+        
         if (empty($sub['stripe_costumer_id'])) {
             $sub['stripe_costumer_id'] = $this->getCostumerId(User::getId(), $stripeToken);
             if (empty($sub['stripe_costumer_id'])) {
