@@ -16,7 +16,7 @@ $stripe = YouPHPTubePlugin::loadPlugin("StripeYPT");
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
-        $subs = StripeYPT::getAllSubscriptions();
+        $subs = $stripe->getAllSubscriptions();
         var_dump($subs);
         ?>
             
