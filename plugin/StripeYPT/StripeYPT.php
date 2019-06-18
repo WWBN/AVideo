@@ -134,7 +134,7 @@ class StripeYPT extends PluginAbstract {
         return true;
     }
 
-    public function createCostumer($users_id, $stripeToken) {
+        public function createCostumer($users_id, $stripeToken) {
         global $global;
 
         $user = new User($users_id);
@@ -158,7 +158,11 @@ class StripeYPT extends PluginAbstract {
         $costumer = $this->createCostumer($users_id, $stripeToken);
 
         if (!empty($costumer)) {
-            return $costumer->id;
+            if(\Stripe\Customer::retrieve($costumer->id)){
+                return $costumer->id;
+            }else{
+                return false;
+            }
         }
 
         return false;
