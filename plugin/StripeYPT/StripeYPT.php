@@ -181,7 +181,7 @@ class StripeYPT extends PluginAbstract {
         ]);
     }
 
-    static function updateBillingPlan($plans_id, $total = '1.00', $currency = "USD", $interval = 1, $name = 'Base Agreement') {
+    function updateBillingPlan($plans_id, $total = '1.00', $currency = "USD", $interval = 1, $name = 'Base Agreement') {
         global $global;
         if (empty($plan_id)) {
             return false;
@@ -314,7 +314,7 @@ class StripeYPT extends PluginAbstract {
     }
     
     
-    static function getAllSubscriptions() {
+    function getAllSubscriptions() {
         if (!User::isAdmin()) {
             error_log("getAllSubscriptions: User not admin");
             return false;
