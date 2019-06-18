@@ -28,7 +28,7 @@ $payloadObj = json_decode($payload);
 //error_log("StripeIPN: sig_header ".json_encode($sig_header));
 
 error_log("StripeIPN: payload type: ".$payloadObj->type);
-if($payloadObj->type!=="payment_intent.succeeded"){
+if($payloadObj->type!=="invoice.payment_succeeded"){
     return;
 }
 error_log("StripeIPN: payload ".json_encode($payloadObj));
