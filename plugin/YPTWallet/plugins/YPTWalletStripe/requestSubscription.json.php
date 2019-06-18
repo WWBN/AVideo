@@ -41,8 +41,9 @@ if(!User::isLogged()){
 }
 $users_id = User::getId();
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
+error_log("Request subscription setUpSubscription: ".  json_encode($_POST));
 $payment = $plugin->setUpSubscription($_POST['plans_id'], $_POST['stripeToken']);
-error_log("Request subscription Stripe: ".  json_encode($_POST));
+error_log("Request subscription setUpSubscription Done ");
 if (!empty($payment) && !empty($payment->status) && ($payment->status=="active" || $payment->status=="trialing")) {
     $obj->error = false;
     $obj->subscription = $payment;
