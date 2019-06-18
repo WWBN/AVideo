@@ -32,6 +32,7 @@ if(!empty($_GET['subscription_id'])){
 
                     $title = "";
                     $body = "";
+                    $buttonClass = "danger";
 
                     if (!empty($users_id)) {
                         $user = new User($users_id);
@@ -41,13 +42,19 @@ if(!empty($_GET['subscription_id'])){
                     } else {
                         $title .= "User ID Not found";
                     }
-                    if (!empty($plans_id)) {
-                        $plan = new SubscriptionPlansTable($plans_id);
-                        if (!empty($plan)) {
-                            $title .= " [" . $plan->getName() . "]";
+                    if(YouPHPTubePlugin::isEnabledByName("Subscription")){
+                        if (!empty($plans_id)) {
+                            $plan = new SubscriptionPlansTable($plans_id);
+                            if (!empty($plan)) {
+                                $title .= " [" . $plan->getName() . "]";
+                                $row = SubscriptionTable::getSubscription($users_id, $plans_id);
+                                if(!empty($row)){
+                                    $buttonClass = "success";
+                                }
+                            }
+                        } else {
+                            $title .= " [Plan ID Not found]";
                         }
-                    } else {
-                        $title .= " [Plan ID Not found]";
                     }
                     $body .= "<b>Created in:</b> " . date("Y-m-d", $value->created);
                     foreach ($value->items->data as $value2) {
@@ -60,7 +67,7 @@ if(!empty($_GET['subscription_id'])){
                         <div class="panel panel-default">
                             <div class="panel-heading"><?php echo $title; ?></div>
                             <div class="panel-body"><?php echo $body; ?></div>
-                            <div class="panel-footer"> <a class="btn btn-sm btn-xs btn-danger btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_id=<?php echo $value->id; ?>" >Cancel</a></div>
+                            <div class="panel-footer"> <a class="btn btn-sm btn-xs btn-<?php echo $buttonClass; ?> btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_id=<?php echo $value->id; ?>" >Cancel</a></div>
                         </div>
                     </div>    
                     <?php
