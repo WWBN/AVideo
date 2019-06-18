@@ -169,13 +169,18 @@ class StripeYPT extends PluginAbstract {
     }
     
     public static function isCostumerValid($id){
+        error_log("StripeYPT::isCostumerValid $id");
         try {
-            if(\Stripe\Customer::retrieve($id)){
+            $c = \Stripe\Customer::retrieve($id);
+            if($c){
+                error_log("StripeYPT::isCostumerValid IS VALID: ". json_encode($c));
                 return true;
             }else{
+                error_log("StripeYPT::isCostumerValid NOT FOUND");
                 return false;
             }
         } catch (Exception $exc) {
+            error_log("StripeYPT::isCostumerValid ERROR");
             return false;
         }
 
