@@ -31,7 +31,7 @@ $stripe = YouPHPTubePlugin::loadPlugin("StripeYPT");
                     if (!empty($users_id)) {
                         $user = new User($users_id);
                         if (!empty($user)) {
-                            $title .= $user->getEmail();
+                            $title .= $user->getName() ." (". $user->getEmail().")";
                         }
                     } else {
                         $title .= "User ID Not found";
@@ -51,9 +51,11 @@ $stripe = YouPHPTubePlugin::loadPlugin("StripeYPT");
                         $body .= "<br><b>Interval:</b> each " . $value2->plan->interval_count . " " . $value2->plan->interval;
                     }
                     ?>
-                    <div class="panel panel-default col-sm-4">
-                        <div class="panel-heading"><?php echo $title; ?> <button class="btn btn-sm btn-xs btn-danger pull-right" onclick="cancel('<?php echo $value->id; ?>')" >Cancel</button></div>
-                        <div class="panel-body"><?php echo $body; ?></div>
+                    <div class="col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><?php echo $title; ?> <button class="btn btn-sm btn-xs btn-danger pull-right" onclick="cancel('<?php echo $value->id; ?>')" >Cancel</button></div>
+                            <div class="panel-body"><?php echo $body; ?></div>
+                        </div>
                     </div>    
                     <?php
                 }
