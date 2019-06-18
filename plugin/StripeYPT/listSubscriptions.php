@@ -5,6 +5,11 @@ if (!User::isAdmin()) {
     exit;
 }
 $stripe = YouPHPTubePlugin::loadPlugin("StripeYPT");
+
+if(!empty($_GET['subscription_id'])){
+    $stripe->cancelSubscriptions($_GET['subscription_id']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -53,8 +58,9 @@ $stripe = YouPHPTubePlugin::loadPlugin("StripeYPT");
                     ?>
                     <div class="col-sm-3">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><?php echo $title; ?> <button class="btn btn-sm btn-xs btn-danger pull-right" onclick="cancel('<?php echo $value->id; ?>')" >Cancel</button></div>
+                            <div class="panel-heading"><?php echo $title; ?></div>
                             <div class="panel-body"><?php echo $body; ?></div>
+                            <div class="panel-footer"> <a class="btn btn-sm btn-xs btn-danger btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_id=<?php echo $value->id; ?>" >Cancel</a></div>
                         </div>
                     </div>    
                     <?php
