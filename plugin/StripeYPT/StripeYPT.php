@@ -223,8 +223,8 @@ class StripeYPT extends PluginAbstract {
     }
 
     static function getSubscriptions($stripe_costumer_id, $plans_id) {
-        if (!User::isAdmin()) {
-            error_log("getSubscription: User not admin");
+        if (!User::isLogged()) {
+            error_log("getSubscription: User not logged");
             return false;
         }
         if (empty($stripe_costumer_id)) {
@@ -232,12 +232,13 @@ class StripeYPT extends PluginAbstract {
             return false;
         }
         global $global;
+        $users_id = User::getId();
         $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
         $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
         foreach ($costumer->subscriptions->data as $value) {
             $subscription = \Stripe\Subscription::retrieve($value->id);
-            if ($subscription->metadata->plans_id == $plans_id) {
+            if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
                 error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
                 return $subscription;
             }
