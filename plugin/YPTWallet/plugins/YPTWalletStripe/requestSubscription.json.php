@@ -45,6 +45,9 @@ error_log("Request subscription setUpSubscription: ".  json_encode($_POST));
 $payment = $plugin->setUpSubscription($_POST['plans_id'], $_POST['stripeToken']);
 error_log("Request subscription setUpSubscription Done ");
 if (!empty($payment) && !empty($payment->status) && ($payment->status=="active" || $payment->status=="trialing")) {
+    if($payment->status=="trialing" && Subscription::isTrial($_POST['plans_id'])){
+        Subscription::onTrial($users_id, $_POST['plans_id']);
+    }
     $obj->error = false;
     $obj->subscription = $payment;
 }else{

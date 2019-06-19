@@ -60,7 +60,7 @@ class YouPHPTubePlugin {
             if (is_object($p)) {
                 $str .= $p->getHeadCode();
             }
-                self::YPTend("{$value['dirName']}::".__FUNCTION__);
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
         return $str;
     }
