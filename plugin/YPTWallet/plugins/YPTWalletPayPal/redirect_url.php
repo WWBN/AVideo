@@ -63,7 +63,7 @@ if (!empty($payment)) {
         error_log("Redirect URL trigger ontrial");
         Subscription::onTrial($subscription['users_id'], $subscription['subscriptions_plans_id']);
     }else{
-        error_log("Redirect URL trigger ontrial");
+        error_log("Redirect URL trigger ontrial FAIL");
     }
 
     $obj->error = false;
