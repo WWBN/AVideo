@@ -54,7 +54,7 @@ if (!empty($payment)) {
     $plugin->addBalance($users_id, $amount->total, "Paypal payment", json_encode($payment));
 
     //if empty amount check if it is a trial
-    $trialDays = Subscription::isTrial($plans_id);
+    $trialDays = Subscription::isTrial($subscription['subscriptions_plans_id']);
     if (empty($amount->total) && !empty($trialDays)) {
         Subscription::onTrial($subscription['users_id'], $subscription['subscriptions_plans_id']);
     }
