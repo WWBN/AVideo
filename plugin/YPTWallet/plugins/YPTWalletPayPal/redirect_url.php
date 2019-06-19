@@ -49,7 +49,9 @@ if (empty($users_id)) {
 //var_dump($amount);
 $obj = new stdClass();
 $obj->error = true;
+error_log("Redirect URL try Payment");
 if (!empty($payment)) {
+    error_log("Redirect URL try Payment Success");
     $amount = PayPalYPT::getAmountFromPayment($payment);
     $plugin->addBalance($users_id, $amount->total, "Paypal payment", json_encode($payment));
 
@@ -70,6 +72,7 @@ if (!empty($payment)) {
         header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=success");
     }
 } else {
+    error_log("Redirect URL try Payment Error");
     if (!empty($_SESSION['addFunds_Fail'])) {
         header("Location: {$_SESSION['addFunds_Fail']}");
         unset($_SESSION['addFunds_Fail']);
