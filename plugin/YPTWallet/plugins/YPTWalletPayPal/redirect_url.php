@@ -60,7 +60,10 @@ if (!empty($payment)) {
     error_log("Redirect URL amount->total: $amount->total");
     error_log("Redirect URL trialDays: $trialDays");
     if (empty($amount->total) && !empty($trialDays)) {
+        error_log("Redirect URL trigger ontrial");
         Subscription::onTrial($subscription['users_id'], $subscription['subscriptions_plans_id']);
+    }else{
+        error_log("Redirect URL trigger ontrial");
     }
 
     $obj->error = false;
