@@ -57,6 +57,8 @@ if (!empty($payment)) {
 
     //if empty amount check if it is a trial
     $trialDays = Subscription::isTrial($subscription['subscriptions_plans_id']);
+    error_log("Redirect URL amount->total: $amount->total");
+    error_log("Redirect URL trialDays: $trialDays");
     if (empty($amount->total) && !empty($trialDays)) {
         Subscription::onTrial($subscription['users_id'], $subscription['subscriptions_plans_id']);
     }
@@ -81,7 +83,6 @@ if (!empty($payment)) {
     }
 }
 error_log(json_encode($obj));
-error_log("PAYPAL redirect_url payment:  " . json_encode($payment));
 error_log("PAYPAL redirect_url GET:  " . json_encode($_GET));
 error_log("PAYPAL redirect_url POST: " . json_encode($_POST));
 ?>
