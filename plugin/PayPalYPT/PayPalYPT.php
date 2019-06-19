@@ -407,6 +407,7 @@ class PayPalYPT extends PluginAbstract {
             } else {
                 $amount->total = 0;
             }
+            $amount->total = floatval($amount->total);
             return $amount;
         } else {
             return $payment->getTransactions()[0]->amount;
