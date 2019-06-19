@@ -41,16 +41,16 @@ if(!empty($objSecure)){
                     echo "background-color: $customizedAdvanced->embedBackgroundColor;";
                 }
                 ?>
-
+                overflow:hidden;
             }
         </style>
     </head>
 
     <body>
-        <div class="embed-responsive  embed-responsive-16by9">
+        <div class="">
             <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls
-                   class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered"
-                   id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
+                   class="video-js vjs-default-skin vjs-big-play-centered"
+                   id="mainVideo" data-setup='{  "techorder" : ["flash", "html5"] }' style="width: 100%; height: 100%; position: absolute;">
                 <source src="<?php echo $p->getM3U8File($uuid); ?>" type='application/x-mpegURL'>
             </video>
             <?php
