@@ -155,6 +155,10 @@ $object->redirectUri=$_POST['redirectUri'];
 
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $object->categories = Category::getAllCategories(true);
+    foreach ($object->categories as $key => $value) {
+        // removed because json decode fail
+        unset($object->categories[$key]['description']);
+    }
 }else{
     $object->categories = array();
 }
