@@ -47,7 +47,7 @@ if ($obj->sortReverseable) {
 }
 $video = Video::getVideo("", "viewable", false, false, true);
 if (empty($video)) {
-    $video = Video::getVideo("", "viewable");
+    $video = Video::getVideo("", "viewable", false, true);
 }
 if (empty($_GET['page'])) {
     $_GET['page'] = 1;
