@@ -44,12 +44,13 @@ foreach ($playlists as $playlist) {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
-    if(empty($videosArrayId)){
+    //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
+    if (empty($videosArrayId)) {
         $videosP = array();
-    }else if ($advancedCustom->AsyncJobs) {
-        $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId);
+    } else if ($advancedCustom->AsyncJobs) {
+        $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
     } else {
-        $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId);
+        $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
     }
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
@@ -152,7 +153,7 @@ foreach ($playlists as $playlist) {
                         $poster = $images->thumbsJpg;
                         $class = "";
                         $style = "";
-                        if($count>6){
+                        if ($count > 6) {
                             $class = "showMoreLess{$playlist['id']}";
                             $style = "display: none;";
                         }
