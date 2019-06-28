@@ -108,18 +108,18 @@ foreach ($playlists as $playlist) {
                         ?>
                         <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><span class="fa fa-trash-o"></span> <?php echo __("Delete"); ?></button>
                         <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><span class="fa fa-pencil"></span> <?php echo __("Rename"); ?></button>
-                        <button class="btn btn-xs btn-default statusPlaylist" playlist_id="<?php echo $playlist['id']; ?>" style="" >
-                            <span class="fa fa-lock" id="statusPrivate" style="color: red; <?php
+                        <button class="btn btn-xs btn-default statusPlaylist statusPlaylist<?php echo $playlist['id']; ?>" playlist_id="<?php echo $playlist['id']; ?>" style="" >
+                            <span class="fa fa-lock" id="statusPrivate<?php echo $playlist['id']; ?>" style="color: red; <?php
                             if ($playlist['status'] !== 'private') {
                                 echo ' display: none;';
                             }
                             ?> " ></span> 
-                            <span class="fa fa-globe" id="statusPublic" style="color: green; <?php
+                            <span class="fa fa-globe" id="statusPublic<?php echo $playlist['id']; ?>" style="color: green; <?php
                             if ($playlist['status'] !== 'public') {
                                 echo ' display: none;';
                             }
                             ?>"></span> 
-                            <span class="fa fa-eye-slash" id="statusUnlisted" style="color: gray;   <?php
+                            <span class="fa fa-eye-slash" id="statusUnlisted<?php echo $playlist['id']; ?>" style="color: gray;   <?php
                             if ($playlist['status'] !== 'unlisted') {
                                 echo ' display: none;';
                             }
@@ -347,7 +347,7 @@ $_GET['channelName'] = $channelName;
                     });
         });
 
-        $('.deletePlaylist').click(function () {
+        $('.deletePlaylist').click(function ()  {
             currentObject = this;
             swal({
                 title: "<?php echo __("Are you sure?"); ?>",
@@ -378,22 +378,22 @@ $_GET['channelName'] = $channelName;
         });
 
         $('.statusPlaylist').click(function () {
-            status = "public";
-            if ($('#statusPrivate').is(":visible")) {
+            var playlist_id = $(this).attr('playlist_id');
+            var status = "public";
+            if ($('#statusPrivate'+playlist_id).is(":visible")) {
                 status = "public";
-                $('.statusPlaylist span').hide();
-                $('#statusPublic').fadeIn();
-            } else if ($('#statusPublic').is(":visible")) {
+                $('.statusPlaylist'+playlist_id+' span').hide();
+                $('#statusPublic'+playlist_id).fadeIn();
+            } else if ($('#statusPublic'+playlist_id).is(":visible")) {
                 status = "unlisted";
-                $('.statusPlaylist span').hide();
-                $('#statusUnlisted').fadeIn();
-            } else if ($('#statusUnlisted').is(":visible")) {
+                $('.statusPlaylist'+playlist_id+' span').hide();
+                $('#statusUnlisted'+playlist_id).fadeIn();
+            } else if ($('#statusUnlisted'+playlist_id).is(":visible")) {
                 status = "private";
-                $('.statusPlaylist span').hide();
-                $('#statusPrivate').fadeIn();
+                $('.statusPlaylist'+playlist_id+' span').hide();
+                $('#statusPrivate'+playlist_id).fadeIn();
             }
             modal.showPleaseWait();
-            var playlist_id = $(this).attr('playlist_id');
             console.log(playlist_id);
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistStatus.php',
