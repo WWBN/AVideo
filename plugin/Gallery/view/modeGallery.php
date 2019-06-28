@@ -154,7 +154,7 @@ $contentSearchFound = false;
                                 createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $obj->SubscribedChannelsRowCount);
                             }
                         }
-                        if ($obj->Categories && empty($_GET['catName'])) {
+                        if ($obj->Categories && empty($_GET['catName']) && empty($_GET['showOnly'])) {
                             unset($_POST['sort']);
                             $_POST['sort']['name'] = "ASC";
                             $categories = Category::getAllCategories();
