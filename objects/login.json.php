@@ -186,7 +186,7 @@ if($object->isLogged){
     }
     
     $p = YouPHPTubePlugin::loadPluginIfEnabled("PayPerView");
-    if(!empty($p)){
+    if(!empty($p) && class_exists('PayPerView')){
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
     }
 }
