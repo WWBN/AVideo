@@ -10,7 +10,7 @@ function showThis($who) {
     return false;
 }
 
-function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString, $defaultSort = "ASC") {
+function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString, $defaultSort = "ASC", $ignoreGroup=false) {
     if (!showThis($getName)) {
         return "";
     }
@@ -55,7 +55,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $page = $totalPages;
             $_POST['current'] = $totalPages;
         }
-        $videos = Video::getAllVideos("viewable");
+        $videos = Video::getAllVideos("viewable", false, $ignoreGroup);
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         createGallerySection($videos, dechex(crc32($getName)));
         ?>

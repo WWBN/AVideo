@@ -41,6 +41,7 @@ class YouTube extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         
+        $obj->hidePrivateVideos = false;
         $obj->BigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;

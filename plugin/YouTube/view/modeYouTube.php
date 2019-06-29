@@ -46,9 +46,9 @@ if ($objYTube->sortReverseable) {
     $orderString = str_replace("&&", "&", $orderString);
     $orderString = str_replace("//", "/", $orderString);
 }
-$video = Video::getVideo("", "viewable", false, false, true);
+$video = Video::getVideo("", "viewable", !$objYTube->hidePrivateVideos, false, true);
 if (empty($video)) {
-    $video = Video::getVideo("", "viewable", false, true);
+    $video = Video::getVideo("", "viewable", !$objYTube->hidePrivateVideos, true);
 }
 if (empty($_GET['page'])) {
     $_GET['page'] = 1;
@@ -131,16 +131,16 @@ $contentSearchFound = false;
                         <!-- For Live Videos End -->
                         <?php
                         if ($objYTube->SortByName) {
-                            createGallery(!empty($objYTube->SortByNameCustomTitle) ? $objYTube->SortByNameCustomTitle : __("Sort by name"), 'title', $objYTube->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString);
+                            createGallery(!empty($objYTube->SortByNameCustomTitle) ? $objYTube->SortByNameCustomTitle : __("Sort by name"), 'title', $objYTube->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$objYTube->hidePrivateVideos);
                         }
                         if ($objYTube->DateAdded) {
-                            createGallery(!empty($objYTube->DateAddedCustomTitle) ? $objYTube->DateAddedCustomTitle : __("Date added"), 'created', $objYTube->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC");
+                            createGallery(!empty($objYTube->DateAddedCustomTitle) ? $objYTube->DateAddedCustomTitle : __("Date added"), 'created', $objYTube->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$objYTube->hidePrivateVideos);
                         }
                         if ($objYTube->MostWatched) {
-                            createGallery(!empty($objYTube->MostWatchedCustomTitle) ? $objYTube->MostWatchedCustomTitle : __("Most watched"), 'views_count', $objYTube->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC");
+                            createGallery(!empty($objYTube->MostWatchedCustomTitle) ? $objYTube->MostWatchedCustomTitle : __("Most watched"), 'views_count', $objYTube->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$objYTube->hidePrivateVideos);
                         }
                         if ($objYTube->MostPopular) {
-                            createGallery(!empty($objYTube->MostPopularCustomTitle) ? $objYTube->MostPopularCustomTitle : __("Most popular"), 'likes', $objYTube->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC");
+                            createGallery(!empty($objYTube->MostPopularCustomTitle) ? $objYTube->MostPopularCustomTitle : __("Most popular"), 'likes', $objYTube->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$objYTube->hidePrivateVideos);
                         }
                         $catName = @$_GET['catName'];
                         if ($objYTube->Categories) {

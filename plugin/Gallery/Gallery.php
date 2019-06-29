@@ -38,6 +38,7 @@ class Gallery extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
+        $obj->hidePrivateVideos = false;
         $obj->BigVideo = true;
         $obj->GifOnBigVideo = true;
         $obj->Description = false;
