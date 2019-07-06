@@ -50,7 +50,7 @@ if (empty($video)) {
 if (empty($video)) {
     $video = Video::getVideo("", "viewable", false, false, false, true);
 }
-if(empty($video)){
+if (empty($video)) {
     $video = YouPHPTubePlugin::getVideo();
 }
 
@@ -157,7 +157,7 @@ if (!empty($video)) {
         $data = getimgsize($source['path']);
         $imgw = $data[0];
         $imgh = $data[1];
-    } else if($video['type'] == "audio"){
+    } else if ($video['type'] == "audio") {
         $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
     }
     $images = Video::getImageFromFilename($video['filename']);
@@ -194,7 +194,6 @@ $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 
 
 YouPHPTubePlugin::getModeYouTube($v['id']);
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -342,42 +341,49 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                         }
                                         ?>
                                     <?php } echo YouPHPTubePlugin::getWatchActionButton($video['id']); ?>
-                                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
-                                        <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
-                                    </a>
-                                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
-                                        <span class="fa fa-thumbs-up"></span>
-                                        <small><?php echo $video['likes']; ?></small>
-                                    </a>
-                                    <script>
-                                        $(document).ready(function () {
-    <?php if (User::isLogged()) { ?>
-                                                $("#dislikeBtn, #likeBtn").click(function () {
-                                                    $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>' + ($(this).attr("id") == "dislikeBtn" ? "dislike" : "like"),
-                                                        method: 'POST',
-                                                        data: {'videos_id': <?php echo $video['id']; ?>},
-                                                        success: function (response) {
-                                                            $("#likeBtn, #dislikeBtn").removeClass("myVote");
-                                                            if (response.myVote == 1) {
-                                                                $("#likeBtn").addClass("myVote");
-                                                            } else if (response.myVote == -1) {
-                                                                $("#dislikeBtn").addClass("myVote");
+                                    <?php
+                                    if (empty($advancedCustom->removeThumbsUpAndDown)) {
+                                        ?>
+                                        <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                                            <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
+                                        </a>
+                                        <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                                            <span class="fa fa-thumbs-up"></span>
+                                            <small><?php echo $video['likes']; ?></small>
+                                        </a>
+                                        <script>
+                                            $(document).ready(function () {
+        <?php if (User::isLogged()) { ?>
+                                                    $("#dislikeBtn, #likeBtn").click(function () {
+                                                        $.ajax({
+                                                            url: '<?php echo $global['webSiteRootURL']; ?>' + ($(this).attr("id") == "dislikeBtn" ? "dislike" : "like"),
+                                                            method: 'POST',
+                                                            data: {'videos_id': <?php echo $video['id']; ?>},
+                                                            success: function (response) {
+                                                                $("#likeBtn, #dislikeBtn").removeClass("myVote");
+                                                                if (response.myVote == 1) {
+                                                                    $("#likeBtn").addClass("myVote");
+                                                                } else if (response.myVote == -1) {
+                                                                    $("#dislikeBtn").addClass("myVote");
+                                                                }
+                                                                $("#likeBtn small").text(response.likes);
+                                                                $("#dislikeBtn small").text(response.dislikes);
                                                             }
-                                                            $("#likeBtn small").text(response.likes);
-                                                            $("#dislikeBtn small").text(response.dislikes);
-                                                        }
+                                                        });
+                                                        return false;
                                                     });
-                                                    return false;
-                                                });
-    <?php } else { ?>
-                                                $("#dislikeBtn, #likeBtn").click(function () {
-                                                    $(this).tooltip("show");
-                                                    return false;
-                                                });
-    <?php } ?>
-                                        });
-                                    </script>
+        <?php } else { ?>
+                                                    $("#dislikeBtn, #likeBtn").click(function () {
+                                                        $(this).tooltip("show");
+                                                        return false;
+                                                    });
+        <?php } ?>
+                                            });
+                                        </script>
+
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -394,8 +400,8 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                                     continue;
                                                 }
                                             }
-                                            if(strpos($theLink['url'], '?') === false){
-                                                $theLink['url'] .= "?download=1&title=".urlencode($video['title'] . "_{$key}_.mp4");
+                                            if (strpos($theLink['url'], '?') === false) {
+                                                $theLink['url'] .= "?download=1&title=" . urlencode($video['title'] . "_{$key}_.mp4");
                                             }
                                             ?>
                                             <a href="<?php echo $theLink['url']; ?>" class="list-group-item list-group-item-action" target="_blank">
@@ -587,15 +593,15 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
                                     <div class="col-xs-8 col-sm-10 col-lg-10"><a class="btn btn-xs btn-default"  href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>"><span class="<?php echo $video['iconClass']; ?>"></span> <?php echo $video['category']; ?></a></div>
                                     <?php
-                                    if(!empty($video['rrating'])){
-                                    ?>
+                                    if (!empty($video['rrating'])) {
+                                        ?>
                                         <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                                         <div class="col-xs-8 col-sm-10 col-lg-10">
                                             <?php
-                                                include $global['systemRootPath'].'view/rrating/rating-'.$video['rrating'].'.php';
+                                            include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';
                                             ?>
                                         </div>
-                                    <?php
+                                        <?php
                                     }
                                     ?>
                                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
@@ -786,9 +792,9 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         </div>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                        $.widget.bridge('uibutton', $.ui.button);
-                        $.widget.bridge('uitooltip', $.ui.tooltip);
+                            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+                            $.widget.bridge('uibutton', $.ui.button);
+                            $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
         <?php
         $videoJSArray = array("view/js/video.js/video.js");
@@ -817,14 +823,14 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <script>
-                        var fading = false;
-                        var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
-                        var autoPlayURL = '<?php echo $autoPlayURL; ?>';
-                        var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
-                        var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
+                            var fading = false;
+                            var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
+                            var autoPlayURL = '<?php echo $autoPlayURL; ?>';
+                            var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
+                            var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
 
-                        $(document).ready(function () {
-                        });
+                            $(document).ready(function () {
+                            });
         </script>
     </body>
 </html>
