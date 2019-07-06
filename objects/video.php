@@ -2145,6 +2145,17 @@ if (!class_exists('Video')) {
                 return self::getImageFromFilenameAsync($filename, $type);
             }
         }
+        
+        static function getPoster($videos_id){
+            $images = self::getImageFromID($videos_id);
+            if(!empty($images->poster)){
+                return $images->poster;
+            }
+            if(!empty($images->posterPortrait)){
+                return $images->poster;
+            }
+            return false;
+        }
 
         static function getImageFromFilename_($filename, $type = "video") {
             global $global, $advancedCustom;
