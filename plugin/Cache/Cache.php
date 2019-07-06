@@ -1,5 +1,4 @@
 <?php
-
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Cache extends PluginAbstract {
