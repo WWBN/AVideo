@@ -127,6 +127,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->paidOnlyShowLabels = false;
         $obj->paidOnlyLabel = "Premium";
         $obj->paidOnlyFreeLabel = "Free";
+        $obj->removeSubscribeButton = false;
+        $obj->removeThumbsUpAndDown = false;
         
         return $obj;
     }
