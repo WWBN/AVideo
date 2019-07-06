@@ -247,7 +247,12 @@ class Subscribe {
     }
 
     static function getButton($user_id) {
-        global $global;
+        global $global, $advancedCustom;
+        
+        if(!empty($advancedCustom->removeSubscribeButton)){
+            return "";
+        }
+        
         $total = static::getTotalSubscribes($user_id);
 
         $subscribe = "<div class=\"btn-group\" >"
