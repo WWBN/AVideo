@@ -130,7 +130,9 @@ class WalletLog extends ObjectYPT {
     static function getAllFromUser($users_id, $dontReturnEmpty = true) {
         
         $wallet = Wallet::getFromUser($users_id);
-        
+        if($wallet === false){
+            return false;
+        }
         return self::getAllFromWallet($wallet['id'], $dontReturnEmpty);
     }
     
@@ -138,6 +140,9 @@ class WalletLog extends ObjectYPT {
         
         $wallet = Wallet::getFromUser($users_id);
         
+        if($wallet === false){
+            return false;
+        }
         return self::getTotalFromWallet($wallet['id'], $dontReturnEmpty);
     }
     
