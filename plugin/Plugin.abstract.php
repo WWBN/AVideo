@@ -426,5 +426,9 @@ abstract class PluginAbstract {
         return array();
     }
     
+    public function getMobileInfo(){
+        return null;
+    }
+    
 
 }
