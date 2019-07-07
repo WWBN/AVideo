@@ -85,6 +85,10 @@ $obj->setRrating(@$_POST['rrating']);
 $obj->setExternalOptions(@$_POST['externalOptions']);
 
 $resp = $obj->save(true);
+// if is a new embed video
+if (empty($_POST['id']) && $obj->getType()=='embed') {
+    YouPHPTubePlugin::afterNewVideo($resp);
+}
 
 YouPHPTubePlugin::saveVideosAddNew($_POST, $resp);
 
