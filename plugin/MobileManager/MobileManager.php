@@ -6,7 +6,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 class MobileManager extends PluginAbstract {
     
     public static function getVersion(){
-        return 1;
+        return 2;
     }
     
     public function getDescription() {
