@@ -157,18 +157,47 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
         }
+        $objMob = YouPHPTubePlugin::getObjectData("MobileManager");
         $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
-        foreach ($rows as $key=>$value) {
-            if(is_object($value)){
+        foreach ($rows as $key => $value) {
+            if (is_object($value)) {
                 $value = object_to_array($value);
             }
-            if(empty($value['filename'])){
+            if (empty($value['filename'])) {
                 continue;
             }
-            $rows[$key]['images'] = Video::getImageFromFilename($value['filename']);
+            $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
+            $rows[$key]['images'] = $images;
             $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
+
+            $rows[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
+            $rows[$key]['Thumbnail'] = !empty($objMob->portraitImage) ? $images->posterPortraitThumbs : $images->thumbsJpg;
+            $rows[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
+            $rows[$key]['createdHumanTiming'] = humanTiming(strtotime($rows[$key]['created']));
+            $rows[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/" . $rows[$key]['clean_title'];
+            $rows[$key]['embedUrl'] = "{$global['webSiteRootURL']}videoEmbeded/" . $rows[$key]['clean_title'];
+            $rows[$key]['UserPhoto'] = User::getPhoto($rows[$key]['users_id']);
+
             if ($SubtitleSwitcher) {
                 $rows[$key]['subtitles'] = getVTTTracks($value['filename'], true);
+            }
+
+            if (!empty($_REQUEST['complete'])) {
+                require_once $global['systemRootPath'] . 'objects/comment.php';
+                require_once $global['systemRootPath'] . 'objects/subscribe.php';
+                unset($_POST['sort']);
+                unset($_POST['current']);
+                unset($_POST['searchPhrase']);
+                $_POST['rowCount'] = 10;
+                $_POST['sort']['created'] = "desc";
+                $rows[$key]['comments'] = Comment::getAllComments($rows[$key]['id']);
+                $rows[$key]['commentsTotal'] = Comment::getTotalComments($rows[$key]['id']);
+                foreach ($rows[$key]['comments'] as $key2 => $value2) {
+                    $user = new User($value2['users_id']);
+                    $rows[$key]['comments'][$key2]['userPhotoURL'] = User::getPhoto($rows[$key]['comments'][$key2]['users_id']);
+                    $rows[$key]['comments'][$key2]['userName'] = $user->getNameIdentificationBd();
+                }
+                $rows[$key]['subscribers'] = Subscribe::getTotalSubscribes($rows[$key]['users_id']);
             }
         }
         $obj->totalRows = $totalRows;
@@ -296,7 +325,7 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
         exit;
     }
-    
+
     /**
      * Return the location based on the provided IP
      * @param type $parameters
@@ -312,9 +341,9 @@ class API extends PluginAbstract {
         if ($obj->APISecret !== @$_GET['APISecret']) {
             return new ApiObject("APISecret Not valid");
         }
-        if(YouPHPTubePlugin::isEnabledByName("User_Location")){
+        if (YouPHPTubePlugin::isEnabledByName("User_Location")) {
             $row = IP2Location::getLocation($parameters['ip']);
-            if(!empty($row)){
+            if (!empty($row)) {
                 return new ApiObject("", false, $row);
             }
         }
