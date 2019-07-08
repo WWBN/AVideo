@@ -578,7 +578,7 @@ if (typeof gtag !== \"function\") {
     const CAPTCHA_ERROR = 3;
 
     function login($noPass = false, $encodedPass = false) {
-        global $global,$advancedCustom, $advancedCustomUser;
+        global $global,$advancedCustom, $advancedCustomUser, $config;
         if(strtolower($encodedPass)==='false'){
             $encodedPass = false;
         }
@@ -611,11 +611,13 @@ if (typeof gtag !== \"function\") {
                 //$url = parse_url($global['webSiteRootURL']);
                 //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
-                setcookie("user", $user['user'], 2147483647, "/", $_SERVER['HTTP_HOST']);
-                setcookie("pass", $user['password'], 2147483647, "/", $_SERVER['HTTP_HOST']);
+                $cookie = 2147483647;
             }else{
                 error_log("user::login: Do login without cookie");
+                $cookie = $config->getSession_timeout();
             }
+            setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
+            setcookie("pass", $user['password'], $cookie, "/", $_SERVER['HTTP_HOST']);
             YouPHPTubePlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             return self::USER_LOGGED;
