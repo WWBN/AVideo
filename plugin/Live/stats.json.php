@@ -6,8 +6,8 @@ require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
 $p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
 
-ini_set('max_execution_time', 2);
-set_time_limit(2);
+ini_set('max_execution_time', 5);
+set_time_limit(5);
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "OFFLINE";
