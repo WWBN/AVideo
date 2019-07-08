@@ -365,7 +365,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         </li>
                         <?php
                         if (!empty($advancedCustomUser->signInOnRight)) {
-                            if (User::isLogged() && !$advancedCustomUser->disableSignOutButton) {
+                            if (User::isLogged()) {
+                                if(!$advancedCustomUser->disableSignOutButton){
                                 ?>
                                 <li>
                                     <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
@@ -384,6 +385,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                     </a>
                                 </li>
                                 <?php
+                                }
                             } else {
                                 ?>
                                 <li>
