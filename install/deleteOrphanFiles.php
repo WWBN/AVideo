@@ -57,7 +57,7 @@ foreach ($files as $key => $value) {
 }
 echo "*** Total filenames " . count($files) . " Will be deleted\n";
 foreach ($files as $key => $value) {
-    echo "$value[1] \n";
+    echo "{$value[0]} => $value[1] \n";
 }
 echo "*** Confirm Delete Them? y/n: ";
 ob_flush();
