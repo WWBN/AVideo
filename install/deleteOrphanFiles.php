@@ -56,10 +56,13 @@ foreach ($files as $key => $value) {
     }
 }
 echo "*** Total filenames " . count($files) . " Will be deleted\n";
+$totalSize = 0;
 foreach ($files as $key => $value) {
-    echo "{$value[0]} => $value[1] \n";
+    $size = filesize($value[1]);
+    $totalSize += $size;
+    echo "{$value[0]} => $value[1] ".(humanFileSize($size))." \n";
 }
-echo "*** Confirm Delete Them? y/n: ";
+echo "*** Confirm Delete Them (".humanFileSize($totalSize).")? y/n: ";
 ob_flush();
 $confirm = trim(readline(""));
 if (!empty($confirm) && strtolower($confirm)==='y') {
