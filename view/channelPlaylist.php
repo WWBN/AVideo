@@ -89,15 +89,17 @@ foreach ($playlists as $playlist) {
                         $("#sortable<?php echo $playlist['id']; ?>").disableSelection();
                     });
                 </script>
+                <div class="dropdown" style="display: inline-block;">
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown"><?php echo __("Auto Sort"); ?>
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $playlist['id']; ?>&sort=1"><?php echo __("Alphabetical"); ?> A-Z</a></li>
+                        <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $playlist['id']; ?>&sort=2"><?php echo __("Alphabetical"); ?> Desc Z-A</a></li>
+                        <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $playlist['id']; ?>&sort=3"><?php echo __("Created Date"); ?></a></li>
+                    </ul>
+                </div>
                 <div class="pull-right btn-group">
-
                     <?php
-                    if (!empty($videosArrayId)) {
-                        ?>
-                        <button class="btn btn-xs btn-info" ><i class="fa fa-info-circle"></i> <?php echo __("Drag and drop to sort"); ?></button>
-
-                        <?php
-                    }
                     if ($playlist['status'] != "favorite" && $playlist['status'] != "watch_later") {
                         if (YouPHPTubePlugin::isEnabledByName("PlayLists")) {
                             ?>
@@ -249,6 +251,13 @@ foreach ($playlists as $playlist) {
             <div class="panel-footer">
                 <button class="btn btn-default btn-xs btn-sm showMoreLessBtn<?php echo $playlist['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $playlist['id']; ?>').toggle();$('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
                 <button class="btn btn-default btn-xs btn-sm  showMoreLessBtn<?php echo $playlist['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $playlist['id']; ?>').toggle();$('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
+                <?php
+                if (!empty($videosArrayId)) {
+                    ?>
+                    <span class="label label-info" ><i class="fa fa-info-circle"></i> <?php echo __("Drag and drop to sort"); ?></span>
+                    <?php
+                }
+                ?>
             </div>  
             <?php
         }
@@ -347,7 +356,7 @@ $_GET['channelName'] = $channelName;
                     });
         });
 
-        $('.deletePlaylist').click(function ()  {
+        $('.deletePlaylist').click(function () {
             currentObject = this;
             swal({
                 title: "<?php echo __("Are you sure?"); ?>",
@@ -380,18 +389,18 @@ $_GET['channelName'] = $channelName;
         $('.statusPlaylist').click(function () {
             var playlist_id = $(this).attr('playlist_id');
             var status = "public";
-            if ($('#statusPrivate'+playlist_id).is(":visible")) {
+            if ($('#statusPrivate' + playlist_id).is(":visible")) {
                 status = "public";
-                $('.statusPlaylist'+playlist_id+' span').hide();
-                $('#statusPublic'+playlist_id).fadeIn();
-            } else if ($('#statusPublic'+playlist_id).is(":visible")) {
+                $('.statusPlaylist' + playlist_id + ' span').hide();
+                $('#statusPublic' + playlist_id).fadeIn();
+            } else if ($('#statusPublic' + playlist_id).is(":visible")) {
                 status = "unlisted";
-                $('.statusPlaylist'+playlist_id+' span').hide();
-                $('#statusUnlisted'+playlist_id).fadeIn();
-            } else if ($('#statusUnlisted'+playlist_id).is(":visible")) {
+                $('.statusPlaylist' + playlist_id + ' span').hide();
+                $('#statusUnlisted' + playlist_id).fadeIn();
+            } else if ($('#statusUnlisted' + playlist_id).is(":visible")) {
                 status = "private";
-                $('.statusPlaylist'+playlist_id+' span').hide();
-                $('#statusPrivate'+playlist_id).fadeIn();
+                $('.statusPlaylist' + playlist_id + ' span').hide();
+                $('#statusPrivate' + playlist_id).fadeIn();
             }
             modal.showPleaseWait();
             console.log(playlist_id);
