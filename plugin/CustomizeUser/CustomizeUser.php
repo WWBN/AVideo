@@ -71,6 +71,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->doNotShowMyAboutOnBasicInfo = false;
         
         $obj->MyChannelLabel = "My Channel";
+        $obj->afterLoginGoToMyChannel = false;
         
         
         return $obj;
