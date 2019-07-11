@@ -153,6 +153,10 @@ $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
 $object->redirectUri=$_POST['redirectUri'];
 
+if (!empty($advancedCustomUser->afterLoginGoToMyChannel)) {
+    $object->redirectUri = User::getChannelLink();
+}
+
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $object->categories = Category::getAllCategories(true);
 }else{
