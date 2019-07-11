@@ -786,7 +786,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                 </div>
             <?php } else { ?>
                 <div class="alert alert-warning">
-                    <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo __("We have not found any videos or audios to show"); ?>.
+                    <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Warning"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText)?__("We have not found any videos or audios to show"):$advancedCustom->videoNotFoundText; ?>.
                 </div>
             <?php } ?>
         </div>
