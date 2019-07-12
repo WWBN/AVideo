@@ -115,7 +115,7 @@ class Cache extends PluginAbstract {
             }
         }
         
-        if($isBot){
+        if($isBot && $_SERVER['REQUEST_URI'] !== '/login'){
             if(empty($_SERVER['HTTP_USER_AGENT'])){
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
