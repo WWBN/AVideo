@@ -1972,6 +1972,11 @@ if (!class_exists('Video')) {
                 'videos_id' => $this->getId(),
                 "notifyURL" => "{$global['webSiteRootURL']}"
             );
+                
+            if(YouPHPTubePlugin::isEnabledByName("VideoHLS")){
+                $postFields['inputHLS'] = 1;
+            }
+                
             error_log("SEND To QUEUE: " . print_r($postFields, true));
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $target);
