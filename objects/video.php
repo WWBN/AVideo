@@ -470,6 +470,7 @@ if (!class_exists('Video')) {
                 if ($global['mysqli']->errno != 0) {
                     die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
+                self::deleteTagsAsync($this->id);
             }
             $this->status = $status;
         }
@@ -1703,6 +1704,24 @@ if (!class_exists('Video')) {
             return $tags;
         }
 
+        static function deleteTagsAsync($video_id) {
+            if (empty($video_id)) {
+                return false;
+            }
+            global $global, $advancedCustom;
+            $path = $global['systemRootPath'] . "videos/cache/getTagsAsync/";
+            if(!is_dir($path)){
+                return false;
+            }
+            
+            $cacheFileName = "{$path}_{$video_id}_";
+
+            $files = glob("{$cacheFileName}*");
+            foreach ($files as $file) {
+                unlink($file);
+            }
+        }
+
         static function getTagsAsync($video_id, $type = "video") {
             global $global, $advancedCustom;
             $path = $global['systemRootPath'] . "videos/cache/getTagsAsync/";
@@ -1972,11 +1991,11 @@ if (!class_exists('Video')) {
                 'videos_id' => $this->getId(),
                 "notifyURL" => "{$global['webSiteRootURL']}"
             );
-                
-            if(YouPHPTubePlugin::isEnabledByName("VideoHLS")){
+
+            if (YouPHPTubePlugin::isEnabledByName("VideoHLS")) {
                 $postFields['inputHLS'] = 1;
             }
-                
+
             error_log("SEND To QUEUE: " . print_r($postFields, true));
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $target);
@@ -2150,13 +2169,13 @@ if (!class_exists('Video')) {
                 return self::getImageFromFilenameAsync($filename, $type);
             }
         }
-        
-        static function getPoster($videos_id){
+
+        static function getPoster($videos_id) {
             $images = self::getImageFromID($videos_id);
-            if(!empty($images->poster)){
+            if (!empty($images->poster)) {
                 return $images->poster;
             }
-            if(!empty($images->posterPortrait)){
+            if (!empty($images->posterPortrait)) {
                 return $images->poster;
             }
             return false;
