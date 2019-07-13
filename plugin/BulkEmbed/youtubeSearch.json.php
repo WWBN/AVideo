@@ -54,13 +54,15 @@ if ($client->getAccessToken()) {
     try {
         // Call the search.list method to retrieve results matching the specified
         // query term.
-        $searchResponse = $youtube->search->listSearch('id,snippet', array(
+        $options = array(
             'q' => $_GET['q'],
             'maxResults' => $_GET['maxResults'],
             'type' => 'video',
             'videoEmbeddable' => 'true'
-        ));
+        );
+        $searchResponse = $youtube->search->listSearch('id,snippet', $options);
         $obj2->error = false;
+        $obj2->options = $options;
         $obj2->response = $searchResponse;
     } catch (Google_Service_Exception $e) {
         $obj2->msg = sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
