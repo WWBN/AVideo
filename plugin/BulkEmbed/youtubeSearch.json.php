@@ -28,7 +28,7 @@ $client->setClientId($OAUTH2_CLIENT_ID);
 $client->setClientSecret($OAUTH2_CLIENT_SECRET);
 $client->setScopes('https://www.googleapis.com/auth/youtube');
 //$redirectUri = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],FILTER_SANITIZE_URL);
-$redirectUri = "{$global['webSiteRootURL']}objects/youtubeSearch.json.php";
+$redirectUri = "{$global['webSiteRootURL']}plugin/BulkEmbed/youtubeSearch.json.php";
 $client->setRedirectUri($redirectUri);
 // Define an object that will be used to make all API requests.
 $youtube = new Google_Service_YouTube($client);

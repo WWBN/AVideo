@@ -5,9 +5,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class BulkEmbed extends PluginAbstract {
 
     public function getDescription() {
+        global $global;
         $str = 'Set DEVELOPER_KEY to the "API key" value from the "Access" tab of the<br>
 Google Developers Console https://console.developers.google.com<br>
 Please ensure that you have enabled the YouTube Data API for your project.';
+        $str.= '<br>Add the Redirect URI '.$global['webSiteRootURL'].'plugin/BulkEmbed/youtubeSearch.json.php';
         return $str;
     }
 
