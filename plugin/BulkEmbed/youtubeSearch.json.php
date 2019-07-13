@@ -12,10 +12,10 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'google/autoload.php';
 header('Content-Type: application/json');
 $_GET['maxResults'] = 24;
-if(empty($_GET['q']) && !empty($_POST['q'])){
+if (empty($_GET['q']) && !empty($_POST['q'])) {
     $_GET['q'] = $_POST['q'];
-}else{
-   $_GET['q'] = "YouPHPTube";
+} else {
+    $_GET['q'] = "YouPHPTube";
 }
 $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
 $OAUTH2_CLIENT_ID = $obj->Google_Client_ID;
@@ -64,6 +64,10 @@ if ($client->getAccessToken()) {
         $obj2->error = false;
         $obj2->options = $options;
         $obj2->response = $searchResponse;
+        $obj2->items = array();
+        foreach ($searchResponse['items'] as $searchResult) {
+            $obj2->items[] = $searchResult;
+        }
     } catch (Google_Service_Exception $e) {
         $obj2->msg = sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
     } catch (Google_Exception $e) {
@@ -75,7 +79,7 @@ if ($client->getAccessToken()) {
     $client->setState($state);
     $_SESSION['state'] = $state;
     $authUrl = $client->createAuthUrl();
-    $obj2->authUrl =  $authUrl;
+    $obj2->authUrl = $authUrl;
     $obj2->msg = "<h3>Authorization Required</h3><p>You need to <a href=\"{$authUrl}\"  class='btn btn-danger'><span class='fab fa-youtube-square'></span> authorize access</a> before proceeding.<p>";
 }
 echo json_encode($obj2);
