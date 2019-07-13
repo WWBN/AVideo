@@ -66,7 +66,7 @@ if ($client->getAccessToken()) {
         $obj2->response = $searchResponse;
         $obj2->items = array();
         foreach ($searchResponse['items'] as $searchResult) {
-            $obj2->items[] = $searchResult;
+            $obj2->items[] = object_to_array($searchResult);
         }
     } catch (Google_Service_Exception $e) {
         $obj2->msg = sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
