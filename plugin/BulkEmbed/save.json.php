@@ -49,6 +49,9 @@ if (!User::canUpload()) {
 } else if (!empty($_POST['itemsToSave'])) {
 
     foreach ($_POST['itemsToSave'] as $value) {
+        foreach ($value as $key => $value2) {
+            $value[$key] = xss_esc($value2);
+        }
         //$info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($value));
         //$infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
