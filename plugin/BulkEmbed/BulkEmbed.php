@@ -6,10 +6,9 @@ class BulkEmbed extends PluginAbstract {
 
     public function getDescription() {
         global $global;
-        $str = 'Set DEVELOPER_KEY to the "API key" value from the "Access" tab of the<br>
-Google Developers Console https://console.developers.google.com<br>
-Please ensure that you have enabled the YouTube Data API for your project.';
-        $str.= '<br>Add the Redirect URI '.$global['webSiteRootURL'].'plugin/BulkEmbed/youtubeSearch.json.php';
+        //$str = 'Set DEVELOPER_KEY to the "API key" value from the "Access" tab of the<br>Google Developers Console https://console.developers.google.com<br>Please ensure that you have enabled the YouTube Data API for your project.';
+        //$str.= '<br>Add the Redirect URI '.$global['webSiteRootURL'].'plugin/BulkEmbed/youtubeSearch.json.php';
+        $str = 'Create your API Key here https://console.developers.google.com/apis/credentials/key';
         return $str;
     }
 
@@ -29,8 +28,7 @@ Please ensure that you have enabled the YouTube Data API for your project.';
         global $global;
         $obj = new stdClass();
 
-        $obj->Google_Client_ID = "";
-        $obj->Google_Client_secret = "";
+        $obj->API_KEY = "AIzaSyCIqxE86BawU33Um2HEGtX4PcrUWeCh_6o";
         return $obj;
     }
 
