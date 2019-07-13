@@ -28,6 +28,21 @@ if (!User::isLogged()) {
                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
                 </div>
             </form>
+            <div class="row" id="searchResults">
+                <div class="col-sm-2">
+                    <div id="resultTemplate" style="display: none;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><b>{title}</b></div>
+                            <div class="panel-body">
+                                <a href="#">
+                                    <img src="{url}" class="img img-responsive">
+                                </a>
+                            </div>
+                            <div class="panel-footer"><input type="checkbox"> add it</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
@@ -57,7 +72,11 @@ if (!User::isLogged()) {
                                 html: true
                             });
                         } else {
-                            console.log(response.response);
+                            for (x in response.items) {
+                                text = $('#resultTemplate').html().replace("{title}", response.item[x].title);
+                                text = $('#resultTemplate').html().replace("{url}", response.item[x]);
+                                $("#searchResults").append(text);
+                            }
                         }
                     }
                 });
