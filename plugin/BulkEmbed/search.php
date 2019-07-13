@@ -73,8 +73,9 @@ if (!User::isLogged()) {
                             });
                         } else {
                             for (x in response.items) {
+                                console.log(response.item[x]);
                                 text = $('#resultTemplate').html().replace("{title}", response.item[x].title);
-                                text = $('#resultTemplate').html().replace("{url}", response.item[x]);
+                                //text = $('#resultTemplate').html().replace("{url}", response.item[x].'* modelData');
                                 $("#searchResults").append(text);
                             }
                         }
