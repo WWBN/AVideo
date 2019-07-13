@@ -68,6 +68,7 @@ if ($client->getAccessToken()) {
         foreach ($searchResponse['items'] as $searchResult) {
             $item = object_to_array($searchResult['snippet']);
             $item['id'] = $searchResult['id'];
+            $item['thumbnails'] = $searchResult['snippet']->thumbnails;
             $obj2->items[] = $item;
         }
     } catch (Google_Service_Exception $e) {
