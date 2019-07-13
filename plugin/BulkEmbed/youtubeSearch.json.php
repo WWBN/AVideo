@@ -11,8 +11,12 @@ $obj2->error = true;
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'google/autoload.php';
 header('Content-Type: application/json');
-$_GET['maxResults'] = 1;
-$_GET['q'] = "youphptube";
+$_GET['maxResults'] = 24;
+if(empty($_GET['q']) && !empty($_POST['q'])){
+    $_GET['q'] = $_POST['q'];
+}else{
+   $_GET['q'] = "YouPHPTube";
+}
 $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
 $OAUTH2_CLIENT_ID = $obj->Google_Client_ID;
 $OAUTH2_CLIENT_SECRET = $obj->Google_Client_secret;
@@ -40,6 +44,7 @@ if (isset($_GET['code'])) {
     }
     $client->authenticate($_GET['code']);
     $_SESSION[$tokenSessionKey] = $client->getAccessToken();
+    header("Location: {$global['webSiteRootURL']}plugin/BulkEmbed/search.php");
 }
 if (isset($_SESSION[$tokenSessionKey])) {
     $client->setAccessToken($_SESSION[$tokenSessionKey]);
