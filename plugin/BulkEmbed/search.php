@@ -29,8 +29,8 @@ if (!User::isLogged()) {
                 </div>
             </form>
             <div class="row" id="searchResults">
-                <div class="col-sm-2">
-                    <div id="resultTemplate" style="display: none;">
+                <div id="resultTemplate" style="display: none;">
+                    <div class="col-sm-2">
                         <div class="panel panel-default">
                             <div class="panel-heading"><b>{title}</b></div>
                             <div class="panel-body">
