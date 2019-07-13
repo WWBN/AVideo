@@ -63,8 +63,19 @@ if (!User::canUpload()) {
         $videos->setType('embed');
 
         $videos->setStatus('a');
+        try {
+            $resp = $videos->save(true);
+        } catch (Exception $exc) {
+            try {
+                $videos->setTitle(preg_replace("/[^A-Za-z0-9 ]/", '', $videos->getTitle()));
+                $videos->setDescription(preg_replace("/[^A-Za-z0-9 ]/", '', $videos->getDescription()));
+                $resp = $videos->save(true);
+            } catch (Exception $exc) {
+                continue;
+            }
+        }
 
-        $resp = $videos->save(true);
+        
         YouPHPTubePlugin::afterNewVideo($resp);
 
         YouPHPTubePlugin::saveVideosAddNew($_POST, $resp);
