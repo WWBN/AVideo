@@ -21,7 +21,7 @@ if (!User::canUpload()) {
         $info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($value));
         $infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
-        $obj = new Video();
+        $videos = new Video();
         $videos->setFilename($filename);
         $videos->setTitle($infoObj->title);
         $videos->setClean_title($infoObj->title);
