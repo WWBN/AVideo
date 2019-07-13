@@ -98,7 +98,7 @@ class Cache extends PluginAbstract {
             }
             // if is a bot always show a cache
             if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile)) || $isBot)) {
-                if($isBot){
+                if($isBot && $_SERVER['REQUEST_URI'] !== '/login'){
                     error_log("Bot Detected, showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
                 }
                 $c = @local_get_contents($cachefile);
@@ -115,7 +115,10 @@ class Cache extends PluginAbstract {
             }
         }
         
-        if($isBot){
+        if($isBot && $_SERVER['REQUEST_URI'] !== '/login'){
+            if(empty($_SERVER['HTTP_USER_AGENT'])){
+                $_SERVER['HTTP_USER_AGENT'] = "";
+            }
             error_log("Bot Detected, NOT showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
             if($obj->stopBotsFromNonCachedPages){
                 error_log("Bot stopped");

@@ -182,6 +182,10 @@ var menu = new BootstrapMenu('#mainVideo', {
 
                                             if (typeof player !== 'undefined') {
                                                 player.currentTime(<?php echo $currentTime; ?>);
+                                            }else{
+                                                setTimeout(function () {
+                                                    player.currentTime(<?php echo $currentTime; ?>);
+                                                }, 1000);
                                             }
                                             if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                                                 setTimeout(function () {
