@@ -140,7 +140,6 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                     $("input:checkbox[name=videoCheckbox]").each(function () {
                         videoLink.push($(this).val());
                     });
-                    console.log(videoLink);
                     saveIt(videoLink);
                 });
                 $('#getSelected').click(function () {
@@ -148,16 +147,37 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                     $("input:checkbox[name=videoCheckbox]:checked").each(function () {
                         videoLink.push($(this).val());
                     });
-                    console.log(videoLink);
                     saveIt(videoLink);
                 });
             });
 
             function saveIt(videoLink) {
                 modal.showPleaseWait();
+
+                var itemsToSave = [];
+                for (x in videoLink) {
+                    if (typeof videoLink[x] == 'function') {
+                        continue;
+                    }
+                    $.ajax({
+                        url: "https://www.googleapis.com/youtube/v3/videos?id="+videoLink[x]+"&part=id,snippet,contentDetails&key="+gapikey,
+                        
+                        async: false,
+                        success: function (data) {
+                            var item = {};
+                            item.link = "https://youtube.com/embed/" + data.items[0].id;
+                            item.title = data.items[0].snippet.title;
+                            item.description = data.items[0].snippet.description;
+                            item.duration = data.items[0].contentDetails.duration;
+                            item.thumbs = data.items[0].snippet.thumbnails.high.url;
+                            itemsToSave.push(item);
+                        }
+                    });
+                }
+                console.log(itemsToSave);
                 $.ajax({
                     url: '<?php echo $global['webSiteRootURL']; ?>plugin/BulkEmbed/save.json.php',
-                    data: {"videoLink": videoLink},
+                    data: {"itemsToSave": itemsToSave},
                     type: 'post',
                     success: function (response) {
                         if (!response.error) {
@@ -168,6 +188,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                         modal.hidePleaseWait();
                     }
                 });
+
             }
 
             function search() {
@@ -191,10 +212,9 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                     var prevPageToken = data.prevPageToken;
 
                     // Log data
-                    console.log(data);
+                    //console.log(data);
 
                     $.each(data.items, function (i, item) {
-
                         // Get Output
                         var output = getOutput(item);
 
@@ -316,7 +336,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                         '<img src="' + thumb + '">' +
                         '</div>' +
                         '<div class="list-right">' +
-                        '<h3><input type="checkbox" value="https://youtube.com/embed/' + videoID + '" name="videoCheckbox"><a target="_blank" href="https://youtube.com/embed/' + videoID + '?rel=0">' + title + '</a></h3>' +
+                        '<h3><input type="checkbox" value="' + videoID + '" name="videoCheckbox"><a target="_blank" href="https://youtube.com/embed/' + videoID + '?rel=0">' + title + '</a></h3>' +
                         '<small>By <span class="cTitle">' + channelTitle + '</span> on ' + videoDate + '</small>' +
                         '<p>' + description + '</p>' +
                         '</div>' +

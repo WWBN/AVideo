@@ -12,23 +12,20 @@ $obj->msg = array();
 
 if (!User::canUpload()) {
     $obj->msg[] = __("Permission denied");
-} else if (!empty($_POST['videoLink'])) {
+} else if (!empty($_POST['itemsToSave'])) {
 
-    if (!is_array($_POST['videoLink'])) {
-        $_POST['videoLink'] = array($_POST['videoLink']);
-    }
-    foreach ($_POST['videoLink'] as $value) {
-        $info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($value));
-        $infoObj = json_decode($info);
+    foreach ($_POST['itemsToSave'] as $value) {
+        //$info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($value));
+        //$infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
         $videos = new Video();
         $videos->setFilename($filename);
-        $videos->setTitle($infoObj->title);
-        $videos->setClean_title($infoObj->title);
-        $videos->setDuration($infoObj->duration);
-        $videos->setDescription($infoObj->description);
-        file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
-        $videos->setVideoLink($value);
+        $videos->setTitle($value['title']);
+        $videos->setClean_title($value['title']);
+        $videos->setDuration($value['duration']);
+        $videos->setDescription($value['description']);
+        file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", $value['thumbs']);
+        $videos->setVideoLink($value['link']);
         $videos->setType('embed');
 
         $videos->setStatus('a');
