@@ -50,7 +50,7 @@ if (!User::canUpload()) {
 
     foreach ($_POST['itemsToSave'] as $value) {
         foreach ($value as $key => $value2) {
-            $value[$key] = preg_replace("/\\x[^A-Fa-f0-9]{2}/", '', $value2);
+            $value[$key] = preg_replace("/\\\x[^A-Fa-f0-9]{2}/", '', $value2);
             $value[$key] = xss_esc($value2);
         }
         //$info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($value));
