@@ -153,42 +153,40 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
 
             function saveIt(videoLink) {
                 modal.showPleaseWait();
-
-                var itemsToSave = [];
-                for (x in videoLink) {
-                    if (typeof videoLink[x] == 'function') {
-                        continue;
+                setTimeout(function () {
+                    var itemsToSave = [];
+                    for (x in videoLink) {
+                        if (typeof videoLink[x] === 'function') {
+                            continue;
+                        }
+                        $.ajax({
+                            url: "https://www.googleapis.com/youtube/v3/videos?id=" + videoLink[x] + "&part=id,snippet,contentDetails&key=" + gapikey,
+                            async: false,
+                            success: function (data) {
+                                var item = {};
+                                item.link = "https://youtube.com/embed/" + data.items[0].id;
+                                item.title = data.items[0].snippet.title;
+                                item.description = data.items[0].snippet.description;
+                                item.duration = data.items[0].contentDetails.duration;
+                                item.thumbs = data.items[0].snippet.thumbnails.high.url;
+                                itemsToSave.push(item);
+                            }
+                        });
                     }
                     $.ajax({
-                        url: "https://www.googleapis.com/youtube/v3/videos?id="+videoLink[x]+"&part=id,snippet,contentDetails&key="+gapikey,
-                        
-                        async: false,
-                        success: function (data) {
-                            var item = {};
-                            item.link = "https://youtube.com/embed/" + data.items[0].id;
-                            item.title = data.items[0].snippet.title;
-                            item.description = data.items[0].snippet.description;
-                            item.duration = data.items[0].contentDetails.duration;
-                            item.thumbs = data.items[0].snippet.thumbnails.high.url;
-                            itemsToSave.push(item);
+                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/BulkEmbed/save.json.php',
+                        data: {"itemsToSave": itemsToSave},
+                        type: 'post',
+                        success: function (response) {
+                            if (!response.error) {
+                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your videos have been saved!"); ?>", "success");
+                            } else {
+                                swal("<?php echo __("Sorry!"); ?>", response.msg.join("<br>"), "error");
+                            }
+                            modal.hidePleaseWait();
                         }
                     });
-                }
-                console.log(itemsToSave);
-                $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/BulkEmbed/save.json.php',
-                    data: {"itemsToSave": itemsToSave},
-                    type: 'post',
-                    success: function (response) {
-                        if (!response.error) {
-                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your videos have been saved!"); ?>", "success");
-                        } else {
-                            swal("<?php echo __("Sorry!"); ?>", response.msg.join("<br>"), "error");
-                        }
-                        modal.hidePleaseWait();
-                    }
-                });
-
+                }, 500);
             }
 
             function search() {
