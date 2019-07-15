@@ -57,8 +57,8 @@ if (!User::canUpload()) {
         $filename = uniqid("_YPTuniqid_", true);
         $videos = new Video();
         $videos->setFilename($filename);
-        $videos->setTitle(preg_replace("/[^A-Za-z0-9 ]/", '', $value['title']));
-        $videos->setDescription(preg_replace("/[^A-Za-z0-9 ]/", '', $value['description']));
+        $videos->setTitle($value['title']);
+        $videos->setDescription($value['description']);
         $videos->setClean_title($value['title']);
         $videos->setDuration(ISO8601ToDuration($value['duration']));
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", url_get_contents($value['thumbs']));

@@ -204,7 +204,8 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                             q: q,
                             type: 'video',
                             key: gapikey,
-                            maxResults: 50
+                            maxResults: 50,
+                            videoEmbeddable: "true"
                         }, function (data) {
                     var nextPageToken = data.nextPageToken;
                     var prevPageToken = data.prevPageToken;
@@ -248,7 +249,8 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                             pageToken: token,
                             type: 'video',
                             key: gapikey,
-                            maxResults: 50
+                            maxResults: 50,
+                            videoEmbeddable: "true"
                         }, function (data) {
 
                     var nextPageToken = data.nextPageToken;
@@ -294,7 +296,8 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                             pageToken: token,
                             type: 'video',
                             key: gapikey,
-                            maxResults: 50
+                            maxResults: 50,
+                            videoEmbeddable: "true"
                         }, function (data) {
 
                     var nextPageToken = data.nextPageToken;
