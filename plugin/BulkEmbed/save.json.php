@@ -44,8 +44,14 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = array();
 
-if (!User::canUpload()) {
+
+$objo = YouPHPTubePlugin::getObjectDataIfEnabled('BulkEmbed');
+if(empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())){
     $obj->msg[] = __("Permission denied");
+    $obj->msg[] = "Plugin disabled";
+}else if (!User::canUpload()) {
+    $obj->msg[] = __("Permission denied");
+    $obj->msg[] = "User can not upload videos";
 } else if (!empty($_POST['itemsToSave'])) {
 
     foreach ($_POST['itemsToSave'] as $value) {

@@ -96,32 +96,36 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container">
-            <section>
-                <form id="search-form" name="search-form" onsubmit="return search()">
-                    <div id="custom-search-input">
-                        <div class="input-group col-md-12">
-                            <input type="search" id="query" class="form-control input-lg" placeholder="Search YouTube" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-info btn-lg" type="button">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                </button>
-                            </span>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <form id="search-form" name="search-form" onsubmit="return search()">
+                        <div id="custom-search-input">
+                            <div class="input-group col-md-12">
+                                <input type="search" id="query" class="form-control input-lg" placeholder="Search YouTube" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-lg" type="button">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button class="btn btn-info btn-block" id="getAll"><?php echo __('Embed All'); ?></button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-success btn-block" id="getSelected"><?php echo __('Embed Selected'); ?></button>
                         </div>
                     </div>
-                </form>
-                <br>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="btn btn-info btn-block" id="getAll"><?php echo __('Embed All'); ?></button>
-                    </div>
-                    <div class="col-sm-6">
-                        <button class="btn btn-success btn-block" id="getSelected"><?php echo __('Embed Selected'); ?></button>
-                    </div>
                 </div>
-                <br>
-                <ul id="results"></ul>
-                <div id="buttons"></div>
-            </section>
+                <div class="panel-body">
+                    <ul id="results"></ul>
+                    <div id="buttons"></div>
+                </div>
+            </div>
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';

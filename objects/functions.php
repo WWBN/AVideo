@@ -393,6 +393,10 @@ function secondsToVideoTime($seconds) {
     return sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
 }
 
+function parseSecondsToDuration($seconds) {
+    return secondsToVideoTime($seconds);
+}
+
 function parseDurationToSeconds($str) {
     if (is_numeric($str)) {
         return intval($str);

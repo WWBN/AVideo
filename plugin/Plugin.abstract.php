@@ -430,5 +430,9 @@ abstract class PluginAbstract {
         return null;
     }
     
+    public function getDownloadMenuButton(){
+        return "";
+    }
+    
 
 }

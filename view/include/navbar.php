@@ -303,6 +303,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 </li>
                                                 <?php
                                             }
+                                            echo YouPHPTubePlugin::getDownloadMenuButton();
                                             ?>
                                         </ul>
                                         <?php

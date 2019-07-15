@@ -29,6 +29,7 @@ class BulkEmbed extends PluginAbstract {
         $obj = new stdClass();
 
         $obj->API_KEY = "AIzaSyCIqxE86BawU33Um2HEGtX4PcrUWeCh_6o";
+        $obj->onlyAdminCanBulkEmbed = true;
         return $obj;
     }
 
@@ -41,6 +42,16 @@ class BulkEmbed extends PluginAbstract {
         global $global;
         $menu = '<a href="' . $global['webSiteRootURL'] . 'plugin/BulkEmbed/search.php" class="btn btn-primary btn-xs btn-block" target="_blank">Search</a>';
         return $menu;
+    }
+    
+    public function getDownloadMenuButton(){
+        global $global;
+        $obj = $this->getDataObject();
+        if($obj->onlyAdminCanBulkEmbed && !User::isAdmin()){
+            return '';
+        }
+        
+        return '<li><a  href="'.$global['webSiteRootURL'].'plugin/BulkEmbed/search.php" ><span class="fa fa-link"></span>'.__("Bulk Embed").'</a></li>';
     }
 
 
