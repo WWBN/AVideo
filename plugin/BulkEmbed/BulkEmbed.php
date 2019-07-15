@@ -44,7 +44,7 @@ class BulkEmbed extends PluginAbstract {
         return $menu;
     }
     
-    public function getDownloadMenuButton(){
+    public function getUploadMenuButton(){
         global $global;
         $obj = $this->getDataObject();
         if($obj->onlyAdminCanBulkEmbed && !User::isAdmin()){

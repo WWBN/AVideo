@@ -1152,14 +1152,14 @@ class YouPHPTubePlugin {
         return $r;
     }
     
-    public static function getDownloadMenuButton(){
+    public static function getUploadMenuButton(){
         $plugins = Plugin::getAllEnabled();
         $r = "";
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $r .= $p->getDownloadMenuButton();
+                $r .= $p->getUploadMenuButton();
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
