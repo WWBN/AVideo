@@ -616,8 +616,10 @@ if (typeof gtag !== \"function\") {
                 error_log("user::login: Do login without cookie");
                 $cookie = $config->getSession_timeout();
             }
-            setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
-            setcookie("pass", $user['password'], $cookie, "/", $_SERVER['HTTP_HOST']);
+            if(empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))){
+                setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
+                setcookie("pass", $user['password'], $cookie, "/", $_SERVER['HTTP_HOST']);
+            }
             YouPHPTubePlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             return self::USER_LOGGED;
