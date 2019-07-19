@@ -250,6 +250,9 @@ if (typeof gtag !== \"function\") {
     static function getNameIdentification() {
         global $advancedCustom;
         if (self::isLogged()) {
+            if (!empty(self::getUserChannelName())) {
+                return self::getUserChannelName();
+            }
             if (!empty(self::getName()) && empty($advancedCustomUser->doNotIndentifyByName)) {
                 return self::getName();
             }
