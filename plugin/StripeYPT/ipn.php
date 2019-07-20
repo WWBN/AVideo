@@ -12,7 +12,9 @@ $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = YouPHPTubePlugin::getObjectData("YPTWallet");
 $stripe = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
 $stripeObject = YouPHPTubePlugin::getObjectData("StripeYPT");
-
+if(empty($stripe)){
+   die("Stripe Plugin Disabled"); 
+}
 $stripe->start();
 
 // You can find your endpoint's secret in your webhook settings
