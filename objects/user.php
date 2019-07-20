@@ -608,18 +608,23 @@ if (typeof gtag !== \"function\") {
         } else if ($user) {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
-            if (!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") {
+            $rememberme = 0;
+            if ((!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
                 error_log("user::login: Do login with cookie (log in for next 10 years)!");
-                global $global;
                 //$url = parse_url($global['webSiteRootURL']);
                 //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 $cookie = 2147483647;
+                $rememberme = 1;
             }else{
                 error_log("user::login: Do login without cookie");
                 $cookie = $config->getSession_timeout();
             }
             if(empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))){
+                if(empty($cookie)){
+                    $cookie = 86400;
+                }
+                setcookie("rememberme", $rememberme, $cookie, "/", $_SERVER['HTTP_HOST']);
                 setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
                 setcookie("pass", $user['password'], $cookie, "/", $_SERVER['HTTP_HOST']);
             }
@@ -709,12 +714,15 @@ if (typeof gtag !== \"function\") {
             session_start();
         }
         //$url = parse_url($global['webSiteRootURL']);
+        unset($_COOKIE['rememberme']);
         unset($_COOKIE['user']);
         unset($_COOKIE['pass']);
         //  setcookie('user', null, -1,$url['path'],$url['host']);
         //  setcookie('pass', null, -1,$url['path'],$url['host']);
+        setcookie('rememberme', null, -1, "/", $_SERVER['HTTP_HOST']);
         setcookie('user', null, -1, "/", $_SERVER['HTTP_HOST']);
         setcookie('pass', null, -1, "/", $_SERVER['HTTP_HOST']);
+        setcookie('rememberme', null, -1, "/");
         setcookie('user', null, -1, "/");
         setcookie('pass', null, -1, "/");
         unset($_SESSION['user']);
