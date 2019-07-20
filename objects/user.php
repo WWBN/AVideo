@@ -622,7 +622,7 @@ if (typeof gtag !== \"function\") {
             }
             if(empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))){
                 if(empty($cookie)){
-                    $cookie = 86400;
+                    $cookie = 86400; // 24 hours
                 }
                 setcookie("rememberme", $rememberme, $cookie, "/", $_SERVER['HTTP_HOST']);
                 setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
