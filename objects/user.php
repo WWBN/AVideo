@@ -618,6 +618,9 @@ if (typeof gtag !== \"function\") {
                 $rememberme = 1;
             }else{
                 error_log("user::login: Do login without cookie");
+                if(empty($config) || !is_object($config)){
+                    $config = new Configuration();
+                }
                 $cookie = $config->getSession_timeout();
             }
             if(empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))){
