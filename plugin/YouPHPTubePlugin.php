@@ -1008,7 +1008,7 @@ class YouPHPTubePlugin {
             }
             $_SESSION['getVideoTags'][$videos_id] = $array;
             session_write_close();
-        }        
+        } 
         return $_SESSION['getVideoTags'][$videos_id];
     }
     

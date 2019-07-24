@@ -82,6 +82,16 @@ CREATE TABLE IF NOT EXISTS `categories` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `sites` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL DEFAULT NULL,
+  `url` VARCHAR(255)  NOT NULL,
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
+  `status` CHAR(1) NULL DEFAULT NULL,
+  `secret` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `videos`
@@ -121,12 +131,19 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `rrating` VARCHAR(45) NULL DEFAULT NULL,
   `externalOptions` TEXT NULL DEFAULT NULL,
   `only_for_paid` TINYINT(1) NULL DEFAULT NULL,
+  `sites_id` INT(11) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
   INDEX `index5` (`order` ASC),
   INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC),
+  INDEX `fk_videos_sites1_idx` (`sites_id` ASC),
+  CONSTRAINT `fk_videos_sites1`
+    FOREIGN KEY (`sites_id`)
+    REFERENCES `sites` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_videos_users`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)

@@ -745,14 +745,14 @@ echo YouPHPTubePlugin::getManagerVideosJavaScripts();
                                                             clearTimeout(timeOut);
                                                             timeOut = setTimeout(function () {
                                                                 $("#grid").bootgrid('reload');
-                                                            }, 2000);
+                                                            }, 5000);
                                                         } else {
 
                                                         }
 
                                                         setTimeout(function () {
                                                             checkProgress();
-                                                        }, 1000);
+                                                        }, 3000);
                                                     } else if (encodingNowId !== "") {
                                                         $("#encodeProgress" + encodingNowId).slideUp("normal", function () {
                                                             $(this).remove();
@@ -760,11 +760,11 @@ echo YouPHPTubePlugin::getManagerVideosJavaScripts();
                                                         encodingNowId = "";
                                                         setTimeout(function () {
                                                             checkProgress();
-                                                        }, 5000);
+                                                        }, 10000);
                                                     } else {
                                                         setTimeout(function () {
                                                             checkProgress();
-                                                        }, 5000);
+                                                        }, 10000);
                                                     }
 
                                                 }
