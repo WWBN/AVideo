@@ -1,7 +1,7 @@
 <?php
 //set the $url and the $title before include this
 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
-$twitterURL = "http://twitter.com/home?status={$title}+{$url}";
+$twitterURL = "http://twitter.com/intent/tweet?text={$title}+{$url}";
 $tumblr = "http://www.tumblr.com/share?v=3&u=$url&quote=$title&s=";
 $pinterest = "http://pinterest.com/pin/create/button/?url=$url&description=";
 $reddit = "http://www.reddit.com/submit?url=$url&title=$title";
