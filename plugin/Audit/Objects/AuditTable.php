@@ -22,7 +22,7 @@ class AuditTable extends ObjectYPT {
         $this->class = $class;
         $this->statement = substr(str_replace("'", "", $statement),0,1000)."n";
         $this->formats = $formats;
-        $this->values = $values;
+        $this->values = str_replace(array("'","\\"), array("",""), $values);
         $this->ip = getRealIpAddr();
         $this->users_id = empty($users_id)?"NULL":$users_id;
         return $this->save();
