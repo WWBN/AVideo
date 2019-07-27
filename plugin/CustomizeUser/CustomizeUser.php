@@ -60,9 +60,6 @@ class CustomizeUser extends PluginAbstract {
         $o->type = "textarea";
         $o->value = "";        
         $obj->messageToAppearBelowLoginBox = $o;     
-                
-        $obj->signUpRequestUploadRights = false;
-        $obj->signUpRequestLivestreamRights = false;
         
         $obj->doNotShowTopBannerOnChannel = false;
         
