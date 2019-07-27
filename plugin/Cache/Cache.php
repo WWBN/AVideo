@@ -115,7 +115,7 @@ class Cache extends PluginAbstract {
             }
         }
         
-        if($isBot && $_SERVER['REQUEST_URI'] !== '/login' && $_SERVER['REQUEST_URI'] !== '/youPHPTubeEncoder.json'){
+        if($isBot && $_SERVER['REQUEST_URI'] !== '/login' && strpos($_SERVER['REQUEST_URI'], 'youPHPTubeEncoder') === false){
             if(empty($_SERVER['HTTP_USER_AGENT'])){
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
