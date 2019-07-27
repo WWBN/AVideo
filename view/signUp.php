@@ -92,39 +92,6 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                             </div>
 
                             <?php
-                            if (!empty($advancedCustomUser->signUpRequestUploadRights)) {
-                                ?>
-
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"></label>
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <div class="form-group checkbox">
-                                                <label><input type="checkbox" name="signUpRequestUploadRights" id="signUpRequestUploadRights" value="1"><?php echo __("Request Rights to Upload"); ?></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <?php
-                            }
-                            if (!empty($advancedCustomUser->signUpRequestLivestreamRights)) {
-                                ?>
-
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label"></label>
-                                    <div class="col-md-8 inputGroupContainer">
-                                        <div class="input-group">
-                                            <div class="form-group checkbox">
-                                                <label><input type="checkbox" name="signUpRequestLivestreamRights" id="signUpRequestLivestreamRights" value="1"><?php echo __("Request Rights to LiveStream"); ?></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <?php
-                            }
-
                             if (!empty($agreement)) {
                                 $agreement->getSignupCheckBox();
                             }
@@ -180,8 +147,6 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                                     "pass": $('#inputPassword').val(),
                                     "email": $('#inputEmail').val(),
                                     "name": $('#inputName').val(),
-                                    "signUpRequestUploadRights": $('#signUpRequestUploadRights').val(),
-                                    "signUpRequestLivestreamRights": $('#signUpRequestLivestreamRights').val(),
                                     "captcha": $('#captchaText').val()
                                 },
                                 type: 'post',
