@@ -39,6 +39,9 @@ if(empty($_POST['list'])){
         case 3:
             $sortFunc = "dateCmp";
             break;
+        case 4:
+            $sortFunc = "dateCmpDesc";
+            break;
     }
     //var_dump($sortFunc);exit;
     // sort video
@@ -66,6 +69,14 @@ echo '{"status":"'.$result.'"}';
 
 // Comparison function
 function dateCmp($videoA, $videoB) {
+    $a = strtotime($videoA['created']);
+    $b = strtotime($videoB['created']);
+    if ($a == $b) {
+        return 0;
+    }
+    return ($a > $b) ? -1 : 1;
+}
+function dateCmpDesc($videoA, $videoB) {
     $a = strtotime($videoA['created']);
     $b = strtotime($videoB['created']);
     if ($a == $b) {

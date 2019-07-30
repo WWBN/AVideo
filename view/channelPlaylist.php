@@ -95,7 +95,8 @@ foreach ($playlists as $playlist) {
                     <ul class="dropdown-menu">
                         <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $playlist['id']; ?>&sort=1"><?php echo __("Alphabetical"); ?> A-Z</a></li>
                         <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $playlist['id']; ?>&sort=2"><?php echo __("Alphabetical"); ?> Desc Z-A</a></li>
-                        <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $playlist['id']; ?>&sort=3"><?php echo __("Created Date"); ?></a></li>
+                        <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $playlist['id']; ?>&sort=3"><?php echo __("Created Date"); ?> 0-9</a></li>
+                        <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $playlist['id']; ?>&sort=4"><?php echo __("Created Date"); ?> Desc 9-0</a></li>
                     </ul>
                 </div>
                 <div class="pull-right btn-group">
