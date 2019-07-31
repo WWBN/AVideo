@@ -30,7 +30,7 @@ class LiveLinks extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";   
+        return "2.0";   
     }
 
     public function canAddLinks() {
@@ -139,6 +139,13 @@ class LiveLinks extends PluginAbstract {
         }
 
         return $array;
+    }
+    
+    
+    public function updateScript() {
+        global $global;
+        sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV2.0.sql'));
+        return true;
     }
 
 }

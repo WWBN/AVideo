@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `LiveLinks` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `description` TEXT NOT NULL,
-  `link` VARCHAR(255) NOT NULL,
+  `link` TEXT NOT NULL,
   `start_date` DATETIME NULL,
   `end_date` DATETIME NULL,
   `type` ENUM('public', 'unlisted', 'logged_only') NULL,
