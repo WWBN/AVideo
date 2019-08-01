@@ -12,6 +12,9 @@
         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
             <span class="fa fa-film"></span> <?php echo __("Videos"); ?>
         </a>
+        <a href="<?php echo $global['webSiteRootURL']; ?>objects/getAllEmails.csv.php" class="btn btn-primary">
+            <i class="fas fa-file-csv"></i> <?php echo __("CSV File"); ?>
+        </a>
     </div>
     <table id="grid" class="table table-condensed table-hover table-striped">
         <thead>
