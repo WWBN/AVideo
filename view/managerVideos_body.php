@@ -332,7 +332,7 @@
                                         <div class="col-md-12" >
                                             <ul class="list-group">
                                                 <?php
-                                                if (CustomizeUser::canDownloadVideosFromUser(User::getId())) {
+                                                if ($advancedCustomUser->userCanAllowFilesDownloadSelectPerVideo && CustomizeUser::canDownloadVideosFromUser(User::getId())) {
                                                     ?>
                                                     <li class="list-group-item">
                                                         <span class="fa fa-download"></span> <?php echo __("Allow Download This Video"); ?>
@@ -345,7 +345,7 @@
                                                 }
                                                 ?>
                                                 <?php
-                                                if (CustomizeUser::canShareVideosFromUser(User::getId())) {
+                                                if ($advancedCustomUser->userCanAllowFilesShareSelectPerVideo && CustomizeUser::canShareVideosFromUser(User::getId())) {
                                                     ?>
                                                     <li class="list-group-item">
                                                         <span class="fa fa-share"></span> <?php echo __("Allow Share This Video"); ?>
