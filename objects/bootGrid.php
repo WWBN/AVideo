@@ -29,6 +29,19 @@ class BootGrid {
             $sql .= $alternativeOrderBy;
         }
 
+        if (empty($_POST['rowCount']) && !empty($_GET['length'])) {
+            $_POST['rowCount'] = intval($_GET['length']);
+        }
+
+        if (empty($_POST['current']) && !empty($_GET['start'])) {
+            $_POST['current'] = ($_GET['start'] / $_GET['length']) + 1;
+        } else if (empty($_POST['current']) && isset($_GET['start'])) {
+            $_POST['current'] = 1;
+        }
+
+        $_POST['current'] = intval(@$_POST['current']);
+        $_POST['rowCount'] = intval(@$_POST['rowCount']);
+        
         if(!empty($_POST['rowCount']) && $_POST['rowCount']>0){
             if(empty($_POST['current'])){
                 $_POST['current'] = 1;
@@ -47,6 +60,14 @@ class BootGrid {
 
     static function getSqlSearchFromPost($searchFieldsNames = array(), $connection = "AND") {
         $sql = "";
+        if (!empty($_GET['searchPhrase'])) {
+            $_POST['searchPhrase'] = $_GET['searchPhrase'];
+        } else if (!empty($_GET['search']['value'])) {
+            $_POST['searchPhrase'] = $_GET['search']['value'];
+        }else if (!empty($_GET['q'])) {
+            $_POST['searchPhrase'] = $_GET['q'];
+        }
+        
         if(!empty($_POST['searchPhrase'])){
             global $global;
             $search = $global['mysqli']->real_escape_string(xss_esc($_POST['searchPhrase']));
