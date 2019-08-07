@@ -21,3 +21,4 @@ docs/
 es5/
 tmp
 coverage/
+!/dist/
