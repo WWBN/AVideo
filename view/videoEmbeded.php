@@ -41,7 +41,13 @@ if (!empty($objSecure)) {
 $imgw = 1280;
 $imgh = 720;
 
-if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
+if ($video['type'] !== "pdf") {
+    $source = Video::getSourceFile($video['filename']);
+    $img = $source['url'];
+    $data = getimgsize($source['path']);
+    $imgw = $data[0];
+    $imgh = $data[1];
+} else if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
     $source = Video::getSourceFile($video['filename']);
     $img = $source['url'];
     $data = getimgsize($source['path']);
@@ -111,7 +117,7 @@ if (!empty($_GET['t'])) {
     $t = intval($video['progress']['lastVideoTime']);
 } else if (!empty($video['externalOptions']->videoStartSeconds)) {
     $t = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
-}
+}$sources = getVideosURLPDF($video['filename']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -171,7 +177,22 @@ if (!empty($_GET['t'])) {
 
     <body>
         <?php
-        if ($video['type'] == "embed") {
+        if ($video['type'] == "pdf") {
+            ?>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+            <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
+        echo $sources["pdf"]['url'];
+            ?>"></iframe>
+                    <?php
+                    echo YouPHPTubePlugin::getFooterCode();
+                    ?>
+            <script>
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
+            </script>
+            <?php
+        } else if ($video['type'] == "embed") {
             ?>
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php

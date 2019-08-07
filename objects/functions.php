@@ -40,11 +40,11 @@ function file_upload_max_size() {
     static $max_size = -1;
 
     if ($max_size < 0) {
-        // Start with post_max_size.
+// Start with post_max_size.
         $max_size = parse_size(ini_get('post_max_size'));
 
-        // If upload_max_size is less, then reduce. Except if upload_max_size is
-        // zero, which indicates no limit.
+// If upload_max_size is less, then reduce. Except if upload_max_size is
+// zero, which indicates no limit.
         $upload_max = parse_size(ini_get('upload_max_filesize'));
         if ($upload_max > 0 && $upload_max < $max_size) {
             $max_size = $upload_max;
@@ -57,7 +57,7 @@ function parse_size($size) {
     $unit = preg_replace('/[^bkmgtpezy]/i', '', $size); // Remove the non-unit characters from the size.
     $size = preg_replace('/[^0-9\.]/', '', $size); // Remove the non-numeric characters from the size.
     if ($unit) {
-        // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+// Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
         return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
     } else {
         return round($size);
@@ -433,7 +433,7 @@ function setSiteSendMessage(&$mail) {
         $mail->Port = $config->getSmtpPort();
         $mail->Username = $config->getSmtpUsername();
         $mail->Password = $config->getSmtpPassword();
-        //error_log(print_r($config, true));
+//error_log(print_r($config, true));
     } else {
         error_log("Sending SendMail Email");
         $mail->isSendmail();
@@ -451,10 +451,10 @@ function sendSiteEmail($to, $subject, $message) {
     try {
         $mail = new PHPMailer;
         setSiteSendMessage($mail);
-        //$mail->SMTPDebug = 4;
-        //Set who the message is to be sent from
+//$mail->SMTPDebug = 4;
+//Set who the message is to be sent from
         $mail->setFrom($contactEmail, $webSiteTitle);
-        //Set who the message is to be sent to
+//Set who the message is to be sent to
         if (!is_array($to)) {
             $mail->addAddress($to);
         } else {
@@ -463,7 +463,7 @@ function sendSiteEmail($to, $subject, $message) {
                 $mail->addBCC($value);
             }
         }
-        //Set the subject line
+//Set the subject line
         $mail->Subject = $subject . " - " . $webSiteTitle;
 
         $mail->msgHTML($message);
@@ -485,14 +485,14 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time&objectFit=$objectFit";
     }
     if (strpos($videoString, 'iframe') !== false) {
-        // retrieve the video url
+// retrieve the video url
         $anchorRegex = '/src="(.*)?"/isU';
         $results = array();
         if (preg_match($anchorRegex, $video, $results)) {
             $link = trim($results[1]);
         }
     } else {
-        // we already have a url
+// we already have a url
         $link = $videoString;
     }
 
@@ -504,62 +504,62 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         preg_match(
                 '/[\\?\\&]v=([^\\?\\&]+)/', $link, $matches
         );
-        //the ID of the YouTube URL: x6qe_kVaBpg
+//the ID of the YouTube URL: x6qe_kVaBpg
         $id = $matches[1];
         return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time&objectFit=$objectFit";
     } else if (strpos($link, 'youtu.be') !== false) {
-        //https://youtu.be/9XXOBSsPoMU
+//https://youtu.be/9XXOBSsPoMU
         preg_match(
                 '/youtu.be\/([a-zA-Z0-9_]+)($|\/)/', $link, $matches
         );
-        //the ID of the YouTube URL: x6qe_kVaBpg
+//the ID of the YouTube URL: x6qe_kVaBpg
         $id = $matches[1];
         return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time&objectFit=$objectFit";
     } else if (strpos($link, 'player.vimeo.com') !== false) {
-        // works on:
-        // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
+// works on:
+// http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
         $videoIdRegex = '/player.vimeo.com\/video\/([0-9]+)\??/i';
         preg_match($videoIdRegex, $link, $matches);
         $id = $matches[1];
         return '//player.vimeo.com/video/' . $id;
     } else if (strpos($link, 'vimeo.com/channels') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549
+//the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//player.vimeo.com/video/' . $id;
     } else if (strpos($link, 'vimeo.com') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549
+//the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//player.vimeo.com/video/' . $id;
     } else if (strpos($link, 'dailymotion.com') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/', $link, $matches
         );
 
-        //the ID of the Vimeo URL: 71673549
+//the ID of the Vimeo URL: 71673549
         $id = $matches[2];
         return '//www.dailymotion.com/embed/video/' . $id;
     } else if (strpos($link, 'metacafe.com') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_\/-]+)$/', $link, $matches
         );
         $id = $matches[2];
         return '//www.metacafe.com/embed/' . $id;
     } else if (strpos($link, 'vid.me') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?vid.me\/([a-zA-Z0-9_-]+)$/', $link, $matches
         );
@@ -567,14 +567,14 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $id = $matches[2];
         return '//vid.me/e/' . $id;
     } else if (strpos($link, 'rutube.ru') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)\/.*/', $link, $matches
         );
         $id = $matches[2];
         return '//rutube.ru/play/embed/' . $id;
     } else if (strpos($link, 'ok.ru') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?ok.ru\/video\/([a-zA-Z0-9_-]+)$/', $link, $matches
         );
@@ -582,7 +582,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $id = $matches[2];
         return '//ok.ru/videoembed/' . $id;
     } else if (strpos($link, 'streamable.com') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?streamable.com\/([a-zA-Z0-9_-]+)$/', $link, $matches
         );
@@ -590,7 +590,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $id = $matches[2];
         return '//streamable.com/s/' . $id;
     } else if (strpos($link, 'twitch.tv/videos') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches
         );
@@ -598,7 +598,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
             $id = $matches[2];
             return '//player.twitch.tv/?video=' . $id . '#';
         }
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?twitch.tv\/[a-zA-Z0-9_-]+\/v\/([a-zA-Z0-9_-]+)$/', $link, $matches
         );
@@ -606,7 +606,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $id = $matches[2];
         return '//player.twitch.tv/?video=' . $id . '#';
     } else if (strpos($link, 'twitch.tv') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches
         );
@@ -614,12 +614,12 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $id = $matches[2];
         return '//player.twitch.tv/?channel=' . $id . '#';
     } else if (strpos($link, '/video/') !== false) {
-        //extract the ID
+//extract the ID
         preg_match(
                 '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches
         );
 
-        //the YouPHPTube site
+//the YouPHPTube site
         $site = $matches[1];
         $id = $matches[2];
         return $site . '/videoEmbeded/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
@@ -650,7 +650,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
             . $final_query_string;
 
     return $new_url;
-    // return data
+// return data
 }
 
 $canUseCDN = array();
@@ -663,7 +663,7 @@ function canUseCDN($videos_id) {
     if (!isset($canUseCDN[$videos_id])) {
         require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
         $pvr360 = YouPHPTubePlugin::isEnabledByName('VR360');
-        // if the VR360 is enabled you can not use the CDN, it fail to load the GL
+// if the VR360 is enabled you can not use the CDN, it fail to load the GL
         $isVR360Enabled = VideosVR360::isVR360Enabled($videos_id);
         if ($pvr360 && $isVR360Enabled) {
             $ret = false;
@@ -671,7 +671,7 @@ function canUseCDN($videos_id) {
             $ret = true;
         }
 
-        //error_log(json_encode(array('canUseCDN'=>$ret, '$pvr360'=>$pvr360, '$isVR360Enabled'=>$isVR360Enabled, '$videos_id'=>$videos_id)));
+//error_log(json_encode(array('canUseCDN'=>$ret, '$pvr360'=>$pvr360, '$isVR360Enabled'=>$isVR360Enabled, '$videos_id'=>$videos_id)));
         $canUseCDN[$videos_id] = $ret;
     }
     return $canUseCDN[$videos_id];
@@ -736,6 +736,130 @@ function recreateCache($filename) {
     return false;
 }
 
+function getVideosURLPDF($fileName) {
+    global $global;
+    if (empty($fileName)) {
+        return array();
+    }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $start = $time;
+
+    $source = Video::getSourceFile($fileName, ".pdf");
+    $file = $source['path'];
+    $files["pdf"] = array(
+        'filename' => "{$fileName}.pdf",
+        'path' => $file,
+        'url' => $source['url'],
+        'type' => 'pdf',
+    );
+
+    $source = Video::getSourceFile($fileName, ".jpg");
+    $file = $source['path'];
+    if (file_exists($file)) {
+        $files["jpg"] = array(
+            'filename' => "{$fileName}.jpg",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'image',
+        );
+    } else {
+        $files["jpg"] = array(
+            'filename' => "pdf.png",
+            'path' => "{$global['systemRootPath']}view/img/pdf.png",
+            'url' => "{$global['webSiteRootURL']}view/img/pdf.png",
+            'type' => 'image',
+        );
+    }
+    $source = Video::getSourceFile($fileName, "_portrait.jpg");
+    $file = $source['path'];
+    if (file_exists($file)) {
+        $files["pjpg"] = array(
+            'filename' => "{$fileName}_portrait.jpg",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'image',
+        );
+    } else {
+        $files["pjpg"] = array(
+            'filename' => "pdf_portrait.png",
+            'path' => "{$global['systemRootPath']}view/img/pdf_portrait.png",
+            'url' => "{$global['webSiteRootURL']}view/img/pdf_portrait.png",
+            'type' => 'image',
+        );
+    }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $finish = $time;
+    $total_time = round(($finish - $start), 4);
+    error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
+    return $files;
+}
+
+function getVideosURLAudio($fileName) {
+    global $global;
+    if (empty($fileName)) {
+        return array();
+    }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $start = $time;
+
+    $source = Video::getSourceFile($fileName, ".mp3");
+    $file = $source['path'];
+    $files["mp3"] = array(
+        'filename' => "{$fileName}.mp3",
+        'path' => $file,
+        'url' => $source['url'],
+        'type' => 'audio',
+    );
+
+    $source = Video::getSourceFile($fileName, ".jpg");
+    $file = $source['path'];
+    if (file_exists($file)) {
+        $files["jpg"] = array(
+            'filename' => "{$fileName}.jpg",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'image',
+        );
+    } else {
+        $files["jpg"] = array(
+            'filename' => "audio_wave.jpg",
+            'path' => "{$global['systemRootPath']}view/img/audio_wave.jpg",
+            'url' => "{$global['webSiteRootURL']}view/img/audio_wave.jpg",
+            'type' => 'image',
+        );
+    }
+    $source = Video::getSourceFile($fileName, "_portrait.jpg");
+    $file = $source['path'];
+    if (file_exists($file)) {
+        $files["pjpg"] = array(
+            'filename' => "{$fileName}_portrait.jpg",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'image',
+        );
+    } else {
+        $files["pjpg"] = array(
+            'filename' => "audio_wave_portrait.jpg",
+            'path' => "{$global['systemRootPath']}view/img/audio_wave_portrait.jpg",
+            'url' => "{$global['webSiteRootURL']}view/img/audio_wave_portrait.jpg",
+            'type' => 'image',
+        );
+    }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $finish = $time;
+    $total_time = round(($finish - $start), 4);
+    error_log("getVideosURLAudio generated in {$total_time} seconds. fileName: $fileName ");
+    return $files;
+}
+
 function getVideosURL($fileName, $cache = true) {
     global $global;
     if (empty($fileName)) {
@@ -749,7 +873,14 @@ function getVideosURL($fileName, $cache = true) {
     $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
     make_path($path);
     $cacheFilename = "{$path}{$fileName}.cache";
-    //var_dump($cacheFilename, recreateCache($cacheFilename), minimumExpirationTime());
+    //var_dump($cacheFilename, recreateCache($cacheFilename), minimumExpirationTime());$pdf = "{$global['systemRootPath']}videos/{$fileName}.pdf";
+    $pdf = "{$global['systemRootPath']}videos/{$fileName}.pdf";
+    $mp3 = "{$global['systemRootPath']}videos/{$fileName}.mp3";
+    if (file_exists($pdf)) {
+        return getVideosURLPDF($fileName);
+    } else if (file_exists($mp3)) {
+        return getVideosURLAudio($fileName);
+    } else
     if (file_exists($cacheFilename) && $cache && !recreateCache($cacheFilename)) {
         $json = file_get_contents($cacheFilename);
         $time = microtime();
@@ -764,7 +895,7 @@ function getVideosURL($fileName, $cache = true) {
     global $global;
     $types = array('', '_Low', '_SD', '_HD');
     $files = array();
-    // old
+// old
     require_once $global['systemRootPath'] . 'objects/video.php';
 
     $plugin = YouPHPTubePlugin::loadPluginIfEnabled("VideoHLS");
@@ -846,10 +977,9 @@ function getVideosURL($fileName, $cache = true) {
                 );
             }
         }
+
+        file_put_contents($cacheFilename, json_encode($files));
     }
-
-    file_put_contents($cacheFilename, json_encode($files));
-
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -910,7 +1040,7 @@ function getSources($fileName, $returnArray = false) {
 
     $obj = new stdClass();
     $obj->result = $return;
-    //ObjectYPT::setCache($name, $obj);
+//ObjectYPT::setCache($name, $obj);
     return $return;
 }
 
@@ -1009,9 +1139,9 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
 
             break;
         case "gif":
-            // integer representation of the color black (rgb: 0,0,0)
+// integer representation of the color black (rgb: 0,0,0)
             $background = imagecolorallocate($src, 0, 0, 0);
-            // removing the black from the placeholder
+// removing the black from the placeholder
             imagecolortransparent($src, $background);
 
             break;
@@ -1073,8 +1203,8 @@ function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 50) {
 }
 
 function im_resizeV3($file_src, $file_dest, $wd, $hd) {
-    // this trys to preserve the aspect ratio of the thumb while letterboxing it in
-    // the same way that the encoder now does.
+// this trys to preserve the aspect ratio of the thumb while letterboxing it in
+// the same way that the encoder now does.
     eval('$ffmpeg ="ffmpeg -i {$file_src} -filter_complex \"scale=(iw*sar)*min({$wd}/(iw*sar)\,{$hd}/ih):ih*min({$wd}/(iw*sar)\,{$hd}/ih), pad={$wd}:{$hd}:({$wd}-iw*min({$wd}/iw\,{$hd}/ih))/2:({$hd}-ih*min({$wd}/iw\,{$hd}/ih))/2\" -sws_flags lanczos -qscale:v 2 {$file_dest}";');
     exec($ffmpeg . " < /dev/null 2>&1", $output, $return_val);
 }
@@ -1092,11 +1222,11 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
         unzipDirectory($tmp_name, $dir); // unzip it
         cleanDirectory($dir);
         if (!empty($aws_s3)) {
-            //$aws_s3->move_uploaded_file($tmp_name, $filename);
+//$aws_s3->move_uploaded_file($tmp_name, $filename);
         } else if (!empty($bb_b2)) {
             $bb_b2->move_uploaded_directory($dir);
         } else if (!empty($ftp)) {
-            //$ftp->move_uploaded_file($tmp_name, $filename);
+//$ftp->move_uploaded_file($tmp_name, $filename);
         }
     } else {
         if (!empty($aws_s3)) {
@@ -1126,7 +1256,7 @@ function unzipDirectory($filename, $destination) {
     error_log("unzipDirectory: {$cmd}");
     exec($cmd, $output, $return_val);
     if ($return_val !== 0 && function_exists("zip_open")) {
-        // try to unzip using PHP
+// try to unzip using PHP
         error_log("unzipDirectory: TRY to use PHP {$filename}");
         $zip = zip_open($filename);
         if ($zip) {
@@ -1174,7 +1304,7 @@ function cleanDirectory($dir, $allowedExtensions = array('key', 'm3u8', 'ts', 'v
     unset($ffs[array_search('.', $ffs, true)]);
     unset($ffs[array_search('..', $ffs, true)]);
 
-    // prevent empty ordered elements
+// prevent empty ordered elements
     if (count($ffs) < 1)
         return;
 
@@ -1448,12 +1578,12 @@ function UTF8encode($data) {
 
 //detect search engine bots
 function isBot() {
-    if(empty($_SERVER['HTTP_USER_AGENT'])){
+    if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return true;
     }
-    // User lowercase string for comparison.
+// User lowercase string for comparison.
     $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-    // A list of some common words used only for bots and crawlers.
+// A list of some common words used only for bots and crawlers.
     $bot_identifiers = array(
         'bot',
         'slurp',
@@ -1464,7 +1594,7 @@ function isBot() {
         'fetch',
         'loader',
     );
-    // See if one of the identifiers is in the UA string.
+// See if one of the identifiers is in the UA string.
     foreach ($bot_identifiers as $identifier) {
         if (strpos($user_agent, $identifier) !== FALSE) {
             return TRUE;
@@ -1481,51 +1611,51 @@ function isBot() {
  * @return boolean
  */
 function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
-    // Open file
+// Open file
     $f = @fopen($filepath, "rb");
     if ($f === false) {
         return false;
     }
 
-    // Sets buffer size, according to the number of lines to retrieve.
-    // This gives a performance boost when reading a few lines from the file.
+// Sets buffer size, according to the number of lines to retrieve.
+// This gives a performance boost when reading a few lines from the file.
     if (!$adaptive) {
         $buffer = 4096;
     } else {
         $buffer = ($lines < 2 ? 64 : ($lines < 10 ? 512 : 4096));
     }
 
-    // Jump to last character
+// Jump to last character
     fseek($f, -1, SEEK_END);
-    // Read it and adjust line number if necessary
-    // (Otherwise the result would be wrong if file doesn't end with a blank line)
+// Read it and adjust line number if necessary
+// (Otherwise the result would be wrong if file doesn't end with a blank line)
     if (fread($f, 1) != "\n") {
         $lines -= 1;
     }
 
-    // Start reading
+// Start reading
     $output = '';
     $chunk = '';
-    // While we would like more
+// While we would like more
     while (ftell($f) > 0 && $lines >= 0) {
-        // Figure out how far back we should jump
+// Figure out how far back we should jump
         $seek = min(ftell($f), $buffer);
-        // Do the jump (backwards, relative to where we are)
+// Do the jump (backwards, relative to where we are)
         fseek($f, -$seek, SEEK_CUR);
-        // Read a chunk and prepend it to our output
+// Read a chunk and prepend it to our output
         $output = ($chunk = fread($f, $seek)) . $output;
-        // Jump back to where we started reading
+// Jump back to where we started reading
         fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
-        // Decrease our line counter
+// Decrease our line counter
         $lines -= substr_count($chunk, "\n");
     }
-    // While we have too many lines
-    // (Because of buffer size we might have read too many)
+// While we have too many lines
+// (Because of buffer size we might have read too many)
     while ($lines++ < 0) {
-        // Find first newline and remove all text before that
+// Find first newline and remove all text before that
         $output = substr($output, strpos($output, "\n") + 1);
     }
-    // Close file and return
+// Close file and return
     fclose($f);
     $output = trim($output);
     if ($returnArray) {
@@ -1554,20 +1684,20 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
     if (!$encodedPass || $encodedPass === 'false') {
         error_log("encryptPasswordVerify: encrypt");
         $passwordSalted = encryptPassword($password);
-        // in case you enable the salt later
+// in case you enable the salt later
         $passwordUnSalted = encryptPassword($password, true);
     } else {
         error_log("encryptPasswordVerify: do not encrypt");
         $passwordSalted = $password;
-        // in case you enable the salt later
+// in case you enable the salt later
         $passwordUnSalted = $password;
     }
-    //error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
+//error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
     return $passwordSalted === $hash || $passwordUnSalted === $hash;
 }
 
 function isMobile() {
-    if(empty($_SERVER["HTTP_USER_AGENT"])){
+    if (empty($_SERVER["HTTP_USER_AGENT"])) {
         return false;
     }
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
@@ -1660,16 +1790,16 @@ function siteMap() {
 }
 
 function object_to_array($obj) {
-    //only process if it's an object or array being passed to the function
+//only process if it's an object or array being passed to the function
     if (is_object($obj) || is_array($obj)) {
         $ret = (array) $obj;
         foreach ($ret as &$item) {
-            //recursively process EACH element regardless of type
+//recursively process EACH element regardless of type
             $item = object_to_array($item);
         }
         return $ret;
     }
-    //otherwise (i.e. for scalar values) return without modification
+//otherwise (i.e. for scalar values) return without modification
     else {
         return $obj;
     }
@@ -1730,19 +1860,19 @@ function ddosProtection() {
 
     $_SESSION['bruteForceBlock'][] = $time;
 
-    //remove requests that are older than secondTimeout
+//remove requests that are older than secondTimeout
     foreach ($_SESSION['bruteForceBlock'] as $key => $request_time) {
         if ($request_time < $time - $secondTimeout) {
             unset($_SESSION['bruteForceBlock'][$key]);
         }
     }
 
-    //progressive timeout-> more requests, longer timeout
+//progressive timeout-> more requests, longer timeout
     $active_connections = count($_SESSION['bruteForceBlock']);
     $timeoutReal = ($active_connections / $maxCon) < 1 ? 0 : ($active_connections / $maxCon) * $secondTimeout;
     sleep($timeoutReal);
 
-    //with strict mode, penalize "attacker" with sleep() above, log and then die
+//with strict mode, penalize "attacker" with sleep() above, log and then die
     if ($global['strictDDOSprotection'] && $timeoutReal > 0) {
         $str = "bruteForceBlock: maxCon: $maxCon => secondTimeout: $secondTimeout | IP: " . getRealIpAddr() . " | count:" . count($_SESSION['bruteForceBlock']);
         error_log($str);

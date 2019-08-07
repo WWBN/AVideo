@@ -36,7 +36,13 @@ foreach ($videos as $key => $value) {
         unset($_POST['searchPhrase']);
         $videos[$key]['next_video'] = Video::getVideo($videos[$key]['next_videos_id']);
     }
-    $videos[$key]['videosURL'] = getVideosURL($videos[$key]['filename']);
+    if($videos[$key]['type']=='pdf'){
+        $videos[$key]['videosURL'] = getVideosURLPDF($videos[$key]['filename']);
+    }else if($videos[$key]['type']=='audio'){
+        $videos[$key]['videosURL'] = getVideosURLAudio($videos[$key]['filename']);
+    }else{
+        $videos[$key]['videosURL'] = getVideosURL($videos[$key]['filename']);
+    }
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);
 }

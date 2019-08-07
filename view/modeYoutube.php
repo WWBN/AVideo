@@ -21,6 +21,9 @@ if (!empty($_GET['type'])) {
     } else
     if ($_GET['type'] == 'video') {
         $_SESSION['type'] = 'video';
+    }  else
+    if ($_GET['type'] == 'pdf') {
+        $_SESSION['type'] = 'pdf';
     } else {
         $_SESSION['type'] = "";
         unset($_SESSION['type']);
@@ -160,7 +163,12 @@ if (!empty($video)) {
     } else if ($video['type'] == "audio") {
         $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
     }
-    $images = Video::getImageFromFilename($video['filename']);
+    $type = 'video';
+    if($video['type']==='pdf'){
+        $type = 'pdf';
+    }
+    $images = Video::getImageFromFilename($video['filename'], $type);
+//var_dump($video['filename'], $source, $images);exit;
     $poster = $images->poster;
     if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg') {
         $img = $images->posterPortrait;
@@ -171,7 +179,6 @@ if (!empty($video)) {
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
 }
-
 $objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 
 if (!empty($autoPlayVideo)) {
@@ -683,7 +690,10 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                         if (file_exists("{$global['systemRootPath']}videos/{$autoPlayVideo['filename']}.gif")) {
                                             $imgGif = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.gif";
                                         }
-                                        if (($autoPlayVideo['type'] !== "audio") && ($autoPlayVideo['type'] !== "linkAudio")) {
+                                        if ($autoPlayVideo['type'] === "pdf") {
+                                            $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.png";
+                                            $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
+                                        }else if (($autoPlayVideo['type'] !== "audio") && ($autoPlayVideo['type'] !== "linkAudio")) {
                                             $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
                                             $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
                                         } else {

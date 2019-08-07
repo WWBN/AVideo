@@ -38,7 +38,7 @@ if ($video['type'] != "audio") {
                 $poster = $global['webSiteRootURL'] . "videos/" . $video['filename'] . ".jpg";
             }
             ?>
-            <audio controls class="center-block video-js vjs-default-skin " <?php if ($waveSurferEnabled == false) { ?> autoplay data-setup='{"controls": true}' <?php } ?> id="mainAudio" poster="<?php echo $poster; ?>">
+            <audio controls class="center-block video-js vjs-default-skin " <?php if ($waveSurferEnabled == false) { ?> autoplay data-setup='{"controls": true}' <?php } ?> id="mainAudio" poster="<?php echo $poster; ?>" style="width: 100%;" >
                 <?php
                 if ($waveSurferEnabled == false) {
                     echo getSources($video['filename']);

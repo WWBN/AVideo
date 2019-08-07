@@ -61,7 +61,7 @@
                         ?>
                         <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
                             <span class="fa fa-upload"></span>
-                            <?php echo __("Upload a MP4 File"); ?>
+                            <?php echo __("Upload a File"); ?>
                         </button>
                         <?php
                     }
@@ -1667,6 +1667,14 @@ if (User::isAdmin()) {
                                                         if (row.type === "audio") {
                                                             type = "<span class='fa fa-headphones' style='font-size:14px;'></span> ";
                                                             img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "' style='max-height:80px; margin-right: 5px;'> ";
+                                                            if (typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url) {
+                                                                img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.pjpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                            } else if (typeof row.videosURL.jpg !== 'undefined' && row.videosURL.jpg.url) {
+                                                                img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.jpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                            } else {
+                                                                is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
+                                                                img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                            }
                                                         } else {
                                                             type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
                                                             if (typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url) {

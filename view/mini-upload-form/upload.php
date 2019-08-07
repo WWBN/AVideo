@@ -16,12 +16,9 @@ header('Content-Type: application/json');
 
 // A list of permitted file extensions
 
-$allowed = array(
-    'mp4',
-    'ogg',
-    'mp3',
-    'webm'
-);
+$allowed = Video::$types;
+
+$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
@@ -65,9 +62,15 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     } else
     if (($extension == "mp3") || ($extension == "ogg")) {
         $video->setType("audio");
+    } else
+    if (($extension == "pdf")) {
+        if(!empty($advancedCustom->disablePDFUpload)){
+            $obj->msg = "PDF Files are not Allowed";
+            die(json_encode($obj));
+        }
+        $video->setType("pdf");
     }
 
-    $advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
     if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
 
         // set active
