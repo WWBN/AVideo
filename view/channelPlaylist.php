@@ -32,6 +32,7 @@ if (User::isLogged() && $user_id == User::getId()) {
 }
 
 $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
+$playListsObj = YouPHPTubePlugin::getObjectData("PlayLists");
 ?>
 
 <?php
@@ -72,9 +73,15 @@ foreach ($playlists as $playlist) {
 
             <?php
             if (!empty($videosArrayId)) {
+                if(empty($playListsObj->useOldPlayList)){
+                ?>
+                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/player.php?playlists_id=<?php echo $playlist['id']; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
+                <?php
+                }else{
                 ?>
                 <a href="<?php echo $global['webSiteRootURL']; ?>playlist/<?php echo $playlist['id']; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
                 <?php
+                }
             }
             if ($isMyChannel) {
                 ?>
