@@ -568,24 +568,6 @@ if (!class_exists('Video')) {
                 return false;
             }
             $id = intval($id);
-            $res = sqlDAL::readSql("SHOW TABLES LIKE 'likes'");
-            $result = sqlDal::num_rows($res);
-            sqlDAL::close($res);
-
-            if (empty($result)) {
-                $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.0</a>";
-                header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
-                return false;
-            }
-            $res = sqlDAL::readSql("SHOW TABLES LIKE 'likes'");
-            $result = sqlDal::num_rows($res);
-            sqlDAL::close($res);
-            if (empty($result)) {
-                $_GET['error'] = "You need to <a href='{$global['webSiteRootURL']}update'>update your system to ver 2.7</a>";
-                header("Location: {$global['webSiteRootURL']}user?error={$_GET['error']}");
-                return false;
-            }
-
             if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);

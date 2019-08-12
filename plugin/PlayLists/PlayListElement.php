@@ -2,9 +2,9 @@
 
 class PlayListElement {
 
-    public $name, $description, $duration, $sources, $thumbnail, $poster, $videoStartSeconds;
+    public $name, $description, $duration, $sources, $thumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id;
 
-    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds) {
+    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id) {
         $this->name = $name;
         $this->description = $description;
         $this->setDuration($duration);
@@ -12,6 +12,10 @@ class PlayListElement {
         $this->thumbnail = $playListThumbnail;
         $this->poster = $poster;
         $this->videoStartSeconds = $videoStartSeconds;
+        $this->created = strtotime($created);
+        $this->likes = $likes;
+        $this->views = $views;
+        $this->videos_id = $videos_id;
     }
 
     
@@ -57,6 +61,8 @@ class PlayListElement {
     function setPlayListThumbnail($playListThumbnail) {
         $this->thumbnail = $playListThumbnail;
     }
+    
+    
     
     
 

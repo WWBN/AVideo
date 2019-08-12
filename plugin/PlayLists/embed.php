@@ -33,13 +33,15 @@ foreach ($playList as $value) {
 
     $playListSources = array();
     foreach ($sources as $value2) {
-        if ($value2['type'] !== 'video') {
+        if ($value2['type'] !== 'video' && $value2['type'] !== 'audio') {
             continue;
         }
         $playListSources[] = new playListSource($value2['url']);
     }
-    $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds));
-    $videoStartSeconds[] = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
+    if (empty($playListSources)) {
+        continue;
+    }
+    $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), $value['cre'], $value['likes'], $value['views_count'], $value['videos_id']);
 }
 //var_dump($playListData);exit;
 ?>
@@ -110,14 +112,28 @@ foreach ($playList as $value) {
 
     <body>
         <video style="width: 100%; height: 100%;" playsinline
-        <?php if ($config->getAutoplay() && false) { // disable it for now   ?>
+        <?php if ($config->getAutoplay() && false) { // disable it for now    ?>
                    autoplay="true"
                    muted="muted"
                <?php } ?>
                preload="auto"
                controls class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" id="mainVideo">
         </video>
-        <div style="position: absolute; right: 0; top: 0; width: 35%; height: 100%; overflow-y: scroll; margin-right: -16px; " id="playListHolder">
+        <div style="position: absolute; right: 0; top: 0; width: 35%; height: 100%; overflow-y: scroll; margin-right: 0; " id="playListHolder">
+            <input type="search" id="playListSearch" class="form-control" placeholder=" <?php echo __("Search"); ?>"/>
+            <select class="form-control" id="embededSortBy" >
+                <option value="default"> <?php echo __("Default"); ?></option>
+                <option value="titleAZ" data-icon="glyphicon-sort-by-attributes"> <?php echo __("Title (A-Z)"); ?></option>
+                <option value="titleZA" data-icon="glyphicon-sort-by-attributes-alt"> <?php echo __("Title (Z-A)"); ?></option>
+                <option value="newest" data-icon="glyphicon-sort-by-attributes"> <?php echo __("Date added (newest)"); ?></option>
+                <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" > <?php echo __("Date added (oldest)"); ?></option>
+                <option value="popular" data-icon="glyphicon-thumbs-up"> <?php echo __("Most popular"); ?></option>
+                <?php
+                if (empty($advancedCustom->doNotDisplayViews)) {
+                    ?> 
+                    <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
+                <?php } ?>
+            </select>
             <div class="vjs-playlist" style="" id="playList">
                 <!--
                   The contents of this element will be filled based on the
@@ -139,25 +155,55 @@ foreach ($playList as $value) {
                 player = videojs('mainVideo');
             }
 
-            player.playlist(<?php echo json_encode($playListData); ?>);
+            var playerPlaylist = <?php echo json_encode($playListData); ?>;
+            var originalPlayerPlaylist = playerPlaylist;
+
+            player.playlist(playerPlaylist);
             player.playlist.autoadvance(0);
             // Initialize the playlist-ui plugin with no option (i.e. the defaults).
             player.playlistUi();
             var timeout;
-            var videoStartSeconds = <?php echo json_encode($videoStartSeconds); ?>;
             $(document).ready(function () {
+
+                $("#playListSearch").keyup(function () {
+                    var filter = $(this).val();
+                    $(".vjs-playlist-item-list li").each(function () {
+                        if ($(this).find('.vjs-playlist-name').text().search(new RegExp(filter, "i")) < 0) {
+                            $(this).slideUp();
+                        } else {
+                            $(this).slideDown();
+                        }
+                    });
+                });
+
                 timeout = setTimeout(function () {
-                    $('#playList').fadeOut();
+                    $('#playList, #embededSortBy, #playListSearch').fadeOut();
                 }, 2000);
                 $('#playListHolder').mouseenter(function () {
-                    $('#playList').fadeIn();
+                    $('#playList, #embededSortBy, #playListSearch').fadeIn();
                     clearTimeout(timeout);
                 });
                 $('#playListHolder').mouseleave(function () {
                     timeout = setTimeout(function () {
-                        $('#playList').fadeOut();
-                    }, 1000);
+                        $('#playList, #embededSortBy, #playListSearch').fadeOut();
+                    }, 3000);
 
+                });
+
+                $('#embededSortBy').click(function () {
+                    setTimeout(function () {
+                        clearTimeout(timeout);
+                    }, 2000);
+                });
+
+                $('#embededSortBy').change(function () {
+                    var value = $(this).val();
+                    playerPlaylist.sort(function (a, b) {
+                        return compare(a, b, value);
+                    });
+                    player.playlist.sort(function (a, b) {
+                        return compare(a, b, value);
+                    });
                 });
 
                 //Prevent HTML5 video from being downloaded (right-click saved)?
@@ -165,16 +211,44 @@ foreach ($playList as $value) {
                     return false;
                 });
 
-                player.currentTime(videoStartSeconds[0]);
+                player.currentTime(playerPlaylist[0].videoStartSeconds);
                 $(".vjs-playlist-item ").click(function () {
                     index = $(this).index();
                     setTimeout(function () {
-                        player.currentTime(videoStartSeconds[index]);
+                        player.currentTime(playerPlaylist[index].videoStartSeconds);
                     }, 500);
 
                 });
 
             });
+            function compare(a, b, type) {
+                console.log(type);
+                switch (type) {
+                    case "titleAZ":
+                        return strcasecmp(a.name, b.name);
+                        break;
+                    case "titleZA":
+                        return strcasecmp(b.name, a.name);
+                        break;
+                    case "newest":
+                        return a.created > b.created ? 1 : (a.created < b.created ? -1 : 0);
+                        break;
+                    case "oldest":
+                        return b.created > a.created ? 1 : (b.created < a.created ? -1 : 0);
+                        break;
+                    case "popular":
+                        return a.likes > b.likes ? 1 : (a.likes < b.likes ? -1 : 0);
+                        break;
+                    default:
+                        return 0;
+                        break;
+                }
+            }
+            function strcasecmp(s1, s2) {
+                s1 = (s1 + '').toLowerCase();
+                s2 = (s2 + '').toLowerCase();
+                return s1 > s2 ? 1 : (s1 < s2 ? -1 : 0);
+            }
         </script>
     </body>
 </html>

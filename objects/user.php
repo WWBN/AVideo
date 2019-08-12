@@ -1291,7 +1291,6 @@ if (typeof gtag !== \"function\") {
 
     function setEmailVerified($emailVerified) {
         $this->emailVerified = (empty($emailVerified) || strtolower($emailVerified) === 'false') ? 0 : 1;
-        ;
     }
 
     static function getChannelLink($users_id = 0) {

@@ -1577,10 +1577,11 @@ if (User::isAdmin()) {
                                                         var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getVideosManagerListButton(); ?>';
                                                         var download = "";
                                                         for (var k in row.videosURL) {
-                                                            var url = row.videosURL[k].url;
-                                                            if (typeof row.videosURL[k].url === 'undefined') {
+                                                            if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
                                                                 continue;
                                                             }
+                                                            var url = row.videosURL[k].url;
+                                                            console.log(url);
                                                             if (url.indexOf('?') > -1) {
                                                                 //url += "&download=1";
                                                             } else {

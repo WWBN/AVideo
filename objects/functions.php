@@ -955,6 +955,13 @@ function getVideosURL($fileName, $cache = true) {
                     'url' => $source['url'],
                     'type' => 'image',
                 );
+            } else {
+                $files["jpg"] = array(
+                    'filename' => "notfound.jpg",
+                    'path' => "{$global['systemRootPath']}view/img/notfound.jpg",
+                    'url' => "{$global['webSiteRootURL']}view/img/notfound.jpg",
+                    'type' => 'image',
+                );
             }
             $source = Video::getSourceFile($filename, ".gif");
             $file = $source['path'];
@@ -965,6 +972,13 @@ function getVideosURL($fileName, $cache = true) {
                     'url' => $source['url'],
                     'type' => 'image',
                 );
+            } else {
+                $files["gif"] = array(
+                    'filename' => "static2.jpg",
+                    'path' => "{$global['systemRootPath']}view/img/static2.jpg",
+                    'url' => "{$global['webSiteRootURL']}view/img/static2.jpg",
+                    'type' => 'image',
+                );
             }
             $source = Video::getSourceFile($filename, "_portrait.jpg");
             $file = $source['path'];
@@ -973,6 +987,13 @@ function getVideosURL($fileName, $cache = true) {
                     'filename' => "{$fileName}_portrait.jpg",
                     'path' => $file,
                     'url' => $source['url'],
+                    'type' => 'image',
+                );
+            } else {
+                $files["pjpg"] = array(
+                    'filename' => "notfound_portrait.jpg",
+                    'path' => "{$global['systemRootPath']}view/img/notfound_portrait.jpg",
+                    'url' => "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg",
                     'type' => 'image',
                 );
             }
