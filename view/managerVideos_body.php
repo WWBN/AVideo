@@ -37,10 +37,18 @@
                     <?php echo __("Video Chart"); ?>
                 </a>
                 <?php
+                if (User::isAdmin()) {
+                    ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/" class="btn btn-sm btn-xs btn-danger">
+                        <span class="far fa-money-bill-alt"></span> <?php echo __("Advertising Manager"); ?>
+                    </a>
+                    <?php
+                }
+                ?>
+                <?php
                 $categories = Category::getAllCategories(true);
-                if (empty($advancedCustom->doNotShowEncoderButton)) {
-                    if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)
-                    ) {
+                if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
+                    if (empty($advancedCustom->doNotShowEncoderButton)) {
                         if (!empty($config->getEncoderURL())) {
                             ?>
                             <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
@@ -54,10 +62,7 @@
                             <?php
                         }
                     }
-                }
-                if (empty($advancedCustom->doNotShowUploadMP4Button)) {
-                    if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)
-                    ) {
+                    if (empty($advancedCustom->doNotShowUploadMP4Button)) {
                         ?>
                         <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
                             <span class="fa fa-upload"></span>
@@ -65,10 +70,7 @@
                         </button>
                         <?php
                     }
-                }
-                if (empty($advancedCustom->doNotShowEmbedButton)) {
-                    if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)
-                    ) {
+                    if (empty($advancedCustom->doNotShowEmbedButton)) {
                         ?>
                         <button class="btn btn-sm btn-xs btn-default" id="linkExternalVideo">
                             <span class="fa fa-link"></span>
@@ -76,15 +78,6 @@
                         </button>
                         <?php
                     }
-                }
-                ?>
-                <?php
-                if (User::isAdmin()) {
-                    ?>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/" class="btn btn-sm btn-xs btn-danger">
-                        <span class="far fa-money-bill-alt"></span> <?php echo __("Advertising Manager"); ?>
-                    </a>
-                    <?php
                 }
                 ?>
             </div>
@@ -399,32 +392,33 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <?php echo __("Autoplay Next Video"); ?>
-                                            <button class="btn btn-danger btn-sm btn-xs pull-right" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control first">
-                                                    <input id="inputNextVideoClean" placeholder="<?php echo __("Autoplay Next Video URL"); ?>" class="form-control last" readonly="readonly">
-                                                    <input type="hidden" id="inputNextVideo-id">
+                                    <div id="videoExtraDetails">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <?php echo __("Autoplay Next Video"); ?>
+                                                <button class="btn btn-danger btn-sm btn-xs pull-right" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control first">
+                                                        <input id="inputNextVideoClean" placeholder="<?php echo __("Autoplay Next Video URL"); ?>" class="form-control last" readonly="readonly">
+                                                        <input type="hidden" id="inputNextVideo-id">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <label for="inputTrailer"><?php echo __("Embed code for trailer"); ?></label>
-                                    <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required>
+                                        <label for="inputTrailer"><?php echo __("Embed code for trailer"); ?></label>
+                                        <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required>
 
-                                    <div>
-                                        <label for="videoStartSecond" ><?php echo __("Start video at:"); ?></label>
-                                        <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
+                                        <div>
+                                            <label for="videoStartSecond" ><?php echo __("Start video at:"); ?></label>
+                                            <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
+                                        </div>
                                     </div>
-
                                     <script>
                                         $(function () {
                                             $("#inputNextVideo").autocomplete({
@@ -595,6 +589,16 @@
 <?php
 echo YouPHPTubePlugin::getManagerVideosJavaScripts();
 ?>
+<script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
+<script>
+                                        tinymce.init({
+                                            selector: '#inputDescription',
+                                            plugins: "paste",
+                                            menubar: "edit",
+                                            paste_data_images: true,
+                                            paste_word_valid_elements: "b,strong,i,em,h1,h2"
+                                        });
+</script>
 <script>
     var timeOut;
     var encodingNowId = "";
@@ -825,7 +829,7 @@ echo YouPHPTubePlugin::getManagerVideosJavaScripts();
         $('#inputTrailer').val(row.trailer1);
         $('#inputCleanTitle').val(row.clean_title);
         $('#inputDescription').val(row.description);
-        //tinymce.get('inputDescription').setContent(row.description);
+        tinymce.get('inputDescription').setContent(row.description);
         $('#inputCategory').val(row.categories_id);
         $('#inputRrating').val(row.rrating);
 <?php
@@ -1007,8 +1011,8 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
                         "videoLink": $('#videoLink').val(),
                         "videoLinkType": $('#videoLinkType').val(),
                         "clean_title": $('#inputCleanTitle').val(),
-                        //"description": tinymce.get('inputDescription').getContent(),
-                        "description": $('#inputDescription').val(),
+                        "description": tinymce.get('inputDescription').getContent(),
+                        //"description": $('#inputDescription').val(),
                         "categories_id": $('#inputCategory').val(),
                         "rrating": $('#inputRrating').val(),
                         "public": isPublic,
@@ -1033,11 +1037,11 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
                         $('#inputVideoId').val(response.videos_id);
                         videos_id = response.videos_id;
                 } else {
-                    if(response.error){
-                        swal("<?php echo __("Sorry!"); ?>", response.error, "error");
-                    } else{
-                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
-                    }
+                if (response.error){
+                swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                } else{
+                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                }
                 }
                 modal.hidePleaseWait();
                         setTimeout(function () {
@@ -1057,7 +1061,7 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
         $('#inputTrailer').val("");
         $('#inputCleanTitle').val("");
         $('#inputDescription').val("");
-        //tinymce.get('inputDescription').setContent("");
+        tinymce.get('inputDescription').setContent("");
         $('#inputCategory').val("");
         $('#inputRrating').val("");
         $('#removeAutoplay').trigger('click');
@@ -1407,7 +1411,7 @@ if (!empty($row)) {
             $('#inputTrailer').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
-            //tinymce.get('inputDescription').setContent("");
+            tinymce.get('inputDescription').setContent("");
             $('#inputCategory').val($('#inputCategory option:first').val());
             $('#inputRrating').val("");
             $('.videoGroups').prop('checked', false);
@@ -1432,6 +1436,39 @@ echo YouPHPTubePlugin::getManagerVideosReset();
             }, 2000);
             $('#videoFormModal').modal();
         });
+
+        $('#addArticle').click(function () {
+            $('#inputVideoId').val("");
+            $('#inputTitle').val("");
+            $('#inputTrailer').val("");
+            $('#inputCleanTitle').val("");
+            $('#inputDescription').val("");
+            tinymce.get('inputDescription').setContent("");
+            $('#inputCategory').val($('#inputCategory option:first').val());
+            $('#inputRrating').val("");
+            $('.videoGroups').prop('checked', false);
+            $('#can_download').prop('checked', false);
+            $('#only_for_paid').prop('checked', false);
+            $('#can_share').prop('checked', false);
+            $('#public').prop('checked', true);
+            $('#public').trigger("change");
+            $('#videoIsAd').prop('checked', false);
+            $('#videoIsAd').trigger("change");
+            $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
+            $('#postersImage, #videoIsAdControl, .titles').slideUp();
+            $('#videoLinkContent').slideDown();
+            $('#videoLink').val('');
+            $('#videoStartSecond').val('00:00:00');
+<?php
+echo YouPHPTubePlugin::getManagerVideosReset();
+?>
+
+            setTimeout(function () {
+                waitToSubmit = false;
+            }, 2000);
+            $('#videoFormModal').modal();
+        });
+
         $("#checkBtn").click(function () {
             var chk = $("#chk").hasClass('fa-check-square');
             $(".checkboxVideo").each(function (index) {
@@ -1685,8 +1722,8 @@ if (User::isAdmin()) {
                         }
                     } else {
                         type = "<span class='fa fa-film' style='font-size:14px;'></span> ";
-                        if(row.videosURL.pjpg.filename == 'notfound_portrait.jpg' && row.videosURL.jpg.filename == 'notfound.jpg'){
-                            img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.pjpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";                            
+                        if (typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.filename == 'notfound_portrait.jpg' && row.videosURL.jpg.filename == 'notfound.jpg') {
+                            img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.pjpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
                         } else if (typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url && row.videosURL.pjpg.filename !== 'notfound_portrait.jpg' && row.videosURL.pjpg.filename !== 'notfound_portrait.jpg') {
                             img = "<img class='img img-responsive img-thumbnail pull-left' src='" + row.videosURL.pjpg.url + "?" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
                         } else if (typeof row.videosURL.jpg !== 'undefined' && row.videosURL.jpg.url && row.videosURL.jpg.filename !== 'notfound.jpg') {
@@ -1936,6 +1973,10 @@ if (User::isAdmin()) {
 if (!empty($_GET['link'])) {
     ?>
             $('#linkExternalVideo').trigger('click');
+    <?php
+} else if (!empty($_GET['article'])) {
+    ?>
+            $('#addArticle').trigger('click');
     <?php
 } else if (!empty($_GET['upload'])) {
     ?>
