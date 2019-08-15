@@ -17,8 +17,12 @@ $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 $playListData = array();
 $videoStartSeconds = array();
 foreach ($playList as $value) {
-
-    $sources = getVideosURL($value['filename']);
+    if($value['type'] === 'embed'){
+        $sources[0]['type'] = 'video';
+        $sources[0]['url'] = $value["videoLink"];
+    }else{
+        $sources = getVideosURL($value['filename']);
+    }
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
     $externalOptions = json_decode($value['externalOptions']);
 
@@ -125,9 +129,9 @@ foreach ($playList as $value) {
                                            muted="muted"
                                        <?php } ?>
                                        preload="auto"
-                                       controls class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" id="mainVideo">
+                                       controls class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" id="mainVideo"
+                                       data-setup='{"techOrder": ["youtube","html5"]}'>
                                 </video>
-
 
                             </div>
                             <?php

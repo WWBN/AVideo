@@ -72,9 +72,13 @@ class playListSource {
 
     public $src, $type;
     
-    function __construct($src) {
+    function __construct($src, $youtube = false) {
         $this->src = $src;
-        $this->type = mime_content_type_per_filename($src);
+        if($youtube){
+            $this->type = "video/youtube";
+        }else{
+            $this->type = mime_content_type_per_filename($src);
+        }
     }
 
 
