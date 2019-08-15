@@ -16,6 +16,9 @@
         -webkit-transition: width 2.5s ease;
         transition: width 2.5s ease;
     }
+    .modal-dialog {
+        width: 90%;
+    }
 </style>
 <div class="container">
     <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
@@ -75,6 +78,14 @@
                         <button class="btn btn-sm btn-xs btn-default" id="linkExternalVideo">
                             <span class="fa fa-link"></span>
                             <?php echo __("Embed a video link"); ?>
+                        </button>
+                        <?php
+                    }
+                    if (YouPHPTubePlugin::isEnabledByName("Articles")) {
+                        ?>
+                        <button class="btn btn-sm btn-xs btn-default" id="addArticle">
+                            <i class="far fa-newspaper"></i>
+                            <?php echo __("Add Article"); ?>
                         </button>
                         <?php
                     }
@@ -219,7 +230,7 @@
                 <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
                     <div id="postersImage">
                         <ul class="nav nav-tabs">
-                            <li class="active uploadFile"><a data-toggle="tab" href="#pmidia">Upload File</a></li>
+                            <li class="active uploadFile"><a data-toggle="tab" href="#pmedia">Upload File</a></li>
                             <li><a data-toggle="tab" href="#pimages">Images</a></li>
                             <li><a data-toggle="tab" href="#pmetadata">Meta Data</a></li>
                             <?php
@@ -228,7 +239,7 @@
                         </ul>
 
                         <div class="tab-content">
-                            <div id="pmidia" class="tab-pane fade in active">
+                            <div id="pmedia" class="tab-pane fade in active">
                                 <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                                     <div id="drop">
                                         <?php echo __("Drop Here"); ?>
@@ -311,12 +322,12 @@
                                     </select>
 
                                     <div class="row" <?php if (!User::isAdmin()) { ?> style="display: none;" <?php } ?>>
-                                        <h3><?php echo __("Video Owner"); ?></h3>
+                                        <h3><?php echo __("Media Owner"); ?></h3>
                                         <div class="col-md-2">
                                             <img id="inputUserOwner-img" src="view/img/userSilhouette.jpg" class="img img-responsive img-circle" style="max-height: 60px;">
                                         </div>
                                         <div class="col-md-10">
-                                            <input id="inputUserOwner" placeholder="<?php echo __("Video Owner"); ?>" class="form-control">
+                                            <input id="inputUserOwner" placeholder="<?php echo __("Media Owner"); ?>" class="form-control">
                                             <input type="hidden" id="inputUserOwner_id">
                                         </div>
                                     </div>
@@ -328,7 +339,7 @@
                                                 if ($advancedCustomUser->userCanAllowFilesDownloadSelectPerVideo && CustomizeUser::canDownloadVideosFromUser(User::getId())) {
                                                     ?>
                                                     <li class="list-group-item">
-                                                        <span class="fa fa-download"></span> <?php echo __("Allow Download This Video"); ?>
+                                                        <span class="fa fa-download"></span> <?php echo __("Allow Download This media"); ?>
                                                         <div class="material-switch pull-right">
                                                             <input id="can_download" type="checkbox" value="0" class="userGroups"/>
                                                             <label for="can_download" class="label-success"></label>
@@ -341,7 +352,7 @@
                                                 if ($advancedCustomUser->userCanAllowFilesShareSelectPerVideo && CustomizeUser::canShareVideosFromUser(User::getId())) {
                                                     ?>
                                                     <li class="list-group-item">
-                                                        <span class="fa fa-share"></span> <?php echo __("Allow Share This Video"); ?>
+                                                        <span class="fa fa-share"></span> <?php echo __("Allow Share This media"); ?>
                                                         <div class="material-switch pull-right">
                                                             <input id="can_share" type="checkbox" value="0" class="userGroups"/>
                                                             <label for="can_share" class="label-success"></label>
@@ -354,7 +365,7 @@
                                                 if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || User::isAdmin()) {
                                                     ?>
                                                     <li class="list-group-item">
-                                                        <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can Watch"); ?>
+                                                        <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can see"); ?>
                                                         <div class="material-switch pull-right">
                                                             <input id="only_for_paid" type="checkbox" value="0" class="userGroups"/>
                                                             <label for="only_for_paid" class="label-success"></label>
@@ -364,7 +375,7 @@
                                                 }
                                                 ?>
                                                 <li class="list-group-item">
-                                                    <span class="fa fa-globe"></span> <?php echo __("Public Video"); ?>
+                                                    <span class="fa fa-globe"></span> <?php echo __("Public Media"); ?>
                                                     <div class="material-switch pull-right">
                                                         <input id="public" type="checkbox" value="0" class="userGroups"/>
                                                         <label for="public" class="label-success"></label>
@@ -589,13 +600,61 @@
 <?php
 echo YouPHPTubePlugin::getManagerVideosJavaScripts();
 ?>
+<script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
+<script>
+                                        tinymce.init({
+                                            selector: '#inputDescription', // change this value according to your HTML
+                                            plugins: 'code print preview fullpage powerpaste searchreplace autolink directionality advcode visualblocks visualchars fullscreen image link media mediaembed codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount tinymcespellchecker a11ychecker imagetools textpattern help formatpainter permanentpen pageembed tinycomments mentions linkchecker',
+                                            //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
+                                            toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+                                            height: 400,
+                                            convert_urls: false,
+                                            images_upload_handler: function (blobInfo, success, failure) {
+                                                var xhr, formData;
+                                                if (!videos_id) {
+                                                    $('#inputTitle').val("Article automatically booked");
+                                                    saveVideo(false);
+                                                }
+                                                xhr = new XMLHttpRequest();
+                                                xhr.withCredentials = false;
+                                                xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
+
+                                                xhr.onload = function () {
+                                                    var json;
+
+                                                    if (xhr.status != 200) {
+                                                        failure('HTTP Error: ' + xhr.status);
+                                                        return;
+                                                    }
+
+                                                    json = xhr.responseText;
+                                                    json = JSON.parse(json);
+                                                    console.log(json);
+                                                    if (json.error === false && json.url) {
+                                                        success(json.url);
+                                                    } else if (json.msg) {
+                                                        swal("<?php echo __("Error!"); ?>", json.msg, "error");
+                                                    } else {
+                                                        swal("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
+                                                    }
+
+                                                };
+
+                                                formData = new FormData();
+                                                formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+
+                                                xhr.send(formData);
+                                            }
+                                        });
+</script>
 <script>
     var timeOut;
     var encodingNowId = "";
     var waitToSubmit = true;
     // make sure the video was uploaded, delete in case it was not uploaded
     var videoUploaded = false;
-    var videos_id = 0;
+    var videos_id = <?php echo intval(@$_GET['video_id']); ?>;
+    var isArticle = 0;
 
     function saveVideoOnPlaylist(videos_id, add, playlists_id) {
         modal.showPleaseWait();
@@ -773,6 +832,8 @@ echo YouPHPTubePlugin::getManagerVideosJavaScripts();
             success: function (response) {
                 if (response.status === "1") {
                     $("#grid").bootgrid("reload");
+                } else if (response.status === "") {
+                    $("#grid").bootgrid("reload");
                 } else {
                     swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been deleted!"); ?>", "error");
                 }
@@ -799,26 +860,34 @@ echo YouPHPTubePlugin::getManagerVideosJavaScripts();
 
         }
 
-
-
-
         $('.uploadFile').hide();
         $('.nav-tabs a[href="#pmetadata"]').tab('show');
         waitToSubmit = true;
-        $('#postersImage, #videoIsAdControl, .titles').slideDown();
-        if ((row.type === 'embed') || (row.type === 'linkVideo') || (row.type === 'linkAudio')) {
-
-            $('#videoLink').val(row.videoLink);
-            $('#videoLinkType').val(row.type);
+        $('#postersImage, #videoIsAdControl, .titles, #videoExtraDetails').slideDown();
+        if (row.type === 'article') {
+            isArticle = 1;
+            $('.nav-tabs a[href="#pmedia"], #pmedia').hide();
+            $('.nav-tabs a[href="#pmetadata"]').tab('show');
+            reloadFileInput();
+            $('#videoIsAdControl, #videoExtraDetails, #videoLinkContent').slideUp();
+            $('#postersImage').slideDown();
         } else {
-            $('#videoLinkContent').slideUp();
+            isArticle = 0;
+            if ((row.type === 'embed') || (row.type === 'linkVideo') || (row.type === 'linkAudio')) {
+                $('#videoLink').val(row.videoLink);
+                $('#videoLinkType').val(row.type);
+            } else {
+                $('#videoLinkContent').slideUp();
+            }
         }
+
 
         $('#inputVideoId').val(row.id);
         $('#inputTitle').val(row.title);
         $('#inputTrailer').val(row.trailer1);
         $('#inputCleanTitle').val(row.clean_title);
         $('#inputDescription').val(row.description);
+        tinymce.get('inputDescription').setContent(row.description);
         $('#inputCategory').val(row.categories_id);
         $('#inputRrating').val(row.rrating);
 <?php
@@ -880,8 +949,23 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
         $('#public').trigger("change");
         $('#videoIsAd').prop('checked', false);
         $('#videoIsAd').trigger("change");
+        reloadFileInput(row);
+        $('#input-jpg, #input-gif,#input-pjpg, #input-pgif').on('fileuploaded', function (event, data, previewId, index) {
+            $("#grid").bootgrid("reload");
+        })
+        waitToSubmit = true;
+        setTimeout(function () {
+            waitToSubmit = false;
+        }, 3000);
+        $('#videoFormModal').modal();
+        videoUploaded = true;
+    }
+
+    function reloadFileInput(row) {
+        if (!row || typeof row === 'undefined') {
+            row = {id: 0, filename: "filename", clean_title: "blank"};
+        }
         $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
-        console.log("Fileinput: input-jpg");
         $("#input-jpg").fileinput({
             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
             autoReplace: true,
@@ -898,7 +982,6 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
             allowedFileExtensions: ["jpg"]
         });
-        console.log("Fileinput: input-pjpg");
         $("#input-pjpg").fileinput({
             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pjpg",
             autoReplace: true,
@@ -915,7 +998,6 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
             allowedFileExtensions: ["jpg"]
         });
-        console.log("Fileinput: input-gif");
         $("#input-gif").fileinput({
             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
             autoReplace: true,
@@ -932,7 +1014,6 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
             allowedFileExtensions: ["gif"]
         });
-        console.log("Fileinput: input-pgif");
         $("#input-pgif").fileinput({
             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pgif",
             autoReplace: true,
@@ -949,17 +1030,7 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
             allowedFileExtensions: ["gif"]
         });
-        $('#input-jpg, #input-gif,#input-pjpg, #input-pgif').on('fileuploaded', function (event, data, previewId, index) {
-            $("#grid").bootgrid("reload");
-        })
-        waitToSubmit = true;
-        setTimeout(function () {
-            waitToSubmit = false;
-        }, 3000);
-        $('#videoFormModal').modal();
-        videoUploaded = true;
     }
-
 
     function saveVideo(closeModal) {
         if (waitToSubmit) {
@@ -1000,7 +1071,8 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
                         "videoLink": $('#videoLink').val(),
                         "videoLinkType": $('#videoLinkType').val(),
                         "clean_title": $('#inputCleanTitle').val(),
-                        "description": $('#inputDescription').val(),
+                        "description": tinymce.get('inputDescription').getContent(),
+                        //"description": $('#inputDescription').val(),
                         "categories_id": $('#inputCategory').val(),
                         "rrating": $('#inputRrating').val(),
                         "public": isPublic,
@@ -1009,12 +1081,13 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
                         "users_id": $('#inputUserOwner_id').val(),
                         "can_download": $('#can_download').is(':checked'),
                         "can_share": $('#can_share').is(':checked'),
+                        "isArticle": isArticle,
                         "only_for_paid": $('#only_for_paid').is(':checked')
                 },
                 type: 'post',
                 success: function (response) {
                 if (response.status === "1" || response.status === true) {
-                if (response.video.type === 'embed' || response.video.type === 'linkVideo') {
+                if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
                 videoUploaded = true;
                 }
                 if (closeModal && videoUploaded) {
@@ -1041,14 +1114,19 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
     }
 
     function resetVideoForm() {
-        $('.nav-tabs a[href="#pmidia"]').tab('show');
-        $('#postersImage, #videoIsAdControl, .titles').slideDown();
+        isArticle = 0;
+        $('.nav-tabs a[href="#pmedia"], #pmedia').show();
+        $("#pmedia").css("display", "");
+        $("#pmedia").attr("style", "");
+        $('.nav-tabs a[href="#pmedia"]').tab('show');
+        $('#postersImage, #videoIsAdControl, .titles, #videoExtraDetails').slideDown();
         $('#videoLinkContent').slideUp();
         $('#inputVideoId').val(0);
         $('#inputTitle').val("");
         $('#inputTrailer').val("");
         $('#inputCleanTitle').val("");
         $('#inputDescription').val("");
+        tinymce.get('inputDescription').setContent("");
         $('#inputCategory').val("");
         $('#inputRrating').val("");
         $('#removeAutoplay').trigger('click');
@@ -1069,94 +1147,7 @@ echo YouPHPTubePlugin::getManagerVideosReset();
         $('#public').trigger("change");
         $('#videoIsAd').prop('checked', false);
         $('#videoIsAd').trigger("change");
-        $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
-        $("#input-jpg").fileinput({
-            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=0&type=jpg",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/filename.jpg'>",
-            ],
-            initialCaption: '',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["jpg"],
-            uploadExtraData: function () {
-                return {
-                    videos_id: $('#fileUploadVideos_id').val()
-                };
-            },
-            fileuploaded: function (event, data, previewId, index) {
-                $("#grid").bootgrid('reload');
-            }
-        });
-        $("#input-pjpg").fileinput({
-            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=0&type=pjpg",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/filename_portrait.jpg'>",
-            ],
-            initialCaption: '',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["jpg"],
-            uploadExtraData: function () {
-                return {
-                    videos_id: $('#fileUploadVideos_id').val()
-                };
-            }
-        });
-        $("#input-gif").fileinput({
-            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=0&type=gif",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/filename.gif'>",
-            ],
-            initialCaption: '',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["gif"],
-            uploadExtraData: function () {
-                return {
-                    videos_id: $('#fileUploadVideos_id').val()
-                };
-            }
-        });
-        $("#input-pgif").fileinput({
-            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=0&type=pgif",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/filename_portrait.gif'>",
-            ],
-            initialCaption: '',
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["gif"],
-            uploadExtraData: function () {
-                return {
-                    videos_id: $('#fileUploadVideos_id').val()
-                };
-            }
-        });
+        reloadFileInput();
         $('#input-jpg, #input-gif,#input-pjpg, #input-pgif').on('fileuploaded', function (event, data, previewId, index) {
             $("#grid").bootgrid("reload");
         });
@@ -1268,6 +1259,10 @@ echo YouPHPTubePlugin::getManagerVideosReset();
                 deleteVideo(videos_id);
             }
             videoUploaded = false;
+        });
+
+        $('#videoFormModal').on('shown.bs.modal', function () {
+            $(document).off('focusin.modal');
         });
 
         var ul = $('#upload ul');
@@ -1393,11 +1388,13 @@ if (!empty($row)) {
 ?>
 
         $('#linkExternalVideo').click(function () {
+            isArticle = 0;
             $('#inputVideoId').val("");
             $('#inputTitle').val("");
             $('#inputTrailer').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
+            tinymce.get('inputDescription').setContent("");
             $('#inputCategory').val($('#inputCategory option:first').val());
             $('#inputRrating').val("");
             $('.videoGroups').prop('checked', false);
@@ -1424,11 +1421,13 @@ echo YouPHPTubePlugin::getManagerVideosReset();
         });
 
         $('#addArticle').click(function () {
+            isArticle = 1;
             $('#inputVideoId').val("");
             $('#inputTitle').val("");
             $('#inputTrailer').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
+            tinymce.get('inputDescription').setContent("");
             $('#inputCategory').val($('#inputCategory option:first').val());
             $('#inputRrating').val("");
             $('.videoGroups').prop('checked', false);
@@ -1439,9 +1438,11 @@ echo YouPHPTubePlugin::getManagerVideosReset();
             $('#public').trigger("change");
             $('#videoIsAd').prop('checked', false);
             $('#videoIsAd').trigger("change");
-            $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
-            $('#postersImage, #videoIsAdControl, .titles').slideUp();
-            $('#videoLinkContent').slideDown();
+            $('.nav-tabs a[href="#pmedia"], #pmedia').hide();
+            $('.nav-tabs a[href="#pmetadata"]').tab('show');
+            reloadFileInput();
+            $('#videoIsAdControl, #videoExtraDetails, #videoLinkContent').slideUp();
+            $('#postersImage').slideDown();
             $('#videoLink').val('');
             $('#videoStartSecond').val('00:00:00');
 <?php
@@ -1521,19 +1522,7 @@ echo YouPHPTubePlugin::getManagerVideosReset();
                                 vals.push($(this).val());
                             }
                         });
-                        $.ajax({
-                            url: '<?php echo $global['webSiteRootURL']; ?>objects/videoDelete.json.php',
-                            data: {"id": vals},
-                            type: 'post',
-                            success: function (response) {
-                                if (response.status === "1") {
-                                    $("#grid").bootgrid("reload");
-                                } else {
-                                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your videos have NOT been deleted!"); ?>", "error");
-                                }
-                                modal.hidePleaseWait();
-                            }
-                        });
+                        deleteVideo(vals);
                     });
         });
         $('.datepicker').datetimepicker({

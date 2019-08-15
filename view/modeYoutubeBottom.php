@@ -21,7 +21,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
     }
     $images = Video::getImageFromFilename($video['filename'], $type);
     $poster = $images->poster;
-    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg') {
+    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
         $img = $images->posterPortrait;
         $data = getimgsize($source['path']);
         $imgw = $data[0];
@@ -369,9 +369,13 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                 </div>
                 <?php
             }
+            if($video['type']!=='article'){
             ?>
             <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
-            <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo nl2br(textToLink(htmlentities($video['description']))); ?></div>
+            <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo $video['description']; ?></div>
+            <?php
+            }
+            ?>
         </div>
     </div>
 

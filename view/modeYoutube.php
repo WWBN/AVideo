@@ -167,13 +167,18 @@ if (!empty($video)) {
     if ($video['type'] === 'pdf') {
         $type = 'pdf';
     }
+    if ($video['type'] === 'article') {
+        $type = 'article';
+    }
     $images = Video::getImageFromFilename($video['filename'], $type);
     $poster = $images->poster;
-    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg') {
+    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
         $img = $images->posterPortrait;
         $data = getimgsize($source['path']);
         $imgw = $data[0];
         $imgh = $data[1];
+    }else{
+        $img = $images->poster;
     }
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";

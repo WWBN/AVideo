@@ -303,6 +303,15 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 </li>
                                                 <?php
                                             }
+                                            if (YouPHPTubePlugin::isEnabledByName("Articles")) {
+                                                ?>
+                                                <li>
+                                                    <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?article=1" >
+                                                        <i class="far fa-newspaper"></i> <?php echo  __("Add Article"); ?>
+                                                    </a>
+                                                </li>
+                                                <?php
+                                            }
                                             echo YouPHPTubePlugin::getUploadMenuButton();
                                             ?>
                                         </ul>

@@ -128,7 +128,7 @@ unset($_POST['sort']);
                                         <?php echo User::getNameIdentificationById($value['users_id']); ?>
                                     </a>
                                     <?php if ((!empty($value['description'])) && !empty($obj->Description)) { ?>
-                                        <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?> </div>" ><?php echo __("Description"); ?></button>
+                                        <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', $value['description']); ?> </div>" ><?php echo __("Description"); ?></button>
                                     <?php } ?>
                                 </div>
                                 <?php if (Video::canEdit($value['id'])) { ?>
@@ -142,7 +142,7 @@ unset($_POST['sort']);
                                 ?>
                             </div>
                             <div class="mainAreaDescriptionContainer  col-lg-12">
-                                <h4 class="mainAreaDescription" itemprop="description" style="max-height: 7vw; padding: 0; margin: 5px 0;"><?php echo nl2br(textToLink($value['description'])); ?></h4>
+                                <h4 class="mainAreaDescription" itemprop="description" style="max-height: 7vw; padding: 0; margin: 5px 0;"><?php echo $value['description']; ?></h4>
                             </div>
                         </div>
                     </div>    

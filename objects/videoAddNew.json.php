@@ -21,6 +21,11 @@ if (!empty($_POST['id'])) {
     }
 }
 
+if(!is_writable("{$global['systemRootPath']}objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer")){
+   //Directory /home/daniel/danielneto.com@gmail.com/htdocs/YouPHPTube/objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 
+   die('{"error":"Directory '.$global['systemRootPath'].'objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 "}');
+}
+
 $obj = new Video($_POST['title'], "", @$_POST['id']);
 $obj->setClean_Title($_POST['clean_title']);
 $audioLinks = array('mp3', 'ogg');
@@ -64,6 +69,14 @@ if (!empty($_POST['videoLink'])) {
     }
     $obj->setStatus('a');
 }
+
+if (!empty($_POST['isArticle'])){
+    $obj->setType("article");
+    $obj->setStatus('a');
+    $filename = uniqid("_YPTuniqid_", true);
+    $obj->setFilename($filename);
+}
+
 $obj->setNext_videos_id($_POST['next_videos_id']);
 if (!empty($_POST['description'])) {
     $obj->setDescription($_POST['description']);

@@ -118,18 +118,18 @@ foreach ($videos as $key => $value) {
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
-                
-                if(!is_object($images)){
+
+                if (!is_object($images)) {
                     $images = new stdClass();
                     $images->thumbsGif = "";
                     $images->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
                     $images->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
                     $images->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
                 }
-                
+
                 $imgGif = $images->thumbsGif;
                 $img = $images->thumbsJpg;
-                if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg') {
+                if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
                     $imgGif = $images->gifPortrait;
                     $img = $images->posterPortrait;
                 }
@@ -148,7 +148,13 @@ foreach ($videos as $key => $value) {
                     <?php } ?>
                     <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                     <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
-                    <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
+                    <?php
+                    if ($video['type'] !== 'pdf' && $video['type'] !== 'article') {
+                        ?>
+                        <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <div class="progress" style="height: 3px; margin-bottom: 2px;">
                     <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>

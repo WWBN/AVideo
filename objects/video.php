@@ -60,7 +60,7 @@ if (!class_exists('Video')) {
         static $rratingOptions = array('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
 //ver 3.4
         private $youtubeId;
-        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery');
+        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article');
 
         function __construct($title = "", $filename = "", $id = 0) {
             global $global;
@@ -142,7 +142,7 @@ if (!class_exists('Video')) {
         function setUsers_id($users_id) {
             $this->users_id = $users_id;
         }
-        
+
         function getSites_id() {
             return $this->sites_id;
         }
@@ -150,7 +150,7 @@ if (!class_exists('Video')) {
         function setSites_id($sites_id) {
             $this->sites_id = $sites_id;
         }
-        
+
         function save($updateVideoGroups = false, $allowOfflineUser = false) {
             global $advancedCustom;
             if (!User::isLogged() && !$allowOfflineUser) {
@@ -203,7 +203,7 @@ if (!class_exists('Video')) {
                 $this->categories_id = $catDefault['id'];
             }
             $this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
-            $this->setDescription($global['mysqli']->real_escape_string($this->description));
+            $this->description = ($global['mysqli']->real_escape_string($this->description));
 
             if (forbiddenWords($this->title) || forbiddenWords($this->description)) {
                 return false;
@@ -217,7 +217,7 @@ if (!class_exists('Video')) {
             if (empty($this->next_videos_id)) {
                 $this->next_videos_id = 'NULL';
             }
-            
+
             $this->sites_id = intval($this->sites_id);
             if (empty($this->sites_id)) {
                 $this->sites_id = 'NULL';
@@ -677,7 +677,7 @@ if (!class_exists('Video')) {
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
                     $video['progress'] = self::getVideoPogressPercent($video['id']);
-                    if(!$ignoreTags){
+                    if (!$ignoreTags) {
                         $video['tags'] = self::getTags($video['id']);
                     }
                     if (!empty($video['externalOptions'])) {
@@ -726,7 +726,7 @@ if (!class_exists('Video')) {
             }
             return false;
         }
-        
+
         static function getVideoFromFileNameLight($fileName) {
             global $global;
             if (empty($fileName)) {
@@ -1351,7 +1351,25 @@ if (!class_exists('Video')) {
         }
 
         function setDescription($description) {
-            $this->description = strip_tags($description);
+            global $global;
+            $articleObj = YouPHPTubePlugin::getObjectData('Articles');
+            require_once $global['systemRootPath'] . 'objects/htmlpurifier/HTMLPurifier.auto.php';
+            $configPuri = HTMLPurifier_Config::createDefault();
+            $purifier = new HTMLPurifier($configPuri);
+            if(empty($articleObj->allowAttributes)){
+                $configPuri->set('HTML.AllowedAttributes', array('a.href', 'a.target', 'a.title', 'img.src', 'img.width', 'img.height')); // remove all attributes except a.href
+            }
+            if(empty($articleObj->allowAttributes)){
+                $configPuri->set('CSS.AllowedProperties', array()); // remove all CSS
+            }
+            $configPuri->set('AutoFormat.RemoveEmpty', true); // remove empty elements
+            $pure = $purifier->purify($description);
+            $parts = explode("<body>", $pure);
+            if(!empty($parts[1])){
+                $parts = explode("</body>", $parts[1]);
+            }
+            $this->description = $parts[0];
+            //var_dump($this->description, $description, $parts);exit;
         }
 
         function setCategories_id($categories_id) {
@@ -1731,10 +1749,10 @@ if (!class_exists('Video')) {
             }
             unset($_SESSION['getVideoTags'][$video_id]);
             $path = $global['systemRootPath'] . "videos/cache/getTagsAsync/";
-            if(!is_dir($path)){
+            if (!is_dir($path)) {
                 return false;
             }
-            
+
             $cacheFileName = "{$path}_{$video_id}_";
 
             $files = glob("{$cacheFileName}*");
@@ -2110,7 +2128,7 @@ if (!class_exists('Video')) {
                 }
                 $video = Video::getVideoFromFileNameLight(str_replace(array('_Low', '_SD', '_HD'), array('', '', ''), $filename));
                 $canUseCDN = canUseCDN($video['id']);
-                
+
                 if (!empty($video['sites_id']) && ($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf")) {
                     $site = new Sites($video['sites_id']);
                     $siteURL = rtrim($site->getUrl(), '/') . '/';
@@ -2177,6 +2195,14 @@ if (!class_exists('Video')) {
                 if (!empty($source['url'])) {
                     $videos['webm'][str_replace("_", "", $value)] = $source['url'];
                 }
+            }
+            $source = self::getSourceFile($filename, ".pdf", $includeS3);
+            if (!empty($source['url'])) {
+                $videos['pdf'] = $source['url'];
+            }
+            $source = self::getSourceFile($filename, ".mp3", $includeS3);
+            if (!empty($source['url'])) {
+                $videos['mp3'] = $source['url'];
             }
             return $videos;
         }
@@ -2260,7 +2286,11 @@ if (!class_exists('Video')) {
                     }
                 }
             } else {
-                if ($type == "pdf") {
+                if ($type == "article") {
+                    $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                    $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                    $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                } if ($type == "pdf") {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
@@ -2293,7 +2323,11 @@ if (!class_exists('Video')) {
                     }
                 }
             } else {
-                if ($type == "pdf") {
+                if ($type == "article") {
+                    $obj->poster = "{$global['webSiteRootURL']}view/img/article.png";
+                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/article.png";
+                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/article.png";
+                } else if ($type == "pdf") {
                     $obj->poster = "{$global['webSiteRootURL']}view/img/pdf.png";
                     $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/pdf.png";
                     $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/pdf.png";
@@ -2597,6 +2631,7 @@ if (!class_exists('Video')) {
             $obj->webm = !empty($paths['webm']) ? true : false;
             $obj->m3u8 = !empty($paths['m3u8']) ? true : false;
             $obj->pdf = !empty($paths['pdf']) ? true : false;
+            $obj->mp3 = !empty($paths['mp3']) ? true : false;
 
             return $obj;
         }
@@ -2604,6 +2639,9 @@ if (!class_exists('Video')) {
         static function getVideoTypeLabels($filename) {
             $obj = self::getVideoType($filename);
             $labels = "";
+            if (empty($obj->mp4) && empty($obj->webm) && empty($obj->m3u8) && empty($obj->pdf) && empty($obj->mp3)) {
+                return '<span class="label label-default">Other</span>';
+            }
             if ($obj->mp4) {
                 $labels .= '<span class="label label-success">MP4</span>';
             }
@@ -2613,8 +2651,11 @@ if (!class_exists('Video')) {
             if ($obj->m3u8) {
                 $labels .= '<span class="label label-primary">HLS</span>';
             }
-            if ($obj->m3u8) {
+            if ($obj->pdf) {
                 $labels .= '<span class="label label-danger">PDF</span>';
+            }
+            if ($obj->mp3) {
+                $labels .= '<span class="label label-info">MP3</span>';
             }
             return $labels;
         }

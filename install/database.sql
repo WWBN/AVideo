@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `categories_id` INT NOT NULL,
   `filename` VARCHAR(255) NOT NULL,
   `duration` VARCHAR(15) NOT NULL,
-  `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery') NOT NULL DEFAULT 'video',
+  `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article') NOT NULL DEFAULT 'video',
   `videoDownloadedLink` VARCHAR(255) NULL,
   `order` INT UNSIGNED NOT NULL DEFAULT 1,
   `rotation` SMALLINT NULL DEFAULT 0,

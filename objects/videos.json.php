@@ -36,6 +36,9 @@ foreach ($videos as $key => $value) {
         unset($_POST['searchPhrase']);
         $videos[$key]['next_video'] = Video::getVideo($videos[$key]['next_videos_id']);
     }
+    if($videos[$key]['type']=='article'){
+        $videos[$key]['videosURL'] = getVideosURLArticle($videos[$key]['filename']);
+    }else 
     if($videos[$key]['type']=='pdf'){
         $videos[$key]['videosURL'] = getVideosURLPDF($videos[$key]['filename']);
     }else if($videos[$key]['type']=='audio'){

@@ -16,6 +16,8 @@ if (!Video::canEdit($_GET['video_id'])) {
     $obj->msg = 'You cant edit this file';
     die(json_encode($obj));
 }
+$obj->videos_id = intval($_GET['video_id']);
+
 header('Content-Type: application/json');
 // A list of permitted file extensions
 $allowed = array('jpg', 'gif', 'pjpg', 'pgif');

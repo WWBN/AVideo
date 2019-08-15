@@ -798,6 +798,59 @@ function getVideosURLPDF($fileName) {
     return $files;
 }
 
+function getVideosURLArticle($fileName) {
+    global $global;
+    if (empty($fileName)) {
+        return array();
+    }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $start = $time;
+    $files = array();
+    $source = Video::getSourceFile($fileName, ".jpg");
+    $file = $source['path'];
+    if (file_exists($file)) {
+        $files["jpg"] = array(
+            'filename' => "{$fileName}.jpg",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'image',
+        );
+    } else {
+        $files["jpg"] = array(
+            'filename' => "pdf.png",
+            'path' => "{$global['systemRootPath']}view/img/article.png",
+            'url' => "{$global['webSiteRootURL']}view/img/article.png",
+            'type' => 'image',
+        );
+    }
+    $source = Video::getSourceFile($fileName, "_portrait.jpg");
+    $file = $source['path'];
+    if (file_exists($file)) {
+        $files["pjpg"] = array(
+            'filename' => "{$fileName}_portrait.jpg",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'image',
+        );
+    } else {
+        $files["pjpg"] = array(
+            'filename' => "pdf_portrait.png",
+            'path' => "{$global['systemRootPath']}view/img/article_portrait.png",
+            'url' => "{$global['webSiteRootURL']}view/img/article_portrait.png",
+            'type' => 'image',
+        );
+    }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $finish = $time;
+    $total_time = round(($finish - $start), 4);
+    error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
+    return $files;
+}
+
 function getVideosURLAudio($fileName) {
     global $global;
     if (empty($fileName)) {

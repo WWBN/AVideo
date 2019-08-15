@@ -177,7 +177,26 @@ if (!empty($_GET['t'])) {
 
     <body>
         <?php
-        if ($video['type'] == "pdf") {
+        if ($video['type'] == "article") {
+            ?>
+            <div id="main-video" class="bgWhite list-group-item" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
+                <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
+                    <?php
+                    echo $video['title'];
+                    ?>   
+                </h1>
+                <?php
+                echo $video['description'];
+                ?>     
+                <script>
+                    $(document).ready(function () {
+                        addView(<?php echo $video['id']; ?>, 0);
+                    });
+                </script>
+
+            </div>
+            <?php
+        } else  if ($video['type'] == "pdf") {
             ?>
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
