@@ -61,7 +61,7 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
         $playList = new PlayList(0);
         $playList->loadFromName($_POST['playListName']);
         $playList->setName($_POST['playListName']);
-        $playList->setStatus('p');
+        $playList->setStatus('private');
         $obj->playListId = $playList->save();
     }
 
