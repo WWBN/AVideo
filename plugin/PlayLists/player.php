@@ -35,7 +35,7 @@ foreach ($playList as $value) {
         if ($value2['type'] !== 'video' && $value2['type'] !== 'audio') {
             continue;
         }
-        $playListSources[] = new playListSource($value2['url']);
+        $playListSources[] = new playListSource($value2['url'], $value['type'] === 'embed');
     }
     if (empty($playListSources)) {
         continue;
@@ -223,6 +223,7 @@ foreach ($playList as $value) {
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script><script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-youtube/Youtube.js"></script>
         <script>
 
                                             var playerPlaylist = <?php echo json_encode($playListData); ?>;
