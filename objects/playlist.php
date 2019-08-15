@@ -18,6 +18,33 @@ class PlayList extends ObjectYPT {
     static function getTableName() {
         return 'playlists';
     }
+    
+    static protected function getFromDbFromName($name) {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  name = ? users_id = ". User::getId()." LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($name));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
+
+    function loadFromName($name) {
+        if(!User::isLogged()){
+            return false;
+        }
+        $row = self::getFromDbFromName($name);
+        if (empty($row))
+            return false;
+        foreach ($row as $key => $value) {
+            $this->$key = $value;
+        }
+        return true;
+    }
 
     /**
      *

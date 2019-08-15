@@ -102,7 +102,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                     <form id="search-form" name="search-form" onsubmit="return search()">
                         <div id="custom-search-input">
                             <div class="input-group col-md-12">
-                                <input type="search" id="query" class="form-control input-lg" placeholder="Search YouTube" />
+                                <input type="search" id="query" class="form-control input-lg" placeholder="Search YouTube / PlayList URL" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-info btn-lg" type="button">
                                         <i class="glyphicon glyphicon-search"></i>
@@ -133,6 +133,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
         <script>
 
             var gapikey = '<?php echo $obj->API_KEY; ?>';
+            var playListName = '';
 
             $(function () {
                 $('#search-form').submit(function (e) {
@@ -179,7 +180,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                     }
                     $.ajax({
                         url: '<?php echo $global['webSiteRootURL']; ?>plugin/BulkEmbed/save.json.php',
-                        data: {"itemsToSave": itemsToSave},
+                        data: {"itemsToSave": itemsToSave, playListName: playListName},
                         type: 'post',
                         success: function (response) {
                             if (!response.error) {
@@ -237,18 +238,27 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
 
                 if (playListId) {
                     $.get(
-                            "https://www.googleapis.com/youtube/v3/playlistItems", {
-                                part: 'snippet, id',
-                                q: q,
-                                type: 'video',
+                            "https://www.googleapis.com/youtube/v3/playlists", {
+                                part: 'snippet',
                                 key: gapikey,
-                                maxResults: 50,
-                                videoEmbeddable: "true",
-                                playlistId: playListId
+                                id: playListId
                             }, function (data) {
-                        processData(data);
+                        playListName = data.snippet.title;
+                        $.get(
+                                "https://www.googleapis.com/youtube/v3/playlistItems", {
+                                    part: 'snippet, id',
+                                    q: q,
+                                    type: 'video',
+                                    key: gapikey,
+                                    maxResults: 50,
+                                    videoEmbeddable: "true",
+                                    playlistId: playListId
+                                }, function (data) {
+                            processData(data);
+                        });
                     });
                 } else {
+                    playListName = '';
                     // run get request on API
                     $.get(
                             "https://www.googleapis.com/youtube/v3/search", {
