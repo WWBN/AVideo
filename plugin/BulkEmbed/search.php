@@ -243,7 +243,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                                 key: gapikey,
                                 id: playListId
                             }, function (data) {
-                        playListName = data.snippet.title;
+                        playListName = data.items[0].snippet.title;
                         $.get(
                                 "https://www.googleapis.com/youtube/v3/playlistItems", {
                                     part: 'snippet, id',
