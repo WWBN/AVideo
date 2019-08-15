@@ -392,7 +392,13 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
 
 // Build output
             function getOutput(item) {
-                var videoID = item.id.videoId;
+                console.log(item);
+                var videoID;
+                if(item.id.videoId){
+                    videoID = item.id.videoId;
+                }else{
+                    videoID = item.snippet.resourceId.videoId;
+                }
                 var title = item.snippet.title;
                 var description = item.snippet.description;
                 var thumb = item.snippet.thumbnails.high.url;
