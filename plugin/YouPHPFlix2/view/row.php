@@ -156,7 +156,7 @@ foreach ($videos as $value) {
                 ?>
                 <div class="infoText col-md-4 col-sm-6 col-xs-8">
                     <h4 class="mainInfoText" itemprop="description">
-                        <?php echo nl2br(textToLink($value['description'])); ?>
+                        <?php echo $value['description']; ?>
                     </h4>
                     <?php
                     if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {

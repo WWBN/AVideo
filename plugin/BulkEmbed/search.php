@@ -193,6 +193,38 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                 }, 500);
             }
 
+            function validURL(str) {
+                var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+                return !!pattern.test(str);
+            }
+
+            function getFromUrl(url) {
+                if (!validURL(url)) {
+                    return false;
+                }
+
+                var regex = /[?&]([^=#]+)=([^&#]*)/g,
+                        params = {},
+                        match;
+                while (match = regex.exec(url)) {
+                    params[match[1]] = match[2];
+                }
+                return params;
+            }
+
+            function getPlayListId(url) {
+                var result = getFromUrl(url);
+                if (result && typeof result.list !== 'undefined') {
+                    return result.list;
+                }
+                return false;
+            }
+
             function search() {
                 // clear 
                 $('#results').html('');
@@ -201,35 +233,57 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                 // get form input
                 q = $('#query').val();  // this probably shouldn't be created as a global
 
-                // run get request on API
-                $.get(
-                        "https://www.googleapis.com/youtube/v3/search", {
-                            part: 'snippet, id',
-                            q: q,
-                            type: 'video',
-                            key: gapikey,
-                            maxResults: 50,
-                            videoEmbeddable: "true"
-                        }, function (data) {
-                    var nextPageToken = data.nextPageToken;
-                    var prevPageToken = data.prevPageToken;
+                var playListId = getPlayListId(q);
 
-                    // Log data
-                    //console.log(data);
-
-                    $.each(data.items, function (i, item) {
-                        // Get Output
-                        var output = getOutput(item);
-
-                        // display results
-                        $('#results').append(output);
+                if (playListId) {
+                    $.get(
+                            "https://www.googleapis.com/youtube/v3/playlistItems", {
+                                part: 'snippet, id',
+                                q: q,
+                                type: 'video',
+                                key: gapikey,
+                                maxResults: 50,
+                                videoEmbeddable: "true",
+                                playlistId: playListId
+                            }, function (data) {
+                        processData(data);
                     });
+                } else {
+                    // run get request on API
+                    $.get(
+                            "https://www.googleapis.com/youtube/v3/search", {
+                                part: 'snippet, id',
+                                q: q,
+                                type: 'video',
+                                key: gapikey,
+                                maxResults: 50,
+                                videoEmbeddable: "true"
+                            }, function (data) {
+                        processData(data);
+                    });
+                }
 
-                    var buttons = getButtons(prevPageToken, nextPageToken);
+            }
 
-                    // Display buttons
-                    $('#buttons').append(buttons);
+            function processData(data) {
+                var nextPageToken = data.nextPageToken;
+                var prevPageToken = data.prevPageToken;
+
+                // Log data
+                //console.log(data);
+
+                $.each(data.items, function (i, item) {
+                    // Get Output
+                    var output = getOutput(item);
+
+                    // display results
+                    $('#results').append(output);
                 });
+
+                var buttons = getButtons(prevPageToken, nextPageToken);
+
+                // Display buttons
+                $('#buttons').append(buttons);
             }
 
 // Next page function

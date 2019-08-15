@@ -129,7 +129,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         ?>
                         <div class="infoText col-md-4 col-sm-6 col-xs-6">
                             <h4 class="mainInfoText" itemprop="description">
-                                <?php echo nl2br(textToLink($video['description'])); ?>
+                                <?php echo $video['description']; ?>
                             </h4>
                             <?php
                             if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {

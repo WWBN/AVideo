@@ -163,10 +163,16 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     $startG = microtime(true);
                     ?>
                 </div>
-                <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                <div class="progress" style="height: 3px; margin-bottom: 2px;">
-                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                <?php
+                if($value['type']!=='pdf' && $value['type']!=='article'){
+                    ?>
+                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                        <div class="progress" style="height: 3px; margin-bottom: 2px;">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div> 
+                    <?php
+                }
+                ?>
             </a>
             <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <h2><?php echo $value['title']; ?></h2>
@@ -230,7 +236,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                         <?php echo $name; ?>
                     </a>
                     <?php if ((!empty($value['description'])) && !empty($obj->Description)) { ?>
-                        <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', nl2br(textToLink($value['description']))); ?> </div>" ><?php echo __("Description"); ?></button>
+                        <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', $value['description']); ?> </div>" ><?php echo __("Description"); ?></button>
                     <?php } ?>
                 </div>
                 <?php if (Video::canEdit($value['id'])) { ?>

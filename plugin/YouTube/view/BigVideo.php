@@ -23,10 +23,16 @@ if ($objYTube->BigVideo && empty($_GET['showOnly'])) {
                             <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive <?php echo @$img_portrait; ?>  rotate<?php echo $video['rotation']; ?>" height="130" />
                         <?php } ?>
                     </div>
-                    <span class="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
-                    <div class="progress" style="height: 3px; margin-bottom: 2px;">
-                        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $video['progress']['percent'] ?>%;" aria-valuenow="<?php echo $video['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
+                    <?php
+                    if ($video['type'] !== 'pdf' && $video['type'] !== 'article') {
+                        ?>
+                        <span class="duration"><?php echo Video::getCleanDuration($video['duration']); ?></span>
+                        <div class="progress" style="height: 3px; margin-bottom: 2px;">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $video['progress']['percent'] ?>%;" aria-valuenow="<?php echo $video['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </a>
             </div>
             <div class="col-sm-6">
@@ -34,7 +40,7 @@ if ($objYTube->BigVideo && empty($_GET['showOnly'])) {
                     <h1><?php echo $video['title']; ?></h1>
                 </a>
                 <div class="mainAreaDescriptionContainer">
-                    <h4 class="mainAreaDescription" itemprop="description"><?php echo nl2br(textToLink($video['description'])); ?></h4>
+                    <h4 class="mainAreaDescription" itemprop="description"><?php echo $video['description']; ?></h4>
                 </div>
                 <div class="text-muted galeryDetails">
                     <div>

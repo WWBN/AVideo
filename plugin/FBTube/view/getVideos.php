@@ -58,7 +58,7 @@ if (!empty($videos)) {
             <div class="col-md-10 col-md-offset-1 list-group-item">
                 <div class="clear clearfix"><?php echo $video['creator']; ?> </div>
                 <h2><?php echo $video['title']; ?></h2>
-                <div><?php echo nl2br(textToLink($video['description'])); ?></div>
+                <div><?php echo $video['description']; ?></div>
                 <div class="main-video embed-responsive <?php
                 echo $embedResponsiveClass;
                 ?>">

@@ -9,6 +9,7 @@ class BulkEmbed extends PluginAbstract {
         //$str = 'Set DEVELOPER_KEY to the "API key" value from the "Access" tab of the<br>Google Developers Console https://console.developers.google.com<br>Please ensure that you have enabled the YouTube Data API for your project.';
         //$str.= '<br>Add the Redirect URI '.$global['webSiteRootURL'].'plugin/BulkEmbed/youtubeSearch.json.php';
         $str = 'Create your API Key here https://console.developers.google.com/apis/credentials/key';
+        $str .= "<br> Also make sure you enable the API YouTube Data API v3";
         return $str;
     }
 
