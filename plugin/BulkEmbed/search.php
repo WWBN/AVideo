@@ -173,7 +173,8 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                                 item.title = data.items[0].snippet.title;
                                 item.description = data.items[0].snippet.description;
                                 item.duration = data.items[0].contentDetails.duration;
-                                item.thumbs = (data.items[0].snippet.thumbnails.high)?data.items[0].snippet.thumbnails.high.url:data.items[0].snippet.thumbnails.default.url;
+                                console.log(data.items[0].snippet);
+                                item.thumbs = data.items[0].snippet.thumbnails.high.url;
                                 itemsToSave.push(item);
                             }
                         });
@@ -394,6 +395,9 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
             function getOutput(item) {
                 console.log(item);
                 var videoID;
+                if(typeof item.snippet.thumbnails === 'undefined'){
+                    return true;
+                }
                 if(item.id.videoId){
                     videoID = item.id.videoId;
                 }else{
