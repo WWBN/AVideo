@@ -106,6 +106,15 @@ a:visited {
     font-weight: bold;
     border-radius: 15px;
 }
+.tile__media h4{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+    margin-top: -27px;
+}
 .flickity-viewport:hover {
     -webkit-transform: translate3d(-62.5px, 0, 0);
     transform: translate3d(-62.5px, 0, 0);

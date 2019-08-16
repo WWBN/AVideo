@@ -113,20 +113,25 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </h4>
                     <div class="row">                
                         <?php
+                        $colClass = "col-md-2 col-sm-4 col-xs-6";
+                        if(!empty($obj->RemoveBigVideoDescription)){
+                            $colClass = "col-md-4 col-sm-4 col-xs-6";
+                        }
                         if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                             ?>
-                            <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="<?php echo $colClass; ?>">
                                 <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
                             </div>
                             <?php
                         }else{
                             ?>
-                            <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="<?php echo $colClass; ?>">
                                 <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
                             </div>
                             <?php
                         }
-                        ?>
+                        if(empty($obj->RemoveBigVideoDescription)){
+                            ?>
                         <div class="infoText col-md-4 col-sm-6 col-xs-6">
                             <h4 class="mainInfoText" itemprop="description">
                                 <?php echo $video['description']; ?>
@@ -137,6 +142,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             }
                             ?>
                         </div>
+                            <?php
+                        }
+                        ?>
                     </div>
 
 

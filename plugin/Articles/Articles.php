@@ -6,7 +6,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class Articles extends PluginAbstract {
 
     public function getDescription() {
-        return "Create rich text articles";
+        return "Create rich text articles<br>/var/www/html/YouPHPTube/objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777";
     }
 
     public function getName() {
