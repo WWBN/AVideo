@@ -173,7 +173,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                                 item.title = data.items[0].snippet.title;
                                 item.description = data.items[0].snippet.description;
                                 item.duration = data.items[0].contentDetails.duration;
-                                item.thumbs = data.items[0].snippet.thumbnails.high.url;
+                                item.thumbs = (data.items[0].snippet.thumbnails.high)?data.items[0].snippet.thumbnails.high.url:data.items[0].snippet.thumbnails.default.url;
                                 itemsToSave.push(item);
                             }
                         });
