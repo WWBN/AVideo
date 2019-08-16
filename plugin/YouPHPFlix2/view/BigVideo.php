@@ -114,37 +114,37 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     <div class="row">                
                         <?php
                         $colClass = "col-md-2 col-sm-4 col-xs-6";
-                        if(!empty($obj->RemoveBigVideoDescription)){
+                        if (!empty($obj->RemoveBigVideoDescription)) {
                             $colClass = "col-md-4 col-sm-4 col-xs-6";
                         }
                         if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                             ?>
-                            <div class="<?php echo $colClass; ?> thumbsImage">
-                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
-                                <?php if (!empty($images->thumbsGif)) { ?>
-                            <img style="position: absolute; top: 0; display: none;" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png"  alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $images->thumbsGif; ?>" />
-                        <?php } ?>
+                            <div class="<?php echo $colClass; ?>">
+                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
                             </div>
                             <?php
-                        }else{
+                        } else {
                             ?>
-                            <div class="<?php echo $colClass; ?>">
-                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
+                            <div class="<?php echo $colClass; ?> thumbsImage">
+                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
+                                <?php if (!empty($images->thumbsGif)) { ?>
+                                    <img style="position: absolute; top: 0; display: none;" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png"  alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $images->thumbsGif; ?>" />
+                                <?php } ?>
                             </div>
                             <?php
                         }
-                        if(empty($obj->RemoveBigVideoDescription)){
+                        if (empty($obj->RemoveBigVideoDescription)) {
                             ?>
-                        <div class="infoText col-md-4 col-sm-6 col-xs-6">
-                            <h4 class="mainInfoText" itemprop="description">
-                                <?php echo $video['description']; ?>
-                            </h4>
-                            <?php
-                            if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
-                                echo VideoTags::getLabels($video['id']);
-                            }
-                            ?>
-                        </div>
+                            <div class="infoText col-md-4 col-sm-6 col-xs-6">
+                                <h4 class="mainInfoText" itemprop="description">
+                                    <?php echo $video['description']; ?>
+                                </h4>
+                                <?php
+                                if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                                    echo VideoTags::getLabels($video['id']);
+                                }
+                                ?>
+                            </div>
                             <?php
                         }
                         ?>
