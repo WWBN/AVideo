@@ -17,7 +17,6 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $images = Video::getImageFromFilename($video['filename'], $video['type']);
         $imgGif = $images->thumbsGif;
         $poster = $images->poster;
-        //var_dump($video);
         $canWatchPlayButton = "";
         $get = $_GET;
         if (User::canWatchVideoWithAds($video['id'])) {
@@ -125,11 +124,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             <?php
                         } else {
                             ?>
-                            <div class="<?php echo $colClass; ?> thumbsImage">
-                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
-                                <?php if (!empty($images->thumbsGif)) { ?>
-                                    <img style="position: absolute; top: 0; display: none;" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png"  alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $images->thumbsGif; ?>" />
-                                <?php } ?>
+                            <div class="<?php echo $colClass; ?>">
+                                <div class="thumbsImage">
+                                    <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
+                                    <?php if (!empty($images->thumbsGif)) { ?>
+                                        <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo $video['title']; ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
+                                    <?php } ?>
+                                </div>
                             </div>
                             <?php
                         }
