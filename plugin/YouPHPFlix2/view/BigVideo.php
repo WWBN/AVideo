@@ -120,7 +120,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                             ?>
                             <div class="<?php echo $colClass; ?>">
-                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
+                                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
+                                <?php if (!empty($images->thumbsGif)) { ?>
+                            <img style="position: absolute; top: 0; display: none;" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png"  alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $images->thumbsGif; ?>" />
+                        <?php } ?>
                             </div>
                             <?php
                         }else{

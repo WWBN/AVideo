@@ -345,3 +345,6 @@ body.fullscreen{
     opacity: 0.8;
     filter: alpha(opacity=80); /* For IE8 and earlier */
 }
+.footerBtn{
+    margin-top: 10px;
+}
