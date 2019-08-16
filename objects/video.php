@@ -2265,7 +2265,6 @@ if (!class_exists('Video')) {
             if (file_exists($gifSource['path'])) {
                 $obj->thumbsGif = $gifSource['url'];
             }
-
             if (file_exists($jpegPortraitSource['path'])) {
 // create thumbs
                 if (!file_exists($jpegPortraitThumbs['path']) && filesize($jpegPortraitSource['path']) > 1024) {
@@ -2349,7 +2348,7 @@ if (!class_exists('Video')) {
                 $obj->thumbsJpgSmall = $obj->poster;
             }
 //ObjectYPT::setCache($name, $obj);
-            if ($type !== "video" || !empty($advancedCustom->disableAnimatedGif)) {
+            if (!empty($advancedCustom->disableAnimatedGif)) {
                 $obj->thumbsGif = false;
             }
             return $obj;
