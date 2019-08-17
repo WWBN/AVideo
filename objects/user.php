@@ -475,7 +475,7 @@ if (typeof gtag !== \"function\") {
             }
             return $id;
         } else {
-            error_log(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            error_log(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
             return false;
         }
     }
