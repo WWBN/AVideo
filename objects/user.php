@@ -370,7 +370,8 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($this->user) || empty($this->password)) {
             echo "u:" . $this->user . "|p:" . strlen($this->password);
-            die('Error : ' . __("You need a user and passsword to register"));
+            error_log('Error : ' . __("You need a user and passsword to register"));
+            return false;
         }
         if (empty($this->isAdmin)) {
             $this->isAdmin = "false";
