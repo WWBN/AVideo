@@ -272,7 +272,8 @@ if (!class_exists('Video')) {
                 clearVideosURL($this->filename);
                 return $id;
             } else {
-                die($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                error_log($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
+                return false;
             }
         }
 
