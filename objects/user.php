@@ -475,11 +475,8 @@ if (typeof gtag !== \"function\") {
             }
             return $id;
         } else {
-            if ($global['mysqli']->error == "Duplicate entry 'admin' for key 'user_UNIQUE'") {
-                echo '{"error":"' . __("User name already exists") . '"}';
-                exit;
-            }
-            die(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            error_log(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
     }
 
