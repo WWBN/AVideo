@@ -54,7 +54,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
 
     if (!empty($_POST['description'])) {
-        $video->setDescription($_POST['description']);
+        $video->setDescription(nl2br(textToLink($_POST['description'])));
     }
 
     if ($extension == "mp4" || $extension == "webm") {
