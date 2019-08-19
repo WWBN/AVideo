@@ -24,44 +24,6 @@ if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
     exit;
 } else if (!empty($_GET['u'])) {
     include $global['systemRootPath'].'plugin/Live/view/modeYoutubeLive.php';
-    /*
-    require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
-    if (!empty($_GET['c'])) {
-        $user = User::getChannelOwner($_GET['c']);
-        if (!empty($user)) {
-            $_GET['u'] = $user['user'];
-        }
-    }
-
-
-    $t = LiveTransmition::getFromDbByUserName($_GET['u']);
-
-    $uuid = $t['key'];
-
-    $video = array();
-    $video['id'] = 0;
-    $video['filename'] = "";
-    $video['videoLink'] = "";
-    $video['iconClass'] = "";
-    $video['category_order'] = 0;
-    $video['views_count'] = 0;
-    $video['title'] = $t['title'];
-    $video['videoCreation'] = "Live";
-    $video['created'] = "Live";
-    $video['category'] = "Live";
-    $video['clean_category'] = "Live";
-    $video['duration'] = "Live";
-    $video['likes'] = -1;
-    $video['dislikes'] = -1;
-    $video['myVote'] = -1;
-    $video['clean_title'] = "";
-    $video['rotation'] = 0;
-    $video['users_id'] = $user['id'];
-    $video['description'] = $t['description'];
-    $video['type'] = "live";
-    include $global['systemRootPath'] . 'view/modeYoutube.php';
-     * 
-     */
     exit;
 } else if (!User::canStream()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not stream live videos"));

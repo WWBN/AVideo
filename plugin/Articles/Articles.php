@@ -6,7 +6,14 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class Articles extends PluginAbstract {
 
     public function getDescription() {
-        return "Create rich text articles<br>/var/www/html/YouPHPTube/objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777";
+        global $global;
+        $str = "Create rich text articles";
+        $alert = "";
+        $dir = $global['systemRootPath']."objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer";
+        if (!is_writable($dir)) {
+            $alert = "<div class='alert alert-danger'>Your directory must be writable<br><code>sudo chmod 777 {$dir}</code></div>";
+        }
+        return $str.$alert;
     }
 
     public function getName() {
@@ -23,6 +30,11 @@ class Articles extends PluginAbstract {
         $obj->allowAttributes = false;
         $obj->allowCSS = false;
         return $obj;
+    }
+    
+    public function getPluginMenu() {
+        global $global;
+        return '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptions.php" class="btn btn-default btn-xs btn-block" target="_blank">Update Old Descriptions</a>';
     }
 
 
