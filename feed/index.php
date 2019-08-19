@@ -1,5 +1,6 @@
 <?php 
-header("Content-Type: application/rss+xml; charset=UTF8");
+//header("Content-Type: application/rss+xml; charset=UTF8");
+header('Content-Type: text/xml; charset=UTF8');
 
 
 require_once '../videos/configuration.php';
@@ -9,8 +10,21 @@ $_POST['sort']["created"] = "DESC";
 $_POST['current'] = 1;
 $_POST['rowCount'] = 50;
 
+$showOnlyLoggedUserVideos = false;
+$title = "RSS ".$config->getWebSiteTitle();
+$link = $global['webSiteRootURL'];
+$logo = "{$global['webSiteRootURL']}videos/userPhoto/logo.png";
+
+if(!empty($_GET['channelName'])){
+    $user = User::getChannelOwner($_GET['channelName']);
+    $showOnlyLoggedUserVideos = $user['id'];
+    $title = "RSS ".User::getNameIdentificationById($user['id']);
+    $link = User::getChannelLink($user['id']);
+    $logo = User::getPhoto($user['id']);
+}
+
 // send $_GET['catName'] to be able to filter by category
-$rows = Video::getAllVideos("viewable");
+$rows = Video::getAllVideos("viewable", $showOnlyLoggedUserVideos);
 
 echo'<?xml version="1.0" encoding="UTF-8"?>'
 ?>
@@ -22,19 +36,19 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
      xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
     <channel>
         <atom:link href="<?php echo $global['webSiteRootURL'].ltrim($_SERVER["REQUEST_URI"],"/"); ?>" rel="self" type="application/rss+xml" />
-        <title>RSS <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $title; ?></title>
         <description>Rss Feed</description>
-        <link><?php echo $global['webSiteRootURL']; ?></link>
+        <link><?php echo $link; ?></link>
         <sy:updatePeriod>hourly</sy:updatePeriod>
         <sy:updateFrequency>1</sy:updateFrequency>
 
         <image>
-        <title>RSS <?php echo $config->getWebSiteTitle(); ?></title>
-        <url><?php echo $global['webSiteRootURL']; ?>videos/userPhoto/logo.png</url>
-        <link><?php echo $global['webSiteRootURL']; ?></link>
+        <title><?php echo $title; ?></title>
+        <url><?php echo $logo; ?></url>
+        <link><?php echo $link; ?></link>
         <width>144</width>
         <height>40</height>
-        <description>YouPHPTube versione rss</description>
+        <description>YouPHPTube version rss</description>
         </image>
 
         <?php
@@ -55,7 +69,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
             ?>
             <item>
                 <title><?php echo htmlspecialchars($row['title']); ?></title>
-                <description><![CDATA[<?php echo $row['description']; ?>]]></description>
+                <description><![CDATA[<?php echo strip_tags($row['description']); ?>]]></description>
                 <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                 <?php echo $enclosure; ?>
                 <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>

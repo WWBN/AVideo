@@ -130,6 +130,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     <?php if (!empty($images->thumbsGif)) { ?>
                                         <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo $video['title']; ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
                                     <?php } ?>
+                                    <?php if (!empty($obj->BigVideoPlayIcon)) { ?>
+                                        <i class="far fa-play-circle" style="font-size: 100px; position: absolute; left: 50%; top: 50%; margin-left: -50px; margin-top: -50px;opacity: .6;
+    text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);"></i>
+                                    <?php } ?>
                                 </div>
                             </div>
                             <?php
