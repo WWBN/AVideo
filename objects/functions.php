@@ -1822,6 +1822,9 @@ function siteMap() {
             <priority>0.80</priority>
         </url>
         ';
+    
+    $_POST['rowCount'] = 100;
+    $_POST['sort']['modified'] = "DESC";
     $users = User::getAllUsers(true);
     foreach ($users as $value) {
         $xml .= '        
@@ -1836,6 +1839,8 @@ function siteMap() {
     $xml .= ' 
         <!-- Categories -->
         ';
+    $_POST['rowCount'] = 100;
+    $_POST['sort']['modified'] = "DESC";
     $rows = Category::getAllCategories();
     foreach ($rows as $value) {
         $xml .= '  
@@ -1848,6 +1853,8 @@ function siteMap() {
             ';
     }
     $xml .= '<!-- Videos -->';
+    $_POST['rowCount'] = 100;
+    $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideos("viewable");
     foreach ($rows as $value) {
         $xml .= '   
