@@ -20,6 +20,7 @@ $u = new User(0, $_GET['u'], false);
 $user_id = $u->getBdId();
 $subscribe = Subscribe::getButton($user_id);
 $name = $u->getNameIdentificationBd();
+$name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name}</a>";
 $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
 
 $img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
@@ -70,8 +71,8 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
                     <h1 itemprop="name">
                         <i class="fas fa-video"></i> <?php echo $t['title']; ?>
                     </h1>
-                    <p><?php echo nl2br(textToLink($t['description'])); ?></p>
                     <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                    <p><?php echo nl2br(textToLink($t['description'])); ?></p>
                 </div> 
                 <div class="col-md-3">
                     <?php
