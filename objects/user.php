@@ -369,7 +369,7 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         if (empty($this->user) || empty($this->password)) {
-            echo "u:" . $this->user . "|p:" . strlen($this->password);
+            //echo "u:" . $this->user . "|p:" . strlen($this->password);
             error_log('Error : ' . __("You need a user and passsword to register"));
             return false;
         }
