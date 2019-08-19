@@ -1358,7 +1358,8 @@ if (!class_exists('Video')) {
             $configPuri = HTMLPurifier_Config::createDefault();
             $purifier = new HTMLPurifier($configPuri);
             if(empty($articleObj->allowAttributes)){
-                $configPuri->set('HTML.AllowedAttributes', array('a.href', 'a.target', 'a.title', 'img.src', 'img.width', 'img.height')); // remove all attributes except a.href
+                $configPuri->set('HTML.AllowedAttributes', array('a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height')); // remove all attributes except a.href
+                $configPuri->set('Attr.AllowedFrameTargets', array('_blank'));
             }
             if(empty($articleObj->allowAttributes)){
                 $configPuri->set('CSS.AllowedProperties', array()); // remove all CSS
