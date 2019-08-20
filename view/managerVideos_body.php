@@ -894,7 +894,12 @@ echo YouPHPTubePlugin::getManagerVideosJavaScripts();
 echo YouPHPTubePlugin::getManagerVideosEdit();
 ?>
 
-        if (row.next_video && row.next_video.id) {
+        if (row.next_id) {
+            $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_filename + ".jpg");
+            $('#inputNextVideo').val(row.next_title);
+            $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_clean_title);
+            $('#inputNextVideo-id').val(row.next_id);
+        } if (row.next_video && row.next_video.id) {
             $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_video.filename + ".jpg");
             $('#inputNextVideo').val(row.next_video.title);
             $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
