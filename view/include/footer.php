@@ -67,11 +67,14 @@ if (!empty($_GET['success']) && strlen($_GET['success']) > 4) {
     });
 </script>
 <!-- <script src="<?php echo $global['webSiteRootURL']; ?>bootstrap/js/bootstrap.min.js" type="text/javascript"></script> -->
+<script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery.lazy/jquery.lazy.min.js" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery.lazy/jquery.lazy.plugins.min.js" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
 <?php
 $jsFiles = array();
-$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
-$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-$jsFiles[] = "view/js/script.js";
+//$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
+//$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+//$jsFiles[] = "view/js/script.js";
 $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
 $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
 $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
