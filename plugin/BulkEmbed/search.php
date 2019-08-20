@@ -104,7 +104,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                             <div class="input-group col-md-12">
                                 <input type="search" id="query" class="form-control input-lg" placeholder="Search YouTube / PlayList URL" />
                                 <span class="input-group-btn">
-                                    <button class="btn btn-info btn-lg" type="button">
+                                    <button class="btn btn-info btn-lg" type="submit">
                                         <i class="glyphicon glyphicon-search"></i>
                                     </button>
                                 </span>
