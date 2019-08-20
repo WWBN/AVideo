@@ -333,6 +333,8 @@ class PlayList extends ObjectYPT {
     }
 
     function setName($name) {
+        if (strlen($name) > 45)
+            $name = substr($name, 0, 42) . '...';
         $this->name = xss_esc($name);
     }
 
