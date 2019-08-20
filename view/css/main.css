@@ -470,9 +470,11 @@ img.rotate-90 {
     padding: 10px;
     height: 100%;
     width: 100%;
+    padding-right: 18px;
 }
 #sideBarContainer:hover {
     overflow-y: auto;
+    padding-right: 10px;
 }
 #sideBarContainer ul {
     margin-bottom: 150px;
