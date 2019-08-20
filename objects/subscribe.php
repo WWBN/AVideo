@@ -128,13 +128,16 @@ class Subscribe {
      * @param type $user_id
      * @return boolean
      */
-    static function getAllSubscribes($user_id = "") {
+    static function getAllSubscribes($user_id = "", $status = "a") {
         global $global;
         $sql = "SELECT su.id as subscriber_id, s.*, u.email as email FROM subscribes as s "
                 . " LEFT JOIN users as su ON s.email = su.email   "
                 . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 ";
         if (!empty($user_id)) {
             $sql .= " AND users_id = {$user_id} ";
+        }
+        if (!empty($status)) {
+            $sql .= " AND status = '{$status}' ";
         }
         $sql .= BootGrid::getSqlFromPost(array('email'));
 
