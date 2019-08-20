@@ -68,14 +68,15 @@ if (!empty($images->posterPortrait)) {
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 /*
  * Swap aspect ratio for rotated (vvs) videos
- */
+ 
 if ($video['rotation'] === "90" || $video['rotation'] === "270") {
     $embedResponsiveClass = "embed-responsive-9by16";
     $vjsClass = "vjs-9-16";
 } else {
     $embedResponsiveClass = "embed-responsive-16by9";
     $vjsClass = "vjs-16-9";
-}
+}*/
+$vjsClass = "";
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
 if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {

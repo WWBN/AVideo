@@ -15,7 +15,7 @@
             /* $autoPlayVideo = Video::getVideo($video['next_videos_id']);
               if($video==$autoPlayVideo){
               unset($autoPlayVideo);
-              } */
+              } 
             if ($video['rotation'] === "90" || $video['rotation'] === "270") {
                 $aspectRatio = "9:16";
                 $vjsClass = "vjs-9-16";
@@ -24,7 +24,7 @@
                 $aspectRatio = "16:9";
                 $vjsClass = "vjs-16-9";
                 $embedResponsiveClass = "embed-responsive-16by9";
-            }
+            }*/
             $vjsClass = "";
             $playNowVideo = $video;
             $disableYoutubeIntegration = false;
