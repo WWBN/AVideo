@@ -253,6 +253,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                                     key: gapikey,
                                     maxResults: 50,
                                     videoEmbeddable: "true",
+                                    videoSyndicated: "true",
                                     playlistId: playListId
                                 }, function (data) {
                             processData(data);
@@ -268,6 +269,7 @@ $obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
                                 type: 'video',
                                 key: gapikey,
                                 maxResults: 50,
+                                videoSyndicated: "true",
                                 videoEmbeddable: "true"
                             }, function (data) {
                         processData(data);
