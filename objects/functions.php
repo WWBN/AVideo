@@ -1785,7 +1785,7 @@ function isMobile() {
 }
 
 function siteMap() {
-    global $global;
+    global $global, $advancedCustom;
     $date = date('Y-m-d\TH:i:s') . "+00:00";
 
     $xml = '<?xml version="1.0" encoding="UTF-8"?>
@@ -1830,7 +1830,7 @@ function siteMap() {
         </url>
         ';
     
-    $_POST['rowCount'] = 100;
+    $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     $_POST['sort']['modified'] = "DESC";
     $users = User::getAllUsers(true);
     foreach ($users as $value) {
@@ -1846,7 +1846,7 @@ function siteMap() {
     $xml .= ' 
         <!-- Categories -->
         ';
-    $_POST['rowCount'] = 100;
+    $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     $_POST['sort']['modified'] = "DESC";
     $rows = Category::getAllCategories();
     foreach ($rows as $value) {
@@ -1860,7 +1860,7 @@ function siteMap() {
             ';
     }
     $xml .= '<!-- Videos -->';
-    $_POST['rowCount'] = 100;
+    $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit*10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideos("viewable");
     foreach ($rows as $value) {

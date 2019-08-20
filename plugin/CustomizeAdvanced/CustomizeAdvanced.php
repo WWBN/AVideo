@@ -135,6 +135,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $o->type = "textarea";
         $o->value = "";        
         $obj->videoNotFoundText = $o;
+        $obj->siteMapRowsLimit = 100;
         
         return $obj;
     }
