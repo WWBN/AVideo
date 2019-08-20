@@ -337,7 +337,7 @@ class PlayList extends ObjectYPT {
         if (strlen($name) > 45)
             $name = substr($name, 0, 42) . '...';
         $this->name = xss_esc($name);
-        var_dump($name,$this->name);exit;
+        //var_dump($name,$this->name);exit;
     }
 
     function setUsers_id($users_id) {
