@@ -335,7 +335,7 @@ $_GET['channelName'] = $channelName;
     var currentObject;
     $(function () {
         <?php
-        if(!empty($_GET['expand'])){
+        if(!empty($palyListsObj->expandPlayListOnChannels)){
         ?>
         $('.showMoreLess').slideDown();
         $('.showMoreLessBtn').toggle();
