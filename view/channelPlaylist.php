@@ -46,7 +46,9 @@ foreach ($playlists as $playlist) {
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
     //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
-    if (empty($videosArrayId)) {
+    if (empty($videosArrayId) && ($playlist['status'] == "favorite" || $playlist['status'] == "watch_later")) {
+        continue;
+    }else if (empty($videosArrayId)) {
         $videosP = array();
     } else if ($advancedCustom->AsyncJobs) {
         $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
@@ -168,7 +170,7 @@ foreach ($playlists as $playlist) {
                             $style = "display: none;";
                         }
                         ?>
-                        <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;  <?php echo $style; ?>">
+                        <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo showMoreLess <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;  <?php echo $style; ?>">
                             <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>" style="min-height: 208px;">
                                 <div class="panel-body" style="overflow: hidden;">
 
@@ -257,8 +259,8 @@ foreach ($playlists as $playlist) {
             </div>
 
             <div class="panel-footer">
-                <button class="btn btn-default btn-xs btn-sm showMoreLessBtn<?php echo $playlist['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $playlist['id']; ?>').toggle();$('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
-                <button class="btn btn-default btn-xs btn-sm  showMoreLessBtn<?php echo $playlist['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $playlist['id']; ?>').toggle();$('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
+                <button class="btn btn-default btn-xs btn-sm showMoreLessBtn showMoreLessBtn<?php echo $playlist['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $playlist['id']; ?>').toggle();$('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
+                <button class="btn btn-default btn-xs btn-sm  showMoreLessBtn showMoreLessBtn<?php echo $playlist['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $playlist['id']; ?>').toggle();$('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
                 <?php
                 if (!empty($videosArrayId)) {
                     ?>
@@ -332,6 +334,14 @@ $_GET['channelName'] = $channelName;
 
     var currentObject;
     $(function () {
+        <?php
+        if(!empty($_GET['expand'])){
+        ?>
+        $('.showMoreLess').slideDown();
+        $('.showMoreLessBtn').toggle();
+        <?php 
+        }
+        ?>
         $('.removeVideo').click(function () {
             currentObject = this;
             swal({
