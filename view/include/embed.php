@@ -25,6 +25,7 @@
                 $vjsClass = "vjs-16-9";
                 $embedResponsiveClass = "embed-responsive-16by9";
             }
+            $vjsClass = "";
             $playNowVideo = $video;
             $disableYoutubeIntegration = false;
             if (!empty($advancedCustom->disableYoutubePlayerIntegration)) {
