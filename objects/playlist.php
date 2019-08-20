@@ -37,7 +37,8 @@ class PlayList extends ObjectYPT {
         if(!User::isLogged()){
             return false;
         }
-        $row = self::getFromDbFromName($name);
+        $this->setName($name);
+        $row = self::getFromDbFromName($this->getName());
         if (empty($row))
             return false;
         foreach ($row as $key => $value) {
