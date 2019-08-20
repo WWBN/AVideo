@@ -14,11 +14,11 @@ function forbiddenWords($text) {
 }
 
 function xss_esc($text) {
-    if(empty($text)){
+    if (empty($text)) {
         return "";
     }
     $result = @htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-    if(empty($result)){
+    if (empty($result)) {
         $result = str_replace(array('"', "'", "\\"), array("", "", ""), strip_tags($text));
     }
     return $result;
@@ -1785,6 +1785,8 @@ function isMobile() {
 }
 
 function siteMap() {
+    ini_set('memory_limit', '-1');
+    ini_set('max_execution_time', 0);
     global $global, $advancedCustom;
     $date = date('Y-m-d\TH:i:s') . "+00:00";
 
@@ -1829,7 +1831,7 @@ function siteMap() {
             <priority>0.80</priority>
         </url>
         ';
-    
+
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     $_POST['sort']['modified'] = "DESC";
     $users = User::getAllUsers(true);
@@ -1860,7 +1862,7 @@ function siteMap() {
             ';
     }
     $xml .= '<!-- Videos -->';
-    $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit*10;
+    $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideos("viewable");
     foreach ($rows as $value) {
