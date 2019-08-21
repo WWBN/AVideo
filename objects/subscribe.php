@@ -138,7 +138,7 @@ class Subscribe {
         }
         if (!empty($status)) {
             $sql .= " AND u.status = '{$status}' ";
-            $sql .= " AND su.status = '{$status}' ";
+            //$sql .= " AND su.status = '{$status}' ";
         }
         
         //$sql .= " GROUP BY subscriber_id ";
