@@ -137,7 +137,8 @@ class Subscribe {
             $sql .= " AND users_id = {$user_id} ";
         }
         if (!empty($status)) {
-            $sql .= " AND status = '{$status}' ";
+            $sql .= " AND u.status = '{$status}' ";
+            $sql .= " AND su.status = '{$status}' ";
         }
         $sql .= BootGrid::getSqlFromPost(array('email'));
 
