@@ -477,6 +477,8 @@ function sendSiteEmail($to, $subject, $message) {
         $resp = $mail->send();
         if (!$resp) {
             error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
+        }else{
+            error_log("sendSiteEmail Success Info: ".  json_encode($to));
         }
         return $resp;
     } catch (phpmailerException $e) {
