@@ -131,7 +131,7 @@ class Subscribe {
     static function getAllSubscribes($user_id = "", $status = "a") {
         global $global;
         $sql = "SELECT su.id as subscriber_id, s.id, s.status, s.ip, s.users_id, s.notify, "
-                . " s.subscriber_users_id, u.email as email FROM subscribes as s "
+                . " s.subscriber_users_id , s.created , s.modified, u.email as email FROM subscribes as s "
                 . " LEFT JOIN users as su ON s.email = su.email   "
                 . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 ";
         if (!empty($user_id)) {
