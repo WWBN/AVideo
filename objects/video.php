@@ -2003,6 +2003,8 @@ if (!class_exists('Video')) {
 
         function setTitle($title) {
             $this->title = strip_tags($title);
+            if (strlen($this->title) > 190)
+                $this->title = substr($this->title, 0, 187) . '...';
         }
 
         function setFilename($filename) {
