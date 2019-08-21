@@ -140,9 +140,11 @@ class Subscribe {
             $sql .= " AND u.status = '{$status}' ";
             $sql .= " AND su.status = '{$status}' ";
         }
+        
+        $sql .= " GROUP BY subscriber_id ";
+        
         $sql .= BootGrid::getSqlFromPost(array('email'));
 
-        $sql .= " GROUP BY subscriber_id ";
         
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
