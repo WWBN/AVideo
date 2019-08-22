@@ -1813,7 +1813,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND id != {$videoId} ";
             }
             $sql .= " LIMIT 1";
-            $res = sqlDAL::readSql($sql);
+            $res = sqlDAL::readSql($sql, "", array(), true);
             $cleanTitleExists = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($cleanTitleExists != false) {
