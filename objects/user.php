@@ -806,7 +806,7 @@ if (typeof gtag !== \"function\") {
         }
 
         $sql .= " LIMIT 1";
-        $res = sqlDAL::readSql($sql, $formats, $values);
+        $res = sqlDAL::readSql($sql, $formats, $values, true);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($result)) {
@@ -865,7 +865,7 @@ if (typeof gtag !== \"function\") {
             $values[] = $passEncoded;
         }
         $sql .= " LIMIT 1";
-        $res = sqlDAL::readSql($sql, $formats, $values);
+        $res = sqlDAL::readSql($sql, $formats, $values, true);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($result)) {
