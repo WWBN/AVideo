@@ -9,7 +9,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 // for mobile login
-if(!empty($_GET['user']) && !empty($_GET['pass'])){
+if (!empty($_GET['user']) && !empty($_GET['pass'])) {
     $user = $_GET['user'];
     $password = $_GET['pass'];
 
@@ -68,14 +68,14 @@ if (!empty($images->posterPortrait)) {
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 /*
  * Swap aspect ratio for rotated (vvs) videos
- 
-if ($video['rotation'] === "90" || $video['rotation'] === "270") {
-    $embedResponsiveClass = "embed-responsive-9by16";
-    $vjsClass = "vjs-9-16";
-} else {
-    $embedResponsiveClass = "embed-responsive-16by9";
-    $vjsClass = "vjs-16-9";
-}*/
+
+  if ($video['rotation'] === "90" || $video['rotation'] === "270") {
+  $embedResponsiveClass = "embed-responsive-9by16";
+  $vjsClass = "vjs-9-16";
+  } else {
+  $embedResponsiveClass = "embed-responsive-16by9";
+  $vjsClass = "vjs-16-9";
+  } */
 $vjsClass = "";
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
@@ -110,7 +110,7 @@ if (!empty($_GET['mute'])) {
     $mute = 'muted="muted"';
 }
 if (!empty($_GET['objectFit'])) {
-    $objectFit = 'object-fit: '.$_GET['objectFit'];
+    $objectFit = 'object-fit: ' . $_GET['objectFit'];
 }
 if (!empty($_GET['t'])) {
     $t = intval($_GET['t']);
@@ -190,44 +190,44 @@ if (!empty($_GET['t'])) {
                 echo $video['description'];
                 ?>     
                 <script>
-                    $(document).ready(function () {
-                        addView(<?php echo $video['id']; ?>, 0);
-                    });
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
                 </script>
 
             </div>
             <?php
-        } else  if ($video['type'] == "pdf") {
+        } else if ($video['type'] == "pdf") {
             ?>
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
-        echo $sources["pdf"]['url'];
+            echo $sources["pdf"]['url'];
             ?>"></iframe>
                     <?php
                     echo YouPHPTubePlugin::getFooterCode();
                     ?>
             <script>
-            $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>, 0);
-            });
+                $(document).ready(function () {
+                    addView(<?php echo $video['id']; ?>, 0);
+                });
             </script>
             <?php
         } else if ($video['type'] == "embed") {
             ?>
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
-        echo parseVideos($video['videoLink']);
-        if ($autoplay) {
-            echo "?autoplay=1";
-        }
+            echo parseVideos($video['videoLink']);
+            if ($autoplay) {
+                echo "?autoplay=1";
+            }
             ?>"></iframe>
                     <?php
                     echo YouPHPTubePlugin::getFooterCode();
                     ?>
             <script>
-            $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>, 0);
-            });
+                $(document).ready(function () {
+                    addView(<?php echo $video['id']; ?>, 0);
+                });
             </script>
             <?php
         } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
@@ -353,6 +353,52 @@ if (!empty($_GET['t'])) {
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <script>
+                tinymce.init({
+                    selector: '#inputDescription', // change this value according to your HTML
+                    plugins: 'code print preview fullpage powerpaste searchreplace autolink directionality advcode visualblocks visualchars fullscreen image link media mediaembed codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount tinymcespellchecker a11ychecker imagetools textpattern help formatpainter permanentpen pageembed tinycomments mentions linkchecker',
+                    //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
+                    toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+                    height: 400,
+                    convert_urls: false,
+                    images_upload_handler: function (blobInfo, success, failure) {
+                        var xhr, formData;
+                        if (!videos_id) {
+                            $('#inputTitle').val("Article automatically booked");
+                            saveVideo(false);
+                        }
+                        xhr = new XMLHttpRequest();
+                        xhr.withCredentials = false;
+                        xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
+
+                        xhr.onload = function () {
+                            var json;
+
+                            if (xhr.status != 200) {
+                                failure('HTTP Error: ' + xhr.status);
+                                return;
+                            }
+
+                            json = xhr.responseText;
+                            json = JSON.parse(json);
+                            console.log(json);
+                            if (json.error === false && json.url) {
+                                success(json.url);
+                            } else if (json.msg) {
+                                swal("<?php echo __("Error!"); ?>", json.msg, "error");
+                            } else {
+                                swal("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
+                            }
+
+                        };
+
+                        formData = new FormData();
+                        formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+
+                        xhr.send(formData);
+                    }
+                });
+        </script>
     </body>
 </html>
 

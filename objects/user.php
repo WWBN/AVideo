@@ -248,7 +248,7 @@ if (typeof gtag !== \"function\") {
      * @return String
      */
     static function getNameIdentification() {
-        global $advancedCustom;
+        global $advancedCustomUser;
         if (self::isLogged()) {
             if (!empty(self::getUserChannelName())) {
                 return self::getUserChannelName();
@@ -271,14 +271,14 @@ if (typeof gtag !== \"function\") {
      * @return String
      */
     function getNameIdentificationBd() {
-        global $advancedCustom;
-        if (!empty($this->name) && empty($advancedCustom->doNotIndentifyByName)) {
+        global $advancedCustomUser;
+        if (!empty($this->name) && empty($advancedCustomUser->doNotIndentifyByName)) {
             return $this->name;
         }
-        if (!empty($this->email) && empty($advancedCustom->doNotIndentifyByEmail)) {
+        if (!empty($this->email) && empty($advancedCustomUser->doNotIndentifyByEmail)) {
             return $this->email;
         }
-        if (!empty($this->user) && empty($advancedCustom->doNotIndentifyByUserName)) {
+        if (!empty($this->user) && empty($advancedCustomUser->doNotIndentifyByUserName)) {
             return $this->user;
         }
         return __("Unknown User");
@@ -792,7 +792,7 @@ if (typeof gtag !== \"function\") {
     }
 
     private function find($user, $pass, $mustBeactive = false, $encodedPass = false) {
-        global $global;
+        global $global, $advancedCustom;
         $formats = "";
         $values = array();
         $user = $global['mysqli']->real_escape_string($user);
@@ -812,8 +812,12 @@ if (typeof gtag !== \"function\") {
         if (!empty($result)) {
             if ($pass !== false) {
                 if(!encryptPasswordVerify($pass, $result['password'], $encodedPass)){
-                    error_log("Password check new hash pass does not match, trying MD5");
-                    return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
+                    if($advancedCustom->enableOldPassHashCheck){
+                        error_log("Password check new hash pass does not match, trying MD5");
+                        return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
+                    }else{
+                        return false;
+                    }
                 }
             }
             $user = $result;
