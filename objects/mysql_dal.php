@@ -112,7 +112,7 @@ class sqlDAL {
         // $refreshCache = true;
         global $global, $disableMysqlNdMethods, $readSqlCached, $crc;
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
-        $crc = dechex(crc32($preparedStatement . implode($values)));
+        $crc = dechex(md5($preparedStatement . implode($values)));
 
         if (!isset($readSqlCached)) {
             $readSqlCached = array();
