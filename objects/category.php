@@ -123,14 +123,14 @@ class Category {
         $this->load($this->getId());
     }
 
-    function save() {
+    function save($allowOfflineUser = false) {
         global $global;
 
-        if (!self::canCreateCategory()) {
+        if (!$allowOfflineUser && !self::canCreateCategory()) {
             return false;
         }
 
-        if (!empty($this->id) && !self::userCanEditCategory($this->id)) {
+        if (!$allowOfflineUser && !empty($this->id) && !self::userCanEditCategory($this->id)) {
             return false;
         }
 
