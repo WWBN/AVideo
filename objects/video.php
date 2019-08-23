@@ -1233,8 +1233,8 @@ if (!class_exists('Video')) {
             return $obj;
         }
 
-        function delete() {
-            if (!$this->userCanManageVideo()) {
+        function delete($allowOfflineUser = false) {
+            if (!$allowOfflineUser && !$this->userCanManageVideo()) {
                 return false;
             }
 
