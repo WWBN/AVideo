@@ -125,16 +125,18 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         } else {
                             ?>
                             <div class="<?php echo $colClass; ?>">
-                                <div class="thumbsImage">
-                                    <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
-                                    <?php if (!empty($images->thumbsGif)) { ?>
-                                        <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo $video['title']; ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
-                                    <?php } ?>
-                                    <?php if (!empty($obj->BigVideoPlayIcon)) { ?>
-                                        <i class="far fa-play-circle" style="font-size: 100px; position: absolute; left: 50%; top: 50%; margin-left: -50px; margin-top: -50px;opacity: .6;
-    text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);"></i>
-                                    <?php } ?>
-                                </div>
+                                <a href="<?php echo YouPHPFlix2::getLinkToVideo($video['id']); ?>">
+                                    <div class="thumbsImage">
+                                        <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
+                                        <?php if (!empty($images->thumbsGif)) { ?>
+                                            <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo $video['title']; ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
+                                        <?php } ?>
+                                        <?php if (!empty($obj->BigVideoPlayIcon)) { ?>
+                                            <i class="far fa-play-circle" style="font-size: 100px; position: absolute; left: 50%; top: 50%; margin-left: -50px; margin-top: -50px;opacity: .6;
+                                               text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);"></i>
+                                           <?php } ?>
+                                    </div>
+                                </a>
                             </div>
                             <?php
                         }
