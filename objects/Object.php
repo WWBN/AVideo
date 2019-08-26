@@ -283,15 +283,18 @@ abstract class ObjectYPT implements ObjectInterface {
         return self::isTableInstalled();
     }
 
-    static function isTableInstalled() {
+    static function isTableInstalled($tableName="") {
         global $global, $tableExists;
-        if (!isset($tableExists[static::getTableName()])) {
-            $res = sqlDAL::readSql("SHOW TABLES LIKE '" . static::getTableName() . "'");
+        if(empty($tableExists)){
+           $tableExists = static::getTableName();
+        }
+        if (!isset($tableExists[$tableExists])) {
+            $res = sqlDAL::readSql("SHOW TABLES LIKE '" . $tableExists . "'");
             $result = sqlDal::num_rows($res);
             sqlDAL::close($res);
-            $tableExists[static::getTableName()] = !empty($result);
+            $tableExists[$tableExists] = !empty($result);
         }
-        return $tableExists[static::getTableName()];
+        return $tableExists[$tableExists];
     }
 
 }
