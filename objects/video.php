@@ -11,6 +11,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 require_once $global['systemRootPath'] . 'objects/sites.php';
+require_once $global['systemRootPath'] . 'objects/Object.php';
 if (!class_exists('Video')) {
 
     class Video {
