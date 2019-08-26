@@ -122,6 +122,7 @@ class CustomizeAdvanced extends PluginAbstract {
         
         $obj->CategoryLabel = "Categories";
         $obj->ShowAllVideosOnCategory = false;
+        $obj->hideCategoryVideosCount = false;
         
         //ver 7.1
         $obj->paidOnlyUsersTellWhatVideoIs = false;
