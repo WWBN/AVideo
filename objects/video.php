@@ -1242,11 +1242,13 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 $this->removeNextVideos($this->id);
                 $this->removeTrailerReference($this->id);
+                $this->removeCampaign($this->id);
                 $video = self::getVideoLight($this->id);
                 $sql = "DELETE FROM videos WHERE id = ?";
             } else {
                 return false;
             }
+            
             $resp = sqlDAL::writeSql($sql, "i", array($this->id));
             if ($resp == false) {
                 die('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -1308,6 +1310,18 @@ if (!class_exists('Video')) {
                 return false;
             }
             return true;
+        }
+        
+        private function removeCampaign($videos_id){            
+            if(ObjectYPT::isTableInstalled('vast_campaigns_has_videos')){
+                if (!empty($this->id)) {
+                    $sql = "DELETE FROM vast_campaigns_has_videos ";
+                    $sql .= " WHERE videos_id = ?";
+                    $global['lastQuery'] = $sql;
+                    return sqlDAL::writeSql($sql,"i",array($videos_id));
+                }
+            }
+            return false;
         }
 
         private function removeFiles($filename) {
