@@ -16,14 +16,18 @@
             console.log('loadPlayLists');
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = [];
-            $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
-                cache: true,
-                success: function (response) {
-                    loadPlayListsResponseObject.response = response;
-                    loadPlayListsResponse(loadPlayListsResponseObject.response, videos_id, crc);
-                }
-            });
+            setTimeout(function () {
+                $.ajax({
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
+                    cache: true,
+                    success: function (response) {
+                        loadPlayListsResponseObject.response = response;
+                        loadPlayListsResponse(loadPlayListsResponseObject.response, videos_id, crc);
+                    }
+                });
+                ;
+            }, 500);
+
         } else {
             if (loadPlayListsResponseObject.response) {
                 console.log('loadPlayLists NOT empty response');
@@ -32,7 +36,7 @@
                 console.log('loadPlayLists empty response');
                 setTimeout(function () {
                     loadPlayLists(videos_id, crc);
-                }, 1000);
+                }, 1500);
             }
         }
     }
