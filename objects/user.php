@@ -250,9 +250,6 @@ if (typeof gtag !== \"function\") {
     static function getNameIdentification() {
         global $advancedCustomUser;
         if (self::isLogged()) {
-            if (!empty(self::getUserChannelName())) {
-                return self::getUserChannelName();
-            }
             if (!empty(self::getName()) && empty($advancedCustomUser->doNotIndentifyByName)) {
                 return self::getName();
             }
@@ -261,6 +258,9 @@ if (typeof gtag !== \"function\") {
             }
             if (!empty(self::getUserName()) && empty($advancedCustomUser->doNotIndentifyByUserName)) {
                 return self::getUserName();
+            }
+            if (!empty(self::getUserChannelName())) {
+                return self::getUserChannelName();
             }
         }
         return __("Unknown User");
@@ -280,6 +280,9 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($this->user) && empty($advancedCustomUser->doNotIndentifyByUserName)) {
             return $this->user;
+        }
+        if (!empty($this->channelName)) {
+            return $this->channelName;
         }
         return __("Unknown User");
     }
@@ -956,6 +959,12 @@ if (typeof gtag !== \"function\") {
     }
 
     function setUser($user) {
+        global $advancedCustomUser;
+        if(empty($advancedCustomUser->userCanChangeUsername)){
+            if(!empty($this->user)){
+                return false;
+            }
+        }
         $this->user = strip_tags($user);
     }
 

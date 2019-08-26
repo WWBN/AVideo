@@ -904,10 +904,12 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                 continue;
                             }
                             echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                            . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >'
-                            . '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . ' <span class="badge">' . $total . '</span></a>';
+                            . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
+                            if(empty($advancedCustom->hideCategoryVideosCount)){
+                               echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'] . ' <span class="badge">' . $total . '</span>'; 
+                            }
                             mkSub($value['id']);
-                            echo '</li>';
+                            echo '</a></li>';
                         }
                     }
                     ?>
