@@ -230,7 +230,7 @@ if (!class_exists('Video')) {
 
             $this->rate = floatval($this->rate);
             if (!empty($this->id)) {
-                if (!$this->userCanManageVideo()) {
+                if (!$this->userCanManageVideo()  && !$allowOfflineUser) {
                     header('Content-Type: application/json');
                     die('{"error":"' . __("Permission denied") . '"}');
                 }
