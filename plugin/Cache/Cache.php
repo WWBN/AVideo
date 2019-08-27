@@ -141,6 +141,10 @@ class Cache extends PluginAbstract {
 
     public function getEnd() {
         global $global;
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+        if ($baseName === 'xsendfile.php') {
+            return false;
+        }
         $obj = $this->getDataObject();
         $cachefile = $obj->cacheDir . $this->getFileName();
         $c = ob_get_contents();
