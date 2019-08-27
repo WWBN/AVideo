@@ -72,6 +72,10 @@ class Cache extends PluginAbstract {
 
     public function getStart() {
         global $global;
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+        if ($baseName === 'xsendfile.php') {
+            return false;
+        }
         // ignore cache if it is command line
         if (isCommandLineInterface()) {
             return true;
