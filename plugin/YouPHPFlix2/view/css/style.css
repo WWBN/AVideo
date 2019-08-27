@@ -114,7 +114,6 @@ a:visited {
     text-overflow: ellipsis;
     color: white;
     font-weight: bold;
-    border-radius: 15px;
     background-color: rgba(0,0,0,0.5);
 }
 .flickity-viewport:hover {
