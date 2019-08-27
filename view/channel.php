@@ -27,7 +27,6 @@ if (empty($_GET['channelName'])) {
 $user_id = $_GET['user_id'];
 $isMyChannel = $user_id == User::getId();
 YouPHPTubePlugin::getChannel($user_id, $user);
-$palyListsObj = YouPHPTubePlugin::getObjectDataIfEnabled('PlayLists');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
