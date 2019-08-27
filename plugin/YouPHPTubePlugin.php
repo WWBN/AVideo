@@ -22,6 +22,8 @@ class YouPHPTubePlugin {
         $total_time = round(($finish - $global['YouPHPTubePluginStart']), 4);
         if($total_time > 0.1){
             error_log("Warning: The plugin [{$pluginName}] takes {$total_time} seconds to complete. ");
+            error_log(json_encode(debug_backtrace()));
+            
         }
     }
 
