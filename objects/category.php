@@ -52,6 +52,7 @@ class Category {
 
     function setClean_name($clean_name) {
         preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
+        preg_replace('/ +/', '-', strtolower(cleanString($clean_name)));
         $this->clean_name = xss_esc($clean_name);
     }
 
