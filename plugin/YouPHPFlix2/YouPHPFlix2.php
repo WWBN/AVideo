@@ -48,6 +48,7 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->paidOnlyLabelOverPoster = false;
         $obj->titleLabel = true;
         $obj->titleLabelOverPoster = false;
+        $obj->titleLabelCSS = "";
         return $obj;
     }
     

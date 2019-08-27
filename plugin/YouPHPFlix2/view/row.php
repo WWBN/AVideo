@@ -40,7 +40,7 @@ $post = $_POST;
                         }
                         if (!empty($obj->titleLabel)) {
                         ?>  
-                        <h4 <?php if (!empty($obj->titleLabelOverPoster)) { ?>style="margin-top: -27px;"<?php } ?>><?php echo $value['title']; ?></h4>
+                        <h4 style="<?php if (!empty($obj->titleLabelOverPoster)) { ?>margin-top: -27px;<?php } echo $obj->titleLabelCSS; ?> "><?php echo $value['title']; ?></h4>
                         <?php
                         }
                         ?>
