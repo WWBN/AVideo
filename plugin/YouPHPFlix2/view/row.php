@@ -38,8 +38,12 @@ $post = $_POST;
                                 }
                             }
                         }
+                        if (!empty($obj->titleLabel)) {
                         ?>  
                         <h4 <?php if (!empty($obj->titleLabelOverPoster)) { ?>style="margin-top: -27px;"<?php } ?>><?php echo $value['title']; ?></h4>
+                        <?php
+                        }
+                        ?>
                         <div class="progress" style="height: 3px; margin-bottom: 2px;">
                             <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
