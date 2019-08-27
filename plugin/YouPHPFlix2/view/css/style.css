@@ -115,6 +115,7 @@ a:visited {
     color: white;
     font-weight: bold;
     background-color: rgba(0,0,0,0.5);
+    margin: 2px 0;
 }
 .flickity-viewport:hover {
     -webkit-transform: translate3d(-62.5px, 0, 0);
