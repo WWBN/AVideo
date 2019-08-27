@@ -39,7 +39,7 @@ $post = $_POST;
                             }
                         }
                         ?>  
-                        <h4><?php echo $value['title']; ?></h4>
+                        <h4 <?php if (!empty($obj->titleLabelOverPoster)) { ?>style="margin-top: -27px;"<?php } ?>><?php echo $value['title']; ?></h4>
                         <div class="progress" style="height: 3px; margin-bottom: 2px;">
                             <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
@@ -144,7 +144,7 @@ foreach ($videos as $value) {
                         </center>
                     </div>
                     <?php
-                }else if (!empty($images->poster) && basename($images->poster) !== 'notfound.jpg' && basename($images->poster) !== 'pdf.png' && basename($images->poster) !== 'article.png') {
+                } else if (!empty($images->poster) && basename($images->poster) !== 'notfound.jpg' && basename($images->poster) !== 'pdf.png' && basename($images->poster) !== 'article.png') {
                     ?>
                     <div class="col-md-2 col-sm-3 col-xs-4">
                         <center>
@@ -152,7 +152,7 @@ foreach ($videos as $value) {
                         </center>
                     </div>
                     <?php
-                }else if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
+                } else if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                     ?>
                     <div class="col-md-2 col-sm-3 col-xs-4">
                         <center>
@@ -160,7 +160,7 @@ foreach ($videos as $value) {
                         </center>
                     </div>
                     <?php
-                }else {
+                } else {
                     ?>
                     <div class="col-md-2 col-sm-3 col-xs-4">
                         <center>
@@ -168,7 +168,6 @@ foreach ($videos as $value) {
                         </center>
                     </div>
                     <?php
-                    
                 }
                 ?>
                 <div class="infoText col-md-4 col-sm-6 col-xs-8">
