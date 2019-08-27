@@ -41,12 +41,6 @@ class User_Location extends PluginAbstract {
     
     public function getStart() {
         global $global;
-        
-        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
-        if ($baseName === 'xsendfile.php') {
-            return false;
-        }
-        
         $obj = $this->getDataObject();
         $User_Location = self::getThisUserLocation();
         if (session_status() == PHP_SESSION_NONE) {

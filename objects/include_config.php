@@ -79,9 +79,11 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 allowOrigin();
-if (class_exists("Plugin")) {
+
+$baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+if ($baseName !== 'xsendfile.php' && class_exists("Plugin")) {
     YouPHPTubePlugin::getStart();
-} else {
+} else if($baseName !== 'xsendfile.php') {
     error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");
 }
 if (empty($global['bodyClass'])) {
