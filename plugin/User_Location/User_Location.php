@@ -33,6 +33,9 @@ class User_Location extends PluginAbstract {
     }    
     
     static  function getThisUserLocation() {
+        if(!empty($_SESSION['User_Location'])){
+            return $_SESSION['User_Location'];
+        }
         return IP2Location::getLocation(getRealIpAddr());
     }
     
