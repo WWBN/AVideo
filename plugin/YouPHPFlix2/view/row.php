@@ -2,13 +2,15 @@
 global $advancedCustom;
 $uid = uniqid();
 $landscape = "rowPortrait";
+$css = "";
 if (!empty($obj->landscapePosters)) {
     $landscape = "landscapeTile";
+    if (!empty($obj->titleLabel)) { $css = "height: 185px;"; }
 }
 $get = $_GET;
 $post = $_POST;
 ?>
-<div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>' style="<?php if (!empty($obj->titleLabel)) { echo "height: 185px;"; }?>">
+<div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>' style="<?php echo $css; ?>">
     <?php
     foreach ($videos as $value) {
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
