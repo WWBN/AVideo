@@ -8,7 +8,7 @@ if (!empty($obj->landscapePosters)) {
 $get = $_GET;
 $post = $_POST;
 ?>
-<div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>'>
+<div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>' style="<?php if (!empty($obj->titleLabel)) { echo "height: 185px;"; }?>">
     <?php
     foreach ($videos as $value) {
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
