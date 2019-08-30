@@ -54,8 +54,6 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotUseXsendFile = false;
         $obj->makeVideosInactiveAfterEncode = false;
         $obj->usePermalinks = false;
-        $obj->showAdsenseBannerOnTop = false;
-        $obj->showAdsenseBannerOnLeft = true;
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->EnableWavesurfer = false;

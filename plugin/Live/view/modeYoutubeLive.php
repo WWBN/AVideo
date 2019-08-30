@@ -76,7 +76,7 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
                 </div> 
                 <div class="col-md-3">
                     <?php
-                    echo $config->getAdsense();
+                    echo getAdsSideRectangle();
                     ?>
                 </div>
             </div>

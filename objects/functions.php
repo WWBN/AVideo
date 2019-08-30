@@ -1973,3 +1973,47 @@ function ddosProtection() {
 
     return true;
 }
+
+function getAdsLeaderBoardTop(){
+    $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
+    if(!empty($ad)){
+        if(isMobile()){
+            return $ad->leaderBoardTopMobile->value;
+        }else{
+            return $ad->leaderBoardTop->value;
+        }
+    }
+}
+
+function getAdsLeaderBoardMiddle(){
+    $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
+    if(!empty($ad)){
+        if(isMobile()){
+            return $ad->leaderBoardMiddleMobile->value;
+        }else{
+            return $ad->leaderBoardMiddle->value;
+        }
+    }
+}
+
+function getAdsLeaderBoardFooter(){
+    $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
+    if(!empty($ad)){
+        if(isMobile()){
+            return $ad->leaderBoardFooterMobile->value;
+        }else{
+            return $ad->leaderBoardFooter->value;
+        }
+    }
+}
+
+function getAdsSideRectangle(){
+    $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
+    if(!empty($ad)){
+        if(isMobile()){
+            return $ad->sideRectangle->value;
+        }else{
+            return $ad->sideRectangle->value;
+        }
+    }
+}

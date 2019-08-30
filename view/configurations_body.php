@@ -519,9 +519,10 @@ if (User::isAdmin()) {
                                     <div class="form-group">
                                         <label class="col-md-2"><?php echo __("Google Ad Sense"); ?></label>
                                         <div class="col-md-10">
-                                            <textarea id="adsense" class="form-control" type="text" rows="20" ><?php echo $config->getAdsense(); ?></textarea>
-                                            <small>For Google AdSense code: <a href='https://www.google.com/adsense'  target="_blank">https://www.google.com/adsense</a></small><br>
-                                            <small>Leave blank for native code</small>
+                                            <input type="hidden" value="" id="adsense"/>
+                                            <div class="alert alert-info">
+                                                Google AD Sense and any other Ads provider are moved to the <a href='<?php echo $global['webSiteRootURL']; ?>plugins'>ADs plugin </a>
+                                            </div>
                                         </div>
                                     </div>
 

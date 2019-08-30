@@ -10,7 +10,7 @@ function showThis($who) {
     return false;
 }
 
-function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString, $defaultSort = "ASC", $ignoreGroup=false) {
+function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString, $defaultSort = "ASC", $ignoreGroup = false) {
     if (!showThis($getName)) {
         return "";
     }
@@ -141,7 +141,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                 $startG = microtime(true);
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
                 @$timesG[__LINE__] += microtime(true) - $startG;
-                if(!is_object($images)){
+                if (!is_object($images)) {
                     $images = new stdClass();
                     $images->thumbsGif = "";
                     $images->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
@@ -164,12 +164,12 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     ?>
                 </div>
                 <?php
-                if($value['type']!=='pdf' && $value['type']!=='article'){
+                if ($value['type'] !== 'pdf' && $value['type'] !== 'article') {
                     ?>
-                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                        <div class="progress" style="height: 3px; margin-bottom: 2px;">
-                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div> 
+                    <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                    <div class="progress" style="height: 3px; margin-bottom: 2px;">
+                        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> 
                     <?php
                 }
                 ?>
@@ -291,8 +291,12 @@ function createGallerySection($videos, $crc = "", $get = array()) {
             ?>
         </div>
 
-    <?php } ?>
-
+        <?php
+    }
+    ?>
+    <div class="row text-center" style="padding: 10px;">
+        <?php echo getAdsLeaderBoardMiddle(); ?>
+    </div>
     <!--
     createGallerySection
     <?php

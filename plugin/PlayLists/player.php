@@ -17,10 +17,10 @@ $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 $playListData = array();
 $videoStartSeconds = array();
 foreach ($playList as $value) {
-    if($value['type'] === 'embed'){
+    if ($value['type'] === 'embed') {
         $sources[0]['type'] = 'video';
         $sources[0]['url'] = $value["videoLink"];
-    }else{
+    } else {
         $sources = getVideosURL($value['filename']);
     }
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -99,7 +99,7 @@ foreach ($playList as $value) {
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <center style="margin:5px;">
                                 <?php
-                                echo $config->getAdsense();
+                                echo getAdsLeaderBoardTop();
                                 ?>
                             </center>
                         </div>
@@ -158,15 +158,9 @@ foreach ($playList as $value) {
                     <div class="col-sm-8 col-md-8" id="modeYoutubeBottomContent">
                     </div>
                     <div class="col-sm-2 col-md-2 bgWhite list-group-item rightBar">
-                        <?php
-                        if (!empty($advancedCustom->showAdsenseBannerOnLeft)) {
-                            ?>
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <?php echo $config->getAdsense(); ?>
-                            </div>
-                            <?php
-                        }
-                        ?>
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <?php echo getAdsSideRectangle(); ?>
+                        </div>
                         <input type="search" id="playListSearch" class="form-control" placeholder=" <?php echo __("Search"); ?>"/>
                         <select class="form-control" id="embededSortBy" >
                             <option value="default"> <?php echo __("Default"); ?></option>

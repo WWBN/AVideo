@@ -42,7 +42,7 @@ if(!isset($global['systemRootPath'])){
                 <div data-spy="affix" style="margin-right: 10vw;" >
                     <div class="list-group-item ">
                         <?php
-                        echo $config->getAdsense();
+                        echo getAdsSideRectangle();
                         ?>
                     </div>                    
                 </div>

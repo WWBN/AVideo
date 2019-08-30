@@ -72,7 +72,6 @@ class Gallery extends PluginAbstract {
         $obj->screenColsMedium = 3;
         $obj->screenColsSmall = 2;
         $obj->screenColsXSmall = 1;
-        $obj->showTopBannerOnMobile = false;
         return $obj;
     }
   
