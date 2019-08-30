@@ -78,10 +78,12 @@ class ADs extends PluginAbstract {
             if(!empty($obj->tags3rdParty)){
                 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
                 if(!empty($v)){
-                    $tag = str_replace(array('{ChannelName}','{Category}'), array($v["channelName"],$v["category"]), $obj->tags3rdParty);                    
+                    $tag = str_replace(array('{ChannelName}','{Category}'), array(addcslashes($v["channelName"],"'"),  addcslashes($v["category"],"'")), $obj->tags3rdParty);                    
+                    return $tag;
                 }
             }
         }
+        return '';
     }
 
     public function getTags() {
