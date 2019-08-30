@@ -67,8 +67,21 @@ class ADs extends PluginAbstract {
         $obj->leaderBoardFooterMobile = $o;
          * 
          */
-
+        
+        $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
         return $obj;
+    }
+    
+    public function getHeadCode() {
+        if(!empty($_GET['videoName'])){
+            $obj = $this->getDataObject();
+            if(!empty($obj->tags3rdParty)){
+                $v = Video::getVideoFromCleanTitle($_GET['videoName']);
+                if(!empty($v)){
+                    $tag = str_replace(array('{ChannelName}','{Category}'), array($v["channelName"],$v["category"]), $obj->tags3rdParty);                    
+                }
+            }
+        }
     }
 
     public function getTags() {
