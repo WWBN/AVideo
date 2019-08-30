@@ -294,7 +294,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
         <?php
     }
     ?>
-    <div class="row text-center" style="padding: 10px;">
+    <div class="col-xs-12  text-center clear clearfix" style="padding: 10px;">
         <?php echo getAdsLeaderBoardMiddle(); ?>
     </div>
     <!--
