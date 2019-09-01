@@ -10,6 +10,11 @@ if($global['mysqli']===false || !empty($global['mysqli']->connect_errno)){
     exit;
 }
 
+// if you set it on configuration file it will help you to encode
+if(!empty($global['mysqli_charset'])){
+    $global['mysqli']->set_charset($global['mysqli_charset']);
+}
+
 $now = new DateTime();
 $mins = $now->getOffset() / 60;
 $sgn = ($mins < 0 ? -1 : 1);
