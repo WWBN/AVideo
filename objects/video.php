@@ -755,7 +755,9 @@ if (!class_exists('Video')) {
             global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
             $global['mysqli']->close();
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
-
+            if(!empty($global['mysqli_charset'])){
+                $global['mysqli']->set_charset($global['mysqli_charset']);
+            }
             $sql = "SELECT id  FROM videos  WHERE clean_title = ? LIMIT 1";
             $res = sqlDAL::readSql($sql, "s", array($clean_title));
             $video = sqlDAL::fetchAssoc($res);
