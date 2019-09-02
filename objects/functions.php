@@ -477,8 +477,8 @@ function sendSiteEmail($to, $subject, $message) {
         $resp = $mail->send();
         if (!$resp) {
             error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
-        }else{
-            error_log("sendSiteEmail Success Info: $subject ".  json_encode($to));
+        } else {
+            error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
         }
         return $resp;
     } catch (phpmailerException $e) {
@@ -1600,6 +1600,9 @@ function url_get_contents($Url, $ctx = "") {
                 }
                 $_SESSION = $session;
                 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+                if (!empty($global['mysqli_charset'])) {
+                    $global['mysqli']->set_charset($global['mysqli_charset']);
+                }
                 return $tmp;
             }
         } catch (ErrorException $e) {
@@ -1618,6 +1621,9 @@ function url_get_contents($Url, $ctx = "") {
         }
         $_SESSION = $session;
         $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+        if (!empty($global['mysqli_charset'])) {
+            $global['mysqli']->set_charset($global['mysqli_charset']);
+        }
         return $output;
     }
     $result = @file_get_contents($Url, false, $context);
@@ -1626,6 +1632,9 @@ function url_get_contents($Url, $ctx = "") {
     }
     $_SESSION = $session;
     $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+    if (!empty($global['mysqli_charset'])) {
+        $global['mysqli']->set_charset($global['mysqli_charset']);
+    }
     return $result;
 }
 
@@ -1974,45 +1983,45 @@ function ddosProtection() {
     return true;
 }
 
-function getAdsLeaderBoardTop(){
+function getAdsLeaderBoardTop() {
     $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
-    if(!empty($ad)){
-        if(isMobile()){
+    if (!empty($ad)) {
+        if (isMobile()) {
             return $ad->leaderBoardTopMobile->value;
-        }else{
+        } else {
             return $ad->leaderBoardTop->value;
         }
     }
 }
 
-function getAdsLeaderBoardMiddle(){
+function getAdsLeaderBoardMiddle() {
     $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
-    if(!empty($ad)){
-        if(isMobile()){
+    if (!empty($ad)) {
+        if (isMobile()) {
             return $ad->leaderBoardMiddleMobile->value;
-        }else{
+        } else {
             return $ad->leaderBoardMiddle->value;
         }
     }
 }
 
-function getAdsLeaderBoardFooter(){
+function getAdsLeaderBoardFooter() {
     $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
-    if(!empty($ad)){
-        if(isMobile()){
+    if (!empty($ad)) {
+        if (isMobile()) {
             return $ad->leaderBoardFooterMobile->value;
-        }else{
+        } else {
             return $ad->leaderBoardFooter->value;
         }
     }
 }
 
-function getAdsSideRectangle(){
+function getAdsSideRectangle() {
     $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
-    if(!empty($ad)){
-        if(isMobile()){
+    if (!empty($ad)) {
+        if (isMobile()) {
             return $ad->sideRectangle->value;
-        }else{
+        } else {
             return $ad->sideRectangle->value;
         }
     }
