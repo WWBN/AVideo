@@ -82,6 +82,15 @@ class ADs extends PluginAbstract {
                     return $tag;
                 }
             }
+        }else if(!empty($_GET['catName'])){
+            $obj = $this->getDataObject();
+            if(!empty($obj->tags3rdParty)){
+                $v = Category::getCategoryByName($_GET['catName']);
+                if(!empty($v)){
+                    $tag = str_replace(array(',','{Category}'), array('',  addcslashes($v["name"],"'")), $obj->tags3rdParty);                    
+                    return $tag;
+                }
+            }
         }
         return '';
     }
