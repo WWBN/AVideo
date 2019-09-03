@@ -247,16 +247,21 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                 }
                 $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                 ?>
-                <style>
-                    .compress {
-                        top: 100px !important;
-                    }
-                </style>
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <center style="margin:5px;">
                             <?php
-                            echo getAdsLeaderBoardTop();
+                            $getAdsLeaderBoardTop = getAdsLeaderBoardTop();
+                            if (!empty($getAdsLeaderBoardTop)) {
+                                ?>
+                                <style>
+                                    .compress {
+                                        top: 100px !important;
+                                    }
+                                </style>
+                                <?php
+                                echo $getAdsLeaderBoardTop;
+                            }
                             ?>
                         </center>
                     </div>
