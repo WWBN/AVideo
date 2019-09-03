@@ -87,7 +87,7 @@ class ADs extends PluginAbstract {
             if(!empty($obj->tags3rdParty)){
                 $v = Category::getCategoryByName($_GET['catName']);
                 if(!empty($v)){
-                    $tag = str_replace(array(',','{Category}'), array('',  addcslashes($v["name"],"'")), $obj->tags3rdParty);                    
+                    $tag = str_replace(array(',','{ChannelName}','{Category}'), array('', '', addcslashes($v["name"],"'")), $obj->tags3rdParty);                    
                     return $tag;
                 }
             }
