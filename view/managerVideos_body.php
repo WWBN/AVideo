@@ -985,7 +985,7 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
             showRemove: false,
             showClose: false,
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["jpg"]
+            allowedFileExtensions: ["jpg", "jpeg"]
         });
         $("#input-pjpg").fileinput({
             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pjpg",
@@ -1001,7 +1001,7 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
             showRemove: false,
             showClose: false,
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["jpg"]
+            allowedFileExtensions: ["jpg", "jpeg"]
         });
         $("#input-gif").fileinput({
             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
