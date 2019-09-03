@@ -38,6 +38,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         $ext = ".jpg";
         switch ($_GET['type']) {
             case "jpg":
+            case "jpeg":
                 $ext = ".jpg";
                 break;
             case "pjpg":
