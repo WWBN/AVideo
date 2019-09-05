@@ -1529,8 +1529,8 @@ if (!class_exists('Video')) {
             global $config;
 // get movie duration HOURS:MM:SS.MICROSECONDS
             if (!file_exists($pathFileName)) {
-                echo '{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $pathFileName . ') Not Found"}';
-                exit;
+                echo '{"status":"error", "msg":"isLandscape ERROR, File (' . $pathFileName . ') Not Found"}';
+                return true;
             }
             eval('$cmd="' . $config->getExiftool() . '";');
             $resp = true; // is landscape by default
