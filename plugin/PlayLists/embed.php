@@ -222,6 +222,8 @@ foreach ($playList as $value) {
 
             });
             function compare(a, b, type) {
+                console.log(a);
+                console.log(b);
                 console.log(type);
                 switch (type) {
                     case "titleAZ":
@@ -237,6 +239,9 @@ foreach ($playList as $value) {
                         return a.created > b.created ? 1 : (b.created < a.created ? -1 : 0);
                         break;
                     case "popular":
+                        return a.likes > b.likes ? 1 : (a.likes < b.likes ? -1 : 0);
+                        break;
+                    case "views_count":
                         return a.likes > b.likes ? 1 : (a.likes < b.likes ? -1 : 0);
                         break;
                     default:
