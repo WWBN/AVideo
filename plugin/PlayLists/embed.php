@@ -236,13 +236,13 @@ foreach ($playList as $value) {
                         return b.created > a.created ? 1 : (a.created < b.created ? -1 : 0);
                         break;
                     case "oldest":
-                        return a.created > b.created ? 1 : (b.created < a.created ? -1 : 0);
+                        return a.created > b.created ? 1 : (a.created < b.created ? -1 : 0);
                         break;
                     case "popular":
-                        return a.likes > b.likes ? 1 : (a.likes < b.likes ? -1 : 0);
+                        return a.likes > b.likes ? 1 : (b.likes < a.likes ? -1 : 0);
                         break;
                     case "views_count":
-                        return a.likes > b.likes ? 1 : (a.likes < b.likes ? -1 : 0);
+                        return a.views > b.views ? 1 : (a.views < b.views ? -1 : 0);
                         break;
                     default:
                         return 0;
