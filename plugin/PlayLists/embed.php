@@ -233,10 +233,10 @@ foreach ($playList as $value) {
                         return strcasecmp(b.name, a.name);
                         break;
                     case "newest":
-                        return b.created > a.created ? 1 : (a.created < b.created ? -1 : 0);
+                        return b.created > a.created ? 1 : (a.created > b.created ? -1 : 0);
                         break;
                     case "oldest":
-                        return a.created > b.created ? 1 : (a.created < b.created ? -1 : 0);
+                        return a.created > b.created ? 1 : (a.created > b.created ? -1 : 0);
                         break;
                     case "popular":
                         return a.likes > b.likes ? 1 : (b.likes < a.likes ? -1 : 0);
