@@ -1119,7 +1119,7 @@ if (typeof gtag !== \"function\") {
         $user = $global['mysqli']->real_escape_string($user);
         if (!$userId = self::userExists($user)) {
             if (empty($pass)) {
-                $pass = rand();
+                $pass = uniqid();
             }
             $pass = encryptPassword($pass);
             $userObject = new User(0, $user, $pass);
