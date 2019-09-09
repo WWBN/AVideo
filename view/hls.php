@@ -22,7 +22,7 @@ $tokenIsValid = false;
 if(!empty($_GET['token'])){
     $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
     if($secure){
-        $tokenIsValid = $secure->isTokenValid($token, $_GET['videoDirectory'], $_GET['videoDirectory']);
+        $tokenIsValid = $secure->isTokenValid($_GET['token'], $_GET['videoDirectory'], $_GET['videoDirectory']);
     }
 }
 
