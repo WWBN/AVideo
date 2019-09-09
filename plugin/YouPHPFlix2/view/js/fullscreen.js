@@ -27,6 +27,7 @@ function flixFullScreen(link){
 function closeFlixFullScreen() {
     setTimeout(function(){
         $('body').removeClass('fullscreen');
+        $('body').attr('class', '');
     },500);
     
     if($('#divIframeFull').length){
