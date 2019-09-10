@@ -45,7 +45,7 @@ if(!empty($xml->server->application[0]->live->stream)){
 
 require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 // the live users plugin
-$liveUsersEnabled = YouPHPTubePlugin::isEnabled("cf145581-7d5e-4bb6-8c12-48fc37c0630d");
+$liveUsersEnabled = YouPHPTubePlugin::isEnabledByName("LiveUsers");
 
 $obj->disableGif = $p->getDisableGifThumbs();
 $obj->countLiveStream = count($lifeStream);

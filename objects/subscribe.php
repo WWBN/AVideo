@@ -196,6 +196,9 @@ class Subscribe {
         $subscribe = array();
         if ($res != false) {
             foreach ($fullData as $row) {
+                if($row['users_id']==$user_id){
+                    continue;
+                }
                 $row['identification'] = User::getNameIdentificationById($row['users_id']);
                 if ($row['identification'] === __("Unknown User")) {
                     $row['identification'] = $row['email'];

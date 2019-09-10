@@ -1376,25 +1376,29 @@ if (!class_exists('Video')) {
         }
 
         function setDescription($description) {
-            global $global;
-            $articleObj = YouPHPTubePlugin::getObjectData('Articles');
-            require_once $global['systemRootPath'] . 'objects/htmlpurifier/HTMLPurifier.auto.php';
-            $configPuri = HTMLPurifier_Config::createDefault();
-            $purifier = new HTMLPurifier($configPuri);
-            if(empty($articleObj->allowAttributes)){
-                $configPuri->set('HTML.AllowedAttributes', array('a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height')); // remove all attributes except a.href
-                $configPuri->set('Attr.AllowedFrameTargets', array('_blank'));
+            global $global, $advancedCustom;
+            if(empty($advancedCustom->disableHTMLDescription)){
+                $articleObj = YouPHPTubePlugin::getObjectData('Articles');
+                require_once $global['systemRootPath'] . 'objects/htmlpurifier/HTMLPurifier.auto.php';
+                $configPuri = HTMLPurifier_Config::createDefault();
+                $purifier = new HTMLPurifier($configPuri);
+                if(empty($articleObj->allowAttributes)){
+                    $configPuri->set('HTML.AllowedAttributes', array('a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height')); // remove all attributes except a.href
+                    $configPuri->set('Attr.AllowedFrameTargets', array('_blank'));
+                }
+                if(empty($articleObj->allowAttributes)){
+                    $configPuri->set('CSS.AllowedProperties', array()); // remove all CSS
+                }
+                $configPuri->set('AutoFormat.RemoveEmpty', true); // remove empty elements
+                $pure = $purifier->purify($description);
+                $parts = explode("<body>", $pure);
+                if(!empty($parts[1])){
+                    $parts = explode("</body>", $parts[1]);
+                }
+                $this->description = $parts[0];
+            }else{
+                $this->description = xss_esc($description);
             }
-            if(empty($articleObj->allowAttributes)){
-                $configPuri->set('CSS.AllowedProperties', array()); // remove all CSS
-            }
-            $configPuri->set('AutoFormat.RemoveEmpty', true); // remove empty elements
-            $pure = $purifier->purify($description);
-            $parts = explode("<body>", $pure);
-            if(!empty($parts[1])){
-                $parts = explode("</body>", $parts[1]);
-            }
-            $this->description = $parts[0];
             //var_dump($this->description, $description, $parts);exit;
         }
 

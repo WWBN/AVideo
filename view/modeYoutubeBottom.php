@@ -373,7 +373,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             if($video['type']!=='article'){
             ?>
             <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
-            <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo $video['description']; ?></div>
+            <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo empty($advancedCustom->disableHTMLDescription)?$video['description']:nl2br(textToLink(htmlentities($video['description']))); ?></div>
             <?php
             }
             ?>

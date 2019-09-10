@@ -136,6 +136,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->videoNotFoundText = $o;
         $obj->siteMapRowsLimit = 100;
         $obj->enableOldPassHashCheck = true;
+        $obj->disableHTMLDescription = false;
         
         return $obj;
     }

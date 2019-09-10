@@ -599,6 +599,7 @@
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
 <?php
 echo YouPHPTubePlugin::getManagerVideosJavaScripts();
+if(empty($advancedCustom->disableHTMLDescription)){
 ?>
 <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
 <script>
@@ -647,6 +648,9 @@ echo YouPHPTubePlugin::getManagerVideosJavaScripts();
                                             }
                                         });
 </script>
+<?php
+}
+?>
 <script>
     var timeOut;
     var encodingNowId = "";
@@ -887,7 +891,13 @@ echo YouPHPTubePlugin::getManagerVideosJavaScripts();
         $('#inputTrailer').val(row.trailer1);
         $('#inputCleanTitle').val(row.clean_title);
         $('#inputDescription').val(row.description);
+        <?php
+        if(empty($advancedCustom->disableHTMLDescription)){
+        ?>
         tinymce.get('inputDescription').setContent(row.description);
+        <?php
+        }
+        ?>
         $('#inputCategory').val(row.categories_id);
         $('#inputRrating').val(row.rrating);
 <?php
@@ -1076,8 +1086,13 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
                         "videoLink": $('#videoLink').val(),
                         "videoLinkType": $('#videoLinkType').val(),
                         "clean_title": $('#inputCleanTitle').val(),
+                        <?php
+                        if(empty($advancedCustom->disableHTMLDescription)){
+                        ?>
                         "description": tinymce.get('inputDescription').getContent(),
-                        //"description": $('#inputDescription').val(),
+                        <?php }else{ ?>
+                        "description": $('#inputDescription').val(),
+                        <?php } ?>
                         "categories_id": $('#inputCategory').val(),
                         "rrating": $('#inputRrating').val(),
                         "public": isPublic,
@@ -1131,7 +1146,11 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
         $('#inputTrailer').val("");
         $('#inputCleanTitle').val("");
         $('#inputDescription').val("");
+        <?php
+        if(empty($advancedCustom->disableHTMLDescription)){
+        ?>
         tinymce.get('inputDescription').setContent("");
+        <?php } ?>
         $('#inputCategory').val("");
         $('#inputRrating').val("");
         $('#removeAutoplay').trigger('click');
@@ -1399,7 +1418,11 @@ if (!empty($row)) {
             $('#inputTrailer').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
+            <?php
+            if(empty($advancedCustom->disableHTMLDescription)){
+            ?>
             tinymce.get('inputDescription').setContent("");
+            <?php } ?>
             $('#inputCategory').val($('#inputCategory option:first').val());
             $('#inputRrating').val("");
             $('.videoGroups').prop('checked', false);
@@ -1432,7 +1455,11 @@ echo YouPHPTubePlugin::getManagerVideosReset();
             $('#inputTrailer').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
+        <?php
+        if(empty($advancedCustom->disableHTMLDescription)){
+        ?>
             tinymce.get('inputDescription').setContent("");
+        <?php } ?>
             $('#inputCategory').val($('#inputCategory option:first').val());
             $('#inputRrating').val("");
             $('.videoGroups').prop('checked', false);
