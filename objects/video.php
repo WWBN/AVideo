@@ -1397,7 +1397,7 @@ if (!class_exists('Video')) {
                 }
                 $this->description = $parts[0];
             }else{
-                $this->description = xss_esc($description);
+                $this->description = strip_tags($description);
             }
             //var_dump($this->description, $description, $parts);exit;
         }
