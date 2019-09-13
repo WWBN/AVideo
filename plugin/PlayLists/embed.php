@@ -119,6 +119,7 @@ foreach ($playList as $value) {
                preload="auto"
                controls class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" id="mainVideo">
         </video>
+        <button class="btn btn-sm btn-xs btn-default" style="position: absolute; top: 5px; right:35%;" id="closeButton"><i class="fas fa-times-circle"></i></button>
         <div style="position: absolute; right: 0; top: 0; width: 35%; height: 100%; overflow-y: scroll; margin-right: 0; " id="playListHolder">
             <input type="search" id="playListSearch" class="form-control" placeholder=" <?php echo __("Search"); ?>"/>
             <select class="form-control" id="embededSortBy" >
@@ -177,17 +178,20 @@ foreach ($playList as $value) {
                 });
 
                 timeout = setTimeout(function () {
-                    $('#playList, #embededSortBy, #playListSearch').fadeOut();
+                    $('#playList, #embededSortBy, #playListSearch, #closeButton').fadeOut();
                 }, 2000);
                 $('#playListHolder').mouseenter(function () {
-                    $('#playList, #embededSortBy, #playListSearch').fadeIn();
+                    $('#playList, #embededSortBy, #playListSearch, #closeButton').fadeIn();
                     clearTimeout(timeout);
                 });
                 $('#playListHolder').mouseleave(function () {
                     timeout = setTimeout(function () {
-                        $('#playList, #embededSortBy, #playListSearch').fadeOut();
+                        $('#playList, #embededSortBy, #playListSearch, #closeButton').fadeOut();
                     }, 3000);
-
+                });
+                
+                $('#closeButton').click(function () {
+                    $('#playList, #embededSortBy, #playListSearch, #closeButton').fadeOut();
                 });
 
                 $('#embededSortBy').click(function () {
