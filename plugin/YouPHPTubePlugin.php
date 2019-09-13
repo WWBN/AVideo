@@ -1049,6 +1049,7 @@ class YouPHPTubePlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                error_log("{$value['dirName']}::saveVideosAddNew");
                 $r = $r && $p->saveVideosAddNew($post, $videos_id);
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
