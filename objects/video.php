@@ -232,6 +232,9 @@ if (!class_exists('Video')) {
 
             if (!filter_var($this->videoLink, FILTER_VALIDATE_URL)) {
                 $this->videoLink = '';
+                if($this->type == 'embed'){
+                    $this->type = 'video';
+                }
             }
 
             if (!empty($this->id)) {
