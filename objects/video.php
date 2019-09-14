@@ -229,8 +229,13 @@ if (!class_exists('Video')) {
             $this->only_for_paid = intval($this->only_for_paid);
 
             $this->rate = floatval($this->rate);
+
+            if (!filter_var($this->videoLink, FILTER_VALIDATE_URL)) {
+                $this->videoLink = '';
+            }
+
             if (!empty($this->id)) {
-                if (!$this->userCanManageVideo()  && !$allowOfflineUser) {
+                if (!$this->userCanManageVideo() && !$allowOfflineUser) {
                     header('Content-Type: application/json');
                     die('{"error":"' . __("Permission denied") . '"}');
                 }
@@ -569,7 +574,7 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
-            $status = str_replace("'","", $status);
+            $status = str_replace("'", "", $status);
             $id = intval($id);
             if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
@@ -755,7 +760,7 @@ if (!class_exists('Video')) {
             global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
             $global['mysqli']->close();
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
-            if(!empty($global['mysqli_charset'])){
+            if (!empty($global['mysqli_charset'])) {
                 $global['mysqli']->set_charset($global['mysqli_charset']);
             }
             $sql = "SELECT id  FROM videos  WHERE clean_title = ? LIMIT 1";
@@ -790,7 +795,7 @@ if (!class_exists('Video')) {
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
                 }
             }
-            $status = str_replace("'","", $status);
+            $status = str_replace("'", "", $status);
 
             $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
@@ -962,7 +967,7 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
-            $status = str_replace("'","", $status);
+            $status = str_replace("'", "", $status);
             $sql = "SELECT v.* "
                     . " FROM videos as v "
                     . " WHERE 1=1 ";
@@ -1013,7 +1018,7 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
-            $status = str_replace("'","", $status);
+            $status = str_replace("'", "", $status);
             $cn = "";
             if (!empty($_GET['catName'])) {
                 $cn .= ", c.clean_name as cn";
@@ -1255,7 +1260,7 @@ if (!class_exists('Video')) {
             } else {
                 return false;
             }
-            
+
             $resp = sqlDAL::writeSql($sql, "i", array($this->id));
             if ($resp == false) {
                 die('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -1318,14 +1323,14 @@ if (!class_exists('Video')) {
             }
             return true;
         }
-        
-        private function removeCampaign($videos_id){            
-            if(ObjectYPT::isTableInstalled('vast_campaigns_has_videos')){
+
+        private function removeCampaign($videos_id) {
+            if (ObjectYPT::isTableInstalled('vast_campaigns_has_videos')) {
                 if (!empty($this->id)) {
                     $sql = "DELETE FROM vast_campaigns_has_videos ";
                     $sql .= " WHERE videos_id = ?";
                     $global['lastQuery'] = $sql;
-                    return sqlDAL::writeSql($sql,"i",array($videos_id));
+                    return sqlDAL::writeSql($sql, "i", array($videos_id));
                 }
             }
             return false;
@@ -1377,26 +1382,26 @@ if (!class_exists('Video')) {
 
         function setDescription($description) {
             global $global, $advancedCustom;
-            if(empty($advancedCustom->disableHTMLDescription)){
+            if (empty($advancedCustom->disableHTMLDescription)) {
                 $articleObj = YouPHPTubePlugin::getObjectData('Articles');
                 require_once $global['systemRootPath'] . 'objects/htmlpurifier/HTMLPurifier.auto.php';
                 $configPuri = HTMLPurifier_Config::createDefault();
                 $purifier = new HTMLPurifier($configPuri);
-                if(empty($articleObj->allowAttributes)){
+                if (empty($articleObj->allowAttributes)) {
                     $configPuri->set('HTML.AllowedAttributes', array('a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height')); // remove all attributes except a.href
                     $configPuri->set('Attr.AllowedFrameTargets', array('_blank'));
                 }
-                if(empty($articleObj->allowAttributes)){
+                if (empty($articleObj->allowAttributes)) {
                     $configPuri->set('CSS.AllowedProperties', array()); // remove all CSS
                 }
                 $configPuri->set('AutoFormat.RemoveEmpty', true); // remove empty elements
                 $pure = $purifier->purify($description);
                 $parts = explode("<body>", $pure);
-                if(!empty($parts[1])){
+                if (!empty($parts[1])) {
                     $parts = explode("</body>", $parts[1]);
                 }
                 $this->description = $parts[0];
-            }else{
+            } else {
                 $this->description = strip_tags($description);
             }
             //var_dump($this->description, $description, $parts);exit;
