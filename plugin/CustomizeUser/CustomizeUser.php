@@ -70,6 +70,7 @@ class CustomizeUser extends PluginAbstract {
         
         $obj->MyChannelLabel = "My Channel";
         $obj->afterLoginGoToMyChannel = false;
+        $obj->allowDonationLink = false;
         
         
         return $obj;
@@ -182,7 +183,6 @@ class CustomizeUser extends PluginAbstract {
         return self::getChannelButton();
     }
 
-
     static function canDownloadVideosFromVideo($videos_id) {
         $video = new Video("", "", $videos_id);
         if(empty($video)){
@@ -225,6 +225,12 @@ class CustomizeUser extends PluginAbstract {
         if ($obj->sendVerificationMailAutomaic) {
             url_get_contents("{$global['webSiteRootURL']}objects/userVerifyEmail.php?users_id=$users_id");
         }
+    }
+    
+    public function getWatchActionButton($videos_id) {
+        global $global, $video;
+        $obj = $this->getDataObject();
+        include $global['systemRootPath'] . 'plugin/CustomizeUser/actionButton.php';
     }
 
 }

@@ -34,6 +34,7 @@ class User {
     private $country;
     private $region;
     private $city;
+    private $donationLink;
     static $DOCUMENT_IMAGE_TYPE = "Document Image";
 
     function __construct($id, $user = "", $password = "") {
@@ -418,6 +419,9 @@ if (typeof gtag !== \"function\") {
         if (empty($this->channelName)) {
             $this->channelName = uniqid();
         }
+        if (filter_var($this->donationLink, FILTER_VALIDATE_URL) === FALSE) {
+            $this->donationLink = "";
+        }
         if (!empty($this->id)) {
             $formats = "ssssiii";
             $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload);
@@ -429,7 +433,7 @@ if (typeof gtag !== \"function\") {
                 $values[] = $this->canViewChart;
                 $sql .= "canViewChart = ?, ";
             }
-            $formats .= "ssssssisssssssssi";
+            $formats .= "ssssssissssssssssi";
             $values[] = $this->status;
             $values[] = $this->photoURL;
             $values[] = $this->backgroundURL;
@@ -446,13 +450,14 @@ if (typeof gtag !== \"function\") {
             $values[] = $this->country;
             $values[] = $this->region;
             $values[] = $this->city;
+            $values[] = $this->donationLink;
             $values[] = $this->id;
 
             $sql .= "status = ?, "
                     . "photoURL = ?, backgroundURL = ?, "
                     . "recoverPass = ?, about = ?, "
                     . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , "
-                    . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , "
+                    . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , donationLink = ? , "
                     . " modified = now() WHERE id = ?";
         } else {
             $formats = "ssssiiissssss";
@@ -1522,5 +1527,15 @@ if (typeof gtag !== \"function\") {
         error_log("Id for table users_blob not defined for deletion");
         return false;
     }
+    
+    function getDonationLink() {
+        return $this->donationLink;
+    }
+
+    function setDonationLink($donationLink) {
+        $this->donationLink = $donationLink;
+    }
+
+
 
 }

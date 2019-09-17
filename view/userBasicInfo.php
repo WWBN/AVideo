@@ -96,6 +96,16 @@
     </div>
 </div>
 
+<div class="form-group <?php if(empty($advancedCustomUser->allowDonationLink)){echo " hidden ";} ?>">
+    <label class="col-md-4 control-label"><?php echo __("Donation Link"); ?></label>
+    <div class="col-md-8 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fas fa-donate"></i></span>
+            <input  id="donationLink" placeholder="<?php echo __("Donation Link"); ?>" class="form-control"  type="url" value="<?php echo $user->getDonationLink(); ?>" >
+        </div>
+    </div>
+</div>
+
 <div class="form-group <?php if(!empty($advancedCustomUser->doNotShowMyAnalyticsCodeOnBasicInfo)){echo " hidden ";} ?>">
     <label class="col-md-4 control-label"><?php echo __("Analytics Code"); ?></label>
     <div class="col-md-8 inputGroupContainer">
@@ -177,6 +187,7 @@ YouPHPTubePlugin::getMyAccount(User::getId());
                 "name": $('#inputName').val(),
                 "about": $('#textAbout').val(),
                 "channelName": $('#channelName').val(),
+                "donationLink": $('#donationLink').val(),
                 "analyticsCode": $('#analyticsCode').val()
             },
             type: 'post',

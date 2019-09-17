@@ -18,6 +18,7 @@ $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
 $user->setAbout($_POST['about']);
 $user->setAnalyticsCode($_POST['analyticsCode']);
+$user->setDonationLink($_POST['donationLink']);
 $unique = $user->setChannelName($_POST['channelName']);
 if(!$unique){
     echo '{"error":"'.__("Channel name already exists").'"}';
