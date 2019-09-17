@@ -130,7 +130,7 @@ class Cache extends PluginAbstract {
     }
     
     private function isBlacklisted(){
-        $blacklistedFiles = array('videosAndroid.json.php');
+        $blacklistedFiles = array('videosAndroid.json.php', 'status');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         return in_array($baseName, $blacklistedFiles);
     }
