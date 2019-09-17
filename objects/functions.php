@@ -1293,6 +1293,29 @@ function im_resizeV3($file_src, $file_dest, $wd, $hd) {
     exec($ffmpeg . " < /dev/null 2>&1", $output, $return_val);
 }
 
+function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
+    $fn = $file_src;
+    $size = getimagesize($fn);
+    $ratio = $size[0] / $size[1]; // width/height
+    if($size[0]<=$max_width && $size[1]<=$max_height){
+        $width = $size[0];
+        $height = $size[1];
+    }else
+    if ($ratio > 1) {
+        $width = $max_width;
+        $height = $max_height / $ratio;
+    } else {
+        $width = $max_width * $ratio;
+        $height = $max_height;
+    }
+    $src = imagecreatefromstring(file_get_contents($fn));
+    $dst = imagecreatetruecolor($width, $height);
+    imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
+    imagedestroy($src);
+    imagejpeg($dst, $file_dest); // adjust format as needed
+    imagedestroy($dst);
+}
+
 function decideMoveUploadedToVideos($tmp_name, $filename) {
     global $global;
     $obj = new stdClass();
@@ -1371,6 +1394,7 @@ function unzipDirectory($filename, $destination) {
 }
 
 function make_path($path) {
+    $path = pathinfo($path,PATHINFO_DIRNAME);
     if (!is_dir($path)) {
         @mkdir($path, 0755, true);
     }
