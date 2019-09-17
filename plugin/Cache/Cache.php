@@ -77,10 +77,10 @@ class Cache extends PluginAbstract {
             return true;
         }
 
-        $whitelistedFiles = array('user.php', 'status.php', 'canWatchVideo.json.php');
+        $whitelistedFiles = array('user.php', 'status.php', 'canWatchVideo.json.php', '/login', '/status');
         $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
-        if (in_array($baseName, $whitelistedFiles)) {
+        if (in_array($baseName, $whitelistedFiles) || in_array($_SERVER['REQUEST_URI'], $whitelistedFiles) ) {
             return true;
         }
 
@@ -115,7 +115,7 @@ class Cache extends PluginAbstract {
             }
         }
         
-        if($isBot && $_SERVER['REQUEST_URI'] !== '/login' && strpos($_SERVER['REQUEST_URI'], 'youPHPTubeEncoder') === false){
+        if($isBot && strpos($_SERVER['REQUEST_URI'], 'youPHPTubeEncoder') === false){
             if(empty($_SERVER['HTTP_USER_AGENT'])){
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
@@ -130,7 +130,7 @@ class Cache extends PluginAbstract {
     }
     
     private function isBlacklisted(){
-        $blacklistedFiles = array('videosAndroid.json.php', 'status');
+        $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         return in_array($baseName, $blacklistedFiles);
     }
