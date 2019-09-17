@@ -67,12 +67,16 @@ if (!empty($_POST['videoLink'])) {
     if (!empty($_POST['videoLinkType'])) {
         $obj->setType($_POST['videoLinkType']);
     }
-    $obj->setStatus('a');
+    if(empty($_POST['id'])){
+        $obj->setStatus('a');
+    }
 }
 
 if (!empty($_POST['isArticle'])){
     $obj->setType("article");
-    $obj->setStatus('a');
+    if(empty($_POST['id'])){
+        $obj->setStatus('a');
+    }
     $filename = uniqid("_YPTuniqid_", true);
     $obj->setFilename($filename);
 }
