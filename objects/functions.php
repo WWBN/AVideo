@@ -1061,7 +1061,7 @@ function getVideosURL($fileName, $cache = true) {
                 );
             }
         }
-
+        make_path($cacheFilename);
         file_put_contents($cacheFilename, json_encode($files));
     }
     $time = microtime();
