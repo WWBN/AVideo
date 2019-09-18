@@ -2406,6 +2406,7 @@ if (!class_exists('Video')) {
                 }
                 file_put_contents($cacheFileName . ".lock", 1);
                 $total = static::getImageFromFilename_($filename, $type);
+                make_path($cacheFilename);
                 file_put_contents($cacheFileName, json_encode($total));
                 unlink($cacheFileName . ".lock");
                 return $total;
