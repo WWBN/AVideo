@@ -1312,7 +1312,7 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
     $dst = imagecreatetruecolor($width, $height);
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
     imagedestroy($src);
-    imagepng($dst, $file_dest); // adjust format as needed
+    imagejpeg($dst, $file_dest); // adjust format as needed
     imagedestroy($dst);
 }
 
