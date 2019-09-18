@@ -133,21 +133,21 @@ if (typeof gtag !== \"function\") {
 
     function addExternalOptions($id, $value) {
         $eo = unserialize(base64_decode($this->externalOptions));
-        if(!is_array($eo)){
+        if (!is_array($eo)) {
             $eo = array();
         }
         $eo[$id] = $value;
         $this->setExternalOptions($eo);
         return $this->save();
     }
-    
+
     function removeExternalOptions($id) {
         $eo = unserialize(base64_decode($this->externalOptions));
         unset($eo[$id]);
         $this->setExternalOptions($eo);
         return $this->save();
     }
-    
+
     function setExternalOptions($options) {
         //we convert it to base64 to sanitize the input since we do not validate input from externalOptions
         $this->externalOptions = base64_encode(serialize($options));
@@ -155,7 +155,7 @@ if (typeof gtag !== \"function\") {
 
     function getExternalOption($id) {
         $eo = unserialize(base64_decode($this->externalOptions));
-        if(empty($eo[$id])){
+        if (empty($eo[$id])) {
             return NULL;
         }
         return $eo[$id];
@@ -503,6 +503,7 @@ if (typeof gtag !== \"function\") {
         }
         return $user;
     }
+
     static function getFromUsername($user) {
         global $global;
         $user = $global['mysqli']->real_escape_string($user);
@@ -522,23 +523,23 @@ if (typeof gtag !== \"function\") {
         if (User::isAdmin()) {
             return true;
         }
-        
-        if(YouPHPTubePlugin::userCanWatchVideo(User::getId(), $videos_id)){
+
+        if (YouPHPTubePlugin::userCanWatchVideo(User::getId(), $videos_id)) {
             return true;
         }
-        
+
         // check if the video is not public 
         $rows = UserGroups::getVideoGroups($videos_id);
 
         if (empty($rows)) {
             // check if any plugin restrict access to this video
-            if(!YouPHPTubePlugin::userCanWatchVideo(User::getId(), $videos_id)){
+            if (!YouPHPTubePlugin::userCanWatchVideo(User::getId(), $videos_id)) {
                 return false;
-            }else{
+            } else {
                 return true; // the video is public
             }
         }
-        
+
         if (!User::isLogged()) {
             return false;
         }
@@ -556,8 +557,8 @@ if (typeof gtag !== \"function\") {
     }
 
     static function canWatchVideoWithAds($videos_id) {
-        
-        if(YouPHPTubePlugin::userCanWatchVideoWithAds(User::getId(), $videos_id) || self::canWatchVideo($videos_id)){
+
+        if (YouPHPTubePlugin::userCanWatchVideoWithAds(User::getId(), $videos_id) || self::canWatchVideo($videos_id)) {
             return true;
         }
         return false;
@@ -587,24 +588,24 @@ if (typeof gtag !== \"function\") {
     const CAPTCHA_ERROR = 3;
 
     function login($noPass = false, $encodedPass = false) {
-        global $global,$advancedCustom, $advancedCustomUser, $config;
-        if(strtolower($encodedPass)==='false'){
+        global $global, $advancedCustom, $advancedCustomUser, $config;
+        if (strtolower($encodedPass) === 'false') {
             $encodedPass = false;
         }
-        error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user ". getRealIpAddr());
+        error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user " . getRealIpAddr());
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
-        
-        if(!self::checkLoginAttempts()){
+
+        if (!self::checkLoginAttempts()) {
             return self::CAPTCHA_ERROR;
         }
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        
+
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
         if (!empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
@@ -622,15 +623,15 @@ if (typeof gtag !== \"function\") {
                 //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 $cookie = 2147483647;
                 $rememberme = 1;
-            }else{
+            } else {
                 error_log("user::login: Do login without cookie");
-                if(empty($config) || !is_object($config)){
+                if (empty($config) || !is_object($config)) {
                     $config = new Configuration();
                 }
                 $cookie = $config->getSession_timeout();
             }
-            if(empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))){
-                if(empty($cookie)){
+            if (empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))) {
+                if (empty($cookie)) {
                     $cookie = 86400; // 24 hours
                 }
                 setcookie("rememberme", $rememberme, $cookie, "/", $_SERVER['HTTP_HOST']);
@@ -645,36 +646,36 @@ if (typeof gtag !== \"function\") {
             return self::USER_NOT_FOUND;
         }
     }
-    
-    static function isCaptchaNeed(){
+
+    static function isCaptchaNeed() {
         global $advancedCustomUser;
         // check for multiple logins attempts to prevent hacking
-        if(!empty($_SESSION['loginAttempts']) && !empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)){
-            if($_SESSION['loginAttempts']>$advancedCustomUser->requestCaptchaAfterLoginsAttempts){
+        if (!empty($_SESSION['loginAttempts']) && !empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)) {
+            if ($_SESSION['loginAttempts'] > $advancedCustomUser->requestCaptchaAfterLoginsAttempts) {
                 return true;
             }
         }
         return false;
     }
-    
-    static function checkLoginAttempts(){
+
+    static function checkLoginAttempts() {
         global $advancedCustomUser, $global;
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         // check for multiple logins attempts to prevent hacking
-        if(empty($_SESSION['loginAttempts'])){
+        if (empty($_SESSION['loginAttempts'])) {
             $_SESSION['loginAttempts'] = 0;
         }
-        if(!empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)){
-            $_SESSION['loginAttempts']++;
+        if (!empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)) {
+            $_SESSION['loginAttempts'] ++;
             session_write_close();
-            if($_SESSION['loginAttempts']>$advancedCustomUser->requestCaptchaAfterLoginsAttempts){
-                if(empty($_POST['captcha'])){
+            if ($_SESSION['loginAttempts'] > $advancedCustomUser->requestCaptchaAfterLoginsAttempts) {
+                if (empty($_POST['captcha'])) {
                     return false;
                 }
                 require_once $global['systemRootPath'] . 'objects/captcha.php';
-                if(!Captcha::validation($_POST['captcha'])){
+                if (!Captcha::validation($_POST['captcha'])) {
                     return false;
                 }
             }
@@ -682,27 +683,27 @@ if (typeof gtag !== \"function\") {
         session_write_close();
         return true;
     }
-    
+
     static function getCaptchaFormIfNeed() {
         // check for multiple logins attempts to prevent hacking
-        if(self::isCaptchaNeed()){
+        if (self::isCaptchaNeed()) {
             return self::getCaptchaForm();
         }
         return "";
     }
-    
-    static function getCaptchaForm($uid="") {
+
+    static function getCaptchaForm($uid = "") {
         global $global;
         return '<div class="input-group">'
-                . '<span class="input-group-addon"><img src="'.$global['webSiteRootURL'].'captcha" id="captcha'.$uid.'"></span>
-                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha'.$uid.'"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                    <input name="captcha" placeholder="'.__("Type the code").'" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText'.$uid.'">
+                . '<span class="input-group-addon"><img src="' . $global['webSiteRootURL'] . 'captcha" id="captcha' . $uid . '"></span>
+                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha' . $uid . '"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                    <input name="captcha" placeholder="' . __("Type the code") . '" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText' . $uid . '">
                 </div>
                 <script>
                 $(document).ready(function () {
-                    $("#btnReloadCapcha'.$uid.'").click(function () {
-                        $("#captcha'.$uid.'").attr("src", "'.$global['webSiteRootURL'].'captcha?" + Math.random());
-                        $("#captchaText'.$uid.'").val("");
+                    $("#btnReloadCapcha' . $uid . '").click(function () {
+                        $("#captcha' . $uid . '").attr("src", "' . $global['webSiteRootURL'] . 'captcha?" + Math.random());
+                        $("#captchaText' . $uid . '").val("");
                     });
                 });
                 </script>';
@@ -748,7 +749,7 @@ if (typeof gtag !== \"function\") {
                 error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   result: " . $resp);
                 if (0 == $resp) {
                     error_log("success " . $_SESSION['user']['id']);
-                }else{
+                } else {
                     error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   result: " . $resp);
                     self::logoff();
                 }
@@ -819,11 +820,11 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if (!empty($result)) {
             if ($pass !== false) {
-                if(!encryptPasswordVerify($pass, $result['password'], $encodedPass)){
-                    if($advancedCustom->enableOldPassHashCheck){
+                if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
+                    if ($advancedCustom->enableOldPassHashCheck) {
                         error_log("Password check new hash pass does not match, trying MD5");
                         return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
-                    }else{
+                    } else {
                         return false;
                     }
                 }
@@ -888,9 +889,9 @@ if (typeof gtag !== \"function\") {
         } else {
             $user = false;
         }
-        if(empty($user)){
+        if (empty($user)) {
             error_log("Password check Old not found");
-        }else{
+        } else {
             error_log("Password check Old found");
         }
         return $user;
@@ -899,7 +900,7 @@ if (typeof gtag !== \"function\") {
     static private function findById($id) {
         global $global;
         $id = intval($id);
-        if(empty($id)){
+        if (empty($id)) {
             return false;
         }
         $sql = "SELECT * FROM users WHERE id = ?  LIMIT 1";
@@ -917,7 +918,7 @@ if (typeof gtag !== \"function\") {
     static function findByEmail($email) {
         global $global;
         $email = trim($email);
-        if(empty($email)){
+        if (empty($email)) {
             return false;
         }
         $sql = "SELECT * FROM users WHERE email = ?  LIMIT 1";
@@ -935,7 +936,7 @@ if (typeof gtag !== \"function\") {
     static private function getUserDb($id) {
         global $global;
         $id = intval($id);
-        if(empty($id)){
+        if (empty($id)) {
             return false;
         }
         $sql = "SELECT * FROM users WHERE  id = ? LIMIT 1;";
@@ -950,7 +951,7 @@ if (typeof gtag !== \"function\") {
 
     static private function getUserDbFromUser($user) {
         global $global;
-        if(empty($user)){
+        if (empty($user)) {
             return false;
         }
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
@@ -965,8 +966,8 @@ if (typeof gtag !== \"function\") {
 
     function setUser($user) {
         global $advancedCustomUser;
-        if(empty($advancedCustomUser->userCanChangeUsername)){
-            if(!empty($this->user)){
+        if (empty($advancedCustomUser->userCanChangeUsername)) {
+            if (!empty($this->user)) {
                 return false;
             }
         }
@@ -981,11 +982,11 @@ if (typeof gtag !== \"function\") {
         $this->email = strip_tags($email);
     }
 
-    function setPassword($password, $doNotEncrypt=false) {
+    function setPassword($password, $doNotEncrypt = false) {
         if (!empty($password)) {
-            if($doNotEncrypt){
+            if ($doNotEncrypt) {
                 $this->password = ($password);
-            }else{
+            } else {
                 $this->password = encryptPassword($password);
             }
         }
@@ -1149,7 +1150,7 @@ if (typeof gtag !== \"function\") {
 
     static function canUpload() {
         global $global, $config;
-        if(User::isAdmin()){
+        if (User::isAdmin()) {
             return true;
         }
         if ($config->getAuthCanUploadVideos()) {
@@ -1337,8 +1338,8 @@ if (typeof gtag !== \"function\") {
         $code = urlencode(static::createVerificationCode($users_id));
         require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
         //Create a new PHPMailer instance
-        if(!is_object($config)){
-            error_log("sendVerificationLink: config is not a object ".json_encode($config));
+        if (!is_object($config)) {
+            error_log("sendVerificationLink: config is not a object " . json_encode($config));
             return false;
         }
         $contactEmail = $config->getContactEmail();
@@ -1527,15 +1528,21 @@ if (typeof gtag !== \"function\") {
         error_log("Id for table users_blob not defined for deletion");
         return false;
     }
-    
+
     function getDonationLink() {
         return $this->donationLink;
+    }
+
+    function getDonationLinkIfEnabled() {
+        global $advancedCustomUser;
+        if ($advancedCustomUser->allowDonationLink) {
+            return $this->donationLink;
+        }
+        return false;
     }
 
     function setDonationLink($donationLink) {
         $this->donationLink = $donationLink;
     }
-
-
 
 }
