@@ -1394,7 +1394,10 @@ function unzipDirectory($filename, $destination) {
 }
 
 function make_path($path) {
-    $path = pathinfo($path,PATHINFO_DIRNAME);
+    if(substr($path , -1)!=='/'){
+        $path = pathinfo($path,PATHINFO_DIRNAME);
+
+    }
     if (!is_dir($path)) {
         @mkdir($path, 0755, true);
     }
