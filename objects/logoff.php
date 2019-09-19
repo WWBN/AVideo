@@ -5,7 +5,7 @@ if(!isset($global['systemRootPath'])){
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-if (!empty($advancedCustomUser->afterLoginGoToMyChannel)) {
+if (!empty($advancedCustomUser->afterLogoffGoToMyChannel)) {
     $redirectUri = User::getChannelLink();
 }else{
     $redirectUri = $global['webSiteRootURL'];
