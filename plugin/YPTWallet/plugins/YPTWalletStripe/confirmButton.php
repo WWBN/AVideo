@@ -34,7 +34,7 @@ $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
         background-color: #fefde5 !important;
     }
 </style>
-<button type="submit" class="btn btn-primary" id="YPTWalletStripeButton"><i class="fas fa-credit-card"></i> Credit Card</button>
+<button type="submit" class="btn btn-primary" id="YPTWalletStripeButton"><i class="fas fa-credit-card"></i> Pay Now</button>
 <script src="https://js.stripe.com/v3/"></script>
 
 <form action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestPayment.json.php" method="post" id="payment-form" style="display: none;">
