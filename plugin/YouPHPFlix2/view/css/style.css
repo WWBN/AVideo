@@ -141,7 +141,7 @@ a:visited {
     position: relative;
     height: 370px;
     width: 100%;
-    margin-top: -5px;
+    margin-top: 10px;
     background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-1.jpg);
     background-repeat: no-repeat;
     background-size: auto 700px;
