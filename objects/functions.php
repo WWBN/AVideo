@@ -2057,11 +2057,14 @@ function getAdsSideRectangle() {
 
 function getOpenGraph($videos_id){
     global $global;
+    echo "<!-- OpenGraph -->";
     if(empty($videos_id)){
         if(!empty($_GET['videoName'])){
+            echo "<!-- OpenGraph videos_id {$_GET['videoName']} -->";
             $video = Video::getVideoFromCleanTitle($_GET['videoName']);
         }
     }else{
+        echo "<!-- OpenGraph videos_id {$videos_id} -->";
         $video = Video::getVideoLight($videos_id);
     }
     if(empty($video)){
