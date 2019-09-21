@@ -2071,6 +2071,7 @@ function getOpenGraph($videos_id) {
         echo "<!-- OpenGraph no video -->";
         return false;
     }
+    $videos_id = $video['id'];
     $source = Video::getSourceFile($video['filename']);
     if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
         $img = $source['url'];
