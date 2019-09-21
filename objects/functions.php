@@ -2098,17 +2098,26 @@ function getOpenGraph($videos_id) {
     }
     ?>
     <link rel="image_src" href="<?php echo $img; ?>" />
-    <meta property="fb:app_id"             content="774958212660408" />
-    <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?>" />
-    <meta property="og:url"                content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
-    <meta property="og:type"               content="video.other" />
-    <meta property="og:description"        content="<?php echo str_replace('"', '', $video['description']); ?>" />
     <meta property="og:image" content="<?php echo $img; ?>" />
     <meta property="og:image:secure_url" content="<?php echo $img; ?>" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
     <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
+
+    <meta property="fb:app_id"             content="774958212660408" />
+    <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?>" />
+    <meta property="og:description"        content="<?php echo str_replace('"', '', $video['description']); ?>" />
+    <meta property="og:url"                content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
+    <meta property="og:type"               content="video.other" />
+
+    <meta property="og:video" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
+    <meta property="og:video:secure_url" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
+
     <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+
+
+
+
     <?php
 }
