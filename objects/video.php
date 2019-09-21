@@ -7,6 +7,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/userGroups.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 require_once $global['systemRootPath'] . 'objects/include_config.php';
 require_once $global['systemRootPath'] . 'objects/video_statistic.php';
