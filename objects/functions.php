@@ -2054,3 +2054,55 @@ function getAdsSideRectangle() {
         }
     }
 }
+
+function getOpenGraph($videos_id){
+    global $global;
+    if(empty($videos_id)){
+        if(!empty($_GET['videoName'])){
+            $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        }
+    }else{
+        $video = Video::getVideoLight($videos_id);
+    }
+    if(empty($video)){
+        return false;
+    }
+    $source = Video::getSourceFile($video['filename']);
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
+        $img = $source['url'];
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    } else if ($video['type'] == "audio") {
+        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    }
+    $type = 'video';
+    if ($video['type'] === 'pdf') {
+        $type = 'pdf';
+    }
+    if ($video['type'] === 'article') {
+        $type = 'article';
+    }
+    $images = Video::getImageFromFilename($video['filename'], $type);
+    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+        $img = $images->posterPortrait;
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    } else {
+        $img = $images->poster;
+    }
+    ?>
+        <link rel="image_src" href="<?php echo $img; ?>" />
+        <meta property="fb:app_id"             content="774958212660408" />
+        <meta property="og:url"                content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
+        <meta property="og:type"               content="video.other" />
+        <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?>" />
+        <meta property="og:description"        content="<?php echo str_replace('"', '', $video['description']); ?>" />
+        <meta property="og:image"              content="<?php echo $img; ?>" />
+        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
+        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
+        <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+        <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+    <?php
+}

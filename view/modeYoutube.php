@@ -214,18 +214,11 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-        <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
-        <link rel="image_src" href="<?php echo $img; ?>" />
-        <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $video['clean_title']; ?>" />
-        <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
-        <meta property="og:description"        content="<?php echo!empty($custom) ? $custom : str_replace('"', '', $video['title']); ?>" />
-        <meta property="og:image"              content="<?php echo $img; ?>" />
-        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
-        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
-        <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
-        <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+        <?php 
+        include $global['systemRootPath'] . 'view/include/head.php'; 
+        getOpenGraph(0);
+        ?>
+        
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
