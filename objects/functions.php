@@ -2059,8 +2059,9 @@ function getOpenGraph($videos_id){
     global $global;
     echo "<!-- OpenGraph -->";
     if(empty($videos_id)){
+        echo "<!-- OpenGraph no video id -->";
         if(!empty($_GET['videoName'])){
-            echo "<!-- OpenGraph videos_id {$_GET['videoName']} -->";
+            echo "<!-- OpenGraph videoName {$_GET['videoName']} -->";
             $video = Video::getVideoFromCleanTitle($_GET['videoName']);
         }
     }else{
@@ -2068,6 +2069,7 @@ function getOpenGraph($videos_id){
         $video = Video::getVideoLight($videos_id);
     }
     if(empty($video)){
+        echo "<!-- OpenGraph no video -->";
         return false;
     }
     $source = Video::getSourceFile($video['filename']);
