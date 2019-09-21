@@ -1297,10 +1297,10 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
     $fn = $file_src;
     $size = getimagesize($fn);
     $ratio = $size[0] / $size[1]; // width/height
-    if($size[0]<=$max_width && $size[1]<=$max_height){
+    if ($size[0] <= $max_width && $size[1] <= $max_height) {
         $width = $size[0];
         $height = $size[1];
-    }else
+    } else
     if ($ratio > 1) {
         $width = $max_width;
         $height = $max_height / $ratio;
@@ -1394,9 +1394,8 @@ function unzipDirectory($filename, $destination) {
 }
 
 function make_path($path) {
-    if(substr($path , -1)!=='/'){
-        $path = pathinfo($path,PATHINFO_DIRNAME);
-
+    if (substr($path, -1) !== '/') {
+        $path = pathinfo($path, PATHINFO_DIRNAME);
     }
     if (!is_dir($path)) {
         @mkdir($path, 0755, true);
@@ -2055,20 +2054,20 @@ function getAdsSideRectangle() {
     }
 }
 
-function getOpenGraph($videos_id){
+function getOpenGraph($videos_id) {
     global $global;
     echo "<!-- OpenGraph -->";
-    if(empty($videos_id)){
+    if (empty($videos_id)) {
         echo "<!-- OpenGraph no video id -->";
-        if(!empty($_GET['videoName'])){
+        if (!empty($_GET['videoName'])) {
             echo "<!-- OpenGraph videoName {$_GET['videoName']} -->";
             $video = Video::getVideoFromCleanTitle($_GET['videoName']);
         }
-    }else{
+    } else {
         echo "<!-- OpenGraph videos_id {$videos_id} -->";
         $video = Video::getVideoLight($videos_id);
     }
-    if(empty($video)){
+    if (empty($video)) {
         echo "<!-- OpenGraph no video -->";
         return false;
     }
@@ -2098,16 +2097,18 @@ function getOpenGraph($videos_id){
         $img = $images->poster;
     }
     ?>
-        <link rel="image_src" href="<?php echo $img; ?>" />
-        <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
-        <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?>" />
-        <meta property="og:description"        content="<?php echo str_replace('"', '', $video['description']); ?>" />
-        <meta property="og:image"              content="<?php echo $img; ?>" />
-        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
-        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
-        <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
-        <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+    <link rel="image_src" href="<?php echo $img; ?>" />
+    <meta property="fb:app_id"             content="774958212660408" />
+    <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?>" />
+    <meta property="og:url"                content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
+    <meta property="og:type"               content="video.other" />
+    <meta property="og:description"        content="<?php echo str_replace('"', '', $video['description']); ?>" />
+    <meta property="og:image" content="<?php echo $img; ?>" />
+    <meta property="og:image:secure_url" content="<?php echo $img; ?>" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
+    <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
+    <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+    <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     <?php
 }
