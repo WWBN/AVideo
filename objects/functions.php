@@ -2091,7 +2091,7 @@ function getOpenGraph($videos_id) {
     $images = Video::getImageFromFilename($video['filename'], $type);
     if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
         $img = $images->posterPortrait;
-        $data = getimgsize($source['path']);
+        $data = getimgsize($images->posterPortraitPath);
         $imgw = $data[0];
         $imgh = $data[1];
     } else {
