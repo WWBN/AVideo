@@ -2296,6 +2296,7 @@ if (!class_exists('Video')) {
             $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
             $obj->poster = $jpegSource['url'];
             $obj->posterPortrait = $jpegPortraitSource['url'];
+            $obj->posterPortraitPath = $jpegPortraitSource['path'];
             $obj->posterPortraitThumbs = $jpegPortraitThumbs['url'];
             $obj->posterPortraitThumbsSmall = $jpegPortraitThumbsSmall['url'];
             $obj->thumbsGif = $gifSource['url'];
@@ -2327,14 +2328,17 @@ if (!class_exists('Video')) {
             } else {
                 if ($type == "article") {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/article_portrait.png";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/article_portrait.png";
                 } if ($type == "pdf") {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
+                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
                 } else {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/notfound_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
                 }
