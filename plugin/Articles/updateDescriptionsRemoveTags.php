@@ -15,11 +15,14 @@ foreach ($videos as $value) {
     $newDescription = strip_tags($value['description'], "<br><p>");
     
     if($newDescription==$value['description']){
-        continue;;
+        continue;
     }
     $newDescription = br2nl($newDescription);
     if($newDescription==$value['description']){
-        continue;;
+        continue;
+    }
+    if(empty($newDescription)){
+        continue;
     }
     
     $video = new Video("", "", $value['id']);
