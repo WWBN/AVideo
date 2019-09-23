@@ -12,7 +12,7 @@ foreach ($videos as $value) {
     if(empty($value['description'])){
         continue;
     }
-    $newDescription = strip_tags($value['description'], "<br>");
+    $newDescription = strip_tags($value['description'], "<br><p>");
     $newDescription = br2nl($newDescription);
     $video = new Video("", "", $value['id']);
     $video->setDescription($newDescription);
