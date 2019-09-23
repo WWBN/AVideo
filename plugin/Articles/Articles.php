@@ -34,7 +34,9 @@ class Articles extends PluginAbstract {
     
     public function getPluginMenu() {
         global $global;
-        return '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptions.php" class="btn btn-default btn-xs btn-block" target="_blank">Update Old Descriptions</a>';
+        $btn = '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptions.php" class="btn btn-default btn-xs btn-block" target="_blank">Update Old Descriptions</a>';
+        $btn .= '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptionsRemoveTags.php" class="btn btn-default btn-xs btn-block" target="_blank">Revert Descriptions to NON-HTML</a>';
+        return $btn;
     }
 
 
