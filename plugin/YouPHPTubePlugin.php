@@ -175,7 +175,10 @@ class YouPHPTubePlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $allFiles = array_merge($allFiles, $p->getJSFiles());
+                $js = $p->getJSFiles();
+                if(is_array($js)){
+                    $allFiles = array_merge($allFiles, $js);
+                }
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
