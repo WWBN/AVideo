@@ -26,6 +26,10 @@ class Chromecast extends PluginAbstract {
         global $global;
         $css = "";
         if (!empty($_GET['videoName'])) {
+            $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+            if($video['type']=='embed'){
+                return '';
+            }
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/Chromecast/videojs-chromecast/silvermine-videojs-chromecast.css" rel="stylesheet" type="text/css"/>';
             $css .= "<style>.vjs-chromecast-button .vjs-icon-placeholder {width: 20px;height: 20px;</style>";
         }
@@ -35,6 +39,9 @@ class Chromecast extends PluginAbstract {
     public function getFooterCode() {
         global $global;
         if (!empty($_GET['videoName'])) {
+            if($video['type']=='embed'){
+                return '';
+            }
             include $global['systemRootPath'] . 'plugin/Chromecast/footer.php';
         }
     }
