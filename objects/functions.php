@@ -2010,6 +2010,17 @@ function ddosProtection() {
     return true;
 }
 
+function getAdsLeaderBoardBigVideo() {
+    $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
+    if (!empty($ad)) {
+        if (isMobile()) {
+            return trim($ad->leaderBoardBigVideoMobile->value);
+        } else {
+            return trim($ad->leaderBoardBigVideo->value);
+        }
+    }
+}
+
 function getAdsLeaderBoardTop() {
     $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {

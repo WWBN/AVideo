@@ -19,112 +19,126 @@
     .modal-dialog {
         width: 90%;
     }
+    <?php
+    if (!empty($_GET['iframe'])) {
+        ?>
+    body{
+      padding: 0;   
+    }
+    footer{
+       display: none;
+    }
+    <?php
+    }
+    ?>
 </style>
 <div class="container">
     <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
+    <?php
+    if (empty($_GET['iframe'])) {
+        ?>
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-
-            <div class="btn-group" style="width: 100%;" >
-                <?php if (User::isAdmin()) { ?>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn  btn-sm btn-xs btn-warning">
-                        <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
-                    </a>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-sm btn-xs btn-primary">
-                        <span class="fa fa-user"></span> <?php echo __("Users"); ?>
-                    </a>
-                <?php } ?>
-                <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-sm btn-xs btn-info">
-                    <span class="fa fa-bar-chart"></span>
-                    <?php echo __("Video Chart"); ?>
-                </a>
-                <?php
-                if (User::isAdmin()) {
-                    ?>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/" class="btn btn-sm btn-xs btn-danger">
-                        <span class="far fa-money-bill-alt"></span> <?php echo __("Advertising Manager"); ?>
+                <div class="btn-group" style="width: 100%;" >
+                    <?php if (User::isAdmin()) { ?>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn  btn-sm btn-xs btn-warning">
+                            <span class="fa fa-users"></span> <?php echo __("User Groups"); ?>
+                        </a>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>users" class="btn btn-sm btn-xs btn-primary">
+                            <span class="fa fa-user"></span> <?php echo __("Users"); ?>
+                        </a>
+                    <?php } ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-sm btn-xs btn-info">
+                        <span class="fa fa-bar-chart"></span>
+                        <?php echo __("Video Chart"); ?>
                     </a>
                     <?php
-                }
-                ?>
-                <?php
-                $categories = Category::getAllCategories(true);
-                if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
-                    if (empty($advancedCustom->doNotShowEncoderButton)) {
-                        if (!empty($config->getEncoderURL())) {
+                    if (User::isAdmin()) {
+                        ?>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/" class="btn btn-sm btn-xs btn-danger">
+                            <span class="far fa-money-bill-alt"></span> <?php echo __("Advertising Manager"); ?>
+                        </a>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    $categories = Category::getAllCategories(true);
+                    if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
+                        if (empty($advancedCustom->doNotShowEncoderButton)) {
+                            if (!empty($config->getEncoderURL())) {
+                                ?>
+                                <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
+                                    <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
+                                    <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
+                                    <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
+                                </form>
+                                <a href="#" onclick="$('#formEncoder').submit();return false;" class="btn btn-sm btn-xs btn-default">
+                                    <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
+                                </a>
+                                <?php
+                            }
+                        }
+                        if (empty($advancedCustom->doNotShowUploadMP4Button)) {
                             ?>
-                            <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
-                                <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
-                                <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
-                                <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
-                            </form>
-                            <a href="#" onclick="$('#formEncoder').submit();return false;" class="btn btn-sm btn-xs btn-default">
-                                <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
-                            </a>
+                            <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
+                                <span class="fa fa-upload"></span>
+                                <?php echo __("Upload a File"); ?>
+                            </button>
+                            <?php
+                        }
+                        if (empty($advancedCustom->doNotShowEmbedButton)) {
+                            ?>
+                            <button class="btn btn-sm btn-xs btn-default" id="linkExternalVideo">
+                                <span class="fa fa-link"></span>
+                                <?php echo __("Embed a video link"); ?>
+                            </button>
+                            <?php
+                        }
+                        if (YouPHPTubePlugin::isEnabledByName("Articles")) {
+                            ?>
+                            <button class="btn btn-sm btn-xs btn-default" id="addArticle">
+                                <i class="far fa-newspaper"></i>
+                                <?php echo __("Add Article"); ?>
+                            </button>
                             <?php
                         }
                     }
-                    if (empty($advancedCustom->doNotShowUploadMP4Button)) {
-                        ?>
-                        <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
-                            <span class="fa fa-upload"></span>
-                            <?php echo __("Upload a File"); ?>
-                        </button>
-                        <?php
-                    }
-                    if (empty($advancedCustom->doNotShowEmbedButton)) {
-                        ?>
-                        <button class="btn btn-sm btn-xs btn-default" id="linkExternalVideo">
-                            <span class="fa fa-link"></span>
-                            <?php echo __("Embed a video link"); ?>
-                        </button>
-                        <?php
-                    }
-                    if (YouPHPTubePlugin::isEnabledByName("Articles")) {
-                        ?>
-                        <button class="btn btn-sm btn-xs btn-default" id="addArticle">
-                            <i class="far fa-newspaper"></i>
-                            <?php echo __("Add Article"); ?>
-                        </button>
-                        <?php
-                    }
-                }
-                ?>
+                    ?>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-body"><?php echo YouPHPTubePlugin::getVideoManagerButton(); ?></div>
-    </div>
-    <small class="text-muted clearfix">
+        <div class="panel panel-default">
+            <div class="panel-body"><?php echo YouPHPTubePlugin::getVideoManagerButton(); ?></div>
+        </div>
+        <small class="text-muted clearfix">
+            <?php
+            $secondsTotal = getSecondsTotalVideosLength();
+            $seconds = $secondsTotal % 60;
+            $minutes = ($secondsTotal - $seconds) / 60;
+            printf(__("You are hosting %d minutes and %d seconds of video"), $minutes, $seconds);
+            ?>
+        </small>
         <?php
-        $secondsTotal = getSecondsTotalVideosLength();
-        $seconds = $secondsTotal % 60;
-        $minutes = ($secondsTotal - $seconds) / 60;
-        printf(__("You are hosting %d minutes and %d seconds of video"), $minutes, $seconds);
-        ?>
-    </small>
-    <?php
-    if (!empty($global['videoStorageLimitMinutes'])) {
-        $secondsLimit = $global['videoStorageLimitMinutes'] * 60;
-        if ($secondsLimit > $secondsTotal) {
+        if (!empty($global['videoStorageLimitMinutes'])) {
+            $secondsLimit = $global['videoStorageLimitMinutes'] * 60;
+            if ($secondsLimit > $secondsTotal) {
 
-            $percent = intval($secondsTotal / $secondsLimit * 100);
-        } else {
-            $percent = 100;
-        }
-        ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
-        <div class="progress">
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
-                 aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent; ?>%">
-                <?php echo $percent; ?>% of your storage limit used
+                $percent = intval($secondsTotal / $secondsLimit * 100);
+            } else {
+                $percent = 100;
+            }
+            ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
+            <div class="progress">
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                     aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent; ?>%">
+                    <?php echo $percent; ?>% of your storage limit used
+                </div>
             </div>
-        </div>
-        <?php
+            <?php
+        }
     }
     ?>
-
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="btn-group">
@@ -599,56 +613,56 @@
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
 <?php
 echo YouPHPTubePlugin::getManagerVideosJavaScripts();
-if(empty($advancedCustom->disableHTMLDescription)){
-?>
-<script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
-<script>
-                                        tinymce.init({
-                                            selector: '#inputDescription', // change this value according to your HTML
-                                            plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
-                                            //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
-                                            toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
-                                            height: 400,
-                                            convert_urls: false,
-                                            images_upload_handler: function (blobInfo, success, failure) {
-                                                var xhr, formData;
-                                                if (!videos_id) {
-                                                    $('#inputTitle').val("Article automatically booked");
-                                                    saveVideo(false);
+if (empty($advancedCustom->disableHTMLDescription)) {
+    ?>
+    <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
+    <script>
+                                            tinymce.init({
+                                                selector: '#inputDescription', // change this value according to your HTML
+                                                plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
+                                                //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
+                                                toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+                                                height: 400,
+                                                convert_urls: false,
+                                                images_upload_handler: function (blobInfo, success, failure) {
+                                                    var xhr, formData;
+                                                    if (!videos_id) {
+                                                        $('#inputTitle').val("Article automatically booked");
+                                                        saveVideo(false);
+                                                    }
+                                                    xhr = new XMLHttpRequest();
+                                                    xhr.withCredentials = false;
+                                                    xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
+
+                                                    xhr.onload = function () {
+                                                        var json;
+
+                                                        if (xhr.status != 200) {
+                                                            failure('HTTP Error: ' + xhr.status);
+                                                            return;
+                                                        }
+
+                                                        json = xhr.responseText;
+                                                        json = JSON.parse(json);
+                                                        console.log(json);
+                                                        if (json.error === false && json.url) {
+                                                            success(json.url);
+                                                        } else if (json.msg) {
+                                                            swal("<?php echo __("Error!"); ?>", json.msg, "error");
+                                                        } else {
+                                                            swal("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
+                                                        }
+
+                                                    };
+
+                                                    formData = new FormData();
+                                                    formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+
+                                                    xhr.send(formData);
                                                 }
-                                                xhr = new XMLHttpRequest();
-                                                xhr.withCredentials = false;
-                                                xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
-
-                                                xhr.onload = function () {
-                                                    var json;
-
-                                                    if (xhr.status != 200) {
-                                                        failure('HTTP Error: ' + xhr.status);
-                                                        return;
-                                                    }
-
-                                                    json = xhr.responseText;
-                                                    json = JSON.parse(json);
-                                                    console.log(json);
-                                                    if (json.error === false && json.url) {
-                                                        success(json.url);
-                                                    } else if (json.msg) {
-                                                        swal("<?php echo __("Error!"); ?>", json.msg, "error");
-                                                    } else {
-                                                        swal("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
-                                                    }
-
-                                                };
-
-                                                formData = new FormData();
-                                                formData.append('file_data', blobInfo.blob(), blobInfo.filename());
-
-                                                xhr.send(formData);
-                                            }
-                                        });
-</script>
-<?php
+                                            });
+    </script>
+    <?php
 }
 ?>
 <script>
@@ -891,13 +905,13 @@ if(empty($advancedCustom->disableHTMLDescription)){
         $('#inputTrailer').val(row.trailer1);
         $('#inputCleanTitle').val(row.clean_title);
         $('#inputDescription').val(row.description);
-        <?php
-        if(empty($advancedCustom->disableHTMLDescription)){
-        ?>
-        tinymce.get('inputDescription').setContent(row.description);
-        <?php
-        }
-        ?>
+<?php
+if (empty($advancedCustom->disableHTMLDescription)) {
+    ?>
+            tinymce.get('inputDescription').setContent(row.description);
+    <?php
+}
+?>
         $('#inputCategory').val(row.categories_id);
         $('#inputRrating').val(row.rrating);
 <?php
@@ -909,7 +923,8 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
             $('#inputNextVideo').val(row.next_title);
             $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_clean_title);
             $('#inputNextVideo-id').val(row.next_id);
-        } if (row.next_video && row.next_video.id) {
+        }
+        if (row.next_video && row.next_video.id) {
             $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_video.filename + ".jpg");
             $('#inputNextVideo').val(row.next_video.title);
             $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
@@ -1086,14 +1101,14 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
                         "videoLink": $('#videoLink').val(),
                         "videoLinkType": $('#videoLinkType').val(),
                         "clean_title": $('#inputCleanTitle').val(),
-                        <?php
-                        if(empty($advancedCustom->disableHTMLDescription)){
-                        ?>
-                        "description": tinymce.get('inputDescription').getContent(),
-                        <?php }else{ ?>
-                        "description": $('#inputDescription').val(),
-                        <?php } ?>
-                        "categories_id": $('#inputCategory').val(),
+<?php
+if (empty($advancedCustom->disableHTMLDescription)) {
+    ?>
+                    "description": tinymce.get('inputDescription').getContent(),
+<?php } else { ?>
+                    "description": $('#inputDescription').val(),
+<?php } ?>
+                "categories_id": $('#inputCategory').val(),
                         "rrating": $('#inputRrating').val(),
                         "public": isPublic,
                         "videoGroups": selectedVideoGroups,
@@ -1146,11 +1161,11 @@ echo YouPHPTubePlugin::getManagerVideosAddNew();
         $('#inputTrailer').val("");
         $('#inputCleanTitle').val("");
         $('#inputDescription').val("");
-        <?php
-        if(empty($advancedCustom->disableHTMLDescription)){
-        ?>
-        tinymce.get('inputDescription').setContent("");
-        <?php } ?>
+<?php
+if (empty($advancedCustom->disableHTMLDescription)) {
+    ?>
+            tinymce.get('inputDescription').setContent("");
+<?php } ?>
         $('#inputCategory').val("");
         $('#inputRrating').val("");
         $('#removeAutoplay').trigger('click');
@@ -1418,11 +1433,11 @@ if (!empty($row)) {
             $('#inputTrailer').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
-            <?php
-            if(empty($advancedCustom->disableHTMLDescription)){
-            ?>
-            tinymce.get('inputDescription').setContent("");
-            <?php } ?>
+<?php
+if (empty($advancedCustom->disableHTMLDescription)) {
+    ?>
+                tinymce.get('inputDescription').setContent("");
+<?php } ?>
             $('#inputCategory').val($('#inputCategory option:first').val());
             $('#inputRrating').val("");
             $('.videoGroups').prop('checked', false);
@@ -1455,11 +1470,11 @@ echo YouPHPTubePlugin::getManagerVideosReset();
             $('#inputTrailer').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
-        <?php
-        if(empty($advancedCustom->disableHTMLDescription)){
-        ?>
-            tinymce.get('inputDescription').setContent("");
-        <?php } ?>
+<?php
+if (empty($advancedCustom->disableHTMLDescription)) {
+    ?>
+                tinymce.get('inputDescription').setContent("");
+<?php } ?>
             $('#inputCategory').val($('#inputCategory option:first').val());
             $('#inputRrating').val("");
             $('.videoGroups').prop('checked', false);

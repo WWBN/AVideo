@@ -1,4 +1,7 @@
 <?php
+if(!empty($_GET['noNavbar'])){
+    return '';
+}
 global $includeDefaultNavBar, $global, $config, $advancedCustom, $advancedCustomUser;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';

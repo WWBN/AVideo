@@ -7,7 +7,7 @@ $userGroups = UserGroups::getAllUsersGroups();
 unset($_SESSION['type']);
 if (!empty($_GET['video_id'])) {
     if (Video::canEdit($_GET['video_id'])) {
-        $row = Video::getVideo($_GET['video_id']);
+        $row = Video::getVideo($_GET['video_id'], "");
     }
 }
 ?>

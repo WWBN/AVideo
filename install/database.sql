@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `categories_id` INT NOT NULL,
   `filename` VARCHAR(255) NOT NULL,
   `duration` VARCHAR(15) NOT NULL,
-  `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article') NOT NULL DEFAULT 'video',
+  `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie') NOT NULL DEFAULT 'video',
   `videoDownloadedLink` VARCHAR(255) NULL,
   `order` INT UNSIGNED NOT NULL DEFAULT 1,
   `rotation` SMALLINT NULL DEFAULT 0,
@@ -132,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `rrating` VARCHAR(45) NULL DEFAULT NULL,
   `externalOptions` TEXT NULL DEFAULT NULL,
   `only_for_paid` TINYINT(1) NULL DEFAULT NULL,
+  `serie_playlists_id` INT(11) NULL DEFAULT NULL,
   `sites_id` INT(11) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
@@ -159,7 +160,12 @@ CREATE TABLE IF NOT EXISTS `videos` (
     FOREIGN KEY (`next_videos_id`)
     REFERENCES `videos` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION,
+CONSTRAINT `fk_videos_playlists1`
+  FOREIGN KEY (`serie_playlists_id`)
+  REFERENCES `playlists` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

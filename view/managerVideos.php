@@ -15,6 +15,11 @@ if (!User::canUpload()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage videos"));
     exit;
 }
+
+if(!empty($_GET['iframe'])){
+    $_GET['noNavbar'] = 1;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

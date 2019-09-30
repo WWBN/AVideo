@@ -116,5 +116,47 @@ class PlayLists extends PluginAbstract {
         global $global;
         include $global['systemRootPath'] . 'plugin/PlayLists/buttons.php';
     }
+    
+    static function isPlayListASerie($serie_playlists_id){
+        global $global, $config;
+        $serie_playlists_id = intval($serie_playlists_id);
+        $sql = "SELECT * FROM videos WHERE serie_playlists_id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "i", array($serie_playlists_id), true);
+        $video = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        return $video;
+    }
+    
+    static function removeSerie($serie_playlists_id){
+        $video = self::isPlayListASerie($serie_playlists_id);
+        if(!empty($video)){
+            $video = new Video("", "", $video['id']);
+            $video->delete();
+        }
+    }
+    
+    static function saveSerie($serie_playlists_id){
+        $playlist = new PlayList($serie_playlists_id);
+        
+        if(empty($playlist)){
+            return false;
+        }
+        
+        $video = self::isPlayListASerie($serie_playlists_id);
+        if(!empty($video)){
+            $filename = $video['filename'];
+            $v = new Video("", "", $video['id']);
+        }else{
+            $filename = 'serie_playlists_'.uniqid();
+            $v = new Video("", $filename);
+        }
+        $v->setTitle($playlist->getName());
+        $v->setSerie_playlists_id($serie_playlists_id);
+        $v->setUsers_id($playlist->getUsers_id());
+        $v->setStatus('u');
+        $v->setFilename($filename);
+        $v->setType("serie");
+        return $v->save();
+    }
   
 }
