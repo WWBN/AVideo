@@ -156,6 +156,7 @@ if (!class_exists('Video')) {
 
         function save($updateVideoGroups = false, $allowOfflineUser = false) {
             global $advancedCustom;
+            global $global;
             if (!User::isLogged() && !$allowOfflineUser) {
                 header('Content-Type: application/json');
                 die('{"error":"' . __("Permission denied") . '"}');
@@ -170,7 +171,6 @@ if (!class_exists('Video')) {
                 $this->setClean_title($this->title);
             }
             $this->clean_title = self::fixCleanTitle($this->clean_title, 1, $this->id);
-            global $global;
 
             if (empty($this->status)) {
                 $this->status = 'e';
