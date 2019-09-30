@@ -49,6 +49,10 @@ class TheaterButton extends PluginAbstract {
         if ((empty($_GET['videoName']))||($isEmbed==1)) {
             return array();
         }
+        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        if($video['type']=='embed' || $video['type']=='article' || $video['type']=='pdf'){
+            return '';
+        }
         if(!empty($obj->show_switch_button)){
             return array("plugin/TheaterButton/script.js","plugin/TheaterButton/addButton.js");
         }
@@ -58,6 +62,10 @@ class TheaterButton extends PluginAbstract {
         global $global, $autoPlayVideo, $isEmbed;
         if ((empty($_GET['videoName']))||($isEmbed==1)) {
             return "";
+        }
+        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        if($video['type']=='embed' || $video['type']=='article' || $video['type']=='pdf'){
+            return '';
         }
         $obj = $this->getDataObject();
         $js = '';
