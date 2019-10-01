@@ -995,6 +995,17 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
         if (!row || typeof row === 'undefined') {
             row = {id: 0, filename: "filename", clean_title: "blank"};
         }
+        console.log(row);
+        console.log(videos_id);
+        if(!row.id && videos_id){
+            row.id = videos_id;
+        }
+        if(!row.id){
+            setTimeout(function(){
+                reloadFileInput(row);
+            },500);
+            return false;
+        }
         $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
         $("#input-jpg").fileinput({
             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
@@ -1122,6 +1133,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 type: 'post',
                 success: function (response) {
                 if (response.status === "1" || response.status === true) {
+                    if(response.video.id){
+                        videos_id = response.video.id; 
+                    }
                 if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
                 videoUploaded = true;
                 }
@@ -1203,6 +1217,7 @@ echo YouPHPTubePlugin::getManagerVideosReset();
         setTimeout(function () {
             waitToSubmit = false;
         }, 3000);
+        reloadFileInput({});
         $('#videoFormModal').modal();
         videos_id = 0;
     }
