@@ -22,13 +22,13 @@
     <?php
     if (!empty($_GET['iframe'])) {
         ?>
-    body{
-      padding: 0;   
-    }
-    footer{
-       display: none;
-    }
-    <?php
+        body{
+            padding: 0;   
+        }
+        footer{
+            display: none;
+        }
+        <?php
     }
     ?>
 </style>
@@ -97,7 +97,7 @@
                         }
                         if (YouPHPTubePlugin::isEnabledByName("Articles")) {
                             ?>
-                            <button class="btn btn-sm btn-xs btn-default" id="addArticle">
+                            <button class="btn btn-sm btn-xs btn-default" id="addArticle" onclick="newArticle()">
                                 <i class="far fa-newspaper"></i>
                                 <?php echo __("Add Article"); ?>
                             </button>
@@ -997,13 +997,13 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
         }
         console.log(row);
         console.log(videos_id);
-        if(!row.id && videos_id){
+        if (!row.id && videos_id) {
             row.id = videos_id;
         }
-        if(!row.id){
-            setTimeout(function(){
+        if (!row.id) {
+            setTimeout(function () {
                 reloadFileInput(row);
-            },500);
+            }, 500);
             return false;
         }
         $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
@@ -1132,34 +1132,34 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 },
                 type: 'post',
                 success: function (response) {
-                if (response.status === "1" || response.status === true) {
-                    if(response.video.id){
-                        videos_id = response.video.id; 
-                    }
-                if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
-                videoUploaded = true;
-                }
-                if (closeModal && videoUploaded) {
-                $('#videoFormModal').modal('hide');
-                }
-                $("#grid").bootgrid("reload");
+                    if (response.status === "1" || response.status === true) {
+                        if (response.video.id) {
+                            videos_id = response.video.id;
+                        }
+                        if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
+                            videoUploaded = true;
+                        }
+                        if (closeModal && videoUploaded) {
+                            $('#videoFormModal').modal('hide');
+                        }
+                        $("#grid").bootgrid("reload");
                         $('#fileUploadVideos_id').val(response.videos_id);
                         $('#inputVideoId').val(response.videos_id);
                         videos_id = response.videos_id;
-                } else {
-                if (response.error){
-                swal("<?php echo __("Sorry!"); ?>", response.error, "error");
-                } else{
-                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
-                }
-                }
-                modal.hidePleaseWait();
-                        setTimeout(function () {
+                    } else {
+                        if (response.error) {
+                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                        } else {
+                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                        }
+                    }
+                    modal.hidePleaseWait();
+                    setTimeout(function () {
                         waitToSubmit = false;
-                        }, 3000);
-                }
+                    }, 3000);
+                    }
         });
-        return false;
+                return false;
     }
 
     function resetVideoForm() {
@@ -1209,6 +1209,7 @@ echo YouPHPTubePlugin::getManagerVideosReset();
 
     function newVideo() {
         $('.uploadFile').show();
+        videos_id = 0;
         resetVideoForm();
         waitToSubmit = false;
         $('#inputTitle').val("Video automatically booked");
@@ -1219,7 +1220,62 @@ echo YouPHPTubePlugin::getManagerVideosReset();
         }, 3000);
         reloadFileInput({});
         $('#videoFormModal').modal();
+    }
+
+
+    function resetArticleForm() {
+        isArticle = 1;
+        $('#inputVideoId').val("");
+        $('#inputTitle').val("");
+        $('#inputTrailer').val("");
+        $('#inputCleanTitle').val("");
+        $('#inputDescription').val("");
+<?php
+if (empty($advancedCustom->disableHTMLDescription)) {
+    ?>
+            tinymce.get('inputDescription').setContent("");
+<?php } ?>
+        $('#inputCategory').val($('#inputCategory option:first').val());
+        $('#inputRrating').val("");
+        $('.videoGroups').prop('checked', false);
+        $('#can_download').prop('checked', false);
+        $('#only_for_paid').prop('checked', false);
+        $('#can_share').prop('checked', false);
+        $('#public').prop('checked', true);
+        $('#public').trigger("change");
+        $('#videoIsAd').prop('checked', false);
+        $('#videoIsAd').trigger("change");
+        $('.nav-tabs a[href="#pmedia"], #pmedia').hide();
+        $('.nav-tabs a[href="#pmetadata"]').tab('show');
+        reloadFileInput();
+        $('#videoIsAdControl, #videoExtraDetails, #videoLinkContent').slideUp();
+        $('#postersImage').slideDown();
+        $('#videoLink').val('');
+        $('#videoStartSecond').val('00:00:00');
+<?php
+echo YouPHPTubePlugin::getManagerVideosReset();
+?>
+
+        setTimeout(function () {
+            waitToSubmit = false;
+        }, 2000);
+        $('#videoFormModal').modal();
+    }
+
+
+    function newArticle() {
+        $('.uploadFile').show();
         videos_id = 0;
+        resetArticleForm();
+        waitToSubmit = false;
+        $('#inputTitle').val("Article automatically booked");
+        saveVideo(false);
+        waitToSubmit = true;
+        setTimeout(function () {
+            waitToSubmit = false;
+        }, 3000);
+        reloadFileInput({});
+        $('#videoFormModal').modal();
     }
 
     function getEmbedCode(id) {
@@ -1466,45 +1522,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
             $('#postersImage, #videoIsAdControl, .titles').slideUp();
             $('#videoLinkContent').slideDown();
-            $('#videoLink').val('');
-            $('#videoStartSecond').val('00:00:00');
-<?php
-echo YouPHPTubePlugin::getManagerVideosReset();
-?>
-
-            setTimeout(function () {
-                waitToSubmit = false;
-            }, 2000);
-            $('#videoFormModal').modal();
-        });
-
-        $('#addArticle').click(function () {
-            isArticle = 1;
-            $('#inputVideoId').val("");
-            $('#inputTitle').val("");
-            $('#inputTrailer').val("");
-            $('#inputCleanTitle').val("");
-            $('#inputDescription').val("");
-<?php
-if (empty($advancedCustom->disableHTMLDescription)) {
-    ?>
-                tinymce.get('inputDescription').setContent("");
-<?php } ?>
-            $('#inputCategory').val($('#inputCategory option:first').val());
-            $('#inputRrating').val("");
-            $('.videoGroups').prop('checked', false);
-            $('#can_download').prop('checked', false);
-            $('#only_for_paid').prop('checked', false);
-            $('#can_share').prop('checked', false);
-            $('#public').prop('checked', true);
-            $('#public').trigger("change");
-            $('#videoIsAd').prop('checked', false);
-            $('#videoIsAd').trigger("change");
-            $('.nav-tabs a[href="#pmedia"], #pmedia').hide();
-            $('.nav-tabs a[href="#pmetadata"]').tab('show');
-            reloadFileInput();
-            $('#videoIsAdControl, #videoExtraDetails, #videoLinkContent').slideUp();
-            $('#postersImage').slideDown();
             $('#videoLink').val('');
             $('#videoStartSecond').val('00:00:00');
 <?php

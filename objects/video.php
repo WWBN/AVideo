@@ -2050,7 +2050,10 @@ if (!class_exists('Video')) {
         }
 
         function setFilename($filename) {
-            $this->filename = $filename;
+            if(empty($this->filename)){
+                $this->filename = $filename;
+            }
+            return $this->filename;
         }
 
         function getNext_videos_id() {

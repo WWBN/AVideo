@@ -176,7 +176,8 @@ if (empty($channelName)) {
                         -->
                         <hr>
                         <div class="form-group">
-                            <span class="fa fa-globe"></span> <?php echo __("Listed Transmition"); ?> 
+                            <span class="fa fa-globe"></span> <?php echo __("Make Stream Publicly Listed"); ?> 
+                            <b>(<?php echo __("MAKE SURE YOU CLICK SAVE"); ?>)</b>
                             <div class="material-switch pull-right">
                                 <input id="listed" type="checkbox" value="1" <?php echo!empty($trasnmition['public']) ? "checked" : ""; ?>/>
                                 <label for="listed" class="label-success"></label> 

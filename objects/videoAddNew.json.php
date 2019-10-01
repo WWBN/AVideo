@@ -38,7 +38,7 @@ if (!empty($_POST['videoLink'])) {
         $info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']));
         $infoObj = json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
-        $obj->setFilename($filename);
+        $filename = $obj->setFilename($filename);
         $obj->setTitle($infoObj->title);
         $obj->setClean_title($infoObj->title);
         $obj->setDuration($infoObj->duration);
@@ -46,7 +46,7 @@ if (!empty($_POST['videoLink'])) {
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
     } else if (empty($_POST['id'])) {
         $filename = uniqid("_YPTuniqid_", true);
-        $obj->setFilename($filename);
+        $filename = $obj->setFilename($filename);
         $obj->setTitle($path_parts["filename"]);
         $obj->setClean_title($path_parts["filename"]);
         $obj->setDuration("");
@@ -78,7 +78,7 @@ if (!empty($_POST['isArticle'])){
         $obj->setStatus('a');
     }
     $filename = uniqid("_YPTuniqid_", true);
-    $obj->setFilename($filename);
+    $filename = $obj->setFilename($filename);
 }
 
 $obj->setNext_videos_id($_POST['next_videos_id']);
