@@ -72,11 +72,18 @@ if(!empty($_GET['action'])){
             if (!empty($videoPL)) {
                 ?>
                 <a class="btn btn-primary btn-block" href="<?php echo $global['webSiteRootURL']; ?>mvideos?iframe=1&video_id=<?php echo $videoPL['id']; ?>"><?php echo __('Edit'); ?></a>    
-                <a class="btn btn-danger btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=<?php echo $serie_playlists_id; ?>&action=delete"><?php echo __('Delete'); ?></a>    
+                <a class="btn btn-danger btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=<?php echo $serie_playlists_id; ?>&action=delete"><?php echo __('Delete'); ?></a> 
+                <div class="alert alert-danger"> 
+                    <p>Deleting this series will remove only the video linked to it. All items in your playlist will remain unchanged.</p> 
+                </div>
                 <?php
             } else {
                 ?>
                 <a class="btn btn-success btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=<?php echo $serie_playlists_id; ?>&action=create"><?php echo __('Create'); ?></a>    
+                <div class="alert alert-info"> 
+                    <p>In order to create series and make it easier to play videos in sequence, on this page we will create a video linked to this playlist.</p>
+                    <p>This video can be set up just like any other video by adding posters and viewing permissions</p> 
+                </div>
                 <?php
             }
             if(!empty($msg)){

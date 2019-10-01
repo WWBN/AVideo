@@ -30,6 +30,9 @@ if (isset($_GET['t'])) {
 } else if (!empty($video['externalOptions']->videoStartSeconds)) {
     $currentTime = intval($video['externalOptions']->videoStartSeconds);
 }
+
+YouPHPTubePlugin::loadPlugin('PlayerSkins');
+
 ?>
 <div class="row main-video" id="mvideo">
     <div class="col-sm-2 col-md-2 firstC"></div>
@@ -51,7 +54,7 @@ if (isset($_GET['t'])) {
                            muted="muted"
                        <?php } ?>
                        preload="auto"
-                       poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo" >
+                       poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo">
                            <?php if ($playNowVideo['type'] == "video") { ?>
                         <!-- <?php echo $playNowVideo['title'], " ", $playNowVideo['filename']; ?> -->
                         <?php
@@ -155,7 +158,7 @@ var menu = new BootstrapMenu('#mainVideo', {
 
 
                                     if (typeof player === 'undefined') {
-                                        player = videojs('mainVideo');
+                                        player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                     }
                                     player.on('play', function () {
                                         addView(<?php echo $playNowVideo['id']; ?>, this.currentTime());
@@ -166,7 +169,7 @@ var menu = new BootstrapMenu('#mainVideo', {
     ?>
                                             setTimeout(function () {
                                                 if (typeof player === 'undefined') {
-                                                    player = videojs('mainVideo');
+                                                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                                 }
                                                 try {
                                                     player.currentTime(<?php echo $currentTime; ?>);
@@ -190,7 +193,7 @@ var menu = new BootstrapMenu('#mainVideo', {
                                             if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                                                 setTimeout(function () {
                                                     if (typeof player === 'undefined') {
-                                                        player = videojs('mainVideo');
+                                                        player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                                     }
                                                     try {
                                                         player.play();
@@ -260,7 +263,7 @@ if (!empty($autoPlayVideo)) {
                                     // in case the video is muted
                                     setTimeout(function () {
                                     if (typeof player === 'undefined') {
-                                    player = videojs('mainVideo');
+                                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                     }
                                     if (player.muted()) {
                                     swal({

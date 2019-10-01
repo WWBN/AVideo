@@ -28,6 +28,7 @@ class PlayLists extends PluginAbstract {
         $obj->usersCanOnlyCreatePlayListsFromTheirContent = false;
         $obj->useOldPlayList = false;
         $obj->expandPlayListOnChannels = false;
+        $obj->usePlaylistPlayerForSeries = true;
         
         return $obj;
     }
@@ -157,6 +158,22 @@ class PlayLists extends PluginAbstract {
         $v->setFilename($filename);
         $v->setType("serie");
         return $v->save();
+    }
+    
+    public function getStart() {
+        global $global;
+        if(!empty($_GET['videoName'])){
+            $obj = $this->getDataObject();
+            if($obj->usePlaylistPlayerForSeries){
+                $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+                if($video['type']=='serie' && !empty($video['serie_playlists_id'])){
+                    header("Location: {$global['webSiteRootURL']}plugin/PlayLists/player.php?playlists_id={$video['serie_playlists_id']}");
+                    exit;
+                }
+            }
+        }
+        
+        
     }
   
 }

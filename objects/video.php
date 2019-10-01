@@ -1910,7 +1910,6 @@ if (!class_exists('Video')) {
             $videoRow = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($res) {
-                require_once 'userGroups.php';
                 if ($videoRow != false) {
                     return $videoRow['users_id'];
                 }
