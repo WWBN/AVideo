@@ -85,17 +85,18 @@ if (!empty($_GET['playlist_id'])) {
     }
 
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['playlist_id']);
-    $videosPlayList = Video::getAllVideos("viewable");
+    $videosPlayList = Video::getAllVideos("viewable",false, false, $videosArrayId, false, true);
     $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
-    $video = Video::getVideo($videosPlayList[$playlist_index]['id']);
+    
+    $video = Video::getVideo($videosPlayList[$playlist_index]['id'], "viewable", false, false, false, true);
     if (!empty($videosPlayList[$playlist_index + 1])) {
-        $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id']);
+        $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id'], "viewable", false, false, false, true);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/" . ($playlist_index + 1);
     } else if (!empty($videosPlayList[0])) {
-        $autoPlayVideo = Video::getVideo($videosPlayList[0]['id']);
+        $autoPlayVideo = Video::getVideo($videosPlayList[0]['id'], "viewable", false, false, false, true);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/0";
     }
-
+   
     unset($_GET['playlist_id']);
 } else {
     if (!empty($video['next_videos_id'])) {
