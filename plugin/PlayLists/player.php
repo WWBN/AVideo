@@ -55,7 +55,6 @@ foreach ($playList as $value) {
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.css" rel="stylesheet">
 
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
-        <link rel="image_src" href="<?php echo $img; ?>" />
         <style>
             .next-button:before {
                 -moz-osx-font-smoothing: grayscale;
