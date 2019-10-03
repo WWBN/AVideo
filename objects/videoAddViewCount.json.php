@@ -8,6 +8,9 @@ if (!isset($global['systemRootPath'])) {
 if (empty($_POST['id'])) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
+if(empty($_COOKIE["PHPSESSID"])){
+    die('{"error":"Cookie is disabled"}');
+}
 require_once $global['systemRootPath'] . 'objects/video.php';
 $obj = new Video("", "", $_POST['id']);
 if (empty($obj)) {
