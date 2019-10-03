@@ -274,3 +274,14 @@
 .video-js .vjs-load-progress {
     background: rgba(255,255,255,0.3);
 }
+
+.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-item, .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-title {
+   margin: 0;
+    padding: 0;
+    border-radius: 0;
+}
+
+.vjs-menu li.vjs-menu-title {
+    padding: 0;
+    margin: 0;
+}
