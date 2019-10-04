@@ -231,9 +231,6 @@
         //return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
     }
     $(document).ready(function () {
-
-
-
         var grid = $("#grid").bootgrid({
             labels: {
                 noResults: "<?php echo __("No results found!"); ?>",
