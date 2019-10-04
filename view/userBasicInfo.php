@@ -151,6 +151,7 @@ YouPHPTubePlugin::getMyAccount(User::getId());
     var uploadCrop;
 
     function isAnalytics() {
+        return true;
         str = $('#analyticsCode').val();
         return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
     }
