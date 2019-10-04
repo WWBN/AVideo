@@ -1,5 +1,4 @@
 <?php
-
 if (empty($config)) {
     return true;
 }
