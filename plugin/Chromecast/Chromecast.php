@@ -39,6 +39,7 @@ class Chromecast extends PluginAbstract {
     public function getFooterCode() {
         global $global;
         if (!empty($_GET['videoName'])) {
+            $video = Video::getVideoFromCleanTitle($_GET['videoName']);
             if($video['type']=='embed'){
                 return '';
             }
