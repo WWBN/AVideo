@@ -227,7 +227,8 @@
 <script>
     function isAnalytics() {
         str = $('#inputAnalyticsCode').val();
-        return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
+        return true;
+        //return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
     }
     $(document).ready(function () {
 
