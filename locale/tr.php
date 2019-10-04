@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "%s ERROR: Yapılandırmada bir ID ayarlamanız gerekiyor";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Yapılandırmada bir KEY ayarlamanız gerekiyor";
 $t[': activate to sort column ascending'] = ": Sıralamak için etkinleştir - artan";
@@ -229,7 +230,7 @@ $t['No results found!']  = "Sonuç bulunamadı";
 $t['Notify Subscribers']  = "Abonelere Bildir";
 $t['Off']  = "Kapalı";
 $t['On']  = "Açık";
-$t['Only verified users can upload'] = "Sadece doğrulanmış üyeler medya yükleyebilir"; 
+$t['Only verified users can upload'] = "Sadece doğrulanmış üyeler medya yükleyebilir";
 $t['Opacity'] = "Opaklık";
 $t['Original words found']  = "Orijinal kelimeler bulundu";
 $t['Page'] = "Sayfa";

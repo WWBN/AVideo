@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "% s ERROR: você deve definir uma identificação na configuração";
 $t['%s ERROR: You must set a KEY on config'] = "% s ERROR: você deve definir uma tecla na configuração";
 $t['465 OR 587'] = "465 OU 587";
@@ -235,10 +236,10 @@ $t['Timeline'] = "Cronograma";
 $t['Title'] = "Título";
 $t['To install it right away for all UNIX users (Linux, OS X, etc.), type: '] = "Para instalá-lo imediatamente para todos os usuários do UNIX (Linux, OS X, etc.), digite:";
 $t['To installations instructions try this link: '] = "Para instruções de instalação";
-$t['years']="anos";
-$t['months']="meses";
-$t['weeks']="semanas";
-$t['days']="dias";
-$t['hours']="horas";
-$t['minutes']="minutos";
-$t['seconds']="segundos";
+$t['years'] = "anos";
+$t['months'] = "meses";
+$t['weeks'] = "semanas";
+$t['days'] = "dias";
+$t['hours'] = "horas";
+$t['minutes'] = "minutos";
+$t['seconds'] = "segundos";

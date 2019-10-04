@@ -1,13 +1,13 @@
 <?php
 
 if(isset($_GET['getLanguage'])) {
-	
+
 	$lngFile = './'.strtolower(str_replace(['.', '/', '\\'], '', $_GET['getLanguage'])).'.php';
 	if(!file_exists($lngFile)) {
 		header('HTTP/1.0 404 Not Found');
 		exit;
 	}
-	
+
 	require_once($lngFile);
 	echo json_encode($t);
 	exit;
@@ -54,7 +54,7 @@ sort($vars);
         <title><?php echo $config->getWebSiteTitle();?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
-		
+
         ?>
         <style type="text/css">
             textarea.form-control {
@@ -71,7 +71,7 @@ sort($vars);
 
             <div class="row">
                 <div class="col-lg-4"></div>
-                <div class="col-lg-2">  
+                <div class="col-lg-2">
                     <div id="navBarFlag2" data-input-name="country2"></div>
                     <script>
                         $(function () {
@@ -96,16 +96,16 @@ sort($vars);
 												$('#translatedCode').append('\n');
 											}
 										});
-										
+
 										tb1.scroll(function() {
 											tb2.scrollTop(tb1.scrollTop());
 										});
-										
-										
+
+
 									}).fail(function(){
 										console.log("New translation");
 										tb1.scroll(function() {
-											
+
 										});
 									});
 								}
@@ -113,7 +113,7 @@ sort($vars);
                         });
                     </script>
                 </div>
-                <div class="col-lg-2">   
+                <div class="col-lg-2">
                     <button class="btn btn-success center-block" id="btnSaveFile" disabled><?php echo __("Save File"); ?></button>
                 </div>
                 <div class="col-lg-4"></div>
@@ -144,11 +144,11 @@ sort($vars);
                 ?>
                 <div class="row">
                     <div class="col-lg-1"></div>
-                    <div class="col-lg-10  alert alert-info">  
+                    <div class="col-lg-10  alert alert-info">
                         <?php echo __("You need to make your locale folder writable"); ?>
                         <pre><code>chown www-data:www-data <?php echo $global['systemRootPath']; ?>locale && sudo chmod -R 755 <?php echo $global['systemRootPath']; ?>locale</code></pre>
                     </div>
-                    <div class="col-lg-1">   
+                    <div class="col-lg-1">
                     </div>
                 </div>
                 <?php
@@ -201,7 +201,7 @@ sort($vars);
                     });
                 });
             });
-			
+
         </script>
     </body>
 </html>

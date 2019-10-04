@@ -3,7 +3,7 @@
 * <a href="https://netflix.youphptube.com/" target="_blank">Netflix demo page</a>
   - We provide you a Netflix site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
 * <a href="https://tutorials.youphptube.com/" target="_blank">Gallery demo page</a>
-  - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos. 
+  - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.youphptube.com/" target="_blank">Full access demo site</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
 
@@ -26,7 +26,7 @@ I don´t want to read I just want you to show me how to install!!
 
 Ok, check this out! https://tutorials.youphptube.com/video/streamer-and-encoder
 
-For text-based tutorials and manual, look here: https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Admin-manual
+For text-based tutorials and the manual, look here: https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Admin-manual
 
 There, you can find some hints for troubleshooting as well.
 
@@ -55,10 +55,9 @@ Go get it <a href="https://github.com/DanielnetoDotCom/YouPHPTube-Encoder" targe
 </div>
 
 # Why do I need the Encoder?
-You may want to install the encoder for a few reasons:
-If you have a faster server than the public encoder server (which is likely to happen) or If you'd like a private way of encoding your videos
+You may want to install the encoder for a few reasons, such as, if you have a faster server than the public encoder server (which is likely to be the case), or if you'd like a private way of encoding your videos.
 
-But the mandatory installation if you are using a private network. The public encoder will not have access to send the videos to your streamer site
+But, the installation is mandatory if you are using a private network. The public encoder will not have access to send the videos to your streamer site.
 
 If your server does not have a public IP or uses an IP on some of these bands:
 - 10.0.0.0/8
@@ -76,7 +75,7 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
-# Comming version (already in code on master)
+# In the upcoming version (already in the code on the master branch)
 - Better support for Nginx and Microsofts IIS (experimental)
 
 # Version 5.6
@@ -89,7 +88,7 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 
 # Version 5.4
 - Wavesurfer-visualisation for audio
-- Add dynamic /help-page (also usefull for admins)
+- Add dynamic /help-page (also useful for admins)
 - Embeded videos from youtube are in a native player now (allow plugins for it)
 - New options in advancedcustomised-plugin (minify js, disable add + share-button, disable the above player)
 - Backend-work and tons of fixes for it

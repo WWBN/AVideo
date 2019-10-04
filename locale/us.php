@@ -1,4 +1,5 @@
 <?php
+global $t;
 
 $t['%s ERROR: You must set a ID on config'] = "%s ERROR: You must set a ID on config";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: You must set a KEY on config";
@@ -229,7 +230,7 @@ $t['No results found!']  = "No results found!";
 $t['Notify Subscribers'] = "Notify Subscribers";
 $t['Off']  = "Off";
 $t['On']  = "On";
-$t['Only verified users can upload'] = "Only verified users can upload media"; 
+$t['Only verified users can upload'] = "Only verified users can upload media";
 $t['Opacity'] = "Opacity";
 $t['Original words found'] = "Original words found";
 $t['Page'] = "Page";

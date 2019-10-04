@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t[' (Do not change the title yet, wait to finish download)'] = "(Não altere o título ainda, espere para terminar o download)";
 $t['%s ERROR: You must set a ID on config'] = "%s ERRO: Você deve definir uma ID na configuração";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Você deve definir uma KEY em config";
@@ -465,10 +466,10 @@ $t['Video Statistics'] = "Estatísticas de Vídeo";
 $t['Watching Now'] = "Assistindo agora";
 $t['You can not stream live videos'] = "Você não pode transmitir vídeos ao vivo";
 $t['You have about %s minutes left of video storage!'] = "Você tem aproximadamente %s minutos restantes para armazenar vídeos!";
-$t['years']="anos";
-$t['months']="meses";
-$t['weeks']="semanas";
-$t['days']="dias";
-$t['hours']="horas";
-$t['minutes']="minutos";
-$t['seconds']="segundos";
+$t['years'] = "anos";
+$t['months'] = "meses";
+$t['weeks'] = "semanas";
+$t['days'] = "dias";
+$t['hours'] = "horas";
+$t['minutes'] = "minutos";
+$t['seconds'] = "segundos";
