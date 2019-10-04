@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "% s ERROR: עליך להגדיר מזהה בתצורה";
 $t['%s ERROR: You must set a KEY on config'] = "% s ERROR: עליך להגדיר KEY על התצורה";
 $t['(filtered from _MAX_ total entries)'] = "(מסוננים מרשימות _MAX_ סה\"כ)";

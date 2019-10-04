@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "%s ERROR: Een ID moet worden ingesteld";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Een KEY moet worden ingesteld";
 $t['465 OR 587'] = "465 OF 587";
@@ -100,7 +101,7 @@ $t['Finish on'] = "Gereed op";
 $t['First Page Mode'] = "Voorpagina modus";
 $t['For Live streaming is necessary enable flash in your browser.'] = "Het activeren van Flash is nodig voor live-streaming.";
 $t['For faster encode, download your own encoder'] = "Voor snellere encoding, download uw eigen encoder";
-$t['Gallery'] = "Gallerij";
+$t['Gallery'] = "Galerij";
 $t['Get Facebook ID and Key'] = "Facebook ID en Key verkrijgen";
 $t['Get Google ID and Key'] = "Google ID en Key verkrijgen";
 $t['Get imgage error'] = "Ophalen imgage is mislukt";
@@ -148,7 +149,7 @@ $t['New User'] = "Nieuwe gebruiker";
 $t['New User Groups'] = "Nieuwe gebruikersgroep";
 $t['No'] = "Neem vandaag nog contact met ons op!";
 $t['Notify Subscribers'] = "Abbonees informeren";
-$t['Original words found'] = "Orgineel woorden gevonden";
+$t['Original words found'] = "Origineel woorden gevonden";
 $t['Password'] = "Wachtwoord";
 $t['Paste here the translated words, one each line'] = "Plak hier de vertaalde woorden, één voor elke regel";
 $t['Permission denied'] = "Geen toegang";

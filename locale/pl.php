@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "%s Błąd: Musisz podać identyfikator (ID) w konfiruracji";
 $t['%s ERROR: You must set a KEY on config'] = "%s Błąd: Musisz podać klucz (KEY) w konfiruracji";
 $t[': activate to sort column ascending'] = ": aktywuj dla sortowania rosnącego";
@@ -22,7 +23,7 @@ $t['Ads Form'] = "Formularz reklamy";
 $t['Advanced Configuration'] = "Zaawansowana konfiguracja";
 $t['Advanced configuration'] = "Zaawansowana konfiguracja";
 $t['Allow Download This Video'] = "Pozwól pobierać klip wideo";
-$t['Allow Share This Video'] = "Pozwól dzielić się klipem wideo"; 
+$t['Allow Share This Video'] = "Pozwól dzielić się klipem wideo";
 $t['Advanced configurations are disabled'] = "Zaawansowana konfiguracja jest niedostępna";
 $t['Advertising Manager'] = "Manager reklamy";
 $t['Advertising Title'] = "Tytuł reklamy";

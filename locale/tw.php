@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "%s 錯誤：您必須設定 ID";
 $t['%s ERROR: You must set a KEY on config'] = "%s 錯誤：您必須設定 KEY";
 $t['465 OR 587'] = "465 或 587";

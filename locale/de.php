@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "%s FEHLER: Du mußt eine ID in der config erstellen";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Du mußt einen KEY (Schlüssel) in der config generieren";
 $t['(filtered from _MAX_ total entries)'] = "(gefiltert von _MAX_ total Einträgen)";
@@ -442,7 +443,7 @@ $t['This e-mail will be used for this web site notifications'] = "Diese E-Mail w
 $t['This help us to track and dettect errors'] = "Hilft uns Fehler zu entdecken";
 $t['This is an experimental resource'] = "";
 $t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/DanielnetoDotCom/YouPHPTube-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "";
-$t['This value must match with the language files on'] = "Dieser Eintrag muß mit den Sprachdateien übereinstimmen";
+$t['This value must match with the language files on'] = "Dieser Eintrag muss mit den Sprachdateien übereinstimmen";
 $t['This video was reported to our team, we will review it soon'] = "Video wurde gemeldet und wird bald geprüpft";
 $t['Thumbs Down'] = "Daumen runter";
 $t['Thumbs Up'] = "Daumen hoch";
@@ -458,9 +459,9 @@ $t['Today Views'] = "Ansichten heute";
 $t['Total Amount'] = "Gesamt";
 $t['Total Duration Videos (Minutes)'] = "Gesamtdauer (Minuten)";
 $t['Total Subscriptions'] = "Gesamtanzahl Abonnements";
-$t['Total Users'] = "Benutzer gesammt";
-$t['Total Video Comments'] = "Videokommentare gesammt";
-$t['Total Videos'] = "Videos gesammt";
+$t['Total Users'] = "Benutzer insgesamt";
+$t['Total Video Comments'] = "Videokommentare insgesamt";
+$t['Total Videos'] = "Videos insgesamt";
 $t['Total Videos Dislikes'] = "";
 $t['Total Videos Likes'] = "";
 $t['Total Videos Views'] = "";

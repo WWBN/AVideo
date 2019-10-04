@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<P> ¡YouPHPTube! Es un sitio web de intercambio de videos, el servicio fue creado por Daniel Neto en marzo de 2017. El software le permite cargar, ver, compartir y comentar videos, y hace uso de WebM y H.264 / MPEG-4 AVC para mostrar una amplia variedad de videos de medios generados por el usuario y corporativos. </p><p> Lo mejor de todo, YouPHPTube! Es una solución de código abierto que está disponible gratuitamente para todos. </p>";
 $t['About YouPHPTube!'] = "Acerca de YouPHPTube!";
 $t['About'] = "Acerca de";
@@ -114,7 +115,7 @@ $t['Most popular'] = "Más populares";
 $t['Most watched'] = "Más vistos";
 $t['Most'] = "más";
 $t['My Account'] = "Mi cuenta";
-$t['My Channel'] = "Mi página"; 
+$t['My Channel'] = "Mi página";
 $t['My Wallet'] = "Mi billetera";
 $t['My list'] = "Mi lista";
 $t['My videos'] = "Mis videos";
@@ -128,14 +129,14 @@ $t['No results found!'] = "No se han encontrado resultados!";
 $t['Notify Subscribers'] = "Notificar a los suscriptores";
 $t['Off'] = "Apagado";
 $t['On'] = "En";
-$t['Only verified users can upload'] = "Solo usarios verificados pueden subir medios"; 
+$t['Only verified users can upload'] = "Solo usarios verificados pueden subir medios";
 $t['Original words found'] = "Palabras originales encontradas";
 $t['Password'] = "Contraseña";
 $t['Paste here the translated words'] = "Pegue aquí las palabras traducidas";
 $t['Permission denied'] = "Permiso denegado";
 $t['Play'] = "Reproducir";
 $t['Please sign in'] = "Por Favor regístrese";
-$t['Powered by'] = "Energizado por"; 
+$t['Powered by'] = "Energizado por";
 $t['Premium video'] = "Video premium";
 $t['Preview'] = "Avance";
 $t['Previous'] = "Anterior";
