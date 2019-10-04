@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "%s ERREUR: Tu doit définir une ID";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERREUR: Tu doit définir une clé";
 $t[': activate to sort column ascending'] = ": Activer pour trier par ordre croissant";
@@ -237,7 +238,7 @@ $t['No matching records found'] = "Aucune recherches trouvées";
 $t['No results found!'] = "Pas de résultat";
 $t['Notify Subscribers'] = "Notifier Abonnés";
 $t['On']  = "On";
-$t['Only verified users can upload'] = "Seulement les utilisateurs vérifiés peuvent ajouter du contenu"; 
+$t['Only verified users can upload'] = "Seulement les utilisateurs vérifiés peuvent ajouter du contenu";
 $t['Opacity'] = "Opacité";
 $t['Original words found'] = "Des mots originaux trouvés";
 $t['Page'] = "Page";

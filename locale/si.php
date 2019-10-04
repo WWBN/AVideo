@@ -1,4 +1,5 @@
 <?php
+global $t;
 
 $t['%s ERROR: You must set a ID on config'] = "%s ERROR: You must set a ID on config";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: You must set a KEY on config";
@@ -229,7 +230,7 @@ $t['No results found!']  = "Ni najdenih rezultatov!";
 $t['Notify Subscribers'] = "Obvesti naročnike";
 $t['Off']  = "Izklopi";
 $t['On']  = "Vklopi";
-$t['Only verified users can upload'] = "Samo potrjeni uporabniki lahko nalagajo vsebine"; 
+$t['Only verified users can upload'] = "Samo potrjeni uporabniki lahko nalagajo vsebine";
 $t['Opacity'] = "Motnost";
 $t['Original words found'] = "Original words found";
 $t['Page'] = "Stran";

@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<p> YouPHPTube！是一个视频分享网站，该服务由Daniel Neto于2017年3月制作。</p><p>该软件允许您上传，查看，分享和评论视频，并利用WebM和H.264 / MPEG-4 AVC显示各种用户生成的和企业的媒体视频。 </p><p>最重要的是，YouPHPTube！是一个免费提供给大家的开源解决方案。</p>";
 $t['About YouPHPTube!'] = "关于YouPHPTube！";
 $t['About'] = "关于";
@@ -376,7 +377,7 @@ $t['No results found!']  = "No results found!";
 $t['Notify Subscribers'] = "通知订阅者";
 $t['Off']  = "关";
 $t['On']  = "开";
-$t['Only verified users can upload'] = "只有验证的用户能上传"; 
+$t['Only verified users can upload'] = "只有验证的用户能上传";
 $t['Opacity'] = "Opacity";
 $t['Original words found'] = "Original words found";
 $t['Page'] = "页";
@@ -744,4 +745,3 @@ $t['years'] = "年";
 $t['youtube-dl uses Python and some servers does not came with python as dafault, to install Python type:'] = "youtube-dl 需要 Python，但某些服务器并没有默认安装 Python，请安装Python:";
 $t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.']  = "installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.";
 $t['Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries']  = "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries";
-

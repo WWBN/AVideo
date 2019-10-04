@@ -19,7 +19,7 @@ if (!is_writable($dir)) {
     $obj->status = 0;
     $obj->error = sprintf(__("Your %slocale dir is not writable"), $global['systemRootPath']);
     die(json_encode($obj));
-} 
+}
 $file = $dir.strtolower($_POST['flag']).".php";
 $myfile = fopen($file, "w") or die("Unable to open file!");
 if(!$myfile){

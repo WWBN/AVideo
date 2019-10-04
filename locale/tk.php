@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<P> YouPHPTube! Bir video paylaşım sitesidir. Hizmet Daniel Neto tarafından Mart 2017'de oluşturulmuştur. </p><p> Yazılım, videoları yüklemenize, görüntülemenize, paylaşmanıza ve yorum yapmanıza izin verir ve WebM ve H.264'ü kullanır / MPEG-4 AVC, kullanıcı tarafından üretilen ve kurumsal medya videolarının geniş bir yelpazesini görüntüler. </p><p> En iyisi, YouPHPTube! Herkes tarafından serbestçe temin edilebilen açık kaynaklı bir çözümdür. </p>";
 $t['About YouPHPTube!'] = "YouPHPTube Hakkında!";
 $t['About'] = "hakkında";
