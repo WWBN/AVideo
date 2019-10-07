@@ -305,15 +305,18 @@ footer .btn-outline {
     top: 0;
     left: 0;
     width: 100%;
-    background: #141414;
+    height: 100%;
     pointer-events: none;
 }
 #bg_container iframe{
-    float: right;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 70vh;
-    opacity: 0.5;
-    filter: alpha(opacity=50); /* For IE8 and earlier */
+    height: 100%;
+    pointer-events: none;
+    opacity: 1;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
     overflow: hidden;
 }
 #carouselRows h2{
@@ -326,15 +329,14 @@ body.fullscreen{
     overflow: hidden;
 }
 
+@media (max-width: 1050px) {
+    #bigVideo{
+        margin-bottom: -100px !important;
+    }
+}
 @media (max-width: 767px) {
     #bigVideo{
-        height: 90vh !important;
         overflow: hidden;
-    }
-    #bg_container iframe {
-        height: 90vh !important;
-    }
-    .poster {
         height: 450px !important;
     }
 }

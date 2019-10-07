@@ -28,11 +28,12 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
              -moz-background-size: cover;
              -o-background-size: cover;
              background-size: cover; 
-             min-height: 70vh; 
-             margin: -20px; 
+             height: 0;
+             padding-bottom: 56.25%;/* Aspect ratio */
+             margin: -60px -20px; 
              margin-bottom: 0; 
              position: relative;
-             margin-bottom: -100px;
+             margin-bottom: -300px;
              z-index: 0;" >
              <?php
              if (!isMobile() && !empty($video['trailer1'])) {
