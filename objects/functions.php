@@ -2066,7 +2066,7 @@ function getAdsSideRectangle() {
 }
 
 function getOpenGraph($videos_id) {
-    global $global;
+    global $global, $config;
     echo "<!-- OpenGraph -->";
     if (empty($videos_id)) {
         echo "<!-- OpenGraph no video id -->";
@@ -2128,7 +2128,41 @@ function getOpenGraph($videos_id) {
     <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
 
-
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org/",
+      "@type": "VideoObject",
+      "name": "<?php echo str_replace('"', '', $video['title']); ?>",
+      "description": "<?php echo str_replace('"', '', $video['description']); ?>",
+    "thumbnailUrl": [
+    "<?php echo $img; ?>",
+    ],
+    "uploadDate": "<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>",
+    "duration": "<?php echo Video::getItemPropDuration($video['duration']); ?>",
+    "contentUrl": "<?php echo Video::getLinkToVideo($videos_id); ?>",
+    "embedUrl": "<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>",
+    "interactionCount": "<?php echo $video['views_count']; ?>",
+      "@id": "<?php echo Video::getPermaLink($videos_id); ?>",
+      "datePublished": "<?php echo date("Y-m-d", strtotime($video['created'])); ?>",
+      "interactionStatistic": [
+        {
+          "@type": "InteractionCounter",
+          "interactionService": {
+            "@type": "WebSite",
+            "name": "<?php echo str_replace('"', '', $config->getWebSiteTitle()); ?>",
+            "@id": "<?php echo $global['webSiteRootURL']; ?>"
+          },
+          "interactionType": "http://schema.org/LikeAction",
+          "userInteractionCount": "<?php echo $video['views_count']; ?>"
+        },
+        {
+          "@type": "InteractionCounter",
+          "interactionType": "http://schema.org/WatchAction",
+          "userInteractionCount": "<?php echo $video['views_count']; ?>"
+        }
+      ]
+    }
+    </script>
 
 
     <?php
