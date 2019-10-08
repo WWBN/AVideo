@@ -2133,7 +2133,7 @@ function getOpenGraph($videos_id) {
       "@context": "http://schema.org/",
       "@type": "VideoObject",
       "name": "<?php echo str_replace('"', '', $video['title']); ?>",
-      "description": "<?php echo str_replace('"', '', $video['description']); ?>",
+      "description": "<?php echo str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), $video['description']); ?>",
     "thumbnailUrl": [
     "<?php echo $img; ?>",
     ],
