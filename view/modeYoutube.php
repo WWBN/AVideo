@@ -218,6 +218,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         <?php 
         include $global['systemRootPath'] . 'view/include/head.php'; 
         getOpenGraph(0);
+        getLdJson(0);
         ?>
         
     </head>

@@ -10,6 +10,7 @@ if (!isset($global['systemRootPath'])) {
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <?php 
         getOpenGraph(@$_GET['videos_id']);
+        getLdJson(@$_GET['videos_id']);
         ?>
     </head>
     <body>

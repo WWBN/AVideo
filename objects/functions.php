@@ -2127,7 +2127,52 @@ function getOpenGraph($videos_id) {
 
     <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
-
+    <?php
+}
+function getLdJson($videos_id) {
+    global $global, $config;
+    echo "<!-- ld+json -->";
+    if (empty($videos_id)) {
+        echo "<!-- ld+json no video id -->";
+        if (!empty($_GET['videoName'])) {
+            echo "<!-- ld+json videoName {$_GET['videoName']} -->";
+            $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        }
+    } else {
+        echo "<!-- ld+json videos_id {$videos_id} -->";
+        $video = Video::getVideoLight($videos_id);
+    }
+    if (empty($video)) {
+        echo "<!-- ld+json no video -->";
+        return false;
+    }
+    $videos_id = $video['id'];
+    $source = Video::getSourceFile($video['filename']);
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
+        $img = $source['url'];
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    } else if ($video['type'] == "audio") {
+        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    }
+    $type = 'video';
+    if ($video['type'] === 'pdf') {
+        $type = 'pdf';
+    }
+    if ($video['type'] === 'article') {
+        $type = 'article';
+    }
+    $images = Video::getImageFromFilename($video['filename'], $type);
+    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+        $img = $images->posterPortrait;
+        $data = getimgsize($images->posterPortraitPath);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    } else {
+        $img = $images->poster;
+    }
+    ?>
     <script type="application/ld+json">
     {
       "@context": "http://schema.org/",

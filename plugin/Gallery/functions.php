@@ -288,6 +288,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
             }
             @$timesG[__LINE__] += microtime(true) - $startG;
             $startG = microtime(true);
+            getLdJson($value['id']);
             ?>
         </div>
 
