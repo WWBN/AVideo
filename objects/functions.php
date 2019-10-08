@@ -2180,7 +2180,7 @@ function getLdJson($videos_id) {
       "name": "<?php echo str_replace('"', '', $video['title']); ?>",
       "description": "<?php echo str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), $video['description']); ?>",
     "thumbnailUrl": [
-    "<?php echo $img; ?>",
+    "<?php echo $img; ?>"
     ],
     "uploadDate": "<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>",
     "duration": "<?php echo Video::getItemPropDuration($video['duration']); ?>",
