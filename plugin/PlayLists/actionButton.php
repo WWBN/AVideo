@@ -13,7 +13,7 @@ $crc = uniqid();
                     <div class="form-group">
                         <input class="form-control" id="searchinput<?php echo $videos_id.$crc; ?>" type="search" placeholder="<?php echo __("Search"); ?>..." />
                     </div>
-                    <div class="PlayListList searchlist<?php echo $videos_id.$crc; ?>" class="list-group">
+                    <div class="PlayListList searchlist<?php echo $videos_id.$crc; ?> list-group">
                     </div>
                 </form>
                 <div>
