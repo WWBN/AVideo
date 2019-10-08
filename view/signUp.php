@@ -111,9 +111,8 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
 
                             <!-- Button -->
                             <div class="form-group">
-                                <label class="col-md-4 control-label"></label>
-                                <div class="col-md-8">
-                                    <button type="submit" class="btn btn-primary" ><?php echo __("Save"); ?> <span class="glyphicon glyphicon-save"></span></button>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary btn-block" ><i class="fas fa-user-plus"></i> <?php echo __("Sign Up"); ?></button>
                                 </div>
                             </div>
                         </fieldset>
