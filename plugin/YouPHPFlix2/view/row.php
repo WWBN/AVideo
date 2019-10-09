@@ -24,7 +24,7 @@ $post = $_POST;
             $cssClass = "posterPortrait";
         }
         ?>
-        <div class="carousel-cell  ">
+        <div class="carousel-cell  "  itemscope itemtype="http://schema.org/VideoObject">
             <div class="tile">
                 <div class="slide thumbsImage" crc="<?php echo $value['id'] . $uid; ?>" videos_id="<?php echo $value['id']; ?>" poster="<?php echo $poster; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  video="<?php echo $value['clean_title']; ?>" iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>">
                     <div class="tile__media ">
@@ -62,6 +62,10 @@ $post = $_POST;
                 </div>
                 <div class="arrow-down" style="display: none;"></div>
             </div>
+            <?php
+            getLdJson($value['id']);
+            getItemprop($value['id']);
+            ?>
         </div>        
         <?php
     }
