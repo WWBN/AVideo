@@ -2,7 +2,7 @@
 <script src="<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>
 <script>
     if (typeof player === 'undefined') {
-        player = videojs('mainVideo');
+        player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
     }
     var options = {id: 'mainVideo', adTagUrl: '<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/VMAP.php?video_length=<?php echo $video_length ?>&vmap_id=<?php echo $vmap_id ?>'};
         player.ima(options);
@@ -13,7 +13,7 @@ if (!empty($obj->showMarkers)) {
                 $.getScript("<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/videojs-markers/videojs-markers.js", function (data, textStatus, jqxhr) {
 
                     if (typeof player == 'undefined') {
-                        player = videojs('mainVideo');
+                        player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                     }
                     player.markers({
                         markerStyle: {

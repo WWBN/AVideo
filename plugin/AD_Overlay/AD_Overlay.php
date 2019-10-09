@@ -100,7 +100,7 @@ class AD_Overlay extends PluginAbstract {
 
         $js .= '<script>'
                 . "$(document).ready(function () {     if (typeof player == 'undefined') {
-                    player = videojs('mainVideo');
+                    player = videojs('mainVideo'".PlayerSkins::getDataSetup().");
                     setTimeout(function(){
                         \$('#cbb').click(function() {
                             \$('.vjs-overlay').fadeOut();
