@@ -221,6 +221,7 @@ Options All -Indexes
     RewriteRule    ^notifications.json$ objects/notifications.json.php    [NC,L]
 
     RewriteRule    ^sitemap.xml$ view/sitemap.xml.php    [NC,L]
+    RewriteRule    ^robots.txt$ view/robots.txt.php    [NC,L]
 
     RewriteRule    ^videos/(.*)/index.m3u8$ view/hls.php?videoDirectory=$1    [NC,L,QSA]
     # It must be before image not found
@@ -233,6 +234,11 @@ Options All -Indexes
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule .*$ img/image404.php [NC,L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule .*$ view/error.php [NC,L]
 
 </IfModule>
 <IfModule mod_deflate.c>
