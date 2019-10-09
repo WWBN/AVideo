@@ -2173,7 +2173,7 @@ function getLdJson($videos_id) {
         $img = $images->poster;
     }
     
-    $description = str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), empty($video['description'])?$video['title']:$video['description']);
+    $description = str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), empty(trim($video['description']))?$video['title']:$video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
     if($duration=="PT0H0M0S"){
         $duration = "PT0H0M1S";
@@ -2263,7 +2263,7 @@ function getItemprop($videos_id) {
         $img = $images->poster;
     }
     
-    $description = str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), empty($video['description'])?$video['title']:$video['description']);
+    $description = str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), empty(trim($video['description']))?$video['title']:$video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
     if($duration=="PT0H0M0S"){
         $duration = "PT0H0M1S";
