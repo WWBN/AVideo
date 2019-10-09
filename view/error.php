@@ -3,6 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+header("HTTP/1.0 404 Not Found");
 ?>
 <!DOCTYPE html>
 <html>
