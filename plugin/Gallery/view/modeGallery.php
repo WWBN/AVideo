@@ -79,7 +79,7 @@ $contentSearchFound = false;
 
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
-        <div class="container-fluid gallery" itemscope itemtype="http://schema.org/VideoObject">
+        <div class="container-fluid gallery">
             <div class="row text-center" style="padding: 10px;">
                 <?php echo getAdsLeaderBoardTop(); ?>
             </div>

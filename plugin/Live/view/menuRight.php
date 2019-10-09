@@ -45,7 +45,7 @@ if (User::canStream()) {
         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" style="min-height: 70px; position:relative;" >
             <img src="" class="thumbsJPG img-responsive" height="130" itemprop="thumbnailUrl" />
             <meta itemprop="uploadDate" content="<?php echo date("Y-m-d h:i:s"); ?>" />
-            <img src="" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
+            <img src="<?php echo $global['webSiteRootURL']; ?>videos/userPhoto/logo.png?1570572040" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
             <span class="label label-danger liveNow faa-flash faa-slow animated"><?php echo __("LIVE NOW"); ?></span>
         </div>
         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">

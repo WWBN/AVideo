@@ -2172,18 +2172,24 @@ function getLdJson($videos_id) {
     } else {
         $img = $images->poster;
     }
+    
+    $description = str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), empty($video['description'])?$video['title']:$video['description']);
+    $duration = Video::getItemPropDuration($video['duration']);
+    if($duration=="PT0H0M0S"){
+        $duration = "PT0H0M1S";
+    }
     ?>
     <script type="application/ld+json">
     {
       "@context": "http://schema.org/",
       "@type": "VideoObject",
       "name": "<?php echo str_replace('"', '', $video['title']); ?>",
-      "description": "<?php echo str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), $video['description']); ?>",
+      "description": "<?php echo $description ?>",
     "thumbnailUrl": [
     "<?php echo $img; ?>"
     ],
     "uploadDate": "<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>",
-    "duration": "<?php echo Video::getItemPropDuration($video['duration']); ?>",
+    "duration": "<?php echo $duration; ?>",
     "contentUrl": "<?php echo Video::getLinkToVideo($videos_id); ?>",
     "embedUrl": "<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>",
     "interactionCount": "<?php echo $video['views_count']; ?>",
