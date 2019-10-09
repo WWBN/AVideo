@@ -2218,3 +2218,64 @@ function getLdJson($videos_id) {
 
     <?php
 }
+
+function getItemprop($videos_id) {
+    global $global, $config;
+    echo "<!-- Itemprop -->";
+    if (empty($videos_id)) {
+        echo "<!-- Itemprop no video id -->";
+        if (!empty($_GET['videoName'])) {
+            echo "<!-- Itemprop videoName {$_GET['videoName']} -->";
+            $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        }
+    } else {
+        echo "<!-- Itemprop videos_id {$videos_id} -->";
+        $video = Video::getVideoLight($videos_id);
+    }
+    if (empty($video)) {
+        echo "<!-- Itemprop no video -->";
+        return false;
+    }
+    $videos_id = $video['id'];
+    $source = Video::getSourceFile($video['filename']);
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
+        $img = $source['url'];
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    } else if ($video['type'] == "audio") {
+        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    }
+    $type = 'video';
+    if ($video['type'] === 'pdf') {
+        $type = 'pdf';
+    }
+    if ($video['type'] === 'article') {
+        $type = 'article';
+    }
+    $images = Video::getImageFromFilename($video['filename'], $type);
+    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+        $img = $images->posterPortrait;
+        $data = getimgsize($images->posterPortraitPath);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    } else {
+        $img = $images->poster;
+    }
+    
+    $description = str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), empty($video['description'])?$video['title']:$video['description']);
+    $duration = Video::getItemPropDuration($video['duration']);
+    if($duration=="PT0H0M0S"){
+        $duration = "PT0H0M1S";
+    }
+    ?>
+    <meta itemprop="name" content="<?php echo str_replace('"', '', $video['title']); ?>" />
+    <meta itemprop="description" content="<?php echo $description ?>" />
+    <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+    <meta itemprop="uploadDate" content="<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>" />
+    <meta itemprop="duration" content="<?php echo $duration; ?>" />
+    <meta itemprop="contentUrl" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
+    <meta itemprop="embedUrl" content="<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>" />
+    <meta itemprop="interactionCount" content="<?php echo $video['views_count']; ?>" />
+    <?php
+}
