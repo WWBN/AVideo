@@ -191,6 +191,10 @@ foreach ($videos as $key => $value) {
                 </div>
             </div>
         </a>
+        <?php
+        getLdJson($value['id']);
+        getItemprop($value['id']);
+        ?>
     </div>
     <?php
 }
