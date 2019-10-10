@@ -51,7 +51,7 @@ class PlayerSkins extends PluginAbstract {
         return array('free');
     }
 
-    static function getDataSetup(){
+    static function getDataSetup($str = ""){
         $obj = YouPHPTubePlugin::getObjectData('PlayerSkins');
         
         $dataSetup = array();
@@ -61,7 +61,7 @@ class PlayerSkins extends PluginAbstract {
         }
         
         if(!empty($dataSetup)){
-            return ",{". implode(",", $dataSetup)."}";
+            return ",{". implode(",", $dataSetup)."{$str}}";
         }
         
         return "";
