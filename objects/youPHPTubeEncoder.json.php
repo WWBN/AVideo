@@ -110,8 +110,8 @@ if (!empty($_FILES['video']['error'])) {
         $file = url_get_contents($_POST['downloadURL']);
         error_log("youPHPTubeEncoder.json: Got the download ".$_POST['downloadURL']);
         if($file){
-            error_log("youPHPTubeEncoder.json: fwrite ".$temp);
             $temp = "{$global['systemRootPath']}videos/cache/tmpFile/{$_FILES['video']['name']}";
+            error_log("youPHPTubeEncoder.json: save ".$temp);
             make_path($temp);
             file_put_contents($temp, $file);
             $_FILES['video']['tmp_name'] = $temp;
