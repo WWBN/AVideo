@@ -86,6 +86,13 @@ if (empty($videoFileName)) {
 
 
 $destination_local = "{$global['systemRootPath']}videos/{$videoFileName}";
+
+if(!empty($_FILES)){
+    error_log("youPHPTubeEncoder.json: Files ". json_encode($_FILES));
+}else{
+    error_log("youPHPTubeEncoder.json: Files EMPTY");
+}
+
 // get video file from encoder
 if (!empty($_FILES['video']['tmp_name'])) {
     $resolution = "";
