@@ -489,7 +489,7 @@ function sendSiteEmail($to, $subject, $message) {
 }
 
 function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0, $objectFit = "") {
-    error_log("parseVideos: $videoString");
+    //error_log("parseVideos: $videoString");
     if (strpos($videoString, 'youtube.com/embed') !== false) {
         return $videoString . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time&objectFit=$objectFit";
@@ -804,7 +804,7 @@ function getVideosURLPDF($fileName) {
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $start), 4);
-    error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
+    //error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
     return $files;
 }
 
@@ -857,7 +857,7 @@ function getVideosURLArticle($fileName) {
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $start), 4);
-    error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
+    //error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
     return $files;
 }
 
@@ -919,7 +919,7 @@ function getVideosURLAudio($fileName) {
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $start), 4);
-    error_log("getVideosURLAudio generated in {$total_time} seconds. fileName: $fileName ");
+    //error_log("getVideosURLAudio generated in {$total_time} seconds. fileName: $fileName ");
     return $files;
 }
 
@@ -951,8 +951,8 @@ function getVideosURL($fileName, $cache = true) {
         $time = $time[1] + $time[0];
         $finish = $time;
         $total_time = round(($finish - $start), 4);
-        error_log("getVideosURL Cache in {$total_time} seconds. fileName: $fileName ");
-        error_log("getVideosURL age: " . (time() - filemtime($cacheFilename)) . " minimumExpirationTime: " . minimumExpirationTime());
+        //error_log("getVideosURL Cache in {$total_time} seconds. fileName: $fileName ");
+        //error_log("getVideosURL age: " . (time() - filemtime($cacheFilename)) . " minimumExpirationTime: " . minimumExpirationTime());
         return object_to_array(json_decode($json));
     }
     global $global;
@@ -1069,7 +1069,7 @@ function getVideosURL($fileName, $cache = true) {
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $start), 4);
-    error_log("getVideosURL generated in {$total_time} seconds. fileName: $fileName ");
+    //error_log("getVideosURL generated in {$total_time} seconds. fileName: $fileName ");
     return $files;
 }
 
