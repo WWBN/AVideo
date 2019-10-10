@@ -67,7 +67,7 @@ if ($status !== 'u' && $status !== 'a') {
     }
 }
 $video->setVideoDownloadedLink($_POST['videoDownloadedLink']);
-error_log("youPHPTubeEncoder.json: Encoder receiving post");
+error_log("youPHPTubeEncoder.json: Encoder receiving post ". json_encode($_POST));
 //error_log(print_r($_POST, true));
 if (preg_match("/(mp3|wav|ogg)$/i", $_POST['format'])) {
     $type = 'audio';
