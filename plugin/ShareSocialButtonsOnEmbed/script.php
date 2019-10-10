@@ -68,7 +68,7 @@
             placement: 'bottom'
         });
         if (typeof player == 'undefined') {
-            player = videojs('mainVideo');
+            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
         }
         $('#cpLink, #cpEmbed').mouseleave(function (event) {
              $(this).tooltip('hide');
