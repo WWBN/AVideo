@@ -6,22 +6,22 @@
 </script>
 <script src="<?php echo $global['webSiteRootURL'] ?>plugin/Chromecast/videojs-chromecast/silvermine-videojs-chromecast.js" type="text/javascript"></script>
 <script>
-    /*
-        var options;
 
-        options = {
-            controls: true,
-            techOrder: ['chromecast', 'html5'], // You may have more Tech, such as Flash or HLS
-            plugins: {
-                chromecast: {}
-            }
-        };
-*/
-        videojs('mainVideo', options);
+    var options;
+
+    options = {
+        controls: true,
+        techOrder: ['chromecast', 'html5'], // You may have more Tech, such as Flash or HLS
+        plugins: {
+            chromecast: {}
+        }
+    };
+
+    videojs('mainVideo', options);
     $(document).ready(function () {
 
         if (typeof player === 'undefined') {
-            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
+            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(",controls: true,techOrder: ['chromecast', 'html5'], plugins: {chromecast: {}}"); ?>);
         }
         player.chromecast();
     });
