@@ -112,6 +112,7 @@ if (!empty($_FILES['video']['error'])) {
         if($file){
             error_log("youPHPTubeEncoder.json: fwrite ".$temp);
             $temp = "{$global['systemRootPath']}videos/cache/tmpFile/{$_FILES['video']['name']}";
+            make_path($temp);
             fwrite($temp, $file);
             $_FILES['video']['tmp_name'] = $temp;
         }
