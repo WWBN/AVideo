@@ -105,13 +105,14 @@ if (!empty($_FILES['video']['error'])) {
         8 => 'A PHP extension stopped the file upload.',
     );
     error_log("youPHPTubeEncoder.json: ********  Files ERROR " . $phpFileUploadErrors[$_FILES['video']['error']]);
-    if(!empty($_POST['downloadURL'])){
+    if(!empty($_POST['downloadURL']) && !empty($_FILES['video']['name'])){
         error_log("youPHPTubeEncoder.json: Try to download ".$_POST['downloadURL']);
         $file = url_get_contents($_POST['downloadURL']);
+        error_log("youPHPTubeEncoder.json: Got the download ".$_POST['downloadURL']);
         if($file){
-            $temp = tmpfile();
-            fwrite($temp, $file);
             error_log("youPHPTubeEncoder.json: fwrite ".$temp);
+            $temp = "{$global['systemRootPath']}videos/cache/tmpFile/{$_FILES['video']['name']}";
+            fwrite($temp, $file);
             $_FILES['video']['tmp_name'] = $temp;
         }
     }
