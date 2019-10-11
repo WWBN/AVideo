@@ -1641,6 +1641,9 @@ function url_get_contents($Url, $ctx = "") {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        
+        curl_setopt($ch,CURLOPT_TIMEOUT,590);
+        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,600);
         $output = curl_exec($ch);
         curl_close($ch);
         if (session_status() == PHP_SESSION_NONE) {
