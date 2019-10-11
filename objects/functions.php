@@ -1601,7 +1601,7 @@ function local_get_contents($path) {
     }
 }
 
-function url_get_contents($Url, $ctx = "") {
+function url_get_contents($Url, $ctx = "", $timeout=0) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     $session = $_SESSION;
     session_write_close();
@@ -1641,9 +1641,10 @@ function url_get_contents($Url, $ctx = "") {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        
-        curl_setopt($ch,CURLOPT_TIMEOUT,590);
-        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,600);
+        if(!empty($timeout)){
+            curl_setopt($ch,CURLOPT_TIMEOUT,$timeout);
+            curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout+10);
+        }
         $output = curl_exec($ch);
         curl_close($ch);
         if (session_status() == PHP_SESSION_NONE) {
