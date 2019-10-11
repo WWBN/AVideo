@@ -1605,6 +1605,9 @@ function url_get_contents($Url, $ctx = "", $timeout=0) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     $session = $_SESSION;
     session_write_close();
+    if(!empty($timeout)){
+        ini_set('default_socket_timeout', $timeout);
+    }
     $global['mysqli']->close();
     if (empty($ctx)) {
         $opts = array(
@@ -1614,6 +1617,10 @@ function url_get_contents($Url, $ctx = "", $timeout=0) {
                 "allow_self_signed" => true,
             ),
         );
+        if(!empty($timeout)){
+            ini_set('default_socket_timeout', $timeout);
+            $opts['http']=array('timeout' => $timeout);
+        }
         $context = stream_context_create($opts);
     } else {
         $context = $ctx;
