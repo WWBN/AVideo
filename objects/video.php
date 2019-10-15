@@ -897,7 +897,8 @@ if (!class_exists('Video')) {
 
             if(empty($_POST['sort']['trending'])){
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
-            }else if(!empty($_POST['rowCount'])){
+            }else{
+                unset($_POST['sort']['trending']);
                 $_POST['sort']['created'] = 'DESC';
                 $rowCount = $_POST['rowCount'];
                 $_POST['rowCount'] *= 2;// double it to make it random
