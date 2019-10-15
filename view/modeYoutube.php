@@ -234,7 +234,7 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
             <?php
         }
         ?>
-        <div class="container-fluid principalContainer" itemscope itemtype="http://schema.org/VideoObject">
+        <div class="container-fluid principalContainer">
             <?php
             if (!empty($video)) {
                 if (empty($video['type'])) {

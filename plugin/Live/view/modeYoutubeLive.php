@@ -59,7 +59,7 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
         if ($lt->userCanSeeTransmition()) {
             ?>
 
-            <div class="container-fluid principalContainer " itemscope itemtype="http://schema.org/VideoObject">
+            <div class="container-fluid principalContainer ">
                 <div class="col-md-12">
                     <?php
                     require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";

@@ -84,7 +84,7 @@ foreach ($playList as $value) {
             <?php
         }
         ?>
-        <div class="container-fluid principalContainer" itemscope itemtype="http://schema.org/VideoObject">
+        <div class="container-fluid principalContainer">
             <?php
             if (!empty($playListObj)) {
                 if (!empty($advancedCustom->showAdsenseBannerOnTop)) {

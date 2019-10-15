@@ -70,7 +70,7 @@ if(!empty($_GET['embed'])){
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid principalContainer " itemscope itemtype="http://schema.org/VideoObject">
+        <div class="container-fluid principalContainer ">
             <div class="col-md-12">
                 <?php
                 require "{$global['systemRootPath']}plugin/LiveLinks/view/liveVideo.php";
