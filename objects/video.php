@@ -894,8 +894,7 @@ if (!class_exists('Video')) {
             }
 
             $sql .= YouPHPTubePlugin::getVideoWhereClause();
-
-            if(empty($_POST['sort']['trending']) && empty($_GET['sort']['trending'])){
+            if(!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])){
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
             }else{
                 unset($_POST['sort']['trending']);
