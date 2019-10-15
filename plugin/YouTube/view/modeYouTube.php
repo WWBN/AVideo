@@ -130,6 +130,9 @@ $contentSearchFound = false;
                         ?>
                         <!-- For Live Videos End -->
                         <?php
+                        if ($objYTube->Trending) {
+                            createGallery(!empty($objYTube->TrendingCustomTitle) ? $objYTube->TrendingCustomTitle : __("Trending"), 'trending', $objYTube->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$objYTube->hidePrivateVideos);
+                        }
                         if ($objYTube->SortByName) {
                             createGallery(!empty($objYTube->SortByNameCustomTitle) ? $objYTube->SortByNameCustomTitle : __("Sort by name"), 'title', $objYTube->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$objYTube->hidePrivateVideos);
                         }

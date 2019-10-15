@@ -45,6 +45,9 @@ class YouTube extends PluginAbstract {
         $obj->BigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;
+        $obj->Trending = true;
+        $obj->TrendingCustomTitle = "";
+        $obj->TrendingRowCount = 12;
         $obj->DateAdded = true;
         $obj->DateAddedCustomTitle = "";
         $obj->DateAddedRowCount = 12;

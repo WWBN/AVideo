@@ -28,6 +28,8 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->pageDots = true;
         $obj->PlayList = true;
         $obj->PlayListAutoPlay = true;
+        $obj->Trending = true;
+        $obj->TrendingAutoPlay = true;
         $obj->DateAdded = true;
         $obj->DateAddedAutoPlay = true;
         $obj->MostPopular = true;

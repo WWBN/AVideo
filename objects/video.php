@@ -895,8 +895,23 @@ if (!class_exists('Video')) {
 
             $sql .= YouPHPTubePlugin::getVideoWhereClause();
 
-            $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
-
+            if(empty($_POST['sort']['trending'])){
+                $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
+            }else if(!empty($_POST['rowCount'])){
+                $_POST['sort']['created'] = 'DESC';
+                $rowCount = $_POST['rowCount'];
+                $_POST['rowCount'] *= 2;// double it to make it random
+                $rows = self::getAllVideosLight($status, $showOnlyLoggedUserVideos, $showUnlisted);
+                $_POST['rowCount'] = $rowCount;
+                $ids = array();
+                foreach ($rows as $row) {
+                    $ids[] = $row['id'];
+                }
+                if(!empty($ids)){
+                    $sql .= " AND v.id IN (". implode(",", $ids).") ORDER BY RAND() LIMIT {$rowCount}";
+                }
+            }
+            
             if (!empty($_GET['limitOnceToOne'])) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);

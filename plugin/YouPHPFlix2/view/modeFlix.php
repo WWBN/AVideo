@@ -32,6 +32,39 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                 <?php
                 $_POST['current'] = 1;
                 $_POST['rowCount'] = $obj->maxVideos;
+                
+                if ($obj->Trending) {
+                    $dataFlickirty = new stdClass();
+                    $dataFlickirty->wrapAround = true;
+                    $dataFlickirty->pageDots = !empty($obj->pageDots);
+                    $dataFlickirty->lazyLoad = 15;
+                    $dataFlickirty->setGallerySize = false;
+                    $dataFlickirty->cellAlign = 'left';
+                    if ($obj->TrendingAutoPlay) {
+                        $dataFlickirty->autoPlay = true;
+                    }
+
+                    $_POST['sort']['trending'] = "";
+
+                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                    if (!empty($videos)) {
+                        ?>
+                        <div class="row">
+                            <h2>
+                                <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
+                                echo __("Date added (newest)");
+                                ?>
+                            </h2>
+                            <!-- Date Added -->
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            ?>
+                        </div>
+
+                        <?php
+                    }
+                }
+                
                 if ($obj->DateAdded) {
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;

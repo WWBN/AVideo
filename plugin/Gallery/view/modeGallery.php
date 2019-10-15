@@ -129,6 +129,9 @@ $contentSearchFound = false;
                         ?>
                         <!-- For Live Videos End -->
                         <?php
+                        if ($obj->Trending) {
+                            createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos);
+                        }
                         if ($obj->SortByName) {
                             createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos);
                         }
