@@ -204,8 +204,9 @@ class Configuration {
             return "view/img/logo.png";
         }
         $get = "";
-        if($timestamp){
-            $get .= "?".filemtime(str_replace("?", "", $global['systemRootPath'].$this->logo));
+        $file = str_replace("?", "", $global['systemRootPath'].$this->logo);
+        if($timestamp && file_exists($file)){
+            $get .= "?".filemtime($file);
         }
         return $this->logo.$get;
     }

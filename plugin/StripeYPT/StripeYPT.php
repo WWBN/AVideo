@@ -6,6 +6,8 @@ require_once $global['systemRootPath'] . 'plugin/StripeYPT/init.php';
 
 class StripeYPT extends PluginAbstract {
 
+    private $Publishablekey, $Restrictedkey, $SigningSecret;
+
     public function getDescription() {
         $str = "Stripe module for several purposes<br>
             Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/apikeys'>here</a>  (you must have Stripe account, of course)<br>";
@@ -36,6 +38,25 @@ class StripeYPT extends PluginAbstract {
         $obj->SigningSecret = "whsec_54gqoVeSuoeXEiNPcFhMN0jkBZY0JJG3";
         //$obj->disableSandbox = false;
         return $obj;
+    }
+
+    public function getDataObject() {
+
+        if (!empty($this->Publishablekey)) {
+            $obj = new stdClass();
+            $obj->Publishablekey = $this->Publishablekey;
+            $obj->Restrictedkey = $this->Restrictedkey;
+            $obj->SigningSecret = $this->SigningSecret;
+            return $obj;
+        }
+
+        return parent::getDataObject();
+    }
+
+    public function setTempDataObject($Publishablekey, $Restrictedkey, $SigningSecret) {
+        $this->Publishablekey = $Publishablekey;
+        $this->Restrictedkey = $Restrictedkey;
+        $this->SigningSecret = $SigningSecret;
     }
 
     function start() {
@@ -69,6 +90,7 @@ class StripeYPT extends PluginAbstract {
         global $global;
         $this->start();
         $total = number_format(floatval($total), 2, "", "");
+        error_log("StripeYPT::setUpPayment $total , $currency, $description");
         if (!empty($_POST['stripeToken'])) {
             $token = $_POST['stripeToken'];
             try {
@@ -78,10 +100,14 @@ class StripeYPT extends PluginAbstract {
                             'description' => $description,
                             'source' => $token,
                 ]);
+                error_log("StripeYPT::setUpPayment charge ".  json_encode($charge));
                 return $charge;
             } catch (Exception $exc) {
+                error_log("StripeYPT::setUpPayment error ");
                 error_log($exc->getTraceAsString());
             }
+        }else{
+            error_log("StripeYPT::setUpPayment stipeToken empty");
         }
         return false;
     }
@@ -115,26 +141,31 @@ class StripeYPT extends PluginAbstract {
     }
 
     static function isPaymentOk($payment, $value, $currency) {
-
+        error_log("isPaymentOk: ".  json_encode($payment));
+        error_log("isPaymentOk: $value, $currency");
         if (!is_object($payment)) {
+            error_log("isPaymentOk: NOT object");
             return false;
         }
 
         if (empty($payment->paid)) {
+            error_log("isPaymentOk: NOT paid");
             return false;
         }
 
         if (strcasecmp($currency, self::getCurrencyFromPayment($payment)) !== 0) {
+            error_log("isPaymentOk: NOT same currency");
             return false;
         }
 
         if ($value > self::getAmountFromPayment($payment)) {
+            error_log("isPaymentOk: NOT same amount");
             return false;
         }
         return true;
     }
 
-        public function createCostumer($users_id, $stripeToken) {
+    public function createCostumer($users_id, $stripeToken) {
         global $global;
 
         $user = new User($users_id);
@@ -158,27 +189,27 @@ class StripeYPT extends PluginAbstract {
         $costumer = $this->createCostumer($users_id, $stripeToken);
 
         if (!empty($costumer)) {
-            if(self::isCostumerValid($costumer->id)){
+            if (self::isCostumerValid($costumer->id)) {
                 return $costumer->id;
-            }else{
+            } else {
                 return false;
             }
         }
 
         return false;
     }
-    
-    public static function isCostumerValid($id){
-        if($id == 'canceled'){
+
+    public static function isCostumerValid($id) {
+        if ($id == 'canceled') {
             return false;
         }
         error_log("StripeYPT::isCostumerValid $id");
         try {
             $c = \Stripe\Customer::retrieve($id);
-            if($c){
-                error_log("StripeYPT::isCostumerValid IS VALID: ". json_encode($c));
+            if ($c) {
+                error_log("StripeYPT::isCostumerValid IS VALID: " . json_encode($c));
                 return true;
-            }else{
+            } else {
                 error_log("StripeYPT::isCostumerValid NOT FOUND");
                 return false;
             }
@@ -186,7 +217,6 @@ class StripeYPT extends PluginAbstract {
             error_log("StripeYPT::isCostumerValid ERROR");
             return false;
         }
-
     }
 
     private function createBillingPlan($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement') {
@@ -261,11 +291,11 @@ class StripeYPT extends PluginAbstract {
         }
         // check costumer
         $sub = Subscription::getOrCreateStripeSubscription(User::getId(), $plans_id);
-        
-        if(!self::isCostumerValid($sub['stripe_costumer_id'])){
+
+        if (!self::isCostumerValid($sub['stripe_costumer_id'])) {
             $sub['stripe_costumer_id'] = "";
         }
-        
+
         if (empty($sub['stripe_costumer_id'])) {
             $sub['stripe_costumer_id'] = $this->getCostumerId(User::getId(), $stripeToken);
             if (empty($sub['stripe_costumer_id'])) {
