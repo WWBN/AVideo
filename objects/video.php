@@ -895,10 +895,11 @@ if (!class_exists('Video')) {
 
             $sql .= YouPHPTubePlugin::getVideoWhereClause();
 
-            if(empty($_POST['sort']['trending'])){
+            if(empty($_POST['sort']['trending']) && empty($_GET['sort']['trending'])){
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
             }else{
                 unset($_POST['sort']['trending']);
+                unset($_GET['sort']['trending']);
                 $_POST['sort']['created'] = 'DESC';
                 $rowCount = $_POST['rowCount'];
                 $_POST['rowCount'] *= 2;// double it to make it random
