@@ -53,7 +53,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                         <div class="row">
                             <h2>
                                 <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                                echo __("Date added (newest)");
+                                echo __("Trending");
                                 ?>
                             </h2>
                             <!-- Date Added -->
