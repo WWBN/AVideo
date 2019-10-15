@@ -47,6 +47,7 @@ $obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
                     $_POST['sort']['trending'] = "";
 
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                    unset($_POST['sort']['trending']);
                     if (!empty($videos)) {
                         ?>
                         <div class="row">
