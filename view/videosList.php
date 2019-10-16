@@ -42,8 +42,8 @@ $_SESSION['rowCount'] = $_POST['rowCount'];
 $_SESSION['sort'] = $_POST['sort'];
 
 
-$videos = Video::getAllVideos("viewable");
-$total = Video::getTotalVideos("viewable");
+$videos = Video::getAllVideos("viewableNotUnlisted");
+$total = Video::getTotalVideos("viewableNotUnlisted");
 $totalPages = ceil($total / $_POST['rowCount']);
 $_POST = $post;
 if (empty($totalPages)) {

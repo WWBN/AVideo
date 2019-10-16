@@ -18,6 +18,7 @@ class Live extends PluginAbstract {
     public function getHTMLMenuRight() {
         global $global;
         $buttonTitle = $this->getButtonTitle();
+        $obj = $this->getDataObject();
         include $global['systemRootPath'] . 'plugin/Live/view/menuRight.php';
     }
 
@@ -71,6 +72,7 @@ class Live extends PluginAbstract {
         $obj->disableGifThumbs = false;
         $obj->useAadaptiveMode = false;
         $obj->experimentalWebcam = false;
+        $obj->doNotShowLiveOnVideosList = false;
         return $obj;
     }
 

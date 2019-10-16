@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -9,10 +9,11 @@ if (empty($_POST['user'])) {
 }
 $user = new User(0, $_POST['user'], false);
 if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
+    $obj = new stdClass();
+    header('Content-Type: application/json');
     if (!empty($user->getEmail())) {
         $recoverPass = md5(rand());
         $user->setRecoverPass($recoverPass);
-        $obj = new stdClass();
         if (!empty($_POST['captcha']) && $user->save()) {
             require_once 'captcha.php';
             $valid = Captcha::validation($_POST['captcha']);
@@ -45,14 +46,10 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
         } else {
             $obj->error = __("Recover password could not be saved!");
         }
-        header('Content-Type: application/json');
-        die(json_encode($obj));
     } else {
-        header('Content-Type: application/json');
-        $obj = new stdClass();
         $obj->error = __("You do not have an e-mail");
-        die(json_encode($obj));
     }
+    die(json_encode($obj));
 } else {
     ?>
     <!DOCTYPE html>
@@ -71,71 +68,70 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
             <div class="container">
                 <?php
+                if ($user->getRecoverPass() != $_GET['recoverpass']) {
+                    ?>
+                    <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
+                    <?php
+                } else {
+                    ?>
+                    <form class="well form-horizontal" action=" " method="post"  id="recoverPassForm">
+                        <fieldset>
 
-    if ($user->getRecoverPass() != $_GET['recoverpass']) {
-        ?>
-                <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
-        <?php
-    } else {
-                ?>
-                <form class="well form-horizontal" action=" " method="post"  id="recoverPassForm">
-                    <fieldset>
+                            <!-- Form Name -->
+                            <legend><?php echo __("Recover password!"); ?></legend>
 
-                        <!-- Form Name -->
-                        <legend><?php echo __("Recover password!"); ?></legend>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
-                            <div class="col-md-8 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input name="user" class="form-control"  type="text" value="<?php echo $user->getUser(); ?>" readonly >
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input name="user" class="form-control"  type="text" value="<?php echo $user->getUser(); ?>" readonly >
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("Recover Password"); ?></label>
-                            <div class="col-md-8 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input name="recoverPassword" class="form-control"  type="text" value="<?php echo $user->getRecoverPass(); ?>" readonly >
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><?php echo __("Recover Password"); ?></label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input name="recoverPassword" class="form-control"  type="text" value="<?php echo $user->getRecoverPass(); ?>" readonly >
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
-                            <div class="col-md-8 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input name="newPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value="" >
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input name="newPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value="" >
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
-                            <div class="col-md-8 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input  name="newPasswordConfirm" placeholder="<?php echo __("Confirm New Password"); ?>" class="form-control"  type="password" value="" >
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input  name="newPasswordConfirm" placeholder="<?php echo __("Confirm New Password"); ?>" class="form-control"  type="password" value="" >
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <!-- Button -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"></label>
-                            <div class="col-md-8">
-                                <button type="submit" class="btn btn-primary" ><?php echo __("Save"); ?> <span class="glyphicon glyphicon-save"></span></button>
+                            <!-- Button -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <button type="submit" class="btn btn-primary" ><?php echo __("Save"); ?> <span class="glyphicon glyphicon-save"></span></button>
+                                </div>
                             </div>
-                        </div>
 
-                    </fieldset>
-                </form>
-                <?php
-    }
+                        </fieldset>
+                    </form>
+                    <?php
+                }
                 ?>
             </div>
 

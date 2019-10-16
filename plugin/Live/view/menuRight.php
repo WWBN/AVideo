@@ -162,7 +162,13 @@ if (User::canStream()) {
                                             views = response.applications[i].users.views;
                                             key = response.applications[i].key;
                                             createLiveItem(href, title, name, photo, false, online, views, key);
-                                            createExtraVideos(href, title, name, photo, user, online, views, key, disableGif);
+                                            <?php
+                                            if(empty($obj->doNotShowLiveOnVideosList)){
+                                                ?>
+                                                createExtraVideos(href, title, name, photo, user, online, views, key, disableGif);    
+                                                <?php
+                                            }
+                                            ?>
                                         }
                                     }
                                     mouseEffect();

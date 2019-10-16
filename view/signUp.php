@@ -115,6 +115,11 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                                     <button type="submit" class="btn btn-primary btn-block" ><i class="fas fa-user-plus"></i> <?php echo __("Sign Up"); ?></button>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
+                                </div>
+                            </div>
                         </fieldset>
                     </form>
 
@@ -157,7 +162,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                                             type: "success"
                                         },
                                                 function () {
-                                                    window.location.href = '<?php echo $global['webSiteRootURL']; ?>user';
+                                                    window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>';
                                                 });
                                     } else {
                                         if (response.error) {

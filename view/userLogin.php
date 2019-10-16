@@ -71,7 +71,7 @@
                     ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="signUp" class="btn btn-primary btn-block" ><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
+                            <a href="signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="btn btn-primary btn-block" ><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
                         </div>
                     </div>
                     <?php
