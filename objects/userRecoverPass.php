@@ -48,7 +48,10 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
         }
         echo json_encode($obj);
     } else {
-        echo "{'error':'" . __("You do not have an e-mail") . "'}";
+        
+        $obj = new stdClass();
+        $obj->error = __("You do not have an e-mail");
+        die(json_encode($obj));
     }
 } else {
     ?>
