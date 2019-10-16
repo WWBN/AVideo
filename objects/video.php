@@ -927,6 +927,8 @@ if (!class_exists('Video')) {
             if ($res != false) {
                 require_once 'userGroups.php';
                 foreach ($fullData as $row) {
+                    unset($row['password']);
+                    unset($row['recoverPass']);
                     if ($getStatistcs) {
                         $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
                         $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
