@@ -30,7 +30,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
              background-size: cover; 
              height: 0;
              padding-bottom: 56.25%;/* Aspect ratio */
-             margin: -60px -20px; 
+             margin: -120px -20px; 
              margin-bottom: 0; 
              position: relative;
              margin-bottom: -300px;
