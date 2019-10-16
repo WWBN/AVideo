@@ -164,7 +164,7 @@ a:visited {
 }
 
 .posterDetails .row{
-    margin-top: 15px;
+    margin-top: 75px;
 }
 
 .infoText{
@@ -335,13 +335,14 @@ body.fullscreen{
 }
 @media (max-width: 1050px) {
     #bigVideo{
-        margin-bottom: -160px !important;
+        margin-bottom: -100px !important;
     }
 }
 @media (max-width: 767px) {
     #bigVideo{
         overflow: hidden;
         height: 450px !important;
+        margin-bottom: -50px !important;
     }
 }
 .paidOnlyLabel{
