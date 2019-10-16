@@ -335,7 +335,7 @@ body.fullscreen{
 }
 @media (max-width: 1050px) {
     #bigVideo{
-        margin-bottom: -100px !important;
+        margin-bottom: -160px !important;
     }
 }
 @media (max-width: 767px) {
