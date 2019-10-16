@@ -7,9 +7,9 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (empty($_POST['user'])) {
     $_POST['user'] = $_GET['user'];
 }
+header('Content-Type: application/json');
 $user = new User(0, $_POST['user'], false);
 if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
-    header('Content-Type: application/json');
     if (!empty($user->getEmail())) {
         $recoverPass = md5(rand());
         $user->setRecoverPass($recoverPass);
