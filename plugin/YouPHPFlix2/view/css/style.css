@@ -333,13 +333,19 @@ body.fullscreen{
         margin-bottom: -150px !important;
     }
 }
-@media (max-width: 1050px) {
+@media (max-width: 1200px) {
     #bigVideo{
-        margin-bottom: -50px !important;
+        margin-bottom: -100px !important;
     }
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
     #bigVideo{
+        margin-bottom: -100px !important;
+    }
+}
+@media (max-width: 900px) {
+    #bigVideo{
+        margin-bottom: -10px !important;
         overflow: hidden;
         height: 450px !important;
     }
