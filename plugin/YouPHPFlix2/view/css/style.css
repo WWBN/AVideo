@@ -338,9 +338,9 @@ body.fullscreen{
         margin-bottom: -100px !important;
     }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1080px) {
     #bigVideo{
-        margin-bottom: -100px !important;
+        margin-bottom: -70px !important;
     }
 }
 @media (max-width: 900px) {
@@ -348,6 +348,10 @@ body.fullscreen{
         margin-bottom: -10px !important;
         overflow: hidden;
         height: 450px !important;
+    }
+    #bigVideo .posterPortrait {
+        height: 20vh;
+        min-width: none !important;
     }
 }
 .paidOnlyLabel{
