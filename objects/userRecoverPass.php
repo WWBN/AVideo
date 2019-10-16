@@ -7,7 +7,6 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (empty($_POST['user'])) {
     $_POST['user'] = $_GET['user'];
 }
-header('Content-Type: application/json');
 $user = new User(0, $_POST['user'], false);
 if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     if (!empty($user->getEmail())) {
@@ -46,9 +45,10 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
         } else {
             $obj->error = __("Recover password could not be saved!");
         }
-        echo json_encode($obj);
+        header('Content-Type: application/json');
+        die(json_encode($obj));
     } else {
-        
+        header('Content-Type: application/json');
         $obj = new stdClass();
         $obj->error = __("You do not have an e-mail");
         die(json_encode($obj));
