@@ -342,7 +342,6 @@ body.fullscreen{
     #bigVideo{
         overflow: hidden;
         height: 450px !important;
-        margin-bottom: -50px !important;
     }
 }
 .paidOnlyLabel{
