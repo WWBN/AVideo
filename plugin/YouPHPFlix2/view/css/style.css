@@ -328,9 +328,14 @@ body.fullscreen{
     padding: 0;
     overflow: hidden;
 }
+@media (max-width: 1300px) {
+    #bigVideo{
+        margin-bottom: -150px !important;
+    }
+}
 @media (max-width: 1050px) {
     #bigVideo{
-        margin-bottom: -100px !important;
+        margin-bottom: -50px !important;
     }
 }
 @media (max-width: 767px) {
