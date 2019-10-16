@@ -50,6 +50,7 @@ class Plugin extends ObjectYPT {
     }
 
     function setName($name) {
+        $name = preg_replace("/[^A-Za-z0-9 ]/", '', $name);
         $this->name = $name;
     }
 
@@ -66,6 +67,7 @@ class Plugin extends ObjectYPT {
     }
 
     function setDirName($dirName) {
+        $dirName = preg_replace("/[^A-Za-z0-9 ]/", '', $dirName);
         $this->dirName = $dirName;
     }
     
@@ -136,6 +138,7 @@ class Plugin extends ObjectYPT {
     }
 
     function loadFromUUID($uuid) {
+        $uuid = preg_replace("/[^A-Za-z0-9 ]/", '', $uuid);
         $this->uuid = $uuid;
         $row = static::getPluginByUUID($uuid);
         if (!empty($row)) {

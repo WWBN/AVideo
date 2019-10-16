@@ -3,7 +3,7 @@
 require_once $global['systemRootPath'].'objects/functions.php';
 // filter some security here
 $securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link');
-$securityFilterInt = array('videos_id', 'video_id');
+$securityFilterInt = array('videos_id', 'video_id', 'categories_id', 'user_id', 'users_id');
 
 if(isset($_GET['search'])){
     if(is_string($_GET['search'])){

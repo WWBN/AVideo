@@ -6,6 +6,9 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
+
+$_POST['comments_id'] = intval(@$_POST['comments_id']);
+
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
@@ -34,6 +37,6 @@ if(!empty($_POST['id'])){
     $obj->setComment($_POST['comment']);
 }else{
     $obj = new Comment($_POST['comment'], $_POST['video']);
-    $obj->setComments_id_pai(@$_POST['comments_id']);
+    $obj->setComments_id_pai($_POST['comments_id']);
 }
 echo '{"status":"'.$obj->save().'"}';

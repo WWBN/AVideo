@@ -46,6 +46,7 @@ class VastCampaignsVideos extends ObjectYPT {
     
     static function getAllFromCampaign($vast_campaigns_id, $getImages = false) {
         global $global;
+        $vast_campaigns_id = intval($vast_campaigns_id);
         $sql = "SELECT v.*, c.* FROM  " . static::getTableName() . " c "
                 . " LEFT JOIN videos v ON videos_id = v.id WHERE 1=1 ";
         
