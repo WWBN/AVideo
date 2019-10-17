@@ -17,7 +17,7 @@ $current = $_POST['current'];
 $rowCount = 25;
 $_POST['rowCount'] = $rowCount;
 
-$uploadedVideos = Video::getAllVideosAsync("a", $user_id, !isToHidePrivateVideos());
+$uploadedVideos = Video::getAllVideos("a", $user_id, !isToHidePrivateVideos());
 $uploadedTotalVideos = Video::getTotalVideos("a", $user_id, !isToHidePrivateVideos());
 
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
@@ -29,7 +29,7 @@ unset($_POST['current']);
 $get = array('channelName' => $_GET['channelName']);
 $palyListsObj = YouPHPTubePlugin::getObjectDataIfEnabled('PlayLists');
 ?>
-<!-- <?php var_dump($user_id, !isToHidePrivateVideos()); ?> -->
+<!-- <?php var_dump($uploadedVideos, $user_id, !isToHidePrivateVideos()); ?> -->
 <div class="bgWhite list-group-item gallery clear clearfix" >
     <?php
     if(empty($advancedCustomUser->doNotShowTopBannerOnChannel)){
