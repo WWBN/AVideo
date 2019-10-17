@@ -78,6 +78,7 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
                     <?php
                     echo getAdsSideRectangle();
                     ?>
+                    <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                 </div>
             </div>
             <?php
