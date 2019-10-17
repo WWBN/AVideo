@@ -13,7 +13,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 if (empty($_POST)) {
-    $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
+    $obj->msg = __("Your POST data is empty may be your video file too big for the host");
     error_log("ReceiveImage: ".$obj->msg);
     die(json_encode($obj));
 }
@@ -54,6 +54,13 @@ if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.j
 if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local}.gif")) {
     if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination_local}.gif")) {
         $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
+        error_log("ReceiveImage: ".$obj->msg);
+        die(json_encode($obj));
+    } 
+}
+if (!empty($_FILES['webpimage']['tmp_name']) && !file_exists("{$destination_local}.webp")) {
+    if (!move_uploaded_file($_FILES['webpimage']['tmp_name'], "{$destination_local}.webp")) {
+        $obj->msg = print_r(sprintf(__("Could not move webp image file [%s.webp]"), $destination_local), true);
         error_log("ReceiveImage: ".$obj->msg);
         die(json_encode($obj));
     } 

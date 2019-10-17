@@ -1043,6 +1043,16 @@ function getVideosURL($fileName, $cache = true) {
                     'type' => 'image',
                 );
             }
+            $source = Video::getSourceFile($filename, ".webp");
+            $file = $source['path'];
+            if (file_exists($file)) {
+                $files["gif"] = array(
+                    'filename' => "{$fileName}.webp",
+                    'path' => $file,
+                    'url' => $source['url'],
+                    'type' => 'image',
+                );
+            }
             $source = Video::getSourceFile($filename, "_portrait.jpg");
             $file = $source['path'];
             if (file_exists($file)) {

@@ -2164,11 +2164,19 @@ if (!class_exists('Video')) {
          *
          * @param type $filename
          * @param type $type
-         * @return type .jpg .gif _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
+         * @return type .jpg .gif .webp _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
          */
         static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
             global $global, $advancedCustom, $videosPaths;
-
+                
+            // check if there is a webp image
+            if($type==='.gif'){
+                $path = "{$global['systemRootPath']}videos/{$filename}.webp";
+                if(file_exists($path)){
+                    $type = ".webp";
+                }
+            }
+            
             if (empty($videosPaths[$filename][$type][intval($includeS3)])) {
                 $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
                 $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
@@ -2193,6 +2201,7 @@ if (!class_exists('Video')) {
                 }
                 $source = array();
                 $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
+                
                 if ($type == ".m3u8") {
                     $source['path'] = "{$global['systemRootPath']}videos/{$filename}/index{$type}";
                 }
