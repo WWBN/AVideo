@@ -328,7 +328,7 @@ body.fullscreen{
     padding: 0;
     overflow: hidden;
 }
-@media (max-width: 1300px) {
+@media (max-width: 1400px) {
     #bigVideo{
         margin-bottom: -150px !important;
     }
