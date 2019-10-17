@@ -351,6 +351,7 @@ body.fullscreen{
     }
     #bigVideo .posterPortrait {
         height: 20vh;
+        min-height: 193px;
         min-width: 135px !important;
     }
 }
