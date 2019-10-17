@@ -2086,6 +2086,21 @@ function getAdsSideRectangle() {
     }
 }
 
+function isToHidePrivateVideos(){
+    $obj = YouPHPTubePlugin::getObjectDataIfEnabled("Gallery");
+    if(!empty($obj)){
+        return $obj->hidePrivateVideos;
+    }
+    $obj = YouPHPTubePlugin::getObjectDataIfEnabled("YouPHPFlix2");
+    if(!empty($obj)){
+        return $obj->hidePrivateVideos;
+    }
+    $obj = YouPHPTubePlugin::getObjectDataIfEnabled("YouTube");
+    if(!empty($obj)){
+        return $obj->hidePrivateVideos;
+    }
+    return true;
+}
 function getOpenGraph($videos_id) {
     global $global, $config;
     echo "<!-- OpenGraph -->";
