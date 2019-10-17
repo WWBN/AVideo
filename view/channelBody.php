@@ -29,7 +29,7 @@ unset($_POST['current']);
 $get = array('channelName' => $_GET['channelName']);
 $palyListsObj = YouPHPTubePlugin::getObjectDataIfEnabled('PlayLists');
 ?>
-<!-- <?php var_dump($uploadedVideos, $user_id, !isToHidePrivateVideos()); ?> -->
+<!-- <?php var_dump($uploadedTotalVideos, $user_id, !isToHidePrivateVideos()); ?> -->
 <div class="bgWhite list-group-item gallery clear clearfix" >
     <?php
     if(empty($advancedCustomUser->doNotShowTopBannerOnChannel)){
