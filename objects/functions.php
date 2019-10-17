@@ -2099,7 +2099,7 @@ function isToHidePrivateVideos(){
     if(!empty($obj)){
         return $obj->hidePrivateVideos;
     }
-    return true;
+    return false;
 }
 function getOpenGraph($videos_id) {
     global $global, $config;
