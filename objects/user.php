@@ -330,6 +330,29 @@ if (typeof gtag !== \"function\") {
         }
         return $photo;
     }
+    
+    static function getEmailVerifiedIcon($id = "") {
+        global $advancedCustomUser;
+        if(empty($advancedCustomUser->showEmailVerifiedMark)){
+            return '';
+        }
+        if (!empty($id)) {
+            $user = self::findById($id);
+            if (!empty($user)) {
+                $verified = $user['emailVerified'];
+            }
+        } elseif (self::isLogged()) {
+            $verified = $_SESSION['user']['emailVerified'];
+        }
+        if(!isset($verified)){
+            return "";
+        }
+        if(!empty($verified)){
+            return '<i class="fas fa-check-circle"></i>';
+        }else{
+            return '<i class="fas fa-times-circle text-muted"></i>';
+        }
+    }
 
     function getPhotoDB() {
         return self::getPhoto($this->id);

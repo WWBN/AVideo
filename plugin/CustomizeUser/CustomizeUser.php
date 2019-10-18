@@ -73,6 +73,8 @@ class CustomizeUser extends PluginAbstract {
         $obj->afterLogoffGoToMyChannel = false;
         $obj->allowDonationLink = false;
         
+        $obj->showEmailVerifiedMark = true;
+        
         
         return $obj;
     }
