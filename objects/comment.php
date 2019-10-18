@@ -275,6 +275,20 @@ class Comment {
         }
         return false;
     }
+    
+    static function userCanEditComment($comments_id){
+        if(!User::isLogged()){
+            return false;
+        }
+        if(User::isAdmin()){
+            return true;
+        }
+        $obj = new Comment("", 0, $comments_id);
+        if($obj->users_id == User::getId()){
+            return true;
+        }
+        return false;
+    }
 
     static function getTotalCommentsThumbsUpFromUser($users_id, $startDate, $endDate) {
         global $global;

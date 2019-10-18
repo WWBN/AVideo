@@ -26,6 +26,7 @@ foreach ($comments as $key => $value) {
     unset($comments[$key]['video']['description']);
     $comments[$key]['poster'] = Video::getImageFromFilename($comments[$key]['video']['filename']);
     $comments[$key]['userCanAdminComment'] = Comment::userCanAdminComment($comments[$key]['id']);
+    $comments[$key]['userCanEditComment'] = Comment::userCanEditComment($comments[$key]['id']);
 }
 
 echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($comments).'}';

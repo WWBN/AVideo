@@ -37,6 +37,11 @@ if (User::canSeeCommentTextarea()) {
         <?php
     }
     ?>
+        <style>
+            .replySet .replySet .divReplyGrid{
+                padding-left: 0 !important;
+            }
+        </style>
     <div class="replySet hidden" id="replyTemplate" comments_id="0">
         <div>        
             <?php
@@ -65,11 +70,11 @@ if (User::canSeeCommentTextarea()) {
             <button class="btn btn-default no-outline btn-xs pull-right delete userCanAdminComment"> 
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </button> 
-            <button class="btn btn-default no-outline btn-xs pull-right edit userCanAdminComment"> 
+            <button class="btn btn-default no-outline btn-xs pull-right edit userCanEditComment"> 
                 <i class="fas fa-edit" aria-hidden="true"></i>
             </button> 
         </div>
-        <div style="padding-left: 50px;">
+        <div class="divReplyGrid" style="padding-left: 50px;">
             <div class="input-group formRepy" style="display: none;">
                 <textarea class="form-control custom-control" rows="2" style="resize:none" maxlength="<?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>" ></textarea>
 
@@ -198,6 +203,9 @@ if (User::canSeeCommentTextarea()) {
                         template.find(".formRepy").addClass("formRepy" + row.id);
                         if (!row.userCanAdminComment) {
                             template.find(".userCanAdminComment").remove();
+                        }
+                        if (!row.userCanEditComment) {
+                            template.find(".userCanEditComment").remove();
                         }
                         if (row.myVote === "1") {
                             template.find(".replyLikeBtn").addClass("myVote");
