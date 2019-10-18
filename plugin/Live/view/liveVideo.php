@@ -18,7 +18,6 @@
                     <source src="<?php echo $p->getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                 </video>
                 <?php
-                
                 if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
                     require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
                     $style = VideoLogoOverlay::getStyle();
@@ -29,7 +28,7 @@
                     </div>
                 <?php } ?>
 
-                
+
             </div>
             <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
                 <?php
@@ -79,6 +78,11 @@ if ($config->getAutoplay()) {
 ?>
 
         });
+<?php
+if ($config->getAutoplay()) {
+    echo "setTimeout(function(){player.play();},1000);";
+}
+?>
         player.persistvolume({
             namespace: "YouPHPTube"
         });
