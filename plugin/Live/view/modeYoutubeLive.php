@@ -67,29 +67,33 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
                 </div>  
             </div>
             <div class="container-fluid ">
-                <div class="col-md-5 col-md-offset-2 list-group-item">
-                    <h1 itemprop="name">
-                        <i class="fas fa-video"></i> <?php echo $t['title']; ?>
-                    </h1>
-                    <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                    <p><?php echo nl2br(textToLink($t['description'])); ?></p>
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-2 list-group-item">
+                        <h1 itemprop="name">
+                            <i class="fas fa-video"></i> <?php echo $t['title']; ?>
+                        </h1>
+                        <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                        <p><?php echo nl2br(textToLink($t['description'])); ?></p>
+                    </div> 
+                    <script>
+                        function afterExtraVideos($liveLi) {
+                            $liveLi.removeClass('col-lg-12 col-sm-12 col-xs-12 bottom-border');
+                            $liveLi.find('.thumbsImage').removeClass('col-lg-5 col-sm-5 col-xs-5');
+                            $liveLi.find('.videosDetails').removeClass('col-lg-7 col-sm-7 col-xs-7');
+                            $liveLi.addClass('col-lg-4 col-md-4 col-sm-6 col-xs-6 fixPadding');
+                            $('#liveVideos').slideDown();
+                            return $liveLi;
+                        }
+                    </script>
+                    <div class="col-md-3">
+                        <?php
+                        echo getAdsSideRectangle();
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+
                     <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
-                </div> 
-                <script>
-                    function afterExtraVideos($liveLi) {
-                        $liveLi.removeClass('col-lg-12 col-sm-12 col-xs-12 bottom-border');
-                        $liveLi.find('.thumbsImage').removeClass('col-lg-5 col-sm-5 col-xs-5');
-                        $liveLi.find('.videosDetails').removeClass('col-lg-7 col-sm-7 col-xs-7');
-                        $liveLi.addClass('col-lg-4 col-md-4 col-sm-6 col-xs-6 fixPadding');
-                        $('#liveVideos').slideDown();
-                        return $liveLi;
-                    }
-                </script>
-                <div class="col-md-3">
-                    <?php
-                    echo getAdsSideRectangle();
-                    ?>
-                    
                 </div>
             </div>
             <?php
@@ -102,9 +106,9 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
 
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-            $.widget.bridge('uibutton', $.ui.button);
-            $.widget.bridge('uitooltip', $.ui.tooltip);
+                    /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+                    $.widget.bridge('uibutton', $.ui.button);
+                    $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>  
 
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
@@ -119,13 +123,13 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
             ?>
             <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/videojs-dvr/videojs-dvrseekbar.min.js" type="text/javascript"></script>          
             <script>
-                $(document).ready(function () {
-                    if (typeof player === 'undefined') {
-                        player = videojs('mainVideo');
-                    }
+                        $(document).ready(function () {
+                            if (typeof player === 'undefined') {
+                                player = videojs('mainVideo');
+                            }
 
-                    player.dvrseekbar();
-                });
+                            player.dvrseekbar();
+                        });
             </script>      
             <?php
         }
