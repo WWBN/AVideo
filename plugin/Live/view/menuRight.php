@@ -40,7 +40,7 @@ if (User::canStream()) {
         </div>
     </a>
 </li>
-<div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo" itemscope itemtype="http://schema.org/VideoObject">
+<div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo">
     <a href="" class="h6 videoLink">
         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" style="min-height: 70px; position:relative;" >
             <img src="<?php echo $global['webSiteRootURL']; ?>videos/userPhoto/logo.png" class="thumbsJPG img-responsive" height="130" itemprop="thumbnailUrl" />
