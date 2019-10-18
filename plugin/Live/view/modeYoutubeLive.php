@@ -73,13 +73,13 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
                     </h1>
                     <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
                     <p><?php echo nl2br(textToLink($t['description'])); ?></p>
+                    <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                 </div> 
                 <div class="col-md-3">
                     <?php
                     echo getAdsSideRectangle();
                     ?>
                     
-                    <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                 </div>
             </div>
             <?php
