@@ -127,6 +127,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
 
         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
         $name = User::getNameIdentificationById($value['users_id']);
+        $name .= " ".User::getEmailVerifiedIcon($value['users_id']);;
         // make a row each 6 cols
         if ($countCols % $obj->screenColsLarge === 0) {
             echo '</div><div class="row aligned-row ">';

@@ -49,34 +49,55 @@ class CustomizeUser extends PluginAbstract {
         $obj->disableNativeSignIn = !isset($advancedCustom->disableNativeSignIn) ? false : $advancedCustom->disableNativeSignIn;
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
         $obj->userCanChangeUsername = true;
-        
+
         $obj->signInOnRight = false;
         $obj->doNotShowRightProfile = false;
         $obj->doNotShowLeftProfile = false;
-        
+
         $obj->forceLoginToBeTheEmail = false;
-        
+
         // added on 2019-02-11
         $o = new stdClass();
         $o->type = "textarea";
-        $o->value = "";        
-        $obj->messageToAppearBelowLoginBox = $o;     
-        
+        $o->value = "";
+        $obj->messageToAppearBelowLoginBox = $o;
+
         $obj->doNotShowTopBannerOnChannel = false;
-        
+
         $obj->doNotShowMyChannelNameOnBasicInfo = false;
         $obj->doNotShowMyAnalyticsCodeOnBasicInfo = false;
         $obj->doNotShowMyAboutOnBasicInfo = false;
-        
+
         $obj->MyChannelLabel = "My Channel";
         $obj->afterLoginGoToMyChannel = false;
         $obj->afterLogoffGoToMyChannel = false;
         $obj->allowDonationLink = false;
-        
+
         $obj->showEmailVerifiedMark = true;
-        
-        
+
+        $obj->Checkmark1Enabled = true;
+        $obj->Checkmark1HTML = '<i class="fas fa-check" data-toggle="tooltip" data-placement="bottom" title="Trustable User"></i>';
+        $obj->Checkmark2Enabled = true;
+        $obj->Checkmark2HTML = '<i class="fas fa-shield-alt" data-toggle="tooltip" data-placement="bottom" title="Official User"></i>';
+        $obj->Checkmark3Enabled = true;
+        $obj->Checkmark3HTML = '<i class="fas fa-certificate fa-spin" data-toggle="tooltip" data-placement="bottom" title="Premium User"></i>';
+
+
         return $obj;
+    }
+
+    public function getUserOptions() {
+        $obj = $this->getDataObject();
+        if ($obj->Checkmark1Enabled) {
+            $userOptions["Checkmark 1"] = "checkmark1";
+        }
+        if ($obj->Checkmark2Enabled) {
+            $userOptions["Checkmark 2"] = "checkmark2";
+        }
+        if ($obj->Checkmark3Enabled) {
+            $userOptions["Checkmark 3"] = "checkmark3";
+        }
+        return $userOptions;
     }
 
     static function canDownloadVideosFromUser($users_id) {
@@ -179,7 +200,7 @@ class CustomizeUser extends PluginAbstract {
         }
         echo "</div>";
     }
-    
+
     public function getVideoManagerButton() {
         global $isMyChannel;
         $isMyChannel = true;
@@ -188,48 +209,48 @@ class CustomizeUser extends PluginAbstract {
 
     static function canDownloadVideosFromVideo($videos_id) {
         $video = new Video("", "", $videos_id);
-        if(empty($video)){
+        if (empty($video)) {
             return false;
         }
         $users_id = $video->getUsers_id();
-        if(!self::canDownloadVideosFromUser($users_id)){
+        if (!self::canDownloadVideosFromUser($users_id)) {
             return false;
         }
         $obj = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
         if (!empty($obj->userCanAllowFilesDownloadSelectPerVideo)) {
-            if(empty($video->getCan_download())){
+            if (empty($video->getCan_download())) {
                 return false;
             }
         }
         return true;
     }
-    
+
     static function canShareVideosFromVideo($videos_id) {
         $video = new Video("", "", $videos_id);
-        if(empty($video)){
+        if (empty($video)) {
             return false;
         }
         $users_id = $video->getUsers_id();
-        if(!self::canShareVideosFromUser($users_id)){
+        if (!self::canShareVideosFromUser($users_id)) {
             return false;
         }
         $obj = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
         if (!empty($obj->userCanAllowFilesShareSelectPerVideo)) {
-            if(empty($video->getCan_share())){
+            if (empty($video->getCan_share())) {
                 return false;
             }
         }
         return true;
     }
-    
+
     public function onUserSignup($users_id) {
         $obj = $this->getDataObject();
-        
+
         if ($obj->sendVerificationMailAutomaic) {
             url_get_contents("{$global['webSiteRootURL']}objects/userVerifyEmail.php?users_id=$users_id");
         }
     }
-    
+
     public function getWatchActionButton($videos_id) {
         global $global, $video;
         $obj = $this->getDataObject();

@@ -44,6 +44,9 @@ $palyListsObj = YouPHPTubePlugin::getObjectDataIfEnabled('PlayLists');
             <h1 class="pull-left">
                 <?php
                 echo $user->getNameIdentificationBd();
+                ?>
+                <?php
+                echo User::getEmailVerifiedIcon($user_id)
                 ?></h1>
             <span class="pull-right">
                 <?php

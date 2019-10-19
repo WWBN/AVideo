@@ -330,28 +330,42 @@ if (typeof gtag !== \"function\") {
         }
         return $photo;
     }
-    
+
     static function getEmailVerifiedIcon($id = "") {
         global $advancedCustomUser;
-        if(empty($advancedCustomUser->showEmailVerifiedMark)){
-            return '';
-        }
-        if (!empty($id)) {
-            $user = self::findById($id);
-            if (!empty($user)) {
-                $verified = $user['emailVerified'];
+        $mark = "";
+        if (!empty($advancedCustomUser->showEmailVerifiedMark)) {
+            if (!empty($id)) {
+                $user = self::findById($id);
+                if (!empty($user)) {
+                    $verified = $user['emailVerified'];
+                }
+            } elseif (self::isLogged()) {
+                $verified = $_SESSION['user']['emailVerified'];
             }
-        } elseif (self::isLogged()) {
-            $verified = $_SESSION['user']['emailVerified'];
+            if (!empty($verified)) {
+                $mark .= ' <i class="fas fa-check-circle" data-toggle="tooltip" data-placement="bottom" title="'.__("E-mail Verified").'"></i>';
+            } else {
+                //return '<i class="fas fa-times-circle text-muted"></i>';
+                $mark .= '';
+            }
         }
-        if(!isset($verified)){
-            return "";
+        if ($advancedCustomUser->Checkmark1Enabled) {
+            if(User::externalOptions("checkmark1")){
+                $mark .= " ".$advancedCustomUser->Checkmark1HTML;
+            }
         }
-        if(!empty($verified)){
-            return '<i class="fas fa-check-circle"></i>';
-        }else{
-            return '<i class="fas fa-times-circle text-muted"></i>';
+        if ($advancedCustomUser->Checkmark2Enabled) {
+            if(User::externalOptions("checkmark2")){
+                $mark .= " ".$advancedCustomUser->Checkmark2HTML;
+            }
         }
+        if ($advancedCustomUser->Checkmark3Enabled) {
+            if(User::externalOptions("checkmark3")){
+                $mark .= " ".$advancedCustomUser->Checkmark3HTML;
+            }
+        }
+        return $mark;
     }
 
     function getPhotoDB() {
