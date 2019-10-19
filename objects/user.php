@@ -344,25 +344,25 @@ if (typeof gtag !== \"function\") {
                 $verified = $_SESSION['user']['emailVerified'];
             }
             if (!empty($verified)) {
-                $mark .= ' <i class="fas fa-check-circle" data-toggle="tooltip" data-placement="bottom" title="'.__("E-mail Verified").'"></i>';
+                $mark .= ' <i class="fas fa-check-circle" data-toggle="tooltip" data-placement="bottom" title="' . __("E-mail Verified") . '"></i>';
             } else {
                 //return '<i class="fas fa-times-circle text-muted"></i>';
                 $mark .= '';
             }
         }
         if ($advancedCustomUser->Checkmark1Enabled) {
-            if(User::externalOptions("checkmark1")){
-                $mark .= " ".$advancedCustomUser->Checkmark1HTML;
+            if (User::externalOptionsFromUserID($id, "checkmark1")) {
+                $mark .= " " . $advancedCustomUser->Checkmark1HTML;
             }
         }
         if ($advancedCustomUser->Checkmark2Enabled) {
-            if(User::externalOptions("checkmark2")){
-                $mark .= " ".$advancedCustomUser->Checkmark2HTML;
+            if (User::externalOptionsFromUserID($id, "checkmark2")) {
+                $mark .= " " . $advancedCustomUser->Checkmark2HTML;
             }
         }
         if ($advancedCustomUser->Checkmark3Enabled) {
-            if(User::externalOptions("checkmark3")){
-                $mark .= " ".$advancedCustomUser->Checkmark3HTML;
+            if (User::externalOptionsFromUserID($id, "checkmark3")) {
+                $mark .= " " . $advancedCustomUser->Checkmark3HTML;
             }
         }
         return $mark;
@@ -825,6 +825,29 @@ if (typeof gtag !== \"function\") {
                     $externalOptions[$id] = false;
 
                 return $externalOptions[$id];
+            }
+        }
+        return false;
+    }
+
+    static function externalOptionsFromUserID($users_id, $id) {
+        $user = self::findById($users_id);
+        if ($user) {
+            if (!is_null($user['externalOptions'])) {
+                $externalOptions = unserialize(base64_decode($user['externalOptions']));
+                if (is_array($externalOptions) && sizeof($externalOptions) > 0) {
+                    foreach ($externalOptions as $k => $v) {
+                        if ($id != $k) {
+                            continue;
+                        }
+                        if ($v == "true")
+                            $v = 1;
+                        else
+                        if ($v == "false")
+                            $v = 0;
+                        return $v;
+                    }
+                }
             }
         }
         return false;
