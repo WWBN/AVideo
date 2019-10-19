@@ -59,6 +59,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->EnableWavesurfer = false;
         $obj->EnableMinifyJS = false;
         $obj->disableShareAndPlaylist = false;
+        $obj->disableComments = false;
         $obj->commentsMaxLength = 200;
         $obj->disableYoutubePlayerIntegration = false;
         $obj->utf8Encode = false;

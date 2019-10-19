@@ -391,6 +391,12 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         });
     });
 </script>
-<div class="row bgWhite list-group-item">
-    <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
-</div>
+<?php
+if(empty($advancedCustom->disableComments)){
+    ?>
+        <div class="row bgWhite list-group-item">
+            <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
+        </div>
+    <?php
+}
+?>
