@@ -76,7 +76,7 @@ $agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
                                 <div class="col-md-8 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input  id="inputPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value="" >
+                                        <input  id="inputPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value=""  autocomplete="off" >
                                     </div>
                                 </div>
                             </div>

@@ -43,7 +43,7 @@
                         <label for="inputUser" class="sr-only"><?php echo __("User"); ?></label>
                         <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required">
                         <label for="inputPassword" class="sr-only"><?php echo __("Password"); ?></label>
-                        <input type="password" id="inputPassword" class="form-control" placeholder="<?php echo __("Password"); ?>" required="required">
+                        <input type="password" id="inputPassword" class="form-control" placeholder="<?php echo __("Password"); ?>" required="required"  autocomplete="off">
                         <label for="inputEmail" class="sr-only"><?php echo __("E-mail"); ?></label>
                         <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" >
                         <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
