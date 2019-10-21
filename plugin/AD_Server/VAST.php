@@ -8,6 +8,11 @@ $ad_server = YouPHPTubePlugin::loadPlugin('AD_Server');
 $obj = YouPHPTubePlugin::getObjectData('AD_Server');
 $types = array('', '_Low', '_SD', '_HD');
 
+if(empty($_GET['campaign_has_videos_id'])){
+    $video = VastCampaignsVideos::getRandomCampainVideo(0);
+    $_GET['campaign_has_videos_id'] = $video['id'];
+}
+
 $vastCampaingVideos = new VastCampaignsVideos($_GET['campaign_has_videos_id']);
 $video = new Video("", "", $vastCampaingVideos->getVideos_id());
 $files = getVideosURL($video->getFilename());
