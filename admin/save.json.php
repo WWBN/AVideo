@@ -33,6 +33,7 @@ foreach ($pluginDO as $key => $value) {
         if(is_bool($pluginDO->$key)){
             $pluginDO->$key = empty($pluginValues[$key])?false:true;
         }else{
+            //$pluginDO->$key = str_replace('"', '\\"', $pluginValues[$key]);
             $pluginDO->$key = $pluginValues[$key];
         }
     }

@@ -78,7 +78,7 @@ abstract class PluginAbstract {
     public function getVideosManagerListButton() {
         return "";
     }
-    
+
     public function getUsersManagerListButton() {
         return "";
     }
@@ -98,12 +98,18 @@ abstract class PluginAbstract {
             $o = array();
             if (!empty($obj['object_data'])) {
                 $o = json_decode(stripslashes($obj['object_data']));
-                switch (json_last_error()) {
+                $json_last_error = json_last_error();
+                if ($json_last_error !== JSON_ERROR_NONE) {
+                    error_log('getDataObject - JSON error (' . $json_last_error . ')' . $this->getName());
+                    $o = json_decode($obj['object_data']);
+                    $json_last_error = json_last_error();
+                }
+                switch ($json_last_error) {
                     case JSON_ERROR_NONE:
                         //echo ' - No errors';
                         break;
                     default:
-                        error_log('getDataObject - JSON error');
+                        error_log('getDataObject - JSON error ' . $this->getName());
                         error_log($obj['object_data']);
                         error_log('striped slashes');
                         error_log(stripslashes($obj['object_data']));
@@ -150,11 +156,11 @@ abstract class PluginAbstract {
         //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;
         return (object) $wholeObjects;
     }
-    
+
     public function setDataObject($object) {
         $pluginRow = Plugin::getPluginByUUID($this->getUUID());
         $obj = new Plugin($pluginRow['id']);
-        $obj->setObject_data(addcslashes(json_encode($object),'\\'));
+        $obj->setObject_data(addcslashes(json_encode($object), '\\'));
         return $obj->save();
     }
 
@@ -357,82 +363,81 @@ abstract class PluginAbstract {
     function getVideo() {
         return null;
     }
-    
-    public function onUserSignIn($users_id){
+
+    public function onUserSignIn($users_id) {
         return null;
     }
-    
-    public function onUserSignup($users_id){
+
+    public function onUserSignup($users_id) {
         return null;
     }
-    
-    public function onLiveStream($users_id){
+
+    public function onLiveStream($users_id) {
         return null;
     }
-    
-    public function thumbsOverlay($videos_id){
-        return "";
-    }    
-    
-    public static function profileTabName($users_id){
+
+    public function thumbsOverlay($videos_id) {
         return "";
     }
-    
-    public static function profileTabContent($users_id){
+
+    public static function profileTabName($users_id) {
         return "";
     }
-    
-    public static function getVideoWhereClause(){
+
+    public static function profileTabContent($users_id) {
         return "";
     }
-    
-    public static function getManagerVideosAddNew(){
+
+    public static function getVideoWhereClause() {
         return "";
     }
-    
-    public static function saveVideosAddNew($post, $videos_id){
+
+    public static function getManagerVideosAddNew() {
+        return "";
+    }
+
+    public static function saveVideosAddNew($post, $videos_id) {
         return true;
     }
-    
-    public static function getManagerVideosReset(){
+
+    public static function getManagerVideosReset() {
         return "";
     }
-    
-    public static function getManagerVideosEdit(){
+
+    public static function getManagerVideosEdit() {
         return "";
     }
-    
-    public static function getManagerVideosEditField(){
+
+    public static function getManagerVideosEditField() {
         return "";
     }
-    
-    public static function getManagerVideosJavaScripts(){
+
+    public static function getManagerVideosJavaScripts() {
         return "";
     }
-    
-    public static function getManagerVideosTab(){
+
+    public static function getManagerVideosTab() {
         return "";
     }
-    
-    public static function getManagerVideosBody(){
+
+    public static function getManagerVideosBody() {
         return "";
     }
-    
-    public static function getAllVideosArray($videos_id){
-        return array();
-    }    
-    
-    public static function getVideoTags($videos_id){
+
+    public static function getAllVideosArray($videos_id) {
         return array();
     }
-    
-    public function getMobileInfo(){
+
+    public static function getVideoTags($videos_id) {
+        return array();
+    }
+
+    public function getMobileInfo() {
         return null;
     }
-    
-    public function getUploadMenuButton(){
+
+    public function getUploadMenuButton() {
         return "";
     }
-    
 
 }
