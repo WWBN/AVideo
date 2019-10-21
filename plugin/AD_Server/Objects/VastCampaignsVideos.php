@@ -53,7 +53,7 @@ class VastCampaignsVideos extends ObjectYPT {
         }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  vast_campaigns_id = ? ORDER BY RAND() LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
-        $res = sqlDAL::readSql($sql,"ii",array($vast_campaigns_id, $videos_id)); 
+        $res = sqlDAL::readSql($sql,"i",array($vast_campaigns_id)); 
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
