@@ -2,6 +2,7 @@
 header('Content-type: application/xml');
 
 require_once '../../videos/configuration.php';
+allowOrigin();
 require_once $global['systemRootPath'] . 'objects/video.php';
 $ad_server = YouPHPTubePlugin::loadPlugin('AD_Server');
 $obj = YouPHPTubePlugin::getObjectData('AD_Server');
