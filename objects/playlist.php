@@ -162,6 +162,8 @@ class PlayList extends ObjectYPT {
                 $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
                 $row['title'] = UTF8encode($row['title']);
                 $row['description'] = UTF8encode($row['description']);
+                unset($row['password']);
+                unset($row['recoverPass']);
                 //unset($row['description']);
                 $rows[] = $row;
             }

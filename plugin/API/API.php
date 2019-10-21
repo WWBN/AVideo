@@ -166,6 +166,10 @@ class API extends PluginAbstract {
             if (empty($value['filename'])) {
                 continue;
             }
+            if($value['type']=='serie'){
+                require_once $global['systemRootPath'] . 'objects/playlist.php';
+                $rows[$key]['playlist'] = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
+            }
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
             $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);

@@ -49,6 +49,9 @@ class VastCampaignsVideos extends ObjectYPT {
         $vast_campaigns_id = intval($vast_campaigns_id);
         if(empty($vast_campaigns_id)){
             $campaings = VastCampaigns::getValidCampaigns();
+            if(empty($campaings[0])){
+                return false;
+            }
             $vast_campaigns_id = $campaings[0]['id'];
         }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  vast_campaigns_id = ? ORDER BY RAND() LIMIT 1";

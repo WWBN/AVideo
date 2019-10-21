@@ -49,15 +49,17 @@ $files = getVideosURL($video->getFilename());
                         </TrackingEvents>
                         <?php
                         $campaignVideo = new VastCampaignsVideos($_GET['campaign_has_videos_id']);
-                        $link = $campaignVideo->getLink();
-                        if (filter_var($link, FILTER_VALIDATE_URL)) {
-                            ?>
-                            <VideoClicks>
-                                <ClickThrough id="GDFP"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=ClickThrough&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></ClickThrough>
-                            </VideoClicks>
-                            <?php
-                        }else{
-                            error_log("VastCampaignsVideos has not a valid link: {$link}");
+                        if(!empty($campaignVideo)){
+                            $link = $campaignVideo->getLink();
+                            if (filter_var($link, FILTER_VALIDATE_URL)) {
+                                ?>
+                                <VideoClicks>
+                                    <ClickThrough id="GDFP"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=ClickThrough&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></ClickThrough>
+                                </VideoClicks>
+                                <?php
+                            }else{
+                                error_log("VastCampaignsVideos has not a valid link: {$link}");
+                            }
                         }
                         ?>
                         <MediaFiles>
