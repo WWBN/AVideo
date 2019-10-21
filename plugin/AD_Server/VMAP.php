@@ -2,6 +2,7 @@
 header('Content-type: application/xml');
 
 require_once '../../videos/configuration.php';
+allowOrigin();
 $ad_server = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
 if(empty($ad_server)){
     die("not enabled");
