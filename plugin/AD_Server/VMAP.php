@@ -1,4 +1,5 @@
 <?php
+allowOrigin();
 header('Content-type: application/xml');
 
 require_once '../../videos/configuration.php';
