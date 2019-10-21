@@ -1962,7 +1962,7 @@ function allowOrigin() {
     } else {
         header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
     }
-    header("Access-Control-Allow-Origin: true");
+    header("Access-Control-Allow-Origin: 'true'");
 }
 
 if (!function_exists("rrmdir")) {
