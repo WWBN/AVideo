@@ -246,9 +246,19 @@ if (User::isAdmin()) {
                                         </label>
                                         <div class="col-md-8 ">
                                             <div id="croppieLogo"></div>
-                                            <a id="logo-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Upload a logo"); ?></a>
+                                            <a id="logo-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Choose a logo"); ?></a>
                                         </div>
                                         <input type="file" id="logo" value="Choose a Logo" accept="image/*" style="display: none;" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            <?php echo __("Favicon"); ?> (64x64)
+                                        </label>
+                                        <div class="col-md-8 ">
+                                            <div id="croppieFavicon"></div>
+                                            <a id="favicon-btn" class="btn btn-default btn-xs btn-block"><?php echo __("Choose a favicon"); ?></a>
+                                        </div>
+                                        <input type="file" id="favicon" value="Choose a favicon" accept="image/*" style="display: none;" />
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label"><?php echo __("Web site title"); ?></label>
@@ -431,7 +441,7 @@ if (User::isAdmin()) {
                                                     <h1>Email Configuration</h1>
                                                     If you are not sure how to configure your email, 
                                                     please try <a href="https://github.com/YouPHPTube/YouPHPTube/wiki/Setting-up-YouPHPTube-to-send-emails">this help</a>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -619,6 +629,15 @@ if (User::isAdmin()) {
             $('#logo-btn').on('click', function (ev) {
                 $('#logo').trigger("click");
             });
+            
+            // start croppie logo
+            $('#favicon').on('change', function () {
+                readFile(this, faviconCrop);
+            });
+            $('#favicon-btn').on('click', function (ev) {
+                $('#favicon').trigger("click");
+            });
+            
             $('#clearCache').on('click', function (ev) {
                 ev.preventDefault();
                 modal.showPleaseWait();
@@ -679,6 +698,35 @@ if (User::isAdmin()) {
             }, 1000);
 
 
+            $('#favicon-result-btn').on('click', function (ev) {
+                faviconCrop.croppie('result', {
+                    type: 'canvas',
+                    size: 'viewport'
+                }).then(function (resp) {
+
+                });
+            });
+
+            faviconCrop = $('#croppieFavicon').croppie({
+                url: '<?php echo $config->getFavicon(); ?>',
+                enableExif: true,
+                enforceBoundary: false,
+                mouseWheelZoom: false,
+                viewport: {
+                    width: 64,
+                    height: 64
+                },
+                boundary: {
+                    width: 64,
+                    height: 64
+                }
+            });
+            setTimeout(function () {
+                faviconCrop.croppie('setZoom', 1);
+            }, 1000);
+
+
+
             $('#updateConfigForm').submit(function (evt) {
                 evt.preventDefault();
                 modal.showPleaseWait();
@@ -690,43 +738,51 @@ if (User::isAdmin()) {
                 }).then(function (resp) {
                     logoImgBase64 = resp;
 
-                    $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>objects/configurationUpdate.json.php',
-                        data: {
-                            "logoImgBase64": logoImgBase64,
-                            "video_resolution": $('#inputVideoResolution').val(),
-                            "webSiteTitle": $('#inputWebSiteTitle').val(),
-                            "language": $('#inputLanguage').val(),
-                            "contactEmail": $('#inputEmail').val(),
-                            "authCanUploadVideos": $('#authCanUploadVideos').val(),
-                            "authCanViewChart": $('#authCanViewChart').val(),
-                            "authCanComment": $('#authCanComment').val(),
-                            "head": $('#head').val(),
-                            "adsense": $('#adsense').val(),
-                            "disable_analytics": $('#disable_analytics').prop("checked"),
-                            "disable_youtubeupload": $('#disable_youtubeupload').prop("checked"),
-                            "allow_download": $("#allow_download").prop("checked"),
-                            "session_timeout": $('#session_timeout').val(),
-                            "autoplay": $('#autoplay').prop("checked"),
-                            "theme": theme,
-                            "smtp": $('#enableSmtp').prop("checked"),
-                            "smtpAuth": $('#enableSmtpAuth').prop("checked"),
-                            "smtpSecure": $('#smtpSecure').val(),
-                            "smtpHost": $('#smtpHost').val(),
-                            "smtpUsername": $('#smtpUsername').val(),
-                            "smtpPassword": $('#smtpPassword').val(),
-                            "smtpPort": $('#smtpPort').val(),
-                            "encoder_url": $('#encoder_url').val(),
-                        },
-                        type: 'post',
-                        success: function (response) {
-                            if (response.status === "1") {
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
-                            } else {
-                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
+                    faviconCrop.croppie('result', {
+                        type: 'canvas',
+                        size: 'viewport'
+                    }).then(function (resp) {
+                        faviconBase64 = resp;
+
+                        $.ajax({
+                            url: '<?php echo $global['webSiteRootURL']; ?>objects/configurationUpdate.json.php',
+                            data: {
+                                "logoImgBase64": logoImgBase64,
+                                "faviconBase64": faviconBase64,
+                                "video_resolution": $('#inputVideoResolution').val(),
+                                "webSiteTitle": $('#inputWebSiteTitle').val(),
+                                "language": $('#inputLanguage').val(),
+                                "contactEmail": $('#inputEmail').val(),
+                                "authCanUploadVideos": $('#authCanUploadVideos').val(),
+                                "authCanViewChart": $('#authCanViewChart').val(),
+                                "authCanComment": $('#authCanComment').val(),
+                                "head": $('#head').val(),
+                                "adsense": $('#adsense').val(),
+                                "disable_analytics": $('#disable_analytics').prop("checked"),
+                                "disable_youtubeupload": $('#disable_youtubeupload').prop("checked"),
+                                "allow_download": $("#allow_download").prop("checked"),
+                                "session_timeout": $('#session_timeout').val(),
+                                "autoplay": $('#autoplay').prop("checked"),
+                                "theme": theme,
+                                "smtp": $('#enableSmtp').prop("checked"),
+                                "smtpAuth": $('#enableSmtpAuth').prop("checked"),
+                                "smtpSecure": $('#smtpSecure').val(),
+                                "smtpHost": $('#smtpHost').val(),
+                                "smtpUsername": $('#smtpUsername').val(),
+                                "smtpPassword": $('#smtpPassword').val(),
+                                "smtpPort": $('#smtpPort').val(),
+                                "encoder_url": $('#encoder_url').val(),
+                            },
+                            type: 'post',
+                            success: function (response) {
+                                if (response.status === "1") {
+                                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
+                                } else {
+                                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
+                                }
+                                modal.hidePleaseWait();
                             }
-                            modal.hidePleaseWait();
-                        }
+                        });
                     });
                 });
 

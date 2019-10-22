@@ -76,5 +76,24 @@ if (!empty($_POST['logoImgBase64'])) {
         );
     }
 }
+if (!empty($_POST['faviconBase64'])) {
+    $imagePath = "videos/";
+    $fileData = base64DataToImage($_POST['faviconBase64']);
+    $fileName = 'favicon.png';
+    $photoURL = $imagePath . $fileName;
+    $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
+    if ($bytes > 10) {
+        $response2 = array(
+            "status" => 'success',
+            "url" => $global['systemRootPath'] . $photoURL
+        );
+    } else {
+        $response2 = array(
+            "status" => 'error',
+            "msg" => 'We could not save favicon',
+            "url" => $global['systemRootPath'] . $photoURL
+        );
+    }
+}
 
-echo '{"status":"' . $config->save() . '", "respnseLogo": ' . json_encode($response) . '}';
+echo '{"status":"' . $config->save() . '", "respnseLogo": ' . json_encode($response) . ', "respnseFavicon": ' . json_encode($response2) . '}';

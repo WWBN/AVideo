@@ -211,6 +211,17 @@ class Configuration {
         return $this->logo.$get;
     }
 
+    function getFavicon() {
+        global $global;
+        $file = $global['systemRootPath']."videos/favicon.png";
+        $url = "{$global['webSiteRootURL']}videos/favicon.png";
+        if (!file_exists($file)) {
+            $file = $global['systemRootPath']."view/img/favicon.png";
+            $url = "{$global['webSiteRootURL']}view/img/favicon.png";
+        }
+        return $url."?". filectime($file);
+    }
+
     function setHead($head) {
         $this->head = $head;
     }
