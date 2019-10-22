@@ -423,8 +423,18 @@ if (User::isAdmin()) {
                                                 <small id="allow_downloadHelp" class="form-text text-muted"><?php echo __("This creates a download-button under your video, suggest you title.mp4 as download-name."); ?></small>
                                             </div>
                                         </div>
-
-
+                                        <hr>
+                                        <div class="form-group">
+                                            <label class="col-md-2"></label>
+                                            <div class="col-md-10">
+                                                <div class="alert alert-info">
+                                                    <h1>Email Configuration</h1>
+                                                    If you are not sure how to configure your email, 
+                                                    please try <a href="https://github.com/YouPHPTube/YouPHPTube/wiki/Setting-up-YouPHPTube-to-send-emails">this help</a>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label class="col-md-2"><?php echo __("Enable SMTP"); ?></label>
                                             <div class="col-md-10">
