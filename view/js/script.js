@@ -47,7 +47,8 @@ try {
             }
         });
     }
-} catch (e) {}
+} catch (e) {
+}
 
 var pleaseWaitIsINUse = false;
 $(document).ready(function () {
@@ -171,6 +172,40 @@ $(document).ready(function () {
             $(this).addClass("selected");
         }
     });
+
+
+    $('#clearCache, .clearCacheButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationClearCache.json.php',
+            success: function (response) {
+                if (!response.error) {
+                    swal("Congratulations!", "Your cache has been cleared!", "success");
+                } else {
+                    swal("Sorry!", "Your cache has NOT been cleared!", "error");
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
+
+    $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
+            success: function (response) {
+                if (!response.error) {
+                    swal("Congratulations!", "File created!", "success");
+                } else {
+                    swal("Sorry!", "File NOT created!", "error");
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
+
 });
 
 function removeTracks() {

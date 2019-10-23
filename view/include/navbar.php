@@ -810,6 +810,16 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                         <?php echo __("Plugins"); ?>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="#" class="clearCacheButton">
+                                        <i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="generateSiteMapButton">
+                                        <i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <?php

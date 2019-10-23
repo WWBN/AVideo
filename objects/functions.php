@@ -1599,7 +1599,7 @@ function combineFiles($filesArray, $extension = "js") {
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
-    return $global['webSiteRootURL'] . 'videos/cache/' . $extension . "/" . $md5FileName."?". filectime($cacheDir . $md5FileName);
+    return $global['webSiteRootURL'] . 'videos/cache/' . $extension . "/" . $md5FileName . "?" . filectime($cacheDir . $md5FileName);
 }
 
 function local_get_contents($path) {
@@ -1611,11 +1611,11 @@ function local_get_contents($path) {
     }
 }
 
-function url_get_contents($Url, $ctx = "", $timeout=0) {
+function url_get_contents($Url, $ctx = "", $timeout = 0) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     $session = $_SESSION;
     session_write_close();
-    if(!empty($timeout)){
+    if (!empty($timeout)) {
         ini_set('default_socket_timeout', $timeout);
     }
     $global['mysqli']->close();
@@ -1627,9 +1627,9 @@ function url_get_contents($Url, $ctx = "", $timeout=0) {
                 "allow_self_signed" => true,
             ),
         );
-        if(!empty($timeout)){
+        if (!empty($timeout)) {
             ini_set('default_socket_timeout', $timeout);
-            $opts['http']=array('timeout' => $timeout);
+            $opts['http'] = array('timeout' => $timeout);
         }
         $context = stream_context_create($opts);
     } else {
@@ -1658,9 +1658,9 @@ function url_get_contents($Url, $ctx = "", $timeout=0) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        if(!empty($timeout)){
-            curl_setopt($ch,CURLOPT_TIMEOUT,$timeout);
-            curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout+10);
+        if (!empty($timeout)) {
+            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout + 10);
         }
         $output = curl_exec($ch);
         curl_close($ch);
@@ -1965,23 +1965,19 @@ function allowOrigin() {
     header("Access-Control-Allow-Credentials: true");
 }
 
-if (!function_exists("rrmdir")) {
-
-    function rrmdir($dir) {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (is_dir($dir . "/" . $object))
-                        rrmdir($dir . "/" . $object);
-                    else
-                        unlink($dir . "/" . $object);
-                }
+function rrmdir($dir) {
+    if (is_dir($dir)) {
+        $objects = scandir($dir);
+        foreach ($objects as $object) {
+            if ($object != "." && $object != "..") {
+                if (is_dir($dir . "/" . $object))
+                    rrmdir($dir . "/" . $object);
+                else
+                    unlink($dir . "/" . $object);
             }
-            rmdir($dir);
         }
+        rmdir($dir);
     }
-
 }
 
 /**
@@ -2087,21 +2083,22 @@ function getAdsSideRectangle() {
     }
 }
 
-function isToHidePrivateVideos(){
+function isToHidePrivateVideos() {
     $obj = YouPHPTubePlugin::getObjectDataIfEnabled("Gallery");
-    if(!empty($obj)){
+    if (!empty($obj)) {
         return $obj->hidePrivateVideos;
     }
     $obj = YouPHPTubePlugin::getObjectDataIfEnabled("YouPHPFlix2");
-    if(!empty($obj)){
+    if (!empty($obj)) {
         return $obj->hidePrivateVideos;
     }
     $obj = YouPHPTubePlugin::getObjectDataIfEnabled("YouTube");
-    if(!empty($obj)){
+    if (!empty($obj)) {
         return $obj->hidePrivateVideos;
     }
     return false;
 }
+
 function getOpenGraph($videos_id) {
     global $global, $config;
     echo "<!-- OpenGraph -->";
@@ -2166,6 +2163,7 @@ function getOpenGraph($videos_id) {
     <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     <?php
 }
+
 function getLdJson($videos_id) {
     global $global, $config;
     echo "<!-- ld+json -->";
@@ -2209,47 +2207,47 @@ function getLdJson($videos_id) {
     } else {
         $img = $images->poster;
     }
-    
-    $description = str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), empty(trim($video['description']))?$video['title']:$video['description']);
+
+    $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
-    if($duration=="PT0H0M0S"){
+    if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
     ?>
     <script type="application/ld+json">
-    {
-      "@context": "http://schema.org/",
-      "@type": "VideoObject",
-      "name": "<?php echo str_replace('"', '', $video['title']); ?>",
-      "description": "<?php echo $description ?>",
-    "thumbnailUrl": [
-    "<?php echo $img; ?>"
-    ],
-    "uploadDate": "<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>",
-    "duration": "<?php echo $duration; ?>",
-    "contentUrl": "<?php echo Video::getLinkToVideo($videos_id); ?>",
-    "embedUrl": "<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>",
-    "interactionCount": "<?php echo $video['views_count']; ?>",
-      "@id": "<?php echo Video::getPermaLink($videos_id); ?>",
-      "datePublished": "<?php echo date("Y-m-d", strtotime($video['created'])); ?>",
-      "interactionStatistic": [
         {
-          "@type": "InteractionCounter",
-          "interactionService": {
-            "@type": "WebSite",
-            "name": "<?php echo str_replace('"', '', $config->getWebSiteTitle()); ?>",
-            "@id": "<?php echo $global['webSiteRootURL']; ?>"
-          },
-          "interactionType": "http://schema.org/LikeAction",
-          "userInteractionCount": "<?php echo $video['views_count']; ?>"
+        "@context": "http://schema.org/",
+        "@type": "VideoObject",
+        "name": "<?php echo str_replace('"', '', $video['title']); ?>",
+        "description": "<?php echo $description ?>",
+        "thumbnailUrl": [
+        "<?php echo $img; ?>"
+        ],
+        "uploadDate": "<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>",
+        "duration": "<?php echo $duration; ?>",
+        "contentUrl": "<?php echo Video::getLinkToVideo($videos_id); ?>",
+        "embedUrl": "<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>",
+        "interactionCount": "<?php echo $video['views_count']; ?>",
+        "@id": "<?php echo Video::getPermaLink($videos_id); ?>",
+        "datePublished": "<?php echo date("Y-m-d", strtotime($video['created'])); ?>",
+        "interactionStatistic": [
+        {
+        "@type": "InteractionCounter",
+        "interactionService": {
+        "@type": "WebSite",
+        "name": "<?php echo str_replace('"', '', $config->getWebSiteTitle()); ?>",
+        "@id": "<?php echo $global['webSiteRootURL']; ?>"
+        },
+        "interactionType": "http://schema.org/LikeAction",
+        "userInteractionCount": "<?php echo $video['views_count']; ?>"
         },
         {
-          "@type": "InteractionCounter",
-          "interactionType": "http://schema.org/WatchAction",
-          "userInteractionCount": "<?php echo $video['views_count']; ?>"
+        "@type": "InteractionCounter",
+        "interactionType": "http://schema.org/WatchAction",
+        "userInteractionCount": "<?php echo $video['views_count']; ?>"
         }
-      ]
-    }
+        ]
+        }
     </script>
 
 
@@ -2299,10 +2297,10 @@ function getItemprop($videos_id) {
     } else {
         $img = $images->poster;
     }
-    
-    $description = str_replace(array('"', "\n", "\r"), array('', ' ' , ' '), empty(trim($video['description']))?$video['title']:$video['description']);
+
+    $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
-    if($duration=="PT0H0M0S"){
+    if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
     ?>
