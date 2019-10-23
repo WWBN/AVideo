@@ -354,7 +354,7 @@ if (User::isAdmin()) {
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label">
-                                                        <?php echo __("Favicon"); ?> (64x64)
+                                                        <?php echo __("Favicon"); ?> (180x180)
                                                     </label>
                                                     <div class="col-md-8 ">
                                                         <div id="croppieFavicon"></div>
