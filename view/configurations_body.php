@@ -712,7 +712,7 @@ if (User::isAdmin()) {
             });
 
             faviconCrop = $('#croppieFavicon').croppie({
-                url: '<?php echo $config->getFavicon(); ?>',
+                url: '<?php echo $config->getFavicon(true); ?>',
                 enableExif: true,
                 enforceBoundary: false,
                 mouseWheelZoom: false,

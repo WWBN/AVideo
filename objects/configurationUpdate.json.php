@@ -1,7 +1,8 @@
 <?php
+
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -87,6 +88,17 @@ if (!empty($_POST['faviconBase64'])) {
             "status" => 'success',
             "url" => $global['systemRootPath'] . $photoURL
         );
+        require(  $global['systemRootPath'] . 'objects/php-ico/class-php-ico.php' );
+        
+        $sizes = array(
+            array(16, 16),
+            array(24, 24),
+            array(32, 32),
+            array(48, 48),
+        );
+
+        $ico_lib = new PHP_ICO($global['systemRootPath'] . $photoURL, $sizes);
+        $ico_lib->save_ico($global['systemRootPath'] . $imagePath.'favicon.ico');
     } else {
         $response2 = array(
             "status" => 'error',
