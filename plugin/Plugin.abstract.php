@@ -32,7 +32,7 @@ abstract class PluginAbstract {
     }
 
     public function updateScript() {
-        return false;
+        return true;
     }
 
     public function getFooterCode() {
