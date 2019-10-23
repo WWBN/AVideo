@@ -756,12 +756,15 @@ class YouPHPTubePlugin {
         $p = static::loadPlugin($name);
         $currentVersion = $p->getPluginVersion();
         $uuid = $p->getUUID();
+        error_log("YouPHPTubePlugin::updatePlugin name=($name) uuid=($uuid) ");
         if (method_exists($p, 'updateScript')) {
+            error_log("YouPHPTubePlugin::updatePlugin method_exists ");
             if ($p->updateScript())
                 Plugin::setCurrentVersionByUuid($uuid, $currentVersion);
             else
                 return false;
         }else {
+            error_log("YouPHPTubePlugin::updatePlugin method NOT exists ");
             Plugin::setCurrentVersionByUuid($uuid, $currentVersion);
         }
         return true;
