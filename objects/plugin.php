@@ -72,9 +72,12 @@ class Plugin extends ObjectYPT {
     }
     
     static function setCurrentVersionByUuid($uuid, $currentVersion){
+        error_log("plugin::setCurrentVersionByUuid $uuid, $currentVersion");
         $p=static::getPluginByUUID($uuid);
-        if(!$p)
-        return false;
+        if(!$p){
+            error_log("plugin::setCurrentVersionByUuid error on get plugin");
+            return false;
+        }
         //pluginversion isn't an object property so we must explicity update it using this function
         $sql="update ".static::getTableName()." set pluginversion='$currentVersion' where uuid='$uuid'";
         $res=sqlDal::writeSql($sql); 
