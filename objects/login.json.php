@@ -153,7 +153,7 @@ $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
 $object->redirectUri=@$_POST['redirectUri'];
 
-if (empty($object->redirectUri) && !empty($advancedCustomUser->afterLoginGoToMyChannel)) {
+if ((empty($object->redirectUri) || $object->redirectUri===$global['webSiteRootURL']) && !empty($advancedCustomUser->afterLoginGoToMyChannel)) {
     $object->redirectUri = User::getChannelLink();
 }
 
