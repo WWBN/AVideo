@@ -717,12 +717,12 @@ if (User::isAdmin()) {
                 enforceBoundary: false,
                 mouseWheelZoom: false,
                 viewport: {
-                    width: 64,
-                    height: 64
+                    width: 180,
+                    height: 180
                 },
                 boundary: {
-                    width: 64,
-                    height: 64
+                    width: 180,
+                    height: 180
                 }
             });
             setTimeout(function () {

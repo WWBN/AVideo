@@ -95,6 +95,7 @@ if (!empty($_POST['faviconBase64'])) {
             array(24, 24),
             array(32, 32),
             array(48, 48),
+            array(144, 144),
         );
 
         $ico_lib = new PHP_ICO($global['systemRootPath'] . $photoURL, $sizes);
