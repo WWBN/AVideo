@@ -217,6 +217,10 @@ class Configuration {
         if (!$getPNG) {
             $file = $global['systemRootPath'] . "videos/favicon.ico";
             $url = "{$global['webSiteRootURL']}videos/favicon.ico";
+            if (!file_exists($file)) {
+                $file = $global['systemRootPath'] . "view/img/favicon.ico";
+                $url = "{$global['webSiteRootURL']}view/img/favicon.ico";
+            }
         }
         if (empty($url) || !file_exists($file)) {
             $file = $global['systemRootPath'] . "videos/favicon.png";
