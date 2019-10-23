@@ -31,7 +31,7 @@ error_log("redirectUri: ".$_POST['redirectUri']);
 if(!preg_match("|^".$global['webSiteRootURL']."|", $_POST['redirectUri']))
 $_POST['redirectUri']=$global['webSiteRootURL'];
 
-error_log("sane redirectUri: ".$_POST['redirectUri']);
+error_log("same redirectUri: ".$_POST['redirectUri']);
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
@@ -151,9 +151,9 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
-$object->redirectUri=$_POST['redirectUri'];
+$object->redirectUri=@$_POST['redirectUri'];
 
-if (!empty($advancedCustomUser->afterLoginGoToMyChannel)) {
+if (empty($object->redirectUri) && !empty($advancedCustomUser->afterLoginGoToMyChannel)) {
     $object->redirectUri = User::getChannelLink();
 }
 
