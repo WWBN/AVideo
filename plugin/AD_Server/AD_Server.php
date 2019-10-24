@@ -94,7 +94,7 @@ class AD_Server extends PluginAbstract {
         }
         error_log("Show Ads Count {$_SESSION['showAdsCount']}");
         $obj = $this->getDataObject();
-        if ($_SESSION['showAdsCount'] % $obj->showAdsOnEachVideoView === 0) {
+        if (!empty($obj->showAdsOnEachVideoView) && $_SESSION['showAdsCount'] % $obj->showAdsOnEachVideoView === 0) {
             return true;
         }
         session_write_close();
