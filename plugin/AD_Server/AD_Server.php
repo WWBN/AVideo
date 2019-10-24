@@ -57,6 +57,7 @@ class AD_Server extends PluginAbstract {
                     $o->setLink("");
                     $o->setAd_title($video->getTitle());
                     $o->setStatus('a');
+                    $o->save();
                 }
             }
         }
