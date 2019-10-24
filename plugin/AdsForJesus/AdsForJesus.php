@@ -5,8 +5,8 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class AdsForJesus extends PluginAbstract {
 
     public function getDescription() {
-        $txt = "<i class=\"fas fa-cross\"></i>We will provide a simple VAST Ad link for free, these ads can be placed on your video site.<br>This will give your users the greatest wisdom of all, as well as invaluable value. ";
-        $help = "<br><i class=\"fas fa-pray\"></i><small><a href='https://forjesus.tv/' target='__blank'><i class='fas fa-cross'></i> 4JesusTV</a></small>";
+        $txt = "<i class=\"fas fa-cross\"></i> We will provide a simple VAST Ad link for free, these ads can be placed on your video site.<br>This will give your users the greatest wisdom of all, as well as invaluable value. ";
+        $help = "<br><i class=\"fas fa-pray\"> </i><small><a href='https://forjesus.tv/' target='__blank'>4JesusTV</a></small>";
         return $txt . $help;
     }
 
