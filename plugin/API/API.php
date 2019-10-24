@@ -234,6 +234,52 @@ class API extends PluginAbstract {
         $obj->totalRows = $totalRows;
         return new ApiObject("", false, $obj);
     }
+    
+    /**
+     * @param type $parameters 
+     * ['APISecret' to list all videos]
+     * ['sort' database sort column]
+     * ['videos_id' the video id (will return only 1 or 0 video)]
+     * ['clean_title' the video clean title (will return only 1 or 0 video)]
+     * ['rowCount' max numbers of rows]
+     * ['current' current page]
+     * ['searchPhrase' to search on the categories]
+     * ['tags_id' the ID of the tag you want to filter]
+     * ['catName' the clean_APIName of the category you want to filter]
+     * ['channelName' the channelName of the videos you want to filter]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function get_api_videosViewsCount($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret === @$_GET['APISecret']) {
+            $rows = Video::getAllVideos("viewable", false, true);
+            $totalRows = Video::getTotalVideos("viewable", false, true);
+        } else if (!empty($parameters['videos_id'])) {
+            $rows = array(Video::getVideo($parameters['videos_id']));
+            $totalRows = empty($rows) ? 0 : 1;
+        } else if (!empty($parameters['clean_title'])) {
+            $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
+            $totalRows = empty($rows) ? 0 : 1;
+        } else {
+            $rows = Video::getAllVideos();
+            $totalRows = Video::getTotalVideos();
+        }
+        $objMob = YouPHPTubePlugin::getObjectData("MobileManager");
+        $viewsCount = 0;
+        foreach ($rows as $key => $value) {
+            if (is_object($value)) {
+                $value = object_to_array($value);
+            }
+            $viewsCount += $value['views_count'];
+        }
+        $obj->totalRows = $totalRows;
+        $obj->viewsCount = $viewsCount;
+        return new ApiObject("", false, $obj);
+    }
 
 
     /**
