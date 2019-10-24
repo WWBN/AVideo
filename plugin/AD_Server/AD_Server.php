@@ -25,8 +25,8 @@ class AD_Server extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";   
-    }    
+        return "1.0";
+    }
 
     public function getEmptyDataObject() {
         $obj = new stdClass();
@@ -39,7 +39,28 @@ class AD_Server extends PluginAbstract {
         $obj->showMarkers = true;
         $obj->showAdsOnEachVideoView = 1;
         $obj->showAdsOnRandomPositions = 2;
+
+        $obj->autoAddNewVideosInCampaignId = 0;
         return $obj;
+    }
+
+    public function afterNewVideo($videos_id) {
+        $obj = $this->getDataObject();
+        if (!empty($obj->autoAddNewVideosInCampaignId)) {
+            $vc = new VastCampaigns($obj->autoAddNewVideosInCampaignId);
+            if (!empty($vc->getName())) {
+                $video = new Video("", "", $videos_id);
+                if(!empty($video->getTitle())){
+                    $o = new VastCampaignsVideos($id);
+                    $o->setVast_campaigns_id($obj->autoAddNewVideosInCampaignId);
+                    $o->setVideos_id($videos_id);
+                    $o->setLink("");
+                    $o->setAd_title($video->getTitle());
+                    $o->setStatus('a');
+                }
+            }
+        }
+        return false;
     }
 
     public function canLoadAds() {
@@ -79,7 +100,7 @@ class AD_Server extends PluginAbstract {
         $_GET['vmap_id'] = session_id();
 
         $js = '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
-        $css = '<link href="'.$global['webSiteRootURL'].'js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>'
+        $css = '<link href="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>'
                 . '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->showMarkers)) {
@@ -95,10 +116,10 @@ class AD_Server extends PluginAbstract {
             return "";
         }
         global $global;
-        
-        if(empty($_GET['u'])){
+
+        if (empty($_GET['u'])) {
             $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-        }else{
+        } else {
             $video['duration'] = "01:00:00";
         }
         $video_length = parseDurationToSeconds($video['duration']);
@@ -117,9 +138,9 @@ class AD_Server extends PluginAbstract {
             echo "<!-- NO Videos found for VAST ads -->";
         }
     }
-    
-    private function getRandomPositions(){        
-        
+
+    private function getRandomPositions() {
+
         if (empty($_GET['vmap_id'])) {
             return "";
         }
@@ -130,14 +151,14 @@ class AD_Server extends PluginAbstract {
             session_start();
         }
         $options = array();
-        
+
         if (!empty($obj->start)) {
             $options[] = 1;
         }
         if (!empty($obj->mid25Percent)) {
             $options[] = 2;
         }
-        if (!empty($obj->mid50Percent) ) {
+        if (!empty($obj->mid50Percent)) {
             $options[] = 3;
         }
         if (!empty($obj->mid75Percent)) {
@@ -146,12 +167,12 @@ class AD_Server extends PluginAbstract {
         if (!empty($obj->end)) {
             $options[] = 5;
         }
-        
+
         $selectedOptions = array();
         if (empty($_SESSION['lastAdRandomPositions']) || $_SESSION['lastAdRandomPositions'] + 20 <= time()) {
             $_SESSION['lastAdRandomPositions'] = time();
 
-            
+
             if (empty($obj->showAdsOnRandomPositions)) {
                 $selectedOptions = $options;
             } else {
@@ -167,7 +188,7 @@ class AD_Server extends PluginAbstract {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        error_log("VMAP select those options: ".print_r($adRandomPositions, true));
+        error_log("VMAP select those options: " . print_r($adRandomPositions, true));
         return $adRandomPositions;
     }
 
@@ -248,7 +269,7 @@ class AD_Server extends PluginAbstract {
         $filename = $global['systemRootPath'] . 'plugin/AD_Server/pluginMenu.html';
         return file_get_contents($filename);
     }
-    
+
     public function getValidCampaignsFromVideo($videos_id) {
         return VastCampaigns::getValidCampaignsFromVideo($videos_id);
     }
@@ -296,7 +317,7 @@ class VMAP {
         $mins = floor($seconds / 60 % 60);
         $secs = floor($seconds % 60);
         return sprintf('%02d:%02d:%02d.000', $hours, $mins, $secs);
-    } 
+    }
 
 }
 
