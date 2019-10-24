@@ -45,19 +45,22 @@ class AD_Server extends PluginAbstract {
     }
 
     public function afterNewVideo($videos_id) {
+        error_log("AD_Server:afterNewVideo start");
         $obj = $this->getDataObject();
         if (!empty($obj->autoAddNewVideosInCampaignId)) {
             $vc = new VastCampaigns($obj->autoAddNewVideosInCampaignId);
             if (!empty($vc->getName())) {
                 $video = new Video("", "", $videos_id);
                 if(!empty($video->getTitle())){
+                    error_log("AD_Server:afterNewVideo saving");
                     $o = new VastCampaignsVideos($id);
                     $o->setVast_campaigns_id($obj->autoAddNewVideosInCampaignId);
                     $o->setVideos_id($videos_id);
                     $o->setLink("");
                     $o->setAd_title($video->getTitle());
                     $o->setStatus('a');
-                    $o->save();
+                    $id = $o->save();
+                    error_log("AD_Server:afterNewVideo saved {$id}");
                 }else{
                     error_log("AD_Server:afterNewVideo videos_id NOT found {$videos_id}");
                 }
@@ -67,7 +70,7 @@ class AD_Server extends PluginAbstract {
         }else{
             error_log("AD_Server:afterNewVideo is disabled");
         }
-        return false;
+        return true;
     }
 
     public function canLoadAds() {
