@@ -10,22 +10,6 @@ if (!User::isAdmin()) {
     header("location: {$global['webSiteRootURL']}user");
     exit;
 }
-
-function rrmdir($dir) {
-    if (is_dir($dir)) {
-        $objects = scandir($dir);
-        foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-                if (is_dir($dir . "/" . $object))
-                    rrmdir($dir . "/" . $object);
-                else
-                    unlink($dir . "/" . $object);
-            }
-        }
-        rmdir($dir);
-    }
-}
-
 // remove cache dir before the script starts to let the script recreate the javascript and css files
 if (!empty($_POST['updateFile'])) {
     $dir = "{$global['systemRootPath']}videos/cache";
