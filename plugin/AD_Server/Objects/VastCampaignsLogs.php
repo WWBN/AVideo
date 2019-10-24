@@ -57,6 +57,21 @@ class VastCampaignsLogs extends ObjectYPT {
         return parent::save();
     }
 
+    static function getViews(){
+        global $global;
+        $sql = "SELECT count(*) as total FROM vast_campaigns_logs WHERE `type` = 'start'";
+
+        $res = sqlDAL::readSql($sql, "i", array($id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row['total'];
+    }
+    
     static function getData($vast_campaigns_has_videos_id){
         global $global;
         $sql = "SELECT `type`, count(*) as total FROM vast_campaigns_logs WHERE vast_campaigns_has_videos_id = $vast_campaigns_has_videos_id GROUP BY `type`";
