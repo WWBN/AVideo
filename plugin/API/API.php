@@ -208,6 +208,33 @@ class API extends PluginAbstract {
         $obj->rows = $rows;
         return new ApiObject("", false, $obj);
     }
+    
+    /**
+     * @param type $parameters 
+     * ['APISecret' to list all videos]
+     * ['searchPhrase' to search on the categories]
+     * ['tags_id' the ID of the tag you want to filter]
+     * ['catName' the clean_APIName of the category you want to filter]
+     * ['channelName' the channelName of the videos you want to filter]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_videosCount($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret === @$_GET['APISecret']) {
+            $totalRows = Video::getTotalVideos("viewable", false, true);
+        } else {
+            $totalRows = Video::getTotalVideos();
+        }
+        $objMob = YouPHPTubePlugin::getObjectData("MobileManager");
+        $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
+        $obj->totalRows = $totalRows;
+        return new ApiObject("", false, $obj);
+    }
+
 
     /**
      * @param type $parameters
