@@ -58,8 +58,14 @@ class AD_Server extends PluginAbstract {
                     $o->setAd_title($video->getTitle());
                     $o->setStatus('a');
                     $o->save();
+                }else{
+                    error_log("AD_Server:afterNewVideo videos_id NOT found {$videos_id}");
                 }
+            }else{
+                error_log("AD_Server:afterNewVideo autoAddNewVideosInCampaignId NOT found {$obj->autoAddNewVideosInCampaignId}");
             }
+        }else{
+            error_log("AD_Server:afterNewVideo is disabled");
         }
         return false;
     }
