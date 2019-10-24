@@ -1,5 +1,5 @@
 <?php
-header('Content-type: application/xml');
+header('Content-Type: application/json');
 
 require_once '../../videos/configuration.php';
 allowOrigin();
