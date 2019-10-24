@@ -61,7 +61,6 @@ class VastCampaignsLogs extends ObjectYPT {
         global $global;
         $sql = "SELECT count(*) as total FROM vast_campaigns_logs WHERE `type` = 'start'";
 
-        $res = sqlDAL::readSql($sql, "i", array($id));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
