@@ -31,8 +31,23 @@ class AdsForJesus extends PluginAbstract {
         $obj->mid50Percent = true;
         $obj->mid75Percent = true;
         $obj->end = true;
-
+        
+        $obj->topMenuLink = false;
+        
         return $obj;
+    }
+    
+    public function getHTMLMenuRight() {
+        global $global;
+        $obj = $this->getDataObject();
+        if(empty($obj->topMenuLink)){
+            return '';
+        }
+        return '<li>
+        <a href="https://forjesus.tv/"  class="btn btn-success navbar-btn" data-toggle="tooltip" title="For jesus TV" data-placement="bottom" >
+            <i class="fas fa-cross"></i>  <span class="hidden-md hidden-sm">ForJesus.TV Site</span>
+        </a>
+    </li>';
     }
 
     public function getHeadCode() {
