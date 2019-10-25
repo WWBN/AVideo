@@ -5,9 +5,10 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class AdsForJesus extends PluginAbstract {
 
     public function getDescription() {
-        $txt = "<i class=\"fas fa-cross\"></i> We will provide a simple VAST Ad link for free, these ads can be placed on your video site.<br>This will give your users the greatest wisdom of all, as well as invaluable value. ";
-        $help = "<br><i class=\"fas fa-pray\"> </i><small><a href='https://forjesus.tv/' target='__blank'>4JesusTV</a></small>";
-        return $txt . $help;
+        $txt = " We will provide a simple VMAP Ad link for free, these ads will be placed in your videos.<br>"
+                . "This will give your users the greatest wisdom of all, as well as invaluable value. <i class=\"fas fa-pray\"> </i> <i class=\"fas fa-cross fa-2x \"></i>";
+        
+        return $txt ;
     }
 
     public function getName() {
@@ -18,6 +19,11 @@ class AdsForJesus extends PluginAbstract {
         return "AdsForJesus-43a9-479b-994a-5430dc22958c";
     }
 
+    public function getPluginMenu() {
+        global $global;
+        return "<a href='https://forjesus.tv/' target='__blank' class='btn btn-success'><img src='https://forjesus.tv/img/logoLandscape-50.png' alt='4JesusTV' class='img img-responsive'></a>";
+    }
+    
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->start = true;
