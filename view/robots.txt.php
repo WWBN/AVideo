@@ -16,7 +16,6 @@ Disallow: /mvideos
 Disallow: /usersGroups
 Disallow: /charts
 Disallow: /upload
-Disallow: /ads
 Disallow: /comments
 Disallow: /subscribes
 Disallow: /update
