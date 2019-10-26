@@ -35,7 +35,7 @@ if (empty($_POST['sort'])) {
     if (!empty($_SESSION['sort'])) {
         $_POST['sort'] = $_SESSION['sort'];
     } else {
-        $_POST['sort']['created'] = 'desc';
+        $_POST['sort']['trending'] = 1;
     }
 }
 $_SESSION['rowCount'] = $_POST['rowCount'];
