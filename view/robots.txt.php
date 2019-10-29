@@ -20,3 +20,4 @@ Disallow: /comments
 Disallow: /subscribes
 Disallow: /update
 Disallow: /locale
+Disallow: /objects/*
