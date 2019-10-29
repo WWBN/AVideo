@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 // filter some security here
 $securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link');
 $securityFilterInt = array('videos_id', 'video_id', 'categories_id', 'user_id', 'users_id');
-$securityRemoveSingleQuotes = array('search', 'searchPhrase');
+$securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName');
 
 
 foreach ($securityRemoveSingleQuotes as $value) {
