@@ -270,6 +270,9 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                 } else if ($vType == "linkAudio") {
                     $vType = "audio";
                 }
+                if(!in_array($vType, Video::$typeOptions)){
+                    $vType = 'video';
+                }
                 require "{$global['systemRootPath']}view/include/{$vType}.php";
                 ?>
 
