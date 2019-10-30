@@ -13,8 +13,8 @@ if (!empty($_GET['c'])) {
 }
 
 
-$t = LiveTransmition::getFromDbByUserName($_GET['u']);
-$uuid = $t['key'];
+$livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
+$uuid = $livet['key'];
 
 $u = new User(0, $_GET['u'], false);
 $user_id = $u->getBdId();
@@ -32,7 +32,7 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $t['title']; ?> - <?php echo __("Live Video"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $livet['title']; ?> - <?php echo __("Live Video"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
@@ -45,8 +45,8 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo $_GET['u']; ?>" />
         <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo str_replace('"', '', $t['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
-        <meta property="og:description"        content="<?php echo str_replace('"', '', $t['title']); ?>" />
+        <meta property="og:title"              content="<?php echo str_replace('"', '', $livet['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo str_replace('"', '', $livet['title']); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
@@ -55,7 +55,7 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
-        $lt = new LiveTransmition($t['id']);
+        $lt = new LiveTransmition($livet['id']);
         if ($lt->userCanSeeTransmition()) {
             ?>
 
@@ -70,10 +70,10 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
                 <div class="row">
                     <div class="col-md-5 col-md-offset-2 list-group-item">
                         <h1 itemprop="name">
-                            <i class="fas fa-video"></i> <?php echo $t['title']; ?>
+                            <i class="fas fa-video"></i> <?php echo $livet['title']; ?>
                         </h1>
                         <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                        <p><?php echo nl2br(textToLink($t['description'])); ?></p>
+                        <p><?php echo nl2br(textToLink($livet['description'])); ?></p>
                         
                         <div class="row">
 

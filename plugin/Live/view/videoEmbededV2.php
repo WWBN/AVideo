@@ -16,8 +16,8 @@ if (!empty($_GET['c'])) {
 }
 $customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
-$t = LiveTransmition::getFromDbByUserName($_GET['u']);
-$uuid = $t['key'];
+$livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
+$uuid = $livet['key'];
 $p = YouPHPTubePlugin::loadPlugin("Live");
 
 $objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');

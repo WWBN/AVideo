@@ -16,13 +16,13 @@ if(!empty($_GET['c'])){
     }
 }
 
-$t = LiveTransmition::getFromDbByUserName($_GET['u']);
+$livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
 if(empty($_GET['format'])){
     $_GET['format'] = "png";
 }
-$lt = new LiveTransmition($t['id']);
+$lt = new LiveTransmition($livet['id']);
 if($lt->userCanSeeTransmition()){
-    $uuid = $t['key'];
+    $uuid = $livet['key'];
     $p = YouPHPTubePlugin::loadPlugin("Live");
     $video = "{$p->getM3U8File($uuid)}";
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
