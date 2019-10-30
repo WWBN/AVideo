@@ -43,6 +43,7 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->BigVideo = true;
         $obj->RemoveBigVideoDescription = false;
         $obj->BigVideoPlayIcon = true;
+        $obj->BigVideoMarginBottom = "-350px";
         $obj->backgroundRGB = "20,20,20";
         $obj->landscapePosters = true;
         $obj->playVideoOnFullscreen = true;
