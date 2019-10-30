@@ -33,7 +33,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
              margin: -120px -20px; 
              margin-bottom: 0; 
              position: relative;
-             margin-bottom: -350px;
+             margin-bottom: -370px;
              z-index: 0;" >
              <?php
              if (!isMobile() && !empty($video['trailer1'])) {
