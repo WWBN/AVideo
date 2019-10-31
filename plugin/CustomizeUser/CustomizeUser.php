@@ -216,6 +216,10 @@ class CustomizeUser extends PluginAbstract {
         if (!self::canDownloadVideosFromUser($users_id)) {
             return false;
         }
+        $category = new Category($video->getCategories_id());
+        if(is_object($category) && !$category->getAllow_download()){
+            return false;
+        }
         $obj = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeUser");
         if (!empty($obj->userCanAllowFilesDownloadSelectPerVideo)) {
             if (empty($video->getCan_download())) {

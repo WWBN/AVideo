@@ -21,6 +21,7 @@ class Category {
     private $type;
     private $users_id;
     private $private;
+    private $allow_download;
 
     function getUsers_id() {
         if (empty($this->users_id)) {
@@ -157,9 +158,9 @@ class Category {
                     . "parentId = ?,"
                     . "iconClass = ?,"
                     . "users_id = ?,"
-                    . "`private` = ?, modified = now() WHERE id = ?";
-            $format = "sssiisiii";
-            $values = array(xss_esc($this->name), xss_esc($this->clean_name), xss_esc($this->description), $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->id);
+                    . "`private` = ?, allow_download = ?, modified = now() WHERE id = ?";
+            $format = "sssiisiiii";
+            $values = array(xss_esc($this->name), xss_esc($this->clean_name), xss_esc($this->description), $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->getAllow_download(), $this->id);
         } else {
             $sql = "INSERT INTO categories ( "
                     . "name,"
@@ -169,9 +170,9 @@ class Category {
                     . "parentId,"
                     . "iconClass, "
                     . "users_id, "
-                    . "`private`, created, modified) VALUES (?, ?,?,?,?,?,?,?,now(), now())";
-            $format = "sssiisii";
-            $values = array(xss_esc($this->name), xss_esc($this->clean_name), xss_esc($this->description), $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate());
+                    . "`private`, allow_download, created, modified) VALUES (?, ?,?,?,?,?,?,?,?,now(), now())";
+            $format = "sssiisiii";
+            $values = array(xss_esc($this->name), xss_esc($this->clean_name), xss_esc($this->description), $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->getAllow_download());
         }
 
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
@@ -527,5 +528,15 @@ class Category {
     function getDescription() {
         return $this->description;
     }
+    
+    function getAllow_download() {
+        return $this->allow_download;
+    }
+
+    function setAllow_download($allow_download) {
+        $this->allow_download = intval($allow_download);
+    }
+
+
 
 }

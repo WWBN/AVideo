@@ -16,6 +16,7 @@
                 <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
                 <th data-column-id="owner"><?php echo __("Owner"); ?></th>
                 <th data-column-id="total" data-sortable="false"><?php echo __("Total Videos"); ?></th>
+                <th data-column-id="allow_download" ><?php echo __("Can Download"); ?></th>
                 <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
             </tr>
         </thead>
@@ -41,6 +42,11 @@
                         <select class="form-control" id="inputPrivate">
                             <option value="0"><?php echo __("Public"); ?></option>
                             <option value="1"><?php echo __("Private"); ?></option>
+                        </select>
+                        <label><?php echo __("Allow Download"); ?></label>                        
+                        <select class="form-control" id="allow_download">
+                            <option value="1"><?php echo __("Yes"); ?></option>
+                            <option value="0"><?php echo __("No"); ?></option>
                         </select>
                         <label><?php echo __("Autoplay next-video-order"); ?></label>                        
                         <select class="form-control" id="inputNextVideoOrder">
@@ -192,6 +198,7 @@
                 $('#inputDescription').val(row.description);
                 $('#inputNextVideoOrder').val(row.nextVideoOrder);
                 $('#inputPrivate').val(row.private);
+                $('#allow_download').val(row.allow_download);
                 $('#inputParentId').val(row.parentId);
                 $('#inputType').val(row.type);
                 $(".iconCat i").attr("class", row.iconClass);
@@ -260,7 +267,7 @@
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL'] . "objects/categoryAddNew.json.php"; ?>',
-                data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "private": $('#inputPrivate').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
+                data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "private": $('#inputPrivate').val(), "allow_download": $('#allow_download').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
                 type: 'post',
                 success: function (response) {
                     if (response.status) {

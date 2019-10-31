@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `iconClass` VARCHAR(45) NOT NULL DEFAULT 'fa fa-folder',
   `users_id` INT(11) NOT NULL DEFAULT 1,
   `private` TINYINT(1) NULL DEFAULT 0,
+  `allow_download` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_categories_users1_idx` (`users_id` ASC),
   UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 

@@ -19,6 +19,7 @@ $obj->setIconClass($_POST['iconClass']);
 $obj->setNextVideoOrder($_POST['nextVideoOrder']);
 $obj->setParentId($_POST['parentId']);
 $obj->setPrivate($_POST['private']);
+$obj->setAllow_download($_POST['allow_download']);
 
 
 
