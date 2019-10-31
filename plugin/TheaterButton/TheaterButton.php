@@ -78,7 +78,7 @@ class TheaterButton extends PluginAbstract {
             return false;
         }
         $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-        if(($isEmbed==1 || $video['type']=='embed') && !$advancedCustom->disableYoutubePlayerIntegration){
+        if(($isEmbed==1 || $video['type']=='embed') && $advancedCustom->disableYoutubePlayerIntegration){
             return false;
         }
         if($video['type']=='article' || $video['type']=='pdf'){
