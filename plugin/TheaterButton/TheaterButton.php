@@ -45,14 +45,10 @@ class TheaterButton extends PluginAbstract {
     }
     public function getJSFiles(){
         global $global, $autoPlayVideo, $isEmbed;
+        if (!$this->showButton()) {
+            return "";
+        }
         $obj = $this->getDataObject();
-        if ((empty($_GET['videoName']))||($isEmbed==1)) {
-            return array();
-        }
-        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-        if($video['type']=='embed' || $video['type']=='article' || $video['type']=='pdf'){
-            return '';
-        }
         if(!empty($obj->show_switch_button)){
             return array("plugin/TheaterButton/script.js","plugin/TheaterButton/addButton.js");
         }
@@ -60,12 +56,8 @@ class TheaterButton extends PluginAbstract {
     }
     public function getFooterCode() {
         global $global, $autoPlayVideo, $isEmbed;
-        if ((empty($_GET['videoName']))||($isEmbed==1)) {
+        if (!$this->showButton()) {
             return "";
-        }
-        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-        if($video['type']=='embed' || $video['type']=='article' || $video['type']=='pdf'){
-            return '';
         }
         $obj = $this->getDataObject();
         $js = '';
@@ -78,6 +70,21 @@ class TheaterButton extends PluginAbstract {
         }
         
         return $js;
+    }
+    
+    private function showButton(){
+        global $global, $isEmbed, $advancedCustom;
+        if ((empty($_GET['videoName']))) {
+            return false;
+        }
+        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+        if(($isEmbed==1 || $video['type']=='embed') && !$advancedCustom->disableYoutubePlayerIntegration){
+            return false;
+        }
+        if($video['type']=='article' || $video['type']=='pdf'){
+            return false;
+        }
+        return true;
     }
         
     public function getTags() {
