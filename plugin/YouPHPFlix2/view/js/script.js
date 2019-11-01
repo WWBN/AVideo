@@ -42,13 +42,17 @@ $(function () {
         $(".thumbsImage").removeClass('active');
 
         $('.poster').slideUp();
-        $('#poster'+crc).css('background-image', 'url(' + $('#poster'+crc).attr('poster') + ')');
-        $('#poster'+crc).slideDown('slow', function () {
-            var top = row.offset().top;
-            $('html, body').animate({
-                scrollTop: top - myEleTop
-            }, 'slow');
-        });
+        if($('#poster'+crc).is(":hidden")){
+            $('#poster'+crc).css('background-image', 'url(' + $('#poster'+crc).attr('poster') + ')');
+            $('#poster'+crc).slideDown('slow', function () {
+                var top = row.offset().top;
+                $('html, body').animate({
+                    scrollTop: top - myEleTop
+                }, 'slow');
+            });
+        }else{
+            $carousel.flickity('playPlayer');
+        }
 
     });
     
