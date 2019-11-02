@@ -44,11 +44,12 @@ class LiveChatObj extends ObjectYPT {
     }
 
     function setLive_stream_code($live_stream_code) {
+        $live_stream_code = preg_replace("/[^A-Za-z0-9 ]/", '', $live_stream_code);
         $this->live_stream_code = $live_stream_code;
     }
 
     static function getFromChat($live_stream_code, $limit=10) {
-        $live_stream_code = str_replace("'", "", $live_stream_code);
+        $live_stream_code = preg_replace("/[^A-Za-z0-9 ]/", '', $live_stream_code);
         global $global;
         $sql = "SELECT u.*, lc.* FROM  " . static::getTableName() . " lc "
                 . " LEFT JOIN users u ON users_id = u.id WHERE live_stream_code='$live_stream_code' ORDER BY lc.created DESC LIMIT $limit ";
