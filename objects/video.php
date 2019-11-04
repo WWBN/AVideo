@@ -2251,8 +2251,9 @@ if (!class_exists('Video')) {
             } else {
                 $source = $videosPaths[$filename][$type][intval($includeS3)];
             }
-            
-            $source['url'] .= "?".filectime($source['path']);
+            if($type === ".jpg" || $type === ".png" || $type === ".gif" || $type === ".webp"){
+                $source['url'] .= "?".filectime($source['path']);
+            }
 //ObjectYPT::setCache($name, $source);
             return $source;
         }
