@@ -27,7 +27,7 @@ class YouTube extends PluginAbstract {
         $js = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder.png\";</script>";
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/YouTube/style.css" rel="stylesheet" type="text/css"/>';
         if(!empty($obj->playVideoOnFullscreen) && !empty($_GET['videoName'])){
-            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouTube/fullscreen.css" rel="stylesheet" type="text/css"/>';
+            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
         }
         if(!empty($obj->playVideoOnFullscreen)){
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
@@ -96,7 +96,7 @@ class YouTube extends PluginAbstract {
         
         $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouTube/script.js"></script>';
         if(!empty($obj->playVideoOnFullscreen)){
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouTube/fullscreen.js"></script>';
+            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
         }
         if(!empty($obj->playVideoOnBrowserFullscreen)){
             $js = '<script>var playVideoOnBrowserFullscreen = 1;</script>';
