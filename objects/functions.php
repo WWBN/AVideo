@@ -2118,6 +2118,8 @@ function getOpenGraph($videos_id) {
     }
     $videos_id = $video['id'];
     $source = Video::getSourceFile($video['filename']);
+    $imgw = 1024;
+    $imgh = 768;
     if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
         $img = $source['url'];
         $data = getimgsize($source['path']);
