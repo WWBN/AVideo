@@ -84,19 +84,19 @@ class ADs extends PluginAbstract {
     }
     
     public function getHeadCode() {
+        if(!empty($_GET['abkw'])){
+            $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '',$_GET['abkw']);
+            return "<script> window.abkw = '{$abkw}'; </script>";                    
+        }
         if(!empty($_GET['videoName'])){
             $obj = $this->getDataObject();
             if(!empty($obj->tags3rdParty)){
                 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
-                if(!empty($v)){
-                    if(!empty($_GET['abkw'])){
-                        $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '',$_GET['abkw']);
-                        $tag = "<script> window.abkw = '{$abkw}'; </script>";                    
-                    }else{              
-                        $channelName = $v["channelName"];
-                        $category = $v["category"];      
-                        $tag = str_replace(array('{ChannelName}','{Category}'), array(addcslashes($channelName,"'"),  addcslashes($category,"'")), $obj->tags3rdParty);                    
-                    }
+                if(!empty($v)){            
+                    $channelName = $v["channelName"];
+                    $category = $v["category"];      
+                    $tag = str_replace(array('{ChannelName}','{Category}'), array(addcslashes($channelName,"'"),  addcslashes($category,"'")), $obj->tags3rdParty);                    
+                    
                     return $tag;
                 }
             }
