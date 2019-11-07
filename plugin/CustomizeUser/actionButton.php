@@ -1,5 +1,5 @@
 <?php
-if ($obj->allowDonationLink) {
+if ($obj->allowDonationLink && !empty($video['users_id'])) {
     $u = new User($video['users_id']);
     $donationLink = $u->getDonationLink();
     if (!empty($donationLink)) {

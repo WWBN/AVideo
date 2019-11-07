@@ -87,6 +87,9 @@ class PlayLists extends PluginAbstract {
     }
 
     static function canAddVideoOnPlaylist($videos_id) {
+        if(empty($videos_id)){
+            return false;
+        }
         $obj = YouPHPTubePlugin::getObjectData("PlayLists");
         if (!User::isAdmin() && $obj->usersCanOnlyCreatePlayListsFromTheirContent) {
             if (User::isLogged()) {

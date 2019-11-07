@@ -25,6 +25,7 @@ class YouPHPFlix2 extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
+        $obj->hidePrivateVideos = false;
         $obj->pageDots = true;
         $obj->PlayList = true;
         $obj->PlayListAutoPlay = true;

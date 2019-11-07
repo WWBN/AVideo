@@ -151,6 +151,7 @@ class LiveTransmition extends ObjectYPT {
 
     static function keyExists($key) {
         global $global;
+        $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
         if (!is_string($key)) {
             return false;
         }
