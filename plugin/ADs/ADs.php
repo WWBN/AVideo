@@ -74,7 +74,7 @@ class ADs extends PluginAbstract {
         /*
         $o = new stdClass();       
         $o->type = "textarea";
-        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;;
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;
         $obj->leaderBoardFooterMobile = $o;
          * 
          */
@@ -89,16 +89,14 @@ class ADs extends PluginAbstract {
             if(!empty($obj->tags3rdParty)){
                 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
                 if(!empty($v)){
-                    $channelName = $v["channelName"];
-                    $category = $v["category"];
-                    if(!empty($_GET['channelName'])){
-                        $channelName = preg_replace('/[^a-zA-Z0-9_ -]/', '', $_GET["channelName"]);
+                    if(!empty($_GET['abkw'])){
+                        $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '',$_GET['abkw']);
+                        $tag = "<script> window.abkw = '{$abkw}'; </script>";                    
+                    }else{              
+                        $channelName = $v["channelName"];
+                        $category = $v["category"];      
+                        $tag = str_replace(array('{ChannelName}','{Category}'), array(addcslashes($channelName,"'"),  addcslashes($category,"'")), $obj->tags3rdParty);                    
                     }
-                    if(!empty($_GET['category'])){
-                        $category = preg_replace('/[^a-zA-Z0-9_ -]/', '', $_GET["category"]);
-                    }
-                    
-                    $tag = str_replace(array('{ChannelName}','{Category}'), array(addcslashes($channelName,"'"),  addcslashes($category,"'")), $obj->tags3rdParty);                    
                     return $tag;
                 }
             }
