@@ -6,6 +6,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 ALTER TABLE `categories` 
 ADD COLUMN `allow_download` TINYINT(1) NULL DEFAULT 1;
 
+ALTER TABLE `users` CHANGE `photoURL` `photoURL` TEXT
+
 
 UPDATE configurations SET  version = '7.8', modified = now() WHERE id = 1;
 

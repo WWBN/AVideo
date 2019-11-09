@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `modified` DATETIME NOT NULL,
   `isAdmin` TINYINT(1) NOT NULL DEFAULT 0,
   `status` ENUM('a', 'i') NOT NULL DEFAULT 'a',
-  `photoURL` VARCHAR(255) NULL,
+  `photoURL` TEXT NULL,
   `lastLogin` DATETIME NULL,
   `recoverPass` VARCHAR(255) NULL,
   `backgroundURL` VARCHAR(255) NULL,
