@@ -1335,6 +1335,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
 
     $path_info = pathinfo($filename);
     if ($path_info['extension'] === 'zip') {
+        error_log("decideMoveUploadedToVideos: ZIp file");
         $dir = "{$global['systemRootPath']}videos/{$path_info['filename']}";
         unzipDirectory($tmp_name, $dir); // unzip it
         cleanDirectory($dir);
@@ -1346,13 +1347,18 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
 //$ftp->move_uploaded_file($tmp_name, $filename);
         }
     } else {
+        error_log("decideMoveUploadedToVideos: NOT ZIp file");
         if (!empty($aws_s3)) {
+            error_log("decideMoveUploadedToVideos: S3");
             $aws_s3->move_uploaded_file($tmp_name, $filename);
         } else if (!empty($bb_b2)) {
+            error_log("decideMoveUploadedToVideos: B2");
             $bb_b2->move_uploaded_file($tmp_name, $filename);
         } else if (!empty($ftp)) {
+            error_log("decideMoveUploadedToVideos: FTP");
             $ftp->move_uploaded_file($tmp_name, $filename);
         } else {
+            error_log("decideMoveUploadedToVideos: Local");
             if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
                 if (!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
                     if (!copy($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
