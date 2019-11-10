@@ -21,6 +21,7 @@ if(empty($_GET['format'])){
     $_GET['format'] = "png";
 }
 $lt = new LiveTransmition($livet['id']);
+error_log("Live:getImage  start");
 if($lt->userCanSeeTransmition()){
     $uuid = $livet['key'];
     $p = YouPHPTubePlugin::loadPlugin("Live");
@@ -31,18 +32,20 @@ if($lt->userCanSeeTransmition()){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        error_log(" Image Expired in ".  date("d/m/Y H:i:s", @$_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
+        error_log("Live:getImage  Image Expired in ".  date("d/m/Y H:i:s", @$_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
         $_SESSION[$url] = array('content' => $content, 'expire' => strtotime("+2 min"));
-        error_log(" New Image will Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
+        error_log("Live:getImage  New Image will Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }
     if(!empty($_SESSION[$url]['content'])){
         echo $_SESSION[$url]['content'];
-        error_log(" Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
+        error_log("Live:getImage  Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }else{
         echo file_get_contents($filename);
-        error_log(" Get default image ");
+        error_log("Live:getImage  Get default image ");
     }
     
+}else{
+    error_log("Live:getImage  Can not see the image");
 }
 $p = YouPHPTubePlugin::loadPluginIfEnabled("Cache");
 if(!empty($p)){
