@@ -156,6 +156,7 @@ $contentSearchFound = false;
                             $_POST['sort']['name'] = "ASC";
                             $_POST['rowCount'] = 1000;
                             $categories = Category::getAllCategories();
+                            $_POST['rowCount'] = $obj->CategoriesRowCount;
                             foreach ($categories as $value) {
                                 $_GET['catName'] = $value['clean_name'];
                                 unset($_POST['sort']);
