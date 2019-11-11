@@ -154,6 +154,7 @@ $contentSearchFound = false;
                         if ($obj->Categories && empty($_GET['catName']) && empty($_GET['showOnly'])) {
                             unset($_POST['sort']);
                             $_POST['sort']['name'] = "ASC";
+                            $_POST['rowCount'] = 1000;
                             $categories = Category::getAllCategories();
                             foreach ($categories as $value) {
                                 $_GET['catName'] = $value['clean_name'];
