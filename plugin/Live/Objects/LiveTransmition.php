@@ -151,10 +151,10 @@ class LiveTransmition extends ObjectYPT {
 
     static function keyExists($key) {
         global $global;
-        $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
         if (!is_string($key)) {
             return false;
         }
+        $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
