@@ -7,7 +7,7 @@ class AD_Overlay extends PluginAbstract {
     public function getDescription() {
         $txt = "Display simple overlays - similar to YouTube's \"Annotations\" feature in appearance - during video playback.";
         $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
-        
+
         return $txt . $help;
     }
 
@@ -70,10 +70,13 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getHeadCode() {
+        if (empty($_GET['videoName']) && empty($_GET['u'])) {
+            return false;
+        }
         $obj = $this->getDataObject();
         global $global;
         $style = "width: 100%;";
-        if(!empty($obj->adWidth) && !empty($obj->adHeight)){
+        if (!empty($obj->adWidth) && !empty($obj->adHeight)) {
             $style = "width: $obj->adWidth; height: width: $obj->adHeight;";
         }
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.css" rel="stylesheet" type="text/css"/>';
@@ -81,7 +84,7 @@ class AD_Overlay extends PluginAbstract {
         $css .= '<style>.video-js .vjs-overlay-background, .video-js .vjs-overlay-no-background {
 
     max-width: 100%;
-    '.$style.'
+    ' . $style . '
     margin-left:-5px;
 
 }</style>';
@@ -89,6 +92,9 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getFooterCode() {
+        if (empty($_GET['videoName']) && empty($_GET['u'])) {
+            return false;
+        }
         $obj = $this->getDataObject();
         global $global;
 
@@ -100,7 +106,7 @@ class AD_Overlay extends PluginAbstract {
 
         $js .= '<script>'
                 . "$(document).ready(function () {     if (typeof player == 'undefined') {
-                    player = videojs('mainVideo'".PlayerSkins::getDataSetup().");
+                    player = videojs('mainVideo'" . PlayerSkins::getDataSetup() . ");
                     setTimeout(function(){
                         \$('#cbb').click(function() {
                             \$('.vjs-overlay').fadeOut();
