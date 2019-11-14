@@ -147,7 +147,13 @@ class PlayList extends ObjectYPT {
                 . " LEFT JOIN videos as v ON videos_id = v.id "
                 . " LEFT JOIN users u ON u.id = v.users_id "
                 . " WHERE playlists_id = ? ORDER BY p.`order` ASC ";
+        
+        $sort = @$_POST['sort'];
+        $_POST['sort'] = array();
+        $_POST['sort']['p.`order`'] = 'ASC';
+        
         $sql .= self::getSqlFromPost();
+        $_POST['sort'] = $sort;
         $res = sqlDAL::readSql($sql, "i", array($playlists_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
