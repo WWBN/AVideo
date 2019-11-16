@@ -55,7 +55,14 @@ if(!empty($global['enableDDOSprotection'])) ddosProtection();
 // set the reffer for youPHPTube
 $url1['host'] = "";
 if (!empty($_SERVER["HTTP_REFERER"])) {
-    if((strpos($_SERVER["HTTP_REFERER"], '/video/') !== false || strpos($_SERVER["HTTP_REFERER"], '/v/') !== false) && !empty($_SESSION["LAST_HTTP_REFERER"])){
+    if((
+            strpos($_SERVER["HTTP_REFERER"], '/video/') !== false || strpos($_SERVER["HTTP_REFERER"], '/v/') !== false) && 
+            !empty($_SESSION["LAST_HTTP_REFERER"])){
+        if(strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/css/') !== false ||
+                strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/js/') !== false||
+                strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/img/') !== false){
+            $_SESSION["LAST_HTTP_REFERER"] = $global['webSiteRootURL'];
+        }
         $global["HTTP_REFERER"] = $_SESSION["LAST_HTTP_REFERER"];
         $url1 = parse_url($global["HTTP_REFERER"]);
     }else{
@@ -63,7 +70,7 @@ if (!empty($_SERVER["HTTP_REFERER"])) {
         $url1 = parse_url($global["HTTP_REFERER"]);
     }
 }
-
+//var_dump($global["HTTP_REFERER"]);exit;
 if(!isset($_POST['redirectUri'])){
     $_POST['redirectUri'] = "";
 }
