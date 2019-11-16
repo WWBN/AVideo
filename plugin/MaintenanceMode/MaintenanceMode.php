@@ -27,10 +27,13 @@ class MaintenanceMode extends PluginAbstract {
 
     public function getStart() {
         global $global, $config;
+        $forbidden = array(
+            $global['systemRootPath'].'view/index.php',
+            $global['systemRootPath'].'view/channels.php',
+            $global['systemRootPath'].'view/channel.php'
+        );
         if(empty($global['disableAdvancedConfigurations']) && !User::isAdmin() 
-                && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'view/user.php'
-                && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'objects/login.json.php'
-                && $_SERVER["SCRIPT_FILENAME"] !== $global['systemRootPath'].'install/recoverPassword.php'){
+                && in_array($_SERVER["SCRIPT_FILENAME"] ,$forbidden)){
             $obj = $this->getDataObject();
             include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
             exit;

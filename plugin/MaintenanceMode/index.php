@@ -80,7 +80,7 @@
                     <?php
                     if (!empty($obj->twitterLink)) {
                         ?>
-                        <a href="<?php echo $obj->googleLink; ?>" class="flex-c-m size5 bg4 how1 trans-04 m-r-5">
+                        <a href="<?php echo $obj->twitterLink; ?>" class="flex-c-m size5 bg4 how1 trans-04 m-r-5">
                             <i class="fab fa-twitter"></i>
                         </a>
                         <?php
@@ -89,7 +89,7 @@
                     <?php
                     if (!empty($obj->googleLink)) {
                         ?>
-                        <a href="<?php echo $obj->twitterLink; ?>" class="flex-c-m size5 bg5 how1 trans-04 m-r-5">
+                        <a href="<?php echo $obj->googleLink; ?>" class="flex-c-m size5 bg5 how1 trans-04 m-r-5">
                             <i class="fab fa-google-plus-g"></i>
                         </a>
                         <?php
