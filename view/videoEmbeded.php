@@ -349,6 +349,21 @@ if (!empty($_GET['t'])) {
                             }
                         }, 150);
         <?php
+    }else{
+        ?>
+                        setTimeout(function () {
+                            if (typeof player === 'undefined') {
+                                player = videojs('mainVideo');
+                            }
+                            try {
+                                player.currentTime(<?php echo $t; ?>);
+                            } catch (e) {
+                                setTimeout(function () {
+                                    player.currentTime(<?php echo $t; ?>);
+                                }, 1000);
+                            }
+                        }, 150);
+        <?php
     }
     ?>
                 });
