@@ -386,52 +386,6 @@ if (!empty($_GET['t'])) {
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
-        <script>
-                tinymce.init({
-                    selector: '#inputDescription', // change this value according to your HTML
-                    plugins: 'code print preview fullpage powerpaste searchreplace autolink directionality advcode visualblocks visualchars fullscreen image link media mediaembed codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount tinymcespellchecker a11ychecker imagetools textpattern help formatpainter permanentpen pageembed tinycomments mentions linkchecker',
-                    //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
-                    toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
-                    height: 400,
-                    convert_urls: false,
-                    images_upload_handler: function (blobInfo, success, failure) {
-                        var xhr, formData;
-                        if (!videos_id) {
-                            $('#inputTitle').val("Article automatically booked");
-                            saveVideo(false);
-                        }
-                        xhr = new XMLHttpRequest();
-                        xhr.withCredentials = false;
-                        xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
-
-                        xhr.onload = function () {
-                            var json;
-
-                            if (xhr.status != 200) {
-                                failure('HTTP Error: ' + xhr.status);
-                                return;
-                            }
-
-                            json = xhr.responseText;
-                            json = JSON.parse(json);
-                            console.log(json);
-                            if (json.error === false && json.url) {
-                                success(json.url);
-                            } else if (json.msg) {
-                                swal("<?php echo __("Error!"); ?>", json.msg, "error");
-                            } else {
-                                swal("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
-                            }
-
-                        };
-
-                        formData = new FormData();
-                        formData.append('file_data', blobInfo.blob(), blobInfo.filename());
-
-                        xhr.send(formData);
-                    }
-                });
-        </script>
     </body>
 </html>
 
