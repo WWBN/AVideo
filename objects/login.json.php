@@ -153,8 +153,12 @@ $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
 $object->redirectUri=@$_POST['redirectUri'];
 
-if ((empty($object->redirectUri) || $object->redirectUri===$global['webSiteRootURL']) && !empty($advancedCustomUser->afterLoginGoToMyChannel)) {
-    $object->redirectUri = User::getChannelLink();
+if ((empty($object->redirectUri) || $object->redirectUri===$global['webSiteRootURL'])) {
+    if(!empty($advancedCustomUser->afterLoginGoToMyChannel)){
+        $object->redirectUri = User::getChannelLink();
+    }else if(!empty($advancedCustomUser->afterLoginGoToURL)){
+        $object->redirectUri = $advancedCustomUser->afterLoginGoToURL;
+    }
 }
 
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {

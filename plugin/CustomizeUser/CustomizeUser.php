@@ -70,7 +70,9 @@ class CustomizeUser extends PluginAbstract {
 
         $obj->MyChannelLabel = "My Channel";
         $obj->afterLoginGoToMyChannel = false;
+        $obj->afterLoginGoToURL = "";
         $obj->afterLogoffGoToMyChannel = false;
+        $obj->afterLogoffGoToURL = "";
         $obj->allowDonationLink = false;
 
         $obj->showEmailVerifiedMark = true;
