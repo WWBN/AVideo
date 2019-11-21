@@ -2057,6 +2057,17 @@ function getAdsLeaderBoardTop() {
     }
 }
 
+function getAdsLeaderBoardTop2() {
+    $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
+    if (!empty($ad)) {
+        if (isMobile()) {
+            return $ad->leaderBoardTopMobile2->value;
+        } else {
+            return $ad->leaderBoardTop2->value;
+        }
+    }
+}
+
 function getAdsLeaderBoardMiddle() {
     $ad = YouPHPTubePlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {

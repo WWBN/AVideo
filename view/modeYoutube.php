@@ -275,8 +275,9 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                 }
                 require "{$global['systemRootPath']}view/include/{$vType}.php";
                 ?>
-
-
+                <center style="margin:5px;">
+                    <?php echo getAdsLeaderBoardTop2(); ?>
+                </center>
                 <div class="row" id="modeYoutubeBottom">
                     <div class="col-sm-1 col-md-1"></div>
                     <div class="col-sm-6 col-md-6" id="modeYoutubeBottomContent">

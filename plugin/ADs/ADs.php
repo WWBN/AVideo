@@ -29,26 +29,27 @@ class ADs extends PluginAbstract {
         
         $adsense = $config->getAdsense();
         
-        $o = new stdClass();
-        $o->type = "textarea";
-        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;
-        $obj->leaderBoardTop = $o;
-        
-        $o = new stdClass();        
-        $o->type = "textarea";
-        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;;
-        $obj->leaderBoardMiddle = $o;
         
         $o = new stdClass();       
         $o->type = "textarea";
         $o->value = empty($adsense)?"<center><img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'></center>":$adsense;;
         $obj->leaderBoardBigVideo = $o;
         
-        $o = new stdClass();       
+        $o = new stdClass();
         $o->type = "textarea";
-        $o->value = empty($adsense)?"<center><img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'></center>":$adsense;;
-        $obj->leaderBoardBigVideoMobile = $o;
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;
+        $obj->leaderBoardTop = $o;
         
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;
+        $obj->leaderBoardTop2 = $o;
+        
+        $o = new stdClass();        
+        $o->type = "textarea";
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;;
+        $obj->leaderBoardMiddle = $o;
+                
         /*
         $o = new stdClass();       
         $o->type = "textarea";
@@ -61,11 +62,22 @@ class ADs extends PluginAbstract {
         $o->type = "textarea";
         $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;;
         $obj->sideRectangle = $o;
+        
+        
+        $o = new stdClass();       
+        $o->type = "textarea";
+        $o->value = empty($adsense)?"<center><img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'></center>":$adsense;;
+        $obj->leaderBoardBigVideoMobile = $o;
 
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;;
         $obj->leaderBoardTopMobile = $o;
+        
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;;
+        $obj->leaderBoardTopMobile2 = $o;
                 
         $o = new stdClass();       
         $o->type = "textarea";
