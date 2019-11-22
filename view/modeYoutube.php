@@ -275,10 +275,16 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                 }
                 require "{$global['systemRootPath']}view/include/{$vType}.php";
                 ?>
-                <center style="margin:5px;">
-                    <?php echo getAdsLeaderBoardTop2(); ?>
-                </center>
                 <div class="row" id="modeYoutubeBottom">
+
+                    <div class="col-sm-1 col-md-1"></div>
+                    <div class="col-sm-10 col-md-10">
+                        <center style="margin:5px;">
+                            <?php echo getAdsLeaderBoardTop2(); ?>
+                        </center>
+                    </div>
+                    <div class="col-sm-1 col-md-1"></div>
+
                     <div class="col-sm-1 col-md-1"></div>
                     <div class="col-sm-6 col-md-6" id="modeYoutubeBottomContent">
                         <?php
@@ -472,9 +478,9 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         </div>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-                            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                            $.widget.bridge('uibutton', $.ui.button);
-                            $.widget.bridge('uitooltip', $.ui.tooltip);
+                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+                        $.widget.bridge('uibutton', $.ui.button);
+                        $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
         <?php
         $videoJSArray = array("view/js/video.js/video.js");
@@ -503,14 +509,14 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <script>
-                            var fading = false;
-                            var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
-                            var autoPlayURL = '<?php echo $autoPlayURL; ?>';
-                            var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
-                            var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
+                        var fading = false;
+                        var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
+                        var autoPlayURL = '<?php echo $autoPlayURL; ?>';
+                        var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
+                        var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
 
-                            $(document).ready(function () {
-                            });
+                        $(document).ready(function () {
+                        });
         </script>
     </body>
 </html>
