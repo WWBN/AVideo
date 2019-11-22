@@ -73,6 +73,12 @@ class Cache extends PluginAbstract {
     public function getStart() {
         global $global;
         // ignore cache if it is command line
+
+        $obj = $this->getDataObject();
+        if ($obj->logPageLoadTime) {
+            $this->start();
+        }
+        
         if (isCommandLineInterface()) {
             return true;
         }
@@ -82,11 +88,6 @@ class Cache extends PluginAbstract {
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         if (!empty($_GET["videoName"]) || in_array($baseName, $whitelistedFiles) || in_array($_SERVER['REQUEST_URI'], $whitelistedFiles) ) {
             return true;
-        }
-
-        $obj = $this->getDataObject();
-        if ($obj->logPageLoadTime) {
-            $this->start();
         }
         
         $isBot = isBot();
