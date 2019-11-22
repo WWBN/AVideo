@@ -169,6 +169,9 @@ class Cache extends PluginAbstract {
 
     private function end($type = "No Cache") {
         global $global;
+        if(empty($global['start'])){
+            return false;
+        }
         require_once $global['systemRootPath'] . 'objects/user.php';
         $time = microtime();
         $time = explode(' ', $time);
