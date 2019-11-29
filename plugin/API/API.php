@@ -144,12 +144,16 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
         $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret === @$_GET['APISecret']) {
+        if (!empty($parameters['videos_id'])) {
+            $status = "viewable";
+            if ($dataObj->APISecret === @$_GET['APISecret']) {
+                $status = "";
+            }
+            $rows = array(Video::getVideo($parameters['videos_id'], $status));
+            $totalRows = empty($rows) ? 0 : 1;
+        } else if ($dataObj->APISecret === @$_GET['APISecret']) {
             $rows = Video::getAllVideos("viewable", false, true);
             $totalRows = Video::getTotalVideos("viewable", false, true);
-        } else if (!empty($parameters['videos_id'])) {
-            $rows = array(Video::getVideo($parameters['videos_id']));
-            $totalRows = empty($rows) ? 0 : 1;
         } else if (!empty($parameters['clean_title'])) {
             $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
             $totalRows = empty($rows) ? 0 : 1;
