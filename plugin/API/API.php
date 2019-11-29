@@ -146,10 +146,12 @@ class API extends PluginAbstract {
         $dataObj = $this->getDataObject();
         if (!empty($parameters['videos_id'])) {
             $status = "viewable";
+            $ignoreGroup = false;
             if ($dataObj->APISecret === @$_GET['APISecret']) {
                 $status = "";
+                $ignoreGroup = true;
             }
-            $rows = array(Video::getVideo($parameters['videos_id'], $status));
+            $rows = array(Video::getVideo($parameters['videos_id'], $status, $ignoreGroup));
             $totalRows = empty($rows) ? 0 : 1;
         } else if ($dataObj->APISecret === @$_GET['APISecret']) {
             $rows = Video::getAllVideos("viewable", false, true);
