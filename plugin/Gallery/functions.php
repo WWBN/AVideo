@@ -256,6 +256,14 @@ function createGallerySection($videos, $crc = "", $get = array()) {
             @$timesG[__LINE__] += microtime(true) - $startG;
             $startG = microtime(true);
             if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {
+                
+                @$timesG[__LINE__] += microtime(true) - $startG;
+                $startG = microtime(true);
+                $files = getVideosURL($value['filename']);
+                @$timesG[__LINE__] += microtime(true) - $startG;
+                $startG = microtime(true);
+                if(!(!empty($files['m3u8']) && empty($files['mp4']))){
+                    
                 ?>
 
                 <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
@@ -264,11 +272,6 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left" role="menu">
                         <?php
-                        @$timesG[__LINE__] += microtime(true) - $startG;
-                        $startG = microtime(true);
-                        $files = getVideosURL($value['filename']);
-                        @$timesG[__LINE__] += microtime(true) - $startG;
-                        $startG = microtime(true);
                         //var_dump($files);exit;
                         foreach ($files as $key => $theLink) {
                             if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio')  || $key == "m3u8") {
@@ -286,6 +289,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     </ul>
                 </div>
                 <?php
+                }
             }
             @$timesG[__LINE__] += microtime(true) - $startG;
             $startG = microtime(true);

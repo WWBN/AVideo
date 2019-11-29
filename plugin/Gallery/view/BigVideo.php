@@ -11,7 +11,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $colClass1 = "col-sm-6";
     $colClass2 = "col-sm-6";
     $colClass3 = "";
-    if(!empty($bigVideoAd)){
+    if (!empty($bigVideoAd)) {
         $colClass1 = "col-sm-4";
         $colClass2 = "col-sm-8";
         $colClass3 = "col-sm-6";
@@ -108,31 +108,38 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         ?>
                         <?php
                         if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
-                            ?>
-                            <div style="position: relative; overflow: visible;">
-                                <button type="button" class="btn btn-default btn-sm btn-xs"  data-toggle="dropdown">
-                                    <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <?php
-                                    $files = getVideosURL($video['filename']);
-                                    //var_dump($files);exit;
-                                    foreach ($files as $key => $theLink) {
-                                        if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio'  || $key == "m3u8") {
-                                            continue;
-                                        }
-                                        $path_parts = pathinfo($theLink['filename']);
+
+                            @$timesG[__LINE__] += microtime(true) - $startG;
+                            $startG = microtime(true);
+                            $files = getVideosURL($video['filename']);
+                            @$timesG[__LINE__] += microtime(true) - $startG;
+                            $startG = microtime(true);
+                            if (!(!empty($files['m3u8']) && empty($files['mp4']))) {
+                                ?>
+                                <div style="position: relative; overflow: visible;">
+                                    <button type="button" class="btn btn-default btn-sm btn-xs"  data-toggle="dropdown">
+                                        <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <?php
+                                        //var_dump($files);exit;
+                                        foreach ($files as $key => $theLink) {
+                                            if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio' || $key == "m3u8") {
+                                                continue;
+                                            }
+                                            $path_parts = pathinfo($theLink['filename']);
+                                            ?>
+                                            <li>
+                                                <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                                    <?php echo __("Download"); ?> <?php echo $key; ?>
+                                                </a>
+                                            </li>
+                                        <?php }
                                         ?>
-                                        <li>
-                                            <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
-                                                <?php echo __("Download"); ?> <?php echo $key; ?>
-                                            </a>
-                                        </li>
-                                    <?php }
-                                    ?>
-                                </ul>
-                            </div>
-                            <?php
+                                    </ul>
+                                </div>
+                                <?php
+                            }
                         }
                         ?>
                     </div>

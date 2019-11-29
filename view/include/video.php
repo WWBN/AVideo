@@ -125,7 +125,7 @@ var menu = new BootstrapMenu('#mainVideo', {
         $files = getVideosURL($playNowVideo['filename']);
         foreach ($files as $key => $theLink) {
             if (empty($advancedCustom->showImageDownloadOption)) {
-                if ($key == "jpg" || $key == "gif" || $key == "webp" || $key == "m3u8") {
+                if ($key == "jpg" || $key == "gif" || $key == "webp" || $key == "pjpg" || $key == "m3u8") {
                     continue;
                 }
             }
