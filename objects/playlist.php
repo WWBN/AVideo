@@ -158,6 +158,7 @@ class PlayList extends ObjectYPT {
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
+        $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
         if ($res != false) {
             foreach ($fullData as $row) {
                 if (!empty($_GET['isChannel'])) {
@@ -171,6 +172,9 @@ class PlayList extends ObjectYPT {
                 $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
                 $row['title'] = UTF8encode($row['title']);
                 $row['description'] = UTF8encode($row['description']);
+                if ($SubtitleSwitcher) {
+                    $row['subtitles'] = getVTTTracks($row['filename'], true);
+                }
                 unset($row['password']);
                 unset($row['recoverPass']);
                 //unset($row['description']);
