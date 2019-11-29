@@ -165,6 +165,9 @@ class PlayList extends ObjectYPT {
                     $row['pluginBtns'] = YouPHPTubePlugin::getPlayListButtons($playlists_id);
                     $row['humancreate'] = humanTiming(strtotime($row['cre']));
                 }
+                $images = Video::getImageFromFilename($row['filename'], $row['type']);
+                $row['images'] = $images;
+                $row['videos'] = Video::getVideosPaths($value['filename'], true);
                 $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
                 $row['title'] = UTF8encode($row['title']);
                 $row['description'] = UTF8encode($row['description']);
