@@ -271,7 +271,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                         $startG = microtime(true);
                         //var_dump($files);exit;
                         foreach ($files as $key => $theLink) {
-                            if ($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') {
+                            if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio')  || $key == "m3u8") {
                                 continue;
                             }
                             $path_parts = pathinfo($theLink['filename']);
