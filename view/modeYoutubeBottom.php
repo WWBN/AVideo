@@ -37,11 +37,11 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         <div class="col-xs-4 col-sm-4 col-md-4">
             <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
             <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
-            <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-            <meta itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>" />
-            <meta itemprop="embedURL" content="<?php echo Video::getLink($video['id'], $video['clean_title'], true); ?>" />
-            <meta itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
-            <meta itemprop="description" content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo htmlentities($video['description']); ?>" />
+            <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+            <span itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>" />
+            <span itemprop="embedURL" content="<?php echo Video::getLink($video['id'], $video['clean_title'], true); ?>" />
+            <span itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
+            <span itemprop="description" content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo htmlentities($video['description']); ?>" />
 
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8">

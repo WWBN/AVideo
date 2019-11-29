@@ -2324,13 +2324,13 @@ function getItemprop($videos_id) {
         $duration = "PT0H0M1S";
     }
     ?>
-    <meta itemprop="name" content="<?php echo str_replace('"', '', $video['title']); ?>" />
-    <meta itemprop="description" content="<?php echo $description ?>" />
-    <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-    <meta itemprop="uploadDate" content="<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>" />
-    <meta itemprop="duration" content="<?php echo $duration; ?>" />
-    <meta itemprop="contentUrl" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
-    <meta itemprop="embedUrl" content="<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>" />
-    <meta itemprop="interactionCount" content="<?php echo $video['views_count']; ?>" />
+    <span itemprop="name" content="<?php echo str_replace('"', '', $video['title']); ?>" />
+    <span itemprop="description" content="<?php echo $description ?>" />
+    <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+    <span itemprop="uploadDate" content="<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>" />
+    <span itemprop="duration" content="<?php echo $duration; ?>" />
+    <span itemprop="contentUrl" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
+    <span itemprop="embedUrl" content="<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>" />
+    <span itemprop="interactionCount" content="<?php echo $video['views_count']; ?>" />
     <?php
 }

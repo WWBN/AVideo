@@ -361,10 +361,10 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                         <?php if (!empty($imgGif)) { ?>
                                             <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" id="thumbsGIF<?php echo $autoPlayVideo['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130" />
                                         <?php } ?>
-                                        <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                        <meta itemprop="contentURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title']); ?>" />
-                                        <meta itemprop="embedURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], true); ?>" />
-                                        <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
+                                        <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                                        <span itemprop="contentURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title']); ?>" />
+                                        <span itemprop="embedURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], true); ?>" />
+                                        <span itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
                                         <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($autoPlayVideo['duration']); ?>"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></time>
                                     </div>
                                     <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
