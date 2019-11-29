@@ -35,6 +35,7 @@ class User {
     private $region;
     private $city;
     private $donationLink;
+    private $modified;
     static $DOCUMENT_IMAGE_TYPE = "Document Image";
 
     function __construct($id, $user = "", $password = "") {
@@ -1205,6 +1206,10 @@ if (typeof gtag !== \"function\") {
     }
 
     function setRecoverPass($recoverPass) {
+        // let the same recover pass if it was 10 minutes ago
+        if(!empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")){
+            return false;
+        }
         $this->recoverPass = $recoverPass;
     }
 
