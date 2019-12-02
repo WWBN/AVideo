@@ -1,0 +1,1 @@
+<li><a data-toggle="tab" href="#adOverlay" id="aPersonalInfo"><?php echo __("Ad Overlay") ?></a></li>

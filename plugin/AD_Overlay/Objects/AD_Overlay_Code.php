@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class AD_Overlay_Code extends ObjectYPT {
 
-    protected $id, $users_id, $code;
+    protected $id, $users_id, $code, $status;
 
     static function getSearchFieldsNames() {
         return array('code');
@@ -30,6 +30,14 @@ class AD_Overlay_Code extends ObjectYPT {
 
     function setCode($code) {
         $this->code = $code;
+    }
+
+    function getStatus() {
+        return $this->status;
+    }
+
+    function setStatus($status) {
+        $this->status = $status;
     }
 
 

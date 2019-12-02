@@ -6,7 +6,7 @@ class AD_Overlay extends PluginAbstract {
 
     public function getDescription() {
         $txt = "Display simple overlays - similar to YouTube's \"Annotations\" feature in appearance - during video playback.";
-        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
 
         return $txt . $help;
     }
@@ -30,7 +30,7 @@ class AD_Overlay extends PluginAbstract {
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- YouPHPTube Videos -->
+<!-- AVideo Videos -->
 <ins class="adsbygoogle"
      style="display:inline-block;width:468px;height:60px"
      data-ad-client="ca-pub-8404441263723333"
@@ -61,6 +61,8 @@ class AD_Overlay extends PluginAbstract {
         $obj->debug = false;
         //$obj->adWidth = 0;
         //$obj->adHeight = 0;
+        $obj->allowUserAds = true;
+        $obj->AdminMustApproveUserAds = true;
 
         return $obj;
     }
@@ -128,4 +130,14 @@ class AD_Overlay extends PluginAbstract {
         return $js;
     }
 
+    
+    public static function profileTabName($users_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/AD_Overlay/profileTabName.php';
+    }
+    
+    public static function profileTabContent($users_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/AD_Overlay/profileTabContent.php';
+    }
 }
