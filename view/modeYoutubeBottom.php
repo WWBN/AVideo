@@ -81,7 +81,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             }
             ?>
             <?php
-            if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+            if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 echo VideoTags::getLabels($video['id'], false);
             }
             ?>
@@ -106,7 +106,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                     <?php
                 }
                 ?>
-            <?php } echo YouPHPTubePlugin::getWatchActionButton($video['id']); ?>
+            <?php } echo AVideoPlugin::getWatchActionButton($video['id']); ?>
             <?php
             if (empty($advancedCustom->removeThumbsUpAndDown)) {
                 ?>
@@ -162,7 +162,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                 $files = getVideosURL($video['filename']);
                 foreach ($files as $key => $theLink) {
                     if (empty($advancedCustom->showImageDownloadOption)) {
-                        if ($key == "jpg" || $key == "gif"  || $key == "webp"  || $key == "pjpg" || $key == "m3u8") {
+                        if ($key == "jpg" || $key == "gif" || $key == "webp" || $key == "pjpg" || $key == "m3u8") {
                             continue;
                         }
                     }
@@ -213,14 +213,20 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                         </li>
                         <?php
                     }
+                    if (empty($advancedCustom->disableEmailSharing)) {
+                        ?>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tabEmail" data-toggle="tab">
+                                <span class="fa fa-envelope"></span>
+                                <?php echo __("E-mail"); ?>
+                            </a>
+                        </li>
+                        <?php
+                    }
                     ?>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#tabEmail" data-toggle="tab">
-                            <span class="fa fa-envelope"></span>
-                            <?php echo __("E-mail"); ?>
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#tabPermaLink" data-toggle="tab">
                             <span class="fa fa-link"></span>
@@ -249,86 +255,92 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                             ?>
                         </textarea>
                     </div>
-                    <div class="tab-pane" id="tabEmail">
-                        <?php if (!User::isLogged()) { ?>
-                            <strong>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>user"><?php echo __("Sign in now!"); ?></a>
-                            </strong>
-                        <?php } else { ?>
-                            <form class="well form-horizontal" action="<?php echo $global['webSiteRootURL']; ?>sendEmail" method="post"  id="contact_form">
-                                <fieldset>
-                                    <!-- Text input-->
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
-                                        <div class="col-md-8 inputGroupContainer">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control"  type="text">
+                    <?php
+                    if (empty($advancedCustom->disableEmailSharing)) {
+                        ?>
+                        <div class="tab-pane" id="tabEmail">
+                            <?php if (!User::isLogged()) { ?>
+                                <strong>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>user"><?php echo __("Sign in now!"); ?></a>
+                                </strong>
+                            <?php } else { ?>
+                                <form class="well form-horizontal" action="<?php echo $global['webSiteRootURL']; ?>sendEmail" method="post"  id="contact_form">
+                                    <fieldset>
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
+                                            <div class="col-md-8 inputGroupContainer">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                    <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control"  type="text">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Text area -->
+                                        <!-- Text area -->
 
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label"><?php echo __("Message"); ?></label>
-                                        <div class="col-md-8 inputGroupContainer">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo __("I would like to share this video with you:"); ?> <?php echo Video::getLink($video['id'], $video['clean_title']); ?></textarea>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label"><?php echo __("Message"); ?></label>
+                                            <div class="col-md-8 inputGroupContainer">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                    <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"><?php echo __("I would like to share this video with you:"); ?> <?php echo Video::getLink($video['id'], $video['clean_title']); ?></textarea>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
-                                        <div class="col-md-8 inputGroupContainer">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
-                                                <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                                                <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
+                                            <div class="col-md-8 inputGroupContainer">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
+                                                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
+                                                    <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- Button -->
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label"></label>
-                                        <div class="col-md-8">
-                                            <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                                        <!-- Button -->
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label"></label>
+                                            <div class="col-md-8">
+                                                <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </fieldset>
-                            </form>
-                            <script>
-                                $(document).ready(function () {
-                                    $('#btnReloadCapcha').click(function () {
-                                        $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
-                                        $('#captchaText').val('');
-                                    });
-                                    $('#contact_form').submit(function (evt) {
-                                        evt.preventDefault();
-                                        modal.showPleaseWait();
-                                        $.ajax({
-                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
-                                            data: $('#contact_form').serializeArray(),
-                                            type: 'post',
-                                            success: function (response) {
-                                                modal.hidePleaseWait();
-                                                if (!response.error) {
-                                                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
-                                                } else {
-                                                    swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
-                                                }
-                                                $('#btnReloadCapcha').trigger('click');
-                                            }
+                                    </fieldset>
+                                </form>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('#btnReloadCapcha').click(function () {
+                                            $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
+                                            $('#captchaText').val('');
                                         });
-                                        return false;
+                                        $('#contact_form').submit(function (evt) {
+                                            evt.preventDefault();
+                                            modal.showPleaseWait();
+                                            $.ajax({
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
+                                                data: $('#contact_form').serializeArray(),
+                                                type: 'post',
+                                                success: function (response) {
+                                                    modal.hidePleaseWait();
+                                                    if (!response.error) {
+                                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
+                                                    } else {
+                                                        swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
+                                                    }
+                                                    $('#btnReloadCapcha').trigger('click');
+                                                }
+                                            });
+                                            return false;
+                                        });
                                     });
-                                });
-                            </script>
-                        <?php } ?>
-                    </div>
+                                </script>
+                            <?php } ?>
+                        </div>
 
+                        <?php
+                    }
+                    ?>
                     <div class="tab-pane" id="tabPermaLink">
                         <div class="form-group">
                             <label class="control-label"><?php echo __("Permanent Link") ?></label>
@@ -370,11 +382,11 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                 </div>
                 <?php
             }
-            if($video['type']!=='article'){
-            ?>
-            <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
-            <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo empty($advancedCustom->disableHTMLDescription)?$video['description']:nl2br(textToLink(htmlentities($video['description']))); ?></div>
-            <?php
+            if ($video['type'] !== 'article') {
+                ?>
+                <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
+                <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description"><?php echo empty($advancedCustom->disableHTMLDescription) ? $video['description'] : nl2br(textToLink(htmlentities($video['description']))); ?></div>
+                <?php
             }
             ?>
         </div>
@@ -392,11 +404,11 @@ if (empty($video) && !empty($_GET['videos_id'])) {
     });
 </script>
 <?php
-if(empty($advancedCustom->disableComments)){
+if (empty($advancedCustom->disableComments)) {
     ?>
-        <div class="row bgWhite list-group-item">
-            <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
-        </div>
+    <div class="row bgWhite list-group-item">
+        <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
+    </div>
     <?php
 }
 ?>
