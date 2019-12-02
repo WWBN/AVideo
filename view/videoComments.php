@@ -370,7 +370,7 @@ if (User::canSeeCommentTextarea()) {
 
     <?php
     if (!empty($advancedCustom->commentsNoIndex)) {
-        echo "<!--googleon: all>";
+        echo "<!--googleon: all-->";
     }
 }
 ?>
