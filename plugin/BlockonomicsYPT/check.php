@@ -14,7 +14,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("BlockonomicsYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("BlockonomicsYPT");
 $obj = $plugin->getDataObject();
 
 $addr = $_GET['addr'];

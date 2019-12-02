@@ -6,7 +6,7 @@ class ADs extends PluginAbstract {
 
     public function getDescription() {
         $txt = "Handle the ads system, like Adsense or similar";
-        //$help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        //$help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         $help = "";
         return $txt . $help;
     }

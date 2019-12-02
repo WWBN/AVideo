@@ -2,7 +2,7 @@
     <?php
     $custom = "";
     $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
-    if (file_exists($extraPluginFile) && YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+    if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
         require_once $extraPluginFile;
         $ec = new ExtraConfig();
         $custom = $ec->getFooter();
@@ -11,7 +11,7 @@
         ?>
         <ul class="list-inline">
             <li>
-                Powered by <a href="http://www.youphptube.com" class="external btn btn-outline btn-primary btn-xs" target="_blank">YouPHPTube LLC v<?php echo $config->getVersion(); ?></a>
+                Powered by <a href="http://www.avideo.com" class="external btn btn-outline btn-primary btn-xs" target="_blank">AVideo LLC v<?php echo $config->getVersion(); ?></a>
             </li>
             <li>
                 <a href="https://www.facebook.com/mediasharingtube/" class="external btn btn-outline btn-primary btn-xs" target="_blank"><span class="sr-only">Facebook</span><i class="fab fa-facebook-square"></i></a>
@@ -87,7 +87,7 @@ $jsFiles[] = "view/js/webui-popover/jquery.webui-popover.min.js";
 $jsFiles[] = "view/js/bootstrap-list-filter/bootstrap-list-filter.min.js";
 if (!empty($video['type'])) {
 
-    $waveSurferEnabled = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+    $waveSurferEnabled = AVideoPlugin::getObjectDataIfEnabled("CustomizeAdvanced");
     if ($waveSurferEnabled == false) {
         $waveSurferEnabled = true;
     } else {
@@ -98,16 +98,16 @@ if (!empty($video['type'])) {
         $jsFiles[] = "view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
     }
 }
-$jsFiles = array_merge($jsFiles, YouPHPTubePlugin::getJSFiles());
+$jsFiles = array_merge($jsFiles, AVideoPlugin::getJSFiles());
 $jsURL = combineFiles($jsFiles, "js");
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
 <?php
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 ?>
 <div id="pluginFooterCode">
     <?php
-    echo YouPHPTubePlugin::getFooterCode();
+    echo AVideoPlugin::getFooterCode();
     ?>
 </div>
 <?php

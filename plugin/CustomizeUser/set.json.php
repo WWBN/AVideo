@@ -18,7 +18,7 @@ if(!isset($_POST['value'])){
     die(json_encode($obj));
 }
 
-$cu = YouPHPTubePlugin::loadPluginIfEnabled('CustomizeUser');
+$cu = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
 
 if(empty($cu)){
     $obj->msg = "Plugin not enabled";   

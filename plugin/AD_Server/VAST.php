@@ -4,8 +4,8 @@ header('Content-type: application/xml');
 require_once '../../videos/configuration.php';
 allowOrigin();
 require_once $global['systemRootPath'] . 'objects/video.php';
-$ad_server = YouPHPTubePlugin::loadPlugin('AD_Server');
-$obj = YouPHPTubePlugin::getObjectData('AD_Server');
+$ad_server = AVideoPlugin::loadPlugin('AD_Server');
+$obj = AVideoPlugin::getObjectData('AD_Server');
 $types = array('', '_Low', '_SD', '_HD');
 
 if(empty($_GET['campaign_has_videos_id'])){

@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('CloneSite');
+$plugin = AVideoPlugin::loadPluginIfEnabled('CloneSite');
 
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));

@@ -8,8 +8,8 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
-$paypal = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+$paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 // how to get the users_ID from the PayPal call back IPN?
 $users_id = User::getId();
 
@@ -21,7 +21,7 @@ $payment = $paypal->execute();
 error_log("Redirect_URL line:" . __LINE__ . " Start ");
 if (!empty($_GET['token'])) {
     error_log("Redirect_URL line:" . __LINE__ . " \$_GET['token'] " . $_GET['token']);
-    if (YouPHPTubePlugin::isEnabledByName("Subscription")) {
+    if (AVideoPlugin::isEnabledByName("Subscription")) {
         error_log("Redirect_URL line:" . __LINE__ . " \$payment->getId " . $payment->getId());
         $subscription = Subscription::getFromAgreement($payment->getId());
 

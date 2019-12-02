@@ -7,7 +7,7 @@ if(!User::isLogged()){
     header("Location: {$global['webSiteRootURL']}");
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 
 $wallet = new Wallet(0);

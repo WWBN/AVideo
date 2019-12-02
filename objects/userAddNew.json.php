@@ -27,7 +27,7 @@ $user->setAnalyticsCode($_POST['analyticsCode']);
 $unique = $user->setChannelName($_POST['channelName']);
 
 //identify what variables come from external plugins
-$userOptions=YouPHPTubePlugin::getPluginUserOptions();
+$userOptions=AVideoPlugin::getPluginUserOptions();
 if(is_array($userOptions))
 {
     $externalOptions=array();

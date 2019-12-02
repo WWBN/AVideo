@@ -158,12 +158,12 @@ class PlayList extends ObjectYPT {
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
-        $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
+        $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
         if ($res != false) {
             foreach ($fullData as $row) {
                 if (!empty($_GET['isChannel'])) {
                     $row['tags'] = Video::getTags($row['id']);
-                    $row['pluginBtns'] = YouPHPTubePlugin::getPlayListButtons($playlists_id);
+                    $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
                     $row['humancreate'] = humanTiming(strtotime($row['cre']));
                 }
                 $images = Video::getImageFromFilename($row['filename'], $row['type']);

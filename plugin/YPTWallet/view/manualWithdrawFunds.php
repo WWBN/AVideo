@@ -7,7 +7,7 @@ if (!User::isLogged()) {
     header("Location: {$global['webSiteRootURL']}");
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 $options = json_decode($obj->withdrawFundsOptions);
 ?>

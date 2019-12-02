@@ -1,5 +1,5 @@
 <?php
-$p = YouPHPTubePlugin::loadPlugin("LiveChat");
+$p = AVideoPlugin::loadPlugin("LiveChat");
 $canSendMessage = $p->canSendMessage();
 ?>
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/style.css" rel="stylesheet" type="text/css"/>

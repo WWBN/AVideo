@@ -31,7 +31,7 @@ if (isset($_GET['t'])) {
     $currentTime = intval($video['externalOptions']->videoStartSeconds);
 }
 
-YouPHPTubePlugin::loadPlugin('PlayerSkins');
+AVideoPlugin::loadPlugin('PlayerSkins');
 
 ?>
 <div class="row main-video" id="mvideo">
@@ -71,7 +71,7 @@ YouPHPTubePlugin::loadPlugin('PlayerSkins');
 
             </div>
                 <?php
-                if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+                if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
                     require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
                     $style = VideoLogoOverlay::getStyle();
                     $url = VideoLogoOverlay::getLink();
@@ -258,7 +258,7 @@ if (!empty($autoPlayVideo)) {
 
                                     });
                                     player.persistvolume({
-                                        namespace: "YouPHPTube"
+                                        namespace: "AVideo"
                                     });
                                     // in case the video is muted
                                     setTimeout(function () {

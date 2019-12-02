@@ -16,17 +16,17 @@ $obj->webSiteLogo = $config->getLogo();
 $obj->webSiteTitle = $config->getWebSiteTitle();
 $obj->version = $config->getVersion();
 $obj->mobileSreamerVersion = MobileManager::getVersion();
-$obj->reportVideoPluginEnabled = YouPHPTubePlugin::isEnabledByName("ReportVideo");
+$obj->reportVideoPluginEnabled = AVideoPlugin::isEnabledByName("ReportVideo");
 $obj->oauthLogin = array();
-$obj->oauthLogin[] = array('type'=>'Facebook', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginFacebook')));
-$obj->oauthLogin[] = array('type'=>'Google', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginGoogle')));
-$obj->oauthLogin[] = array('type'=>'Twitter', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginTwitter')));
-$obj->oauthLogin[] = array('type'=>'LinkedIn', 'status'=> !empty(YouPHPTubePlugin::loadPluginIfEnabled('LoginLinkedin')));
+$obj->oauthLogin[] = array('type'=>'Facebook', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginFacebook')));
+$obj->oauthLogin[] = array('type'=>'Google', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginGoogle')));
+$obj->oauthLogin[] = array('type'=>'Twitter', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginTwitter')));
+$obj->oauthLogin[] = array('type'=>'LinkedIn', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginLinkedin')));
 
 $obj->plugins = array();
 $plugins = Plugin::getAllEnabled();
 foreach ($plugins as $value) {
-    $p = YouPHPTubePlugin::loadPlugin($value['dirName']);
+    $p = AVideoPlugin::loadPlugin($value['dirName']);
     if (is_object($p)) {
         $info = $p->getMobileInfo();
         if(!empty($info)){

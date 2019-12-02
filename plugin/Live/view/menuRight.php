@@ -59,9 +59,9 @@ if (User::canStream()) {
                 </div>
             </div>
             <?php
-            require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+            require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
             // the live users plugin
-            $lu = YouPHPTubePlugin::getObjectDataIfEnabled("LiveUsers");
+            $lu = AVideoPlugin::getObjectDataIfEnabled("LiveUsers");
             if(!empty($lu) && !$lu->doNotDisplayCounter){
                 ?>
                 <span class="label label-primary"  data-toggle="tooltip" title="<?php echo __("Watching Now"); ?>" data-placement="bottom" ><i class="fa fa-user"></i> <b class="liveUsersOnline">0</b></span>

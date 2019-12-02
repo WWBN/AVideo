@@ -1,9 +1,9 @@
 <?php 
 global $global;
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-require_once $global['systemRootPath'] .  'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] .  'plugin/AVideoPlugin.php';
 
-$topMenu=YouPHPTubePlugin::loadPluginIfEnabled("TopMenu");
+$topMenu=AVideoPlugin::loadPluginIfEnabled("TopMenu");
 
 if(!$topMenu)
 die("404 page not found");

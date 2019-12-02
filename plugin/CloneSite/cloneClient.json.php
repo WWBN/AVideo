@@ -26,7 +26,7 @@ $log = new CloneLog();
 
 $log->add("Clone: Clone Start");
 
-$obj = YouPHPTubePlugin::getObjectDataIfEnabled("CloneSite");
+$obj = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
 
 if (empty($obj) || empty($argv[1]) || $obj->myKey !== $argv[1]) {
     if (!User::isAdmin()) {
@@ -40,7 +40,7 @@ if (empty($obj) || empty($argv[1]) || $obj->myKey !== $argv[1]) {
 
 
 if (empty($obj->cloneSiteURL)) {
-    $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an YouPHPTube URL";
+    $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
     $log->add("Clone: {$resp->msg}");
     die(json_encode($resp));
 }

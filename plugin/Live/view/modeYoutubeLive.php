@@ -28,7 +28,7 @@ $img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&forma
 $imgw = 640;
 $imgh = 360;
 
-$liveDO = YouPHPTubePlugin::getObjectData("Live");
+$liveDO = AVideoPlugin::getObjectData("Live");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -78,7 +78,7 @@ $liveDO = YouPHPTubePlugin::getObjectData("Live");
                         <div class="row">
                             <div class="col-md-12 watch8-action-buttons text-muted">
 
-                                <?php echo YouPHPTubePlugin::getWatchActionButton(0); ?>
+                                <?php echo AVideoPlugin::getWatchActionButton(0); ?>
                             </div>
                         </div>
                         <div class="row">

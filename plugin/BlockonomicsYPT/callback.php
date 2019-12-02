@@ -15,7 +15,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("BlockonomicsYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("BlockonomicsYPT");
 $obj = $plugin->getDataObject();
 
 $txid = $_GET['txid'];
@@ -56,7 +56,7 @@ $order->setBits_payed($value);
 
 // add balance on the wallet
 if ($new_status == 2 && $order->getStatus()!=200) {
-    $plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+    $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
     $users_id = $order->getUsers_id();
     $total = $order->getTotal_value();
     $plugin->addBalance($users_id, $total, "Blockonomics payment", json_encode($order));

@@ -10,7 +10,7 @@ require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 if (!User::isLogged()) {
     header("Location: " . $global['webSiteRootURL']);

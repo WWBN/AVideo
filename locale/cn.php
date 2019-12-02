@@ -169,7 +169,7 @@ $t['Devices Stream Info'] = "设备流信息";
 $t['Direct Import all'] = "直接全部导入";
 $t['Direct Import Local Videos'] = "直接导入本地视频";
 $t['Direct upload'] = "直接上传";
-$t['Disable YouPHPTube Google Analytics'] = "禁用 Google Analytics";
+$t['Disable AVideo Google Analytics'] = "禁用 Google Analytics";
 $t['Disable Youtube-Upload'] = "禁用上传到Youtube";
 $t['Do not forget to save after choose your theme'] = "变更主题后不要忘记保存";
 $t['Do you want to report this video as inapropriate?'] = "您是否要举报此视频?";
@@ -533,7 +533,7 @@ $t['This e-mail will be used for this web site notifications'] = "此电子邮�
 $t['This help us to track and dettect errors'] = "这有助于我们跟踪和检测错误";
 $t['This is an experimental resource'] = "这是一个实验资源";
 $t['This is where you can create groups and associate them with your videos and users. This will make your videos private. Only users who are in the same group as the videos can view them'] = "您可以在此处创建组并将其与您的视频和用户相关联。 这会将您的视频设为私有。 只有与视频属于同一组的用户才能观看它们";
-$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/DanielnetoDotCom/YouPHPTube-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/DanielnetoDotCom/YouPHPTube-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder.youphptube.com/' class='btn btn-warning btn-xs'>public</a> one";
+$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder.avideo.com/' class='btn btn-warning btn-xs'>public</a> one";
 $t['This value must match with the language files on'] = "此设定值必须与翻译文档相匹配";
 $t['This video was reported to our team, we will review it soon'] = "该视频已报告给我们的团队，我们将尽快对其进行审核";
 $t['Thumbs Down'] = "反对";
@@ -587,7 +587,7 @@ $t['update'] = "update";//路由
 $t['Update Now'] = "立即更新";
 $t['Update version'] = "更新版本";
 $t['Update Version'] = "更新版本";
-$t['Update YouPHPTube System'] = "更新系统";
+$t['Update AVideo System'] = "更新系统";
 $t['Update your user'] = "更新用户信息";
 $t['Upload'] = "Upload";
 $t['Upload a Background'] = "上传背景";
@@ -688,7 +688,7 @@ $t['You are just one click away from starting your journey with %s!'] = "只需�
 $t['You are not allowed see this streaming'] = "您无权看到此流";
 $t['You are not online, loading webcam...'] = "您不在线，正在加载网络摄像头...";
 $t['You are online now, web cam is disabled'] = "您现在在线，网络摄像头已禁用";
-$t['You are running YouPHPTube version %s!'] = "您正在运行YouPHPTube版本为 %s!";
+$t['You are running AVideo version %s!'] = "您正在运行AVideo版本为 %s!";
 $t['You asked for a recover link, click on the provided link'] = "这是您的恢复链接，请点击链接";
 $t['You can not do this'] = "您不能这么操作";
 $t['You can not manage categories'] = "您不能管理分类";
@@ -772,7 +772,7 @@ $t['Your user has NOT been saved!'] = "用户保存失败!";
 $t['Your user has NOT been updated!'] = "用户更新失败!";
 $t['Your user is not verified, we sent you a new e-mail'] = "用户未通过验证，我们向您发送了一封新电子邮件";
 $t['Your user or password is wrong!'] = "您输入的用户名或密码错误!";
-$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fab fa-youtube\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fab fa-youtube-square\'></span> YouTube Account</a><br> '] = "您的视频<a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fab fa-youtube'></span> %s</a> 已经上传到您的<a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube 账号</a><br>";
+$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fas fa-play-circle\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fab fa-youtube-square\'></span> YouTube Account</a><br> '] = "您的视频<a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> 已经上传到您的<a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube 账号</a><br>";
 $t['Your video download is complete, it is encoding now'] = "视频已经下载完成，正在编码中";
 $t['Your video has NOT been deleted!'] = "视频删除失败!";
 $t['Your video has NOT been saved!'] = "视频保存失败!";
@@ -783,8 +783,8 @@ $t['Zip Code'] = "邮政编码";
 
 //Pay Plugin
 
-$t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<p> YouPHPTube!是一个视频分享网站，该服务由Daniel Neto于2017年3月制作。</p><p>该软件允许您上传，查看，分享和评论视频，并利用WebM和H.264 / MPEG-4 AVC显示各种用户生成的和企业的媒体视频。 </p><p>最重要的是，YouPHPTube!是一个免费提供给大家的开源解决方案。</p>";
-$t['About YouPHPTube!'] = "关于YouPHPTube!";
+$t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<p> AVideo!是一个视频分享网站，该服务由Daniel Neto于2017年3月制作。</p><p>该软件允许您上传，查看，分享和评论视频，并利用WebM和H.264 / MPEG-4 AVC显示各种用户生成的和企业的媒体视频。 </p><p>最重要的是，AVideo!是一个免费提供给大家的开源解决方案。</p>";
+$t['About AVideo!'] = "关于AVideo!";
 $t['Ad'] = "广告";
 $t['Ads'] = "广告";
 $t['Ads Form'] = "广告表单";
@@ -850,7 +850,7 @@ $t['Supported'] = "支持";
 $t['Thank you'] = "谢谢";
 $t['The file must be an .vtt file!'] = "文件必须是.vtt格式!";
 $t['Theme for Style:'] = "主题风格:";
-$t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/DanielnetoDotCom/YouPHPTube-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "此网页仅支持 MP4，如果你需要别的格式，下载并安装你自己的<a href='https://github.com/DanielnetoDotCom/YouPHPTube-Encoder' class='btn btn-warning btn-xs'>编码服务器</a>或使用<a href='https://encoder.youphptube.com/' class='btn btn-warning btn-xs'>公共编码服务器</a>";
+$t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "此网页仅支持 MP4，如果你需要别的格式，下载并安装你自己的<a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>编码服务器</a>或使用<a href='https://encoder.avideo.com/' class='btn btn-warning btn-xs'>公共编码服务器</a>";
 $t['This plugin is not available for you'] = "您不能使用这个插件";
 $t['This video will cost you %s point(s)'] = "这个视频将消耗你 %s 点(s)";
 $t['This video will work as an advertising and will no longer appear on videos list'] = "这部视频会变成广告而且不再表列出来";
@@ -885,7 +885,7 @@ $t['You will not be able to recover this user!'] = "您将不能恢复此用户!
 $t['You will not be able to recover this!'] = "您将无法恢复!";
 $t['You will request a payout of '] = "您将要求支付 ";
 $t['You will support this video with '] = "您将支持这个视频 ";
-$t['YouPHPTube URL'] = "YouPHPTube 网址";
+$t['AVideo URL'] = "AVideo 网址";
 $t['Your ad has been deleted!'] = "广告删除成功!";
 $t['Your ad has been saved!'] = "广告保存成功!";
 $t['Your ad has NOT been deleted!'] = "广告删除失败!";

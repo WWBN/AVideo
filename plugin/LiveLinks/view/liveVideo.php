@@ -43,7 +43,7 @@ if ($config->getAutoplay()) {
 
         });
         player.persistvolume({
-            namespace: "YouPHPTube"
+            namespace: "AVideo"
         });
     });
 </script>

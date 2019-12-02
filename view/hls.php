@@ -14,13 +14,13 @@ $_GET['file'] = "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}/ind
 //var_dump($_GET['file']);exit;
 $cachedPath = explode("/", $_GET['videoDirectory']);
 if(empty($_SESSION['hls'][$cachedPath[0]])){
-    YouPHPTubePlugin::xsendfilePreVideoPlay();
+    AVideoPlugin::xsendfilePreVideoPlay();
     $_SESSION['hls'][$cachedPath[0]] = 1;
 }
 
 $tokenIsValid = false;
 if(!empty($_GET['token'])){
-    $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+    $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
     if($secure){
         $tokenIsValid = $secure->isTokenValid($_GET['token'], $_GET['videoDirectory'], $_GET['videoDirectory']);
     }

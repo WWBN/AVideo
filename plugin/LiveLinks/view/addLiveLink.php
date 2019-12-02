@@ -7,7 +7,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('LiveLinks');
+$plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
 
 if(!$plugin->canAddLinks()){
     $obj->msg = "You cant add links";

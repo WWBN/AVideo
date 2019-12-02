@@ -22,7 +22,7 @@ if (!empty($_POST['id'])) {
 }
 
 if(!is_writable("{$global['systemRootPath']}objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer")){
-   //Directory /home/daniel/danielneto.com@gmail.com/htdocs/YouPHPTube/objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 
+   //Directory /home/daniel/danielneto.com@gmail.com/htdocs/AVideo/objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 
    die('{"error":"Directory '.$global['systemRootPath'].'objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 "}');
 }
 
@@ -104,10 +104,10 @@ $obj->setExternalOptions(@$_POST['externalOptions']);
 $resp = $obj->save(true);
 // if is a new embed video
 if (empty($_POST['id']) && $obj->getType()=='embed') {
-    YouPHPTubePlugin::afterNewVideo($resp);
+    AVideoPlugin::afterNewVideo($resp);
 }
 
-YouPHPTubePlugin::saveVideosAddNew($_POST, $resp);
+AVideoPlugin::saveVideosAddNew($_POST, $resp);
 
 $obj = new stdClass();
 $obj->status = !empty($resp);

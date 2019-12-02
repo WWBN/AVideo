@@ -41,7 +41,7 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
     echo local_get_contents($filename);
     error_log(" Invalid URL ");
 }
-$p = YouPHPTubePlugin::loadPluginIfEnabled("Cache");
+$p = AVideoPlugin::loadPluginIfEnabled("Cache");
 if(!empty($p)){
     $p->getEnd();
 }

@@ -1,6 +1,6 @@
 <?php
-require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
-$obj = YouPHPTubePlugin::getObjectData("PayPalYPT");
+require_once $global['systemRootPath'].'plugin/AVideoPlugin.php';
+$obj = AVideoPlugin::getObjectData("PayPalYPT");
 // 1. Autoload the SDK Package. This will include all the files and classes to your autoloader
 // Used for composer based installation
 require __DIR__  . '/vendor/autoload.php';

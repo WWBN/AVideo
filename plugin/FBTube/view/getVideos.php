@@ -575,7 +575,7 @@ if (!empty($videos)) {
 
                             });
                             player<?php echo $video['id']; ?>.persistvolume({
-                                namespace: "YouPHPTube"
+                                namespace: "AVideo"
                             });
             <?php
         }

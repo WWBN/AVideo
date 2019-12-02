@@ -163,8 +163,8 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
         }
-        $objMob = YouPHPTubePlugin::getObjectData("MobileManager");
-        $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
+        $objMob = AVideoPlugin::getObjectData("MobileManager");
+        $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
         foreach ($rows as $key => $value) {
             if (is_object($value)) {
                 $value = object_to_array($value);
@@ -235,8 +235,8 @@ class API extends PluginAbstract {
         } else {
             $totalRows = Video::getTotalVideos();
         }
-        $objMob = YouPHPTubePlugin::getObjectData("MobileManager");
-        $SubtitleSwitcher = YouPHPTubePlugin::loadPluginIfEnabled("SubtitleSwitcher");
+        $objMob = AVideoPlugin::getObjectData("MobileManager");
+        $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
         $obj->totalRows = $totalRows;
         return new ApiObject("", false, $obj);
     }
@@ -274,7 +274,7 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
         }
-        $objMob = YouPHPTubePlugin::getObjectData("MobileManager");
+        $objMob = AVideoPlugin::getObjectData("MobileManager");
         $viewsCount = 0;
         foreach ($rows as $key => $value) {
             if (is_object($value)) {
@@ -424,7 +424,7 @@ class API extends PluginAbstract {
         if ($obj->APISecret !== @$_GET['APISecret']) {
             return new ApiObject("APISecret Not valid");
         }
-        if (YouPHPTubePlugin::isEnabledByName("User_Location")) {
+        if (AVideoPlugin::isEnabledByName("User_Location")) {
             $row = IP2Location::getLocation($parameters['ip']);
             if (!empty($row)) {
                 return new ApiObject("", false, $row);
@@ -444,7 +444,7 @@ class API extends PluginAbstract {
      * @return type
      */
     public function get_api_favorite($parameters) {
-        $plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
+        $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
         if (empty($plugin)) {
             return new ApiObject("Plugin disabled");
         }
@@ -501,7 +501,7 @@ class API extends PluginAbstract {
 
     private function favorite($parameters, $add) {
         global $global;
-        $plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
+        $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
         if (empty($plugin)) {
             return new ApiObject("Plugin disabled");
         }

@@ -30,7 +30,7 @@ if(empty($_POST['playlists_id'])){
 
 require_once './playlist.php';
 $videos = PlayList::getVideosFromPlaylist($_POST['playlists_id']);
-$objMob = YouPHPTubePlugin::getObjectData("MobileManager");
+$objMob = AVideoPlugin::getObjectData("MobileManager");
 
 foreach ($videos as $key => $value) {
     unset($videos[$key]['password']);

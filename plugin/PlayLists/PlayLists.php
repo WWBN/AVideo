@@ -1,13 +1,13 @@
 <?php
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 
 class PlayLists extends PluginAbstract {
 
     public function getDescription() {
-        return "A playlist video picker for youphptube for embed";
+        return "A playlist video picker for avideo for embed";
     }
 
     public function getName() {
@@ -90,7 +90,7 @@ class PlayLists extends PluginAbstract {
         if(empty($videos_id)){
             return false;
         }
-        $obj = YouPHPTubePlugin::getObjectData("PlayLists");
+        $obj = AVideoPlugin::getObjectData("PlayLists");
         if (!User::isAdmin() && $obj->usersCanOnlyCreatePlayListsFromTheirContent) {
             if (User::isLogged()) {
                 $users_id = Video::getOwner($videos_id);
@@ -183,7 +183,7 @@ class PlayLists extends PluginAbstract {
 
     static function getLink($playlists_id) {
         global $global;
-        $obj = YouPHPTubePlugin::getObjectData("PlayLists");
+        $obj = AVideoPlugin::getObjectData("PlayLists");
         if (empty($obj->useOldPlayList)) {
             return $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
         } else {

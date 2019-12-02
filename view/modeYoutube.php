@@ -54,7 +54,7 @@ if (empty($video)) {
     $video = Video::getVideo("", "viewable", false, false, false, true);
 }
 if (empty($video)) {
-    $video = YouPHPTubePlugin::getVideo();
+    $video = AVideoPlugin::getVideo();
 }
 
 // allow users to count a view again in case it is refreshed
@@ -184,7 +184,7 @@ if (!empty($video)) {
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
 }
-$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
+$objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 
 if (!empty($autoPlayVideo)) {
     $autoPlaySources = getSources($autoPlayVideo['filename'], true);
@@ -205,7 +205,7 @@ if (empty($_GET['videoName'])) {
 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 
 
-YouPHPTubePlugin::getModeYouTube($v['id']);
+AVideoPlugin::getModeYouTube($v['id']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

@@ -3902,7 +3902,7 @@
             title: "fab fa-yoast",
             searchTerms: []
         }, {
-            title: "fab fa-youtube",
+            title: "fas fa-play-circle",
             searchTerms: [ "video", "film", "youtube-play", "youtube-square" ]
         }, {
             title: "fab fa-youtube-square",

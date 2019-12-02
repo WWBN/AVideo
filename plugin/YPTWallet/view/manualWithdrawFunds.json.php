@@ -12,7 +12,7 @@ if (!User::isLogged()) {
     $obj->msg = ("Is not logged");
     die(json_encode($obj));
 }
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $dataObj = $plugin->getDataObject();
 if(empty($plugin)){
     $obj->msg = ("Plugin not enabled");

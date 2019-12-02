@@ -1,5 +1,5 @@
 <?php
-$obj = YouPHPTubePlugin::getObjectDataIfEnabled('PlayerSkins');
+$obj = AVideoPlugin::getObjectDataIfEnabled('PlayerSkins');
 $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
 ?>
 <div class="row">

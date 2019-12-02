@@ -23,7 +23,7 @@ if(!empty($_POST['user']) && !empty($_POST['pass'])){
 
 
 $obj = new stdClass();
-if(YouPHPTubePlugin::loadPluginIfEnabled("Live")){
+if(AVideoPlugin::loadPluginIfEnabled("Live")){
     $liveStats = url_get_contents("{$global['webSiteRootURL']}plugin/Live/stats.json.php");
     $obj->live = json_decode($liveStats);
 }

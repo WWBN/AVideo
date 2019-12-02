@@ -17,7 +17,7 @@ if (empty($_POST['stripe_costumer_id'])) {
     die(json_encode($obj));
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
 
 $agreement = StripeYPT::getSubscriptions($_POST['stripe_costumer_id'], $_POST['plans_id']);
 

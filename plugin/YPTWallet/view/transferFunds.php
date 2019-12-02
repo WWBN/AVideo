@@ -7,7 +7,7 @@ if (!User::isLogged()) {
     header("Location: {$global['webSiteRootURL']}");
 }
 
-$obj = YouPHPTubePlugin::getObjectDataIfEnabled("YPTWallet");
+$obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

@@ -1,7 +1,7 @@
 <?php
 require_once '../../videos/configuration.php';
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('LiveLinks');
+$plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
 
 if (empty($plugin) || !$plugin->canAddLinks()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));

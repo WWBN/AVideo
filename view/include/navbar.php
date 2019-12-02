@@ -20,7 +20,7 @@ if (empty($sidebarStyle)) {
     $sidebarStyle = "display: none;";
 }
 $includeDefaultNavBar = true;
-YouPHPTubePlugin::navBar();
+AVideoPlugin::navBar();
 if (!$includeDefaultNavBar) {
     return false;
 }
@@ -225,7 +225,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         ?>
 
                         <?php
-                        echo YouPHPTubePlugin::getHTMLMenuRight();
+                        echo AVideoPlugin::getHTMLMenuRight();
                         ?>
                         <?php
                         if (User::canUpload() && empty($advancedCustom->doNotShowUploadButton)) {
@@ -306,7 +306,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 </li>
                                                 <?php
                                             }
-                                            if (YouPHPTubePlugin::isEnabledByName("Articles")) {
+                                            if (AVideoPlugin::isEnabledByName("Articles")) {
                                                 ?>
                                                 <li>
                                                     <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?article=1" >
@@ -315,7 +315,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 </li>
                                                 <?php
                                             }
-                                            echo YouPHPTubePlugin::getUploadMenuButton();
+                                            echo AVideoPlugin::getUploadMenuButton();
                                             ?>
                                         </ul>
                                         <?php
@@ -477,7 +477,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                                             <li>
                                                 <a href="<?php echo User::getChannelLink(); ?>" >
-                                                    <span class="fab fa-youtube"></span>
+                                                    <span class="fas fa-play-circle"></span>
                                                     <?php echo __($advancedCustomUser->MyChannelLabel); ?>
                                                 </a>
                                             </li>
@@ -495,7 +495,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 <?php
                                             }
 
-                                            print YouPHPTubePlugin::navBarButtons();
+                                            print AVideoPlugin::navBarButtons();
 
                                             if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {
                                                 ?>
@@ -659,7 +659,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                                 <div>
                                     <a href="<?php echo User::getChannelLink(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
-                                        <span class="fab fa-youtube"></span>
+                                        <span class="fas fa-play-circle"></span>
                                         <?php echo __($advancedCustomUser->MyChannelLabel); ?>
                                     </a>
 
@@ -681,7 +681,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                 <?php
                             }
 
-                            print YouPHPTubePlugin::navBarButtons();
+                            print AVideoPlugin::navBarButtons();
 
                             if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {
                                 ?>
@@ -929,7 +929,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     ?>
 
                     <?php
-                    echo YouPHPTubePlugin::getHTMLMenuLeft();
+                    echo AVideoPlugin::getHTMLMenuLeft();
                     ?>
 
                     <!-- categories END -->

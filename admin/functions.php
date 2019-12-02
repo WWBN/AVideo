@@ -1,7 +1,7 @@
 <?php
 
 function createTable($pluginName, $filter = array()){
-    $plugin = YouPHPTubePlugin::getObjectData($pluginName);
+    $plugin = AVideoPlugin::getObjectData($pluginName);
     if(empty($filter)){
         foreach ($plugin as $keyJson => $valueJson) {
             $filter[$keyJson] = "&nbsp;";
@@ -13,7 +13,7 @@ function createTable($pluginName, $filter = array()){
     echo '<input type="hidden" value="'.implode("|", array_keys($filter)).'" name="pluginsList"/>';
     echo '<table class="table table-hover">';
     $pluginsList = array();
-    if (!YouPHPTubePlugin::exists($pluginName)) {
+    if (!AVideoPlugin::exists($pluginName)) {
         echo "<tr><td colspan='2'> Sorry you do not have the plugin </td></tr>";
     }else{
         if(!empty($plugin)){
@@ -63,11 +63,11 @@ function jsonToFormElements($json, $filter = array()) {
 }
 
 function getPluginSwitch($pluginName) {
-    if(!YouPHPTubePlugin::exists($pluginName)){
-       $input = '<a href="https://www.youphptube.com/plugins/" class="btn btn-danger btn-sm btn-xs">Buy this plugin now</a>'; 
+    if(!AVideoPlugin::exists($pluginName)){
+       $input = '<a href="https://www.avideo.com/plugins/" class="btn btn-danger btn-sm btn-xs">Buy this plugin now</a>'; 
     }else{
-        $plugin = YouPHPTubePlugin::loadPluginIfEnabled($pluginName);
-        $pluginForced = YouPHPTubePlugin::loadPlugin($pluginName);
+        $plugin = AVideoPlugin::loadPluginIfEnabled($pluginName);
+        $pluginForced = AVideoPlugin::loadPlugin($pluginName);
         $id = uniqid();
         $uuid = $pluginForced->getUUID();
         $input = '<div class="material-switch">

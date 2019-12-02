@@ -1,8 +1,8 @@
 <?php
 global $t;
 
-$t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<P> ¡YouPHPTube! Es un sitio web de intercambio de videos, el servicio fue creado por Daniel Neto en marzo de 2017. El software le permite cargar, ver, compartir y comentar videos, y hace uso de WebM y H.264 / MPEG-4 AVC para mostrar una amplia variedad de videos de medios generados por el usuario y corporativos. </p><p> Lo mejor de todo, YouPHPTube! Es una solución de código abierto que está disponible gratuitamente para todos. </p>";
-$t['About YouPHPTube!'] = "Acerca de YouPHPTube!";
+$t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<P> ¡AVideo! Es un sitio web de intercambio de videos, el servicio fue creado por Daniel Neto en marzo de 2017. El software le permite cargar, ver, compartir y comentar videos, y hace uso de WebM y H.264 / MPEG-4 AVC para mostrar una amplia variedad de videos de medios generados por el usuario y corporativos. </p><p> Lo mejor de todo, AVideo! Es una solución de código abierto que está disponible gratuitamente para todos. </p>";
+$t['About AVideo!'] = "Acerca de AVideo!";
 $t['About'] = "Acerca de";
 $t['Activate'] = "Activar";
 $t['Active'] = "Activo";
@@ -209,7 +209,7 @@ $t['Type'] = "Escribe";
 $t['Up Next'] = "Hasta la próxima";
 $t['Up'] = "Arriba";
 $t['Update Now'] = "Actualizar ahora";
-$t['Update YouPHPTube System'] = "Actualizar el sistema YouPHPTube";
+$t['Update AVideo System'] = "Actualizar el sistema AVideo";
 $t['Update the site configuration'] = "Actualizar la configuración del sitio";
 $t['Update version'] = "Versión actualizada";
 $t['Update your user'] = "Actualiza tu usuario";
@@ -244,7 +244,7 @@ $t['Welcome %s, update your informations'] = "Bienvenido %s, actualiza tus datos
 $t['Word Translations'] = "Palabras traducidas";
 $t['Yes, delete it!'] = "Sí, borrarlo!";
 $t['You are not registered yet. Please do this first.'] = "No estas registrado aún. Por favor regístrate primero.";
-$t['You are running YouPHPTube version %s!'] = "Estás ejecutando la versión de YouPHPTube %s!";
+$t['You are running AVideo version %s!'] = "Estás ejecutando la versión de AVideo %s!";
 $t['You can not manage categories'] = "No puedes administrar categorías";
 $t['You can not manage users'] = "No puedes administrar usuarios";
 $t['You can not manage videos'] = "No se pueden administrar videos";

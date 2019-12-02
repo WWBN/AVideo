@@ -5,7 +5,7 @@ $isEmbed = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
-$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+$objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
@@ -54,8 +54,8 @@ foreach ($playList as $value) {
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
         </script>
         <?php
-        require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-        echo YouPHPTubePlugin::getHeadCode();
+        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+        echo AVideoPlugin::getHeadCode();
         ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -146,7 +146,7 @@ foreach ($playList as $value) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
         <?php
-        echo YouPHPTubePlugin::getFooterCode();
+        echo AVideoPlugin::getFooterCode();
         ?>
 
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>

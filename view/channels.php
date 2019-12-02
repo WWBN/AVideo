@@ -35,7 +35,7 @@ $channels = Channel::getChannels();
                             <img src="<?php echo User::getPhoto($value['id']); ?>"
                                  class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" />
                             <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
-                                <i class="fab fa-youtube"></i>
+                                <i class="fas fa-play-circle"></i>
                                 <?php
                                 echo User::getNameIdentificationById($value['id']);
                              ?>

@@ -48,7 +48,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
         <link><?php echo $link; ?></link>
         <width>144</width>
         <height>40</height>
-        <description>YouPHPTube version rss</description>
+        <description>AVideo version rss</description>
         </image>
 
         <?php

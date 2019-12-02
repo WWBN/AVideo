@@ -28,7 +28,7 @@ if (!empty($_POST['updateFile'])) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?><div class="container-fluid">
-            <div class="alert alert-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></div>
+            <div class="alert alert-success"><?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?></div>
             <?php
             if (empty($_POST['updateFile'])) {
                 $updateFiles = getUpdatesFilesArray();
@@ -37,7 +37,7 @@ if (!empty($_POST['updateFile'])) {
                     <div class="alert alert-warning">
                         <form method="post" class="form-compact well form-horizontal" >
                             <fieldset>
-                                <legend><?php echo __("Update YouPHPTube System"); ?></legend>
+                                <legend><?php echo __("Update AVideo System"); ?></legend>
                                 <label for="updateFile" class="sr-only"><?php echo __("Select the update"); ?></label>
                                 <select class="selectpicker" data-width="fit" name="updateFile" id="updateFile" required autofocus>
                                     <?php
@@ -69,14 +69,14 @@ if (!empty($_POST['updateFile'])) {
             } else {
                 $obj = new stdClass();
                 $templine = '';
-                $logfile = "{$global['systemRootPath']}videos/youphptube.";
+                $logfile = "{$global['systemRootPath']}videos/avideo.";
                 if(file_exists ($logfile."log")){
                   unlink($logfile."log");
-                  error_log("youphptube.log deleted by update");
+                  error_log("avideo.log deleted by update");
                 }
                 if(file_exists ($logfile."js.log")){
                   unlink($logfile."js.log");
-                  error_log("youphptube.js.log deleted by update");
+                  error_log("avideo.js.log deleted by update");
                 }
                 $lines = file("{$global['systemRootPath']}updatedb/{$_POST['updateFile']}");
                 $obj->error = "";

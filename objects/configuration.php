@@ -438,7 +438,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         }
 
         if (empty($this->encoderURL)) {
-            return "https://encoder.youphptube.com/";
+            return "https://encoder.avideo.com/";
         }
         if (substr($this->encoderURL, -1) !== '/') {
             $this->encoderURL .= "/";

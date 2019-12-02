@@ -32,7 +32,7 @@ class VastCampaignsVideos extends ObjectYPT {
         $vast_campaigns_id = intval($vast_campaigns_id);
         $videos_id = intval($videos_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  vast_campaigns_id = ? , videos_id = ? LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql,"ii",array($vast_campaigns_id, $videos_id)); 
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
@@ -55,7 +55,7 @@ class VastCampaignsVideos extends ObjectYPT {
             $vast_campaigns_id = $campaings[0]['id'];
         }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  vast_campaigns_id = ? ORDER BY RAND() LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql,"i",array($vast_campaigns_id)); 
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

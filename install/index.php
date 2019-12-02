@@ -8,7 +8,7 @@ require_once '../objects/functions.php';
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Install YouPHPTube</title>
+        <title>Install AVideo</title>
         <link rel="icon" href="../view/img/favicon.png">
         <link href="../view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         
@@ -94,7 +94,7 @@ require_once '../objects/functions.php';
                                     $dir = getPathToApplication()."videos";
                                     if(!file_exists($dir)){
                                     ?>
-                                    The video directory does not exists, YouPHPTube had no permition to create it, you must create it manualy!
+                                    The video directory does not exists, AVideo had no permition to create it, you must create it manualy!
                                     <br>
                                     <pre><code>sudo mkdir <?php echo $dir; ?></code></pre>
                                     <?php
@@ -175,7 +175,7 @@ require_once '../objects/functions.php';
                             </div>
                             <div class="form-group">
                                 <label for="webSiteTitle">Title of your Web Site</label>
-                                <input type="text" class="form-control" id="webSiteTitle" placeholder="Enter the title of your Web Site" value="YouPHPTube" required="required">
+                                <input type="text" class="form-control" id="webSiteTitle" placeholder="Enter the title of your Web Site" value="AVideo" required="required">
                             </div>
                             <div class="form-group">
                                 <label for="contactEmail">Contact E-mail</label>
@@ -199,7 +199,7 @@ require_once '../objects/functions.php';
                             </div>
                             <div class="form-group">
                                 <label for="databaseName">Database Name</label>
-                                <input type="text" class="form-control" id="databaseName" placeholder="Enter Database Name" value="youPHPTube" required="required">
+                                <input type="text" class="form-control" id="databaseName" placeholder="Enter Database Name" value="aVideo" required="required">
                             </div>
                             <div class="form-group">
                                 <label for="createTables">Do you want to create database and tables?</label>

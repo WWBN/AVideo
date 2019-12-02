@@ -2,7 +2,7 @@
 if (!User::isLogged()) {
     return;
 }
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 $balance = $plugin->getBalance(User::getId());
 ?>

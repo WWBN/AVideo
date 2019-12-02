@@ -7,7 +7,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 $obj->views = 0;
-$ad_server = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
+$ad_server = AVideoPlugin::loadPluginIfEnabled('AD_Server');
 if(empty($ad_server)){
     $obj->msg = "not enabled";
     die(json_encode($obj));

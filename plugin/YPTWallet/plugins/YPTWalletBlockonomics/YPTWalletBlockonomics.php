@@ -13,7 +13,7 @@ class YPTWalletBlockonomics extends YPTWalletPlugin{
     
     public function getAprovalLink() {
         global $global;
-        $plugin = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
+        $plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
         $payment = $plugin->setUpPayment(
                 $this->getInvoiceNumber(), 
                 $this->getRedirectURL(), 

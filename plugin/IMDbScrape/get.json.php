@@ -6,7 +6,7 @@ require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/IMDbScrape/imdb.class.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-$plugin = YouPHPTubePlugin::getObjectData("IMDbScrape");
+$plugin = AVideoPlugin::getObjectData("IMDbScrape");
 
 $obj = new stdClass();
 $obj->error = true;

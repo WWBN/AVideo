@@ -31,8 +31,8 @@ $obj->setStatus($_POST['status']);
 
 
 if(empty($obj->pluginversion)||is_null($obj->pluginversion)){
-    require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-    $p=YouPHPTubePlugin::loadPlugin($_POST['name']); 
+    require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+    $p=AVideoPlugin::loadPlugin($_POST['name']); 
     $currentVersion=$p->getPluginVersion();
     $obj->pluginversion=$currentVersion;
     Plugin::setCurrentVersionByUuid($_POST['uuid'], $currentVersion);

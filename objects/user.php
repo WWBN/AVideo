@@ -562,7 +562,7 @@ if (typeof gtag !== \"function\") {
             return true;
         }
 
-        if (YouPHPTubePlugin::userCanWatchVideo(User::getId(), $videos_id)) {
+        if (AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
             return true;
         }
 
@@ -571,7 +571,7 @@ if (typeof gtag !== \"function\") {
 
         if (empty($rows)) {
             // check if any plugin restrict access to this video
-            if (!YouPHPTubePlugin::userCanWatchVideo(User::getId(), $videos_id)) {
+            if (!AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
                 return false;
             } else {
                 return true; // the video is public
@@ -596,7 +596,7 @@ if (typeof gtag !== \"function\") {
 
     static function canWatchVideoWithAds($videos_id) {
 
-        if (YouPHPTubePlugin::userCanWatchVideoWithAds(User::getId(), $videos_id) || self::canWatchVideo($videos_id)) {
+        if (AVideoPlugin::userCanWatchVideoWithAds(User::getId(), $videos_id) || self::canWatchVideo($videos_id)) {
             return true;
         }
         return false;
@@ -676,7 +676,7 @@ if (typeof gtag !== \"function\") {
                 setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
                 setcookie("pass", $user['password'], $cookie, "/", $_SERVER['HTTP_HOST']);
             }
-            YouPHPTubePlugin::onUserSignIn($_SESSION['user']['id']);
+            AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             return self::USER_LOGGED;
         } else {

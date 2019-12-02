@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
+$plugin = AVideoPlugin::loadPluginIfEnabled('AD_Server');
 
 if(!User::isAdmin()){
     $obj->msg = "You cant do this";

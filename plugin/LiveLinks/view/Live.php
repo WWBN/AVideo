@@ -7,17 +7,17 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 $plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
 $p = AVideoPlugin::loadPluginIfEnabled('Live');
 
-if(empty($plugin)){
+if (empty($plugin)) {
     die('Plugin disabled');
 }
 
-if(empty($_GET['link'])){
+if (empty($_GET['link'])) {
     die('Link not found');
 }
 $_GET['link'] = intval($_GET['link']);
 $liveLink = new LiveLinksTable($_GET['link']);
 
-if($liveLink->getType()=='logged_only' && !User::isLogged()){
+if ($liveLink->getType() == 'logged_only' && !User::isLogged()) {
     die('Link for logged only');
 }
 
@@ -39,11 +39,10 @@ $img = "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?link={$_GET['li
 $imgw = 640;
 $imgh = 360;
 
-if(!empty($_GET['embed'])){
-    include $global['systemRootPath'].'plugin/LiveLinks/view/videoEmbeded.php';
+if (!empty($_GET['embed'])) {
+    include $global['systemRootPath'] . 'plugin/LiveLinks/view/videoEmbeded.php';
     return false;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -57,7 +56,7 @@ if(!empty($_GET['embed'])){
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        
+
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/Live.php?link=<?php echo $_GET['link']; ?>" />
         <meta property="og:type"               content="video.other" />
@@ -74,9 +73,19 @@ if(!empty($_GET['embed'])){
         ?>
         <div class="container-fluid principalContainer ">
             <div class="col-md-12">
+                <center style="margin:5px;">
+                    <?php echo getAdsLeaderBoardTop(); ?>
+                </center>
+            </div>  
+            <div class="col-md-12">
                 <?php
                 require "{$global['systemRootPath']}plugin/LiveLinks/view/liveVideo.php";
                 ?>
+            </div>  
+            <div class="col-md-12">
+                <center style="margin:5px;">
+                    <?php echo getAdsLeaderBoardTop2(); ?>
+                </center>
             </div>  
         </div>
         <div class="container-fluid ">
@@ -88,38 +97,38 @@ if(!empty($_GET['embed'])){
                 <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
             </div> 
             <div class="col-md-3">
-                    <?php
-                    echo getAdsSideRectangle();
-                    ?>
+                <?php
+                echo getAdsSideRectangle();
+                ?>
             </div>
         </div>
-        
+
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
-                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                        $.widget.bridge('uibutton', $.ui.button);
-                        $.widget.bridge('uitooltip', $.ui.tooltip);
+            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+            $.widget.bridge('uibutton', $.ui.button);
+            $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>  
-        
+
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
-        <?php        
+        <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 
-                <?php
-                if(!empty($p)){
-                    $p->getChat($uuid);
-                }
-                ?>
+        <?php
+        if (!empty($p)) {
+            $p->getChat($uuid);
+        }
+        ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
-        
+
     </body>
 </html>
 
 <?php
-include $global['systemRootPath'].'objects/include_end.php';
+include $global['systemRootPath'] . 'objects/include_end.php';
 ?>

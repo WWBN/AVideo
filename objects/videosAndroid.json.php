@@ -28,7 +28,7 @@ if (!empty($_GET['user']) && !empty($_GET['pass'])) {
     $user->login(false, true);
 }
 
-$objMob = YouPHPTubePlugin::getObjectData("MobileManager");
+$objMob = AVideoPlugin::getObjectData("MobileManager");
 if(!empty($random)){
     $video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
     if (empty($video)) {
@@ -86,4 +86,4 @@ $obj->rowCount = $_POST['rowCount'];
 $obj->total = $total;
 $obj->videos = $videos;
 echo json_encode($obj);
-//YouPHPTubePlugin::getEnd();
+//AVideoPlugin::getEnd();

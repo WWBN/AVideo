@@ -1,5 +1,5 @@
 <?php
-$obj = YouPHPTubePlugin::getObjectData('StripeYPT');
+$obj = AVideoPlugin::getObjectData('StripeYPT');
 ?>
 <style>
     /**

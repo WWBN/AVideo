@@ -163,8 +163,8 @@
     RewriteRule    ^notifySubscribers.json$ objects/notifySubscribers.json.php    [NC,L]
 
 
-    RewriteRule    ^youPHPTubeQueueEncoder.json$ objects/youPHPTubeQueueEncoder.json.php    [NC,L]
-    RewriteRule    ^youPHPTubeEncoder.json$ objects/youPHPTubeEncoder.json.php    [NC,L]
+    RewriteRule    ^aVideoQueueEncoder.json$ objects/aVideoQueueEncoder.json.php    [NC,L]
+    RewriteRule    ^aVideoEncoder.json$ objects/aVideoEncoder.json.php    [NC,L]
 
     #comment
     RewriteRule    ^comments$ view/managerComments.php    [NC,L]

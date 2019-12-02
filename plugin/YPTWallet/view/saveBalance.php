@@ -14,7 +14,7 @@ if (!User::isAdmin()) {
     $obj->msg = ("Is not admin");
     die(json_encode($obj));
 }
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 if(empty($plugin)){
     $obj->msg = ("Plugin not enabled");
     die(json_encode($obj));

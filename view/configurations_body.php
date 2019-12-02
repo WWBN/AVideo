@@ -172,7 +172,7 @@ if (User::isAdmin()) {
                                             $dir = getPathToApplication() . "videos";
                                             if (!file_exists($dir)) {
                                                 ?>
-                                                The video directory does not exists, YouPHPTube had no permition to create it, you must create it manualy!
+                                                The video directory does not exists, AVideo had no permition to create it, you must create it manualy!
                                                 <br>
                                                 <pre><code>sudo mkdir <?php echo $dir; ?></code></pre>
                                                 <?php
@@ -404,8 +404,8 @@ if (User::isAdmin()) {
                                                             <input id="encoder_url" aria-describedby="encoder_urlHelp" class="form-control"  type="url" value="<?php echo $config->_getEncoderURL(); ?>" >
                                                             <small id="encoder_urlHelp" class="form-text text-muted">
                                                                 <?php echo __("You need to set up an encoder server"); ?><br>
-                                                                <?php echo __("You can use our public encoder on"); ?>: https://encoder.youphptube.com/ or
-                                                                <a href="https://github.com/DanielnetoDotCom/YouPHPTube-Encoder" class="btn btn-default btn-xs" target="_blank"><?php echo __("For faster encode, download your own encoder"); ?></a>
+                                                                <?php echo __("You can use our public encoder on"); ?>: https://encoder.avideo.com/ or
+                                                                <a href="https://github.com/WWBN/AVideo-Encoder" class="btn btn-default btn-xs" target="_blank"><?php echo __("For faster encode, download your own encoder"); ?></a>
                                                             </small>
                                                         </div>
                                                     </div>
@@ -419,7 +419,7 @@ if (User::isAdmin()) {
 
 
                                                     <div class="form-group">
-                                                        <label class="col-md-4 control-label"><?php echo __("Disable YouPHPTube Google Analytics"); ?></label>
+                                                        <label class="col-md-4 control-label"><?php echo __("Disable AVideo Google Analytics"); ?></label>
                                                         <div class="col-md-8">
                                                             <div class="material-switch">
                                                                 <input data-toggle="toggle" type="checkbox" name="disable_analytics" id="disable_analytics" value="1" <?php
@@ -476,7 +476,7 @@ if (User::isAdmin()) {
                                                         <h3>
                                                             <i class="fas fa-info-circle"></i>
                                                             If you are not sure how to configure your email, 
-                                                            please try <a href="https://github.com/YouPHPTube/YouPHPTube/wiki/Setting-up-YouPHPTube-to-send-emails" target="_blank">this help</a>
+                                                            please try <a href="https://github.com/AVideo/AVideo/wiki/Setting-up-AVideo-to-send-emails" target="_blank">this help</a>
                                                         </h3>
                                                     </div>
 
@@ -638,7 +638,7 @@ if (User::isAdmin()) {
                         captcha: $('#captchaText').val(),
                         first_name: "Your Site test",
                         email: "<?php echo $config->getContactEmail(); ?>",
-                        website: "www.youphptube.com",
+                        website: "www.avideo.com",
                         comment: "Teste of comment"
                     },
                     type: 'post',

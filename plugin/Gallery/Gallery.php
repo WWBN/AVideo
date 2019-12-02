@@ -1,7 +1,7 @@
 <?php
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class Gallery extends PluginAbstract {
 
     public function getDescription() {
@@ -88,7 +88,7 @@ class Gallery extends PluginAbstract {
     }
     public function getFirstPage(){
         global $global;
-        if(!YouPHPTubePlugin::isEnabled("d3sa2k4l3-23rds421-re323-4ae-423")){
+        if(!AVideoPlugin::isEnabled("d3sa2k4l3-23rds421-re323-4ae-423")){
             return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
         }
     }   

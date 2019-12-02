@@ -3,7 +3,7 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
@@ -21,7 +21,7 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 
         <div class="container">
             <h1>User-manual of <?php echo $config->getWebSiteTitle(); ?></h1>
-            <p><?php echo YouPHPTubePlugin::getHelpToc(); ?>
+            <p><?php echo AVideoPlugin::getHelpToc(); ?>
               <ul>
                 <li><a href="#Videos help">Videos</a></li>
               </ul>
@@ -37,19 +37,19 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
             <hr />
             <h3>Update via git</h3>
             <p>This project is in a fast development. If you have done your setup via git (like in the howto's), you can update very easy!</p>
-            <p>In the shell, go to the youphptube-folder and type "git pull" there. Or, for copy-paste: <code>cd <?php echo $global['systemRootPath']; ?>; git pull</code> . </p>
+            <p>In the shell, go to the avideo-folder and type "git pull" there. Or, for copy-paste: <code>cd <?php echo $global['systemRootPath']; ?>; git pull</code> . </p>
             <p>It can be, that you will need a database-update after. For this, go as admin to the menu-point "<a href='<?php echo $global['webSiteRootURL']; ?>update'>Update version</a>".</p>
             <p>Done!</p>
             <hr />
             <h3>Update via ftp/files</h3>
-            <p>Download this file: <a href="https://github.com/DanielnetoDotCom/YouPHPTube/archive/master.zip">github.com/DanielnetoDotCom/YouPHPTube/archive/master.zip</a> (always the newest).</p>
+            <p>Download this file: <a href="https://github.com/WWBN/AVideo/archive/master.zip">github.com/DanielnetoDotCom/AVideo/archive/master.zip</a> (always the newest).</p>
             <p>Unzip and upload/replace the <b>all</b> the files. Only the videos-folder should stay untouched.</p>
             <p>It can be, that you will need a database-update after. For this, go as admin to the menu-point "<a href='<?php echo $global['webSiteRootURL']; ?>update'>Update version</a>".</p>
             <p>Done!</p>
             <hr />
             <h3>Issues on github</h3>
             <p>If you want to tell us, what is not working for you, this is great and helps us, to make the software more stable.</p>
-            <p>Some information can help us, to find your problem faster:</p> <ul><li>Content of <a href='<?php echo $global['webSiteRootURL']; ?>videos/youphptube.log'>videos/youphptube.log</a></li><li>Content of <a href='<?php echo $global['webSiteRootURL']; ?>videos/youphptube.js.log'>videos/youphptube.js.log</a></li><li>If public: your domain, so we can see the error directly</li></ul>
+            <p>Some information can help us, to find your problem faster:</p> <ul><li>Content of <a href='<?php echo $global['webSiteRootURL']; ?>videos/avideo.log'>videos/avideo.log</a></li><li>Content of <a href='<?php echo $global['webSiteRootURL']; ?>videos/avideo.js.log'>videos/avideo.js.log</a></li><li>If public: your domain, so we can see the error directly</li></ul>
             <p>If you can, clear the log-files, reproduce the error and send them. This helps to reduce old or repeating information.</p>
             <hr />
             <?php } ?>
@@ -87,7 +87,7 @@ require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
 
 
             <?php
-                echo YouPHPTubePlugin::getHelp();
+                echo AVideoPlugin::getHelp();
             ?>
 
         </div><!--/.container-->

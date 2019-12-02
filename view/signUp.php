@@ -12,7 +12,7 @@ if (!empty($advancedCustomUser->disableNativeSignUp)) {
     die(__("Sign Up Disabled"));
 }
 
-$agreement = YouPHPTubePlugin::loadPluginIfEnabled("SignUpAgreement");
+$agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

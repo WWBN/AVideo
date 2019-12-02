@@ -97,7 +97,7 @@
                 createTable("LoginLDAP");
                 ?>
                 <small class="form-text text-muted">
-                    <a href="https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Configure-LDAP-Plugin">Help Page</a>
+                    <a href="https://github.com/WWBN/AVideo/wiki/Configure-LDAP-Plugin">Help Page</a>
                 </small>
 
             </div>

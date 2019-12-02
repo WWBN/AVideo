@@ -113,7 +113,7 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
 function createGallerySection($videos, $crc = "", $get = array()) {
     global $global, $config, $obj, $advancedCustom;
     $countCols = 0;
-    $obj = YouPHPTubePlugin::getObjectData("Gallery");
+    $obj = AVideoPlugin::getObjectData("Gallery");
     $zindex = 1000;
     $startG = microtime(true);
     foreach ($videos as $value) {
@@ -159,7 +159,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                         <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                     <?php } ?>
                     <?php
-                    echo YouPHPTubePlugin::thumbsOverlay($value['id']);
+                    echo AVideoPlugin::thumbsOverlay($value['id']);
                     @$timesG[__LINE__] += microtime(true) - $startG;
                     $startG = microtime(true);
                     ?>
@@ -249,7 +249,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                 <?php }
                 ?>
                 <?php
-                echo YouPHPTubePlugin::getGalleryActionButton($value['id']);
+                echo AVideoPlugin::getGalleryActionButton($value['id']);
                 ?>
             </div>
             <?php

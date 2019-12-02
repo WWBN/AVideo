@@ -4,7 +4,7 @@ require_once '../../videos/configuration.php';
 session_write_close();
 require_once './Objects/LiveTransmition.php';
 require_once '../../objects/user.php';
-$p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
+$p = AVideoPlugin::loadPluginIfEnabled("Live");
 
 ini_set('max_execution_time', 10);
 set_time_limit(10);
@@ -43,9 +43,9 @@ if(!empty($xml->server->application[0]->live->stream)){
     }
 }
 
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 // the live users plugin
-$liveUsersEnabled = YouPHPTubePlugin::isEnabledByName("LiveUsers");
+$liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
 
 $obj->disableGif = $p->getDisableGifThumbs();
 $obj->countLiveStream = count($lifeStream);
@@ -90,7 +90,7 @@ foreach ($lifeStream as $value){
     }
 }
 
-$appArray = YouPHPTubePlugin::getLiveApplicationArray();
+$appArray = AVideoPlugin::getLiveApplicationArray();
 $obj->applications = array_merge($obj->applications, $appArray);
 
 echo json_encode($obj);

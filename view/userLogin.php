@@ -80,7 +80,7 @@
             ?>
             <hr>
             <?php
-            $login = YouPHPTubePlugin::getLogin();
+            $login = AVideoPlugin::getLogin();
             foreach ($login as $value) {
                 if (is_string($value) && file_exists($value)) { // it is a include path for a form
                     include $value;

@@ -115,7 +115,7 @@
 
                             });
                             player.persistvolume({
-                                namespace: "YouPHPTube"
+                                namespace: "AVideo"
                             });
                             player.on('play', function () {
                                 addView(<?php echo $video['id']; ?>, this.currentTime());
@@ -148,9 +148,9 @@
                 </div>
                 <?php
             } // youtube! end
-            require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+            require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 // the live users plugin
-            if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+            if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 
                 require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
                 $style = VideoLogoOverlay::getStyle();

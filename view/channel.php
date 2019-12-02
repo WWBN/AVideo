@@ -26,7 +26,7 @@ if (empty($_GET['channelName'])) {
 }
 $user_id = $_GET['user_id'];
 $isMyChannel = $user_id == User::getId();
-YouPHPTubePlugin::getChannel($user_id, $user);
+AVideoPlugin::getChannel($user_id, $user);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

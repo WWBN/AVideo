@@ -203,7 +203,7 @@ class VastCampaigns extends ObjectYPT {
     static public function getValidCampaigns() {
         global $global;
 
-        $ad_server_location = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server_Location');
+        $ad_server_location = AVideoPlugin::loadPluginIfEnabled('AD_Server_Location');
         $sql = "SELECT * from " . static::getTableName() . " vc  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cpm_current_prints ";
         if(!empty($ad_server_location) && !empty($_SESSION['User_Location']) && $_SESSION['User_Location']['country_name'] !== '-'){
             // show only campaign for the user location
@@ -233,7 +233,7 @@ class VastCampaigns extends ObjectYPT {
 
     static function getAll() {
         global $global;
-        $ad_server_location = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server_Location');
+        $ad_server_location = AVideoPlugin::loadPluginIfEnabled('AD_Server_Location');
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 
         $sql .= self::getSqlFromPost();

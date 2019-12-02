@@ -36,25 +36,25 @@
     - name: remove test database
       mysql_db: db=test state=absent
 
-    - name: create youPHPtube database
-      mysql_db: db=youPHPTube state=present
+    - name: create aVideo database
+      mysql_db: db=aVideo state=present
 
-    - name: create user youphptube
+    - name: create user avideo
       mysql_user: 
-        name: youphptube
+        name: avideo
         password: passw0rd
-        priv: 'youPHPTube.*:ALL,GRANT'
+        priv: 'aVideo.*:ALL,GRANT'
         host: localhost
         state: present
 
-    - name: create youPHPTubeEncoder database
-      mysql_db: db=youPHPTube-Encoder state=present
+    - name: create aVideoEncoder database
+      mysql_db: db=aVideo-Encoder state=present
 
-    - name: create user youPHPTubeEncoder
+    - name: create user aVideoEncoder
       mysql_user: 
-        name: youphptubeencoder
+        name: avideoencoder
         password: passw0rd
-        priv: 'youPHPTube-Encoder.*:ALL,GRANT'      
+        priv: 'aVideo-Encoder.*:ALL,GRANT'      
         host: localhost
         state: present
 
@@ -74,16 +74,16 @@
         - libimage-exiftool-perl
         - python
 
-    - name: get youPHPtube
+    - name: get aVideo
       git:
-        repo: https://github.com/DanielnetoDotCom/YouPHPTube.git
-        dest: /var/www/html/YouPHPTube
+        repo: https://github.com/WWBN/AVideo.git
+        dest: /var/www/html/AVideo
         clone: yes
 
-    - name: get youPHPTubeEncoder
+    - name: get aVideoEncoder
       git:
-        repo: https://github.com/DanielnetoDotCom/YouPHPTube-Encoder.git
-        dest: /var/www/html/YouPHPTube-Encoder
+        repo: https://github.com/WWBN/AVideo-Encoder.git
+        dest: /var/www/html/AVideo-Encoder
         clone: yes
     
     - name: get youtube-dl and set rights
@@ -95,17 +95,17 @@
         - a2enmod rewrite
       notify: restart apache
 
-    - name: create folder videos in youPHPtube
+    - name: create folder videos in aVideo
       file:
-        path: /var/www/html/YouPHPTube/videos
+        path: /var/www/html/AVideo/videos
         state: directory
         owner: www-data
         group: www-data
         mode: 0755
 
-    - name: create folder videos in youPHPTubeEncoder
+    - name: create folder videos in aVideoEncoder
       file:
-        path: /var/www/html/YouPHPTube-Encoder/videos
+        path: /var/www/html/AVideo-Encoder/videos
         state: directory
         owner: www-data
         group: www-data

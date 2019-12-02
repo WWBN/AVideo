@@ -54,7 +54,7 @@ $user->setCanUpload($config->getAuthCanUploadVideos());
 $users_id = $user->save();
 
 if (!empty($users_id)) {
-    YouPHPTubePlugin::onUserSignup($users_id);
+    AVideoPlugin::onUserSignup($users_id);
 }
 
 echo '{"status":"' . $users_id . '"}';

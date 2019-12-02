@@ -18,7 +18,7 @@ header('Content-Type: application/json');
 
 $allowed = Video::$types;
 
-$advancedCustom = YouPHPTubePlugin::getObjectDataIfEnabled("CustomizeAdvanced");
+$advancedCustom = AVideoPlugin::getObjectDataIfEnabled("CustomizeAdvanced");
 
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
@@ -89,11 +89,11 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         /**
          * This is when is using in a non uploaded movie
          */
-        $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
+        $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
         $tmp_name = $_FILES['upl']['tmp_name'];
         $filenameMP4 = $filename . "." . $extension;
         decideMoveUploadedToVideos($tmp_name, $filenameMP4);
-        if ((YouPHPTubePlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) && ($extension == "mp4" || $extension == "webm")) {
+        if ((AVideoPlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) && ($extension == "mp4" || $extension == "webm")) {
             require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
 
             $videoFileName = $video->getFilename();
@@ -111,7 +111,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         
 
         if(!empty($_FILES['upl']['tmp_name'])){
-            YouPHPTubePlugin::afterNewVideo($obj->videos_id);
+            AVideoPlugin::afterNewVideo($obj->videos_id);
         }
         die(json_encode($obj));
     }

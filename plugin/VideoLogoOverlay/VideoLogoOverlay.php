@@ -33,7 +33,7 @@ class VideoLogoOverlay extends PluginAbstract {
     }
 
     static function getStyle() {
-        $obj = YouPHPTubePlugin::getObjectData("VideoLogoOverlay");
+        $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
 
         "position: absolute; top: 0; left: 0; opacity: 0.5; filter: alpha(opacity=50);";
         $opacity = "opacity: " . ($obj->opacity / 100) . "; filter: alpha(opacity={$obj->opacity});pointer-events:none; ";
@@ -66,7 +66,7 @@ class VideoLogoOverlay extends PluginAbstract {
     }
     
     static function getLink() {
-        $obj = YouPHPTubePlugin::getObjectData("VideoLogoOverlay");
+        $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
         if(!empty($obj->url)){
             $url = $obj->url;
         }else{

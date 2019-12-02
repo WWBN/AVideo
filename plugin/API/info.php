@@ -9,12 +9,12 @@ if (!User::isAdmin()) {
 }
 
 require_once $global['systemRootPath'] . 'plugin/API/API.php';
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("API");
+$plugin = AVideoPlugin::loadPluginIfEnabled("API");
 if (empty($plugin)) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
     exit;
 }
-$obj = YouPHPTubePlugin::getObjectData("API");
+$obj = AVideoPlugin::getObjectData("API");
 $reflector = new ReflectionClass('API');
 ?>
 <!DOCTYPE html>

@@ -75,7 +75,7 @@ class sqlDAL {
         // make sure it does not store autid transactions
         $debug = debug_backtrace();
         if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
-            $audit = YouPHPTubePlugin::loadPluginIfEnabled('Audit');
+            $audit = AVideoPlugin::loadPluginIfEnabled('Audit');
             if (!empty($audit)) {
                 $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
             }

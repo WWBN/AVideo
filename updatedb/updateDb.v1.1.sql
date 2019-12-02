@@ -5,7 +5,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- version 1.1
 ALTER TABLE `configurations` 
 CHARACTER SET = utf8 , COLLATE = utf8_general_ci ,
-ADD COLUMN `webSiteTitle` VARCHAR(45) NOT NULL DEFAULT 'YouPHPTube' AFTER `version`,
+ADD COLUMN `webSiteTitle` VARCHAR(45) NOT NULL DEFAULT 'AVideo' AFTER `version`,
 ADD COLUMN `language` VARCHAR(6) NOT NULL DEFAULT 'en' AFTER `webSiteTitle`,
 ADD COLUMN `contactEmail` VARCHAR(45) NOT NULL AFTER `language`,
 CHANGE COLUMN `modified` `modified` DATETIME NOT NULL DEFAULT now() AFTER `contactEmail`,

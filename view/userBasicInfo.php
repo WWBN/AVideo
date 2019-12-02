@@ -13,7 +13,7 @@
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input  id="inputUser" placeholder="<?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail)?"text":"email"?>" value="<?php echo $user->getUser(); ?>" required <?php echo (YouPHPTubePlugin::isEnabledByName("LoginLDAP") || empty($advancedCustomUser->userCanChangeUsername))?"readonly":""; ?>  >
+            <input  id="inputUser" placeholder="<?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail)?"text":"email"?>" value="<?php echo $user->getUser(); ?>" required <?php echo (AVideoPlugin::isEnabledByName("LoginLDAP") || empty($advancedCustomUser->userCanChangeUsername))?"readonly":""; ?>  >
         </div>
     </div>
 </div>
@@ -90,7 +90,7 @@
     <label class="col-md-4 control-label"><?php echo __("Channel Name"); ?></label>
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
-            <span class="input-group-addon"><i class="fab fa-youtube"></i></span>
+            <span class="input-group-addon"><i class="fas fa-play-circle"></i></span>
             <input  id="channelName" placeholder="<?php echo __("Channel Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getChannelName(); ?>" >
         </div>
     </div>
@@ -125,7 +125,7 @@
 </div>
 
 <?php
-YouPHPTubePlugin::getMyAccount(User::getId());
+AVideoPlugin::getMyAccount(User::getId());
 ?>
 
 <div class="form-group">

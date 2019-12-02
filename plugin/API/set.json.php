@@ -9,8 +9,8 @@ require_once $configFile;
 require_once $global['systemRootPath'].'plugin/API/API.php';
 header('Content-Type: application/json');
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("API");
-$objData = YouPHPTubePlugin::getObjectDataIfEnabled("API");
+$plugin = AVideoPlugin::loadPluginIfEnabled("API");
+$objData = AVideoPlugin::getObjectDataIfEnabled("API");
 
 if(empty($plugin)){
     $obj = new ApiObject("API Plugin disabled");

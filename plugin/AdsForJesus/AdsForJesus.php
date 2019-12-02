@@ -57,7 +57,7 @@ class AdsForJesus extends PluginAbstract {
         if (!empty($_GET['videoName'])) {
             if (empty($_GET['u'])) {
                 $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-                $showAds = YouPHPTubePlugin::showAds($video['id']);
+                $showAds = AVideoPlugin::showAds($video['id']);
                 if (!$showAds) {
                     return "";
                 }
@@ -75,7 +75,7 @@ class AdsForJesus extends PluginAbstract {
         if (!empty($_GET['videoName'])) {
             if (empty($_GET['u'])) {
                 $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-                $showAds = YouPHPTubePlugin::showAds($video['id']);
+                $showAds = AVideoPlugin::showAds($video['id']);
                 if (!$showAds) {
                     return "";
                 }

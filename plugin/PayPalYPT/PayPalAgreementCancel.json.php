@@ -22,7 +22,7 @@ if(!User::isAdmin() && !Subscription::isAgreementFromUser($_POST['agreement_id']
     die(json_encode($obj));
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
 $agreement = PayPalYPT::cancelAgreement($_POST['agreement_id']);
 

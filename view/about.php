@@ -22,7 +22,7 @@ if(!isset($global['systemRootPath'])){
             <div class="bgWhite">
                 <?php
                 $custom = "";
-                if (YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+                if (AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
                     require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
                     $ec = new ExtraConfig();
                     $custom = $ec->getAbout();
@@ -35,12 +35,12 @@ if(!isset($global['systemRootPath'])){
                     <footer class="blockquote-footer">Apostle Paul in <cite title="Source Title">Romans 11:36</cite></footer>
                 </blockquote>
                 <div class="btn-group btn-group-justified">
-                    <a href="https://www.youphptube.com/" class="btn btn-success">Main Site</a>
-                    <a href="https://demo.youphptube.com/" class="btn btn-danger">Demo Site</a>
-                    <a href="https://tutorials.youphptube.com/" class="btn btn-primary">Tutorials Site</a>
-                    <a href="https://github.com/DanielnetoDotCom/YouPHPTube/issues" class="btn btn-warning">Issues and requests Site</a>
+                    <a href="https://www.avideo.com/" class="btn btn-success">Main Site</a>
+                    <a href="https://demo.avideo.com/" class="btn btn-danger">Demo Site</a>
+                    <a href="https://tutorials.avideo.com/" class="btn btn-primary">Tutorials Site</a>
+                    <a href="https://github.com/WWBN/AVideo/issues" class="btn btn-warning">Issues and requests Site</a>
                 </div>
-                <span class="label label-success"><?php printf(__("You are running YouPHPTube version %s!"), $config->getVersion()); ?></span>
+                <span class="label label-success"><?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?></span>
 
                 <span class="label label-success">
                     <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>

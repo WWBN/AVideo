@@ -8,7 +8,7 @@ class PredefinedCategory extends PluginAbstract {
 
     public function getDescription() {
         $txt = "Choose what category the video goes when upload, encode or embed";
-        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/PredefinedCategory-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/PredefinedCategory-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt.$help;
     }
 
@@ -43,7 +43,7 @@ class PredefinedCategory extends PluginAbstract {
     public function getCategoryId() {
         global $global;       
         require_once $global['systemRootPath'] . 'objects/user.php';
-        $obj = YouPHPTubePlugin::getObjectDataIfEnabled("PredefinedCategory");
+        $obj = AVideoPlugin::getObjectDataIfEnabled("PredefinedCategory");
         $id = $obj->defaultCategory;
         if(User::canUpload()){
             $user_id = User::getId();

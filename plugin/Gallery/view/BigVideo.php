@@ -104,7 +104,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             </div>
                         <?php } ?>
                         <?php
-                        echo YouPHPTubePlugin::getGalleryActionButton($video['id']);
+                        echo AVideoPlugin::getGalleryActionButton($video['id']);
                         ?>
                         <?php
                         if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {

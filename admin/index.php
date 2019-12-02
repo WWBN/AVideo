@@ -51,7 +51,7 @@ $itens[] = $menu;
 
 
 $menu = new MenuAdmin(__("Contents"), "fas fa-list-ul");
-$menu->addItem(new MenuAdmin(__("Videos"), "fab fa-youtube", "videos"));
+$menu->addItem(new MenuAdmin(__("Videos"), "fas fa-play-circle", "videos"));
 $menu->addItem(new MenuAdmin(__("Live Stuff"), "fas fa-broadcast-tower", "live"));
 $menu->addItem(new MenuAdmin(__("Users"), "glyphicon glyphicon-user", "users"));
 $menu->addItem(new MenuAdmin(__("Users Groups"), "fa fa-users", "usersGroups"));
@@ -265,7 +265,7 @@ switch ($_GET['page']) {
                                     ?>
                                     <div class="alert alert-danger">
                                         Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store 
-                                        <a class="btn btn-danger" href="https://www.youphptube.com/plugins/">Plugin Store</a>
+                                        <a class="btn btn-danger" href="https://www.avideo.com/plugins/">Plugin Store</a>
                                     </div>    
                                     <?php
                                 }
@@ -277,7 +277,7 @@ switch ($_GET['page']) {
                                 ?>
                                 <div class="alert alert-danger">
                                     Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store 
-                                    <a class="btn btn-danger" href="https://www.youphptube.com/plugins/">Plugin Store</a>
+                                    <a class="btn btn-danger" href="https://www.avideo.com/plugins/">Plugin Store</a>
                                 </div>    
                                 <?php
                             }

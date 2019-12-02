@@ -97,7 +97,7 @@
                                 </div>
                             </li>
                             <?php
-                            print YouPHPTubePlugin::getUserOptions();
+                            print AVideoPlugin::getUserOptions();
                             ?>
                         </ul>
                         <ul class="list-group">
@@ -247,7 +247,7 @@
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                     var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Info"><i class="fas fa-info-circle"></i></button>'
                     //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
-                    var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getUsersManagerListButton(); ?>';
+                    var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
                     return editBtn + infoBtn+pluginsButtons;
                 },
                 "tags": function (column, row) {
@@ -295,7 +295,7 @@
                 $('#status').prop('checked', (row.status === "a" ? true : false));
                 $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
 <?php
-print YouPHPTubePlugin::loadUsersFormJS();
+print AVideoPlugin::loadUsersFormJS();
 ?>
 
                 $('#userFormModal').modal();
@@ -337,7 +337,7 @@ print YouPHPTubePlugin::loadUsersFormJS();
             $('#status').prop('checked', true);
             $('#isEmailVerified').prop('checked', false);
 <?php
-print YouPHPTubePlugin::addUserBtnJS();
+print AVideoPlugin::addUserBtnJS();
 ?>
             $('#userFormModal').modal();
         });
@@ -363,7 +363,7 @@ print YouPHPTubePlugin::addUserBtnJS();
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/userAddNew.json.php',
                         data: {
 <?php
-print YouPHPTubePlugin::updateUserFormJS();
+print AVideoPlugin::updateUserFormJS();
 ?>
                         "id": $('#inputUserId').val(),
                                 "user": $('#inputUser').val(),

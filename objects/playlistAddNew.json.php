@@ -8,7 +8,7 @@ if(!isset($global['systemRootPath'])){
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
+$plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
 
 if(empty($plugin)){
     die('{"error":"Plugin not enabled"}');

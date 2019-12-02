@@ -27,7 +27,7 @@ unset($_POST['rowCount']);
 unset($_POST['current']);
 
 $get = array('channelName' => $_GET['channelName']);
-$palyListsObj = YouPHPTubePlugin::getObjectDataIfEnabled('PlayLists');
+$palyListsObj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 ?>
 <!-- <?php var_dump($uploadedTotalVideos, $user_id, !isToHidePrivateVideos()); ?> -->
 <div class="bgWhite list-group-item gallery clear clearfix" >
@@ -71,7 +71,7 @@ $palyListsObj = YouPHPTubePlugin::getObjectDataIfEnabled('PlayLists');
             } else {
                 echo __("My videos");
             }
-            echo YouPHPTubePlugin::getChannelButton();
+            echo AVideoPlugin::getChannelButton();
             ?>
         </div>
         <div class="panel-body">

@@ -26,7 +26,7 @@ if (!User::isLogged()) {
     die(json_encode($resp));
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('ReportVideo');
+$plugin = AVideoPlugin::loadPluginIfEnabled('ReportVideo');
 
 if (empty($plugin)) {
     $resp->msg = "Plugin not enabled";

@@ -135,7 +135,7 @@ class Live extends PluginAbstract {
     }
     
     public function getChartTabs() {
-        return '<li><a data-toggle="tab" id="liveVideos" href="#liveVideosMenu"><i class="fab fa-youtube"></i> Live videos</a></li>';
+        return '<li><a data-toggle="tab" id="liveVideos" href="#liveVideosMenu"><i class="fas fa-play-circle"></i> Live videos</a></li>';
     }
     
     public function getChartContent() {

@@ -4,11 +4,11 @@
     <div class="panel-heading">Customize Footer, About and Meta Description <div class="pull-right"><?php echo getPluginSwitch('Customize'); ?></div></div>
     <div class="panel-body">
         <?php
-        if (!YouPHPTubePlugin::exists('Customize')) {
+        if (!AVideoPlugin::exists('Customize')) {
             ?>
             <div class="alert alert-info">
-                Truly customize your YouPHPTube and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.
-                <a class="btn btn-info btn-sm btn-xs" href="https://www.youphptube.com/plugins/">Buy the Customize plugin now</a>
+                Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.
+                <a class="btn btn-info btn-sm btn-xs" href="https://www.avideo.com/plugins/">Buy the Customize plugin now</a>
             </div>  
             <?php
             return false;

@@ -263,7 +263,7 @@ class StripeYPT extends PluginAbstract {
         }
         global $global;
         $users_id = User::getId();
-        $obj = YouPHPTubePlugin::getObjectData('StripeYPT');
+        $obj = AVideoPlugin::getObjectData('StripeYPT');
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
         $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
         foreach ($costumer->subscriptions->data as $value) {
@@ -283,7 +283,7 @@ class StripeYPT extends PluginAbstract {
             return false;
         }
         $subs = new SubscriptionPlansTable($plans_id);
-        $obj = YouPHPTubePlugin::getObjectData('YPTWallet');
+        $obj = AVideoPlugin::getObjectData('YPTWallet');
 
         if (empty($subs)) {
             error_log("setUpSubscription: Plan not found");
@@ -360,7 +360,7 @@ class StripeYPT extends PluginAbstract {
         if (!is_object($payload) || empty($payload->data->object->customer)) {
             return false;
         }
-        $pluginS = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+        $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
         $plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
         $payment_amount = StripeYPT::addDot($payload->data->object->amount);
         $users_id = @$plan['users_id'];

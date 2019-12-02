@@ -17,7 +17,7 @@ if (empty($_POST['agreement_id'])) {
     die(json_encode($obj));
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
 $agreement = PayPalYPT::getBillingAgreement($_POST['agreement_id']);
 

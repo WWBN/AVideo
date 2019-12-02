@@ -120,7 +120,7 @@ class VideoTags extends PluginAbstract {
 
     static function getTagsInput($tagTypesId) {
         global $global;
-        $obj = YouPHPTubePlugin::getObjectData("VideoTags");
+        $obj = AVideoPlugin::getObjectData("VideoTags");
         $str = '<input type="text" value="" id="inputTags' . $tagTypesId . '"/>
                 <script>
                 $(document).ready(function () {
@@ -156,7 +156,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
     }
 
     static function canCreateTag() {
-        $obj = YouPHPTubePlugin::getObjectData("VideoTags");
+        $obj = AVideoPlugin::getObjectData("VideoTags");
         if (empty($obj->onlyAdminCanCreateTags)) {
             return true;
         }

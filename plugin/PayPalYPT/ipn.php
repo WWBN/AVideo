@@ -8,9 +8,9 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 error_log("PayPalIPN Start");
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
-$walletObject = YouPHPTubePlugin::getObjectData("YPTWallet");
-$paypal = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+$walletObject = AVideoPlugin::getObjectData("YPTWallet");
+$paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
 $ipn = PayPalYPT::IPNcheck();
 if(!$ipn){
@@ -37,7 +37,7 @@ if(empty($_POST["recurring_payment_id"])){
     }
 }else{
     // check for the recurrement payment
-    $subscription = YouPHPTubePlugin::loadPluginIfEnabled("Subscription");
+    $subscription = AVideoPlugin::loadPluginIfEnabled("Subscription");
     if(!empty($subscription)){
         $row = Subscription::getFromAgreement($_POST["recurring_payment_id"]);
         $users_id = $row['users_id']; 

@@ -94,7 +94,7 @@ if (!class_exists('Video')) {
                 $obj->videos_statistics_id = VideoStatistic::create($this->id, $currentTime);
                 $obj->videos_id = $this->id;
                 $this->views_count++;
-                YouPHPTubePlugin::addView($this->id, $this->views_count);
+                AVideoPlugin::addView($this->id, $this->views_count);
                 return $obj;
             } else {
                 die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -187,7 +187,7 @@ if (!class_exists('Video')) {
             }
 
             if (empty($this->categories_id)) {
-                $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
+                $p = AVideoPlugin::loadPluginIfEnabled("PredefinedCategory");
                 $category = Category::getCategoryDefault();
                 $categories_id = $category['id'];
                 if (empty($categories_id)) {
@@ -270,7 +270,7 @@ if (!class_exists('Video')) {
                     $this->id = $id;
 
 // check if needs to add the video in a user group
-                    $p = YouPHPTubePlugin::loadPluginIfEnabled("PredefinedCategory");
+                    $p = AVideoPlugin::loadPluginIfEnabled("PredefinedCategory");
                     if ($p) {
                         $updateVideoGroups = true;
                         $this->videoGroups = $p->getUserGroupsArray();
@@ -589,7 +589,7 @@ if (!class_exists('Video')) {
             }
             $status = str_replace("'", "", $status);
             $id = intval($id);
-            if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+            if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
                 }
@@ -619,7 +619,7 @@ if (!class_exists('Video')) {
             if (!empty($id)) {
                 $sql .= " AND v.id = '$id' ";
             }
-            $sql .= YouPHPTubePlugin::getVideoWhereClause();
+            $sql .= AVideoPlugin::getVideoWhereClause();
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
@@ -661,7 +661,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
                     $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), "OR");
@@ -671,7 +671,7 @@ if (!class_exists('Video')) {
                 }
             }
             if (!$ignoreGroup) {
-                $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
+                $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
                 if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
                     $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
                 }
@@ -711,7 +711,7 @@ if (!class_exists('Video')) {
                         $video['externalOptions'] = new stdClass();
                     }
 
-                    if (!$ignoreTags && YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                    if (!$ignoreTags && AVideoPlugin::isEnabledByName("VideoTags")) {
                         $video['videoTags'] = Tags::getAllFromVideosId($video['id']);
                         $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['id']);
                     }
@@ -804,7 +804,7 @@ if (!class_exists('Video')) {
                 return false;
             }
 
-            if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+            if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
                 }
@@ -840,7 +840,7 @@ if (!class_exists('Video')) {
 
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
-                $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
+                $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
                 if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
                     $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
                 }
@@ -884,7 +884,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
                     $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), "OR");
@@ -894,7 +894,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            $sql .= YouPHPTubePlugin::getVideoWhereClause();
+            $sql .= AVideoPlugin::getVideoWhereClause();
             if (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
             } else {
@@ -946,7 +946,7 @@ if (!class_exists('Video')) {
                     $row['tags'] = self::getTags($row['id']);
                     $row['title'] = UTF8encode($row['title']);
                     $row['description'] = UTF8encode($row['description']);
-                    $row = array_merge($row, YouPHPTubePlugin::getAllVideosArray($row['id']));
+                    $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
                     $videos[] = $row;
                 }
 //$videos = $res->fetch_all(MYSQLI_ASSOC);
@@ -1027,7 +1027,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id = '{$user['id']}' ";
             }
 
-            $sql .= YouPHPTubePlugin::getVideoWhereClause();
+            $sql .= AVideoPlugin::getVideoWhereClause();
 
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
@@ -1092,7 +1092,7 @@ if (!class_exists('Video')) {
                 }
             }
             if (!$ignoreGroup) {
-                $arrayNotIN = YouPHPTubePlugin::getAllVideosExcludeVideosIDArray();
+                $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
                 if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
                     $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
                 }
@@ -1103,7 +1103,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id = '{$uid}' ";
             }
 
-            $sql .= YouPHPTubePlugin::getVideoWhereClause();
+            $sql .= AVideoPlugin::getVideoWhereClause();
 
             $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name'));
 
@@ -1298,10 +1298,10 @@ if (!class_exists('Video')) {
             if ($resp == false) {
                 die('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             } else {
-                $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
-                $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
-                $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
-                $YPTStorage = YouPHPTubePlugin::loadPluginIfEnabled('YPTStorage');
+                $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
+                $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
+                $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
+                $YPTStorage = AVideoPlugin::loadPluginIfEnabled('YPTStorage');
                 if (!empty($aws_s3)) {
                     $aws_s3->removeFiles($video['filename']);
                 }
@@ -1416,7 +1416,7 @@ if (!class_exists('Video')) {
         function setDescription($description) {
             global $global, $advancedCustom;
             if (empty($advancedCustom->disableHTMLDescription)) {
-                $articleObj = YouPHPTubePlugin::getObjectData('Articles');
+                $articleObj = AVideoPlugin::getObjectData('Articles');
                 require_once $global['systemRootPath'] . 'objects/htmlpurifier/HTMLPurifier.auto.php';
                 $configPuri = HTMLPurifier_Config::createDefault();
                 $purifier = new HTMLPurifier($configPuri);
@@ -1514,7 +1514,7 @@ if (!class_exists('Video')) {
         }
 
         static function getHLSDurationFromFile($file) {
-            $plugin = YouPHPTubePlugin::loadPluginIfEnabled("VideoHLS");
+            $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
             if (empty($plugin)) {
                 return 0;
             }
@@ -1522,7 +1522,7 @@ if (!class_exists('Video')) {
         }
 
         function updateHLSDurationIfNeed() {
-            $plugin = YouPHPTubePlugin::loadPluginIfEnabled("VideoHLS");
+            $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
             if (empty($plugin)) {
                 return false;
             }
@@ -1802,7 +1802,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            $tags = array_merge($tags, YouPHPTubePlugin::getVideoTags($video_id));
+            $tags = array_merge($tags, AVideoPlugin::getVideoTags($video_id));
             //var_dump($tags);
             return $tags;
         }
@@ -2103,7 +2103,7 @@ if (!class_exists('Video')) {
                 "notifyURL" => "{$global['webSiteRootURL']}"
             );
 
-            if (YouPHPTubePlugin::isEnabledByName("VideoHLS")) {
+            if (AVideoPlugin::isEnabledByName("VideoHLS")) {
                 $postFields['inputHLS'] = 1;
             }
 
@@ -2180,9 +2180,9 @@ if (!class_exists('Video')) {
             }
 
             if (empty($videosPaths[$filename][$type][intval($includeS3)])) {
-                $aws_s3 = YouPHPTubePlugin::loadPluginIfEnabled('AWS_S3');
-                $bb_b2 = YouPHPTubePlugin::loadPluginIfEnabled('Blackblaze_B2');
-                $ftp = YouPHPTubePlugin::loadPluginIfEnabled('FTP_Storage');
+                $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
+                $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
+                $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
                 if (!empty($aws_s3)) {
                     $aws_s3_obj = $aws_s3->getDataObject();
                     if (!empty($aws_s3_obj->useS3DirectLink)) {
@@ -2197,7 +2197,7 @@ if (!class_exists('Video')) {
                     $includeS3 = true;
                 }
                 $token = "";
-                $secure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+                $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
                 if (!empty($secure) && ($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf")) {
                     $token = "?" . $secure->getToken($filename);
                 }
@@ -2262,7 +2262,7 @@ if (!class_exists('Video')) {
             $types = array('', '_Low', '_SD', '_HD');
             $videos = array();
 
-            $plugin = YouPHPTubePlugin::loadPluginIfEnabled("VideoHLS");
+            $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
             if (!empty($plugin)) {
                 $videos = VideoHLS::getSourceFile($filename, $includeS3);
             }

@@ -8,8 +8,8 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
-$pluginS = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
+$pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $objS = $pluginS->getDataObject();
 
 $obj= new stdClass();
@@ -39,7 +39,7 @@ if(empty($paymentName)){
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
 $payment = $plugin->setUpSubscription($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $price, $objS->currency, "Day",$interval, $paymentName);
 if (!empty($payment)) {
-    if(YouPHPTubePlugin::isEnabledByName('Subscription')){
+    if(AVideoPlugin::isEnabledByName('Subscription')){
         // create a subscription here
         Subscription::getOrCreateSubscription(User::getId(), $_POST['plans_id'] , $payment->getId());
     }
