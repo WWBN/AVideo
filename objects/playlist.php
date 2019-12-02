@@ -173,8 +173,8 @@ class PlayList extends ObjectYPT {
                 $row['description'] = UTF8encode($row['description']);
                 $row['tags'] = Video::getTags($row['videos_id']);
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
-                    $video['videoTags'] = Tags::getAllFromVideosId($video['videos_id']);
-                    $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['videos_id']);
+                    $row['videoTags'] = Tags::getAllFromVideosId($video['videos_id']);
+                    $row['videoTagsObject'] = Tags::getObjectFromVideosId($video['videos_id']);
                 }
                 if ($SubtitleSwitcher) {
                     $row['subtitles'] = getVTTTracks($row['filename'], true);
