@@ -1,3 +1,6 @@
+# Important Information: We are updating our video system. It is important that your video system and plugins are up to date (> 2019-12-02). The plugins did not work with the system before 8.0 and the 8.0 system did not work with the new system.
+
+
 ### If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://www.avideo.com/" target="_blank">official site</a>
 
 * <a href="https://netflix.avideo.com/" target="_blank">Netflix demo page</a>
