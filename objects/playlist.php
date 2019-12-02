@@ -171,7 +171,7 @@ class PlayList extends ObjectYPT {
                 $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
                 $row['title'] = UTF8encode($row['title']);
                 $row['description'] = UTF8encode($row['description']);
-                $row['tags'] = self::getTags($row['id']);
+                $row['tags'] = Video::getTags($row['id']);
                 if ($SubtitleSwitcher) {
                     $row['subtitles'] = getVTTTracks($row['filename'], true);
                 }
