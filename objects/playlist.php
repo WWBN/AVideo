@@ -150,8 +150,7 @@ class PlayList extends ObjectYPT {
         
         $sort = @$_POST['sort'];
         $_POST['sort'] = array();
-        $_POST['sort']['p.`order`'] = 'ASC';
-        
+        $_POST['sort']['p.`order`'] = 'ASC';        
         $sql .= self::getSqlFromPost();
         $_POST['sort'] = $sort;
         $res = sqlDAL::readSql($sql, "i", array($playlists_id));
