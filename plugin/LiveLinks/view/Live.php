@@ -4,8 +4,8 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('LiveLinks');
-$p = YouPHPTubePlugin::loadPluginIfEnabled('Live');
+$plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
+$p = AVideoPlugin::loadPluginIfEnabled('Live');
 
 if(empty($plugin)){
     die('Plugin disabled');
@@ -30,7 +30,9 @@ $t['description'] = $liveLink->getDescription();
 $u = new User($t['users_id']);
 $user_id = $u->getBdId();
 $subscribe = Subscribe::getButton($user_id);
-$name = $u->getNameIdentificationBd() .' '. User::getEmailVerifiedIcon($user_id);
+$name = $u->getNameIdentificationBd();
+$name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
+
 $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
 
 $img = "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?link={$_GET['link']}&format=jpg";
