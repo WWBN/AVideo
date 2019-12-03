@@ -1207,10 +1207,11 @@ if (typeof gtag !== \"function\") {
 
     function setRecoverPass($recoverPass) {
         // let the same recover pass if it was 10 minutes ago
-        if(!empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")){
-            return false;
+        if(!empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")){
+            return $this->recoverPass;
         }
         $this->recoverPass = $recoverPass;
+        return $this->recoverPass;
     }
 
     static function canUpload() {
@@ -1468,7 +1469,7 @@ if (typeof gtag !== \"function\") {
         $obj->salt = hash('sha256', $global['salt']);
 
         $user = new User($users_id);
-        $user->setRecoverPass($obj->recoverPass);
+        $obj->recoverPass = $user->setRecoverPass($obj->recoverPass);
         $user->save();
 
         return base64_encode(json_encode($obj));
