@@ -151,8 +151,7 @@
     RewriteRule    ^addNewVideo$ objects/videoAddNew.json.php    [NC,L]
     RewriteRule    ^refreshVideo$ objects/videoRefresh.json.php    [NC,L]
     RewriteRule    ^setStatusVideo$ objects/videoStatus.json.php    [NC,L]
-    RewriteRule    ^setCategoryVideo$ objects/videoCategory.json.php    [NC,L]
-    RewriteRule    ^reencodeVideo$ objects/videoReencode.json.php    [NC,L]
+    RewriteRule    ^setCategoryVideo$ objects/videoCategory.json.php    [NC,L]s
     RewriteRule    ^rotateVideo$ objects/videoRotate.json.php    [NC,L]
 
 
