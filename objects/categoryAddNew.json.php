@@ -11,7 +11,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 if(!Category::canCreateCategory()){
     die('{"error":"'.__("Permission denied").'"}');
 }
-$obj = new Category(@$_POST['id']);
+$obj = new Category(intval(@$_POST['id']));
 $obj->setName($_POST['name']);
 $obj->setClean_name($_POST['clean_name']);
 $obj->setDescription(nl2br ($_POST['description']));

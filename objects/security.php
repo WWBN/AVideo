@@ -2,10 +2,39 @@
 
 require_once $global['systemRootPath'] . 'objects/functions.php';
 // filter some security here
-$securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link');
+$securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region');
 $securityFilterInt = array('videos_id', 'video_id', 'categories_id', 'user_id', 'users_id', 'comments_id');
 $securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName');
+$securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
 
+if(!empty($_FILES['video']['name'])){
+    $_FILES['video']['name'] = preg_replace( '/[^a-z0-9.]/i', '', $_FILES['video']['name']);
+}
+
+foreach ($securityRemoveNonChars as $value) {
+    if (!empty($_POST[$value])) {
+        if (is_string($_POST[$value])) {
+            $_POST[$value] = replace( '/[^a-z0-9./]/i', '', trim($_POST[$value]));
+        } else if (is_array($_POST[$value])) {
+            foreach ($_POST[$value] as $key => $value) {
+                if (is_string($_POST[$value][$key])) {
+                    $_POST[$value][$key] = replace( '/[^a-z0-9./]/i', '', trim($_POST[$value][$key]));
+                }
+            }
+        }
+    }
+    if (!empty($_GET[$value])) {
+        if (is_string($_GET[$value])) {
+            $_GET[$value] = replace( '/[^a-z0-9./]/i', '', trim($_GET[$value]));
+        } else if (is_array($_GET[$value])) {
+            foreach ($_GET[$value] as $key => $value) {
+                if (is_string($_GET[$value][$key])) {
+                    $_GET[$value][$key] = replace( '/[^a-z0-9./]/i', '', trim($_GET[$value][$key]));
+                }
+            }
+        }
+    }
+}
 
 foreach ($securityRemoveSingleQuotes as $value) {
     if (!empty($_POST[$value])) {
