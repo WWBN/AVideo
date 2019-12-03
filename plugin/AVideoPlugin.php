@@ -1174,3 +1174,7 @@ class AVideoPlugin {
         return $r;
     }
 }
+
+class YouPHPTubePlugin extends AVideoPlugin{
+    
+}

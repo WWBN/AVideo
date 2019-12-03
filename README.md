@@ -51,7 +51,7 @@ Go get it <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">here<
 
 <div align="center">
 <img src="https://avideo.com/img/prints/encoder.png">
-<a href="https://encoder.avideo.com/" target="_blank">View Public Encoder</a>
+<a href="https://encoder2.avideo.com/" target="_blank">View Public Encoder</a>
 </div>
 
 # Why do I need the Encoder?

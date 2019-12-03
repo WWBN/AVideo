@@ -215,7 +215,7 @@ $t['Themes'] = "佈景主題";
 $t['There is missing data to recover your password'] = "資料不完整，無法回復您的密碼";
 $t['This e-mail will be used for this web site notifications'] = "此電子郵件將作為本網站寄發通知用的信箱";
 $t['This help us to track and dettect errors'] = "這可以幫助我們追蹤和偵測錯誤";
-$t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "此網頁僅支援 MP4，如果你需要別的格式，下載並安裝你自己的<a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>編碼伺服器</a>或使用<a href='https://encoder.avideo.com/' class='btn btn-warning btn-xs'>公共編碼伺服器</a>";
+$t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder2.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "此網頁僅支援 MP4，如果你需要別的格式，下載並安裝你自己的<a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>編碼伺服器</a>或使用<a href='https://encoder2.avideo.com/' class='btn btn-warning btn-xs'>公共編碼伺服器</a>";
 $t['This value must match with the language files on'] = "此設定值必須與翻譯文件檔相匹配";
 $t['This video will work as an advertising and will no longer appear on videos list'] = "這部影片會變成廣告而且不再表列出來";
 $t['Timeline'] = "時間軸";
