@@ -132,7 +132,7 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <a href="https://plugins.avideo.com/" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
+                <a href="https://youphp.tube/plugins/" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
             </div>
         </div>
     </li>
