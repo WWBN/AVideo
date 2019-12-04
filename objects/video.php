@@ -2252,7 +2252,7 @@ if (!class_exists('Video')) {
                 $source = $videosPaths[$filename][$type][intval($includeS3)];
             }
             if(substr($type, -4) === ".jpg" || substr($type, -4) === ".png" || substr($type, -4) === ".gif" || substr($type, -4) === ".webp"){
-                $source['url'] .= "?".filectime($source['path']);
+                $source['url'] .= "?".@filectime($source['path']);
             }
 //ObjectYPT::setCache($name, $source);
             return $source;
