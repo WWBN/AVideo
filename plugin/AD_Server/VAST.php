@@ -9,7 +9,7 @@ $obj = AVideoPlugin::getObjectData('AD_Server');
 $types = array('', '_Low', '_SD', '_HD');
 
 if(empty($_GET['campaign_has_videos_id'])){
-    $video = VastCampaignsVideos::getRandomCampainVideo(0);
+    $video = VastCampaignsVideos::getRandomCampainVideo(intval(@$_GET['campaign_id']));
     $_GET['campaign_has_videos_id'] = $video['id'];
 }
 
