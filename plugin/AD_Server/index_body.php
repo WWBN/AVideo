@@ -97,6 +97,7 @@ if (!User::isAdmin()) {
                             <table id="campaignTable" class="display" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th><?php echo __("Name"); ?></th>
                                         <th><?php echo __("Start"); ?></th>
                                         <th><?php echo __("End"); ?></th>
@@ -107,6 +108,7 @@ if (!User::isAdmin()) {
                                 </thead>
                                 <tfoot>
                                     <tr>
+                                        <th>#</th>
                                         <th><?php echo __("Name"); ?></th>
                                         <th><?php echo __("Start"); ?></th>
                                         <th><?php echo __("End"); ?></th>
@@ -431,6 +433,7 @@ if (!User::isAdmin()) {
         var tableLinks = $('#campaignTable').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/campaigns.json.php",
             "columns": [
+                {"data": "id"},
                 {"data": "name"},
                 {"data": "start_date"},
                 {"data": "end_date"},
