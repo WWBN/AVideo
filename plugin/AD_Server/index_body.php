@@ -207,12 +207,15 @@ if (!User::isAdmin()) {
     </div>
 
     <div id="btnModelLinks" style="display: none;">
-        <div class="btn-group pull-right">
-            <button href="" class="editor_add_video btn btn-success btn-xs">
+            <button href="" class="editor_add_video btn btn-success btn-xs btn-block">
                 <i class="fa fa-video"></i> Add Video
             </button>
+        <div class="btn-group pull-right">
             <button href="" class="editor_chart btn btn-info btn-xs">
                 <i class="fas fa-chart-area "></i>
+            </button>
+            <button href="" class="editor_link btn btn-default btn-xs">
+                <i class="fa fa-link"></i>
             </button>
             <button href="" class="editor_edit_link btn btn-default btn-xs">
                 <i class="fa fa-edit"></i>
@@ -558,6 +561,15 @@ if (!empty($ad_server_location)) {
 }
 ?>
             //$('#visibility').val(data.visibility);
+        });
+        
+        
+        $('#campaignTable').on('click', 'button.editor_link', function (e) {
+            e.preventDefault();
+            var tr = $(this).closest('tr')[0];
+            var data = tableLinks.row(tr).data();
+            document.location = '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id='+data.id;
+            
         });
     });
 </script>
