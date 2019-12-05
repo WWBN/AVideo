@@ -90,6 +90,10 @@ if (!User::isAdmin()) {
                             <label><?php echo __("VMAP Link"); ?>:</label>
                             <input type="text" class="form-control input-sm" readonly value="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VMAP.php" >
                         </div>
+                        <div class="form-group col-sm-6">
+                            <label><?php echo __("VAST Link"); ?>:</label>
+                            <input type="text" class="form-control input-sm" readonly value="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php" >
+                        </div>
                     </div>
                     <div class="panel panel-default ">
                         <div class="panel-heading"><?php echo __("Edit Campaigns"); ?></div>
@@ -213,9 +217,6 @@ if (!User::isAdmin()) {
         <div class="btn-group pull-right">
             <button href="" class="editor_chart btn btn-info btn-xs">
                 <i class="fas fa-chart-area "></i>
-            </button>
-            <button href="" class="editor_link btn btn-default btn-xs">
-                <i class="fa fa-link"></i>
             </button>
             <button href="" class="editor_edit_link btn btn-default btn-xs">
                 <i class="fa fa-edit"></i>
@@ -563,13 +564,5 @@ if (!empty($ad_server_location)) {
             //$('#visibility').val(data.visibility);
         });
         
-        
-        $('#campaignTable').on('click', 'button.editor_link', function (e) {
-            e.preventDefault();
-            var tr = $(this).closest('tr')[0];
-            var data = tableLinks.row(tr).data();
-            document.location = '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id='+data.id;
-            
-        });
     });
 </script>
