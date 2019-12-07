@@ -43,9 +43,7 @@ if (file_exists($path)) {
         //error_log("X-Sendfile: {$path}");
         header("X-Sendfile: {$path}");
     }
-    if (empty($_GET['download'])) {
-        header("Content-type: " . mime_content_type($path));
-    }
+    header("Content-type: " . mime_content_type($path));
     header('Content-Length: ' . filesize($path));
     if (!empty($advancedCustom->doNotUseXsendFile)) {
         echo url_get_contents($path);
