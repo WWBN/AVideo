@@ -1,6 +1,7 @@
 <?php
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/AD_Overlay/Objects/AD_Overlay_Code.php';
 
 class AD_Overlay extends PluginAbstract {
 
@@ -94,14 +95,27 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getFooterCode() {
+        
+        global $global, $video;
+        if (basename($_SERVER["SCRIPT_FILENAME"]) === 'managerUsers.php') {
+            include $global['systemRootPath'] . 'plugin/AD_Overlay/footer.php';
+        }
         if (empty($_GET['videoName']) && empty($_GET['u'])) {
             return false;
         }
         $obj = $this->getDataObject();
-        global $global;
 
+        $adText = $obj->adText->value;
+        if($obj->allowUserAds && !empty($video['id'])){
+            $v = Video::getVideoLight($video['id']);
+            $code = $this->getAdsFromUserIfActive($video['users_id']);
+            if(!empty($code)){
+                $adText = $code;
+            }
+        }
+        
         $js = '<div id="adOverlay" style="display:none;"><button class="pull-right btn" onclick="$(\'.vjs-overlay\').fadeOut();"><i class="fa fa-times"></i></button>'
-                . '<center>' . $obj->adText->value . '</center>'
+                . '<center>' . $adText . '</center>'
                 . '</div>';
 
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.js" type="text/javascript"></script>';
@@ -133,11 +147,38 @@ class AD_Overlay extends PluginAbstract {
     
     public static function profileTabName($users_id) {
         global $global;
+        if(!User::canUpload()){
+            return '';
+        }
         include $global['systemRootPath'] . 'plugin/AD_Overlay/profileTabName.php';
     }
     
     public static function profileTabContent($users_id) {
         global $global;
+        if(!User::canUpload()){
+            return '';
+        }
         include $global['systemRootPath'] . 'plugin/AD_Overlay/profileTabContent.php';
     }
+    
+    public function getUsersManagerListButton() {
+        
+        $obj = $this->getDataObject();
+        if(!empty($obj->allowUserAds)){
+            $btn = '<button type="button" class="btn btn-warning btn-light btn-sm btn-xs" onclick="adsUser(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Ad Code">Ad Code</button>';
+        }
+        return $btn;
+    }
+    
+    private function getAdsFromUserIfActive($users_id){
+        $ad = new AD_Overlay_Code(0);
+        $ad->loadFromUser($users_id);
+        if(!empty($ad->getStatus()) && $ad->getStatus()=='a'){
+            return $ad->getCode();
+        }
+        return false;
+    }
+
+    
+    
 }
