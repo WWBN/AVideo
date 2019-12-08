@@ -113,6 +113,9 @@ class AD_Overlay extends PluginAbstract {
                 $adText = $code;
             }
         }
+        if(empty(trim($code))){
+            return '';
+        }
         
         $js = '<div id="adOverlay" style="display:none;"><button class="pull-right btn" onclick="$(\'.vjs-overlay\').fadeOut();"><i class="fa fa-times"></i></button>'
                 . '<center>' . $adText . '</center>'
