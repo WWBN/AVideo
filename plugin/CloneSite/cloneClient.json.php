@@ -26,26 +26,26 @@ $log = new CloneLog();
 
 $log->add("Clone: Clone Start");
 
-$obj = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
+$objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
 
-if (empty($obj) || empty($argv[1]) || $obj->myKey !== $argv[1]) {
+if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
     if (!User::isAdmin()) {
         $resp->msg = "You cant do this";
         $log->add("Clone: {$resp->msg}");
-        echo "$obj->myKey !== $argv[1]";
+        echo "$objClone->myKey !== $argv[1]";
         die(json_encode($resp));
     }
 }
 
 
 
-if (empty($obj->cloneSiteURL)) {
+if (empty($objClone->cloneSiteURL)) {
     $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
     $log->add("Clone: {$resp->msg}");
     die(json_encode($resp));
 }
 
-$videosSite = "{$obj->cloneSiteURL}videos/";
+$videosSite = "{$objClone->cloneSiteURL}videos/";
 $videosDir = "{$global['systemRootPath']}videos/";
 $clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
@@ -58,7 +58,7 @@ if (!file_exists($photosDir)) {
     mkdir($photosDir, 0777, true);
 }
 
-$url = $obj->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . urlencode($global['webSiteRootURL']) . "&key={$obj->myKey}";
+$url = $objClone->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . urlencode($global['webSiteRootURL']) . "&key={$objClone->myKey}";
 // check if it respond
 $log->add("Clone (1 of {$totalSteps}): Asking the Server the database and the files");
 $content = url_get_contents($url);
@@ -80,7 +80,7 @@ if (!empty($json->error)) {
 $log->add("Clone: Good start! the server has answered");
 
 // get dump file
-$cmd = "wget -O {$clonesDir}{$json->sqlFile} {$obj->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
+$cmd = "wget -O {$clonesDir}{$json->sqlFile} {$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
 $log->add("Clone (2 of {$totalSteps}): Geting MySQL Dump file");
 exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
@@ -165,7 +165,7 @@ $log->add("Clone (7 of {$totalSteps}): Resotre the Clone Configuration");
 $plugin = new CloneSite();
 $p = new Plugin(0);
 $p->loadFromUUID($plugin->getUUID());
-$p->setObject_data(json_encode($obj, JSON_UNESCAPED_UNICODE));
+$p->setObject_data(json_encode($objClone, JSON_UNESCAPED_UNICODE));
 $p->save();
 
 echo json_encode($json);
