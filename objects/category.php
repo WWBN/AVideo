@@ -459,7 +459,7 @@ class Category {
             $total = empty($fullResult[0]['total']) ? 0 : intval($fullResult[0]['total']);
             $rows = self::getChildCategories($categories_id);
             foreach ($rows as $value) {
-                $total += self::getTotalVideosFromCategory($value['id']);
+                $total += self::getTotalVideosFromCategory($value['id'], $showUnlisted, $getAllVideos, $renew);
             }
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
