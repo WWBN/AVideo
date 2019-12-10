@@ -15,7 +15,7 @@
                 <th data-column-id="type" data-formatter="type"><?php echo __("Type"); ?></th>
                 <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
                 <th data-column-id="owner"><?php echo __("Owner"); ?></th>
-                <th data-column-id="total" data-sortable="false"><?php echo __("Total Videos"); ?></th>
+                <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Total Videos"); ?></th>
                 <th data-column-id="allow_download" ><?php echo __("Can Download"); ?></th>
                 <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
             </tr>
