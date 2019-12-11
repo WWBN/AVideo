@@ -1,12 +1,13 @@
+#Create Your Own Broadcast Network With AVideo Platform Open Source
 # Important Information: We are updating our video system. It is important that your video system and plugins are up to date, everything must be updated after 2019-12-02. The new plugins will not work with the system before 8.0, so if you just got plugins and your installation is old, you must update your site. 
 
 # If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 
-### If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://platfrom.avideo.com/" target="_blank">AVideo Platform Official Site</a>
+### If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>
 
-* <a href="https://flix.avideo.com/" target="_blank">AVideo Flix demo page</a>
-  - We provide you a Netflix site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
+* <a href="https://flix.avideo.com/" target="_blank">AVideo Flix demo site</a>
+  - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
 * <a href="https://tutorials.avideo.com/" target="_blank">Gallery demo page</a>
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">Full access demo site</a>
@@ -41,13 +42,13 @@ Android: https://play.google.com/store/apps/details?id=platform.avideo.com
 
 ### Are you having a hard time to configure or install AVideo or any of its resources? feel free to ask us for help:
 
-https://platform.avideo.com/
+https://plugins.avideo.com/
 
 # AVideo - Streamer
 AVideo! is an video-sharing website, It is an open source solution that is freely available to everyone. With AVideo you can create your own video sharing site, AVideo will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
 
 <div align="center">
-<img src="http://avideo.com/img/prints/prints13.png">
+<img src="https://platform.avideo.com/website/assets/151/images/who-we-are.jpg">
 <a href="http://demo.avideo.com/" target="_blank">View Demo</a>
 </div>
 
@@ -55,7 +56,7 @@ AVideo! is an video-sharing website, It is an open source solution that is freel
 Go get it <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">here</a>
 
 <div align="center">
-<img src="https://avideo.com/img/prints/encoder.png">
+<img src="https://platform.avideo.com/website/assets/151/images/encoder_img.png">
 <a href="https://encoder2.avideo.com/" target="_blank">View Public Encoder</a>
 </div>
 
@@ -152,7 +153,7 @@ Since version 4.x+ we separate the streamer website from the encoder website, so
 No. We will be providing a public encoder, we will build the encoder in such a way that several streamers can use the same encoder. We are also providing source code for this, so you can install it internally and manage your own encoding priority.
 
 <div align="center">
-<img src="https://www.avideo.com/img/architecture/SchemeV4.0.jpg">
+<img src="https://platform.avideo.com/website/assets/151/images/chalkboard.png">
 <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">Download Encoder</a>
 </div>
 
