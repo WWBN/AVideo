@@ -23,7 +23,7 @@ And more to come in 2020
 
 ### To learn more about AVideo Platform visit the <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>. 
 
-## To see a demo select one below.
+### To see a demo select one below.
 * <a href="https://flix.avideo.com/" target="_blank">AVideo Flix demo site</a>
   - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
 * <a href="https://tutorials.avideo.com/" target="_blank">Gallery demo page</a>
