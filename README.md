@@ -11,10 +11,10 @@ Open-Source License can be viewed in the link below:
 https://platform.avideo.com/AVideo_OpenSource
 
 Along with this re-brand come a slew of value added benefits for all AVideo Platform Clones. 
-*Each clone is considered a broadcast network
-*Each network is indexed
-*Each network can use our ad network
-*Each network can use our Open Systems TV platform
+* Each clone is considered a broadcast network
+* Each network is indexed
+* Each network can use our ad network
+* Each network can use our Open Systems TV platform
 
 And more to come in 2020
 
