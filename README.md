@@ -27,10 +27,6 @@ WWBN offers relevant and practical solutions, as well as valuable innovative tec
 #### PROFITABLE STRATEGIES
 We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
 
-# Notice:
-### We highly recommend you keep your AVideo Platform updated to the latest release. If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
-
-
 ### To learn more about AVideo Platform visit the <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>. 
 
 ### To see a demo select one below.
@@ -40,6 +36,9 @@ We provide companies with new business models that evolve around the delivery of
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">Full access demo site</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
+
+# Notice:
+### We highly recommend you keep your AVideo Platform updated to the latest release. If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 # First thing...
 I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
