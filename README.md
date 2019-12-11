@@ -12,7 +12,7 @@ The AVideo Platform Plugin Design allows you to get exactly the solution that ad
 
 #
 #### About the re-brand.  
-AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". When we say a clone we mean a clone of AVideo Platform.
+AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". When we say a clone we mean a clone of AVideo Platform. AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. All other trademarks refered to belong to their respective owners. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 
 * Word Mark:	AVIDEO
 * Translations:	"AVideo" has no meaning in any foreign language.
@@ -23,9 +23,9 @@ AVideo is a generic term that means absolutely nothing, or anything video. Since
 * Serial Number:	77450549
 * Registration Number:	3625659
 
-AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">AVideo Open-Source Project</a>.  All other trademarks belong to their respective owners.
+AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">AVideo Open-Source Project</a>.  
 #
-<a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
+
 
 
 Along with this re-brand come a slew of value added benefits for all AVideo Platform Clones. 
