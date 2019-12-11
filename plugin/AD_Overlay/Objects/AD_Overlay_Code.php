@@ -47,7 +47,7 @@ class AD_Overlay_Code extends ObjectYPT {
     }
 
     function getCode() {
-        return $this->code;
+        return trim($this->code);
     }
 
     function setUsers_id($users_id) {
