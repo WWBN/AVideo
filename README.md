@@ -1,3 +1,6 @@
+Some of the largest brands in world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
+
+The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
 
 <div align="center"><img src="https://platform.avideo.com/website/assets/151/images/open_source_banner.png"/></div>
 
@@ -17,6 +20,12 @@ Along with this re-brand come a slew of value added benefits for all AVideo Plat
 * Each broadcast network can use our Open Systems TV platform (Coming Soon)
 
 And more to come in 2020. Our mission is to take your video sharing site to "The Next Level" Internet TV.
+
+WWBN offers relevant and practical solutions, as well as valuable innovative technology, designed to increase the efficiency of advertising and broadcasting operations and maximize revenue opportunities for our customers and partners.
+
+### WHERE WE DELIVER
+#### PROFITABLE STRATEGIES
+We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
 
 ### We highly recommend you keep your AVideo Platform updated to the latest release. If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
