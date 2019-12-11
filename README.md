@@ -5,10 +5,18 @@
 
 ## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get details, bug fixes and contribute the the continued evolution of AVideo Platform.
 
-About the re-brand.  AVideo is a generic term that means absolutely anyting video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. Avideo Platform is distributed as Saas at https://avideo.com, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an open-source <a href="https://platform.avideo.com/AVideo_OpenSource">open-source project</a>.
+About the re-brand.  AVideo is a generic term that means absolutely anyting video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. Avideo Platform is distributed as Saas at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an open-source <a href="https://platform.avideo.com/AVideo_OpenSource">open-source project</a>.
 
-License can be viewed in the link below
+Open-Source License can be viewed in the link below:
 https://platform.avideo.com/AVideo_OpenSource
+
+Along with this re-brand come a slew of value added benefits for all AVideo Platform Clones. 
+*Each clone is considered a broadcast network
+*Ecah network is indexed
+*Each network can use our ad network
+*Each network can use our Open Systems TV platform
+
+And more to come in 2020
 
 ### If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
