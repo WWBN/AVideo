@@ -1,9 +1,11 @@
 
 <div align="center"><img src="https://platform.avideo.com/website/assets/151/images/open_source_banner.png"/></div>
 
-# Create Your Own Broadcast Network With AVideo Platform Open Source
+# Create Your Own Broadcast Network With AVideo Platform
 
-## If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
+## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get details, bug fixes and contribute the the continued evolution of AVideo Platform.
+
+### If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 
 ### Notice: If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>
