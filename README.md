@@ -1,12 +1,12 @@
 
 <div align="center"><img src="https://platform.avideo.com/website/assets/151/images/open_source_banner.png"/></div>
 
-# Create Your Own Broadcast Network <br/>With AVideo Platform Open Source
+# Create Your Own Broadcast Network With AVideo Platform Open Source
 
-# If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
+## If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 
-### If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>
+### Notice: If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>
 
 * <a href="https://flix.avideo.com/" target="_blank">AVideo Flix demo site</a>
   - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
