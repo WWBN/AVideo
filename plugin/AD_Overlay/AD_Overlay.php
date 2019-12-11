@@ -106,6 +106,7 @@ class AD_Overlay extends PluginAbstract {
         $obj = $this->getDataObject();
 
         $adText = $obj->adText->value;
+        
         if($obj->allowUserAds && !empty($video['id'])){
             $v = Video::getVideoLight($video['id']);
             $code = $this->getAdsFromUserIfActive($video['users_id']);
@@ -113,7 +114,7 @@ class AD_Overlay extends PluginAbstract {
                 $adText = $code;
             }
         }
-        if(empty(trim($code))){
+        if(empty(trim($adText))){
             return '';
         }
         
