@@ -42,7 +42,7 @@ Android: https://play.google.com/store/apps/details?id=platform.avideo.com
 
 ### Are you having a hard time to configure or install AVideo or any of its resources? feel free to ask us for help:
 
-https://platform.avideo.com/
+https://plugins.avideo.com/
 
 # AVideo - Streamer
 AVideo! is an video-sharing website, It is an open source solution that is freely available to everyone. With AVideo you can create your own video sharing site, AVideo will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
