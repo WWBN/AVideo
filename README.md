@@ -9,8 +9,11 @@ The AVideo Platform Plugin Design allows you to get exactly the solution that ad
 
 ## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
 
-About the re-brand.  AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">AVideo Open-Source Project</a>.
+
 #
+#### About the re-brand.  
+AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">AVideo Open-Source Project</a>.
+
 * Word Mark:	AVIDEO
 * Translations:	"AVideo" has no meaning in any foreign language.
 * Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
