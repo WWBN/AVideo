@@ -55,7 +55,7 @@ AVideo! is an video-sharing website, It is an open source solution that is freel
 Go get it <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">here</a>
 
 <div align="center">
-<img src="https://youphptube.com/img/prints/encoder.png">
+<img src="https://platform.avideo.com/website/assets/151/images/encoder_img.png">
 <a href="https://encoder2.avideo.com/" target="_blank">View Public Encoder</a>
 </div>
 
