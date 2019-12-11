@@ -18,7 +18,7 @@ Along with this re-brand come a slew of value added benefits for all AVideo Plat
 
 And more to come in 2020
 
-### If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
+### We highly recommend you keep your AVideo Platform updated to the latest release. If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 
 ### Notice: If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>
