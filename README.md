@@ -5,8 +5,8 @@
 
 ### If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://platfrom.avideo.com/" target="_blank">AVideo Platform Official Site</a>
 
-* <a href="https://flix.avideo.com/" target="_blank">AVideo Flix demo page</a>
-  - We provide you a Netflix site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
+* <a href="https://flix.avideo.com/" target="_blank">AVideo Flix demo site</a>
+  - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
 * <a href="https://tutorials.avideo.com/" target="_blank">Gallery demo page</a>
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">Full access demo site</a>
