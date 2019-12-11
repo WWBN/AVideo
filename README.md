@@ -27,6 +27,7 @@ WWBN offers relevant and practical solutions, as well as valuable innovative tec
 #### PROFITABLE STRATEGIES
 We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
 
+# Notice:
 ### We highly recommend you keep your AVideo Platform updated to the latest release. If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 
