@@ -11,10 +11,10 @@ About the re-brand.  AVideo is a generic term that means absolutely anyting vide
 
 
 Along with this re-brand come a slew of value added benefits for all AVideo Platform Clones. 
-* Each clone is considered a broadcast network
-* Each network is indexed
+* Each Avideo Platform clone is considered a broadcast network
+* Each network is indexed in our World Wide Broadcast Network Platform System
 * Each network can use our ad network
-* Each network can use our Open Systems TV platform
+* Each network can use our Open Systems TV platform (Coming Soon)
 
 And more to come in 2020
 
