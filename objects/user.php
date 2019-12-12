@@ -1205,9 +1205,9 @@ if (typeof gtag !== \"function\") {
         return $this->recoverPass;
     }
 
-    function setRecoverPass($recoverPass) {
+    function setRecoverPass($recoverPass, $forceChange = false) {
         // let the same recover pass if it was 10 minutes ago
-        if(!empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")){
+        if(empty($forceChange) && !empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")){
             return $this->recoverPass;
         }
         $this->recoverPass = $recoverPass;
