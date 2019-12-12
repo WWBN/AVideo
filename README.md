@@ -33,7 +33,7 @@ AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.co
 
 
 
-## Along with this re-brand come a slew of value added benefits for all AVideo Platform Clones. 
+## Along with this re-brand come a slew of value added benefits for all AVideo Platform instances. 
 * Each AVideo Platform clone is considered a broadcast network
 * Each broadcast network is indexed in our World Wide Broadcast Network Platform System
 * Each broadcast network can use our ad network
