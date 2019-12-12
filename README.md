@@ -87,7 +87,8 @@ https://platform.avideo.com/website/assets/151/images/open_source_banner.png
 ### Mobile APP
 Android: https://play.google.com/store/apps/details?id=platform.avideo.com
 
-### Need Help With Installation or Plugins? Feel free to ask us for help.
+## AVideo Platform Certified
+#### Need Help With Installation or Plugins? Feel free to ask us for help from the AVideo Platform Certified developers.
 
 <a href="https://youphp.tube/plugins/">Youphp.tube</a>
 
