@@ -15,7 +15,7 @@ In some plugins, forks, versions, modules, APIs, documentation, file names, ther
 ### A Video Platform
 AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
 
-<img src"http://platform.avideo.com/website/assets/151/images/logo.png"/>
+<img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
 
 When we say a clone we mean a clone of AVideo Platform. AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 * Word Mark:	AVIDEO
