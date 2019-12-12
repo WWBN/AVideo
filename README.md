@@ -83,7 +83,7 @@ For text-based tutorials and the manual, look here: https://github.com/WWBN/AVid
 
 There, you can find some hints for troubleshooting as well.
 
-### Mobile APP
+### AVideo Platform Mobile APP
 Android: https://play.google.com/store/apps/details?id=platform.avideo.com
 
 ## AVideo Platform Certified
