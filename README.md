@@ -12,7 +12,7 @@ The AVideo Platform Plugin Design allows you to get exactly the solution that ad
 <img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
 
 #### About the re-brand.
-In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/plugins/">youphptube</a>, <a href="https://youphp.tube/plugins/">youphp.tube</a>, searchtube, adtube, showtube.  <a href="//wwbn.com">WWBN</a> owns <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, WWBN among other trademarks. All other trademarks referred to belong to their respective owners.
+In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/plugins/">youphptube</a>, <a href="https://youphp.tube/plugins/">youphp.tube</a>, searchtube, adtube, showtube.  <a href="//wwbn.com">WWBN</a> owns <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, WWBN among other trademarks. All other trademarks referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners.
 
 ### A Video Platform
 AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
