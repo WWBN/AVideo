@@ -1,17 +1,58 @@
-#Create Your Own Broadcast Network With AVideo Platform Open Source
-# Important Information: We are updating our video system. It is important that your video system and plugins are up to date, everything must be updated after 2019-12-02. The new plugins will not work with the system before 8.0, so if you just got plugins and your installation is old, you must update your site. 
+# AVideo Platform Open-Source Project
+AVideo Platform is A Video Platform open-source project with over 900 developers, and over 4000 broadcast network sites world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
 
-# If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
+The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
+
+<div align="center"><img src="https://platform.avideo.com/website/assets/151/images/open_source_banner.png"/></div>
+
+# Create Your Own Broadcast Network With AVideo Platform
+
+## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
+
+#### About the re-brand.
+In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to youphptube, youtube, <a href="https://youphp.tube/plugins/">youphp.tube</a>, searchtube, adtube, showtube.  <a href="//wwbn.com">WWBN</a> owns <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, WWBN among other trademarks. All other trademarks referred to belong to their respective owners.
+
+AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". When we say a clone we mean a clone of AVideo Platform. AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
+* Word Mark:	AVIDEO
+* Translations:	"AVideo" has no meaning in any foreign language.
+* Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
+* Standard Characters: Claimed	
+* Mark Drawing Code:	(4) STANDARD CHARACTER MARK
+* Trademark Search Facility Classification Code:	LETS-1 A A single letter, multiples of a single letter or in combination with a design
+* Serial Number:	77450549
+* Registration Number:	3625659
+
+AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">AVideo Open-Source Project</a>.  
+#
 
 
-### If you are not sure what is AVideo, go to our <a href="https://demo.avideo.com/" target="_blank">demo</a> page or visit our <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>
 
+Along with this re-brand come a slew of value added benefits for all AVideo Platform Clones. 
+* Each AVideo Platform clone is considered a broadcast network
+* Each broadcast network is indexed in our World Wide Broadcast Network Platform System
+* Each broadcast network can use our ad network
+* Each broadcast network can use our Open Systems TV platform (Coming Soon)
+
+And more to come in 2020. Our mission is to take your video sharing site to "The Next Level" Internet TV.
+
+WWBN offers relevant and practical solutions, as well as valuable innovative technology, designed to increase the efficiency of advertising and broadcasting operations and maximize revenue opportunities for our customers and partners.
+
+### WHERE WE DELIVER
+#### PROFITABLE STRATEGIES
+We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
+
+### To learn more about AVideo Platform visit the <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>. 
+
+### To see a demo select one below.
 * <a href="https://flix.avideo.com/" target="_blank">AVideo Flix demo site</a>
   - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
 * <a href="https://tutorials.avideo.com/" target="_blank">Gallery demo page</a>
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">Full access demo site</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
+
+# Notice:
+### We highly recommend you keep your AVideo Platform updated to the latest release. If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 # First thing...
 I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
@@ -36,7 +77,7 @@ For text-based tutorials and the manual, look here: https://github.com/WWBN/AVid
 
 There, you can find some hints for troubleshooting as well.
 
-
+https://platform.avideo.com/website/assets/151/images/open_source_banner.png
 ### Mobile APP
 Android: https://play.google.com/store/apps/details?id=platform.avideo.com
 
