@@ -9,8 +9,6 @@ The AVideo Platform Plugin Design allows you to get exactly the solution that ad
 
 ## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
 
-
-#
 #### About the re-brand.
 In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to youphptube, youtube, youphp.tube, searchtube, adtube, showtube.  WWBN owns <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, AVideo, WWBN among other trademarks. All other trademarks referred to belong to their respective owners.
 
