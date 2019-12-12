@@ -44,7 +44,7 @@ And more to come in 2020. Our mission is to take your video sharing site to "The
 WWBN offers relevant and practical solutions, as well as valuable innovative technology, designed to increase the efficiency of advertising and broadcasting operations and maximize revenue opportunities for our customers and partners.
 
 ### WHERE WE DELIVER
-#### PROFITABLE STRATEGIES ### We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
+PROFITABLE STRATEGIES - We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
 
 ### To learn more about AVideo Platform visit the <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>. 
 
