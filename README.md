@@ -57,7 +57,7 @@ PROFITABLE STRATEGIES - We provide companies with new business models that evolv
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
 
 # Notice:
-### We highly recommend you keep your AVideo Platform updated to the latest release. If you have updated your site to version 8.0, your old plugins will not work, just download them again and you should be fine.
+### We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 # First thing...
 I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
@@ -88,7 +88,7 @@ Android: https://play.google.com/store/apps/details?id=platform.avideo.com
 ## AVideo Platform Certified
 #### Need Help With Installation or Plugins? Feel free to ask us for help from the AVideo Platform Certified developers.
 
-<a href="https://youphp.tube/plugins/">Youphp.tube</a>
+<a href="https://youphp.tube/plugins/">Daniel Neto</a>
 
 # AVideo - Streamer
 AVideo! is an video-sharing website, It is an open source solution that is freely available to everyone. With AVideo you can create your own video sharing site, AVideo will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
@@ -121,7 +121,7 @@ Surely you need to install an encoder
 
 # Server Requirements
 
-In order for you to be able to run AVideo, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below.
+In order for you to be able to run AVideo Platform, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below.
 
 - PHP 5.6+
 - MySQL 5.0+
