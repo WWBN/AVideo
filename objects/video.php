@@ -910,7 +910,7 @@ if (!class_exists('Video')) {
                     $ids[] = $row['id'];
                 }
                 if (!empty($ids)) {
-                    $sql .= " AND v.id IN (" . implode(",", $ids) . ") ORDER BY RAND() LIMIT {$rowCount}";
+                    $sql .= " AND v.id IN (" . implode(",", $ids) . ") AND v.created  >= (NOW() - INTERVAL 6 MONTH) ORDER BY RAND() LIMIT {$rowCount}";
                 }
             }
 
