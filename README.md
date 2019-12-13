@@ -1,14 +1,3 @@
-# AVideo Platform Open-Source Project
-A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
-
-The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
-
-<div align="center"><img src="https://platform.avideo.com/website/assets/151/images/open_source_banner.png"/></div>
-
-# Create Your Own Broadcast Network With AVideo Platform
-
-## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
-
 <img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
 
 #### About the re-brand.
@@ -30,8 +19,16 @@ When we say a clone we mean an instance of AVideo Platform. AVideo is a register
 
 AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">AVideo Open-Source Project</a>.  
 #
+# AVideo Platform Open-Source Project
+A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
 
+The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
 
+<div align="center"><img src="https://platform.avideo.com/website/assets/151/images/open_source_banner.png"/></div>
+
+# Create Your Own Broadcast Network With AVideo Platform
+
+## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
 
 ## Along with this re-brand come a slew of value added benefits for all AVideo Platform instances. 
 * Each AVideo Platform clone is considered a broadcast network
