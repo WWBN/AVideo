@@ -188,7 +188,7 @@ class Subscribe {
     static function getSubscribedChannels($user_id) {
         global $global;
 
-        $sql = "SELECT s.* FROM subscribes as s WHERE subscriber_users_id = ? ";
+        $sql = "SELECT s.* FROM subscribes as s WHERE status = 'a' && subscriber_users_id = ? ";
 
         $res = sqlDAL::readSql($sql, "i", array($user_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
