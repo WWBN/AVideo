@@ -40,6 +40,7 @@ class Gallery extends PluginAbstract {
         $obj = new stdClass();
         $obj->hidePrivateVideos = false;
         $obj->BigVideo = true;
+        $obj->useSuggestedVideosAsCarouselInBigVideo = true;
         $obj->GifOnBigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;
@@ -77,6 +78,7 @@ class Gallery extends PluginAbstract {
         $obj->screenColsMedium = 3;
         $obj->screenColsSmall = 2;
         $obj->screenColsXSmall = 1;
+        
         return $obj;
     }
   
