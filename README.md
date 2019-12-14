@@ -6,8 +6,10 @@ In some plugins, forks, versions, modules, APIs, documentation, file names, ther
 ### A Video Platform
 AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
 
+### AVideo is FREE to use
+When we say a clone we mean an Enterprise or Open-Source instance of AVideo Platform. 
 
-When we say a clone we mean an instance of AVideo Platform. AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
+AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 * Word Mark:	AVIDEO
 * Translations:	"AVideo" has no meaning in any foreign language.
 * Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
