@@ -7,6 +7,7 @@ if (!User::isAdmin()) {
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
 $categories = Category::getAllCategories();
+array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
 $groups = UserGroups::getAllUsersGroups();
 $users = User::getAllUsers();
 $o = AVideoPlugin::getObjectData("PredefinedCategory");
@@ -200,7 +201,7 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
                                             ?>
                                             <div class="funkyradio-info">
                                                 <input type="radio" name="radioUserCat" class="categoryGroupRadio" id="radioUserCat<?php echo $value['id']; ?>" value="<?php echo $value['id']; ?>"/>
-                                                <label for="radioUserCat<?php echo $value['id']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?></label>
+                                                <label for="radioUserCat<?php echo $value['id']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['hierarchyAndName']; ?></label>
                                             </div>
                                             <?php
                                         }

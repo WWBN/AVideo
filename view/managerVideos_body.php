@@ -64,6 +64,7 @@
                     ?>
                     <?php
                     $categories = Category::getAllCategories(true);
+                    array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
                     if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
                         if (empty($advancedCustom->doNotShowEncoderButton)) {
                             if (!empty($config->getEncoderURL())) {
@@ -159,7 +160,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <?php
                             foreach ($categories as $value) {
-                                echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['name']}</a></li>";
+                                echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
                             }
                             ?>
                         </ul>
@@ -313,7 +314,7 @@
                                         <select class="form-control last" id="inputCategory" required>
                                             <?php
                                             foreach ($categories as $value) {
-                                                echo "<option value='{$value['id']}'>{$value['name']}</option>";
+                                                echo "<option value='{$value['id']}'>{$value['hierarchyAndName']}</option>";
                                             }
                                             ?>
                                         </select>

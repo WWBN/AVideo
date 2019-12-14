@@ -118,6 +118,7 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'objects/category.php';
         $obj = $this->startResponseObject($parameters);
         $rows = Category::getAllCategories();
+        array_multisort(array_column($rows, 'hierarchyAndName'), SORT_ASC, $rows);
         $totalRows = Category::getTotalCategories();
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;

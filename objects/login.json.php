@@ -163,6 +163,7 @@ if ((empty($object->redirectUri) || $object->redirectUri===$global['webSiteRootU
 
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $object->categories = Category::getAllCategories(true);
+    array_multisort(array_column($object->categories, 'hierarchyAndName'), SORT_ASC, $object->categories);
 }else{
     $object->categories = array();
 }
