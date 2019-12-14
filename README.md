@@ -1,3 +1,28 @@
+<img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
+
+#### About the re-brand.
+In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners.
+
+### A Video Platform
+AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
+
+AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.  
+
+### AVideo is FREE to use
+When we say a clone we mean an Enterprise or Open-Source instance of AVideo Platform. 
+
+AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
+* Word Mark:	AVIDEO
+* Translations:	"AVideo" has no meaning in any foreign language.
+* Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
+* Standard Characters: Claimed	
+* Mark Drawing Code:	(4) STANDARD CHARACTER MARK
+* Trademark Search Facility Classification Code:	LETS-1 A A single letter, multiples of a single letter or in combination with a design
+* Serial Number:	77450549
+* Registration Number:	3625659
+
+
+#
 # AVideo Platform Open-Source Project
 A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
 
@@ -8,30 +33,6 @@ The AVideo Platform Plugin Design allows you to get exactly the solution that ad
 # Create Your Own Broadcast Network With AVideo Platform
 
 ## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
-
-<img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
-
-#### About the re-brand.
-In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube.  <a href="//wwbn.com">WWBN</a> owns <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, WWBN among other trademarks. All other trademarks referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners.
-
-### A Video Platform
-AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
-
-
-When we say a clone we mean an instance of AVideo Platform. AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any AVideo products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
-* Word Mark:	AVIDEO
-* Translations:	"AVideo" has no meaning in any foreign language.
-* Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
-* Standard Characters: Claimed	
-* Mark Drawing Code:	(4) STANDARD CHARACTER MARK
-* Trademark Search Facility Classification Code:	LETS-1 A A single letter, multiples of a single letter or in combination with a design
-* Serial Number:	77450549
-* Registration Number:	3625659
-
-AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">AVideo Open-Source Project</a>.  
-#
-
-
 
 ## Along with this re-brand come a slew of value added benefits for all AVideo Platform instances. 
 * Each AVideo Platform clone is considered a broadcast network
