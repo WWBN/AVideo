@@ -6,7 +6,7 @@ In some plugins, forks, versions, modules, APIs, documentation, file names, ther
 ### A Video Platform
 AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
 
-AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">AVideo Open-Source Project</a>.  
+AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.  
 
 ### AVideo is FREE to use
 When we say a clone we mean an Enterprise or Open-Source instance of AVideo Platform. 
