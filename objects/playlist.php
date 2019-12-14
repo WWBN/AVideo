@@ -327,7 +327,7 @@ class PlayList extends ObjectYPT {
         return sqlDAL::writeSql($sql);
     }
 
-    public function addVideo($video_id, $add, $order = 0) {
+    public function addVideo($videos_id, $add, $order = 0) {
         global $global;
         $formats = "";
         $values = array();
@@ -335,13 +335,13 @@ class PlayList extends ObjectYPT {
             $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = ? AND videos_id = ? ";
             $formats = "ii";
             $values[] = $this->id;
-            $values[] = $video_id;
+            $values[] = $videos_id;
         } else {
-            $this->addVideo($video_id, false);
+            $this->addVideo($videos_id, false);
             $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
             $formats = "iii";
             $values[] = $this->id;
-            $values[] = $video_id;
+            $values[] = $videos_id;
             $values[] = $order;
         }
         self::removeCache($videos_id);

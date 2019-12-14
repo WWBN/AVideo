@@ -19,7 +19,7 @@ $crc = uniqid();
                 <div>
                     <hr>
                     <div class="form-group">
-                        <input id="playListName<?php echo $videos_id . $crc; ?>" class="form-control" placeholder="<?php echo __("Create a New Play List"); ?>"  >
+                        <input id="playListName<?php echo $videos_id . $crc; ?>" class="form-control" placeholder="<?php echo __("Create a New"); ?> <?php echo $obj->name; ?>"  >
                     </div>
                     <div class="form-group">
                         <?php echo __("Make it public"); ?>
@@ -29,7 +29,7 @@ $crc = uniqid();
                         </div>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-success btn-block" id="addPlayList<?php echo $videos_id . $crc; ?>" ><?php echo __("Create a New Play List"); ?></button>
+                        <button class="btn btn-success btn-block" id="addPlayList<?php echo $videos_id . $crc; ?>" ><?php echo __("Create a New"); ?> <?php echo $obj->name; ?></button>
                     </div>
                 </div>
             <?php } else { ?>
