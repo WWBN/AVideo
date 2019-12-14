@@ -798,7 +798,7 @@ if (!class_exists('Video')) {
          * @param type $videosArrayId an array with videos to return (for filter only)
          * @return boolean
          */
-        static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
+        static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
@@ -895,7 +895,11 @@ if (!class_exists('Video')) {
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
-            if (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
+            
+            if ($suggestedOnly) {
+                $sql .= " AND v.isSuggested = 1 ";
+                $sql .= " ORDER BY RAND() ";
+            }else if (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
             } else {
                 unset($_POST['sort']['trending']);
@@ -1032,7 +1036,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.isSuggested = 1 ";
                 $sql .= " ORDER BY RAND() ";
             }
-            
+            //echo $sql;
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
