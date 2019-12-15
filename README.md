@@ -5,8 +5,8 @@ AVideo is a generic term that means absolutely nothing, or anything video. Since
 
 AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.  
 
-### AVideo is FREE to use
-When we say a clone we mean an Enterprise or Open-Source instance of AVideo Platform. 
+### AVideo trademark is FREE to use
+When we say a clone or copy we mean an instance of AVideo Platform Enterprise or Open-Source. 
 
 AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 * Word Mark:	AVIDEO
