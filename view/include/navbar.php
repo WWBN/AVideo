@@ -906,6 +906,9 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                     }
                     if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
+                        $currentP = @$_POST['current'];
+                        $currentG = @$_GET['current'];
+                        $_GET['current'] = $_POST['current'] = 1;
                         $categories = Category::getAllCategories();
                         foreach ($categories as $value) {
                             if ($advancedCustom->ShowAllVideosOnCategory) {
@@ -925,6 +928,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             mkSub($value['id']);
                             echo '</a></li>';
                         }
+                        $_POST['current'] = $currentP;
+                        $_GET['current'] = $currentG;
                     }
                     ?>
 
