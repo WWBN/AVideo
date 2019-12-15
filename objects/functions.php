@@ -1840,7 +1840,7 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
         $passwordUnSalted = $password;
     }
 //error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
-    return $passwordSalted === $hash || $passwordUnSalted === $hash;
+    return $passwordSalted === $hash || $passwordUnSalted === $hash || $password === $hash;
 }
 
 function isMobile() {
