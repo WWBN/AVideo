@@ -1079,9 +1079,12 @@ if (!class_exists('Video')) {
             }
             if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+            } elseif ($status == "viewableNotUnlisted") {
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
+            
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (is_int($showOnlyLoggedUserVideos)) {
