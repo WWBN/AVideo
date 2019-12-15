@@ -1,8 +1,5 @@
 <img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
 
-#### About the re-brand.
-In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners.
-
 ### A Video Platform
 AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
 
@@ -21,7 +18,8 @@ AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, In
 * Serial Number:	77450549
 * Registration Number:	3625659
 
-
+#### About the re-brand.
+In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners.
 #
 # AVideo Platform Open-Source Project
 A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
