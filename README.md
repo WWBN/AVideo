@@ -5,7 +5,7 @@ AVideo is a generic term that means absolutely nothing, or anything video. Since
 
 AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.  
 
-##AN AVideo Platform Instance
+## AN AVideo Platform Instance
 
 When we say a clone or copy of AVideo we mean an instance of AVideo Platform Enterprise or Open-Source and every instance of the AVideo Platform can be indexed as a network in the World Wide Broadcast Network Platform System.
 
