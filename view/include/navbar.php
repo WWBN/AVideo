@@ -1,5 +1,25 @@
 <?php
-if(!empty($_GET['noNavbar'])){
+if (!isset($_GET['noNavbar'])) {
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (!empty($_GET['noNavbar'])) {    
+    //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $actual_link = basename($_SERVER['PHP_SELF']);
+    $params = $_GET;
+    unset($params['noNavbar']);
+    $params['noNavbar'] = "0";
+    $new_query_string = http_build_query($params);
+    $_SESSION['noNavbar'] = 1;
+    ?>
+    <a href="<?php echo $actual_link,"?",$new_query_string; ?>" class="btn btn-default" style="position: absolute; right: 10px; top: 5px;"><i class="fas fa-bars"></i></a>    
+    <?php
+    }else{
+        $_SESSION['noNavbar'] = 0;
+    }
+    return '';
+}
+if(!empty($_SESSION['noNavbar'])){
     return '';
 }
 global $includeDefaultNavBar, $global, $config, $advancedCustom, $advancedCustomUser;
@@ -310,7 +330,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 ?>
                                                 <li>
                                                     <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?article=1" >
-                                                        <i class="far fa-newspaper"></i> <?php echo  __("Add Article"); ?>
+                                                        <i class="far fa-newspaper"></i> <?php echo __("Add Article"); ?>
                                                     </a>
                                                 </li>
                                                 <?php
@@ -379,25 +399,25 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <?php
                         if (!empty($advancedCustomUser->signInOnRight)) {
                             if (User::isLogged()) {
-                                if(!$advancedCustomUser->disableSignOutButton){
-                                ?>
-                                <li>
-                                    <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
-                                        <?php
-                                        if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
-                                            ?>
-                                            <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
+                                if (!$advancedCustomUser->disableSignOutButton) {
+                                    ?>
+                                    <li>
+                                        <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
                                             <?php
-                                        } else {
+                                            if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
+                                                ?>
+                                                <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
+                                                <?php
+                                            }
                                             ?>
-                                            <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
-                                            <?php
-                                        }
-                                        ?>
-                                        <i class="fas fa-sign-out-alt"></i> <span class="hidden-md hidden-sm"><?php echo __("Sign Out"); ?></span>
-                                    </a>
-                                </li>
-                                <?php
+                                            <i class="fas fa-sign-out-alt"></i> <span class="hidden-md hidden-sm"><?php echo __("Sign Out"); ?></span>
+                                        </a>
+                                    </li>
+                                    <?php
                                 }
                             } else {
                                 ?>
@@ -921,9 +941,9 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             }
                             echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
                             . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
-                            echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name']; 
-                            if(empty($advancedCustom->hideCategoryVideosCount)){
-                               echo ' <span class="badge">' . $total . '</span>'; 
+                            echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'];
+                            if (empty($advancedCustom->hideCategoryVideosCount)) {
+                                echo ' <span class="badge">' . $total . '</span>';
                             }
                             mkSub($value['id']);
                             echo '</a></li>';
