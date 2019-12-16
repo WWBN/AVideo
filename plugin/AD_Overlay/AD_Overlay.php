@@ -114,7 +114,7 @@ class AD_Overlay extends PluginAbstract {
             }
             if (!empty($_GET['c'])) {
                 $u = new User(0, $_GET['u'], false);
-                $user_id = $u->getBdId();
+                $users_id = $u->getBdId();
             }
 
             if (empty($users_id)) {
