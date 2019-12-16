@@ -73,7 +73,7 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getHeadCode() {
-        if (empty($_GET['videoName']) && empty($_GET['u'])) {
+        if (empty($_GET['videoName']) && empty($_GET['u']) && empty($_GET['link'])) {
             return false;
         }
         $obj = $this->getDataObject();
@@ -100,7 +100,7 @@ class AD_Overlay extends PluginAbstract {
         if (basename($_SERVER["SCRIPT_FILENAME"]) === 'managerUsers.php') {
             include $global['systemRootPath'] . 'plugin/AD_Overlay/footer.php';
         }
-        if (empty($_GET['videoName']) && empty($_GET['u'])) {
+        if (empty($_GET['videoName']) && empty($_GET['u']) && empty($_GET['link'])) {
             return false;
         }
         $obj = $this->getDataObject();
