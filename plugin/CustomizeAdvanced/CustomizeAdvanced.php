@@ -140,6 +140,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->siteMapRowsLimit = 100;
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
+        $obj->disableTopMenusInsideIframe = true;
         
         return $obj;
     }
@@ -168,5 +169,17 @@ class CustomizeAdvanced extends PluginAbstract {
             }
         }
     }
+    
+    public function getFooterCode() {
+        global $global;
+        
+        $obj = $this->getDataObject();
+        $content = '';
+        if($obj->disableTopMenusInsideIframe){
+        $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeout();}});</script>';
+        }
+        return $content;
+    }
+
     
 }
