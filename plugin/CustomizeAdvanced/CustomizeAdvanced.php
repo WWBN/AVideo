@@ -176,7 +176,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj = $this->getDataObject();
         $content = '';
         if($obj->disableTopMenusInsideIframe){
-        $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeout();}});</script>';
+        $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeOut();}});</script>';
         }
         return $content;
     }
