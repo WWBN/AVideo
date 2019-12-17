@@ -13,7 +13,7 @@ class PlayLists extends PluginAbstract {
     }
 
     public function getName() {
-        return "Program";
+        return "Programs";
     }
 
     public function getUUID() {
