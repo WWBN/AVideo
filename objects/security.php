@@ -49,7 +49,7 @@ foreach ($securityRemoveNonChars as $value) {
         if (is_string($_POST[$value])) {
             $_POST[$value] = str_replace('/[^a-z0-9./]/i', '', trim($_POST[$value]));
         } else if (is_array($_POST[$value])) {
-            foreach ($_POST[$value] as $key => $value) {
+            foreach ($_POST[$value] as $key => $value2) {
                 if (is_string($_POST[$value][$key])) {
                     $_POST[$value][$key] = str_replace('/[^a-z0-9./]/i', '', trim($_POST[$value][$key]));
                 }
@@ -60,7 +60,7 @@ foreach ($securityRemoveNonChars as $value) {
         if (is_string($_GET[$value])) {
             $_GET[$value] = str_replace('/[^a-z0-9./]/i', '', trim($_GET[$value]));
         } else if (is_array($_GET[$value])) {
-            foreach ($_GET[$value] as $key => $value) {
+            foreach ($_GET[$value] as $key => $value2) {
                 if (is_string($_GET[$value][$key])) {
                     $_GET[$value][$key] = str_replace('/[^a-z0-9./]/i', '', trim($_GET[$value][$key]));
                 }
@@ -74,7 +74,7 @@ foreach ($securityRemoveSingleQuotes as $value) {
         if (is_string($_POST[$value])) {
             $_POST[$value] = str_replace("'", "", trim($_POST[$value]));
         } else if (is_array($_POST[$value])) {
-            foreach ($_POST[$value] as $key => $value) {
+            foreach ($_POST[$value] as $key => $value2) {
                 if (is_string($_POST[$value][$key])) {
                     $_POST[$value][$key] = str_replace("'", "", trim($_POST[$value][$key]));
                 }
@@ -85,7 +85,7 @@ foreach ($securityRemoveSingleQuotes as $value) {
         if (is_string($_GET[$value])) {
             $_GET[$value] = str_replace("'", "", trim($_GET[$value]));
         } else if (is_array($_GET[$value])) {
-            foreach ($_GET[$value] as $key => $value) {
+            foreach ($_GET[$value] as $key => $value2) {
                 if (is_string($_GET[$value][$key])) {
                     $_GET[$value][$key] = str_replace("'", "", trim($_GET[$value][$key]));
                 }
