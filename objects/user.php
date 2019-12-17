@@ -1351,7 +1351,7 @@ if (typeof gtag !== \"function\") {
         return $this->channelName;
     }
     
-    static function getUserChannelName($users_id = 0) {
+    static function _getUserChannelName($users_id = 0) {
         global $global, $config;
         if (empty($users_id)) {
             $users_id = self::getId();
