@@ -1350,6 +1350,19 @@ if (typeof gtag !== \"function\") {
         }
         return $this->channelName;
     }
+    
+    static function getUserChannelName($users_id = 0) {
+        global $global, $config;
+        if (empty($users_id)) {
+            $users_id = self::getId();
+        }
+        $user = new User($users_id);
+        if (empty($user)) {
+            return false;
+        }
+        
+        return $user->getChannelName();
+    }
 
     function getEmailVerified() {
         return $this->emailVerified;
