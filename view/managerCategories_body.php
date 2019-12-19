@@ -93,7 +93,7 @@
                 var tmpHtml = "<option value='0' ><?php echo __("None (Parent)"); ?></option>";
                 fullCatList = data;
                 $.each(data.rows, function (key, val) {
-                    console.log(val.id + " " + val.name)
+                    console.log(val.id + " " + val.hierarchyAndName);
                     tmpHtml += "<option id='subcat" + val.id + "' value='" + val.id + "' >" + val.hierarchyAndName + "</option>";
                 });
                 $("#inputParentId").html(tmpHtml);
