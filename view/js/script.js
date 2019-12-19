@@ -189,6 +189,22 @@ $(document).ready(function () {
             }
         });
     });
+    
+    $('.clearCacheFirstPageButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=1',
+            success: function (response) {
+                if (!response.error) {
+                    swal("Congratulations!", "Your First Page cache has been cleared!", "success");
+                } else {
+                    swal("Sorry!", "Your First Page cache has NOT been cleared!", "error");
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
 
     $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
         ev.preventDefault();

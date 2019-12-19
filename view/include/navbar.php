@@ -830,6 +830,11 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="#" class="clearCacheFirstPageButton">
+                                        <i class="fa fa-trash"></i> <?php echo __("Clear First Page Cache"); ?>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="#" class="clearCacheButton">
                                         <i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?>
                                     </a>
