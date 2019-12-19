@@ -39,7 +39,17 @@ class Cache extends PluginAbstract {
         if($this->isFirstPage()){
             $firstPage = "firstPage/";
         }
+        
         $obj->cacheDir = rtrim($obj->cacheDir, '/') . '/';
+        if (!file_exists($obj->cacheDir)) {
+            $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
+            $this->setDataObject($obj);
+            if (!file_exists($obj->cacheDir)) {
+                mkdir($obj->getCacheDir(), 0777, true);
+            }
+        }
+        
+        
         return $obj->cacheDir.$firstPage;
     }
 
@@ -155,13 +165,7 @@ class Cache extends PluginAbstract {
         if (!file_exists($obj->getCacheDir())) {
             mkdir($obj->getCacheDir(), 0777, true);
         }
-        if (!file_exists($obj->getCacheDir())) {
-            $obj->getCacheDir() = $global['systemRootPath'] . 'videos/cache/';
-            $this->setDataObject($obj);
-            if (!file_exists($obj->getCacheDir())) {
-                mkdir($obj->getCacheDir(), 0777, true);
-            }
-        }
+        
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             file_put_contents($cachefile, $c);
         }
