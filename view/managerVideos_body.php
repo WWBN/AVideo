@@ -63,7 +63,7 @@
                     }
                     ?>
                     <?php
-                    $categories = Category::getAllCategories(true);
+                    $categories = Category::getAllCategories(User::isAdmin()?false:true);
                     array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
                     if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
                         if (empty($advancedCustom->doNotShowEncoderButton)) {
