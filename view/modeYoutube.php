@@ -206,6 +206,11 @@ $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 
 
 AVideoPlugin::getModeYouTube($v['id']);
+
+if(empty($video)){
+    header('HTTP/1.0 404 Not Found', true, 404);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
