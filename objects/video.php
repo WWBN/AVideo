@@ -2183,13 +2183,12 @@ if (!class_exists('Video')) {
             global $global, $advancedCustom, $videosPaths;
 
             // check if there is a webp image
-            if ($type === '.gif' && stripos( $_SERVER['HTTP_USER_AGENT'], 'Safari') === false) {
+            if ($type === '.gif' && get_browser_name($_SERVER['HTTP_USER_AGENT'])!=='Safari') {
                 $path = "{$global['systemRootPath']}videos/{$filename}.webp";
                 if (file_exists($path)) {
                     $type = ".webp";
                 }
             }
-
             if (empty($videosPaths[$filename][$type][intval($includeS3)])) {
                 $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
                 $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
