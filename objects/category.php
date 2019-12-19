@@ -339,7 +339,7 @@ class Category {
                 $row['owner'] = User::getNameIdentificationById(@$row['users_id']);
                 $row['canEdit'] = self::userCanEditCategory($row['id']);
                 $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
-                $row['hierarchy'] = self::getHierarchyString($row['id']);
+                $row['hierarchy'] = self::getHierarchyString($row['parentId']);
                 $row['hierarchyAndName'] = $row['hierarchy'].$row['name'];
                 $category[] = $row;
             }
@@ -352,19 +352,26 @@ class Category {
     }
     
     static function getHierarchyArray($categories_id, $hierarchyArray = array()){
-        $sql = "SELECT * FROM categories WHERE parentId=? ";
+        if(empty($categories_id)){
+            return $hierarchyArray;
+        }
+        $sql = "SELECT * FROM categories WHERE id=? ";
         $res = sqlDAL::readSql($sql, "i", array($categories_id));
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($result) {
             $hierarchyArray[] = $result;
-            return self::getHierarchyArray($result['id'], $hierarchyArray);
+            return self::getHierarchyArray($result['parentId'], $hierarchyArray);
         }
         return $hierarchyArray;
     }
     
     static function getHierarchyString($categories_id){
+        if(empty($categories_id)){
+            return "/";
+        }
         $array = array_reverse(self::getHierarchyArray($categories_id));
+        //$array = (self::getHierarchyArray($categories_id));
         //var_dump($array);exit;
         if(empty($array)){
             return "/";
