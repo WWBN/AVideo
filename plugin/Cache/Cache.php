@@ -45,7 +45,7 @@ class Cache extends PluginAbstract {
             $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
             $this->setDataObject($obj);
             if (!file_exists($obj->cacheDir)) {
-                mkdir($obj->getCacheDir(), 0777, true);
+                mkdir($this->getCacheDir(), 0777, true);
             }
         }
         
@@ -66,7 +66,7 @@ class Cache extends PluginAbstract {
         if (!empty($obj->enableCachePerUser)) {
             $session_id = session_id();
         }
-        return $firstPage.User::getId() . "_" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : ''). (@$_SESSION['language']) . '.cache';
+        return User::getId() . "_" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : ''). (@$_SESSION['language']) . '.cache';
     }
 
     private function isFirstPage() {
@@ -112,7 +112,7 @@ class Cache extends PluginAbstract {
         
         $isBot = isBot();
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
-            $cachefile = $obj->getCacheDir() . $this->getFileName(); // e.g. cache/index.php.
+            $cachefile = $this->getCacheDir() . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if (!empty($_GET['lifetime'])) {
                 $lifetime = intval($_GET['lifetime']);
@@ -159,11 +159,11 @@ class Cache extends PluginAbstract {
     public function getEnd() {
         global $global;
         $obj = $this->getDataObject();
-        $cachefile = $obj->getCacheDir() . $this->getFileName();
+        $cachefile = $this->getCacheDir() . $this->getFileName();
         $c = ob_get_contents();
         header_remove('Set-Cookie');
-        if (!file_exists($obj->getCacheDir())) {
-            mkdir($obj->getCacheDir(), 0777, true);
+        if (!file_exists($this->getCacheDir())) {
+            mkdir($this->getCacheDir(), 0777, true);
         }
         
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
