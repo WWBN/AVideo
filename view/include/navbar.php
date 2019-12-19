@@ -27,7 +27,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
-//$_GET['parentsOnly'] = "1";
+$_GET['parentsOnly'] = "1";
 if (empty($_SESSION['language'])) {
     $lang = 'us';
 } else {
@@ -911,7 +911,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                         function mkSub($catId) {
                             global $global;
-                            //unset($_GET['parentsOnly']);
+                            unset($_GET['parentsOnly']);
                             $subcats = Category::getChildCategories($catId);
                             if (!empty($subcats)) {
                                 echo "<ul style='margin-bottom: 0px; list-style-type: none;'>";
@@ -1011,4 +1011,5 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 } else if ($thisScriptFile["basename"] !== 'user.php' && empty($advancedCustom->disableNavbar)) {
     header("Location: {$global['webSiteRootURL']}user");
 }
+unset($_GET['parentsOnly']);
 ?>
