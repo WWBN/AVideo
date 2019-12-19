@@ -34,6 +34,7 @@ class Cache extends PluginAbstract {
     }
     
     public function getCacheDir(){
+        global $global;
         $obj = $this->getDataObject();
         $firstPage = "";
         if($this->isFirstPage()){
