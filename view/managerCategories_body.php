@@ -94,7 +94,7 @@
                 fullCatList = data;
                 $.each(data.rows, function (key, val) {
                     console.log(val.id + " " + val.name)
-                    tmpHtml += "<option id='subcat" + val.id + "' value='" + val.id + "' >" + val.name + "</option>";
+                    tmpHtml += "<option id='subcat" + val.id + "' value='" + val.id + "' >" + val.hierarchyAndName + "</option>";
                 });
                 $("#inputParentId").html(tmpHtml);
             });
