@@ -167,6 +167,9 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
 }else{
     $object->categories = array();
 }
+
+$object->userGroups = UserGroups::getAllUsersGroups();
+
 $object->streamServerURL = "";
 $object->streamKey = "";
 if($object->isLogged){

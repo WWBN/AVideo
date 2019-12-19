@@ -155,6 +155,13 @@ $video_id = $video->save();
 $video->updateDurationIfNeed();
 $video->updateHLSDurationIfNeed();
 
+if (!empty($_POST['usergroups_id'])) {
+    if(!is_array($_POST['usergroups_id'])){
+        $_POST['usergroups_id'] = array($_POST['usergroups_id']);
+    }
+    UserGroups::updateVideoGroups($video_id, $_POST['usergroups_id']);
+}
+
 $obj->error = false;
 $obj->video_id = $video_id;
 error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
