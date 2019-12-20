@@ -21,15 +21,21 @@ if (!empty($_POST['id'])) {
     }
 }
 
-if(!is_writable("{$global['systemRootPath']}objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer")){
-   //Directory /home/daniel/danielneto.com@gmail.com/htdocs/AVideo/objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 
-   die('{"error":"Directory '.$global['systemRootPath'].'objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 "}');
+if (!is_writable("{$global['systemRootPath']}objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer")) {
+    //Directory /home/daniel/danielneto.com@gmail.com/htdocs/AVideo/objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 
+    die('{"error":"Directory ' . $global['systemRootPath'] . 'objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 "}');
 }
 
+TimeLogStart(__FILE__);
+
 $obj = new Video($_POST['title'], "", @$_POST['id']);
+
+TimeLogEnd(__FILE__, __LINE__);
+
 $obj->setClean_Title($_POST['clean_title']);
 $audioLinks = array('mp3', 'ogg');
 $videoLinks = array('mp4', 'webm');
+TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['videoLink'])) {
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
     $path_parts = pathinfo($_POST['videoLink']);
@@ -67,20 +73,20 @@ if (!empty($_POST['videoLink'])) {
     if (!empty($_POST['videoLinkType'])) {
         $obj->setType($_POST['videoLinkType']);
     }
-    if(empty($_POST['id'])){
+    if (empty($_POST['id'])) {
         $obj->setStatus('a');
     }
 }
-
-if (!empty($_POST['isArticle'])){
+TimeLogEnd(__FILE__, __LINE__);
+if (!empty($_POST['isArticle'])) {
     $obj->setType("article");
-    if(empty($_POST['id'])){
+    if (empty($_POST['id'])) {
         $obj->setStatus('a');
     }
     $filename = uniqid("_YPTuniqid_", true);
     $filename = $obj->setFilename($filename);
 }
-
+TimeLogEnd(__FILE__, __LINE__);
 $obj->setNext_videos_id($_POST['next_videos_id']);
 if (!empty($_POST['description'])) {
     $obj->setDescription($_POST['description']);
@@ -94,6 +100,7 @@ if (User::isAdmin()) {
     $obj->setUsers_id($_POST['users_id']);
 }
 
+TimeLogEnd(__FILE__, __LINE__);
 $obj->setCan_download(@$_POST['can_download']);
 $obj->setCan_share(@$_POST['can_share']);
 $obj->setOnly_for_paid(@$_POST['only_for_paid']);
@@ -101,14 +108,15 @@ $obj->setTrailer1(@$_POST['trailer1']);
 $obj->setRrating(@$_POST['rrating']);
 $obj->setExternalOptions(@$_POST['externalOptions']);
 
+TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);
 // if is a new embed video
-if (empty($_POST['id']) && $obj->getType()=='embed') {
+if (empty($_POST['id']) && $obj->getType() == 'embed') {
     AVideoPlugin::afterNewVideo($resp);
 }
 
 AVideoPlugin::saveVideosAddNew($_POST, $resp);
-
+TimeLogEnd(__FILE__, __LINE__);
 $obj = new stdClass();
 $obj->status = !empty($resp);
 $obj->msg = $msg;
@@ -116,5 +124,5 @@ $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
 $obj->video = Video::getVideo($obj->videos_id, false);
-
+TimeLogEnd(__FILE__, __LINE__);
 echo json_encode($obj);
