@@ -59,7 +59,7 @@ if (!empty($_GET['type'])) {
         $scope = 'sdpp-w';
     }
     if($_GET['type']==='LinkedIn'){
-        $scope = array('r_emailaddress');
+        $scope = array("r_liteprofile", "r_emailaddress", "w_member_social");
     }
     
     $config = [
