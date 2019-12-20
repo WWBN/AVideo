@@ -120,7 +120,10 @@ class Facebook extends OAuth2
 
         $userProfile->photoURL = $this->apiBaseUrl . $userProfile->identifier . '/picture?width=' . $photoSize . '&height=' . $photoSize;
 
-        $userProfile->emailVerified = $data->get('verified') == 1 ? $userProfile->email : '';
+        // Don't use $data->get('verified') here, as Facebook will only return an email if it is validated first:
+        // https://developers.facebook.com/docs/graph-api/reference/v2.0/user
+        // "The User's primary email address listed on their profile. This field will not be returned if no valid email address is available."
+        $userProfile->emailVerified = $userProfile->email;
 
         $userProfile = $this->fetchUserRegion($userProfile);
 
@@ -280,8 +283,8 @@ class Facebook extends OAuth2
 
         // Refresh proof for API call.
         $parameters = $status + [
-                'appsecret_proof' => hash_hmac('sha256', $page->access_token, $this->clientSecret),
-            ];
+            'appsecret_proof' => hash_hmac('sha256', $page->access_token, $this->clientSecret),
+        ];
 
         $response = $this->apiRequest("{$pageId}/feed", 'POST', $parameters, $headers);
 
@@ -301,7 +304,7 @@ class Facebook extends OAuth2
 
         // Filter user pages by CREATE_CONTENT permission.
         return array_filter($pages->data, function ($page) {
-            return in_array('CREATE_CONTENT', $page->perms);
+            return in_array('CREATE_CONTENT', $page->tasks);
         });
     }
 
@@ -330,7 +333,9 @@ class Facebook extends OAuth2
     }
 
     /**
+     * @param $item
      *
+     * @return User\Activity
      */
     protected function fetchUserActivity($item)
     {

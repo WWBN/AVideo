@@ -94,13 +94,15 @@ class Guzzle implements HttpClientInterface
     /**
     * GuzzleHttp client
     *
-    * @var object
+    * @var \GuzzleHttp\Client
     */
     protected $client = null;
 
     /**
-    * ..
-    */
+     * ..
+     * @param null  $client
+     * @param array $config
+     */
     public function __construct($client = null, $config = [])
     {
         $this->client = $client ? $client : new Client($config);
@@ -109,7 +111,7 @@ class Guzzle implements HttpClientInterface
     /**
     * {@inheritdoc}
     */
-    public function request($uri, $method = 'GET', $parameters = [], $headers = [])
+    public function request($uri, $method = 'GET', $parameters = [], $headers = [], $multipart = false)
     {
         $this->requestHeader = array_replace($this->requestHeader, (array) $headers);
 
@@ -123,39 +125,52 @@ class Guzzle implements HttpClientInterface
         $response = null;
 
         try {
-            if ('GET' == $method) {
-                $response = $this->client->get($uri, ['query' => $parameters, 'headers' => $this->requestHeader]);
+            switch ($method) {
+                case 'GET':
+                case 'DELETE':
+                    $response = $this->client->request($method, $uri, [
+                      'query' => $parameters,
+                      'headers' => $this->requestHeader,
+                    ]);
+                    break;
+                case 'PUT':
+                case 'POST':
+                    $body_type = $multipart ? 'multipart' : 'form_params';
+
+                    if (isset($this->requestHeader['Content-Type'])
+                        && $this->requestHeader['Content-Type'] === 'application/json'
+                    ) {
+                        $body_type = 'json';
+                    }
+
+                    $body_content = $parameters;
+                    if ($multipart) {
+                        $body_content = [];
+                        foreach ($parameters as $key => $val) {
+                            if ($val instanceof \CURLFile) {
+                                $val = fopen($val->getFilename(), 'r');
+                            }
+
+                            $body_content[] = [
+                                'name' => $key,
+                                'contents' => $val,
+                            ];
+                        }
+                    }
+
+                    $response = $this->client->request($method, $uri,
+                        $body_type => $body_content,
+                        'headers' => $this->requestHeader,
+                    ]);
+                    break;
             }
-
-            if ('POST' == $method) {
-                $body_content = 'form_params';
-
-                if (isset($this->requestHeader['Content-Type']) && $this->requestHeader['Content-Type'] == 'application/json') {
-                    $body_content = 'json';
-                }
-
-                $response = $this->client->post($uri, [$body_content => $parameters, 'headers' => $this->requestHeader]);
-            }
-
-            if ('PUT' == $method) {
-                $body_content = 'form_params';
-
-                if (isset($this->requestHeader['Content-Type']) && $this->requestHeader['Content-Type'] == 'application/json') {
-                    $body_content = 'json';
-                }
-
-                $response = $this->client->put($uri, [$body_content => $parameters, 'headers' => $this->requestHeader]);
-            }
-        }
-
-        // guess this will do it for now
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $response = $e->getResponse();
 
             $this->responseClientError = $e->getMessage();
         }
 
-        if (! $this->responseClientError) {
+        if (!$this->responseClientError) {
             $this->responseBody     = $response->getBody();
             $this->responseHttpCode = $response->getStatusCode();
             $this->responseHeader   = $response->getHeaders();
