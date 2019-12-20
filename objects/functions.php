@@ -2419,3 +2419,25 @@ function get_browser_name($user_agent) {
 
     return 'Other (Unknown)';
 }
+
+function TimeLogStart($name) {
+    global $global;
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $global['start'][$name] = $time;
+}
+
+function TimeLogEnd($name, $line, $limit = 0.05) {
+    global $global;
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $finish = $time;
+    $total_time = round(($finish - $global['start'][$name]), 4);
+    if ($total_time > 0.05) {
+        error_log("Warning: Slow process detected [{$name}] takes {$total_time} seconds to complete. ");
+        error_log($_SERVER["SCRIPT_FILENAME"] . " Line {$line}");
+    }
+    TimeLogStart($name);
+}
