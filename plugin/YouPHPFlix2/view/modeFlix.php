@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
 
-$obj = YouPHPTubePlugin::getObjectData("YouPHPFlix2");
+$obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 ?>
 <!DOCTYPE html>
 <html>

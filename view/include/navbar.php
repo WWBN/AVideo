@@ -1,5 +1,24 @@
 <?php
-if(!empty($_GET['noNavbar'])){
+if (isset($_GET['noNavbar'])) {
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (!empty($_GET['noNavbar'])) {    
+        $_SESSION['noNavbar'] = 1;
+    }else{
+        $_SESSION['noNavbar'] = 0;
+    }
+}
+if(!empty($_SESSION['noNavbar'])){
+    //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $actual_link = basename($_SERVER['PHP_SELF']);
+    $params = $_GET;
+    unset($params['noNavbar']);
+    $params['noNavbar'] = "0";
+    $new_query_string = http_build_query($params);
+    ?>
+    <a href="<?php echo $actual_link,"?",$new_query_string; ?>" class="btn btn-default" style="position: absolute; right: 10px; top: 5px;"><i class="fas fa-bars"></i></a>    
+    <?php
     return '';
 }
 global $includeDefaultNavBar, $global, $config, $advancedCustom, $advancedCustomUser;
@@ -20,7 +39,7 @@ if (empty($sidebarStyle)) {
     $sidebarStyle = "display: none;";
 }
 $includeDefaultNavBar = true;
-YouPHPTubePlugin::navBar();
+AVideoPlugin::navBar();
 if (!$includeDefaultNavBar) {
     return false;
 }
@@ -225,7 +244,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         ?>
 
                         <?php
-                        echo YouPHPTubePlugin::getHTMLMenuRight();
+                        echo AVideoPlugin::getHTMLMenuRight();
                         ?>
                         <?php
                         if (User::canUpload() && empty($advancedCustom->doNotShowUploadButton)) {
@@ -306,16 +325,16 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 </li>
                                                 <?php
                                             }
-                                            if (YouPHPTubePlugin::isEnabledByName("Articles")) {
+                                            if (AVideoPlugin::isEnabledByName("Articles")) {
                                                 ?>
                                                 <li>
                                                     <a  href="<?php echo $global['webSiteRootURL']; ?>mvideos?article=1" >
-                                                        <i class="far fa-newspaper"></i> <?php echo  __("Add Article"); ?>
+                                                        <i class="far fa-newspaper"></i> <?php echo __("Add Article"); ?>
                                                     </a>
                                                 </li>
                                                 <?php
                                             }
-                                            echo YouPHPTubePlugin::getUploadMenuButton();
+                                            echo AVideoPlugin::getUploadMenuButton();
                                             ?>
                                         </ul>
                                         <?php
@@ -379,25 +398,25 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <?php
                         if (!empty($advancedCustomUser->signInOnRight)) {
                             if (User::isLogged()) {
-                                if(!$advancedCustomUser->disableSignOutButton){
-                                ?>
-                                <li>
-                                    <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
-                                        <?php
-                                        if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
-                                            ?>
-                                            <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
+                                if (!$advancedCustomUser->disableSignOutButton) {
+                                    ?>
+                                    <li>
+                                        <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
                                             <?php
-                                        } else {
+                                            if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
+                                                ?>
+                                                <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
+                                                <?php
+                                            }
                                             ?>
-                                            <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
-                                            <?php
-                                        }
-                                        ?>
-                                        <i class="fas fa-sign-out-alt"></i> <span class="hidden-md hidden-sm"><?php echo __("Sign Out"); ?></span>
-                                    </a>
-                                </li>
-                                <?php
+                                            <i class="fas fa-sign-out-alt"></i> <span class="hidden-md hidden-sm"><?php echo __("Sign Out"); ?></span>
+                                        </a>
+                                    </li>
+                                    <?php
                                 }
                             } else {
                                 ?>
@@ -477,7 +496,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                                             <li>
                                                 <a href="<?php echo User::getChannelLink(); ?>" >
-                                                    <span class="fab fa-youtube"></span>
+                                                    <span class="fas fa-play-circle"></span>
                                                     <?php echo __($advancedCustomUser->MyChannelLabel); ?>
                                                 </a>
                                             </li>
@@ -495,7 +514,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 <?php
                                             }
 
-                                            print YouPHPTubePlugin::navBarButtons();
+                                            print AVideoPlugin::navBarButtons();
 
                                             if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {
                                                 ?>
@@ -659,7 +678,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                                 <div>
                                     <a href="<?php echo User::getChannelLink(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
-                                        <span class="fab fa-youtube"></span>
+                                        <span class="fas fa-play-circle"></span>
                                         <?php echo __($advancedCustomUser->MyChannelLabel); ?>
                                     </a>
 
@@ -681,7 +700,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                 <?php
                             }
 
-                            print YouPHPTubePlugin::navBarButtons();
+                            print AVideoPlugin::navBarButtons();
 
                             if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {
                                 ?>
@@ -811,6 +830,11 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="#" class="clearCacheFirstPageButton">
+                                        <i class="fa fa-trash"></i> <?php echo __("Clear First Page Cache"); ?>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="#" class="clearCacheButton">
                                         <i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?>
                                     </a>
@@ -906,6 +930,9 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                     }
                     if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
+                        $currentP = @$_POST['current'];
+                        $currentG = @$_GET['current'];
+                        $_GET['current'] = $_POST['current'] = 1;
                         $categories = Category::getAllCategories();
                         foreach ($categories as $value) {
                             if ($advancedCustom->ShowAllVideosOnCategory) {
@@ -918,18 +945,20 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             }
                             echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
                             . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
-                            echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name']; 
-                            if(empty($advancedCustom->hideCategoryVideosCount)){
-                               echo ' <span class="badge">' . $total . '</span>'; 
+                            echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'];
+                            if (empty($advancedCustom->hideCategoryVideosCount)) {
+                                echo ' <span class="badge">' . $total . '</span>';
                             }
                             mkSub($value['id']);
                             echo '</a></li>';
                         }
+                        $_POST['current'] = $currentP;
+                        $_GET['current'] = $currentG;
                     }
                     ?>
 
                     <?php
-                    echo YouPHPTubePlugin::getHTMLMenuLeft();
+                    echo AVideoPlugin::getHTMLMenuLeft();
                     ?>
 
                     <!-- categories END -->
@@ -982,4 +1011,5 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 } else if ($thisScriptFile["basename"] !== 'user.php' && empty($advancedCustom->disableNavbar)) {
     header("Location: {$global['webSiteRootURL']}user");
 }
+unset($_GET['parentsOnly']);
 ?>

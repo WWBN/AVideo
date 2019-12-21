@@ -84,7 +84,7 @@ class WalletLog extends ObjectYPT {
         }
         
         $sql .= self::getSqlFromPost();
-        $obj = YouPHPTubePlugin::getObjectData("YPTWallet");
+        $obj = AVideoPlugin::getObjectData("YPTWallet");
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {

@@ -54,7 +54,7 @@ class TagsHasVideos extends ObjectYPT {
             return false;
         }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  tags_id = ? AND videos_id = ? LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql, "ii", array($tags_id, $videos_id));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

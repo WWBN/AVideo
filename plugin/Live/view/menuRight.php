@@ -44,7 +44,7 @@ if (User::canStream()) {
     <a href="" class="h6 videoLink">
         <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" style="min-height: 70px; position:relative;" >
             <img src="<?php echo $global['webSiteRootURL']; ?>videos/userPhoto/logo.png" class="thumbsJPG img-responsive" height="130" itemprop="thumbnailUrl" />
-            <meta itemprop="uploadDate" content="<?php echo date("Y-m-d h:i:s"); ?>" />
+            <span itemprop="uploadDate" content="<?php echo date("Y-m-d h:i:s"); ?>" />
             <img src="" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
             <span class="label label-danger liveNow faa-flash faa-slow animated"><?php echo __("LIVE NOW"); ?></span>
         </div>
@@ -59,9 +59,9 @@ if (User::canStream()) {
                 </div>
             </div>
             <?php
-            require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+            require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
             // the live users plugin
-            $lu = YouPHPTubePlugin::getObjectDataIfEnabled("LiveUsers");
+            $lu = AVideoPlugin::getObjectDataIfEnabled("LiveUsers");
             if(!empty($lu) && !$lu->doNotDisplayCounter){
                 ?>
                 <span class="label label-primary"  data-toggle="tooltip" title="<?php echo __("Watching Now"); ?>" data-placement="bottom" ><i class="fa fa-user"></i> <b class="liveUsersOnline">0</b></span>

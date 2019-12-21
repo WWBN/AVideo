@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `ad_overlay_codes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `users_id` INT(11) NOT NULL,
   `code` TEXT NULL,
+  `status` ENUM('a', 'i') NOT NULL DEFAULT 'i',
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   INDEX `fk_ad_overlay_codes_users_idx` (`users_id` ASC),

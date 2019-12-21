@@ -17,7 +17,7 @@ if (!User::isLogged()) {
 }
 
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("PlayLists");
+$plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
 if(empty($plugin)){
     $obj->msg = "Plugin not enabled";
     die(json_encode($obj));

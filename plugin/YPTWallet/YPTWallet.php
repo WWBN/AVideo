@@ -12,7 +12,7 @@ class YPTWallet extends PluginAbstract {
     const MANUAL_ADD = "Manual Add Funds";
 
     public function getDescription() {
-        return "Wallet for YouPHPTube";
+        return "Wallet for AVideo";
     }
 
     public function getName() {
@@ -96,13 +96,13 @@ class YPTWallet extends PluginAbstract {
 
     static function formatCurrency($value) {
         $value = floatval($value);
-        $obj = YouPHPTubePlugin::getObjectData('YPTWallet');
+        $obj = AVideoPlugin::getObjectData('YPTWallet');
         return "{$obj->currency_symbol} " . number_format($value, $obj->decimalPrecision) . " {$obj->currency}";
     }
 
     static function formatFloat($value) {
         $value = floatval($value);
-        $obj = YouPHPTubePlugin::getObjectData('YPTWallet');
+        $obj = AVideoPlugin::getObjectData('YPTWallet');
         return number_format($value, $obj->decimalPrecision);
     }
 

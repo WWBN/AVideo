@@ -1,8 +1,8 @@
 
 <?php
-require_once $global['systemRootPath'].'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'].'plugin/AVideoPlugin.php';
 // the live users plugin
-$lu = YouPHPTubePlugin::getObjectDataIfEnabled("LiveUsers");
+$lu = AVideoPlugin::getObjectDataIfEnabled("LiveUsers");
 if(empty($lu) || $lu->doNotDisplayCounter){
     return false;
 }

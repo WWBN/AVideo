@@ -30,7 +30,7 @@ class Tags extends ObjectYPT {
     static protected function getFromName($name, $tags_types_id) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  name = ? AND tags_types_id = ? LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql,"si",array($name, $tags_types_id)); 
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

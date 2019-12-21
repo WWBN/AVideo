@@ -55,7 +55,7 @@ class LiveTransmitionHistoryLog extends ObjectYPT {
     function getFromHistoryAndSession($live_transmitions_history_id, $session_id){
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  live_transmitions_history_id = ? AND session_id = ? ORDER BY created LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql,"is",array($live_transmitions_history_id, $session_id)); 
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

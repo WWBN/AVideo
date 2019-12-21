@@ -104,13 +104,15 @@ class Twitter extends OAuth1
                                         ? ('http://twitter.com/' . $data->get('screen_name'))
                                         : '';
 
-        $userProfile->photoURL      = $data->exists('profile_image_url')
-                                        ? str_replace('_normal', '', $data->get('profile_image_url'))
+        $photoSize = $this->config->get('photo_size') ?: 'original';
+        $photoSize = $photoSize === 'original' ? '' : "_{$photoSize}";
+        $userProfile->photoURL      = $data->exists('profile_image_url_https')
+                                        ? str_replace('_normal', $photoSize, $data->get('profile_image_url_https'))
                                         : '';
 
         $userProfile->data = [
-          'followed_by' => $data->get('friends_count'),
-          'follows' => $data->get('followers_count'),
+          'followed_by' => $data->get('followers_count'),
+          'follows' => $data->get('friends_count'),
         ];
 
         return $userProfile;
@@ -160,7 +162,9 @@ class Twitter extends OAuth1
     }
 
     /**
+     * @param $item
      *
+     * @return User\Contact
      */
     protected function fetchUserContact($item)
     {
@@ -231,7 +235,8 @@ class Twitter extends OAuth1
     }
 
     /**
-     *
+     * @param $item
+     * @return User\Activity
      */
     protected function fetchUserActivity($item)
     {

@@ -188,7 +188,7 @@ class Subscribe {
     static function getSubscribedChannels($user_id) {
         global $global;
 
-        $sql = "SELECT s.* FROM subscribes as s WHERE subscriber_users_id = ? ";
+        $sql = "SELECT s.* FROM subscribes as s WHERE status = 'a' AND subscriber_users_id = ? ";
 
         $res = sqlDAL::readSql($sql, "i", array($user_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
@@ -275,7 +275,7 @@ class Subscribe {
                 . "<button class='btn btn-xs subsB subs{$user_id} subscribeButton{$user_id}' "
                 . "title=\"" . __("Want to subscribe to this channel?") . "\" "
                 . "data-content=\"" . __("Sign in to subscribe to this channel") . "<hr><center><a class='btn btn-success btn-sm' href='{$global['webSiteRootURL']}user'>" . __("Sign in") . "</a></center>\"  "
-                . "tabindex=\"0\" role=\"button\" data-html=\"true\"  data-toggle=\"popover\" data-placement=\"bottom\" ><i class='fab fa-youtube'></i> <b class='text'>" . __("Subscribe") . "</b></button>"
+                . "tabindex=\"0\" role=\"button\" data-html=\"true\"  data-toggle=\"popover\" data-placement=\"bottom\" ><i class='fas fa-play-circle'></i> <b class='text'>" . __("Subscribe") . "</b></button>"
                 . "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>{$total}</b></button>"
                 . "</div>";
 
@@ -290,10 +290,10 @@ class Subscribe {
             // show unsubscribe Button
             $subscribe = "<div class=\"btn-group\">";
             if(!empty($subs) && $subs['status']==='a'){
-                $subscribe .= "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><i class='fab fa-youtube'></i> <b class='text'>" . __("Subscribed") . "</b></button>";
+                $subscribe .= "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><i class='fas fa-play-circle'></i> <b class='text'>" . __("Subscribed") . "</b></button>";
                 $subscribe .= "<button class='btn btn-xs subsB subscribed subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>";
             }else{
-                $subscribe .= "<button class='btn btn-xs subsB subscribeButton{$user_id} subs{$user_id}'><i class='fab fa-youtube'></i> <b class='text'>" . __("Subscribe") . "</b></button>";
+                $subscribe .= "<button class='btn btn-xs subsB subscribeButton{$user_id} subs{$user_id}'><i class='fas fa-play-circle'></i> <b class='text'>" . __("Subscribe") . "</b></button>";
                     $subscribe .= "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>";
             }
             $subscribe .= "</div>";

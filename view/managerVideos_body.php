@@ -63,7 +63,8 @@
                     }
                     ?>
                     <?php
-                    $categories = Category::getAllCategories(true);
+                    $categories = Category::getAllCategories(User::isAdmin()?false:true);
+                    array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
                     if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
                         if (empty($advancedCustom->doNotShowEncoderButton)) {
                             if (!empty($config->getEncoderURL())) {
@@ -95,7 +96,7 @@
                             </button>
                             <?php
                         }
-                        if (YouPHPTubePlugin::isEnabledByName("Articles")) {
+                        if (AVideoPlugin::isEnabledByName("Articles")) {
                             ?>
                             <button class="btn btn-sm btn-xs btn-default" id="addArticle" onclick="newArticle()">
                                 <i class="far fa-newspaper"></i>
@@ -109,7 +110,7 @@
             </div>
         </div>
         <div class="panel panel-default">
-            <div class="panel-body"><?php echo YouPHPTubePlugin::getVideoManagerButton(); ?></div>
+            <div class="panel-body"><?php echo AVideoPlugin::getVideoManagerButton(); ?></div>
         </div>
         <small class="text-muted clearfix">
             <?php
@@ -147,7 +148,7 @@
                 </button>
                 <?php if (!$config->getDisable_youtubeupload()) { ?>
                     <button class="btn btn-danger" id="uploadYouTubeBtn">
-                        <i class="fab fa-youtube" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
+                        <i class="fas fa-play-circle" aria-hidden="true"></i> <?php echo __('Upload to YouTube'); ?>
                     </button>
                     <?php
                 }
@@ -159,7 +160,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <?php
                             foreach ($categories as $value) {
-                                echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['name']}</a></li>";
+                                echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
                             }
                             ?>
                         </ul>
@@ -248,7 +249,7 @@
                             <li><a data-toggle="tab" href="#pimages">Images</a></li>
                             <li><a data-toggle="tab" href="#pmetadata">Meta Data</a></li>
                             <?php
-                            echo YouPHPTubePlugin::getManagerVideosTab();
+                            echo AVideoPlugin::getManagerVideosTab();
                             ?>
                         </ul>
 
@@ -302,7 +303,7 @@
                                         <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
                                     </div>
                                     <?php
-                                    echo YouPHPTubePlugin::getManagerVideosEditField();
+                                    echo AVideoPlugin::getManagerVideosEditField();
                                     ?>
                                     <label for="inputDescription" ><?php echo __("Description"); ?></label>
                                     <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
@@ -313,7 +314,7 @@
                                         <select class="form-control last" id="inputCategory" required>
                                             <?php
                                             foreach ($categories as $value) {
-                                                echo "<option value='{$value['id']}'>{$value['name']}</option>";
+                                                echo "<option value='{$value['id']}'>{$value['hierarchyAndName']}</option>";
                                             }
                                             ?>
                                         </select>
@@ -514,7 +515,7 @@
                             </div>
 
                             <?php
-                            echo YouPHPTubePlugin::getManagerVideosBody();
+                            echo AVideoPlugin::getManagerVideosBody();
                             ?>
                         </div>
                     </div>
@@ -612,7 +613,7 @@
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.iframe-transport.js"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
 <?php
-echo YouPHPTubePlugin::getManagerVideosJavaScripts();
+echo AVideoPlugin::getManagerVideosJavaScripts();
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
@@ -915,7 +916,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#inputCategory').val(row.categories_id);
         $('#inputRrating').val(row.rrating);
 <?php
-echo YouPHPTubePlugin::getManagerVideosEdit();
+echo AVideoPlugin::getManagerVideosEdit();
 ?>
 
         if (row.next_id) {
@@ -1104,7 +1105,7 @@ echo YouPHPTubePlugin::getManagerVideosEdit();
                 data: {
                 "externalOptions":externalOptions,
 <?php
-echo YouPHPTubePlugin::getManagerVideosAddNew();
+echo AVideoPlugin::getManagerVideosAddNew();
 ?>
                 "id": $('#inputVideoId').val(),
                         "title": $('#inputTitle').val(),
@@ -1185,7 +1186,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#removeAutoplay').trigger('click');
 
 <?php
-echo YouPHPTubePlugin::getManagerVideosReset();
+echo AVideoPlugin::getManagerVideosReset();
 ?>
         var photoURL = '<?php echo User::getPhoto(); ?>';
         $("#inputUserOwner-img").attr("src", photoURL);
@@ -1253,7 +1254,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#videoLink').val('');
         $('#videoStartSecond').val('00:00:00');
 <?php
-echo YouPHPTubePlugin::getManagerVideosReset();
+echo AVideoPlugin::getManagerVideosReset();
 ?>
 
         setTimeout(function () {
@@ -1525,7 +1526,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             $('#videoLink').val('');
             $('#videoStartSecond').val('00:00:00');
 <?php
-echo YouPHPTubePlugin::getManagerVideosReset();
+echo AVideoPlugin::getManagerVideosReset();
 ?>
 
             setTimeout(function () {
@@ -1671,7 +1672,7 @@ if (User::isAdmin()) {
                         rotateBtn = "";
                     }
                     var status;
-                    var pluginsButtons = '<br><?php echo YouPHPTubePlugin::getVideosManagerListButton(); ?>';
+                    var pluginsButtons = '<br><?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                     var download = "";
                     for (var k in row.videosURL) {
                         if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
@@ -1742,7 +1743,7 @@ if (User::isAdmin()) {
                         if (row.youtubeId) {
                             //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fas fa-external-link-alt " aria-hidden="true"></span></a>';
                         }
-                        var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fab fa-youtube" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
+                        var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fas fa-play-circle" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
                         if (row.status == "d" || row.status == "e") {
                             yt = "";
                         }
@@ -1787,7 +1788,7 @@ if (User::isAdmin()) {
                         }
                     }
 <?php
-if (YouPHPTubePlugin::isEnabledByName('PlayLists')) {
+if (AVideoPlugin::isEnabledByName('PlayLists')) {
     ?>
                         var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' style='height:100px; overflow-y: scroll; padding:10px 5px;'></div>";
     <?php

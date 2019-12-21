@@ -97,7 +97,7 @@
         <div id="menu1" class="tab-pane fade">
             <div class="list-group-item">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><a href="https://www.youphptube.com/plugins/" class="btn btn-default btn-xs"><i class="fa fa-plug"></i> Plugin Store </a></div>
+                    <div class="panel-heading"><a href="https://plugins.avideo.com/" class="btn btn-default btn-xs"><i class="fa fa-plug"></i> Plugin Store </a></div>
                     <div class="panel-body">
                         <ul class="list-group" id="pluginStoreList">
                         </ul>
@@ -132,7 +132,7 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <a href="https://www.youphptube.com/plugins/" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
+                <a href="https://youphp.tube/plugins/" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
             </div>
         </div>
     </li>
@@ -372,7 +372,7 @@
             $("#grid").bootgrid('reload');
         });
         $.ajax({
-            url: 'https://www.youphptube.com/plugins/plugins.json?jsonp=1',
+            url: 'https://plugins.avideo.com/plugins.json?jsonp=1',
             dataType: 'jsonp',
             success: function (response) {
                 for (i = 0; i < response.rows.length; i++) {

@@ -54,7 +54,7 @@ if (empty($video)) {
     $video = Video::getVideo("", "viewable", false, false, false, true);
 }
 if (empty($video)) {
-    $video = YouPHPTubePlugin::getVideo();
+    $video = AVideoPlugin::getVideo();
 }
 
 // allow users to count a view again in case it is refreshed
@@ -184,7 +184,7 @@ if (!empty($video)) {
 } else {
     $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
 }
-$objSecure = YouPHPTubePlugin::getObjectDataIfEnabled('SecureVideosDirectory');
+$objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
 
 if (!empty($autoPlayVideo)) {
     $autoPlaySources = getSources($autoPlayVideo['filename'], true);
@@ -205,7 +205,12 @@ if (empty($_GET['videoName'])) {
 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 
 
-YouPHPTubePlugin::getModeYouTube($v['id']);
+AVideoPlugin::getModeYouTube($v['id']);
+
+if(empty($video)){
+    header('HTTP/1.0 404 Not Found', true, 404);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -361,10 +366,10 @@ YouPHPTubePlugin::getModeYouTube($v['id']);
                                         <?php if (!empty($imgGif)) { ?>
                                             <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" id="thumbsGIF<?php echo $autoPlayVideo['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130" />
                                         <?php } ?>
-                                        <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                                        <meta itemprop="contentURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title']); ?>" />
-                                        <meta itemprop="embedURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], true); ?>" />
-                                        <meta itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
+                                        <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                                        <span itemprop="contentURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title']); ?>" />
+                                        <span itemprop="embedURL" content="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], true); ?>" />
+                                        <span itemprop="uploadDate" content="<?php echo $autoPlayVideo['created']; ?>" />
                                         <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($autoPlayVideo['duration']); ?>"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></time>
                                     </div>
                                     <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">

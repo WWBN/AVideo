@@ -7,9 +7,10 @@ if (!User::isAdmin()) {
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
 $categories = Category::getAllCategories();
+array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
 $groups = UserGroups::getAllUsersGroups();
 $users = User::getAllUsers();
-$o = YouPHPTubePlugin::getObjectData("PredefinedCategory");
+$o = AVideoPlugin::getObjectData("PredefinedCategory");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -200,7 +201,7 @@ $o = YouPHPTubePlugin::getObjectData("PredefinedCategory");
                                             ?>
                                             <div class="funkyradio-info">
                                                 <input type="radio" name="radioUserCat" class="categoryGroupRadio" id="radioUserCat<?php echo $value['id']; ?>" value="<?php echo $value['id']; ?>"/>
-                                                <label for="radioUserCat<?php echo $value['id']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?></label>
+                                                <label for="radioUserCat<?php echo $value['id']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['hierarchyAndName']; ?></label>
                                             </div>
                                             <?php
                                         }
@@ -217,7 +218,7 @@ $o = YouPHPTubePlugin::getObjectData("PredefinedCategory");
                 <div class="alert alert-info">
                     <i class="fa fa-info-circle"></i> Here you can choose the default user group.<br>
                     When ever you upload a new video this video will be exclusive for the 
-                    <a href="http://127.0.0.1/YouPHPTube/usersGroups">user groups</a> you selected.<br>
+                    <a href="http://127.0.0.1/AVideo/usersGroups">user groups</a> you selected.<br>
                     Leave it blank to be public by default
                 </div>
                 <div class="card">

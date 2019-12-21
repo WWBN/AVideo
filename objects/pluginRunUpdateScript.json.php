@@ -14,9 +14,9 @@ if (empty($_POST['name'])) {
     die('{"error":"' . __("Name can't be blank") . '"}');
 }
 ini_set('max_execution_time', 300);
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
-$res=YouPHPTubePlugin::updatePlugin($_POST['name']); 
+$res=AVideoPlugin::updatePlugin($_POST['name']); 
 
 
 

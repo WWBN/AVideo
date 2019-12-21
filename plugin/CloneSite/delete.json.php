@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('CloneSite');
+$plugin = AVideoPlugin::loadPluginIfEnabled('CloneSite');
 
 if(!User::isAdmin()){
     $obj->msg = "You cant do this";

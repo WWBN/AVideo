@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'objects/playlist.php';
 if (!User::isLogged()) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
-$obj = YouPHPTubePlugin::getObjectDataIfEnabled('PlayLists');
+$obj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 
 if (empty($obj)) {
     echo "Not enabled";
@@ -49,7 +49,7 @@ if(!empty($_GET['action'])){
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 
         <?php
-        echo YouPHPTubePlugin::getHeadCode();
+        echo AVideoPlugin::getHeadCode();
         ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

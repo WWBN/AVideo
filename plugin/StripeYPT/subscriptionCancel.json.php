@@ -12,7 +12,7 @@ if (empty($_POST['stripe_costumer_id'])) {
     die(json_encode($obj));
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
 
 
 $subs = SubscriptionTable::getFromStripeCostumerId($_POST['stripe_costumer_id']);

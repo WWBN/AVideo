@@ -4,8 +4,8 @@ $basePath = parse_url ($global['webSiteRootURL'], PHP_URL_PATH);
 use Pecee\SimpleRouter\SimpleRouter;
 
 // At the beginning, so that no plugin can overwrite the defined rules.
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-YouPHPTubePlugin::addRoutes();
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+AVideoPlugin::addRoutes();
 
 SimpleRouter::get($basePath, function() {
     require_once "view/index.php";
@@ -175,23 +175,23 @@ SimpleRouter::get($basePath . "plugins", function() {
     exit;
 });
 
-SimpleRouter::post($basePath . "youPHPTubeQueueEncoder.json", function() {
-    require_once "objects/youPHPTubeQueueEncoder.json.php";
+SimpleRouter::post($basePath . "aVideoQueueEncoder.json", function() {
+    require_once "objects/aVideoQueueEncoder.json.php";
     exit;
 });
 
-SimpleRouter::post($basePath . "youPHPTubeEncoder.json", function() {
-    require_once "objects/youPHPTubeEncoder.json.php";
+SimpleRouter::post($basePath . "aVideoEncoder.json", function() {
+    require_once "objects/aVideoEncoder.json.php";
     exit;
 });
 
-SimpleRouter::get($basePath . "youPHPTubeQueueEncoder.json", function() {
-    require_once "objects/youPHPTubeQueueEncoder.json.php";
+SimpleRouter::get($basePath . "aVideoQueueEncoder.json", function() {
+    require_once "objects/aVideoQueueEncoder.json.php";
     exit;
 });
 
-SimpleRouter::get($basePath . "youPHPTubeEncoder.json", function() {
-    require_once "objects/youPHPTubeEncoder.json.php";
+SimpleRouter::get($basePath . "aVideoEncoder.json", function() {
+    require_once "objects/aVideoEncoder.json.php";
     exit;
 });
 
@@ -434,23 +434,23 @@ SimpleRouter::get($basePath . "plugins", function() {
     exit;
 });
 
-SimpleRouter::post($basePath . "youPHPTubeQueueEncoder.json", function() {
-    require_once "objects/youPHPTubeQueueEncoder.json.php";
+SimpleRouter::post($basePath . "aVideoQueueEncoder.json", function() {
+    require_once "objects/aVideoQueueEncoder.json.php";
     exit;
 });
 
-SimpleRouter::post($basePath . "youPHPTubeEncoder.json", function() {
-    require_once "objects/youPHPTubeEncoder.json.php";
+SimpleRouter::post($basePath . "aVideoEncoder.json", function() {
+    require_once "objects/aVideoEncoder.json.php";
     exit;
 });
 
-SimpleRouter::get($basePath . "youPHPTubeQueueEncoder.json", function() {
-    require_once "objects/youPHPTubeQueueEncoder.json.php";
+SimpleRouter::get($basePath . "aVideoQueueEncoder.json", function() {
+    require_once "objects/aVideoQueueEncoder.json.php";
     exit;
 });
 
-SimpleRouter::get($basePath . "youPHPTubeEncoder.json", function() {
-    require_once "objects/youPHPTubeEncoder.json.php";
+SimpleRouter::get($basePath . "aVideoEncoder.json", function() {
+    require_once "objects/aVideoEncoder.json.php";
     exit;
 });
 

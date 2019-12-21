@@ -35,6 +35,12 @@ class ReportVideo extends PluginAbstract {
 
     public function getWatchActionButton($videos_id) {
         global $global, $video;
+        if(empty($video['id']) && empty($videos_id)){
+            return '';
+        }
+        if(empty($video['id'])){
+            $video['id'] = intval($videos_id);
+        }
         include $global['systemRootPath'] . 'plugin/ReportVideo/actionButton.php';
     }
 

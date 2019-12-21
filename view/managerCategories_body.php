@@ -7,15 +7,12 @@
     <table id="grid" class="table table-condensed table-hover table-striped">
         <thead>
             <tr>
-                <th data-column-id="id" data-type="numeric" data-identifier="true"><?php echo __("ID"); ?></th>
-                <th data-column-id="iconHtml" data-sortable="false"><?php echo __("Icon"); ?></th>
-                <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                <th data-column-id="nextVideoOrder" data-formatter="nextVideoOrder"><?php echo __("Next video order"); ?></th>
-                <th data-column-id="parentId" data-formatter="parentId" ><?php echo __("Parent ID"); ?></th>
-                <th data-column-id="type" data-formatter="type"><?php echo __("Type"); ?></th>
+                <th data-column-id="id" data-type="numeric" data-identifier="true" data-width="5%"><?php echo __("ID"); ?></th>
+                <th data-column-id="iconHtml" data-sortable="false" data-width="5%"><?php echo __("Icon"); ?></th>
+                <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="40%"><?php echo __("Name"); ?></th>
                 <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
                 <th data-column-id="owner"><?php echo __("Owner"); ?></th>
-                <th data-column-id="total" data-sortable="false"><?php echo __("Total Videos"); ?></th>
+                <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Total Videos"); ?></th>
                 <th data-column-id="allow_download" ><?php echo __("Can Download"); ?></th>
                 <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
             </tr>
@@ -96,8 +93,8 @@
                 var tmpHtml = "<option value='0' ><?php echo __("None (Parent)"); ?></option>";
                 fullCatList = data;
                 $.each(data.rows, function (key, val) {
-                    console.log(val.id + " " + val.name)
-                    tmpHtml += "<option id='subcat" + val.id + "' value='" + val.id + "' >" + val.name + "</option>";
+                    console.log(val.id + " " + val.hierarchyAndName);
+                    tmpHtml += "<option id='subcat" + val.id + "' value='" + val.id + "' >" + val.hierarchyAndName + "</option>";
                 });
                 $("#inputParentId").html(tmpHtml);
             });
@@ -129,28 +126,8 @@
                         return "<?php echo __("By name"); ?>";
                     }
                 },
-                "parentId": function (column, row) {
-                    //if(fullCatList==undefined){
-                    // refreshSubCategoryList();    
-                    // }
-                    if (fullCatList != undefined) {
-                        var returnValue;
-                        $.each(fullCatList.rows, function (key, val) {
-                            //console.log(val.id + " = "+row.id);
-                            if (val.id == row.parentId) {
-                                console.log("found sub " + val.name);
-                                returnValue = val.name;
-                            } else if ((row.parentId == "0") || (row.parentId == "-1")) {
-                                console.log("found parent");
-                                returnValue = "<?php echo __("None (Parent)"); ?>";
-                            }
-                        });
-                        if (returnValue != undefined) {
-                            return returnValue;
-                        }
-                    }
-                    return <?php __("Not loaded yet"); ?>;
-
+                "name": function (column, row) {
+                    return row.hierarchyAndName
                 },
                 "type": function (column, row) {
                     if (row.type == '3') {

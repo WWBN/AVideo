@@ -2,7 +2,7 @@
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-$p = YouPHPTubePlugin::loadPlugin("Live");
+$p = AVideoPlugin::loadPlugin("Live");
 
 if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
@@ -110,8 +110,8 @@ if (empty($channelName)) {
                             <input type="text" class="form-control" id="playerURL" value="<?php echo $p->getM3U8File($trasnmition['key']); ?>"  readonly="readonly">
                         </div>       
                         <div class="form-group">
-                            <label for="youphptubeURL"><i class="fa fa-circle"></i> <?php echo __("Live URL"); ?>:</label>
-                            <input type="text" class="form-control" id="youphptubeURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode($channelName); ?>"  readonly="readonly">
+                            <label for="avideoURL"><i class="fa fa-circle"></i> <?php echo __("Live URL"); ?>:</label>
+                            <input type="text" class="form-control" id="avideoURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode($channelName); ?>"  readonly="readonly">
                         </div>   
                         <div class="form-group">
                             <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
@@ -140,7 +140,7 @@ if (empty($channelName)) {
                     </div>
                 </div>
                 <?php
-                YouPHPTubePlugin::getLivePanel();
+                AVideoPlugin::getLivePanel();
                 ?>
             </div>
             <div class="col-md-6">

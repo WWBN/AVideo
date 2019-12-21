@@ -18,7 +18,7 @@
                     <source src="<?php echo $p->getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                 </video>
                 <?php
-                if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+                if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
                     require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
                     $style = VideoLogoOverlay::getStyle();
                     $url = VideoLogoOverlay::getLink();
@@ -40,7 +40,7 @@
 
 
             <?php
-            $liveCount = YouPHPTubePlugin::loadPluginIfEnabled('LiveCountdownEvent');
+            $liveCount = AVideoPlugin::loadPluginIfEnabled('LiveCountdownEvent');
             $html = array();
             if ($liveCount) {
                 $html = $liveCount->getNextLiveApplicationFromUser($user_id);
@@ -84,7 +84,7 @@ if ($config->getAutoplay()) {
 }
 ?>
         player.persistvolume({
-            namespace: "YouPHPTube"
+            namespace: "AVideo"
         });
     });
 </script>

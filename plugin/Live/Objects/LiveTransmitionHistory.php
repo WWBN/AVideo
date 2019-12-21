@@ -100,7 +100,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     static function getLatest($key){
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? ORDER BY created DESC LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         
         $res = sqlDAL::readSql($sql,"s",array($key)); 
         $data = sqlDAL::fetchAssoc($res);
@@ -114,7 +114,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     }
 
     public function save() {
-        YouPHPTubePlugin::onLiveStream($this->users_id);
+        AVideoPlugin::onLiveStream($this->users_id);
         return parent::save();
     }
     

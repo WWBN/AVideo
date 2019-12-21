@@ -185,7 +185,7 @@ foreach ($videos as $value) {
                         <?php echo $value['description']; ?>
                     </h4>
                     <?php
-                    if (YouPHPTubePlugin::isEnabledByName("VideoTags")) {
+                    if (AVideoPlugin::isEnabledByName("VideoTags")) {
                         echo VideoTags::getLabels($value['id']);
                     }
                     ?>
@@ -207,7 +207,7 @@ foreach ($videos as $value) {
                 }
                 ?>
                 <?php
-                echo YouPHPTubePlugin::getNetflixActionButton($value['id']);
+                echo AVideoPlugin::getNetflixActionButton($value['id']);
                 ?>
             </div>
         </div>

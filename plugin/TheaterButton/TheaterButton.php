@@ -30,7 +30,7 @@ class TheaterButton extends PluginAbstract {
     
     public function getHeadCode() {
         global $global;
-        if (empty($_GET['videoName'])) {
+        if (empty($_GET['videoName']) || isMobile()) {
             return "";
         }
         $tmp = "mainVideo";
@@ -74,7 +74,7 @@ class TheaterButton extends PluginAbstract {
     
     private function showButton(){
         global $global, $isEmbed, $advancedCustom;
-        if ((empty($_GET['videoName']))) {
+        if ((empty($_GET['videoName'])) || isMobile()) {
             return false;
         }
         $video = Video::getVideoFromCleanTitle($_GET['videoName']);

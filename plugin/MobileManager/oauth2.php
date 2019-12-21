@@ -11,7 +11,7 @@ use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
 
 if (!empty($_GET['type'])) {
-    $login = YouPHPTubePlugin::getLogin();
+    $login = AVideoPlugin::getLogin();
     foreach ($login as $value) {
         $obj = $value['loginObject']->getDataObject();
         if ($value['parameters']->type === $_GET['type']) {

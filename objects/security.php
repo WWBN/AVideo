@@ -2,30 +2,92 @@
 
 require_once $global['systemRootPath'] . 'objects/functions.php';
 // filter some security here
-$securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link');
-$securityFilterInt = array('videos_id', 'video_id', 'categories_id', 'user_id', 'users_id', 'comments_id');
-$securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName');
+$securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region');
+$securityFilterInt = array('videos_id', 'video_id', 'categories_id', 'user_id', 'users_id', 'comments_id', 'isAdmin', 'priority', 'totalClips');
+$securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin');
+$securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
+$filterURL = array('videoURL', 'siteURL');
+
+if (!empty($_GET['base64Url'])) {
+    if (!filter_var(base64_decode($_GET['base64Url']), FILTER_VALIDATE_URL)) {
+        error_log('base64Url attack ' . json_encode($_SERVER));
+        exit;
+    }
+}
+
+if (!empty($_POST['base64Url'])) {
+    if (!filter_var(base64_decode($_POST['base64Url']), FILTER_VALIDATE_URL)) {
+        error_log('base64Url attack ' . json_encode($_SERVER));
+        exit;
+    }
+}
+
+foreach ($filterURL as $key => $value) {
+    if (!empty($_GET[$value])) {
+        if (!filter_var($_GET[$value], FILTER_VALIDATE_URL)) {
+            error_log($value.' attack ' . json_encode($_SERVER));
+            exit;
+        }
+    }
+    if (!empty($_POST[$value])) {
+        if (!filter_var($_POST[$value], FILTER_VALIDATE_URL)) {
+            error_log($value.' attack ' . json_encode($_SERVER));
+            exit;
+        }
+    }
+}
 
 
-foreach ($securityRemoveSingleQuotes as $value) {
+if (!empty($_FILES)) {
+    foreach ($_FILES as $key=>$value) {
+        $_FILES[$key]['name'] = preg_replace('/[^a-z0-9.]/i', '', $_FILES[$key]['name']);
+    }
+}
+
+foreach ($securityRemoveNonChars as $value) {
     if (!empty($_POST[$value])) {
         if (is_string($_POST[$value])) {
-            $_POST[$value] = str_replace("'","",trim($_POST[$value]));
+            $_POST[$value] = str_replace('/[^a-z0-9./]/i', '', trim($_POST[$value]));
         } else if (is_array($_POST[$value])) {
-            foreach ($_POST[$value] as $key => $value) {
+            foreach ($_POST[$value] as $key => $value2) {
                 if (is_string($_POST[$value][$key])) {
-                    $_POST[$value][$key] = str_replace("'","",trim($_POST[$value][$key]));
+                    $_POST[$value][$key] = str_replace('/[^a-z0-9./]/i', '', trim($_POST[$value][$key]));
                 }
             }
         }
     }
     if (!empty($_GET[$value])) {
         if (is_string($_GET[$value])) {
-            $_GET[$value] = str_replace("'","",trim($_GET[$value]));
+            $_GET[$value] = str_replace('/[^a-z0-9./]/i', '', trim($_GET[$value]));
         } else if (is_array($_GET[$value])) {
-            foreach ($_GET[$value] as $key => $value) {
+            foreach ($_GET[$value] as $key => $value2) {
                 if (is_string($_GET[$value][$key])) {
-                    $_GET[$value][$key] = str_replace("'","",trim($_GET[$value][$key]));
+                    $_GET[$value][$key] = str_replace('/[^a-z0-9./]/i', '', trim($_GET[$value][$key]));
+                }
+            }
+        }
+    }
+}
+
+foreach ($securityRemoveSingleQuotes as $value) {
+    if (!empty($_POST[$value])) {
+        if (is_string($_POST[$value])) {
+            $_POST[$value] = str_replace("'", "", trim($_POST[$value]));
+        } else if (is_array($_POST[$value])) {
+            foreach ($_POST[$value] as $key => $value2) {
+                if (is_string($_POST[$value][$key])) {
+                    $_POST[$value][$key] = str_replace("'", "", trim($_POST[$value][$key]));
+                }
+            }
+        }
+    }
+    if (!empty($_GET[$value])) {
+        if (is_string($_GET[$value])) {
+            $_GET[$value] = str_replace("'", "", trim($_GET[$value]));
+        } else if (is_array($_GET[$value])) {
+            foreach ($_GET[$value] as $key => $value2) {
+                if (is_string($_GET[$value][$key])) {
+                    $_GET[$value][$key] = str_replace("'", "", trim($_GET[$value][$key]));
                 }
             }
         }

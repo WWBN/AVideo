@@ -1,7 +1,7 @@
 <?php
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class Gallery extends PluginAbstract {
 
     public function getDescription() {
@@ -40,6 +40,7 @@ class Gallery extends PluginAbstract {
         $obj = new stdClass();
         $obj->hidePrivateVideos = false;
         $obj->BigVideo = true;
+        $obj->useSuggestedVideosAsCarouselInBigVideo = true;
         $obj->GifOnBigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;
@@ -77,6 +78,7 @@ class Gallery extends PluginAbstract {
         $obj->screenColsMedium = 3;
         $obj->screenColsSmall = 2;
         $obj->screenColsXSmall = 1;
+        
         return $obj;
     }
   
@@ -88,7 +90,7 @@ class Gallery extends PluginAbstract {
     }
     public function getFirstPage(){
         global $global;
-        if(!YouPHPTubePlugin::isEnabled("d3sa2k4l3-23rds421-re323-4ae-423")){
+        if(!AVideoPlugin::isEnabled("d3sa2k4l3-23rds421-re323-4ae-423")){
             return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
         }
     }   

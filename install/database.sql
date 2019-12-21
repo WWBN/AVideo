@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `video_resolution` VARCHAR(12) NOT NULL,
   `users_id` INT NOT NULL,
   `version` VARCHAR(10) NOT NULL,
-  `webSiteTitle` VARCHAR(45) NOT NULL DEFAULT 'YouPHPTube',
+  `webSiteTitle` VARCHAR(45) NOT NULL DEFAULT 'AVideo',
   `language` VARCHAR(6) NOT NULL DEFAULT 'en',
   `contactEmail` VARCHAR(45) NOT NULL,
   `modified` DATETIME NOT NULL,

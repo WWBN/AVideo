@@ -27,4 +27,7 @@ foreach ($categories as $key => $value) {
         $categories[$key]['type'] = "3";
     } 
 }
+if(empty($_POST['sort']) && empty($_GET['sort'])){
+    array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
+}
 echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($categories).'}';

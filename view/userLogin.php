@@ -80,7 +80,7 @@
             ?>
             <hr>
             <?php
-            $login = YouPHPTubePlugin::getLogin();
+            $login = AVideoPlugin::getLogin();
             foreach ($login as $value) {
                 if (is_string($value) && file_exists($value)) { // it is a include path for a form
                     include $value;
@@ -147,7 +147,7 @@ if (!empty($_GET['error'])) {
                 swal("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
                 return false;
             }
-            var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText2">';
+            var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText2">';
             swal({
                 title: user + ", <?php echo __("Are you sure?"); ?>",
                 text: "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha,

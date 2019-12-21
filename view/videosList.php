@@ -146,8 +146,8 @@ foreach ($videos as $key => $value) {
                         ?>
                         <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                     <?php } ?>
-                    <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                    <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
+                    <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                    <span itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
                     <?php
                     if ($video['type'] !== 'pdf' && $video['type'] !== 'article') {
                         ?>

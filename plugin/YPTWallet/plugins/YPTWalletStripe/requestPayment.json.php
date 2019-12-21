@@ -8,8 +8,8 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
-$pluginS = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
+$pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $objS = $pluginS->getDataObject();
 
 $obj = new stdClass();

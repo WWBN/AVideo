@@ -7,7 +7,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
+$plugin = AVideoPlugin::loadPluginIfEnabled('AD_Server');
 
 if(!User::isAdmin()){
     $obj->msg = "You cant do this";

@@ -1,9 +1,12 @@
 <?php
 if (User::canSeeCommentTextarea()) {
+    if (!empty($advancedCustom->commentsNoIndex)) {
+        echo "<!--googleoff: all-->";
+    }
     if (!empty($video['id'])) {
         ?>
         <div class="input-group">
-            <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="<?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>" <?php
+            <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment" maxlength="<?php echo empty($advancedCustom->commentsMaxLength) ? "200" : $advancedCustom->commentsMaxLength ?>" <?php
             if (!User::canComment()) {
                 echo "disabled";
             }
@@ -25,7 +28,7 @@ if (User::canSeeCommentTextarea()) {
         <div class="pull-right" id="count_message"></div>
         <script>
             $(document).ready(function () {
-                var text_max = <?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>;
+                var text_max = <?php echo empty($advancedCustom->commentsMaxLength) ? "200" : $advancedCustom->commentsMaxLength ?>;
                 $('#count_message').html(text_max + ' <?php echo __("remaining"); ?>');
                 $('#comment').keyup(function () {
                     var text_length = $(this).val().length;
@@ -37,11 +40,11 @@ if (User::canSeeCommentTextarea()) {
         <?php
     }
     ?>
-        <style>
-            .replySet .replySet .divReplyGrid{
-                padding-left: 0 !important;
-            }
-        </style>
+    <style>
+        .replySet .replySet .divReplyGrid{
+            padding-left: 0 !important;
+        }
+    </style>
     <div class="replySet hidden" id="replyTemplate" comments_id="0">
         <div>        
             <?php
@@ -76,7 +79,7 @@ if (User::canSeeCommentTextarea()) {
         </div>
         <div class="divReplyGrid" style="padding-left: 50px;">
             <div class="input-group formRepy" style="display: none;">
-                <textarea class="form-control custom-control" rows="2" style="resize:none" maxlength="<?php echo empty($advancedCustom->commentsMaxLength)?"200":$advancedCustom->commentsMaxLength ?>" ></textarea>
+                <textarea class="form-control custom-control" rows="2" style="resize:none" maxlength="<?php echo empty($advancedCustom->commentsMaxLength) ? "200" : $advancedCustom->commentsMaxLength ?>" ></textarea>
 
                 <span class="input-group-addon btn btn-success saveReplyBtn">
                     <span class="glyphicon glyphicon-comment"></span> <?php echo __("Reply"); ?>
@@ -331,40 +334,43 @@ if (User::canSeeCommentTextarea()) {
                                 },
                                 ajax: true,
                                 url: "<?php echo $global['webSiteRootURL']; ?>objects/comments.json.php?video_id=<?php echo empty($video['id']) ? "0" : $video['id']; ?>",
-                                sorting: false,
-                                templates: {
-                                    header: ""
-                                },
-                                rowCount: -1, navigation: 0,
-                                formatters: {
-                                    "commands": function (column, row) {
-                                        return formatRow(row);
+                                                sorting: false,
+                                                templates: {
+                                                    header: ""
+                                                },
+                                                rowCount: -1, navigation: 0,
+                                                formatters: {
+                                                    "commands": function (column, row) {
+                                                        return formatRow(row);
+                                                    }
+                                                },
+                                                requestHandler: function (request) {
+                                                    request.comments_id = comments_id;
+                                                    request.sort.created = "DESC";
+                                                    return request;
+                                                }
+                                            }).on("loaded.rs.jquery.bootgrid", function () {
+                                                gridLoaded();
+                                            });
+                                            $(this).closest('.replySet').find('.viewAllReplies').hide();
+                                            $(this).closest('.replySet').find('.hideAllReplies').show();
+                                        });
+                                        $('.hideAllReplies').click(function () {
+                                            $(this).closest('.replySet').find(".replyGrid").slideUp();
+                                            $(this).closest('.replySet').find(".replyGrid").find('table').bootgrid("destroy");
+                                            $(this).closest('.replySet').find('.viewAllReplies').show();
+                                            $(this).closest('.replySet').find('.hideAllReplies').hide();
+                                        });
                                     }
-                                },
-                                requestHandler: function (request) {
-                                    request.comments_id = comments_id;
-                                    request.sort.created = "DESC";
-                                    return request;
-                                }
-                            }).on("loaded.rs.jquery.bootgrid", function () {
-                                gridLoaded();
-                            });
-                            $(this).closest('.replySet').find('.viewAllReplies').hide();
-                            $(this).closest('.replySet').find('.hideAllReplies').show();
-                        });
-                        $('.hideAllReplies').click(function () {
-                            $(this).closest('.replySet').find(".replyGrid").slideUp();
-                            $(this).closest('.replySet').find(".replyGrid").find('table').bootgrid("destroy");
-                            $(this).closest('.replySet').find('.viewAllReplies').show();
-                            $(this).closest('.replySet').find('.hideAllReplies').hide();
-                        });
-                    }
 
-                    function addCommentCount(comments_id, total) {
-                        $('.total_replies' + comments_id).text(parseInt($('.total_replies' + comments_id).text()) + total);
-                    }
+                                    function addCommentCount(comments_id, total) {
+                                        $('.total_replies' + comments_id).text(parseInt($('.total_replies' + comments_id).text()) + total);
+                                    }
     </script>
 
     <?php
+    if (!empty($advancedCustom->commentsNoIndex)) {
+        echo "<!--googleon: all-->";
+    }
 }
 ?>

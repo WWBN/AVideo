@@ -18,7 +18,7 @@ if (!empty($_GET['video_id'])) {
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <link href="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/css/style.css" rel="stylesheet" />
 <?php
-if(YouPHPTubePlugin::isEnabledByName("VideoTags")){
+if(AVideoPlugin::isEnabledByName("VideoTags")){
 ?>
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css"/>
 <style>

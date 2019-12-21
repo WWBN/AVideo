@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('LiveLinks');
+$plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
 
 if(!$plugin->canAddLinks()){
     $obj->msg = "You cant delete links";

@@ -51,10 +51,10 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                             ?>
                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" itemprop="thumbnail" />
 
-                            <meta itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                            <meta itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $value['clean_title']; ?>" />
-                            <meta itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
-                            <meta itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
+                            <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
+                            <span itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $value['clean_title']; ?>" />
+                            <span itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
+                            <span itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
                             <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                         </div>

@@ -7,7 +7,7 @@ class YPTWalletStripe extends YPTWalletPlugin{
     
     public function getAprovalLink() {
         global $global;
-        $plugin = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
+        $plugin = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
         $payment = $plugin->setUpPayment(
                 $this->getInvoiceNumber(), 
                 $this->getRedirectURL(), 

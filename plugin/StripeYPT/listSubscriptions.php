@@ -4,7 +4,7 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage this plugin"));
     exit;
 }
-$stripe = YouPHPTubePlugin::loadPlugin("StripeYPT");
+$stripe = AVideoPlugin::loadPlugin("StripeYPT");
 
 if (!empty($_GET['subscription_id'])) {
     $stripe->cancelSubscriptions($_GET['subscription_id']);
@@ -48,7 +48,7 @@ if (!empty($_GET['subscription_id'])) {
                             } else {
                                 $title .= "User ID Not found";
                             }
-                            if (YouPHPTubePlugin::isEnabledByName("Subscription")) {
+                            if (AVideoPlugin::isEnabledByName("Subscription")) {
                                 if (!empty($plans_id)) {
                                     $plan = new SubscriptionPlansTable($plans_id);
                                     if (!empty($plan)) {
@@ -101,7 +101,7 @@ if (!empty($_GET['subscription_id'])) {
                             } else {
                                 $title .= "User ID Not found";
                             }
-                            if (YouPHPTubePlugin::isEnabledByName("Subscription")) {
+                            if (AVideoPlugin::isEnabledByName("Subscription")) {
                                 if (!empty($plans_id)) {
                                     $plan = new SubscriptionPlansTable($plans_id);
                                     if (!empty($plan)) {

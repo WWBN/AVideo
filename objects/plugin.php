@@ -174,7 +174,7 @@ class Plugin extends ObjectYPT {
             foreach ($cdir as $key => $value) {
                 if (!in_array($value, array(".", ".."))) {
                     if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                        $p = YouPHPTubePlugin::loadPlugin($value);
+                        $p = AVideoPlugin::loadPlugin($value);
                         if (!is_object($p) || $p->hidePlugin()) {
                             error_log("Plugin Not Found: {$value}");
                             continue;

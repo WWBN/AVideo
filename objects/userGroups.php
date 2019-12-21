@@ -172,7 +172,7 @@ class UserGroups {
         $sql = "SELECT uug.*, ug.* FROM users_groups ug"
                 . " LEFT JOIN users_has_users_groups uug ON users_groups_id = ug.id WHERE users_id = ? ";
         
-        $ids = YouPHPTubePlugin::getDynamicUserGroupsId($users_id);
+        $ids = AVideoPlugin::getDynamicUserGroupsId($users_id);
         if(!empty($ids) && is_array($ids)){
             $ids = array_unique($ids);
             $sql .= " OR ug.id IN ('". implode("','", $ids)."') ";
@@ -289,7 +289,7 @@ class UserGroups {
         sqlDAL::close($res);
         if (!$res) {
             if (User::isAdmin()) {
-                $_GET['error'] = "You need to Update YouPHPTube to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
+                $_GET['error'] = "You need to Update AVideo to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
             }
             return array();
         }

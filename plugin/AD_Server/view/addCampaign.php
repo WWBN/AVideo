@@ -7,8 +7,8 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server');
-$ad_server_location = YouPHPTubePlugin::loadPluginIfEnabled('AD_Server_Location');
+$plugin = AVideoPlugin::loadPluginIfEnabled('AD_Server');
+$ad_server_location = AVideoPlugin::loadPluginIfEnabled('AD_Server_Location');
                                                 
 if(!User::isAdmin()){
     $obj->msg = "You cant do this";

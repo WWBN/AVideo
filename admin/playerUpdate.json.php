@@ -11,7 +11,7 @@ if (!User::isAdmin()) {
 
 $pluginName = 'PlayerSkins';
 
-$pluginDO = YouPHPTubePlugin::getObjectData($pluginName);
+$pluginDO = AVideoPlugin::getObjectData($pluginName);
 $pluginDB = Plugin::getOrCreatePluginByName($pluginName, 'active');
 
 $pluginDO->skin = $_POST['skin'];

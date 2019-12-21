@@ -37,7 +37,7 @@ use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
 
 if (!empty($_GET['type'])) {    
-    $login = YouPHPTubePlugin::getLogin();
+    $login = AVideoPlugin::getLogin();
     foreach ($login as $value) {
         $obj = $value['loginObject']->getDataObject();
         if($value['parameters']->type === $_GET['type']){
@@ -59,7 +59,7 @@ if (!empty($_GET['type'])) {
         $scope = 'sdpp-w';
     }
     if($_GET['type']==='LinkedIn'){
-        $scope = array('r_emailaddress');
+        $scope = ("r_liteprofile r_emailaddress w_member_social");
     }
     
     $config = [
@@ -163,37 +163,41 @@ if ((empty($object->redirectUri) || $object->redirectUri===$global['webSiteRootU
 
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $object->categories = Category::getAllCategories(true);
+    array_multisort(array_column($object->categories, 'hierarchyAndName'), SORT_ASC, $object->categories);
 }else{
     $object->categories = array();
 }
+
+$object->userGroups = UserGroups::getAllUsersGroups();
+
 $object->streamServerURL = "";
 $object->streamKey = "";
 if($object->isLogged){
-    $p = YouPHPTubePlugin::loadPluginIfEnabled("Live");
+    $p = AVideoPlugin::loadPluginIfEnabled("Live");
     if(!empty($p)){
         require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
         $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
         $object->streamServerURL = $p->getServer()."?p=".User::getUserPass();
         $object->streamKey = $trasnmition['key'];
     }
-    $p = YouPHPTubePlugin::loadPluginIfEnabled("MobileManager");
+    $p = AVideoPlugin::loadPluginIfEnabled("MobileManager");
     if(!empty($p)){
         $object->streamer = json_decode(url_get_contents($global['webSiteRootURL']."objects/status.json.php"));
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }
     
-    $p = YouPHPTubePlugin::loadPluginIfEnabled("VideoHLS");
+    $p = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
     if(!empty($p)){
         $object->videoHLS = true;
     }
     
-    $p = YouPHPTubePlugin::loadPluginIfEnabled("Subscription");
+    $p = AVideoPlugin::loadPluginIfEnabled("Subscription");
     if(!empty($p)){
         $object->Subscription = Subscription::getAllFromUser($object->id);
     }
     
-    $p = YouPHPTubePlugin::loadPluginIfEnabled("PayPerView");
+    $p = AVideoPlugin::loadPluginIfEnabled("PayPerView");
     if(!empty($p) && class_exists('PayPerView')){
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
     }

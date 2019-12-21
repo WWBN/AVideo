@@ -8,7 +8,7 @@ if (!User::isAdmin()) {
     exit;
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 ?>
 <!DOCTYPE html>

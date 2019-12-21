@@ -1,7 +1,7 @@
 <?php
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 class PlayerSkins extends PluginAbstract {
 
@@ -52,7 +52,7 @@ class PlayerSkins extends PluginAbstract {
     }
 
     static function getDataSetup($str = ""){
-        $obj = YouPHPTubePlugin::getObjectData('PlayerSkins');
+        $obj = AVideoPlugin::getObjectData('PlayerSkins');
         
         $dataSetup = array();
         

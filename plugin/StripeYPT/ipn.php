@@ -8,10 +8,10 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 error_log("StripeIPN Start");
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
-$walletObject = YouPHPTubePlugin::getObjectData("YPTWallet");
-$stripe = YouPHPTubePlugin::loadPluginIfEnabled("StripeYPT");
-$stripeObject = YouPHPTubePlugin::getObjectData("StripeYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+$walletObject = AVideoPlugin::getObjectData("YPTWallet");
+$stripe = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
+$stripeObject = AVideoPlugin::getObjectData("StripeYPT");
 if(empty($stripe)){
    die("Stripe Plugin Disabled"); 
 }

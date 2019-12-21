@@ -1,8 +1,8 @@
 <?php
 global $t;
 
-$t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<P> YouPHPTube! Bir video paylaşım sitesidir. Hizmet Daniel Neto tarafından Mart 2017'de oluşturulmuştur. </p><p> Yazılım, videoları yüklemenize, görüntülemenize, paylaşmanıza ve yorum yapmanıza izin verir ve WebM ve H.264'ü kullanır / MPEG-4 AVC, kullanıcı tarafından üretilen ve kurumsal medya videolarının geniş bir yelpazesini görüntüler. </p><p> En iyisi, YouPHPTube! Herkes tarafından serbestçe temin edilebilen açık kaynaklı bir çözümdür. </p>";
-$t['About YouPHPTube!'] = "YouPHPTube Hakkında!";
+$t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<P> AVideo! Bir video paylaşım sitesidir. Hizmet Daniel Neto tarafından Mart 2017'de oluşturulmuştur. </p><p> Yazılım, videoları yüklemenize, görüntülemenize, paylaşmanıza ve yorum yapmanıza izin verir ve WebM ve H.264'ü kullanır / MPEG-4 AVC, kullanıcı tarafından üretilen ve kurumsal medya videolarının geniş bir yelpazesini görüntüler. </p><p> En iyisi, AVideo! Herkes tarafından serbestçe temin edilebilen açık kaynaklı bir çözümdür. </p>";
+$t['About AVideo!'] = "AVideo Hakkında!";
 $t['About'] = "hakkında";
 $t['Activate'] = "Etkinleştir";
 $t['Active'] = "Aktif";
@@ -90,7 +90,7 @@ $t['Unable to open file!'] = "Dosya açılamıyor!";
 $t['Update Now'] = "Şimdi güncelle";
 $t['Update the site configuration'] = "Site yapılandırmasını güncelleme";
 $t['Update version'] = "Sürümü güncelle";
-$t['Update YouPHPTube System'] = "YouPHPTube Sistemini Güncelleyin";
+$t['Update AVideo System'] = "AVideo Sistemini Güncelleyin";
 $t['Update your user'] = "Kullanıcıyı güncelle";
 $t['Upload your file'] = "Dosyanızı yükleyin";
 $t['Use one of the recommended resolutions'] = "Önerilen çözünürlüklerden birini kullanın";
@@ -111,7 +111,7 @@ $t['Website'] = "Web sitesi";
 $t['Welcome %s, update your informations'] = "Hoş geldiniz %s, bilgilerinizi güncelleyin";
 $t['Word Translations'] = "Kelime Çevirileri";
 $t['Yes, delete it!'] = "Evet, sil şunu!";
-$t['You are running YouPHPTube version %s!'] = "YouPHPTube sürümünü %s çalıştırıyorsunuz!";
+$t['You are running AVideo version %s!'] = "AVideo sürümünü %s çalıştırıyorsunuz!";
 $t['You can not manage categories'] = "Kategorileri yönetemezsin";
 $t['You can not manage users'] = "Kullanıcıları yönetemezsin";
 $t['You can not manage videos'] = "Videoları yönetemezsin";

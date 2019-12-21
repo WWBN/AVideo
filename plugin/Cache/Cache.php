@@ -4,8 +4,8 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class Cache extends PluginAbstract {
 
     public function getDescription() {
-        $txt = "YouPHPTube application accelerator to cache pages.<br>Your website has 10,000 visitors who are online, and your dynamic page has to send 10,000 times the same queries to database on every page load. With this plugin, your page only sends 1 query to your DB, and uses the cache to serve the 9,999 other visitors.";
-        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Cache-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $txt = "AVideo application accelerator to cache pages.<br>Your website has 10,000 visitors who are online, and your dynamic page has to send 10,000 times the same queries to database on every page load. With this plugin, your page only sends 1 query to your DB, and uses the cache to serve the 9,999 other visitors.";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Cache-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt . $help;
     }
 
@@ -32,6 +32,27 @@ class Cache extends PluginAbstract {
         $obj->stopBotsFromNonCachedPages = false;
         return $obj;
     }
+    
+    public function getCacheDir(){
+        global $global;
+        $obj = $this->getDataObject();
+        $firstPage = "";
+        if($this->isFirstPage()){
+            $firstPage = "firstPage/";
+        }
+        
+        $obj->cacheDir = rtrim($obj->cacheDir, '/') . '/';
+        if (!file_exists($obj->cacheDir)) {
+            $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
+            $this->setDataObject($obj);
+            if (!file_exists($obj->cacheDir)) {
+                mkdir($this->getCacheDir(), 0777, true);
+            }
+        }
+        
+        
+        return $obj->cacheDir.$firstPage;
+    }
 
     public function getTags() {
         return array('free', 'cache', 'speed up');
@@ -46,7 +67,12 @@ class Cache extends PluginAbstract {
         if (!empty($obj->enableCachePerUser)) {
             $session_id = session_id();
         }
-        return User::getId() . "_" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : ''). (@$_SESSION['language']) . '.cache';
+        $compl = "";
+        if(get_browser_name($_SERVER['HTTP_USER_AGENT']) === 'Safari'){
+            $compl = "safari_";
+        }
+        
+        return User::getId() . "_{$compl}" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : ''). (@$_SESSION['language']) . '.cache';
     }
 
     private function isFirstPage() {
@@ -92,7 +118,7 @@ class Cache extends PluginAbstract {
         
         $isBot = isBot();
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
-            $cachefile = $obj->cacheDir . $this->getFileName(); // e.g. cache/index.php.
+            $cachefile = $this->getCacheDir() . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if (!empty($_GET['lifetime'])) {
                 $lifetime = intval($_GET['lifetime']);
@@ -116,7 +142,7 @@ class Cache extends PluginAbstract {
             }
         }
         
-        if($isBot && strpos($_SERVER['REQUEST_URI'], 'youPHPTubeEncoder') === false){
+        if($isBot && strpos($_SERVER['REQUEST_URI'], 'aVideoEncoder') === false){
             if(empty($_SERVER['HTTP_USER_AGENT'])){
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
@@ -139,19 +165,13 @@ class Cache extends PluginAbstract {
     public function getEnd() {
         global $global;
         $obj = $this->getDataObject();
-        $cachefile = $obj->cacheDir . $this->getFileName();
+        $cachefile = $this->getCacheDir() . $this->getFileName();
         $c = ob_get_contents();
         header_remove('Set-Cookie');
-        if (!file_exists($obj->cacheDir)) {
-            mkdir($obj->cacheDir, 0777, true);
+        if (!file_exists($this->getCacheDir())) {
+            mkdir($this->getCacheDir(), 0777, true);
         }
-        if (!file_exists($obj->cacheDir)) {
-            $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
-            $this->setDataObject($obj);
-            if (!file_exists($obj->cacheDir)) {
-                mkdir($obj->cacheDir, 0777, true);
-            }
-        }
+        
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             file_put_contents($cachefile, $c);
         }

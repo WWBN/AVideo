@@ -5,7 +5,7 @@ if(!isset($global['systemRootPath'])){
 }
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/functions.php';
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 if (empty($_GET['file'])) {
     error_log("XSENDFILE GET file not found ");
@@ -37,15 +37,13 @@ if (file_exists($path)) {
         header('Pragma: public');
     }
     if(empty($_GET['ignoreXsendfilePreVideoPlay'])){
-        YouPHPTubePlugin::xsendfilePreVideoPlay();
+        AVideoPlugin::xsendfilePreVideoPlay();
     }
     if (empty($advancedCustom->doNotUseXsendFile)) {
         //error_log("X-Sendfile: {$path}");
         header("X-Sendfile: {$path}");
     }
-    if (empty($_GET['download'])) {
-        header("Content-type: " . mime_content_type($path));
-    }
+    header("Content-type: " . mime_content_type($path));
     header('Content-Length: ' . filesize($path));
     if (!empty($advancedCustom->doNotUseXsendFile)) {
         echo url_get_contents($path);

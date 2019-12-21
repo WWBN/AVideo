@@ -14,13 +14,13 @@ if (!empty($_GET['c'])) {
         $_GET['u'] = $user['user'];
     }
 }
-$customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+$customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
 $livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $livet['key'];
-$p = YouPHPTubePlugin::loadPlugin("Live");
+$p = AVideoPlugin::loadPlugin("Live");
 
-$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+$objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if(!empty($objSecure)){
     $objSecure->verifyEmbedSecurity();
 }
@@ -40,7 +40,7 @@ if(!empty($objSecure)){
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <?php
-        echo YouPHPTubePlugin::getHeadCode();
+        echo AVideoPlugin::getHeadCode();
         ?>
         <style>
             #chatOnline {
@@ -86,7 +86,7 @@ if(!empty($objSecure)){
                         <source src="<?php echo getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                     </video>
                     <?php
-                    if (YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+                    if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
                         require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
                         $style = VideoLogoOverlay::getStyle();
                         $url = VideoLogoOverlay::getLink();
@@ -117,7 +117,7 @@ if(!empty($objSecure)){
         </div>
 
         <?php
-        $liveCount = YouPHPTubePlugin::loadPluginIfEnabled('LiveCountdownEvent');
+        $liveCount = AVideoPlugin::loadPluginIfEnabled('LiveCountdownEvent');
         $html = array();
         if ($liveCount) {
             $html = $liveCount->getNextLiveApplicationFromUser($user_id);
@@ -163,13 +163,13 @@ if ($config->getAutoplay()) {
 
                 });
                 player.persistvolume({
-                    namespace: "YouPHPTube"
+                    namespace: "AVideo"
                 });
             });
         </script>
         <?php
-        require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-        echo YouPHPTubePlugin::getFooterCode();
+        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+        echo AVideoPlugin::getFooterCode();
         ?>
         <?php
         if (empty($liveDO->disableDVR)) {

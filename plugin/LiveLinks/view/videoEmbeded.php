@@ -1,7 +1,7 @@
 <?php
-$customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+$customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
-$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+$objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if(!empty($objSecure)){
     $objSecure->verifyEmbedSecurity();
 }
@@ -21,7 +21,7 @@ if(!empty($objSecure)){
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <?php
-        echo YouPHPTubePlugin::getHeadCode();
+        echo AVideoPlugin::getHeadCode();
         ?>
         <style>
             body {
@@ -75,13 +75,13 @@ if ($config->getAutoplay()) {
 
                 });
                 player.persistvolume({
-                    namespace: "YouPHPTube"
+                    namespace: "AVideo"
                 });
             });
         </script>
         <?php
-        require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-        echo YouPHPTubePlugin::getFooterCode();
+        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+        echo AVideoPlugin::getFooterCode();
         ?>
     </body>
 </html>

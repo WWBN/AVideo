@@ -32,7 +32,7 @@ if (User::isLogged() && $user_id == User::getId()) {
 }
 
 $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
-$playListsObj = YouPHPTubePlugin::getObjectData("PlayLists");
+$playListsObj = AVideoPlugin::getObjectData("PlayLists");
 ?>
 
 <?php
@@ -63,7 +63,7 @@ foreach ($playlists as $playlist) {
     $startC = microtime(true);
     //error_log("channelPlaylist videosP2: ".json_encode($videosP));
     //error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
-    $playListButtons = YouPHPTubePlugin::getPlayListButtons($playlist['id']);
+    $playListButtons = AVideoPlugin::getPlayListButtons($playlist['id']);
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
     ?>
@@ -106,7 +106,7 @@ foreach ($playlists as $playlist) {
                 <div class="pull-right btn-group">
                     <?php
                     if ($playlist['status'] != "favorite" && $playlist['status'] != "watch_later") {
-                        if (YouPHPTubePlugin::isEnabledByName("PlayLists")) {
+                        if (AVideoPlugin::isEnabledByName("PlayLists")) {
                             ?>
                             <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val());setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
                             <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php echo $playlist['id']; ?>" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay"></iframe>'/>

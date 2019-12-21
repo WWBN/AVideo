@@ -23,7 +23,7 @@ class IP2Location extends ObjectYPT {
         //$ip = '2.16.40.123';
         if (empty($_SESSION['IP2Location'][$ip])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE INET_ATON(?) <= ip_to LIMIT 1";
-            // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/YouPHPTube/about
+            // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
             $res = sqlDAL::readSql($sql, "s", array($ip));
             $data = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);

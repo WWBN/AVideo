@@ -114,7 +114,7 @@ if (!file_exists('.htaccess')) { ?>
       </body>
   </html>
 <?php exit; } // if .htaccess not exist
-ini_set('error_log', $global['systemRootPath'].'videos/youphptube.log');
+ini_set('error_log', $global['systemRootPath'].'videos/avideo.log');
 // it is needed for installation
 if (!file_exists('videos/configuration.php')) {
     if (!file_exists('install/index.php')) {

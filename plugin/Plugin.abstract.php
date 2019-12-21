@@ -137,7 +137,7 @@ abstract class PluginAbstract {
             $wholeObjects = array_merge((array) $eo, (array) $o);
             $disabledPlugins = plugin::getAllDisabled();
             foreach ($disabledPlugins as $value) {
-                $p = YouPHPTubePlugin::loadPlugin($value['dirName']);
+                $p = AVideoPlugin::loadPlugin($value['dirName']);
                 if (is_object($p)) {
                     $foreginObjects = $p->getCustomizeAdvancedOptions();
                     if ($foreginObjects) {
@@ -304,9 +304,9 @@ abstract class PluginAbstract {
     public function isReady($pluginsList) {
         $return = array('ready' => array(), 'missing' => array());
         foreach ($pluginsList as $name) {
-            $plugin = YouPHPTubePlugin::loadPlugin($name);
+            $plugin = AVideoPlugin::loadPlugin($name);
             $uuid = $plugin->getUUID();
-            if (!YouPHPTubePlugin::isEnabled($uuid)) {
+            if (!AVideoPlugin::isEnabled($uuid)) {
                 $return['missing'][] = array('name' => $name, 'uuid' => $uuid);
             } else {
                 $return['ready'][] = array('name' => $name, 'uuid' => $uuid);

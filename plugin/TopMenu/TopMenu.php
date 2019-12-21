@@ -10,7 +10,7 @@ class TopMenu extends PluginAbstract {
 
     public function getDescription() {
         $txt = "Responsive Customized Top Menu";
-        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/How-to-use-TopMenu-Plug-in' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/How-to-use-TopMenu-Plug-in' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt.$help;
     }
 

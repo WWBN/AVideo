@@ -6,7 +6,7 @@ use Ratchet\ConnectionInterface;
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once dirname(__FILE__) . '/Objects/LiveChatObj.php';
-require_once dirname(__FILE__) . '/../YouPHPTubePlugin.php';
+require_once dirname(__FILE__) . '/../AVideoPlugin.php';
 
 class Chat implements MessageComponentInterface {
     protected $clients;
@@ -22,7 +22,7 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        $p = \YouPHPTubePlugin::loadPlugin("LiveChat");
+        $p = \AVideoPlugin::loadPlugin("LiveChat");
         $object = json_decode($msg);
         $canSendMessage = $p->canSendMessage($object->userId);
         if(empty($canSendMessage)){

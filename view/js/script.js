@@ -189,6 +189,22 @@ $(document).ready(function () {
             }
         });
     });
+    
+    $('.clearCacheFirstPageButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=1',
+            success: function (response) {
+                if (!response.error) {
+                    swal("Congratulations!", "Your First Page cache has been cleared!", "success");
+                } else {
+                    swal("Sorry!", "Your First Page cache has NOT been cleared!", "error");
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
 
     $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
         ev.preventDefault();
@@ -449,4 +465,11 @@ function nl2br(str, is_xhtml) {
     }
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+}
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
 }

@@ -4,7 +4,7 @@ if (!User::isLogged()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
     exit;
 }
-$obj = YouPHPTubePlugin::getObjectData("BulkEmbed");
+$obj = AVideoPlugin::getObjectData("BulkEmbed");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

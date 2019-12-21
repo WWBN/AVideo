@@ -25,7 +25,7 @@ if (empty($_POST['pluginsList'])) {
     }
 }
 
-$pluginDO = YouPHPTubePlugin::getObjectData($pluginName);
+$pluginDO = AVideoPlugin::getObjectData($pluginName);
 $pluginDB = Plugin::getPluginByName($pluginName);
 
 foreach ($pluginDO as $key => $value) {

@@ -47,7 +47,7 @@ $obj->msg = array();
 $obj->playListId = 0;
 
 
-$objo = YouPHPTubePlugin::getObjectDataIfEnabled('BulkEmbed');
+$objo = AVideoPlugin::getObjectDataIfEnabled('BulkEmbed');
 if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
     $obj->msg[] = __("Permission denied");
     $obj->msg[] = "Plugin disabled";
@@ -99,9 +99,9 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
             $playList->addVideo($resp, true);
         }
 
-        YouPHPTubePlugin::afterNewVideo($resp);
+        AVideoPlugin::afterNewVideo($resp);
 
-        YouPHPTubePlugin::saveVideosAddNew($_POST, $resp);
+        AVideoPlugin::saveVideosAddNew($_POST, $resp);
 
         $obj->msg[] = Video::getVideoLight($resp);
     }

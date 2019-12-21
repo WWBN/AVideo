@@ -1,8 +1,8 @@
 <?php
 global $t;
 
-$t['<p>YouPHPTube! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, YouPHPTube! is an open source solution that is freely available to everyone.</p>'] = "<P> YouPHPTube! एक वीडियो साझाकरण वेबसाइट है, यह सेवा डैनियल नेटो द्वारा मार्च 2017 में बनाई गई थी। </p><p> सॉफ्टवेयर आपको वीडियो अपलोड करने, देखने, साझा करने और टिप्पणी करने की अनुमति देता है, और यह वेबएम और एच .264 का उपयोग करता है / एमपीईजी -4 एवीसी उपयोगकर्ता-व्युत्पन्न और कॉर्पोरेट मीडिया वीडियो की एक विस्तृत विविधता प्रदर्शित करने के लिए। </p><p> सभी के सर्वश्रेष्ठ, YouPHPTube! एक खुला स्रोत समाधान है जो सभी के लिए स्वतंत्र रूप से उपलब्ध है। </p>";
-$t['About YouPHPTube!'] = "YouPHPTube के बारे में!";
+$t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<P> AVideo! एक वीडियो साझाकरण वेबसाइट है, यह सेवा डैनियल नेटो द्वारा मार्च 2017 में बनाई गई थी। </p><p> सॉफ्टवेयर आपको वीडियो अपलोड करने, देखने, साझा करने और टिप्पणी करने की अनुमति देता है, और यह वेबएम और एच .264 का उपयोग करता है / एमपीईजी -4 एवीसी उपयोगकर्ता-व्युत्पन्न और कॉर्पोरेट मीडिया वीडियो की एक विस्तृत विविधता प्रदर्शित करने के लिए। </p><p> सभी के सर्वश्रेष्ठ, AVideo! एक खुला स्रोत समाधान है जो सभी के लिए स्वतंत्र रूप से उपलब्ध है। </p>";
+$t['About AVideo!'] = "AVideo के बारे में!";
 $t['About'] = "के बारे में";
 $t['Activate'] = "सक्रिय";
 $t['Active'] = "सक्रिय";
@@ -85,10 +85,10 @@ $t['Translated Array'] = "अनुवादित अर्रे";
 $t['Type the code'] = "कोड टाइप करें";
 $t['Type'] = "प्रकार";
 $t['Unable to open file!'] = "अभी अद्यतन करें";
-$t['Update Now'] = "YouPHPTube सिस्टम अपडेट करें";
+$t['Update Now'] = "AVideo सिस्टम अपडेट करें";
 $t['Update the site configuration'] = "नया संस्करण";
 $t['Update version'] = "अपने उपयोगकर्ता को अपडेट करें";
-$t['Update YouPHPTube System'] = "साइट कॉन्फ़िगरेशन अपडेट करें";
+$t['Update AVideo System'] = "साइट कॉन्फ़िगरेशन अपडेट करें";
 $t['Update your user'] = "अपनी फाइल अपलोड करें";
 $t['Upload your file'] = "सुझाए गए प्रस्तावों में से एक का उपयोग करें";
 $t['Use one of the recommended resolutions'] = "उपयोगकर्ता";
@@ -108,8 +108,8 @@ $t['Web site title'] = "वेबसाइट";
 $t['Website'] = "आपका स्वागत है %s, अपनी सूचनाओं को अपडेट करें";
 $t['Welcome %s, update your informations'] = "शब्द अनुवाद";
 $t['Word Translations'] = "हां, इसे हटाएं!";
-$t['Yes, delete it!'] = "आप YouPHPTube संस्करण %s चला रहे हैं!";
-$t['You are running YouPHPTube version %s!'] = "आप प्रबंधक श्रेणियां नहीं कर सकते";
+$t['Yes, delete it!'] = "आप AVideo संस्करण %s चला रहे हैं!";
+$t['You are running AVideo version %s!'] = "आप प्रबंधक श्रेणियां नहीं कर सकते";
 $t['You can not manage categories'] = "आप प्रबंधक उपयोगकर्ता नहीं कर सकते";
 $t['You can not manage users'] = "आप प्रबंधक वीडियो नहीं कर सकते";
 $t['You can not manage videos'] = "आपको रजिस्टर करने के लिए उपयोगकर्ता और पासस्वर्ड की आवश्यकता है";

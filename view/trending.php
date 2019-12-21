@@ -138,7 +138,7 @@ unset($_POST['sort']);
                                         </a>
                                     </div>
                                 <?php }
-                                YouPHPTubePlugin::getgalleryActionButton($value['id']);
+                                AVideoPlugin::getgalleryActionButton($value['id']);
                                 ?>
                             </div>
                             <div class="mainAreaDescriptionContainer  col-lg-12">

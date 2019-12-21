@@ -339,6 +339,8 @@ class Category {
                 $row['owner'] = User::getNameIdentificationById(@$row['users_id']);
                 $row['canEdit'] = self::userCanEditCategory($row['id']);
                 $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
+                $row['hierarchy'] = self::getHierarchyString($row['parentId']);
+                $row['hierarchyAndName'] = $row['hierarchy'].$row['name'];
                 $category[] = $row;
             }
             //$category = $res->fetch_all(MYSQLI_ASSOC);
@@ -347,6 +349,38 @@ class Category {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $category;
+    }
+    
+    static function getHierarchyArray($categories_id, $hierarchyArray = array()){
+        if(empty($categories_id)){
+            return $hierarchyArray;
+        }
+        $sql = "SELECT * FROM categories WHERE id=? ";
+        $res = sqlDAL::readSql($sql, "i", array($categories_id));
+        $result = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($result) {
+            $hierarchyArray[] = $result;
+            return self::getHierarchyArray($result['parentId'], $hierarchyArray);
+        }
+        return $hierarchyArray;
+    }
+    
+    static function getHierarchyString($categories_id){
+        if(empty($categories_id)){
+            return "/";
+        }
+        $array = array_reverse(self::getHierarchyArray($categories_id));
+        //$array = (self::getHierarchyArray($categories_id));
+        //var_dump($array);exit;
+        if(empty($array)){
+            return "/";
+        }
+        $str = "/";
+        foreach ($array as $value) {
+            $str .= xss_esc_back($value['name'])."/";
+        }
+        return $str;
     }
 
     static function userCanAddInCategory($categories_id, $users_id = 0) {
@@ -459,7 +493,7 @@ class Category {
             $total = empty($fullResult[0]['total']) ? 0 : intval($fullResult[0]['total']);
             $rows = self::getChildCategories($categories_id);
             foreach ($rows as $value) {
-                $total += self::getTotalVideosFromCategory($value['id']);
+                $total += self::getTotalVideosFromCategory($value['id'], $showUnlisted, $getAllVideos, $renew);
             }
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();

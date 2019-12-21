@@ -1,7 +1,7 @@
 <?php
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
-$head = YouPHPTubePlugin::getHeadCode();
-$custom = "The Best YouTube Clone Ever - YouPHPTube";
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+$head = AVideoPlugin::getHeadCode();
+$custom = "The Best YouTube Clone Ever - AVideo";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
 
 $custom = "";
@@ -17,7 +17,7 @@ if (!empty($_GET['catName'])) {
     $custom = " {$description} - {$custom}";
 }
 
-if (file_exists($extraPluginFile) && YouPHPTubePlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
     require_once $extraPluginFile;
     $ec = new ExtraConfig();
     $custom .= $ec->getDescription();
@@ -48,7 +48,7 @@ $cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
 $cssFiles[] = "view/css/custom/{$theme}.css";
 $cssFiles[] = "view/css/main.css";
 //$cssFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.css";
-$cssFiles = array_merge($cssFiles, YouPHPTubePlugin::getCSSFiles());
+$cssFiles = array_merge($cssFiles, AVideoPlugin::getCSSFiles());
 $cssURL = combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
@@ -89,7 +89,7 @@ if (isRTL()) {
 if (!$config->getDisable_analytics()) {
     ?>
     <script>
-        // YouPHPTube Analytics
+        // AVideo Analytics
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
             i[r] = i[r] || function () {
@@ -102,8 +102,8 @@ if (!$config->getDisable_analytics()) {
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-96597943-1', 'auto', 'youPHPTube');
-        ga('youPHPTube.send', 'pageview');
+        ga('create', 'UA-96597943-1', 'auto', 'aVideo');
+        ga('aVideo.send', 'pageview');
     </script>
     <?php
 }

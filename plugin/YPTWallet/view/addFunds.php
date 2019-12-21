@@ -4,8 +4,8 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
-$paypal = YouPHPTubePlugin::loadPluginIfEnabled("PayPalYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+$paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 $obj = $plugin->getDataObject();
 if (!empty($paypal)) {
     $paypalObj = $paypal->getDataObject();

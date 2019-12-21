@@ -5,7 +5,7 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager plugin add logo"));
     exit;
 }
-$o = YouPHPTubePlugin::getObjectData("VideoLogoOverlay");
+$o = AVideoPlugin::getObjectData("VideoLogoOverlay");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

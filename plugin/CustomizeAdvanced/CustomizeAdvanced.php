@@ -7,8 +7,8 @@ class CustomizeAdvanced extends PluginAbstract {
 
 
     public function getDescription() {
-        $txt = "Fine Tuning your YouPHPTube";
-        $help = "<br><small><a href='https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Advanced-Customization-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $txt = "Fine Tuning your AVideo";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Advanced-Customization-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt.$help;
     }
 
@@ -28,7 +28,7 @@ class CustomizeAdvanced extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->logoMenuBarURL = $global['webSiteRootURL'];
-        $obj->encoderNetwork = "https://network.youphptube.com/";
+        $obj->encoderNetwork = "https://network.avideo.com/";
         $obj->useEncoderNetworkRecomendation = false;
         $obj->doNotShowEncoderNetwork = true;
         $obj->doNotShowUploadButton = false;
@@ -59,8 +59,10 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->EnableWavesurfer = false;
         $obj->EnableMinifyJS = false;
         $obj->disableShareAndPlaylist = false;
+        $obj->disableEmailSharing = false;
         $obj->disableComments = false;
         $obj->commentsMaxLength = 200;
+        $obj->commentsNoIndex = false;
         $obj->disableYoutubePlayerIntegration = false;
         $obj->utf8Encode = false;
         $obj->utf8Decode = false;
@@ -82,7 +84,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $plugins = Plugin::getAllEnabled();
         //import external plugins configuration options
         foreach ($plugins as $value) {
-            $p = YouPHPTubePlugin::loadPlugin($value['dirName']);
+            $p = AVideoPlugin::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $foreginObjects=$p->getCustomizeAdvancedOptions();
                 if($foreginObjects)
@@ -138,6 +140,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->siteMapRowsLimit = 100;
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
+        $obj->disableTopMenusInsideIframe = true;
         
         return $obj;
     }
@@ -166,5 +169,17 @@ class CustomizeAdvanced extends PluginAbstract {
             }
         }
     }
+    
+    public function getFooterCode() {
+        global $global;
+        
+        $obj = $this->getDataObject();
+        $content = '';
+        if($obj->disableTopMenusInsideIframe){
+        $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeOut();}});</script>';
+        }
+        return $content;
+    }
+
     
 }

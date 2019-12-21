@@ -1,11 +1,64 @@
-### If you are not sure what is YouPHPTube, go to our <a href="https://demo.youphptube.com/" target="_blank">demo</a> page or visit our <a href="https://www.youphptube.com/" target="_blank">official site</a>
+<img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
 
-* <a href="https://netflix.youphptube.com/" target="_blank">Netflix demo page</a>
-  - We provide you a Netflix site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
-* <a href="https://tutorials.youphptube.com/" target="_blank">Gallery demo page</a>
+## A Video Platform
+AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
+
+AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.  
+
+## AN AVideo Platform Instance
+
+When we say a clone or copy of AVideo we mean an instance of AVideo Platform Enterprise or Open-Source and every instance of the AVideo Platform can be indexed as a network in the World Wide Broadcast Network Platform System.
+
+### AVideo trademark is FREE to use
+AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
+* Word Mark:	AVIDEO
+* Translations:	"AVideo" has no meaning in any foreign language.
+* Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
+* Standard Characters: Claimed	
+* Mark Drawing Code:	(4) STANDARD CHARACTER MARK
+* Trademark Search Facility Classification Code:	LETS-1 A A single letter, multiples of a single letter or in combination with a design
+* Serial Number:	77450549
+* Registration Number:	3625659
+
+#### About the re-brand.
+In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners.  Follow us on Facebook https://www.facebook.com/avideo/
+#
+# AVideo Platform Open-Source Project
+A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
+
+The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
+
+<div align="center"><img src="https://platform.avideo.com/website/assets/151/images/open_source_banner.png"/></div>
+
+# Create Your Own Broadcast Network With AVideo Platform
+
+## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
+
+## Along with this re-brand come a slew of value added benefits for all AVideo Platform instances. 
+* Each AVideo Platform clone is considered a broadcast network
+* Each broadcast network is indexed in our World Wide Broadcast Network Platform System
+* Each broadcast network can use our ad network
+* Each broadcast network can use our Open Systems TV platform (Coming Soon)
+
+And more to come in 2020. Our mission is to take your video sharing site to "The Next Level" Internet TV.
+
+WWBN offers relevant and practical solutions, as well as valuable innovative technology, designed to increase the efficiency of advertising and broadcasting operations and maximize revenue opportunities for our customers and partners.
+
+### WHERE WE DELIVER
+PROFITABLE STRATEGIES - We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
+
+### To learn more about AVideo Platform visit the <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>. 
+
+### To see a demo select one below.
+* <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
+  - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
+* <a href="https://tutorials.avideo.com/" target="_blank">AVideo Platform Gallery Demo</a>
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
-* <a href="http://demo.youphptube.com/" target="_blank">Full access demo site</a>
+* <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
+
+# Notice:
+### We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 # First thing...
 I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
@@ -13,9 +66,9 @@ I would humbly like to thank God for giving me the necessary knowledge, motivati
 **For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
 `Apostle Paul in Romans 11:36`
 
-# This Software must be used for Good, never Evil. It is expressly forbidden to use YouPHPTube to build porn sites, violence, racism or anything else that affects human integrity or denigrates the image of anyone.
+## This Software must be used for Good, never Evil. It is expressly forbidden to use AVideo Platform Open-Source to build porn sites, violence, racism, terrorism, or anything else that affects human integrity or denigrates the image of anyone.
 
-# Now you can read the rest...
+## Now you can read the rest...
 
 ## Important Information
 
@@ -24,34 +77,34 @@ I would humbly like to thank God for giving me the necessary knowledge, motivati
 
 I don´t want to read I just want you to show me how to install!!
 
-Ok, check this out! https://tutorials.youphptube.com/video/streamer-and-encoder
+Ok, check this out! https://tutorials.avideo.com/video/streamer-and-encoder
 
-For text-based tutorials and the manual, look here: https://github.com/DanielnetoDotCom/YouPHPTube/wiki/Admin-manual
+For text-based tutorials and the manual, look here: https://github.com/WWBN/AVideo/wiki/Admin-manual
 
 There, you can find some hints for troubleshooting as well.
 
+### AVideo Platform Mobile APP
+Android: https://play.google.com/store/apps/details?id=platform.avideo.com
 
-### Mobile APP
-Android: https://play.google.com/store/apps/details?id=mobile.youphptube.com
+## AVideo Platform Certified
+#### Need Help With Installation or Plugins? Feel free to ask us for help from the AVideo Platform Certified developers.
 
-### Are you having a hard time to configure or install YouPHPTube or any of its resources? feel free to ask us for help:
+<a href="https://youphp.tube/plugins/">Daniel Neto</a>
 
-https://www.youphptube.com/services
-
-# YouPHPTube - Streamer
-YouPHPTube! is an video-sharing website, It is an open source solution that is freely available to everyone. With YouPHPTube you can create your own video sharing site, YouPHPTube will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
+# AVideo - Streamer
+AVideo! is an video-sharing website, It is an open source solution that is freely available to everyone. With AVideo you can create your own video sharing site, AVideo will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
 
 <div align="center">
-<img src="http://www.youphptube.com/img/prints/prints13.png">
-<a href="http://demo.youphptube.com/" target="_blank">View Demo</a>
+<img src="https://platform.avideo.com/website/assets/151/images/who-we-are.jpg">
+<a href="http://demo.avideo.com/" target="_blank">View Demo</a>
 </div>
 
-# YouPHPTube - Encoder
-Go get it <a href="https://github.com/DanielnetoDotCom/YouPHPTube-Encoder" target="_blank">here</a>
+# AVideo - Encoder
+Go get it <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">here</a>
 
 <div align="center">
-<img src="https://youphptube.com/img/prints/encoder.png">
-<a href="https://encoder.youphptube.com/" target="_blank">View Public Encoder</a>
+<img src="https://platform.avideo.com/website/assets/151/images/encoder_img.png">
+<a href="https://encoder2.avideo.com/" target="_blank">View Public Encoder</a>
 </div>
 
 # Why do I need the Encoder?
@@ -69,7 +122,7 @@ Surely you need to install an encoder
 
 # Server Requirements
 
-In order for you to be able to run YouPHPTube, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below.
+In order for you to be able to run AVideo Platform, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below.
 
 - PHP 5.6+
 - MySQL 5.0+
@@ -134,7 +187,7 @@ In order for you to be able to run YouPHPTube, there are certain tools that need
 - Play List Sortable
 
 # Version 4.3
-In this version registered users need the YouPHPTube administrator to grant them permission to transmit streams
+In this version registered users need the AVideo administrator to grant them permission to transmit streams
 
 # Version 4.2
 In this version you can embed Youtube and Vimeo Links
@@ -142,14 +195,14 @@ In this version you can embed Youtube and Vimeo Links
 # What is new on this version 4.0?
 Since version 4.x+ we separate the streamer website from the encoder website, so that we can distribute the application on different servers.
 - The Streamer site, is the main front end and has as main function to attend the visitors of the site, through a layout based on the youtube experience, you can host the streamer site in any common internet host can host it (Windows or Linux).
-- The Encoder site, will be better than the original encoder, the new encoder will be in charge of managing a media encoding queue. You can Donwload the encoder here: https://github.com/DanielnetoDotCom/YouPHPTube-Encoder. but to install it you will need ssh access to your server, usually only VPS servers give you that kind of access, that code uses commands that use the Linux shell and consume more CPU.
+- The Encoder site, will be better than the original encoder, the new encoder will be in charge of managing a media encoding queue. You can Donwload the encoder here: https://github.com/WWBN/AVideo-Encoder. but to install it you will need ssh access to your server, usually only VPS servers give you that kind of access, that code uses commands that use the Linux shell and consume more CPU.
 - I will have to install the encoder and the streamer?
 No. We will be providing a public encoder, we will build the encoder in such a way that several streamers can use the same encoder. We are also providing source code for this, so you can install it internally and manage your own encoding priority.
 
 <div align="center">
-<img src="https://www.youphptube.com/img/architecture/SchemeV4.0.jpg">
-<a href="https://github.com/DanielnetoDotCom/YouPHPTube-Encoder" target="_blank">Download Encoder</a>
+<img src="https://platform.avideo.com/website/assets/151/images/chalkboard.png">
+<a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">Download Encoder</a>
 </div>
 
 # Older version
-If you want the old version with Streamer and Encoder together (Version 3.4.1) download it <a href="https://github.com/DanielnetoDotCom/YouPHPTube/releases/tag/3.4.1">here</a>
+If you want the old version with Streamer and Encoder together (Version 3.4.1) download it <a href="https://github.com/WWBN/AVideo/releases/tag/3.4.1">here</a>

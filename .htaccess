@@ -18,11 +18,11 @@ Deny from all
 Order Allow,Deny
 Deny from all
 </Files>
-<Files youphptube.log>
+<Files avideo.log>
 Order Allow,Deny
 Deny from all
 </Files>
-<Files youphptube.js.log>
+<Files avideo.js.log>
 Order Allow,Deny
 Deny from all
 </Files>
@@ -177,7 +177,6 @@ Options All -Indexes
     RewriteRule    ^refreshVideo$ objects/videoRefresh.json.php    [NC,L]
     RewriteRule    ^setStatusVideo$ objects/videoStatus.json.php    [NC,L]
     RewriteRule    ^setCategoryVideo$ objects/videoCategory.json.php    [NC,L]
-    RewriteRule    ^reencodeVideo$ objects/videoReencode.json.php    [NC,L]
     RewriteRule    ^rotateVideo$ objects/videoRotate.json.php    [NC,L]
 
 
@@ -188,8 +187,8 @@ Options All -Indexes
     RewriteRule    ^notifySubscribers.json$ objects/notifySubscribers.json.php    [NC,L]
 
 
-    RewriteRule    ^youPHPTubeQueueEncoder.json$ objects/youPHPTubeQueueEncoder.json.php    [NC,L]
-    RewriteRule    ^youPHPTubeEncoder.json$ objects/youPHPTubeEncoder.json.php    [NC,L]
+    RewriteRule    ^aVideoQueueEncoder.json$ objects/aVideoQueueEncoder.json.php    [NC,L]
+    RewriteRule    ^aVideoEncoder.json$ objects/aVideoEncoder.json.php    [NC,L]
 
     #comment
     RewriteRule    ^comments$ view/managerComments.php    [NC,L]

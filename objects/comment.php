@@ -107,9 +107,9 @@ class Comment {
             $id = $this->id;
         }
         if(empty($this->comments_id_pai) || $this->comments_id_pai== 'NULL'){
-            YouPHPTubePlugin::afterNewComment($this->id);
+            AVideoPlugin::afterNewComment($this->id);
         }else{
-            YouPHPTubePlugin::afterNewResponse($this->id);
+            AVideoPlugin::afterNewResponse($this->id);
         }
         return $resp;
     }

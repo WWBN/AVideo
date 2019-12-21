@@ -8,11 +8,11 @@ class BlockonomicsYPT extends PluginAbstract {
     static $BASE_URL = "https://www.blockonomics.co/";
 
     static function getNEW_ADDRESS_URL(){
-        $obj = YouPHPTubePlugin::getObjectData("BlockonomicsYPT");
+        $obj = AVideoPlugin::getObjectData("BlockonomicsYPT");
         return self::$BASE_URL.'api/new_address?match_callback='.$obj->Secret;
     }
     static function getPRICE_URL(){
-        $obj = YouPHPTubePlugin::getObjectData("YPTWallet");
+        $obj = AVideoPlugin::getObjectData("YPTWallet");
         $currency = $obj->currency;
         return self::$BASE_URL.'api/price?currency='.strtoupper($currency);
     }
@@ -50,7 +50,7 @@ class BlockonomicsYPT extends PluginAbstract {
         global $global; 
         $total_cost = floatval($total_cost);
         $obj = $this->getDataObject();
-        $objWallet = YouPHPTubePlugin::getObjectData("YPTWallet");
+        $objWallet = AVideoPlugin::getObjectData("YPTWallet");
         $currency = $objWallet->currency;
         //return here if total is empty
         if (empty($total_cost)) {

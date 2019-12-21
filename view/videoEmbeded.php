@@ -29,11 +29,11 @@ if (empty($video)) {
     die("Video not found");
 }
 
-YouPHPTubePlugin::getModeYouTube($video['id']);
+AVideoPlugin::getModeYouTube($video['id']);
 
-$customizedAdvanced = YouPHPTubePlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+$customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
-$objSecure = YouPHPTubePlugin::loadPluginIfEnabled('SecureVideosDirectory');
+$objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
@@ -65,7 +65,7 @@ if (!empty($images->posterPortrait)) {
     $imgh = $data[1];
 }
 
-require_once $global['systemRootPath'] . 'plugin/YouPHPTubePlugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 /*
  * Swap aspect ratio for rotated (vvs) videos
 
@@ -126,7 +126,7 @@ if (!empty($_GET['t'])) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 
         <?php
-        echo YouPHPTubePlugin::getHeadCode();
+        echo AVideoPlugin::getHeadCode();
         ?>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
@@ -188,7 +188,7 @@ if (!empty($_GET['t'])) {
                 }
                 ?>"></iframe>
                     <?php
-                    echo YouPHPTubePlugin::getFooterCode();
+                    echo AVideoPlugin::getFooterCode();
                     ?>
             <script>
                 $(document).ready(function () {
@@ -222,7 +222,7 @@ if (!empty($_GET['t'])) {
             echo $sources["pdf"]['url'];
             ?>"></iframe>
                     <?php
-                    echo YouPHPTubePlugin::getFooterCode();
+                    echo AVideoPlugin::getFooterCode();
                     ?>
             <script>
                 $(document).ready(function () {
@@ -240,7 +240,7 @@ if (!empty($_GET['t'])) {
             }
             ?>"></iframe>
                     <?php
-                    echo YouPHPTubePlugin::getFooterCode();
+                    echo AVideoPlugin::getFooterCode();
                     ?>
             <script>
                 $(document).ready(function () {
@@ -270,7 +270,7 @@ if (!empty($_GET['t'])) {
                 ?>
             </audio>
             <?php
-            echo YouPHPTubePlugin::getFooterCode();
+            echo AVideoPlugin::getFooterCode();
             ?>
             <script>
                 $(document).ready(function () {
@@ -290,7 +290,7 @@ if (!empty($_GET['t'])) {
 
             <?php
             // the live users plugin
-            if (empty($modestbranding) && YouPHPTubePlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+            if (empty($modestbranding) && AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 
                 require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
                 $style = VideoLogoOverlay::getStyle();
@@ -305,7 +305,7 @@ if (!empty($_GET['t'])) {
             }
             ?>
             <?php
-            echo YouPHPTubePlugin::getFooterCode();
+            echo AVideoPlugin::getFooterCode();
             ?>
             <script>
                 $(document).ready(function () {

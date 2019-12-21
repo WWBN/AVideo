@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isLogged()) {
     die("Is not logged");
 }
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("YPTWallet");
+$plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 if(empty($plugin)){
     die("Plugin not enabled");
 }

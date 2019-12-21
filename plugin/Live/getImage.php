@@ -24,7 +24,7 @@ $lt = new LiveTransmition($livet['id']);
 error_log("Live:getImage  start");
 if($lt->userCanSeeTransmition()){
     $uuid = $livet['key'];
-    $p = YouPHPTubePlugin::loadPlugin("Live");
+    $p = AVideoPlugin::loadPlugin("Live");
     $video = "{$p->getM3U8File($uuid)}";
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
     error_log("Live:getImage $url");
@@ -49,7 +49,7 @@ if($lt->userCanSeeTransmition()){
 }else{
     error_log("Live:getImage  Can not see the image");
 }
-$p = YouPHPTubePlugin::loadPluginIfEnabled("Cache");
+$p = AVideoPlugin::loadPluginIfEnabled("Cache");
 if(!empty($p)){
     $p->getEnd();
 }

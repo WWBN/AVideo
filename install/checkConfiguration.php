@@ -4,7 +4,7 @@ if (file_exists("../videos/configuration.php")) {
     exit;
 }
 
-$installationVersion = "7.8";
+$installationVersion = "8.0";
 
 
 header('Content-Type: application/json');
@@ -114,7 +114,7 @@ if ($mysqli->query($sql) !== TRUE) {
 
 $sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail, encoderURL,  created, modified) "
         . " VALUES "
-        . " (1, '858:480', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['mainLanguage']}', '{$_POST['contactEmail']}', 'https://encoder.youphptube.com/', now(), now())";
+        . " (1, '858:480', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['mainLanguage']}', '{$_POST['contactEmail']}', 'https://encoder2.avideo.com/', now(), now())";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating configuration: " . $mysqli->error;
     echo json_encode($obj);

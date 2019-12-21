@@ -11,6 +11,7 @@ if (!User::isAdmin()) {
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 $categories = Category::getAllCategories();
+array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
 $groups = UserGroups::getAllUsersGroups();
 ?>
 <!DOCTYPE html>

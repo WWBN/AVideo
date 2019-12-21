@@ -6,8 +6,8 @@ if (!User::isLogged()) {
     exit;
 }
 
-$plugin = YouPHPTubePlugin::loadPluginIfEnabled("BlockonomicsYPT");
-$obj = YouPHPTubePlugin::getObjectData("BlockonomicsYPT");
+$plugin = AVideoPlugin::loadPluginIfEnabled("BlockonomicsYPT");
+$obj = AVideoPlugin::getObjectData("BlockonomicsYPT");
 $order_id = $plugin->setUpPayment($_GET['value']);
 $order = new BlockonomicsOrder($order_id);
 ?>
