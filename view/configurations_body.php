@@ -476,7 +476,7 @@ if (User::isAdmin()) {
                                                         <h3>
                                                             <i class="fas fa-info-circle"></i>
                                                             If you are not sure how to configure your email, 
-                                                            please try <a href="https://github.com/AVideo/AVideo/wiki/Setting-up-AVideo-to-send-emails" target="_blank">this help</a>
+                                                            please try <a href="https://github.com/WWBN/AVideo/wiki/Setting-up-AVideo-Platform-to-send-emails" target="_blank">this help</a>
                                                         </h3>
                                                     </div>
 
