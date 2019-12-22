@@ -1,4 +1,4 @@
-<img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
+<img src="https://platform.avideo.com/website/assets/151/images/avideo_platform.png"/>
 
 ## A Video Platform
 AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
