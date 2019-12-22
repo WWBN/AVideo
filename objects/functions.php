@@ -515,6 +515,9 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
                 '/[\\?\\&]v=([^\\?\\&]+)/', $link, $matches
         );
 //the ID of the YouTube URL: x6qe_kVaBpg
+        if(empty($matches[1])){
+            return $link;
+        }
         $id = $matches[1];
         return '//www.youtube.com/embed/' . $id . '?modestbranding=1&showinfo='
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&te=$time&objectFit=$objectFit";
