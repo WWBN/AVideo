@@ -24,11 +24,9 @@ AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, In
 In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners.  Follow us on Facebook https://www.facebook.com/avideo/
 #
 # AVideo Platform Open-Source Project
-<img src="https://platform.avideo.com/website/assets/151/images/svg/balancing.svg"/>
-
 ## AVideo Platform Open-Source Consist of THREE main Areas: 
+<img src="https://platform.avideo.com/website/assets/151/images/svg/balancing.svg"/>
 #### (Management/Encoding/Storage)
-
 1. Management Project(s): <a href="http://git.platform.avideo.com/" class="" target="_blank">AVideo Platform</a>
 1. Encoding Project(s): <a href="http://git.encoder.avideo.com/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git.encoder-network.avideo.com/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
 1. Storage Project(s): <a href="http://git.storage.avideo.com/" class="" target="_blank">AVideo Storage</a>
