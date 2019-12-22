@@ -32,6 +32,8 @@ In some plugins, forks, versions, modules, APIs, documentation, file names, ther
 1. Encoding Project(s): <a href="http://git.encoder.avideo.com/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git.encoder-network.avideo.com/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
 1. Storage Project(s): <a href="http://git.storage.avideo.com/" class="" target="_blank">AVideo Storage</a>
 
+Management life cycle is as follows; media is managed at the platform at 1, media is then uploaded to a temporary storage to be encoded at 2, then stored for broadcast at 3, then distributed to devices at 1 to be consumed.
+
 #### About AVideo Platform Open-Source
 A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
 
