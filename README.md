@@ -1,4 +1,4 @@
-<img src="http://platform.avideo.com/website/assets/151/images/logo.png"/>
+<img src="https://platform.avideo.com/website/assets/151/images/avideo_platform.png"/>
 
 ## A Video Platform
 AVideo is a generic term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with a Platform that does Audio and Video or simply "A Video Platform". 
@@ -21,10 +21,21 @@ AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, In
 * Registration Number:	3625659
 
 #### About the re-brand.
-In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners.  Follow us on Facebook https://www.facebook.com/avideo/
+In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners. Follow us on <a href="https://www.facebook.com/avideo/">Facebook</a> 
 #
 # AVideo Platform Open-Source Project
-A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
+## AVideo Platform Open-Source Consist of THREE main Areas: 
+<img src="https://platform.avideo.com/website/assets/151/images/svg/balancing.svg"/>
+
+#### (Management/Encoding/Storage)
+1. Management Project(s): <a href="http://git.platform.avideo.com/" class="" target="_blank">AVideo Platform</a>
+1. Encoding Project(s): <a href="http://git.encoder.avideo.com/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git.encoder-network.avideo.com/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
+1. Storage Project(s): <a href="http://git.storage.avideo.com/" class="" target="_blank">AVideo Storage</a>
+
+Management life cycle is as follows; media is managed at the platform at 1, media is then uploaded to a temporary storage to be encoded at 2, then stored for broadcast at 3, then distributed to devices at 1 to be consumed.
+
+#### About AVideo Platform Open-Source
+Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. AVideo Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances throughout the world.  Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
 
 The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
 
@@ -57,6 +68,8 @@ PROFITABLE STRATEGIES - We provide companies with new business models that evolv
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
+  
+
 
 # Notice:
 ### We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download them again and you should be fine.
