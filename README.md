@@ -26,11 +26,12 @@ In some plugins, forks, versions, modules, APIs, documentation, file names, ther
 # AVideo Platform Open-Source Project
 <img src="https://platform.avideo.com/website/assets/151/images/svg/balancing.svg"/>
 
-## AVideo Platform Open-Source Project Consist of THREE main parts: #### (Management/Encoding/Storage)
+## AVideo Platform Open-Source Project Consist of THREE main parts: 
+#### (Management/Encoding/Storage)
 
-* Management Project: <a href="http://git.platform.avideo.com/" class="" target="_blank">AVideo Platform</a>
-* Encoding projects: <a href="http://git.encoder.avideo.com/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git.encoder-network.avideo.com/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
-* Storage Project: <a href="http://git.storage.avideo.com/" class="" target="_blank">AVideo Storage</a>
+* Management Project(s): <a href="http://git.platform.avideo.com/" class="" target="_blank">AVideo Platform</a>
+* Encoding Project(s): <a href="http://git.encoder.avideo.com/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git.encoder-network.avideo.com/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
+* Storage Project(s): <a href="http://git.storage.avideo.com/" class="" target="_blank">AVideo Storage</a>
 
 A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
 
