@@ -35,7 +35,7 @@ In some plugins, forks, versions, modules, APIs, documentation, file names, ther
 Management life cycle is as follows; media is managed at the platform at 1, media is then uploaded to a temporary storage to be encoded at 2, then stored for broadcast at 3, then distributed to devices at 1 to be consumed.
 
 #### About AVideo Platform Open-Source
-A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances world wide. Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
+Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. A Video Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances throughout the world.  Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
 
 The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
 
