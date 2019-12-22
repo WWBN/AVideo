@@ -39,6 +39,7 @@ The AVideo Platform Plugin Design allows you to get exactly the solution that ad
 * Each broadcast network is indexed in our World Wide Broadcast Network Platform System
 * Each broadcast network can use our ad network
 * Each broadcast network can use our Open Systems TV platform (Coming Soon)
+* Each broadcast network has channels and each channel has programs <a href="https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Channel-Programming-Documentation">Learn more</a>
 
 And more to come in 2020. Our mission is to take your video sharing site to "The Next Level" Internet TV.
 
