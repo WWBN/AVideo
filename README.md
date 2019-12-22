@@ -26,6 +26,7 @@ In some plugins, forks, versions, modules, APIs, documentation, file names, ther
 # AVideo Platform Open-Source Project
 ## AVideo Platform Open-Source Consist of THREE main Areas: 
 <img src="https://platform.avideo.com/website/assets/151/images/svg/balancing.svg"/>
+
 #### (Management/Encoding/Storage)
 1. Management Project(s): <a href="http://git.platform.avideo.com/" class="" target="_blank">AVideo Platform</a>
 1. Encoding Project(s): <a href="http://git.encoder.avideo.com/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git.encoder-network.avideo.com/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
