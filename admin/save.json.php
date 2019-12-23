@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
@@ -30,9 +29,9 @@ $pluginDB = Plugin::getPluginByName($pluginName);
 
 foreach ($pluginDO as $key => $value) {
     if (isset($pluginValues[$key])) {
-        if(is_bool($pluginDO->$key)){
+        if (is_bool($pluginDO->$key)) {
             $pluginDO->$key = empty($pluginValues[$key])?false:true;
-        }else{
+        } else {
             //$pluginDO->$key = str_replace('"', '\\"', $pluginValues[$key]);
             $pluginDO->$key = $pluginValues[$key];
         }
@@ -44,6 +43,6 @@ $p->setObject_data(json_encode($pluginDO));
 
 $obj = new stdClass();
 $obj->save = $p->save();
-if($obj->save === false) error_log("[ERROR] Error saving plugin $pluginName data. Maybe plugin is not enabled?");
+if ($obj->save === false) error_log("[ERROR] Error saving plugin $pluginName data. Maybe plugin is not enabled?");
 
 echo (json_encode($obj));

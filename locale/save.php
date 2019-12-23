@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = "../";
@@ -22,7 +21,7 @@ if (!is_writable($dir)) {
 }
 $file = $dir.strtolower($_POST['flag']).".php";
 $myfile = fopen($file, "w") or die("Unable to open file!");
-if(!$myfile){
+if (!$myfile) {
     $obj->status = 0;
     $obj->error = __("Unable to open file!");
     die(json_encode($obj));

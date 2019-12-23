@@ -244,7 +244,7 @@ switch ($_GET['page']) {
                                                 ?>
                                             </table>
                                         </div>
-                                    </div>                                       
+                                    </div>
                                     <?php
                                 }
                                 ?>
@@ -264,9 +264,9 @@ switch ($_GET['page']) {
                                 } else {
                                     ?>
                                     <div class="alert alert-danger">
-                                        Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store 
+                                        Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store
                                         <a class="btn btn-danger" href="https://www.avideo.com/plugins/">Plugin Store</a>
-                                    </div>    
+                                    </div>
                                     <?php
                                 }
                             }
@@ -276,9 +276,9 @@ switch ($_GET['page']) {
                             } else {
                                 ?>
                                 <div class="alert alert-danger">
-                                    Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store 
+                                    Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store
                                     <a class="btn btn-danger" href="https://www.avideo.com/plugins/">Plugin Store</a>
-                                </div>    
+                                </div>
                                 <?php
                             }
                         }
@@ -324,6 +324,3 @@ switch ($_GET['page']) {
         </script>
     </body>
 </html>
-
-
-

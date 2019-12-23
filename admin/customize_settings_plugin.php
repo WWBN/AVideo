@@ -9,7 +9,7 @@
             <div class="alert alert-info">
                 Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.
                 <a class="btn btn-info btn-sm btn-xs" href="https://www.avideo.com/plugins/">Buy the Customize plugin now</a>
-            </div>  
+            </div>
             <?php
             return false;
         } else {
