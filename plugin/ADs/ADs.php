@@ -100,8 +100,8 @@ class ADs extends PluginAbstract {
             $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '',$_GET['abkw']);
             return "<script> window.abkw = '{$abkw}'; </script>";                    
         }
-        if(!empty($_GET['videoName'])){
             $obj = $this->getDataObject();
+        if(!empty($_GET['videoName'])){
             if(!empty($obj->tags3rdParty)){
                 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
                 if(!empty($v)){            
@@ -113,11 +113,17 @@ class ADs extends PluginAbstract {
                 }
             }
         }else if(!empty($_GET['catName'])){
-            $obj = $this->getDataObject();
             if(!empty($obj->tags3rdParty)){
                 $v = Category::getCategoryByName($_GET['catName']);
                 if(!empty($v)){
                     $tag = str_replace(array(',','{ChannelName}','{Category}'), array('', '', addcslashes($v["name"],"'")), $obj->tags3rdParty);                    
+                    return $tag;
+                }
+            }
+        }else if(!empty($_GET['channelName'])){
+            if(!empty($obj->tags3rdParty)){
+                if(!empty($v)){
+                    $tag = str_replace(array(',','{ChannelName}','{Category}'), array('', addcslashes($_GET['channelName'],"'"), ''), $obj->tags3rdParty);                    
                     return $tag;
                 }
             }
