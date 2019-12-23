@@ -21,7 +21,7 @@ if (!User::isAdmin()) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="panel panel-default">
                 <div class="panel-body">
