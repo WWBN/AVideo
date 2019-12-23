@@ -124,10 +124,8 @@ class ADs extends PluginAbstract {
         }
         if(!empty($_GET['channelName'])){
             if(!empty($obj->tags3rdParty)){
-                if(!empty($v)){
-                    $tag = str_replace(array(',','{ChannelName}','{Category}'), array('', addcslashes($_GET['channelName'],"'"), ''), $obj->tags3rdParty);                    
-                    return $tag;
-                }
+                $tag = str_replace(array(',','{ChannelName}','{Category}'), array('', addcslashes($_GET['channelName'],"'"), ''), $obj->tags3rdParty);                    
+                return $tag;
             }
         }
         return '';
