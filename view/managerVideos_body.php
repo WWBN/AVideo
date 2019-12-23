@@ -273,6 +273,7 @@
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#jpg">Poster (JPG)</a></li>
                                     <li><a data-toggle="tab" href="#pjpg">Portrait Poster (JPG)</a></li>
+                                    <li><a data-toggle="tab" href="#webp">Mouse Over Poster (WebP)</a></li>
                                     <li><a data-toggle="tab" href="#gif">Mouse Over Poster (GIF)</a></li>
                                     <li><a data-toggle="tab" href="#pgif">Mouse Over Portrait Poster (GIF)</a></li>
                                 </ul>
@@ -283,6 +284,9 @@
                                     </div>
                                     <div id="pjpg" class="tab-pane fade">
                                         <input id="input-pjpg" type="file" class="file-loading" accept="image/jpg">
+                                    </div>
+                                    <div id="webp" class="tab-pane fade">
+                                        <input id="input-webp" type="file" class="file-loading" accept="image/webp">
                                     </div>
                                     <div id="gif" class="tab-pane fade">
                                         <input id="input-gif" type="file" class="file-loading" accept="image/gif">
@@ -981,7 +985,7 @@ echo AVideoPlugin::getManagerVideosEdit();
         $('#videoIsAd').prop('checked', false);
         $('#videoIsAd').trigger("change");
         reloadFileInput(row);
-        $('#input-jpg, #input-gif,#input-pjpg, #input-pgif').on('fileuploaded', function (event, data, previewId, index) {
+        $('#input-jpg, #input-gif,#input-pjpg, #input-pgif, #input-webp').on('fileuploaded', function (event, data, previewId, index) {
             $("#grid").bootgrid("reload");
         })
         waitToSubmit = true;
@@ -1007,7 +1011,7 @@ echo AVideoPlugin::getManagerVideosEdit();
             }, 500);
             return false;
         }
-        $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
+        $('#input-jpg, #input-gif, #input-pjpg, #input-pgif, #input-webp').fileinput('destroy');
         $("#input-jpg").fileinput({
             uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=jpg",
             autoReplace: true,
@@ -1071,6 +1075,22 @@ echo AVideoPlugin::getManagerVideosEdit();
             showClose: false,
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
             allowedFileExtensions: ["gif"]
+        });
+        $("#input-webp").fileinput({
+            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=webp",
+            autoReplace: true,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            maxFileCount: 1,
+            initialPreview: [
+                "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".webp'>",
+            ],
+            initialCaption: row.clean_title + '.webp',
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+            allowedFileExtensions: ["webp"]
         });
     }
 
