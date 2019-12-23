@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `tags_types_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tags_tags_types1_idx` (`tags_types_id` ASC),
+  INDEX `index_tag_name` (`name` ASC),
   CONSTRAINT `fk_tags_tags_types1`
     FOREIGN KEY (`tags_types_id`)
     REFERENCES `tags_types` (`id`)

@@ -31,15 +31,17 @@ class VideoTags extends PluginAbstract {
     }
 
     static function saveTags($tagsNameList, $videos_id) {
+        TimeLogStart(__FILE__."::".__FUNCTION__);
         // remove all tags from the video
         $tagsSaved = array();
         $deleted = self::removeAllTagFromVideo($videos_id);
-        
+        TimeLogEnd(__FILE__."::".__FUNCTION__, __LINE__);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         unset($_SESSION['getVideoTags'][$videos_id]);
         session_write_close();
+        TimeLogEnd(__FILE__."::".__FUNCTION__, __LINE__);
         if ($deleted) {
             foreach ($tagsNameList as $value) {
                 if (empty($value['items'])) {
@@ -56,6 +58,7 @@ class VideoTags extends PluginAbstract {
                 }
             }
         }
+        TimeLogEnd(__FILE__."::".__FUNCTION__, __LINE__);
         //var_dump($tagsSaved, $tagsNameList, $videos_id);
         return $tagsSaved;
     }
@@ -240,5 +243,19 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         $row['videoTagsObject'] = Tags::getObjectFromVideosId($videos_id);
         return $row;
     }   
+    
+    
+    public function getPluginVersion() {
+        return "2.0";   
+    }
+    
+    public function updateScript() {
+        global $global;
+        //update version 2.0        
+        if(AVideoPlugin::compareVersion($this->getName(), "2.0")<0){
+            sqlDal::executeFile($global['systemRootPath'] . 'plugin/VideoTags/install/update.sql');
+        }    
+        return true;
+    }
 
 }
