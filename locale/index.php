@@ -1,16 +1,15 @@
 <?php
+if (isset($_GET['getLanguage'])) {
 
-if(isset($_GET['getLanguage'])) {
+    $lngFile = './'.strtolower(str_replace(['.', '/', '\\'], '', $_GET['getLanguage'])).'.php';
+    if (!file_exists($lngFile)) {
+        header('HTTP/1.0 404 Not Found');
+        exit;
+    }
 
-	$lngFile = './'.strtolower(str_replace(['.', '/', '\\'], '', $_GET['getLanguage'])).'.php';
-	if(!file_exists($lngFile)) {
-		header('HTTP/1.0 404 Not Found');
-		exit;
-	}
-
-	require_once($lngFile);
-	echo json_encode($t);
-	exit;
+    require_once($lngFile);
+    echo json_encode($t);
+    exit;
 }
 
 $vars = array();
@@ -78,37 +77,37 @@ sort($vars);
                             $("#navBarFlag2").flagStrap({
                                 inputName: 'country2',
                                 buttonType: "btn-default navbar-btn",
-								onSelect: function(value, element) {
-									var tb1 = $('#originalWords');
-									var tb2 = $('#translatedCode');
-									console.log('Changed language');
-									console.log(value);
-									$.ajax({
-										url: 'index.php?getLanguage='+value,
-										dataType: 'json'
-									}).done(function(data){
-										console.log("Found existing translation!");
-										var arrayOfLines = $('#originalWords').val().split('\n');
-										$.each(arrayOfLines, function(index, item) {
-											if(data.hasOwnProperty(item)) {
-												$('#translatedCode').append(data[item]+'\n');
-											} else {
-												$('#translatedCode').append('\n');
-											}
-										});
+                                onSelect: function(value, element) {
+                                    var tb1 = $('#originalWords');
+                                    var tb2 = $('#translatedCode');
+                                    console.log('Changed language');
+                                    console.log(value);
+                                    $.ajax({
+                                        url: 'index.php?getLanguage='+value,
+                                        dataType: 'json'
+                                    }).done(function(data){
+                                        console.log("Found existing translation!");
+                                        var arrayOfLines = $('#originalWords').val().split('\n');
+                                        $.each(arrayOfLines, function(index, item) {
+                                            if (data.hasOwnProperty(item)) {
+                                                $('#translatedCode').append(data[item]+'\n');
+                                            } else {
+                                                $('#translatedCode').append('\n');
+                                            }
+                                        });
 
-										tb1.scroll(function() {
-											tb2.scrollTop(tb1.scrollTop());
-										});
+                                        tb1.scroll(function() {
+                                            tb2.scrollTop(tb1.scrollTop());
+                                        });
 
 
-									}).fail(function(){
-										console.log("New translation");
-										tb1.scroll(function() {
+                                    }).fail(function(){
+                                        console.log("New translation");
+                                        tb1.scroll(function() {
 
-										});
-									});
-								}
+                                        });
+                                    });
+                                }
                             });
                         });
                     </script>

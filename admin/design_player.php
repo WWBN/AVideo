@@ -13,8 +13,8 @@ $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
                 </div>
             </div>
             <div class="panel-body" style="padding: 0;">
-                <iframe fameBorder="0" 
-                        src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/playerSample.php" 
+                <iframe fameBorder="0"
+                        src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/playerSample.php"
                         style="width: 100%; height: 300px; border: 0;"></iframe>
             </div>
         </div>
@@ -35,8 +35,8 @@ $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
                     </div>
                 </div>
                 <div class="panel-body" style="padding: 0;">
-                    <iframe fameBorder="0" 
-                            src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/playerSample.php?playerSkin=<?php echo ($fileEx); ?>" 
+                    <iframe fameBorder="0"
+                            src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/playerSample.php?playerSkin=<?php echo ($fileEx); ?>"
                             style="width: 100%; height: 300px; border: 0;"></iframe>
                 </div>
             </div>
