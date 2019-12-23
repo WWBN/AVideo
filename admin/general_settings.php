@@ -11,7 +11,7 @@
             <div class="panel-body"><?php include './general_settings_upload.php'; ?></div>
         </div>
     </div>
-    
+
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading"><?php echo __('Encoder') ?></div>
