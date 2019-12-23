@@ -112,7 +112,8 @@ class ADs extends PluginAbstract {
                     return $tag;
                 }
             }
-        }else if(!empty($_GET['catName'])){
+        }
+        if(!empty($_GET['catName'])){
             if(!empty($obj->tags3rdParty)){
                 $v = Category::getCategoryByName($_GET['catName']);
                 if(!empty($v)){
@@ -120,7 +121,8 @@ class ADs extends PluginAbstract {
                     return $tag;
                 }
             }
-        }else if(!empty($_GET['channelName'])){
+        }
+        if(!empty($_GET['channelName'])){
             if(!empty($obj->tags3rdParty)){
                 if(!empty($v)){
                     $tag = str_replace(array(',','{ChannelName}','{Category}'), array('', addcslashes($_GET['channelName'],"'"), ''), $obj->tags3rdParty);                    
