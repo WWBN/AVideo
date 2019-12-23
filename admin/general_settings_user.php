@@ -1,7 +1,7 @@
 <?php
     $filter = array(
-        'disableNativeSignUp'=>'This is usefull if you want to use our LDAP plugin or maybe only allow authentication from Social Networks',
-        'disableNativeSignIn'=>'This is usefull if you want to use our LDAP plugin or maybe only allow authentication from Social Networks',
+        'disableNativeSignUp'=>'This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks',
+        'disableNativeSignIn'=>'This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks',
         'disablePersonalInfo'=>'Disable the My Account personal info like: First and Last Name and address',
         'newUsersCanStream'=>'Automatic allow new users to use your Livestream Platform',
         'doNotIndentifyByEmail'=>'Do not show user\'s email on the site',

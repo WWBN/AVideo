@@ -2,7 +2,7 @@
 <div class="panel panel-default">
     <div class="panel-heading"><?php echo __("Email All Users"); ?></div>
     <div class="panel-body">
-        
+
         <div class="row">
             <label class="col-md-4">
                 Sent only to this email:

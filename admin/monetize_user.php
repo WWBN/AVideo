@@ -7,7 +7,7 @@
                 $filter = array(
                     'rewardPerView' => 'How much will your users receive per each video view',
                     'rewardOnlyLoggedUsersView' => 'Check this to allow only count rewards from logged users');
-                
+
                 createTable("MonetizeUsers",$filter);
                 ?>
 

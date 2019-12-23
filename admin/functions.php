@@ -1,8 +1,8 @@
 <?php
 
-function createTable($pluginName, $filter = array()){
+function createTable($pluginName, $filter = array()) {
     $plugin = AVideoPlugin::getObjectData($pluginName);
-    if(empty($filter)){
+    if (empty($filter)) {
         foreach ($plugin as $keyJson => $valueJson) {
             $filter[$keyJson] = "&nbsp;";
         }
@@ -15,13 +15,13 @@ function createTable($pluginName, $filter = array()){
     $pluginsList = array();
     if (!AVideoPlugin::exists($pluginName)) {
         echo "<tr><td colspan='2'> Sorry you do not have the plugin </td></tr>";
-    }else{
-        if(!empty($plugin)){
+    } else {
+        if (!empty($plugin)) {
             $form = jsonToFormElements($plugin,$filter);
             //var_dump($form);
             echo implode("", $form);
         }
-        
+
         echo "<tr><td colspan='2'> <button class='btn btn-block btn-primary'><i class='fa fa-save'></i> Save</button> </td></tr>";
     }
     echo '</table></form>';
@@ -63,9 +63,9 @@ function jsonToFormElements($json, $filter = array()) {
 }
 
 function getPluginSwitch($pluginName) {
-    if(!AVideoPlugin::exists($pluginName)){
-       $input = '<a href="https://www.avideo.com/plugins/" class="btn btn-danger btn-sm btn-xs">Buy this plugin now</a>'; 
-    }else{
+    if (!AVideoPlugin::exists($pluginName)) {
+       $input = '<a href="https://www.avideo.com/plugins/" class="btn btn-danger btn-sm btn-xs">Buy this plugin now</a>';
+    } else {
         $plugin = AVideoPlugin::loadPluginIfEnabled($pluginName);
         $pluginForced = AVideoPlugin::loadPlugin($pluginName);
         $id = uniqid();
