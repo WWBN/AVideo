@@ -96,10 +96,18 @@ foreach ($securityRemoveSingleQuotes as $value) {
 
 foreach ($securityFilterInt as $value) {
     if (!empty($_POST[$value])) {
-        $_POST[$value] = intval($_POST[$value]);
+        if(strtolower($_POST[$value])==="true"){
+            $_POST[$value] = 1;
+        }else{
+            $_POST[$value] = intval($_POST[$value]);
+        }
     }
     if (!empty($_GET[$value])) {
-        $_GET[$value] = intval($_GET[$value]);
+        if(strtolower($_GET[$value])==="true"){
+            $_GET[$value] = 1;
+        }else{
+            $_GET[$value] = intval($_GET[$value]);
+        }
     }
 }
 
