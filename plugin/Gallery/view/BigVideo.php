@@ -4,7 +4,7 @@ if (empty($crc)) {
 }
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
 
-    if ($obj->useSuggestedVideosAsCarouselInBigVideo) {
+    if (!empty($obj->useSuggestedVideosAsCarouselInBigVideo)) {
         //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
         //$videoRows = Video::getAllVideosLight("viewable", !$obj->hidePrivateVideos, false, true);
         $videoRows = Video::getAllVideos("viewable", false, !$obj->hidePrivateVideos, array(), false, false, true,  true);

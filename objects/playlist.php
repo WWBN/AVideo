@@ -55,12 +55,16 @@ class PlayList extends ObjectYPT {
      * @param type $isVideoIdPresent pass the ID of the video checking
      * @return boolean
      */
-    static function getAllFromUser($userId, $publicOnly = true, $status = false) {
+    static function getAllFromUser($userId, $publicOnly = true, $status = false, $playlists_id=0) {
         global $global, $config;
+        $playlists_id = intval($playlists_id);
         $formats = "";
         $values = array();
         $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
                 . " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
+        if(!empty($playlists_id)){
+            $sql .= " AND pl.id = '{$playlists_id}' ";
+        }
         if (!empty($status)) {
             $status = str_replace("'", "", $status);
             $sql .= " AND pl.status = '{$status}' ";

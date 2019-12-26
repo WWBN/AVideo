@@ -62,6 +62,8 @@ class CustomizeUser extends PluginAbstract {
         $o->value = "";
         $obj->messageToAppearBelowLoginBox = $o;
 
+        $obj->keepViewerOnChannel = true;
+        
         $obj->doNotShowTopBannerOnChannel = false;
 
         $obj->doNotShowMyChannelNameOnBasicInfo = false;
@@ -261,6 +263,14 @@ class CustomizeUser extends PluginAbstract {
         global $global, $video;
         $obj = $this->getDataObject();
         include $global['systemRootPath'] . 'plugin/CustomizeUser/actionButton.php';
+    }
+    
+    public function getHTMLMenuRight() {
+        global $global;
+        $obj = $this->getDataObject();
+        if($obj->keepViewerOnChannel){
+            include $global['systemRootPath'] . 'plugin/CustomizeUser/channelMenuRight.php';
+        }
     }
 
 }

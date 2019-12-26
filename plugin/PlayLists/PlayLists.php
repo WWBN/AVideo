@@ -190,7 +190,7 @@ class PlayLists extends PluginAbstract {
         if (empty($obj->useOldPlayList)) {
             return $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
         } else {
-            return $global['webSiteRootURL'] . "playlist/" . $playlists_id;
+            return $global['webSiteRootURL'] . "program/" . $playlists_id;
         }
     }
 

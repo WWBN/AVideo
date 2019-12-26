@@ -3,7 +3,7 @@ require_once $global['systemRootPath'] . 'objects/playlist.php';
 $playlist = new PlayList($playlist_id);
 $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
 ?>
-<div class="playlist-nav row">
+<div class="playlist-nav">
     <nav class="navbar navbar-inverse">
         <ul class="nav navbar-nav">
             <li class="navbar-header">
@@ -56,7 +56,16 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                             <span itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
                             <span itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
-                            <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
+                            <?php
+                            if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {
+                                ?>
+                                <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                <div class="progress" style="height: 3px; margin-bottom: 2px;">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div> 
+                                <?php
+                            }
+                            ?>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8 videosDetails">
                             <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>

@@ -60,11 +60,14 @@ foreach ($_POST['list'] as $key => $value) {
 }
 
 if(!empty($_GET['sort'])){
-    header("Location: ". User::getChannelLink($obj->getUsers_id()));
+    header("Location: ". $_SERVER['HTTP_REFERER']);
+    //header("Location: ". User::getChannelLink($obj->getUsers_id()));
     exit;
 }
-
-echo '{"status":"'.$result.'"}';
+$o = new stdClass();
+$o->status = $result;
+//$o->channelName = $obj->get;
+echo json_encode($o);exit;
 
 
 // Comparison function
