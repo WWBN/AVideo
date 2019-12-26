@@ -69,10 +69,10 @@ class Cache extends PluginAbstract {
         }
         $compl = "";
         if(get_browser_name($_SERVER['HTTP_USER_AGENT']) === 'Safari'){
-            $compl = "safari_";
+            $compl .= "safari_";
         }
         
-        return User::getId() . "_{$compl}" . md5($_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : ''). (@$_SESSION['language']) . '.cache';
+        return User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'].$_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : ''). (@$_SESSION['language']) . '.cache';
     }
 
     private function isFirstPage() {
