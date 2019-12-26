@@ -62,7 +62,7 @@ class CustomizeUser extends PluginAbstract {
         $o->value = "";
         $obj->messageToAppearBelowLoginBox = $o;
 
-        $obj->keepViewerOnChannel = true;
+        $obj->keepViewerOnChannel = false;
         
         $obj->doNotShowTopBannerOnChannel = false;
 
