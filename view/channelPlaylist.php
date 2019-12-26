@@ -162,7 +162,7 @@ foreach ($playlists as $playlist) {
                 <?php
                 $count = 0;
                 foreach ($videosP as $value) {
-                    $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}";
+                    $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/{$value['clean_title']}";
                     $count++;
                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                     $name = User::getNameIdentificationById($value['users_id']);
