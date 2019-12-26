@@ -24,6 +24,31 @@ if (!empty($_SESSION['channelName'])) {
             <span class="fa fa-times"></span>  <span class="hidden-md hidden-sm"><?php echo $_GET['channelName']; ?></span>
         </a>
     </li>
+    <script>
+        $('#mainNavBar a.navbar-brand').on('click', function (e) {
+            e.preventDefault();
+            var url = $(this).attr("href");
+            swal({
+                title: "<?php echo __("Leaving the Channel?"); ?>",
+                text: "<?php echo __("Are you sure you want to leave this Channel?"); ?>",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, stay on this channel!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            document.location = url+'?leaveChannel=1';
+                        } else {
+                            document.location = url;
+                        }
+                    });
+        });
+
+    </script>
     <?php
 }
 ?>
