@@ -447,6 +447,27 @@ function setSiteSendMessage(&$mail) {
     }
 }
 
+function array_iunique($array) {
+    return array_intersect_key(
+            $array, array_unique(array_map("strtolower", $array))
+    );
+}
+
+function partition(Array $list, $totalItens) {
+    $listlen = count($list);
+    $p = ceil($listlen / $totalItens);
+    $partlen = floor($listlen / $p);
+    $partrem = $listlen % $p;
+    $partition = array();
+    $mark = 0;
+    for ($px = 0; $px < $p; $px ++) {
+        $incr = ($px < $partrem) ? $partlen + 1 : $partlen;
+        $partition[$px] = array_slice($list, $mark, $incr);
+        $mark += $incr;
+    }
+    return $partition;
+}
+
 function sendSiteEmail($to, $subject, $message) {
     if (empty($to)) {
         return false;
@@ -456,30 +477,45 @@ function sendSiteEmail($to, $subject, $message) {
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
-        $mail = new PHPMailer;
-        setSiteSendMessage($mail);
-//$mail->SMTPDebug = 4;
-//Set who the message is to be sent from
-        $mail->setFrom($contactEmail, $webSiteTitle);
-//Set who the message is to be sent to
+
         if (!is_array($to)) {
+            $mail = new PHPMailer;
+            setSiteSendMessage($mail);
+            $mail->setFrom($contactEmail, $webSiteTitle);
+            $mail->Subject = $subject . " - " . $webSiteTitle;
+            $mail->msgHTML($message);
+
             $mail->addAddress($to);
+
+            $resp = $mail->send();
+            if (!$resp) {
+                error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
+            } else {
+                error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
+            }
         } else {
-            $to = array_unique($to);
-            foreach ($to as $value) {
-                $mail->addBCC($value);
+            $to = array_iunique($to);
+            $pieces = partition($input_array, 90);
+            foreach ($pieces as $piece) {
+                $mail = new PHPMailer;
+                setSiteSendMessage($mail);
+                $mail->setFrom($contactEmail, $webSiteTitle);
+                $mail->Subject = $subject . " - " . $webSiteTitle;
+                $mail->msgHTML($message);
+                
+                foreach ($piece as $value) {
+                    $mail->addBCC($value);
+                }
+
+                $resp = $mail->send();
+                if (!$resp) {
+                    error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
+                } else {
+                    error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
+                }
             }
         }
 //Set the subject line
-        $mail->Subject = $subject . " - " . $webSiteTitle;
-
-        $mail->msgHTML($message);
-        $resp = $mail->send();
-        if (!$resp) {
-            error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
-        } else {
-            error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
-        }
         return $resp;
     } catch (phpmailerException $e) {
         error_log($e->errorMessage()); //Pretty error messages from PHPMailer
@@ -515,7 +551,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
                 '/[\\?\\&]v=([^\\?\\&]+)/', $link, $matches
         );
 //the ID of the YouTube URL: x6qe_kVaBpg
-        if(empty($matches[1])){
+        if (empty($matches[1])) {
             return $link;
         }
         $id = $matches[1];
