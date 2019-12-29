@@ -24,6 +24,9 @@ if (empty($_GET['channelName'])) {
 }
 $user_id = $_GET['user_id'];
 
+$timeLog2 = __FILE__." - channelPlayList: {$_GET['channelName']}";
+TimeLogStart($timeLog2);
+
 $publicOnly = true;
 $isMyChannel = false;
 if (User::isLogged() && $user_id == User::getId()) {
@@ -33,10 +36,11 @@ if (User::isLogged() && $user_id == User::getId()) {
 
 $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
 $playListsObj = AVideoPlugin::getObjectData("PlayLists");
-
+TimeLogEnd($timeLog2, __LINE__);
 $channelName = @$_GET['channelName'];
 unset($_GET['channelName']);
 $startC = microtime(true);
+TimeLogEnd($timeLog2, __LINE__);
 foreach ($playlists as $playlist) {
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
@@ -263,7 +267,7 @@ foreach ($playlists as $playlist) {
     </div>
     <?php
 }
-
+TimeLogEnd($timeLog2, __LINE__);
 $_GET['channelName'] = $channelName;
 ?>
 <script>
