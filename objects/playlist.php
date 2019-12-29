@@ -210,26 +210,37 @@ class PlayList extends ObjectYPT {
         $rows = array();
         $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
         if ($res != false) {
+            $timeLog2 = __FILE__." - getVideosFromPlaylist: {$playlists_id}";
+            TimeLogStart($timeLog2);
             foreach ($fullData as $row) {
                 if (!empty($_GET['isChannel'])) {
                     $row['tags'] = Video::getTags($row['id']);
                     $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
                     $row['humancreate'] = humanTiming(strtotime($row['cre']));
                 }
+                TimeLogEnd($timeLog2, __LINE__);
                 $images = Video::getImageFromFilename($row['filename'], $row['type']);
+                TimeLogEnd($timeLog2, __LINE__);
                 $row['images'] = $images;
                 $row['videos'] = Video::getVideosPaths($row['filename'], true);
+                TimeLogEnd($timeLog2, __LINE__);
                 $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
+                TimeLogEnd($timeLog2, __LINE__);
                 $row['title'] = UTF8encode($row['title']);
+                TimeLogEnd($timeLog2, __LINE__);
                 $row['description'] = UTF8encode($row['description']);
+                TimeLogEnd($timeLog2, __LINE__);
                 $row['tags'] = Video::getTags($row['videos_id']);
+                TimeLogEnd($timeLog2, __LINE__);
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $row['videoTags'] = Tags::getAllFromVideosId($row['videos_id']);
                     $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['videos_id']);
                 }
+                TimeLogEnd($timeLog2, __LINE__);
                 if ($SubtitleSwitcher) {
                     $row['subtitles'] = getVTTTracks($row['filename'], true);
                 }
+                TimeLogEnd($timeLog2, __LINE__);
                 unset($row['password']);
                 unset($row['recoverPass']);
                 //unset($row['description']);
