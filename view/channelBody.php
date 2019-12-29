@@ -5,7 +5,8 @@ if (User::isLogged() && $user_id == User::getId()) {
 }
 $user = new User($user_id);
 $_GET['channelName'] = $user->getChannelName();
-
+$timeLog = __FILE__." - channelName: {$_GET['channelName']}";
+TimeLogStart($timeLog);
 $_POST['sort']['created'] = "DESC";
 
 if (empty($_GET['current'])) {
@@ -19,7 +20,7 @@ $_POST['rowCount'] = $rowCount;
 
 $uploadedVideos = Video::getAllVideos("a", $user_id, !isToHidePrivateVideos());
 $uploadedTotalVideos = Video::getTotalVideos("a", $user_id, !isToHidePrivateVideos());
-
+TimeLogEnd($timeLog, __LINE__);
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
 
 unset($_POST['sort']);
@@ -28,6 +29,7 @@ unset($_POST['current']);
 
 $get = array('channelName' => $_GET['channelName']);
 $palyListsObj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
+TimeLogEnd($timeLog, __LINE__);
 ?>
 <!-- <?php var_dump($uploadedTotalVideos, $user_id, !isToHidePrivateVideos()); ?> -->
 <div class="bgWhite list-group-item gallery clear clearfix" >
@@ -87,7 +89,9 @@ $palyListsObj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
             ?>
             <div class="row mainArea">
                 <?php
+                TimeLogEnd($timeLog, __LINE__);
                 createGallerySection($uploadedVideos, "", $get);
+                TimeLogEnd($timeLog, __LINE__);
                 ?>
             </div>
         </div>
@@ -109,7 +113,9 @@ $palyListsObj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
     </div>
     <?php
     if (!empty($palyListsObj)) {
+        TimeLogEnd($timeLog, __LINE__);
         include $global['systemRootPath'] . 'view/channelPlaylist.php';
+        TimeLogEnd($timeLog, __LINE__);
     }
     ?>
 </div>
