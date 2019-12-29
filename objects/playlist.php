@@ -165,6 +165,31 @@ class PlayList extends ObjectYPT {
         }
     }
 
+    
+    static function getVideosIDFromPlaylistLight($playlists_id) {
+        global $global;
+        $sql = "SELECT * FROM  playlists_has_videos p "
+                . " WHERE playlists_id = ? ";
+
+        $sort = @$_POST['sort'];
+        $_POST['sort'] = array();
+        $_POST['sort']['p.`order`'] = 'ASC';
+        $sql .= self::getSqlFromPost();
+        $_POST['sort'] = $sort;
+        $res = sqlDAL::readSql($sql, "i", array($playlists_id));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
+    
     static function getVideosFromPlaylist($playlists_id) {
         global $global;
         $sql = "SELECT *,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions "
@@ -291,7 +316,7 @@ class PlayList extends ObjectYPT {
 
     static function getVideosIdFromPlaylist($playlists_id) {
         $videosId = array();
-        $rows = static::getVideosFromPlaylist($playlists_id);
+        $rows = static::getVideosIDFromPlaylistLight($playlists_id);
         foreach ($rows as $value) {
             $videosId[] = $value['videos_id'];
         }
