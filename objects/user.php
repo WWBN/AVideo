@@ -1415,7 +1415,9 @@ if (typeof gtag !== \"function\") {
         $config = new Configuration();
         $user = new User($users_id);
         $code = urlencode(static::createVerificationCode($users_id));
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
         //Create a new PHPMailer instance
         if (!is_object($config)) {
             error_log("sendVerificationLink: config is not a object " . json_encode($config));
@@ -1425,7 +1427,7 @@ if (typeof gtag !== \"function\") {
         $webSiteTitle = $config->getWebSiteTitle();
         $email = $user->getEmail();
         try {
-            $mail = new PHPMailer;
+            $mail = new PHPMailer\PHPMailer\PHPMailer;
             setSiteSendMessage($mail);
             //$mail->SMTPDebug = 4;
             //Set who the message is to be sent from

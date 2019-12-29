@@ -10,11 +10,12 @@ $obj = new stdClass();
 if ($valid) {
 
     $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><b>Website:</b> {$_POST['website']}<br><br>{$_POST['comment']}";
-
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
 
     //Create a new PHPMailer instance
-    $mail = new PHPMailer;
+    $mail = new PHPMailer\PHPMailer\PHPMailer;
     setSiteSendMessage($mail);
     //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
     //var_dump($mail->SMTPAuth, $mail);
@@ -26,13 +27,13 @@ if ($valid) {
     }
 
     $sendTo = $_POST['email'];
-    
+
     // if it is from contact form send the message to the siteowner and the sender is the email on the form field
-    if(!empty($_POST['contactForm'])){
+    if (!empty($_POST['contactForm'])) {
         $replyTo = $_POST['email'];
         $sendTo = $config->getContactEmail();
     }
-    
+
     if (filter_var($sendTo, FILTER_VALIDATE_EMAIL)) {
         $mail->AddReplyTo($replyTo);
         $mail->setFrom($replyTo);

@@ -473,13 +473,15 @@ function sendSiteEmail($to, $subject, $message) {
         return false;
     }
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
 
         if (!is_array($to)) {
-            $mail = new PHPMailer;
+            $mail = new PHPMailer\PHPMailer\PHPMailer;
             setSiteSendMessage($mail);
             $mail->setFrom($contactEmail, $webSiteTitle);
             $mail->Subject = $subject . " - " . $webSiteTitle;
@@ -497,7 +499,7 @@ function sendSiteEmail($to, $subject, $message) {
             $to = array_iunique($to);
             $pieces = partition($input_array, 90);
             foreach ($pieces as $piece) {
-                $mail = new PHPMailer;
+                $mail = new PHPMailer\PHPMailer\PHPMailer;
                 setSiteSendMessage($mail);
                 $mail->setFrom($contactEmail, $webSiteTitle);
                 $mail->Subject = $subject . " - " . $webSiteTitle;

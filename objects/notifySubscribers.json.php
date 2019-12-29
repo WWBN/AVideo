@@ -18,11 +18,13 @@ if(User::isAdmin()){
 require_once 'subscribe.php';
 header('Content-Type: application/json');
 $Subscribes = Subscribe::getAllSubscribes($user_id);
-require_once $global['systemRootPath'] . 'objects/PHPMailer/PHPMailerAutoload.php';
+require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
 
 $obj = new stdClass();
 //Create a new PHPMailer instance
-$mail = new PHPMailer;
+$mail = new PHPMailer\PHPMailer\PHPMailer;
 setSiteSendMessage($mail);
 //Set who the message is to be sent from
 $mail->setFrom($config->getContactEmail());
