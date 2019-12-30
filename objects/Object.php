@@ -263,6 +263,12 @@ abstract class ObjectYPT implements ObjectInterface {
         file_put_contents($cachefile, json_encode($value));
     }
 
+    /**
+     * 
+     * @param type $name
+     * @param type $lifetime, if is = 0 it is unlimited
+     * @return type
+     */
     static function getCache($name, $lifetime = 60) {
         $tmpDir = sys_get_temp_dir();
         $uniqueHash = md5(__FILE__);
@@ -271,12 +277,20 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
-        if (file_exists($cachefile) && time() - $lifetime <= filemtime($cachefile)) {
+        if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
             $c = @url_get_contents($cachefile);
             return json_decode($c);
         } else if (file_exists($cachefile)) {
             unlink($cachefile);
         }
+    }
+    
+    static function deleteCache($name) {
+        $tmpDir = sys_get_temp_dir();
+        $uniqueHash = md5(__FILE__);
+
+        $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
+        @unlink($cachefile);
     }
 
     function tableExists() {

@@ -55,14 +55,14 @@ class PlayList extends ObjectYPT {
      * @param type $isVideoIdPresent pass the ID of the video checking
      * @return boolean
      */
-    static function getAllFromUser($userId, $publicOnly = true, $status = false, $playlists_id=0) {
+    static function getAllFromUser($userId, $publicOnly = true, $status = false, $playlists_id = 0) {
         global $global, $config;
         $playlists_id = intval($playlists_id);
         $formats = "";
         $values = array();
         $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
                 . " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
-        if(!empty($playlists_id)){
+        if (!empty($playlists_id)) {
             $sql .= " AND pl.id = '{$playlists_id}' ";
         }
         if (!empty($status)) {
@@ -165,7 +165,6 @@ class PlayList extends ObjectYPT {
         }
     }
 
-    
     static function getVideosIDFromPlaylistLight($playlists_id) {
         global $global;
         $sql = "SELECT * FROM  playlists_has_videos p "
@@ -189,65 +188,74 @@ class PlayList extends ObjectYPT {
         }
         return $rows;
     }
-    
-    static function getVideosFromPlaylist($playlists_id) {
-        global $global;
-        $sql = "SELECT *,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions "
-                . ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
-                . " FROM  playlists_has_videos p "
-                . " LEFT JOIN videos as v ON videos_id = v.id "
-                . " LEFT JOIN users u ON u.id = v.users_id "
-                . " WHERE playlists_id = ? ";
 
-        $sort = @$_POST['sort'];
-        $_POST['sort'] = array();
-        $_POST['sort']['p.`order`'] = 'ASC';
-        $sql .= self::getSqlFromPost();
-        $_POST['sort'] = $sort;
-        $res = sqlDAL::readSql($sql, "i", array($playlists_id));
-        $fullData = sqlDAL::fetchAllAssoc($res);
-        sqlDAL::close($res);
-        $rows = array();
-        $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
-        if ($res != false) {
-            $timeLog2 = __FILE__." - getVideosFromPlaylist: {$playlists_id}";
-            TimeLogStart($timeLog2);
-            foreach ($fullData as $row) {
-                if (!empty($_GET['isChannel'])) {
-                    $row['tags'] = Video::getTags($row['id']);
-                    $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
-                    $row['humancreate'] = humanTiming(strtotime($row['cre']));
+    public static function setCache($name, $value) {
+        parent::setCache($name, $value);
+    }
+
+    static function getVideosFromPlaylist($playlists_id) {
+        $rows = self::getCache("getVideosFromPlaylist{$playlists_id}", 0);
+        if (empty($rows)) {
+            global $global;
+            $sql = "SELECT *,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions "
+                    . ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
+                    . " FROM  playlists_has_videos p "
+                    . " LEFT JOIN videos as v ON videos_id = v.id "
+                    . " LEFT JOIN users u ON u.id = v.users_id "
+                    . " WHERE playlists_id = ? ";
+
+            $sort = @$_POST['sort'];
+            $_POST['sort'] = array();
+            $_POST['sort']['p.`order`'] = 'ASC';
+            $sql .= self::getSqlFromPost();
+            $_POST['sort'] = $sort;
+            $res = sqlDAL::readSql($sql, "i", array($playlists_id));
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            $rows = array();
+            $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
+            if ($res != false) {
+                $timeLog2 = __FILE__ . " - getVideosFromPlaylist: {$playlists_id}";
+                TimeLogStart($timeLog2);
+                foreach ($fullData as $row) {
+                    if (!empty($_GET['isChannel'])) {
+                        $row['tags'] = Video::getTags($row['id']);
+                        $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
+                        $row['humancreate'] = humanTiming(strtotime($row['cre']));
+                    }
+                    TimeLogEnd($timeLog2, __LINE__);
+                    $images = Video::getImageFromFilename($row['filename'], $row['type']);
+                    TimeLogEnd($timeLog2, __LINE__);
+                    $row['images'] = $images;
+                    $row['videos'] = Video::getVideosPaths($row['filename'], true);
+                    TimeLogEnd($timeLog2, __LINE__);
+                    $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
+                    TimeLogEnd($timeLog2, __LINE__);
+                    $row['title'] = UTF8encode($row['title']);
+                    TimeLogEnd($timeLog2, __LINE__);
+                    $row['description'] = UTF8encode($row['description']);
+                    TimeLogEnd($timeLog2, __LINE__);
+                    $row['tags'] = Video::getTags($row['videos_id']);
+                    TimeLogEnd($timeLog2, __LINE__);
+                    if (AVideoPlugin::isEnabledByName("VideoTags")) {
+                        $row['videoTags'] = Tags::getAllFromVideosId($row['videos_id']);
+                        $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['videos_id']);
+                    }
+                    TimeLogEnd($timeLog2, __LINE__);
+                    if ($SubtitleSwitcher) {
+                        $row['subtitles'] = getVTTTracks($row['filename'], true);
+                    }
+                    TimeLogEnd($timeLog2, __LINE__);
+                    unset($row['password']);
+                    unset($row['recoverPass']);
+                    //unset($row['description']);
+                    $rows[] = $row;
                 }
-                TimeLogEnd($timeLog2, __LINE__);
-                $images = Video::getImageFromFilename($row['filename'], $row['type']);
-                TimeLogEnd($timeLog2, __LINE__);
-                $row['images'] = $images;
-                $row['videos'] = Video::getVideosPaths($row['filename'], true);
-                TimeLogEnd($timeLog2, __LINE__);
-                $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
-                TimeLogEnd($timeLog2, __LINE__);
-                $row['title'] = UTF8encode($row['title']);
-                TimeLogEnd($timeLog2, __LINE__);
-                $row['description'] = UTF8encode($row['description']);
-                TimeLogEnd($timeLog2, __LINE__);
-                $row['tags'] = Video::getTags($row['videos_id']);
-                TimeLogEnd($timeLog2, __LINE__);
-                if (AVideoPlugin::isEnabledByName("VideoTags")) {
-                    $row['videoTags'] = Tags::getAllFromVideosId($row['videos_id']);
-                    $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['videos_id']);
-                }
-                TimeLogEnd($timeLog2, __LINE__);
-                if ($SubtitleSwitcher) {
-                    $row['subtitles'] = getVTTTracks($row['filename'], true);
-                }
-                TimeLogEnd($timeLog2, __LINE__);
-                unset($row['password']);
-                unset($row['recoverPass']);
-                //unset($row['description']);
-                $rows[] = $row;
+
+                self::setCache("getVideosFromPlaylist{$playlists_id}", $rows);
+            } else {
+                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -354,7 +362,11 @@ class PlayList extends ObjectYPT {
         $this->clearEmptyLists();
         $users_id = User::getId();
         $this->setUsers_id($users_id);
-        return parent::save();
+        $playlists_id = parent::save();
+        if(!empty($playlists_id)){
+            self::deleteCache("getVideosFromPlaylist{$playlists_id}");
+        }
+        return $playlists_id;
     }
 
     /**
