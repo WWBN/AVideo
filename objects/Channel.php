@@ -34,5 +34,27 @@ class Channel{
         return $subscribe;
     }
     
+    
+    static function getTotalChannels($activeOnly=true){        
+        global $global;
+        $sql = "SELECT count(*) as total "
+                . " FROM users u "
+                . " WHERE (SELECT count(v.id) FROM videos v where v.users_id = u.id) > 0 ";
+        if($activeOnly){
+            $sql .= " AND u.status = 'a' ";
+        }
+        $sql .= BootGrid::getSqlFromPost(array('user', 'about'));
+        
+        $res = sqlDAL::readSql($sql);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = intval($data['total']);
+        } else {
+            $row = 0;
+        }
+        return $row;
+    }
+    
 }
 
