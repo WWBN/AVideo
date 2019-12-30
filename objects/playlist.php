@@ -257,6 +257,9 @@ class PlayList extends ObjectYPT {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
         }
+        else{
+            $rows = object_to_array($rows);
+        }
         return $rows;
     }
 
