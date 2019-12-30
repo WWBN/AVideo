@@ -399,6 +399,7 @@ class PlayList extends ObjectYPT {
             $values[] = $videos_id;
             $values[] = $order;
         }
+        self::deleteCache("getVideosFromPlaylist{$this->id}");
         self::removeCache($videos_id);
         return sqlDAL::writeSql($sql, $formats, $values);
     }
@@ -407,6 +408,7 @@ class PlayList extends ObjectYPT {
         if (empty($this->id)) {
             return false;
         }
+        self::deleteCache("getVideosFromPlaylist{$this->id}");
         global $global;
         $sql = "DELETE FROM playlists WHERE id = ? ";
         //echo $sql;
