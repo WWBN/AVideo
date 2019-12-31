@@ -30,6 +30,9 @@ if (User::isLogged() && $user_id == User::getId()) {
 $programs = PlayList::getAllFromUser($user_id, $publicOnly, false, @$_GET['program_id']);
 if (empty($programs)) {
     $programs = PlayList::getAllFromUser($user_id, $publicOnly);
+}else{
+    $videosArrayId = PlayList::getVideosIdFromPlaylist($programs[0]['id']);
+    $videos_id = $videosArrayId[0];
 }
 $playListsObj = AVideoPlugin::getObjectData("PlayLists");
 ?>
@@ -49,6 +52,11 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                 padding: 5px;
             }
         </style>
+        <?php 
+        if(!empty($videos_id)){
+            getOpenGraph($videos_id);
+        }
+        ?>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
