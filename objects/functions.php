@@ -497,7 +497,7 @@ function sendSiteEmail($to, $subject, $message) {
             }
         } else {
             $to = array_iunique($to);
-            $pieces = partition($input_array, 90);
+            $pieces = partition($to, 90);
             foreach ($pieces as $piece) {
                 $mail = new PHPMailer\PHPMailer\PHPMailer;
                 setSiteSendMessage($mail);
