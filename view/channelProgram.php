@@ -31,7 +31,7 @@ $programs = PlayList::getAllFromUser($user_id, $publicOnly, false, @$_GET['progr
 if (empty($programs)) {
     $programs = PlayList::getAllFromUser($user_id, $publicOnly);
 }else{
-    $videosArrayId = PlayList::getVideosIdFromPlaylist($programs[0]['id']);
+    $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['program_id']);
     $videos_id = $videosArrayId[0];
 }
 $playListsObj = AVideoPlugin::getObjectData("PlayLists");
