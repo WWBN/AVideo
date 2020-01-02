@@ -234,6 +234,7 @@ class Category {
         } else {
             return false;
         }
+        self::clearCacheCount();
         return sqlDAL::writeSql($sql, "i", array($this->id));
     }
 
