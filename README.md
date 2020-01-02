@@ -13,6 +13,7 @@ When we say a clone or copy of AVideo we mean an instance of AVideo Platform Ent
 AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 * Word Mark:	AVIDEO
 * Translations:	"AVideo" has no meaning in any foreign language.
+* Description:	"AVideo" constitues Audio Video Platform.
 * Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
 * Standard Characters: Claimed	
 * Mark Drawing Code:	(4) STANDARD CHARACTER MARK
