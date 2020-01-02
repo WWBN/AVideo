@@ -649,7 +649,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
             }
 
-            if (!empty($_GET['channelName'])) {
+            if (empty($id) && !empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 if (!empty($user['id'])) {
                     $sql .= " AND v.users_id = '{$user['id']}' ";
