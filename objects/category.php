@@ -225,6 +225,11 @@ class Category {
 
         global $global;
         if (!empty($this->id)) {
+            $categories_id = self::getSiteCategoryDefaultID();
+            if($categories_id){
+                $sql = "UPDATE videos SET categories_id = ? WHERE categories_id = ?";
+                sqlDAL::writeSql($sql, "ii", array($categories_id, $this->id));
+            }
             $sql = "DELETE FROM categories WHERE id = ?";
         } else {
             return false;
@@ -301,6 +306,20 @@ class Category {
             $result['name'] = xss_esc_back($result['name']);
         }
         return ($res) ? $result : false;
+    }
+    
+    static function getSiteCategoryDefaultID() {
+        $obj = AVideoPlugin::getObjectDataIfEnabled("PredefinedCategory");
+        $id = false;
+        if($obj){
+            $id = $obj->defaultCategory;
+        }else{
+            $row = self::getCategoryDefault();
+            if($row){
+                $id = $row['id'];
+            }
+        }
+        return $id;
     }
 
     static function getAllCategories($filterCanAddVideoOnly = false) {
