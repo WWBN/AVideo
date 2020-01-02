@@ -13,6 +13,7 @@ When we say a clone or copy of AVideo we mean an instance of AVideo Platform Ent
 AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 * Word Mark:	AVIDEO
 * Translations:	"AVideo" has no meaning in any foreign language.
+* Description:	"AVideo" constitutes Audio Video.
 * Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
 * Standard Characters: Claimed	
 * Mark Drawing Code:	(4) STANDARD CHARACTER MARK
@@ -21,7 +22,7 @@ AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, In
 * Registration Number:	3625659
 
 #### About the re-brand.
-In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners. Follow us on <a href="https://www.facebook.com/avideo/">Facebook</a> 
+We decided to rebrand our open-source project from YouPHPTube to AVideo which contsitutes Audio Video Platform. In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, youtube clone, clone script, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners. Follow us on <a href="https://www.facebook.com/avideo/">Facebook</a> 
 #
 # AVideo Platform Open-Source Project
 ## AVideo Platform Open-Source Consist of THREE main Areas: 
