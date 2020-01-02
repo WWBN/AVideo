@@ -29,8 +29,8 @@ if ($video['type'] != "audio") {
 }
 ?>
 <div class="row main-video" style="padding: 10px;" id="mvideo">
-    <div class="col-xs-12 col-sm-12 col-lg-2 firstC"></div>
-    <div class="col-xs-12 col-sm-12 col-lg-8 secC">
+    <div class="col-sm-2 col-md-2 firstC"></div>
+    <div class="col-sm-8 col-md-8 secC">
         <div id="videoContainer">
             <?php
             $poster = $global['webSiteRootURL'] . "view/img/recorder.gif";
