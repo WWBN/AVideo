@@ -87,7 +87,7 @@
                 } else if (is_array($value)) {
                     ?>
                     <div class="col-md-6">
-                        <a href="login?type=<?php echo $value['parameters']->type; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
+                        <a href="login?type=<?php echo $value['parameters']->type; ?>&redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
                     </div>
                     <?php
                 }
