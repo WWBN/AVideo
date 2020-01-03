@@ -689,6 +689,9 @@ if (typeof gtag !== \"function\") {
         global $advancedCustomUser;
         // check for multiple logins attempts to prevent hacking
         if (!empty($_SESSION['loginAttempts']) && !empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)) {
+            if(isMobile()){
+                $advancedCustomUser->requestCaptchaAfterLoginsAttempts += 10;
+            }
             if ($_SESSION['loginAttempts'] > $advancedCustomUser->requestCaptchaAfterLoginsAttempts) {
                 return true;
             }
