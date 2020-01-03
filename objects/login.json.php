@@ -110,10 +110,10 @@ if (!empty($_GET['type'])) {
         $adapter->disconnect();
 
         if (!empty($_SESSION['redirectUri'])) {
-            header("Location: {$_POST['redirectUri']}");
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
+            header("Location: {$_SESSION['redirectUri']}");
             $_SESSION['redirectUri'] = "";
             unset($_SESSION['redirectUri']);
         } else {
