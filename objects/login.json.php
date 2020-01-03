@@ -101,7 +101,11 @@ if (!empty($_GET['type'])) {
         $userObject = new User(0, $user, $pass);
         $userObject->login(true);
         $adapter->disconnect();
-        header("Location: {$global['webSiteRootURL']}");
+        if(!empty($_POST['redirectUri'])){
+            header("Location: {$_POST['redirectUri']}");
+        }else{
+            header("Location: {$global['webSiteRootURL']}");
+        }
 
     } catch (\Exception $e) {
         header("Location: {$global['webSiteRootURL']}user?error=".urlencode($e->getMessage()));
