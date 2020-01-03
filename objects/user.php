@@ -770,6 +770,9 @@ if (typeof gtag !== \"function\") {
         setcookie('rememberme', null, -1, "/", $_SERVER['HTTP_HOST']);
         setcookie('user', null, -1, "/", $_SERVER['HTTP_HOST']);
         setcookie('pass', null, -1, "/", $_SERVER['HTTP_HOST']);
+        setcookie('rememberme', null, -1, "/", ".".$_SERVER['HTTP_HOST']);
+        setcookie('user', null, -1, "/", ".".$_SERVER['HTTP_HOST']);
+        setcookie('pass', null, -1, "/", ".".$_SERVER['HTTP_HOST']);
         setcookie('rememberme', null, -1, "/");
         setcookie('user', null, -1, "/");
         setcookie('pass', null, -1, "/");
