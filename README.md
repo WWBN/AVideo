@@ -1,6 +1,6 @@
 <img src="https://platform.avideo.com/website/assets/151/images/avideo_platform.png"/>
 
-## A Video Platform
+## Audio Video Platform
 AVideo is a term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with audio video. AVideo Platform is an Audio and Video Platform or simply "A Video Platform".
 
 * AVideo - Audio Video
