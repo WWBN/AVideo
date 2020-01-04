@@ -142,6 +142,8 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `index5` (`order` ASC),
   INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC),
   INDEX `fk_videos_sites1_idx` (`sites_id` ASC),
+  INDEX `clean_title_INDEX` (`clean_title` ASC),
+  INDEX `video_filename_INDEX` (`filename` ASC),
   CONSTRAINT `fk_videos_sites1`
     FOREIGN KEY (`sites_id`)
     REFERENCES `sites` (`id`)

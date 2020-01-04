@@ -2552,9 +2552,11 @@ if (!class_exists('Video')) {
                     $clean_title = self::get_clean_title($videos_id);
                 }
                 if ($embed) {
-                    return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}{$get_http}";
+                    //return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}{$get_http}";
+                    return "{$global['webSiteRootURL']}videoEmbed/{$videos_id}/{$clean_title}{$get_http}";
                 } else {
-                    return "{$global['webSiteRootURL']}{$cat}video/{$clean_title}{$get_http}";
+                    //return "{$global['webSiteRootURL']}{$cat}video/{$clean_title}{$get_http}";
+                    return "{$global['webSiteRootURL']}video/{$videos_id}/{$clean_title}{$get_http}";
                 }
             } else {
                 if (empty($videos_id) && !empty($clean_title)) {
