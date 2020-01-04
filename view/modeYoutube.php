@@ -413,7 +413,11 @@ if(empty($video)){
                         <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                         <!-- videos List -->
                         <div id="videosList">
-                            <?php include $global['systemRootPath'] . 'view/videosList.php'; ?>
+                            <?php 
+                            if (empty($playlist_id)) {
+                                include $global['systemRootPath'] . 'view/videosList.php'; 
+                            }
+                            ?>
                         </div>
                         <!-- End of videos List -->
 

@@ -544,7 +544,7 @@ nav ul.items-container li ul.right-menus li li {
 
 /* Play List */
 .playlistList {
-    height: 400px;
+    height: 80vh;
     overflow: hidden;
 }
 .playlistList .nav {
