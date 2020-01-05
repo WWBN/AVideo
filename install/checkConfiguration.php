@@ -143,6 +143,7 @@ if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' &&
 \$global['ddosMaxConnections'] = 40;
 \$global['ddosSecondTimeout'] = 5;
 \$global['strictDDOSprotection'] = 0;
+\$global['noDebug'] = 0;
 
 \$mysqlHost = '{$_POST['databaseHost']}';
 \$mysqlPort = '{$_POST['databasePort']}';

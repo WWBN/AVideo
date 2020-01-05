@@ -68,7 +68,7 @@ class Cache extends PluginAbstract {
             $session_id = session_id();
         }
         $compl = "";
-        if(get_browser_name($_SERVER['HTTP_USER_AGENT']) === 'Safari'){
+        if(!empty($_SERVER['HTTP_USER_AGENT']) && get_browser_name($_SERVER['HTTP_USER_AGENT']) === 'Safari'){
             $compl .= "safari_";
         }
         
