@@ -72,10 +72,10 @@ class Plugin extends ObjectYPT {
     }
     
     static function setCurrentVersionByUuid($uuid, $currentVersion){
-        error_log("plugin::setCurrentVersionByUuid $uuid, $currentVersion");
+        _error_log("plugin::setCurrentVersionByUuid $uuid, $currentVersion");
         $p=static::getPluginByUUID($uuid);
         if(!$p){
-            error_log("plugin::setCurrentVersionByUuid error on get plugin");
+            _error_log("plugin::setCurrentVersionByUuid error on get plugin");
             return false;
         }
         //pluginversion isn't an object property so we must explicity update it using this function
@@ -176,7 +176,7 @@ class Plugin extends ObjectYPT {
                     if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
                         $p = AVideoPlugin::loadPlugin($value);
                         if (!is_object($p) || $p->hidePlugin()) {
-                            error_log("Plugin Not Found: {$value}");
+                            _error_log("Plugin Not Found: {$value}");
                             continue;
                         }
                         $obj = new stdClass();

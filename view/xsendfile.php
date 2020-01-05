@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 if (empty($_GET['file'])) {
-    error_log("XSENDFILE GET file not found ");
+    _error_log("XSENDFILE GET file not found ");
     die('GET file not found');
 }
 
@@ -17,7 +17,7 @@ $file = $path_parts['basename'];
 $path = "{$global['systemRootPath']}videos/{$file}";
 
 if($file=="configuration.php"){
-    error_log("XSENDFILE Cant read this configuration ");
+    _error_log("XSENDFILE Cant read this configuration ");
     die("Cant read this");
 }
 
@@ -40,7 +40,7 @@ if (file_exists($path)) {
         AVideoPlugin::xsendfilePreVideoPlay();
     }
     if (empty($advancedCustom->doNotUseXsendFile)) {
-        //error_log("X-Sendfile: {$path}");
+        //_error_log("X-Sendfile: {$path}");
         header("X-Sendfile: {$path}");
     }
     header("Content-type: " . mime_content_type($path));
@@ -50,5 +50,5 @@ if (file_exists($path)) {
     }
     die();
 }else{
-    error_log("XSENDFILE ERROR: Not exists {$path}");
+    _error_log("XSENDFILE ERROR: Not exists {$path}");
 }

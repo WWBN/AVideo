@@ -15,7 +15,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Logger;
 
 /**
- * Stores to PHP error_log() handler.
+ * Stores to PHP _error_log() handler.
  *
  * @author Elan Ruusamäe <glen@delfi.ee>
  */
@@ -73,10 +73,10 @@ class ErrorLogHandler extends AbstractProcessingHandler
         if ($this->expandNewlines) {
             $lines = preg_split('{[\r\n]+}', (string) $record['formatted']);
             foreach ($lines as $line) {
-                error_log($line, $this->messageType);
+                _error_log($line, $this->messageType);
             }
         } else {
-            error_log((string) $record['formatted'], $this->messageType);
+            _error_log((string) $record['formatted'], $this->messageType);
         }
     }
 }

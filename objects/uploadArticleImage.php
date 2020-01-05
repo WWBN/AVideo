@@ -34,7 +34,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             mkdir($dir, 0777, true);
         }
         $destination = $dir . $name.".".strtolower($extension);
-        error_log("Try to move " . $destination . " \n " . print_r($video, true));
+        _error_log("Try to move " . $destination . " \n " . print_r($video, true));
         if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destination)) {
             $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . $destination;
             die(json_encode($obj));

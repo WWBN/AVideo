@@ -24,14 +24,14 @@ if (!User::canUpload()) {
 
 // A list of permitted file extensions
 $allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv', 'mpg', 'mpeg', 'f4v', 'm4v', 'm4a', 'm2p', 'rm', 'vob', 'mkv');
-error_log("MOBILE UPLOAD: Starts");
+_error_log("MOBILE UPLOAD: Starts");
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
 
     if (!in_array(strtolower($extension), $allowed)) {
         $object->msg = "File extension error (" . $_FILES['upl']['name'] . "), we allow only (" . implode(",", $allowed) . ")";
-        error_log("MOBILE UPLOAD: {$object->msg}");
+        _error_log("MOBILE UPLOAD: {$object->msg}");
         die(json_encode($object));
     }
     //chack if is an audio
@@ -61,7 +61,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
                 $video = new Video("", "", $_FILES['upl']['videoId']);
                 $video->delete();
             }
-            error_log("MOBILE UPLOAD: {$object->msg}");
+            _error_log("MOBILE UPLOAD: {$object->msg}");
             die(json_encode($object));
         }
     }
@@ -91,7 +91,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
         $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")";
-        error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
+        _error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
         die(json_encode($object));
     }
     $object->videos_id = $video->save();
@@ -99,8 +99,8 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $object->error = false;
     $object->msg = "We sent your video to the encoder";
-    error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
+    _error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
     die(json_encode($object));
 } else {
-    error_log("MOBILE UPLOAD: File Not exists - " . json_encode($_FILES));
+    _error_log("MOBILE UPLOAD: File Not exists - " . json_encode($_FILES));
 }

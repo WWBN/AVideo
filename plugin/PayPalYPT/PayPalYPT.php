@@ -89,7 +89,7 @@ class PayPalYPT extends PluginAbstract {
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             // This will print the detailed information on the exception.
             //REALLY HELPFUL FOR DEBUGGING
-            error_log("PayPal Error: " . $ex->getData());
+            _error_log("PayPal Error: " . $ex->getData());
         }
         return false;
     }
@@ -233,18 +233,18 @@ class PayPalYPT extends PluginAbstract {
                 $createdPlan->update($patchRequest, $apiContext);
 
                 $plan = Plan::get($createdPlan->getId(), $apiContext);
-                error_log("createBillingPlan: " . json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
+                _error_log("createBillingPlan: " . json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
                 // Output plan id
                 return $plan;
             } catch (PayPal\Exception\PayPalConnectionException $ex) {
-                error_log("PayPal Error createBillingPlan 1: " . $ex->getData());
+                _error_log("PayPal Error createBillingPlan 1: " . $ex->getData());
             } catch (Exception $ex) {
-                error_log("PayPal Error createBillingPlan 2: " . $ex->getData());
+                _error_log("PayPal Error createBillingPlan 2: " . $ex->getData());
             }
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error createBillingPlan 3: " . $ex->getData());
+            _error_log("PayPal Error createBillingPlan 3: " . $ex->getData());
         } catch (Exception $ex) {
-            error_log("PayPal Error createBillingPlan 4: " . $ex->getData());
+            _error_log("PayPal Error createBillingPlan 4: " . $ex->getData());
         }
         return false;
     }
@@ -280,7 +280,7 @@ class PayPalYPT extends PluginAbstract {
             $plan = $this->createBillingPlan($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name, $_POST['plans_id']);
 
             if (empty($plan)) {
-                error_log("PayPal Error setUpSubscription Plan ID is empty ");
+                _error_log("PayPal Error setUpSubscription Plan ID is empty ");
                 return false;
             }
             $planId = $plan->getId();
@@ -324,9 +324,9 @@ class PayPalYPT extends PluginAbstract {
             // Extract approval URL to redirect user
             return $agreement;
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error createBillingPlan:  startDate: {$startDate} " . $ex->getData());
+            _error_log("PayPal Error createBillingPlan:  startDate: {$startDate} " . $ex->getData());
         } catch (Exception $ex) {
-            error_log("PayPal Error createBillingPlan: startDate: {$startDate} " . $ex->getData());
+            _error_log("PayPal Error createBillingPlan: startDate: {$startDate} " . $ex->getData());
         }
         return false;
     }
@@ -339,13 +339,13 @@ class PayPalYPT extends PluginAbstract {
 
         try {
             // Execute agreement
-            error_log("PayPal Try to execute ");
+            _error_log("PayPal Try to execute ");
             $agreement->execute($token, $apiContext);
             return $agreement;
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            error_log("PayPal Error executeBillingAgreement: " . $ex->getData());
+            _error_log("PayPal Error executeBillingAgreement: " . $ex->getData());
         } catch (Exception $ex) {
-            error_log("PayPal Error executeBillingAgreement: " . $ex);
+            _error_log("PayPal Error executeBillingAgreement: " . $ex);
         }
         return false;
     }
@@ -377,13 +377,13 @@ class PayPalYPT extends PluginAbstract {
 
     function execute() {
         if (!empty($_GET['paymentId'])) {
-            error_log("PayPal Execute payment ");
+            _error_log("PayPal Execute payment ");
             return $this->executePayment();
         } else if (!empty($_GET['token'])) {
-            error_log("PayPal Billing Agreement ");
+            _error_log("PayPal Billing Agreement ");
             return $this->executeBillingAgreement();
         }
-        error_log("PayPal no payment to execute ");
+        _error_log("PayPal no payment to execute ");
         return false;
     }
 
@@ -393,12 +393,12 @@ class PayPalYPT extends PluginAbstract {
         }
         if (get_class($payment) === 'PayPal\Api\Agreement') {
             $amount = new stdClass();
-            //error_log("getAmountFromPayment: ".json_encode($payment));
-            //error_log("getAmountFromPayment: ". print_r($payment, true));
-            //error_log("getAmountFromPayment: ".($payment->getId()));
-            //error_log("getAmountFromPayment: ".($payment->getPlan()));
-            //error_log("getAmountFromPayment: ".($payment->getPlan()->payment_definitions->amount->value));
-            //error_log("getAmountFromPayment: ".($payment->getPlan()->merchant_preferences->setup_fee->value));
+            //_error_log("getAmountFromPayment: ".json_encode($payment));
+            //_error_log("getAmountFromPayment: ". print_r($payment, true));
+            //_error_log("getAmountFromPayment: ".($payment->getId()));
+            //_error_log("getAmountFromPayment: ".($payment->getPlan()));
+            //_error_log("getAmountFromPayment: ".($payment->getPlan()->payment_definitions->amount->value));
+            //_error_log("getAmountFromPayment: ".($payment->getPlan()->merchant_preferences->setup_fee->value));
             //$amount->total = $payment->agreement_details->last_payment_amount->value;
             if (!empty(@$payment->getPlan()->payment_definitions->amount->value)) {
                 $amount->total = $payment->getPlan()->payment_definitions->amount->value;
@@ -461,7 +461,7 @@ class PayPalYPT extends PluginAbstract {
 
             return Plan::get($createdPlan->getId(), $apiContext);
         } catch (Exception $ex) {
-            error_log("PayPal Error updateBillingPlan: " . $ex->getData());
+            _error_log("PayPal Error updateBillingPlan: " . $ex->getData());
         }
         return false;
     }
@@ -504,17 +504,17 @@ class PayPalYPT extends PluginAbstract {
         // the directory path of the certificate as shown below:
         // curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
         if (!($res = curl_exec($ch))) {
-            error_log("IPNcheck: Got " . curl_error($ch) . " when processing IPN data");
+            _error_log("IPNcheck: Got " . curl_error($ch) . " when processing IPN data");
             curl_close($ch);
             exit;
         }
         // inspect IPN validation result and act accordingly
         if (strcmp($res, "VERIFIED") == 0) {
-            error_log("IPNcheck SUCCESS: The response from IPN was: <b>" . $res . "");
+            _error_log("IPNcheck SUCCESS: The response from IPN was: <b>" . $res . "");
             return true;
         } else if (strcmp($res, "INVALID") == 0) {
             // IPN invalid, log for manual investigation
-            error_log("IPNcheck ERROR: The response from IPN was: <b>" . $res . "");
+            _error_log("IPNcheck ERROR: The response from IPN was: <b>" . $res . "");
             return false;
         }
 

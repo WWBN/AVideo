@@ -216,7 +216,7 @@ class VastCampaigns extends ObjectYPT {
 
         $sql .= " ORDER BY priority ";
         //echo $sql;
-        //error_log($sql);
+        //_error_log($sql);
         $res = sqlDAL::readSql($sql);
         $rows = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -262,10 +262,10 @@ class VastCampaigns extends ObjectYPT {
             $sql = "UPDATE " . static::getTableName() . " SET cpm_current_prints = cpm_current_prints+1 ";
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
-            //error_log("Delete Query: ".$sql);
+            //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "i", array($this->id));
         }
-        error_log("Id for table " . static::getTableName() . " not defined for add view");
+        _error_log("Id for table " . static::getTableName() . " not defined for add view");
         return false;
     }
 
@@ -275,14 +275,14 @@ class VastCampaigns extends ObjectYPT {
             $sql = "DELETE FROM vast_campaigns_logs ";
             $sql .= " WHERE vast_campaigns_has_videos_id IN (SELECT id FROM vast_campaigns_has_videos WHERE vast_campaigns_id = ?)";
             $global['lastQuery'] = $sql;
-            //error_log("Delete Query: ".$sql);
+            //_error_log("Delete Query: ".$sql);
             $campaigns_video_log = sqlDAL::writeSql($sql, "i", array($this->id));
 
 
             $sql = "DELETE FROM vast_campaigns_has_videos ";
             $sql .= " WHERE vast_campaigns_id = ?";
             $global['lastQuery'] = $sql;
-            //error_log("Delete Query: ".$sql);
+            //_error_log("Delete Query: ".$sql);
             $campaigns_video = sqlDAL::writeSql($sql, "i", array($this->id));
         }
         return parent::delete();

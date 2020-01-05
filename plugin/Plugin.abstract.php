@@ -100,7 +100,7 @@ abstract class PluginAbstract {
                 $o = json_decode(stripslashes($obj['object_data']));
                 $json_last_error = json_last_error();
                 if ($json_last_error !== JSON_ERROR_NONE) {
-                    //error_log('getDataObject - JSON error (' . $json_last_error . ')' . $this->getName());
+                    //_error_log('getDataObject - JSON error (' . $json_last_error . ')' . $this->getName());
                     $o = json_decode($obj['object_data']);
                     $json_last_error = json_last_error();
                 }
@@ -109,27 +109,27 @@ abstract class PluginAbstract {
                         //echo ' - No errors';
                         break;
                     default:
-                        error_log('getDataObject - JSON error ' . $this->getName());
-                        error_log($obj['object_data']);
-                        error_log('striped slashes');
-                        error_log(stripslashes($obj['object_data']));
+                        _error_log('getDataObject - JSON error ' . $this->getName());
+                        _error_log($obj['object_data']);
+                        _error_log('striped slashes');
+                        _error_log(stripslashes($obj['object_data']));
                     case JSON_ERROR_DEPTH:
-                        error_log(' - Maximum stack depth exceeded');
+                        _error_log(' - Maximum stack depth exceeded');
                         break;
                     case JSON_ERROR_STATE_MISMATCH:
-                        error_log(' - Underflow or the modes mismatch');
+                        _error_log(' - Underflow or the modes mismatch');
                         break;
                     case JSON_ERROR_CTRL_CHAR:
-                        error_log(' - Unexpected control character found');
+                        _error_log(' - Unexpected control character found');
                         break;
                     case JSON_ERROR_SYNTAX:
-                        error_log(' - Syntax error, malformed JSON');
-                        error_log($obj['object_data']);
-                        error_log('striped slashes');
-                        error_log(stripslashes($obj['object_data']));
+                        _error_log(' - Syntax error, malformed JSON');
+                        _error_log($obj['object_data']);
+                        _error_log('striped slashes');
+                        _error_log(stripslashes($obj['object_data']));
                         break;
                     case JSON_ERROR_UTF8:
-                        error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
+                        _error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
                         break;
                 }
             }

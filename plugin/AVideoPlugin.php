@@ -21,8 +21,8 @@ class AVideoPlugin {
         $finish = $time;
         $total_time = round(($finish - $global['AVideoPluginStart']), 4);
         if($total_time > 0.05){
-            error_log("Warning: The plugin [{$pluginName}] takes {$total_time} seconds to complete. ");
-            error_log($_SERVER["SCRIPT_FILENAME"]);
+            _error_log("Warning: The plugin [{$pluginName}] takes {$total_time} seconds to complete. ");
+            _error_log($_SERVER["SCRIPT_FILENAME"]);
             
         }
     }
@@ -299,17 +299,17 @@ class AVideoPlugin {
                 $code = "\$p = new {$name}();";
                 $codeResult = @eval($code . " return \$p;");
                 if ($codeResult == false) {
-                    error_log("[loadPlugin] eval failed for plugin " . $name);
+                    _error_log("[loadPlugin] eval failed for plugin " . $name);
                 }
                 $pluginIsLoaded[$crc] = $codeResult;
                 return $codeResult;
             } else {
-                // error_log("Plugin File Not found ".$file );
+                // _error_log("Plugin File Not found ".$file );
                 $pluginIsLoaded[$crc] = "false"; // only for pass empty-function
             }
         } else {
             if (!empty($global['debug'])) {
-                error_log("Plugin was already executed " . $file);
+                _error_log("Plugin was already executed " . $file);
             }
         }
         if ($pluginIsLoaded[$crc] == "false") {
@@ -756,15 +756,15 @@ class AVideoPlugin {
         $p = static::loadPlugin($name);
         $currentVersion = $p->getPluginVersion();
         $uuid = $p->getUUID();
-        error_log("AVideoPlugin::updatePlugin name=($name) uuid=($uuid) ");
+        _error_log("AVideoPlugin::updatePlugin name=($name) uuid=($uuid) ");
         if (method_exists($p, 'updateScript')) {
-            error_log("AVideoPlugin::updatePlugin method_exists ");
+            _error_log("AVideoPlugin::updatePlugin method_exists ");
             if ($p->updateScript())
                 Plugin::setCurrentVersionByUuid($uuid, $currentVersion);
             else
                 return false;
         }else {
-            error_log("AVideoPlugin::updatePlugin method NOT exists ");
+            _error_log("AVideoPlugin::updatePlugin method NOT exists ");
             Plugin::setCurrentVersionByUuid($uuid, $currentVersion);
         }
         return true;
@@ -872,7 +872,7 @@ class AVideoPlugin {
                     if($resp){
                         return true;
                     }else{
-                        //error_log("userCanWatchVideoWithAds: users_id = $users_id, videos_id = $videos_id {$value['dirName']} said no");
+                        //_error_log("userCanWatchVideoWithAds: users_id = $users_id, videos_id = $videos_id {$value['dirName']} said no");
                     }
                 }
             }

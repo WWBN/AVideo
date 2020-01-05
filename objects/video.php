@@ -291,7 +291,7 @@ if (!class_exists('Video')) {
                 clearVideosURL($this->filename);
                 return $id;
             } else {
-                error_log($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
+                _error_log($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
                 return false;
             }
         }
@@ -924,7 +924,7 @@ if (!class_exists('Video')) {
             }
 
 //echo $sql;exit;
-//error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
+//_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
@@ -985,7 +985,7 @@ if (!class_exists('Video')) {
             if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '" . json_encode($videosArrayId) . "' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$get}' '{$post}' '{$cacheFileName}'");
-                error_log("getAllVideosAsync: {$command}");
+                _error_log("getAllVideosAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
             return object_to_array($return);
@@ -1166,7 +1166,7 @@ if (!class_exists('Video')) {
                 $command = ("php '{$global['systemRootPath']}objects/getTotalVideosInfoAsync.php' "
                         . " '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup', '" . json_encode($videosArrayId) . "', "
                         . " '$getStatistcs', '$cacheFileName'");
-                //error_log("getTotalVideosInfoAsync: {$command}");
+                //_error_log("getTotalVideosInfoAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
             return $return;
@@ -1514,7 +1514,7 @@ if (!class_exists('Video')) {
             require_once($global['systemRootPath'] . 'objects/getid3/getid3.php');
 // get movie duration HOURS:MM:SS.MICROSECONDS
             if (!file_exists($file)) {
-                error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
+                _error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
                 return "EE:EE:EE";
             }
 // Initialize getID3 engine
@@ -1547,13 +1547,13 @@ if (!class_exists('Video')) {
 
             if (!empty($this->id) && $this->duration == "EE:EE:EE" && file_exists($file)) {
                 $this->duration = Video::getDurationFromFile($file);
-                error_log("Duration Updated: " . json_encode($this));
+                _error_log("Duration Updated: " . json_encode($this));
 
                 $sql = "UPDATE videos SET duration = ?, modified = now() WHERE id = ?";
                 $res = sqlDAL::writeSql($sql, "si", array($this->duration, $this->id));
                 return $this->id;
             } else {
-                error_log("Do not need update duration: " . json_encode($this));
+                _error_log("Do not need update duration: " . json_encode($this));
                 return false;
             }
         }
@@ -1861,7 +1861,7 @@ if (!class_exists('Video')) {
             if (time() - filemtime($cacheFileName) > 300) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getTags.php' '$video_id' '$type' '{$cacheFileName}'");
-                //error_log("getTags: {$command}");
+                //_error_log("getTags: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
             return (array) $return;
@@ -2118,7 +2118,7 @@ if (!class_exists('Video')) {
                 $postFields['inputHLS'] = 1;
             }
 
-            error_log("SEND To QUEUE: " . print_r($postFields, true));
+            _error_log("SEND To QUEUE: " . print_r($postFields, true));
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $target);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -2136,7 +2136,7 @@ if (!class_exists('Video')) {
             } else {
                 $obj->error = false;
             }
-            error_log("QUEUE CURL: ($target) " . json_encode($obj));
+            _error_log("QUEUE CURL: ($target) " . json_encode($obj));
             curl_close($curl);
             return $obj;
         }
@@ -2363,7 +2363,7 @@ if (!class_exists('Video')) {
             if (file_exists($jpegPortraitSource['path'])) {
 // create thumbs
                 if (!file_exists($jpegPortraitThumbs['path']) && filesize($jpegPortraitSource['path']) > 1024) {
-                    error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbs['path']}");
+                    _error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbs['path']}");
                     if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
                         im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], 170, 250);
                     } else {
@@ -2372,7 +2372,7 @@ if (!class_exists('Video')) {
                 }
 // create thumbs
                 if (!file_exists($jpegPortraitThumbsSmall['path']) && filesize($jpegPortraitSource['path']) > 1024) {
-                    error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbsSmall['path']}");
+                    _error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbsSmall['path']}");
                     if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
                         im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], 170, 250);
                     } else {
@@ -2403,7 +2403,7 @@ if (!class_exists('Video')) {
                 $obj->thumbsJpg = $thumbsSource['url'];
 // create thumbs
                 if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
-                    error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
+                    _error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
                     if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
                         im_resizeV3($jpegSource['path'], $thumbsSource['path'], 250, 140);
                     } else {
@@ -2412,7 +2412,7 @@ if (!class_exists('Video')) {
                 }
 // create thumbs
                 if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
-                    error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
+                    _error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
                     if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
                         im_resizeV3($jpegSource['path'], $thumbsSmallSource['path'], 250, 140);
                     } else {
@@ -2472,7 +2472,7 @@ if (!class_exists('Video')) {
             if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getImageFromFilenameAsync.php' '$filename' '$type' '{$cacheFileName}'");
-                //error_log("getImageFromFilenameAsync: {$command}");
+                //_error_log("getImageFromFilenameAsync: {$command}");
                 exec($command . " > /dev/null 2>/dev/null &");
             }
             return $return;

@@ -19,7 +19,7 @@ if(!User::isAdmin()){
 $json = json_encode($row);
 
 if(empty($json)){
-    error_log(print_r($row, true));
+    _error_log(print_r($row, true));
     // remove object data
     foreach ($row as $key => $value) {
         $row[$key]->installedPlugin['object_data'] = "";

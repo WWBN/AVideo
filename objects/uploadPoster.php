@@ -23,7 +23,7 @@ header('Content-Type: application/json');
 $allowed = array('jpg', 'gif', 'pjpg', 'pgif', 'webp');
 if (!in_array(strtolower($_GET['type']), $allowed)) {
     $obj->msg = "UploadPoster FIle extension not allowed";
-    error_log($obj->msg );
+    _error_log($obj->msg );
     die(json_encode($obj));
 }
 if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
@@ -58,7 +58,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
          * This is when is using in a non file_dataoaded movie
          */
         $destination = "{$global['systemRootPath']}videos/" . $video->getFilename() . $ext;
-        error_log("Try to move " . $destination . " \n " . print_r($video, true));
+        _error_log("Try to move " . $destination . " \n " . print_r($video, true));
         if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destination)) {
             $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename . $ext;
             die(json_encode($obj));

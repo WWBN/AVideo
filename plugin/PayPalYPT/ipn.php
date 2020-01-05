@@ -7,7 +7,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-error_log("PayPalIPN Start");
+_error_log("PayPalIPN Start");
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = AVideoPlugin::getObjectData("YPTWallet");
 $paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
@@ -29,10 +29,10 @@ if(empty($_POST["recurring_payment_id"])){
         $amount = PayPalYPT::getAmountFromPayment($payment);
         $plugin->addBalance($users_id, $amount->total, "Paypal payment", "PayPalIPN");
         $obj->error = false;
-        error_log("PayPalIPN: Executed ".json_encode($payment));
+        _error_log("PayPalIPN: Executed ".json_encode($payment));
         //header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=success");
     }else{
-        error_log("PayPalIPN: Fail");
+        _error_log("PayPalIPN: Fail");
         //header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=fail");
     }
 }else{
@@ -51,9 +51,9 @@ if(empty($_POST["recurring_payment_id"])){
     }
 }
 
-error_log("PayPalIPN: ".json_encode($obj));
-error_log("PayPalIPN: POST ".json_encode($_POST));
-error_log("PayPalIPN: GET ".json_encode($_GET));
-error_log("PayPalIPN END");
+_error_log("PayPalIPN: ".json_encode($obj));
+_error_log("PayPalIPN: POST ".json_encode($_POST));
+_error_log("PayPalIPN: GET ".json_encode($_GET));
+_error_log("PayPalIPN END");
 
 ?>

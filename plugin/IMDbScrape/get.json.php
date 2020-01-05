@@ -47,9 +47,9 @@ if ($oIMDB->isReady) {
         // trailer
         $trailer = $oIMDB->getTrailerAsUrl(true);
         $encoderURL = $config->getEncoderURL() . "youtubeDl.json?webm={$encodeTrailerInWebm}&videoURL=" . urlencode($trailer) . "&webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&user=" . urlencode(User::getUserName()) . "&pass=" . urlencode(User::getUserPass());
-        error_log("IMDB encoder URL {$encoderURL}");
+        _error_log("IMDB encoder URL {$encoderURL}");
         $json = url_get_contents($encoderURL);
-        error_log("IMDB encoder answer {$json}");
+        _error_log("IMDB encoder answer {$json}");
         $json = json_decode($json);
         if (!empty($json->videos_id)) {
             $trailerVideo = new Video('', '', $json->videos_id);

@@ -14,28 +14,28 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 if (empty($_POST)) {
     $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
-    error_log($obj->msg);
+    _error_log($obj->msg);
     die(json_encode($obj));
 }
-error_log("aVideoEncoder.json: start");
+_error_log("aVideoEncoder.json: start");
 if (empty($_POST['format']) || !in_array($_POST['format'], $global['allowedExtension'])) {
-    error_log("aVideoEncoder.json: Extension not allowed File " . __FILE__ . ": " . json_encode($_POST));
+    _error_log("aVideoEncoder.json: Extension not allowed File " . __FILE__ . ": " . json_encode($_POST));
     die();
 }
 // pass admin user and pass
 $user = new User("", @$_POST['user'], @$_POST['password']);
 $user->login(false, true);
 if (!User::canUpload()) {
-    error_log("aVideoEncoder.json: Permission denied to receive a file: " . json_encode($_POST));
+    _error_log("aVideoEncoder.json: Permission denied to receive a file: " . json_encode($_POST));
     $obj->msg = __("Permission denied to receive a file: " . json_encode($_POST));
-    error_log($obj->msg);
+    _error_log($obj->msg);
     die(json_encode($obj));
 }
 
 if (!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])) {
-    error_log("aVideoEncoder.json: Permission denied to edit a video: " . json_encode($_POST));
+    _error_log("aVideoEncoder.json: Permission denied to edit a video: " . json_encode($_POST));
     $obj->msg = __("Permission denied to edit a video: " . json_encode($_POST));
-    error_log($obj->msg);
+    _error_log($obj->msg);
     die(json_encode($obj));
 }
 
@@ -67,8 +67,8 @@ if ($status !== 'u' && $status !== 'a') {
     }
 }
 $video->setVideoDownloadedLink($_POST['videoDownloadedLink']);
-error_log("aVideoEncoder.json: Encoder receiving post " . json_encode($_POST));
-//error_log(print_r($_POST, true));
+_error_log("aVideoEncoder.json: Encoder receiving post " . json_encode($_POST));
+//_error_log(print_r($_POST, true));
 if (preg_match("/(mp3|wav|ogg)$/i", $_POST['format'])) {
     $type = 'audio';
     $video->setType($type);
@@ -88,9 +88,9 @@ if (empty($videoFileName)) {
 $destination_local = "{$global['systemRootPath']}videos/{$videoFileName}";
 
 if (!empty($_FILES)) {
-    error_log("aVideoEncoder.json: Files " . json_encode($_FILES));
+    _error_log("aVideoEncoder.json: Files " . json_encode($_FILES));
 } else {
-    error_log("aVideoEncoder.json: Files EMPTY");
+    _error_log("aVideoEncoder.json: Files EMPTY");
 }
 
 if (!empty($_FILES['video']['error'])) {
@@ -104,14 +104,14 @@ if (!empty($_FILES['video']['error'])) {
         7 => 'Failed to write file to disk.',
         8 => 'A PHP extension stopped the file upload.',
     );
-    error_log("aVideoEncoder.json: ********  Files ERROR " . $phpFileUploadErrors[$_FILES['video']['error']]);
+    _error_log("aVideoEncoder.json: ********  Files ERROR " . $phpFileUploadErrors[$_FILES['video']['error']]);
     if(!empty($_POST['downloadURL']) && !empty($_FILES['video']['name'])){
-        error_log("aVideoEncoder.json: Try to download ".$_POST['downloadURL']);
+        _error_log("aVideoEncoder.json: Try to download ".$_POST['downloadURL']);
         $file = url_get_contents($_POST['downloadURL']);
-        error_log("aVideoEncoder.json: Got the download ".$_POST['downloadURL']);
+        _error_log("aVideoEncoder.json: Got the download ".$_POST['downloadURL']);
         if($file){
             $temp = "{$global['systemRootPath']}videos/cache/tmpFile/{$_FILES['video']['name']}";
-            error_log("aVideoEncoder.json: save ".$temp);
+            _error_log("aVideoEncoder.json: save ".$temp);
             make_path($temp);
             file_put_contents($temp, $file);
             $_FILES['video']['tmp_name'] = $temp;
@@ -126,7 +126,7 @@ if (!empty($_FILES['video']['tmp_name'])) {
         $resolution = "_{$_POST['resolution']}";
     }
     $filename = "{$videoFileName}{$resolution}.{$_POST['format']}";
-    error_log("aVideoEncoder.json: receiving video upload to {$filename} " . json_encode($_FILES));
+    _error_log("aVideoEncoder.json: receiving video upload to {$filename} " . json_encode($_FILES));
     decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
 } else {
     // set encoding
@@ -135,14 +135,14 @@ if (!empty($_FILES['video']['tmp_name'])) {
 if (!empty($_FILES['image']['tmp_name']) && !file_exists("{$destination_local}.jpg")) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], "{$destination_local}.jpg")) {
         $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
-        error_log("aVideoEncoder.json: " . $obj->msg);
+        _error_log("aVideoEncoder.json: " . $obj->msg);
         die(json_encode($obj));
     }
 }
 if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local}.gif")) {
     if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], "{$destination_local}.gif")) {
         $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
-        error_log("aVideoEncoder.json: " . $obj->msg);
+        _error_log("aVideoEncoder.json: " . $obj->msg);
         die(json_encode($obj));
     }
 }
@@ -164,11 +164,11 @@ if (!empty($_POST['usergroups_id'])) {
 
 $obj->error = false;
 $obj->video_id = $video_id;
-error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
+_error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
 die(json_encode($obj));
 
 /*
-error_log(print_r($_POST, true));
-error_log(print_r($_FILES, true));
+_error_log(print_r($_POST, true));
+_error_log(print_r($_FILES, true));
 var_dump($_POST, $_FILES);
 */

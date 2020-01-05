@@ -25,14 +25,14 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 
 Category::clearCacheCount();
 
-error_log("Start Login Request");
+_error_log("Start Login Request");
 
-error_log("redirectUri: " . $_POST['redirectUri']);
+_error_log("redirectUri: " . $_POST['redirectUri']);
 
 if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri']))
     $_POST['redirectUri'] = $global['webSiteRootURL'];
 
-error_log("same redirectUri: " . $_POST['redirectUri']);
+_error_log("same redirectUri: " . $_POST['redirectUri']);
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
@@ -137,9 +137,9 @@ if (!empty($_GET['encodedPass'])) {
     $_POST['encodedPass'] = $_GET['encodedPass'];
 }
 if (empty($_POST['user']) || empty($_POST['pass'])) {
-    error_log("User or pass empty on login POST: " . json_encode($_POST));
-    error_log("User or pass empty on login GET: " . json_encode($_GET));
-    error_log("User or pass empty on login Request: " . json_encode($_REQUEST));
+    _error_log("User or pass empty on login POST: " . json_encode($_POST));
+    _error_log("User or pass empty on login GET: " . json_encode($_GET));
+    _error_log("User or pass empty on login Request: " . json_encode($_REQUEST));
     $object->error = __("User and Password can not be blank");
     die(json_encode($object));
 }

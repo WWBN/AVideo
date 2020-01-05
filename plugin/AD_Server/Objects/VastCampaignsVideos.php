@@ -168,7 +168,7 @@ class VastCampaignsVideos extends ObjectYPT {
             $sql = "DELETE FROM vast_campaigns_logs ";
             $sql .= " WHERE vast_campaigns_has_videos_id = ?";
             $global['lastQuery'] = $sql;
-            //error_log("Delete Query: ".$sql);
+            //_error_log("Delete Query: ".$sql);
             $campaigns_video_log = sqlDAL::writeSql($sql,"i",array($this->id));
         }
         return parent::delete();

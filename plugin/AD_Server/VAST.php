@@ -58,7 +58,7 @@ $files = getVideosURL($video->getFilename());
                                 </VideoClicks>
                                 <?php
                             }else{
-                                error_log("VastCampaignsVideos has not a valid link: {$link}");
+                                _error_log("VastCampaignsVideos has not a valid link: {$link}");
                             }
                         }
                         ?>

@@ -18,7 +18,7 @@ $total = User::getTotalUsers();
 $json = json_encode($users);
 
 if(empty($json)){
-    error_log("users.json error: ".print_r($users, true));
+    _error_log("users.json error: ".print_r($users, true));
     foreach ($users as $key => $value) {
         $users[$key]['about'] = "";
     }

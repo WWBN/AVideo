@@ -45,14 +45,14 @@ class AD_Server extends PluginAbstract {
     }
 
     public function afterNewVideo($videos_id) {
-        error_log("AD_Server:afterNewVideo start");
+        _error_log("AD_Server:afterNewVideo start");
         $obj = $this->getDataObject();
         if (!empty($obj->autoAddNewVideosInCampaignId)) {
             $vc = new VastCampaigns($obj->autoAddNewVideosInCampaignId);
             if (!empty($vc->getName())) {
                 $video = new Video("", "", $videos_id);
                 if(!empty($video->getTitle())){
-                    error_log("AD_Server:afterNewVideo saving");
+                    _error_log("AD_Server:afterNewVideo saving");
                     $o = new VastCampaignsVideos(0);
                     $o->setVast_campaigns_id($obj->autoAddNewVideosInCampaignId);
                     $o->setVideos_id($videos_id);
@@ -60,15 +60,15 @@ class AD_Server extends PluginAbstract {
                     $o->setAd_title($video->getTitle());
                     $o->setStatus('a');
                     $id = $o->save();
-                    error_log("AD_Server:afterNewVideo saved {$id}");
+                    _error_log("AD_Server:afterNewVideo saved {$id}");
                 }else{
-                    error_log("AD_Server:afterNewVideo videos_id NOT found {$videos_id}");
+                    _error_log("AD_Server:afterNewVideo videos_id NOT found {$videos_id}");
                 }
             }else{
-                error_log("AD_Server:afterNewVideo autoAddNewVideosInCampaignId NOT found {$obj->autoAddNewVideosInCampaignId}");
+                _error_log("AD_Server:afterNewVideo autoAddNewVideosInCampaignId NOT found {$obj->autoAddNewVideosInCampaignId}");
             }
         }else{
-            error_log("AD_Server:afterNewVideo is disabled");
+            _error_log("AD_Server:afterNewVideo is disabled");
         }
         return true;
     }
@@ -86,13 +86,13 @@ class AD_Server extends PluginAbstract {
             $_SESSION['lastAdShowed'] = time();
 
             if (!isset($_SESSION['showAdsCount'])) {
-                error_log("Show Ads Count started");
+                _error_log("Show Ads Count started");
                 $_SESSION['showAdsCount'] = 1;
             } else {
                 $_SESSION['showAdsCount'] ++;
             }
         }
-        error_log("Show Ads Count {$_SESSION['showAdsCount']}");
+        _error_log("Show Ads Count {$_SESSION['showAdsCount']}");
         $obj = $this->getDataObject();
         if (!empty($obj->showAdsOnEachVideoView) && $_SESSION['showAdsCount'] % $obj->showAdsOnEachVideoView === 0) {
             return true;
@@ -198,7 +198,7 @@ class AD_Server extends PluginAbstract {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        error_log("VMAP select those options: " . print_r($adRandomPositions, true));
+        _error_log("VMAP select those options: " . print_r($adRandomPositions, true));
         return $adRandomPositions;
     }
 

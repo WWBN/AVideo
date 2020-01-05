@@ -37,6 +37,6 @@ $s->setAgreement_id('canceled');
 $s->save();
 
 $obj->error = false;
-error_log("PayPalAgreementCancel: ".json_encode($agreement->getAgreementDetails()));
+_error_log("PayPalAgreementCancel: ".json_encode($agreement->getAgreementDetails()));
 die(json_encode($obj));
 ?>

@@ -16,7 +16,7 @@ $_POST['videos_id'] = intval($_POST['videos_id']);
 
 if (empty($_POST)) {
     $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
-    error_log($obj->msg);
+    _error_log($obj->msg);
     die(json_encode($obj));
 }
 
@@ -25,13 +25,13 @@ $user = new User("", @$_POST['user'], @$_POST['password']);
 $user->login(false, true);
 if (!User::canUpload()) {
     $obj->msg = __("Permission denied to Notify Done: " . print_r($_POST, true));
-    error_log($obj->msg);
+    _error_log($obj->msg);
     die(json_encode($obj));
 }
 
 if(!Video::canEdit($_POST['videos_id'])){
     $obj->msg = __("Permission denied to edit a video: " . print_r($_POST, true));
-    error_log($obj->msg);
+    _error_log($obj->msg);
     die(json_encode($obj));
 }
 
@@ -59,11 +59,11 @@ if(empty($_POST['fail'])){
 }
 $obj->error = false;
 $obj->video_id = $video_id;
-error_log("Video is done notified {$video_id}: " . $video->getTitle());
+_error_log("Video is done notified {$video_id}: " . $video->getTitle());
 die(json_encode($obj));
 
 /*
-error_log(print_r($_POST, true));
-error_log(print_r($_FILES, true));
+_error_log(print_r($_POST, true));
+_error_log(print_r($_FILES, true));
 var_dump($_POST, $_FILES);
 */

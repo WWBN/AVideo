@@ -44,10 +44,10 @@ $resp->error = !$canClone->clone->updateLastCloneRequest();
 
 // get mysql dump
 $cmd = "mysqldump -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} > {$clonesDir}{$resp->sqlFile}";
-error_log("Clone: Dump {$cmd}");
+_error_log("Clone: Dump {$cmd}");
 exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
-    error_log("Clone Error: ". print_r($output, true));
+    _error_log("Clone Error: ". print_r($output, true));
 }
 
 $resp->videoFiles = getCloneFilesInfo($videosDir);

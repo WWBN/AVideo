@@ -2,7 +2,7 @@
 
 require_once '../../videos/configuration.php';
 require_once '../AVideoPlugin.php';
-error_log("Record Finish");
+_error_log("Record Finish");
 $plugin = AVideoPlugin::loadPluginIfEnabled('SendRecordedToEncoder');
 if($plugin){
     $plugin->on_record_done();

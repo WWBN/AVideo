@@ -72,11 +72,11 @@ if (!empty($_POST['updateFile'])) {
                 $logfile = "{$global['systemRootPath']}videos/avideo.";
                 if(file_exists ($logfile."log")){
                   unlink($logfile."log");
-                  error_log("avideo.log deleted by update");
+                  _error_log("avideo.log deleted by update");
                 }
                 if(file_exists ($logfile."js.log")){
                   unlink($logfile."js.log");
-                  error_log("avideo.js.log deleted by update");
+                  _error_log("avideo.js.log deleted by update");
                 }
                 $lines = file("{$global['systemRootPath']}updatedb/{$_POST['updateFile']}");
                 $obj->error = "";

@@ -159,10 +159,10 @@ class TagsHasVideos extends ObjectYPT {
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE videos_id = ?";
             $global['lastQuery'] = $sql;
-            //error_log("Delete Query: ".$sql);
+            //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql,"i",array($videos_id));
         }
-        error_log("videos_id for table " . static::getTableName() . " not defined for deletion");
+        _error_log("videos_id for table " . static::getTableName() . " not defined for deletion");
         return false;
     }
 

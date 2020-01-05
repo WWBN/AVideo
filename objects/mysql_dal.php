@@ -53,7 +53,7 @@ class sqlDAL {
             if (substr(trim($line), -1, 1) == ';') {
                 // Perform the query
                 if (!$global['mysqli']->query($templine)) {
-                    error_log('sqlDAL::executeFile '.$filename.' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                    _error_log('sqlDAL::executeFile '.$filename.' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
                 }
                 // Reset temp variable to empty
                 $templine = '';
@@ -411,8 +411,8 @@ function log_error($err) {
     if (!empty($global['debug'])) {
         echo $err;
     }
-    error_log(print_r(debug_backtrace(), true));
-    error_log($err);
+    _error_log(print_r(debug_backtrace(), true));
+    _error_log($err);
 }
 
 ?>

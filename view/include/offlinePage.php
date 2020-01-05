@@ -2,7 +2,7 @@
 if(empty($mysqlHost)){
     die();
 }
-error_log("ERROR: your site is offline");
+_error_log("ERROR: your site is offline");
 ?>
 <!doctype html>
 <title>Site Maintenance</title>

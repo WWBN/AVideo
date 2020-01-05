@@ -412,7 +412,7 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($this->user) || empty($this->password)) {
             //echo "u:" . $this->user . "|p:" . strlen($this->password);
-            error_log('Error : ' . __("You need a user and passsword to register"));
+            _error_log('Error : ' . __("You need a user and passsword to register"));
             return false;
         }
         if (empty($this->isAdmin)) {
@@ -522,7 +522,7 @@ if (typeof gtag !== \"function\") {
             }
             return $id;
         } else {
-            error_log(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
+            _error_log(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
             return false;
         }
     }
@@ -630,7 +630,7 @@ if (typeof gtag !== \"function\") {
         if (strtolower($encodedPass) === 'false') {
             $encodedPass = false;
         }
-        error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user " . getRealIpAddr());
+        _error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user " . getRealIpAddr());
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
@@ -655,14 +655,14 @@ if (typeof gtag !== \"function\") {
             $this->setLastLogin($_SESSION['user']['id']);
             $rememberme = 0;
             if ((!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
-                error_log("user::login: Do login with cookie (log in for next 10 years)!");
+                _error_log("user::login: Do login with cookie (log in for next 10 years)!");
                 //$url = parse_url($global['webSiteRootURL']);
                 //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 $cookie = 2147483647;
                 $rememberme = 1;
             } else {
-                error_log("user::login: Do login without cookie");
+                _error_log("user::login: Do login without cookie");
                 if (empty($config) || !is_object($config)) {
                     $config = new Configuration();
                 }
@@ -790,11 +790,11 @@ if (typeof gtag !== \"function\") {
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
                 $resp = $user->login(false, true);
 
-                error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   result: " . $resp);
+                _error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   result: " . $resp);
                 if (0 == $resp) {
-                    error_log("success " . $_SESSION['user']['id']);
+                    _error_log("success " . $_SESSION['user']['id']);
                 } else {
-                    error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   result: " . $resp);
+                    _error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   result: " . $resp);
                     self::logoff();
                 }
             }
@@ -889,7 +889,7 @@ if (typeof gtag !== \"function\") {
             if ($pass !== false) {
                 if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
                     if ($advancedCustom->enableOldPassHashCheck) {
-                        error_log("Password check new hash pass does not match, trying MD5");
+                        _error_log("Password check new hash pass does not match, trying MD5");
                         return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
                     } else {
                         return false;
@@ -898,7 +898,7 @@ if (typeof gtag !== \"function\") {
             }
             $user = $result;
         } else {
-            error_log("Password check new hash user not found");
+            _error_log("Password check new hash user not found");
             //check if is the old password style
             $user = false;
             //$user = false;
@@ -930,10 +930,10 @@ if (typeof gtag !== \"function\") {
         }
         if ($pass !== false) {
             if (!$encodedPass || $encodedPass === 'false') {
-                error_log("Password check Old not encoded pass");
+                _error_log("Password check Old not encoded pass");
                 $passEncoded = md5($pass);
             } else {
-                error_log("Password check Old encoded pass");
+                _error_log("Password check Old encoded pass");
                 $passEncoded = $pass;
             }
             $sql .= " AND password = ? ";
@@ -957,9 +957,9 @@ if (typeof gtag !== \"function\") {
             $user = false;
         }
         if (empty($user)) {
-            error_log("Password check Old not found");
+            _error_log("Password check Old not found");
         } else {
-            error_log("Password check Old found");
+            _error_log("Password check Old found");
         }
         return $user;
     }
@@ -1426,7 +1426,7 @@ if (typeof gtag !== \"function\") {
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
         //Create a new PHPMailer instance
         if (!is_object($config)) {
-            error_log("sendVerificationLink: config is not a object " . json_encode($config));
+            _error_log("sendVerificationLink: config is not a object " . json_encode($config));
             return false;
         }
         $contactEmail = $config->getContactEmail();
@@ -1455,13 +1455,13 @@ if (typeof gtag !== \"function\") {
             $mail->msgHTML($msg);
             $resp = $mail->send();
             if (!$resp) {
-                error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
+                _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
             }
             return $resp;
         } catch (phpmailerException $e) {
-            error_log($e->errorMessage()); //Pretty error messages from PHPMailer
+            _error_log($e->errorMessage()); //Pretty error messages from PHPMailer
         } catch (Exception $e) {
-            error_log($e->getMessage()); //Boring error messages from anything else!
+            _error_log($e->getMessage()); //Boring error messages from anything else!
         }
         return false;
     }
@@ -1609,10 +1609,10 @@ if (typeof gtag !== \"function\") {
             $sql = "DELETE FROM users_blob ";
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
-            //error_log("Delete Query: ".$sql);
+            //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "i", array($row['id']));
         }
-        error_log("Id for table users_blob not defined for deletion");
+        _error_log("Id for table users_blob not defined for deletion");
         return false;
     }
 

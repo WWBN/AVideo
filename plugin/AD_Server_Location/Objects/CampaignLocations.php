@@ -78,10 +78,10 @@ class CampaignLocations extends ObjectYPT {
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE vast_campaigns_id = ?";
             $global['lastQuery'] = $sql;
-            //error_log("Delete Query: ".$sql);
+            //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql,"i",array($vast_campaigns_id));
         }
-        error_log("Id for table " . static::getTableName() . " not defined for deletion");
+        _error_log("Id for table " . static::getTableName() . " not defined for deletion");
         return false;
     }
 

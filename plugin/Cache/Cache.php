@@ -79,7 +79,7 @@ class Cache extends PluginAbstract {
         // can not process
         if (empty($_SERVER['HTTP_HOST'])) {
             //$str = "isFirstPage: Empty HTTP_HOST, IP: ". getRealIpAddr()." SERVER: ".  json_encode($_SERVER);
-            //error_log($str);
+            //_error_log($str);
             die();
         }
         global $global;
@@ -126,7 +126,7 @@ class Cache extends PluginAbstract {
             // if is a bot always show a cache
             if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile)) || $isBot)) {
                 if($isBot && $_SERVER['REQUEST_URI'] !== '/login'){
-                    error_log("Bot Detected, showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
+                    _error_log("Bot Detected, showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
                 }
                 $c = @local_get_contents($cachefile);
                 if(preg_match("/\.json\.?/", $baseName)){
@@ -146,9 +146,9 @@ class Cache extends PluginAbstract {
             if(empty($_SERVER['HTTP_USER_AGENT'])){
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
-            error_log("Bot Detected, NOT showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
+            _error_log("Bot Detected, NOT showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
             if($obj->stopBotsFromNonCachedPages){
-                error_log("Bot stopped");
+                _error_log("Bot stopped");
                 exit;
             }
         }
@@ -205,7 +205,7 @@ class Cache extends PluginAbstract {
             $type = "User: Not Logged - " . $type;
         }
         $total_time = round(($finish - $global['start']), 4);
-        error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
+        _error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
     }
 
 }
@@ -228,10 +228,10 @@ function sanitize_output($buffer) {
 
     $len = strlen($buffer);
     if ($len) {
-        error_log("Before Sanitize: " . strlen($buffer));
+        _error_log("Before Sanitize: " . strlen($buffer));
         $buffer = preg_replace($search, $replace, $buffer);
         $lenAfter = strlen($buffer);
-        error_log("After Sanitize: {$lenAfter} = " . (($len / $lenAfter) * 100) . "%");
+        _error_log("After Sanitize: {$lenAfter} = " . (($len / $lenAfter) * 100) . "%");
     }
     return $buffer;
 }

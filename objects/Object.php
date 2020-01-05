@@ -172,7 +172,7 @@ abstract class ObjectYPT implements ObjectInterface {
 
     function save() {
         if (!$this->tableExists()) {
-            error_log("Save error, table " . static::getTableName() . " does not exists");
+            _error_log("Save error, table " . static::getTableName() . " does not exists");
             return false;
         }
         global $global;
@@ -248,10 +248,10 @@ abstract class ObjectYPT implements ObjectInterface {
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
-            //error_log("Delete Query: ".$sql);
+            //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "i", array($this->id));
         }
-        error_log("Id for table " . static::getTableName() . " not defined for deletion");
+        _error_log("Id for table " . static::getTableName() . " not defined for deletion");
         return false;
     }
 

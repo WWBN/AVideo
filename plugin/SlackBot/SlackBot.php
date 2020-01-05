@@ -87,7 +87,7 @@ class SlackBot extends PluginAbstract
                     $slackChannel = $userSlackInformation->user->id;
                 } else {
                     $slackChannel = "";
-                    error_log("Slack id for user email: " . $subscribedUser["email"] . " could not be found");
+                    _error_log("Slack id for user email: " . $subscribedUser["email"] . " could not be found");
                 }
                 curl_close($c);
 

@@ -16,11 +16,11 @@ $_POST = object_to_array(json_decode($argv[9]));
 $cacheFileName = $argv[10];
 $lockFile = $cacheFileName.".lock";
 if(file_exists($lockFile) && (time() - filemtime($lockFile) < 300)){ // 5 min limit
-    error_log("getAllVideos: file locked ".$lockFile." filemtime(\$lockFile) = ".filemtime($lockFile)."| (time() - filemtime(\$lockFile))=".(time() - filemtime($lockFile)));
+    _error_log("getAllVideos: file locked ".$lockFile." filemtime(\$lockFile) = ".filemtime($lockFile)."| (time() - filemtime(\$lockFile))=".(time() - filemtime($lockFile)));
     return false;
 }
 file_put_contents($lockFile, 1);
 $total = Video::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly);
 file_put_contents($cacheFileName, json_encode($total));
-//error_log(__FILE__." ".$cacheFileName.": done");
+//_error_log(__FILE__." ".$cacheFileName.": done");
 unlink($lockFile);

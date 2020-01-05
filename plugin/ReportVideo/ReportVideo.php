@@ -69,10 +69,10 @@ class ReportVideo extends PluginAbstract {
 
         //send the message, check for errors
         if ($mail->send()) {
-            error_log("Notification email sent [{$subject}]");
+            _error_log("Notification email sent [{$subject}]");
             return true;
         } else {
-            error_log("Notification email FAIL [{$subject}] - " . $mail->ErrorInfo);
+            _error_log("Notification email FAIL [{$subject}] - " . $mail->ErrorInfo);
             return false;
         }
     }
@@ -153,7 +153,7 @@ class ReportVideo extends PluginAbstract {
             $resp->msg  = __("You already report this video");
         }
         if($resp->error === true){
-            error_log("Report Video: ". $resp->msg);
+            _error_log("Report Video: ". $resp->msg);
         }
         return $resp;
     }

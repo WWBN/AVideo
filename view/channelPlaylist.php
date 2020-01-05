@@ -62,12 +62,12 @@ foreach ($playlists as $playlist) {
     $_POST['rowCount'] = $rowCount;
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
-    //error_log("channelPlaylist videosP: ".json_encode($videosP));
+    //_error_log("channelPlaylist videosP: ".json_encode($videosP));
     $videosP = PlayList::sortVideos($videosP, $videosArrayId);
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
-    //error_log("channelPlaylist videosP2: ".json_encode($videosP));
-    //error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
+    //_error_log("channelPlaylist videosP2: ".json_encode($videosP));
+    //_error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
     $playListButtons = AVideoPlugin::getPlayListButtons($playlist['id']);
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);

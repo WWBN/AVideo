@@ -25,7 +25,7 @@ if(empty($agreement)){
     $obj->msg = "Agreement not found";
     die(json_encode($obj));
 }
-error_log("SripeAgreementStatus: ".json_encode($agreement));
+_error_log("SripeAgreementStatus: ".json_encode($agreement));
 $obj->error = false;
 $obj->msg  = "<b>State: </b>".$agreement->status;
 $obj->msg .= "<br><b>Created: </b>".date("Y-m-d H:i", $agreement->created);

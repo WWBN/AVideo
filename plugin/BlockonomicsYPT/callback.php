@@ -68,6 +68,6 @@ $order->setStatus($new_status);
 
 $order->save();
 
-error_log("Blockonomics Callback: GET=".  json_encode($_GET));
-error_log("Blockonomics Callback: order=".  json_encode($order));
+_error_log("Blockonomics Callback: GET=".  json_encode($_GET));
+_error_log("Blockonomics Callback: order=".  json_encode($order));
 ?>

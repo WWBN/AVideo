@@ -13,6 +13,6 @@ class DefaultLogger implements LoggerInterface
         if (count($context) > 0) {
             throw new \Exception('DefaultLogger does not currently implement context. Please implement if you need it.');
         }
-        error_log($message);
+        _error_log($message);
     }
 }

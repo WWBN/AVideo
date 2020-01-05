@@ -211,7 +211,7 @@ class YPTWallet extends PluginAbstract {
             $user = new User($users_id);
             WalletLog::addLog($wallet_id, ($value * -1), " From user ($users_id) " . $user->getUser() . " - " . $description, $json_data, "success", "addBalance to main wallet");
         }
-        error_log("YPTWallet::addBalance $wallet_id, $value, $description, $json_data");
+        _error_log("YPTWallet::addBalance $wallet_id, $value, $description, $json_data");
     }
 
     public function saveBalance($users_id, $value) {
@@ -254,24 +254,24 @@ class YPTWallet extends PluginAbstract {
         global $global;
         if (!User::isAdmin()) {
             if ($users_id_from != User::getId() && !$forceTransfer) {
-                error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value");
+                _error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value");
                 return false;
             }
         }
         if (!User::idExists($users_id_from) || !User::idExists($users_id_to)) {
-            error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value");
+            _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value");
             return false;
         }
         $value = floatval($value);
         if ($value <= 0) {
-            error_log("transferBalance: invalid value, $users_id_from,$users_id_to, $value");
+            _error_log("transferBalance: invalid value, $users_id_from,$users_id_to, $value");
             return false;
         }
         $wallet = $this->getWallet($users_id_from);
         $balance = $wallet->getBalance();
         $newBalance = $balance - $value;
         if ($newBalance < 0) {
-            error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value");
+            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value");
             return false;
         }
         $identificationFrom = User::getNameIdentificationById($users_id_from);
@@ -438,10 +438,10 @@ class YPTWallet extends PluginAbstract {
 
         //send the message, check for errors
         if (!$mail->send()) {
-            error_log("Wallet email FAIL [{$subject}] {$mail->ErrorInfo}");
+            _error_log("Wallet email FAIL [{$subject}] {$mail->ErrorInfo}");
             return false;
         } else {
-            error_log("Wallet email sent [{$subject}]");
+            _error_log("Wallet email sent [{$subject}]");
             return true;
         }
     }
