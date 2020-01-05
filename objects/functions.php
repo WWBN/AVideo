@@ -2494,7 +2494,7 @@ function TimeLogEnd($name, $line, $limit = 0.05) {
 }
 
 
-function __error_log($message, $message_type=0, $destination=null, $extra_headers=null){
+function _error_log($message, $message_type=0, $destination=null, $extra_headers=null){
     global $global;
     if(!empty($global['noDebug'])){
         return false;
