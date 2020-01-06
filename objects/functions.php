@@ -2473,6 +2473,9 @@ function TimeLogStart($name) {
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
+    if(empty($global['start']) || !is_array($global['start'])){
+        $global['start'] = array();
+    }
     $global['start'][$name] = $time;
 }
 
