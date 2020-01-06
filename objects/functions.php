@@ -504,7 +504,7 @@ function sendSiteEmail($to, $subject, $message) {
                 $mail->setFrom($contactEmail, $webSiteTitle);
                 $mail->Subject = $subject . " - " . $webSiteTitle;
                 $mail->msgHTML($message);
-                
+
                 foreach ($piece as $value) {
                     $mail->addBCC($value);
                 }
@@ -1889,9 +1889,9 @@ function isMobile() {
         return false;
     }
     global $global;
-    require_once $global['systemRootPath'].'objects/Mobile_Detect.php';
+    require_once $global['systemRootPath'] . 'objects/Mobile_Detect.php';
     $detect = new Mobile_Detect;
- 
+
     return $detect->isMobile();
 }
 
@@ -2467,13 +2467,13 @@ function get_browser_name($user_agent) {
 
 function TimeLogStart($name) {
     global $global;
-    if(!empty($global['noDebug'])){
+    if (!empty($global['noDebug'])) {
         return false;
     }
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
-    if(empty($global['start']) || !is_array($global['start'])){
+    if (empty($global['start']) || !is_array($global['start'])) {
         $global['start'] = array();
     }
     $global['start'][$name] = $time;
@@ -2481,7 +2481,7 @@ function TimeLogStart($name) {
 
 function TimeLogEnd($name, $line, $limit = 0.05) {
     global $global;
-    if(!empty($global['noDebug'])){
+    if (!empty($global['noDebug'])) {
         return false;
     }
     $time = microtime();
@@ -2496,11 +2496,35 @@ function TimeLogEnd($name, $line, $limit = 0.05) {
     TimeLogStart($name);
 }
 
-
-function _error_log($message, $message_type=0, $destination=null, $extra_headers=null){
+function _error_log($message, $message_type = 0, $destination = null, $extra_headers = null) {
     global $global;
-    if(!empty($global['noDebug'])){
+    if (!empty($global['noDebug'])) {
         return false;
     }
     error_log($message, $message_type, $destination, $extra_headers);
+}
+
+function postVariables($url, $array) {
+    if(!$url || !is_string($url) || ! preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)){
+        return false;
+    }
+    $array = object_to_array($array);
+    $ch = curl_init($url);
+    @curl_setopt($ch, CURLOPT_HEADER  , true);  // we want headers
+    //@curl_setopt($ch, CURLOPT_NOBODY  , true);  // we don't need body
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $array);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+    // execute!
+    $response = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    
+    // close the connection, release resources used
+    curl_close($ch);
+    if($httpcode==200){
+        return true;
+    }
+    return $httpcode;
 }
