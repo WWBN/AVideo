@@ -803,15 +803,12 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
-            $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
-            $timeLog = __FILE__ . " - getAllVideos";
-            TimeLogStart($timeLog);
+
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
                 }
             }
-            TimeLogEnd($timeLog, __LINE__);
             $status = str_replace("'", "", $status);
 
             $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified, "
@@ -898,11 +895,11 @@ if (!class_exists('Video')) {
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
-
+            
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 ";
                 $sql .= " ORDER BY RAND() ";
-            } else if (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
+            }else if (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
             } else {
                 unset($_POST['sort']['trending']);
@@ -926,14 +923,12 @@ if (!class_exists('Video')) {
                 unset($_GET['limitOnceToOne']);
             }
 
-            TimeLogEnd($timeLog, __LINE__);
 //echo $sql;exit;
 //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $videos = array();
-            TimeLogEnd($timeLog, __LINE__);
             if ($res != false) {
                 require_once 'userGroups.php';
                 foreach ($fullData as $row) {
@@ -963,7 +958,6 @@ if (!class_exists('Video')) {
                 $videos = false;
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
-            TimeLogEnd($timeLog, __LINE__);
             return $videos;
         }
 
@@ -1090,7 +1084,7 @@ if (!class_exists('Video')) {
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
-
+            
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (is_int($showOnlyLoggedUserVideos)) {
@@ -2189,7 +2183,7 @@ if (!class_exists('Video')) {
             global $global, $advancedCustom, $videosPaths;
 
             // check if there is a webp image
-            if ($type === '.gif' && get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari') {
+            if ($type === '.gif' && get_browser_name($_SERVER['HTTP_USER_AGENT'])!=='Safari') {
                 $path = "{$global['systemRootPath']}videos/{$filename}.webp";
                 if (file_exists($path)) {
                     $type = ".webp";
