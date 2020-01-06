@@ -18,9 +18,9 @@ TimeLogStart($timeLog3);
     <?php
     TimeLogEnd($timeLog3, __LINE__);
     foreach ($videos as $value) {
-        TimeLogStart($timeLog3." Video {$value['clean_title']}");
+        TimeLogStart($timeLog3 . " Video {$value['clean_title']}");
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
-        TimeLogEnd($timeLog3." Video {$value['clean_title']}", __LINE__);
+        TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
         $imgGif = $images->thumbsGif;
         $img = $images->thumbsJpg;
         $poster = $images->poster;
@@ -70,12 +70,15 @@ TimeLogStart($timeLog3);
                 <div class="arrow-down" style="display: none;"></div>
             </div>
             <?php
+            TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
             getLdJson($value['id']);
+            TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
             getItemprop($value['id']);
+            TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
             ?>
         </div>        
         <?php
-        TimeLogEnd($timeLog3." Video {$value['clean_title']}", __LINE__);
+        TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
     }
     TimeLogEnd($timeLog3, __LINE__);
     ?>
@@ -192,7 +195,7 @@ foreach ($videos as $value) {
                 ?>
                 <div class="infoText col-md-4 col-sm-6 col-xs-8">
                     <h4 class="mainInfoText" itemprop="description">
-                    <?php echo $value['description']; ?>
+                        <?php echo $value['description']; ?>
                     </h4>
                     <?php
                     if (AVideoPlugin::isEnabledByName("VideoTags")) {
