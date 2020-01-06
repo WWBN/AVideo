@@ -207,6 +207,7 @@ TimeLogStart($timeLog);
                         $_POST['sort']['v.created'] = "DESC";
                         $_POST['sort']['likes'] = "DESC";
                         $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                        TimeLogEnd($timeLog2, __LINE__);
                         if (empty($videos)) {
                             $_GET['catName'] = $oldCatName;
                             continue;
