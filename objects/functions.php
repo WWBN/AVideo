@@ -2489,7 +2489,7 @@ function TimeLogEnd($name, $line, $limit = 1) {
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $global['start'][$name]), 4);
-    if ($total_time > 0.05) {
+    if ($total_time > $limit) {
         _error_log("Warning: Slow process detected [{$name}] On  Line {$line} takes {$total_time} seconds to complete. {$_SERVER["SCRIPT_FILENAME"]}");
     }
     TimeLogStart($name);
