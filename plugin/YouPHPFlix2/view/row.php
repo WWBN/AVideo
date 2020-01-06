@@ -18,7 +18,9 @@ TimeLogStart($timeLog3);
     <?php
     TimeLogEnd($timeLog3, __LINE__);
     foreach ($videos as $value) {
+        TimeLogStart($timeLog3." Video {$value['clean_title']}");
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        TimeLogEnd($timeLog3." Video {$value['clean_title']}", __LINE__);
         $imgGif = $images->thumbsGif;
         $img = $images->thumbsJpg;
         $poster = $images->poster;
@@ -73,6 +75,7 @@ TimeLogStart($timeLog3);
             ?>
         </div>        
         <?php
+        TimeLogEnd($timeLog3." Video {$value['clean_title']}", __LINE__);
     }
     TimeLogEnd($timeLog3, __LINE__);
     ?>
