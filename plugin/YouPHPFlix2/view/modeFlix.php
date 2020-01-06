@@ -195,7 +195,7 @@ TimeLogStart($timeLog);
                     }
                     foreach ($categories as $value) {
                         $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
-                        $timeLog2 = __FILE__." - Category {$_GET['catName']}";
+                        $timeLog2 = __FILE__." - Category {$value['clean_name']}";
                         TimeLogStart($timeLog2);
                         $oldCatName = @$_GET['catName'];
                         if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
