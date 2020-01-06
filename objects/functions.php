@@ -2487,7 +2487,7 @@ function TimeLogStart($name) {
     $global['start'][$name] = $time;
 }
 
-function TimeLogEnd($name, $line, $limit = 1) {
+function TimeLogEnd($name, $line, $limit = 0.5) {
     global $global;
     if (!empty($global['noDebug'])) {
         return false;
