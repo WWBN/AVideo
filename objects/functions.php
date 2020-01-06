@@ -2244,6 +2244,10 @@ function getOpenGraph($videos_id) {
 }
 
 function getLdJson($videos_id) {
+    $cache = ObjectYPT::getCache("getLdJson{$videos_id}", 0);
+    if(empty($cache)){
+        echo $cache;
+    }
     global $global, $config;
     echo "<!-- ld+json -->";
     if (empty($videos_id)) {
@@ -2292,48 +2296,51 @@ function getLdJson($videos_id) {
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
-    ?>
+    $output = '
     <script type="application/ld+json">
         {
         "@context": "http://schema.org/",
         "@type": "VideoObject",
-        "name": "<?php echo str_replace('"', '', $video['title']); ?>",
-        "description": "<?php echo $description ?>",
+        "name": "'.str_replace('"', '', $video['title']).'",
+        "description": "'.$description.'",
         "thumbnailUrl": [
-        "<?php echo $img; ?>"
+        "'.$img.'"
         ],
-        "uploadDate": "<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>",
-        "duration": "<?php echo $duration; ?>",
-        "contentUrl": "<?php echo Video::getLinkToVideo($videos_id); ?>",
-        "embedUrl": "<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>",
-        "interactionCount": "<?php echo $video['views_count']; ?>",
-        "@id": "<?php echo Video::getPermaLink($videos_id); ?>",
-        "datePublished": "<?php echo date("Y-m-d", strtotime($video['created'])); ?>",
+        "uploadDate": "'.date("Y-m-d\Th:i:s", strtotime($video['created'])).'",
+        "duration": "'.$duration.'",
+        "contentUrl": "'.Video::getLinkToVideo($videos_id).'",
+        "embedUrl": "'.parseVideos(Video::getLinkToVideo($videos_id)).'",
+        "interactionCount": "'.$video['views_count'].'",
+        "@id": "'.Video::getPermaLink($videos_id).'",
+        "datePublished": "'.date("Y-m-d", strtotime($video['created'])).'",
         "interactionStatistic": [
         {
         "@type": "InteractionCounter",
         "interactionService": {
         "@type": "WebSite",
-        "name": "<?php echo str_replace('"', '', $config->getWebSiteTitle()); ?>",
-        "@id": "<?php echo $global['webSiteRootURL']; ?>"
+        "name": "'.str_replace('"', '', $config->getWebSiteTitle()).'",
+        "@id": "'.$global['webSiteRootURL'].'"
         },
         "interactionType": "http://schema.org/LikeAction",
-        "userInteractionCount": "<?php echo $video['views_count']; ?>"
+        "userInteractionCount": "'.$video['views_count'].'"
         },
         {
         "@type": "InteractionCounter",
         "interactionType": "http://schema.org/WatchAction",
-        "userInteractionCount": "<?php echo $video['views_count']; ?>"
+        "userInteractionCount": "'.$video['views_count'].'"
         }
         ]
         }
-    </script>
-
-
-    <?php
+    </script>';
+    ObjectYPT::setCache("getLdJson{$videos_id}", $output);
+    echo $output;
 }
 
 function getItemprop($videos_id) {
+    $cache = ObjectYPT::getCache("getLdJson{$videos_id}", 0);
+    if(empty($cache)){
+        echo $cache;
+    }
     global $global, $config;
     echo "<!-- Itemprop -->";
     if (empty($videos_id)) {
@@ -2382,16 +2389,17 @@ function getItemprop($videos_id) {
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
-    ?>
-    <span itemprop="name" content="<?php echo str_replace('"', '', $video['title']); ?>" />
-    <span itemprop="description" content="<?php echo $description ?>" />
-    <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-    <span itemprop="uploadDate" content="<?php echo date("Y-m-d\Th:i:s", strtotime($video['created'])); ?>" />
-    <span itemprop="duration" content="<?php echo $duration; ?>" />
-    <span itemprop="contentUrl" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
-    <span itemprop="embedUrl" content="<?php echo parseVideos(Video::getLinkToVideo($videos_id)); ?>" />
-    <span itemprop="interactionCount" content="<?php echo $video['views_count']; ?>" />
-    <?php
+    $output = '<span itemprop="name" content="'.str_replace('"', '', $video['title']).'" />
+    <span itemprop="description" content="'.$description.'" />
+    <span itemprop="thumbnailUrl" content="'.$img.'" />
+    <span itemprop="uploadDate" content="'.date("Y-m-d\Th:i:s", strtotime($video['created'])).'" />
+    <span itemprop="duration" content="'.$duration.'" />
+    <span itemprop="contentUrl" content="'.Video::getLinkToVideo($videos_id).'" />
+    <span itemprop="embedUrl" content="'.parseVideos(Video::getLinkToVideo($videos_id)).'" />
+    <span itemprop="interactionCount" content="'.$video['views_count'].'" />';
+    
+    ObjectYPT::setCache("getLdJson{$videos_id}", $output);
+    echo $output;
 }
 
 function get_browser_name($user_agent) {
