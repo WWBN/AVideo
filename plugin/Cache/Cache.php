@@ -46,7 +46,7 @@ class Cache extends PluginAbstract {
             $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
             $this->setDataObject($obj);
             if (!file_exists($obj->cacheDir)) {
-                mkdir($this->getCacheDir(), 0777, true);
+                mkdir($obj->cacheDir, 0777, true);
             }
         }
         
