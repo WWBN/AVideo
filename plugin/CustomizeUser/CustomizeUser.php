@@ -252,6 +252,7 @@ class CustomizeUser extends PluginAbstract {
     }
 
     public function onUserSignup($users_id) {
+        global $global;
         $obj = $this->getDataObject();
 
         if ($obj->sendVerificationMailAutomaic) {
