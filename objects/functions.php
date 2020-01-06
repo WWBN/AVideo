@@ -2511,7 +2511,7 @@ function postVariables($url, $array) {
     $array = object_to_array($array);
     $ch = curl_init($url);
     @curl_setopt($ch, CURLOPT_HEADER  , true);  // we want headers
-    //@curl_setopt($ch, CURLOPT_NOBODY  , true);  // we don't need body
+    @curl_setopt($ch, CURLOPT_NOBODY  , true);  // we don't need body
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $array);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
