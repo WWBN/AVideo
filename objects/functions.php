@@ -2337,7 +2337,7 @@ function getLdJson($videos_id) {
 }
 
 function getItemprop($videos_id) {
-    $cache = ObjectYPT::getCache("getLdJson{$videos_id}", 0);
+    $cache = ObjectYPT::getCache("getItemprop{$videos_id}", 0);
     if(empty($cache)){
         echo $cache;
     }
@@ -2398,7 +2398,7 @@ function getItemprop($videos_id) {
     <span itemprop="embedUrl" content="'.parseVideos(Video::getLinkToVideo($videos_id)).'" />
     <span itemprop="interactionCount" content="'.$video['views_count'].'" />';
     
-    ObjectYPT::setCache("getLdJson{$videos_id}", $output);
+    ObjectYPT::setCache("getItemprop{$videos_id}", $output);
     echo $output;
 }
 
