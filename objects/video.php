@@ -2329,46 +2329,8 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        static function setCache($name, $value) {
-            $tmpDir = sys_get_temp_dir();
-            $uniqueHash = md5(__FILE__);
-
-            $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
-            file_put_contents($cachefile, json_encode($value));
-        }
-
-        /**
-         * 
-         * @param type $name
-         * @param type $lifetime, if is = 0 it is unlimited
-         * @return type
-         */
-        static function getCache($name, $lifetime = 60) {
-            $tmpDir = sys_get_temp_dir();
-            $uniqueHash = md5(__FILE__);
-
-            $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
-            if (!empty($_GET['lifetime'])) {
-                $lifetime = intval($_GET['lifetime']);
-            }
-            if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
-                $c = @url_get_contents($cachefile);
-                return json_decode($c);
-            } else if (file_exists($cachefile)) {
-                unlink($cachefile);
-            }
-        }
-
-        static function deleteCache($name) {
-            $tmpDir = sys_get_temp_dir();
-            $uniqueHash = md5(__FILE__);
-
-            $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
-            @unlink($cachefile);
-        }
-
         static function getImageFromFilename_($filename, $type = "video") {
-            $cache = self::getCache($filename.$type, 0);
+            $cache = ObjectYPT::getCache($filename.$type, 0);
             if(!empty($cache)){
                 return $cache;
             }
@@ -2492,7 +2454,7 @@ if (!class_exists('Video')) {
                 $obj->thumbsGif = false;
             }
             
-            self::setCache($filename.$type, $obj);
+            ObjectYPT::setCache($filename.$type, $obj);
             
             return $obj;
         }
@@ -2711,10 +2673,10 @@ if (!class_exists('Video')) {
                     @unlink($file);
                 }
             }
-            self::deleteCache($filename);
-            self::deleteCache($filename."article");
-            self::deleteCache($filename."pdf");
-            self::deleteCache($filename."video");
+            ObjectYPT::deleteCache($filename);
+            ObjectYPT::deleteCache($filename."article");
+            ObjectYPT::deleteCache($filename."pdf");
+            ObjectYPT::deleteCache($filename."video");
             clearVideosURL($filename);
         }
 
