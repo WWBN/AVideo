@@ -8,6 +8,8 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 
 
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
+$timeLog = __FILE__." - modeFlix";
+TimeLogStart($timeLog);
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +34,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                 <?php
                 $_POST['current'] = 1;
                 $_POST['rowCount'] = $obj->maxVideos;
-                
+                TimeLogEnd($timeLog, __LINE__);
                 if ($obj->Trending) {
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
@@ -65,7 +67,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                         <?php
                     }
                 }
-                
+                TimeLogEnd($timeLog, __LINE__);
                 if ($obj->DateAdded) {
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
@@ -97,7 +99,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                         <?php
                     }
                 }
-
+                TimeLogEnd($timeLog, __LINE__);
                 if ($obj->MostPopular) {
                     $_POST['rowCount'] = $obj->maxVideos;
                     $dataFlickirty = new stdClass();
@@ -131,8 +133,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 
                     <?php
                 }
-
-
+                TimeLogEnd($timeLog, __LINE__);
                 if ($obj->MostWatched) {
                     $_POST['rowCount'] = $obj->maxVideos;
                     $dataFlickirty = new stdClass();
@@ -164,7 +165,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                     </div>
                     <?php
                 }
-
+                TimeLogEnd($timeLog, __LINE__);
                 if ($obj->Categories) {
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
@@ -260,7 +261,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                         }
                     }
                 }
-
+                TimeLogEnd($timeLog, __LINE__);
                 unset($_POST['sort']);
                 unset($_POST['current']);
                 unset($_POST['rowCount']);
@@ -273,6 +274,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
         </div>
         <div style="display: none;" id="footerDiv">
         <?php
+        TimeLogEnd($timeLog, __LINE__);
         include $global['systemRootPath'] . 'view/include/footer.php';
 
         if (!empty($tmpSessionType)) {
@@ -282,6 +284,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
         }
         $jsFiles = array("view/js/bootstrap-list-filter/bootstrap-list-filter.min.js", "plugin/YouPHPFlix2/view/js/flickity/flickity.pkgd.min.js", "view/js/webui-popover/jquery.webui-popover.min.js", "plugin/YouPHPFlix2/view/js/script.js");
         $jsURL = combineFiles($jsFiles, "js");
+        TimeLogEnd($timeLog, __LINE__);
         ?>
         </div>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
