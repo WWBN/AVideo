@@ -36,6 +36,10 @@ function cmpPlugin($a, $b) {
         return -1;
     } else if ($a['name'] == 'GoogleAds_IMA') {
         return -1;
+    } else if ($a['name'] == 'Subscription') {
+        return -1;
+    } else if ($a['name'] == 'PayPerView') {
+        return -1;
     }
 
     return 1;
