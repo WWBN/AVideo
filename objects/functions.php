@@ -1691,14 +1691,16 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
                     session_start();
                 }
                 $_SESSION = $session;
-                $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
-                if (!empty($global['mysqli_charset'])) {
-                    $global['mysqli']->set_charset($global['mysqli_charset']);
+                if(!$global['mysqli']->ping()){
+                    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+                    if (!empty($global['mysqli_charset'])) {
+                        $global['mysqli']->set_charset($global['mysqli_charset']);
+                    }
                 }
                 return $tmp;
             }
         } catch (ErrorException $e) {
-            
+            return "url_get_contents: ".$e->getMessage();
         }
     } else if (function_exists('curl_init')) {
         $ch = curl_init();
