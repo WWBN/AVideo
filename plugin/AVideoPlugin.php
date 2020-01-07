@@ -580,6 +580,19 @@ class AVideoPlugin {
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
+    
+    
+    public static function getEmbed($videos_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->getEmbed($videos_id);
+            }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+        }
+    }
 
     public static function getChannel($user_id, $user) {
         $plugins = Plugin::getAllEnabled();
@@ -833,7 +846,7 @@ class AVideoPlugin {
     
     public static function userCanWatchVideo($users_id, $videos_id){
         $plugins = Plugin::getAllEnabled();
-        $resp = true;
+        $resp = Video::userGroupAndVideoGroupMatch($users_id, $videos_id);;
         $video = new Video("", "", $videos_id);
         if(empty($video)){
             return false;
@@ -861,7 +874,7 @@ class AVideoPlugin {
     
     public static function userCanWatchVideoWithAds($users_id, $videos_id){
         $plugins = Plugin::getAllEnabled();
-        $resp = true;
+        $resp = Video::userGroupAndVideoGroupMatch($users_id, $videos_id);
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
