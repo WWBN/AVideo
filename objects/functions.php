@@ -1661,12 +1661,15 @@ function local_get_contents($path) {
 
 function url_get_contents($Url, $ctx = "", $timeout = 0) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    $session = $_SESSION;
-    session_write_close();
-    if (!empty($timeout)) {
-        ini_set('default_socket_timeout', $timeout);
+    if (filter_var($url, FILTER_VALIDATE_URL)) {
+
+        $session = $_SESSION;
+        session_write_close();
+        if (!empty($timeout)) {
+            ini_set('default_socket_timeout', $timeout);
+        }
+        $global['mysqli']->close();
     }
-    $global['mysqli']->close();
     if (empty($ctx)) {
         $opts = array(
             "ssl" => array(
@@ -1687,9 +1690,11 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         try {
             $tmp = @file_get_contents($Url, false, $context);
             if ($tmp != false) {
-                _session_start();
-                $_SESSION = $session;
-                _mysql_connect();
+                if (filter_var($Url, FILTER_VALIDATE_URL)) {
+                    _session_start();
+                    $_SESSION = $session;
+                    _mysql_connect();
+                }
                 return $tmp;
             }
         } catch (ErrorException $e) {
@@ -1707,15 +1712,19 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         }
         $output = curl_exec($ch);
         curl_close($ch);
-        _session_start();
-        $_SESSION = $session;
-        _mysql_connect();
+        if (filter_var($Url, FILTER_VALIDATE_URL)) {
+            _session_start();
+            $_SESSION = $session;
+            _mysql_connect();
+        }
         return $output;
     }
     $result = @file_get_contents($Url, false, $context);
-    _session_start();
-    $_SESSION = $session;
-    _mysql_connect();
+    if (filter_var($Url, FILTER_VALIDATE_URL)) {
+        _session_start();
+        $_SESSION = $session;
+        _mysql_connect();
+    }
     return $result;
 }
 
