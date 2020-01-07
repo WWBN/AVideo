@@ -562,6 +562,15 @@ if (typeof gtag !== \"function\") {
             return true;
         }
 
+        $video = new Video("", "", $videos_id);
+        if($video->getStatus()==='i'){
+            return false;
+        }
+        $user = new User($video->getUsers_id());
+        if($user->getStatus()==='i'){
+            return false;
+        }
+        
         if (AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
             return true;
         }
