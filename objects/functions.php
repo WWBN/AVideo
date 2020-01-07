@@ -1689,12 +1689,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
             if ($tmp != false) {
                 _session_start();
                 $_SESSION = $session;
-                if (!$global['mysqli']->ping()) {
-                    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
-                    if (!empty($global['mysqli_charset'])) {
-                        $global['mysqli']->set_charset($global['mysqli_charset']);
-                    }
-                }
+                mysql_connect();
                 return $tmp;
             }
         } catch (ErrorException $e) {
@@ -1714,19 +1709,13 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         curl_close($ch);
         _session_start();
         $_SESSION = $session;
-        $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
-        if (!empty($global['mysqli_charset'])) {
-            $global['mysqli']->set_charset($global['mysqli_charset']);
-        }
+        mysql_connect();
         return $output;
     }
     $result = @file_get_contents($Url, false, $context);
     _session_start();
     $_SESSION = $session;
-    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
-    if (!empty($global['mysqli_charset'])) {
-        $global['mysqli']->set_charset($global['mysqli_charset']);
-    }
+    mysql_connect();
     return $result;
 }
 
@@ -2540,5 +2529,15 @@ function _session_start(Array $options = array()) {
     } catch (Exception $exc) {
         _error_log($exc->getTraceAsString());
         return false;
+    }
+}
+
+function mysql_connect() {
+    global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+    if (!$global['mysqli']->ping()) {
+        $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+        if (!empty($global['mysqli_charset'])) {
+            $global['mysqli']->set_charset($global['mysqli_charset']);
+        }
     }
 }
