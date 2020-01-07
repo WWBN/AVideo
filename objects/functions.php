@@ -1661,7 +1661,7 @@ function local_get_contents($path) {
 
 function url_get_contents($Url, $ctx = "", $timeout = 0) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    if (filter_var($url, FILTER_VALIDATE_URL)) {
+    if (filter_var($Url, FILTER_VALIDATE_URL)) {
 
         $session = $_SESSION;
         session_write_close();
@@ -2543,7 +2543,7 @@ function _session_start(Array $options = array()) {
 
 function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    if (empty($global['mysqli']->ping())) {
+    if (is_object($global['mysqli']) && empty(@$global['mysqli']->ping())) {
         try {
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
             if (!empty($global['mysqli_charset'])) {
