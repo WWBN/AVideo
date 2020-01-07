@@ -166,8 +166,8 @@ Options All -Indexes
     RewriteRule    ^removePlaylist/?$ objects/playlistRemove.php    [NC,L]
     RewriteRule    ^renamePlaylist/?$ objects/playlistRename.php    [NC,L]
     RewriteRule    ^sortPlaylist/?$ objects/playlistSort.php    [NC,L]
-    RewriteRule    ^channel/([^/]+) view/channel.php?channelName=$1    [QSA]
     RewriteRule    ^channel/([^/]+)/feed/?$ feed/index.php?channelName=$1    [QSA]
+    RewriteRule    ^channel/([^/]+) view/channel.php?channelName=$1    [QSA]
     RewriteRule    ^channel/?$ view/channel.php    [QSA]
     RewriteRule    ^channels/?$ view/channels.php    [NC,L]
 
