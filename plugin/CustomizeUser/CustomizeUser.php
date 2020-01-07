@@ -273,5 +273,18 @@ class CustomizeUser extends PluginAbstract {
             include $global['systemRootPath'] . 'plugin/CustomizeUser/channelMenuRight.php';
         }
     }
+    
+    public function getModeYouTube($videos_id) {
+        global $global;
+        $cansee = User::canWatchVideoWithAds($videos_id);
+        if(!$cansee){
+            header("Location: {$global['webSiteRootURL']}?msg=".urlencode(__("Sorry, this video is private")));
+            exit;
+        }
+    }
+    
+    public function getEmbed($videos_id) {
+        $this->getModeYouTube($videos_id);
+    }
 
 }
