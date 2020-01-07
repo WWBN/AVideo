@@ -1687,11 +1687,9 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         try {
             $tmp = @file_get_contents($Url, false, $context);
             if ($tmp != false) {
-                if (session_status() == PHP_SESSION_NONE) {
-                    session_start();
-                }
+                _session_start();
                 $_SESSION = $session;
-                if(!$global['mysqli']->ping()){
+                if (!$global['mysqli']->ping()) {
                     $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
                     if (!empty($global['mysqli_charset'])) {
                         $global['mysqli']->set_charset($global['mysqli_charset']);
@@ -1700,7 +1698,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
                 return $tmp;
             }
         } catch (ErrorException $e) {
-            return "url_get_contents: ".$e->getMessage();
+            return "url_get_contents: " . $e->getMessage();
         }
     } else if (function_exists('curl_init')) {
         $ch = curl_init();
@@ -1714,9 +1712,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         }
         $output = curl_exec($ch);
         curl_close($ch);
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        _session_start();
         $_SESSION = $session;
         $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
         if (!empty($global['mysqli_charset'])) {
@@ -1725,9 +1721,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         return $output;
     }
     $result = @file_get_contents($Url, false, $context);
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+    _session_start();
     $_SESSION = $session;
     $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
     if (!empty($global['mysqli_charset'])) {
@@ -2247,7 +2241,7 @@ function getOpenGraph($videos_id) {
 
 function getLdJson($videos_id) {
     $cache = ObjectYPT::getCache("getLdJson{$videos_id}", 0);
-    if(empty($cache)){
+    if (empty($cache)) {
         echo $cache;
     }
     global $global, $config;
@@ -2303,33 +2297,33 @@ function getLdJson($videos_id) {
         {
         "@context": "http://schema.org/",
         "@type": "VideoObject",
-        "name": "'.str_replace('"', '', $video['title']).'",
-        "description": "'.$description.'",
+        "name": "' . str_replace('"', '', $video['title']) . '",
+        "description": "' . $description . '",
         "thumbnailUrl": [
-        "'.$img.'"
+        "' . $img . '"
         ],
-        "uploadDate": "'.date("Y-m-d\Th:i:s", strtotime($video['created'])).'",
-        "duration": "'.$duration.'",
-        "contentUrl": "'.Video::getLinkToVideo($videos_id).'",
-        "embedUrl": "'.parseVideos(Video::getLinkToVideo($videos_id)).'",
-        "interactionCount": "'.$video['views_count'].'",
-        "@id": "'.Video::getPermaLink($videos_id).'",
-        "datePublished": "'.date("Y-m-d", strtotime($video['created'])).'",
+        "uploadDate": "' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '",
+        "duration": "' . $duration . '",
+        "contentUrl": "' . Video::getLinkToVideo($videos_id) . '",
+        "embedUrl": "' . parseVideos(Video::getLinkToVideo($videos_id)) . '",
+        "interactionCount": "' . $video['views_count'] . '",
+        "@id": "' . Video::getPermaLink($videos_id) . '",
+        "datePublished": "' . date("Y-m-d", strtotime($video['created'])) . '",
         "interactionStatistic": [
         {
         "@type": "InteractionCounter",
         "interactionService": {
         "@type": "WebSite",
-        "name": "'.str_replace('"', '', $config->getWebSiteTitle()).'",
-        "@id": "'.$global['webSiteRootURL'].'"
+        "name": "' . str_replace('"', '', $config->getWebSiteTitle()) . '",
+        "@id": "' . $global['webSiteRootURL'] . '"
         },
         "interactionType": "http://schema.org/LikeAction",
-        "userInteractionCount": "'.$video['views_count'].'"
+        "userInteractionCount": "' . $video['views_count'] . '"
         },
         {
         "@type": "InteractionCounter",
         "interactionType": "http://schema.org/WatchAction",
-        "userInteractionCount": "'.$video['views_count'].'"
+        "userInteractionCount": "' . $video['views_count'] . '"
         }
         ]
         }
@@ -2340,7 +2334,7 @@ function getLdJson($videos_id) {
 
 function getItemprop($videos_id) {
     $cache = ObjectYPT::getCache("getItemprop{$videos_id}", 0);
-    if(empty($cache)){
+    if (empty($cache)) {
         echo $cache;
     }
     global $global, $config;
@@ -2391,15 +2385,15 @@ function getItemprop($videos_id) {
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
-    $output = '<span itemprop="name" content="'.str_replace('"', '', $video['title']).'" />
-    <span itemprop="description" content="'.$description.'" />
-    <span itemprop="thumbnailUrl" content="'.$img.'" />
-    <span itemprop="uploadDate" content="'.date("Y-m-d\Th:i:s", strtotime($video['created'])).'" />
-    <span itemprop="duration" content="'.$duration.'" />
-    <span itemprop="contentUrl" content="'.Video::getLinkToVideo($videos_id).'" />
-    <span itemprop="embedUrl" content="'.parseVideos(Video::getLinkToVideo($videos_id)).'" />
-    <span itemprop="interactionCount" content="'.$video['views_count'].'" />';
-    
+    $output = '<span itemprop="name" content="' . str_replace('"', '', $video['title']) . '" />
+    <span itemprop="description" content="' . $description . '" />
+    <span itemprop="thumbnailUrl" content="' . $img . '" />
+    <span itemprop="uploadDate" content="' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '" />
+    <span itemprop="duration" content="' . $duration . '" />
+    <span itemprop="contentUrl" content="' . Video::getLinkToVideo($videos_id) . '" />
+    <span itemprop="embedUrl" content="' . parseVideos(Video::getLinkToVideo($videos_id)) . '" />
+    <span itemprop="interactionCount" content="' . $video['views_count'] . '" />';
+
     ObjectYPT::setCache("getItemprop{$videos_id}", $output);
     echo $output;
 }
@@ -2514,13 +2508,13 @@ function _error_log($message, $message_type = 0, $destination = null, $extra_hea
 }
 
 function postVariables($url, $array) {
-    if(!$url || !is_string($url) || ! preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)){
+    if (!$url || !is_string($url) || !preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)) {
         return false;
     }
     $array = object_to_array($array);
     $ch = curl_init($url);
-    @curl_setopt($ch, CURLOPT_HEADER  , true);  // we want headers
-    @curl_setopt($ch, CURLOPT_NOBODY  , true);  // we don't need body
+    @curl_setopt($ch, CURLOPT_HEADER, true);  // we want headers
+    @curl_setopt($ch, CURLOPT_NOBODY, true);  // we don't need body
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $array);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -2529,11 +2523,21 @@ function postVariables($url, $array) {
     // execute!
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
+
     // close the connection, release resources used
     curl_close($ch);
-    if($httpcode==200){
+    if ($httpcode == 200) {
         return true;
     }
     return $httpcode;
+}
+
+function _session_start(array $options = '[]') {
+    try {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start($options);
+        }
+    } catch (Exception $exc) {
+        _error_log($exc->getTraceAsString());
+    }
 }
