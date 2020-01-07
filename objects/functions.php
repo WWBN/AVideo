@@ -2534,7 +2534,7 @@ function _session_start(Array $options = array()) {
 
 function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    if (!$global['mysqli']->ping()) {
+    if ($global['mysqli']->ping()===false) {
         try {
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
             if (!empty($global['mysqli_charset'])) {
