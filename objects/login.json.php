@@ -219,6 +219,6 @@ if ($object->isLogged) {
     }
 }
 
-$json = json_encode($object);
+$json = json_encode($object, JSON_UNESCAPED_UNICODE);
 header("Content-length: " . strlen($json));
 echo $json;
