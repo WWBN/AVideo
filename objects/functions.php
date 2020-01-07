@@ -1659,6 +1659,7 @@ function local_get_contents($path) {
     }
 }
 
+
 function url_get_contents($Url, $ctx = "", $timeout = 0) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (filter_var($Url, FILTER_VALIDATE_URL)) {
@@ -1695,7 +1696,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
                     $_SESSION = $session;
                     _mysql_connect();
                 }
-                return $tmp;
+                return remove_utf8_bom($tmp);
             }
         } catch (ErrorException $e) {
             return "url_get_contents: " . $e->getMessage();
@@ -1717,7 +1718,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
             $_SESSION = $session;
             _mysql_connect();
         }
-        return $output;
+        return remove_utf8_bom($output);
     }
     $result = @file_get_contents($Url, false, $context);
     if (filter_var($Url, FILTER_VALIDATE_URL)) {
@@ -1725,8 +1726,9 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         $_SESSION = $session;
         _mysql_connect();
     }
-    return $result;
+    return remove_utf8_bom($result);
 }
+
 
 function getUpdatesFilesArray() {
     global $config, $global;
@@ -2554,4 +2556,10 @@ function _mysql_connect() {
             return false;
         }
     }
+}
+
+function remove_utf8_bom($text){
+    $bom = pack('H*','EFBBBF');
+    $text = preg_replace("/^$bom/", '', $text);
+    return $text;
 }
