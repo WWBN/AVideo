@@ -2535,9 +2535,14 @@ function _session_start(Array $options = array()) {
 function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (!$global['mysqli']->ping()) {
-        $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
-        if (!empty($global['mysqli_charset'])) {
-            $global['mysqli']->set_charset($global['mysqli_charset']);
+        try {
+            $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+            if (!empty($global['mysqli_charset'])) {
+                $global['mysqli']->set_charset($global['mysqli_charset']);
+            }
+        } catch (Exception $exc) {
+            _error_log($exc->getTraceAsString());
+            return false;
         }
     }
 }
