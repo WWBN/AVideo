@@ -275,6 +275,10 @@ abstract class PluginAbstract {
     public function getModeYouTube($videos_id) {
         return false;
     }
+    
+    public function getEmbed($videos_id) {
+        return false;
+    }
 
     /**
      * Loads a channel before display the channel page, usefull to create customized channel pages
