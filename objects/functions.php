@@ -1689,7 +1689,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
             if ($tmp != false) {
                 _session_start();
                 $_SESSION = $session;
-                mysql_connect();
+                _mysql_connect();
                 return $tmp;
             }
         } catch (ErrorException $e) {
@@ -1709,13 +1709,13 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         curl_close($ch);
         _session_start();
         $_SESSION = $session;
-        mysql_connect();
+        _mysql_connect();
         return $output;
     }
     $result = @file_get_contents($Url, false, $context);
     _session_start();
     $_SESSION = $session;
-    mysql_connect();
+    _mysql_connect();
     return $result;
 }
 
@@ -2532,7 +2532,7 @@ function _session_start(Array $options = array()) {
     }
 }
 
-function mysql_connect() {
+function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (!$global['mysqli']->ping()) {
         $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
