@@ -2532,12 +2532,13 @@ function postVariables($url, $array) {
     return $httpcode;
 }
 
-function _session_start(array $options = '[]') {
+function _session_start(Array $options = array()) {
     try {
         if (session_status() == PHP_SESSION_NONE) {
-            session_start($options);
+            return session_start($options);
         }
     } catch (Exception $exc) {
         _error_log($exc->getTraceAsString());
+        return false;
     }
 }
