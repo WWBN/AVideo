@@ -741,6 +741,10 @@ if (!class_exists('Video')) {
             if (empty($fileName)) {
                 return false;
             }
+            $parts = explode("/", $fileName);
+            if(!empty($parts[0])){
+                $fileName = $parts[0];
+            }
             $sql = "SELECT id FROM videos WHERE filename = ? LIMIT 1";
 
             $res = sqlDAL::readSql($sql, "s", array($fileName));
