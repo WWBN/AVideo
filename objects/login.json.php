@@ -104,7 +104,8 @@ if (!empty($_GET['type'])) {
         $photoURL = $userProfile->photoURL;
         $email = $userProfile->email;
         $pass = rand();
-        User::createUserIfNotExists($user, $pass, $name, $email, $photoURL, true);
+        //createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false);
+        User::createUserIfNotExists($user, $pass, $name, $email, $photoURL, false, true);
         $userObject = new User(0, $user, $pass);
         $userObject->login(true);
         $adapter->disconnect();
