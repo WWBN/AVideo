@@ -17,6 +17,7 @@ if(empty($_GET['vmap_id'])){
 
 if(!empty($_GET['vmap_id']) && !empty($_SESSION['vmap'][$_GET['vmap_id']])){
     $vmaps = unserialize($_SESSION['vmap'][$_GET['vmap_id']]);
+    unset($_SESSION['vmap'][$_GET['vmap_id']]);
 }else{
     $vmaps = $ad_server->getVMAPs($_GET['video_length']);
     $_SESSION['vmap'][$_GET['vmap_id']] = serialize($vmaps);
