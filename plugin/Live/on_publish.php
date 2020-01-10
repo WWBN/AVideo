@@ -18,6 +18,7 @@ _error_log(print_r($parts, true));
 parse_str($parts["query"], $_GET);
 _error_log(print_r($_GET, true));
 if (!empty($_GET['p'])) {
+    $_GET['p'] = str_replace("/", "", $_GET['p']);
     $obj->row = LiveTransmition::keyExists($_POST['name']);
     if (!empty($obj->row)) {
         $user = new User($obj->row['users_id']);
