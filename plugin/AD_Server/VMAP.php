@@ -14,16 +14,14 @@ if(empty($_GET['video_length'])){
 if(empty($_GET['vmap_id'])){
     $_GET['vmap_id'] = uniqid();
 }
-/*
+
 if(!empty($_GET['vmap_id']) && !empty($_SESSION['vmap'][$_GET['vmap_id']])){
     $vmaps = unserialize($_SESSION['vmap'][$_GET['vmap_id']]);
 }else{
     $vmaps = $ad_server->getVMAPs($_GET['video_length']);
     $_SESSION['vmap'][$_GET['vmap_id']] = serialize($vmaps);
 }
- * 
- */
-$vmaps = $ad_server->getVMAPs($_GET['video_length']);
+unset($_SESSION['vmap'][$_GET['vmap_id']]);
 //var_dump($vmaps);exit;
 ?>
 <?xml version="1.0" encoding="UTF-8"?>
