@@ -178,9 +178,14 @@ class Cache extends PluginAbstract {
         $cachefile = $this->getCacheDir() . $this->getFileName();
         $c = ob_get_contents();
         header_remove('Set-Cookie');
+        /*
         if (!file_exists($this->getCacheDir())) {
             mkdir($this->getCacheDir(), 0777, true);
         }
+         * 
+         */
+        
+        make_path($cachefile);
 
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             file_put_contents($cachefile, $c);
