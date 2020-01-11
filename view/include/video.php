@@ -205,6 +205,8 @@ var menu = new BootstrapMenu('#mainVideo', {
                                                     }
                                                 }, 150);
                                             }
+                                            
+                                            var initdone = false;
                                             // wait for video metadata to load, then set time 
                                             player.on("loadedmetadata", function(){
                                                 player.currentTime(<?php echo $currentTime; ?>);
