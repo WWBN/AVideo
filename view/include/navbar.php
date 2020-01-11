@@ -19,6 +19,16 @@ if(!empty($_SESSION['noNavbar'])){
     <?php
     return '';
 }
+
+if (!empty($_GET['channelName'])) {
+    _session_start();
+    $_SESSION['channelName'] = $_GET['channelName'];
+}
+if (!empty($_GET['leaveChannel'])) {
+    _session_start();
+    unset($_SESSION['channelName']);
+}
+session_write_close();
 global $includeDefaultNavBar, $global, $config, $advancedCustom, $advancedCustomUser;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';

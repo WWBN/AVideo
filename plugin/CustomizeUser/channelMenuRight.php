@@ -1,13 +1,4 @@
 <?php
-if (!empty($_GET['channelName'])) {
-    _session_start();
-    $_SESSION['channelName'] = $_GET['channelName'];
-}
-if (!empty($_GET['leaveChannel'])) {
-    _session_start();
-    unset($_SESSION['channelName']);
-}
-session_write_close();
 if (!empty($_SESSION['channelName'])) {
     unset($_GET['channelName']);
     $params = array_merge($_GET, array('leaveChannel' => '1'));
