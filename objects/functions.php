@@ -2563,6 +2563,10 @@ function _mysql_connect() {
 }
 
 function remove_utf8_bom($text){
+    if(strlen($text)>1000000){
+        return $text;
+    }
+    
     $bom = pack('H*','EFBBBF');
     $text = preg_replace("/^$bom/", '', $text);
     return $text;
