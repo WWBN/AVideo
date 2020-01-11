@@ -205,6 +205,19 @@ var menu = new BootstrapMenu('#mainVideo', {
                                                     }
                                                 }, 150);
                                             }
+                                            // wait for video metadata to load, then set time 
+                                            player.on("loadedmetadata", function(){
+                                                player.currentTime(<?php echo $currentTime; ?>);
+                                            });
+
+                                            // iPhone/iPad need to play first, then set the time
+                                            // events: https://www.w3.org/TR/html5/embedded-content-0.html#mediaevents
+                                            player.on("canplaythrough", function(){
+                                                if(!initdone){
+                                                    player.currentTime(<?php echo $currentTime; ?>);
+                                                    initdone = true;
+                                                }
+                                            });
 <?php }
 ?>
                                         this.on('ended', function () {
