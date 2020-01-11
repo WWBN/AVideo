@@ -564,10 +564,12 @@ if (typeof gtag !== \"function\") {
 
         $video = new Video("", "", $videos_id);
         if($video->getStatus()==='i'){
+            _error_log("User::canWatchVideo Video is inactive ({$videos_id})");
             return false;
         }
         $user = new User($video->getUsers_id());
         if($user->getStatus()==='i'){
+            _error_log("User::canWatchVideo User is inactive ({$videos_id})");
             return false;
         }
         
@@ -581,6 +583,7 @@ if (typeof gtag !== \"function\") {
         if (empty($rows)) {
             // check if any plugin restrict access to this video
             if (!AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
+                _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user ".User::getId()." can not see ({$videos_id})");
                 return false;
             } else {
                 return true; // the video is public
@@ -588,6 +591,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!User::isLogged()) {
+            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id})");
             return false;
         }
         // if is not public check if the user is on one of its groups
@@ -600,14 +604,27 @@ if (typeof gtag !== \"function\") {
                 }
             }
         }
+        
+        _error_log("User::canWatchVideo The user ".User::getId()." is not on any of the user groups ({$videos_id}) ".  json_encode($rows));
         return false;
     }
 
     static function canWatchVideoWithAds($videos_id) {
 
-        if (AVideoPlugin::userCanWatchVideoWithAds(User::getId(), $videos_id) || self::canWatchVideo($videos_id)) {
+        if (User::isAdmin()) {
             return true;
         }
+        
+        if(AVideoPlugin::userCanWatchVideoWithAds(User::getId(), $videos_id)){
+            return true;
+        }
+        _error_log("User::userCanWatchVideoWithAds (No can not) ".User::getId()." ".$videos_id);
+        
+        if(self::canWatchVideo($videos_id)){
+            return true;
+        }
+        _error_log("User::canWatchVideo (No can not) ".$videos_id);
+        
         return false;
     }
 
