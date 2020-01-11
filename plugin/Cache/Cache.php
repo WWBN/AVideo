@@ -72,13 +72,17 @@ class Cache extends PluginAbstract {
         if (!empty($_SERVER['HTTP_USER_AGENT']) && get_browser_name($_SERVER['HTTP_USER_AGENT']) === 'Safari') {
             $compl .= "safari_";
         }
+
+        $dir = "";
         $plugin = AVideoPlugin::loadPluginIfEnabled('User_Location');
         if (!empty($plugin)) {
             $location = User_Location::getThisUserLocation();
-            $compl .= @$location['country_name'];
+            if (!empty($location['country_code'])) {
+                $dir = $location['country_code'] . "/";
+            }
         }
 
-        return User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'] . $_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . (@$_SESSION['language']) . '.cache';
+        return $dir . User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'] . $_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . (@$_SESSION['language']) . '.cache';
     }
 
     private function isFirstPage() {
