@@ -238,7 +238,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                     <div class="tab-pane active" id="tabShare">
                         <?php
                         $catLink = @$catLink;
-                        $url = urlencode($global['webSiteRootURL'] . "{$catLink}video/" . $video['clean_title']);
+                        $url = urlencode(Video::getLink($video['id'], $video['clean_title']));
                         $title = urlencode($video['title']);
                         include $global['systemRootPath'] . 'view/include/social.php';
                         ?>
